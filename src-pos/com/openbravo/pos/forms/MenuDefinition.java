@@ -30,12 +30,12 @@ public class MenuDefinition {
     
     private String m_sKey;
     
-    private ArrayList m_aMenuElements;
+    private ArrayList<MenuElement> m_aMenuElements;
     
     /** Creates a new instance of MenuDefinition */
     public MenuDefinition(String skey) {
         m_sKey = skey;
-        m_aMenuElements = new ArrayList();
+        m_aMenuElements = new ArrayList<MenuElement>();
     }
     
     public String getKey() {

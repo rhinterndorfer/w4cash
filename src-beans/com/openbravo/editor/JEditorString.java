@@ -21,7 +21,9 @@ package com.openbravo.editor;
 
 public class JEditorString extends JEditorText {
     
-    /** Creates a new instance of JEditorString */
+	private static final long serialVersionUID = 7813102428174156605L;
+
+	/** Creates a new instance of JEditorString */
     public JEditorString() {
         super();
     }

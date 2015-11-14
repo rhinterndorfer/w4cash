@@ -40,7 +40,9 @@ import javax.swing.JOptionPane;
  */
 public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
-    private Object m_oId;
+    private static final long serialVersionUID = 9096171464180942921L;
+
+	private Object m_oId;
     
     private SentenceList m_sentcat;
     private ComboBoxValModel m_CategoryModel;
@@ -375,14 +377,24 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
         m_jName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         m_jVisible = new javax.swing.JCheckBox();
+        
         jLabel5 = new javax.swing.JLabel();
+        jLabel5.setVisible(false);
         jcard = new javax.swing.JTextField();
+        jcard.setVisible(false);
         jLabel9 = new javax.swing.JLabel();
+        jLabel9.setVisible(false);
         m_jCategory = new javax.swing.JComboBox();
+        m_jCategory.setVisible(false);
         jButton2 = new javax.swing.JButton();
+        jButton2.setVisible(false);
         jButton3 = new javax.swing.JButton();
+        jButton3.setVisible(false);
         jLabel1 = new javax.swing.JLabel();
+        jLabel1.setVisible(false);
         txtMaxdebt = new javax.swing.JTextField();
+        txtMaxdebt.setVisible(false);        
+        
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -413,10 +425,15 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         m_jNotes = new javax.swing.JTextArea();
+        
         jLabel2 = new javax.swing.JLabel();
+        jLabel2.setVisible(false);
         txtCurdebt = new javax.swing.JTextField();
+        txtCurdebt.setVisible(false);
         jLabel6 = new javax.swing.JLabel();
+        jLabel6.setVisible(false);
         txtCurdate = new javax.swing.JTextField();
+        txtCurdate.setVisible(false);
 
         jLabel7.setText(AppLocal.getIntString("label.taxid")); // NOI18N
 
@@ -733,7 +750,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
                     .addComponent(jLabel6)
                     .addComponent(txtCurdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

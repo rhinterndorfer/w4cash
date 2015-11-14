@@ -19,6 +19,8 @@
 
 package com.openbravo.data.loader;
 
+import com.openbravo.basic.BasicException;
+
 /**
  *
  * @author adrianromero
@@ -33,5 +35,5 @@ public interface SessionDB {
 
     public String getName();
 
-    public SentenceFind getSequenceSentence(Session s, String sequence);
+    public SentenceFind getSequenceSentence(Session s, String sequence) throws BasicException;
 }

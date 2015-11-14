@@ -23,7 +23,9 @@ import com.openbravo.format.Formats;
 
 public class JEditorDouble extends JEditorNumber {
     
-    /** Creates a new instance of JEditorDouble */
+    private static final long serialVersionUID = 2424844587837933899L;
+
+	/** Creates a new instance of JEditorDouble */
     public JEditorDouble() {
     }
     

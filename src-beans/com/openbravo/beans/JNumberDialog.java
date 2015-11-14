@@ -31,8 +31,9 @@ import javax.swing.SwingUtilities;
  * @author  adrian
  */
 public class JNumberDialog extends javax.swing.JDialog {
-    
-    private static LocaleResources m_resources;
+	private static final long serialVersionUID = -1969990180828801937L;
+
+	private static LocaleResources m_resources;
     
     private Double m_value;
     

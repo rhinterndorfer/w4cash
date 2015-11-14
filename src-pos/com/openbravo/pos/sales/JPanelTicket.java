@@ -77,7 +77,9 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFactoryApp, TicketsEditor {
    
-    // Variable numerica
+
+	private static final long serialVersionUID = 6475490073932528270L;
+	// Variable numerica
     private final static int NUMBERZERO = 0;
     private final static int NUMBERVALID = 1;
     
@@ -895,18 +897,20 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                             // Save the receipt and assign a receipt number
                             try {
                                 dlSales.saveTicket(ticket, m_App.getInventoryLocation());                       
+                            
+                                executeEvent(ticket, ticketext, "ticket.close", new ScriptArg("print", paymentdialog.isPrintSelected()));
+
+                                // Print receipt.
+                                printTicket(paymentdialog.isPrintSelected()
+                                        ? "Printer.Ticket"
+                                        : "Printer.Ticket2", ticket, ticketext);
+                                resultok = true;
+                                
                             } catch (BasicException eData) {
                                 MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"), eData);
                                 msg.show(this);
+                                resultok = false;
                             }
-
-                            executeEvent(ticket, ticketext, "ticket.close", new ScriptArg("print", paymentdialog.isPrintSelected()));
-
-                            // Print receipt.
-                            printTicket(paymentdialog.isPrintSelected()
-                                    ? "Printer.Ticket"
-                                    : "Printer.Ticket2", ticket, ticketext);
-                            resultok = true;
                         }
                     }
                 }

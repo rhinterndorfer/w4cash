@@ -30,7 +30,8 @@ import javax.swing.ImageIcon;
  */
 public class MenuExecAction extends AbstractAction {
 
-    private AppView m_App;
+	private static final long serialVersionUID = -2607946473252647363L;
+	private AppView m_App;
     private String m_sMyView;
     
     /** Creates a new instance of MenuExecAction */

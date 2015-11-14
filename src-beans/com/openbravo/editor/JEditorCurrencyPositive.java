@@ -23,7 +23,8 @@ import com.openbravo.format.Formats;
 
 public class JEditorCurrencyPositive extends JEditorNumber {
     
-    /** Creates a new instance of JEditorCurrencyPositive */
+	private static final long serialVersionUID = 4537836293728157939L;
+	/** Creates a new instance of JEditorCurrencyPositive */
     public JEditorCurrencyPositive() {
     }
     

@@ -35,18 +35,18 @@ public class BrowsableData implements ListModel {
     private ListProvider m_dataprov;      
     private SaveProvider m_saveprov;  
     
-    private List m_aData; // List<Object>
+    private List<Object> m_aData; // List<Object>
     
-    private Comparator m_comparer;
+    private Comparator<Object> m_comparer;
     
     /** Creates a new instance of BrowsableData */
-    public BrowsableData(ListProvider dataprov, SaveProvider saveprov, Comparator c) {
+    public BrowsableData(ListProvider dataprov, SaveProvider saveprov, Comparator<Object> c) {
         m_dataprov = dataprov;
         m_saveprov = saveprov;
         m_comparer = c;
         m_bIsAdjusting = false;
         
-        m_aData = new ArrayList();
+        m_aData = new ArrayList<Object>();
     }
     public BrowsableData(ListProvider dataprov, SaveProvider saveprov) {
         this(dataprov, saveprov, null);

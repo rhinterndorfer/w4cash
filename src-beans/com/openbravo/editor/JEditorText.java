@@ -26,7 +26,9 @@ import com.openbravo.basic.BasicException;
 
 public abstract class JEditorText extends JEditorAbstract {
     
-    protected String m_svalue;
+	private static final long serialVersionUID = 9038422669338773242L;
+
+	protected String m_svalue;
     
     public static final int MODE_Abc1 = 0;
     public static final int MODE_abc1 = 1;

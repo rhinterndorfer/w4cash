@@ -22,7 +22,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import com.openbravo.data.loader.BaseSentence;
 import com.openbravo.basic.BasicException;
@@ -32,7 +31,6 @@ import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.MetaSentence;
 import com.openbravo.data.loader.SerializerReadBasic;
 import com.openbravo.data.loader.SerializerWriteBasic;
-import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.JPanelView;
@@ -41,7 +39,8 @@ import com.openbravo.pos.panels.*;
 
 public class JPanelSQL  extends JPanel implements JPanelView {
 
-    private ArrayList m_aHistory;
+	private static final long serialVersionUID = -8215333287934731069L;
+	private ArrayList<String> m_aHistory;
     private int m_iHistoryIndex;
     
     private int m_iResultIndex;
@@ -52,7 +51,7 @@ public class JPanelSQL  extends JPanel implements JPanelView {
     public JPanelSQL(AppView oApp) {
         m_App = oApp;        
         
-        m_aHistory = new ArrayList();
+        m_aHistory = new ArrayList<String>();
         m_aHistory.add("");
         m_iHistoryIndex = 0;
        
@@ -62,7 +61,7 @@ public class JPanelSQL  extends JPanel implements JPanelView {
         addResultTab();
         
         
-        DefaultMutableTreeNode rootnode =  new DefaultMutableTreeNode(AppLocal.APP_NAME);
+        //DefaultMutableTreeNode rootnode =  new DefaultMutableTreeNode(AppLocal.APP_NAME);
         
         
         SQLDatabase db = new SQLDatabase(AppLocal.APP_NAME + " - Database.");
@@ -139,7 +138,7 @@ public class JPanelSQL  extends JPanel implements JPanelView {
         JPanelSQLResult panresult = (JPanelSQLResult) m_TabbedPane.getSelectedComponent();
         return panresult.executeSentence(sent, params);
     } 
-    
+    /*
     private void insertProductCategories() {
         try {        
             for( int i = 100; i < 50000; i++) {
@@ -177,6 +176,8 @@ public class JPanelSQL  extends JPanel implements JPanelView {
             e.printStackTrace();
         }        
     }
+    */
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

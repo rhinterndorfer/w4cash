@@ -27,7 +27,9 @@ import com.openbravo.basic.BasicException;
 
 public abstract class JEditorAbstract extends javax.swing.JPanel implements EditorComponent {
 
-    private EditorKeys editorkeys;
+	private static final long serialVersionUID = 3712741811044377169L;
+
+	private EditorKeys editorkeys;
     
     private boolean m_bActive;
     private final Border m_borderactive =  new javax.swing.border.CompoundBorder(new javax.swing.border.LineBorder(javax.swing.UIManager.getDefaults().getColor("TextField.selectionBackground")), new javax.swing.border.EmptyBorder(new java.awt.Insets(1, 4, 1, 4)));

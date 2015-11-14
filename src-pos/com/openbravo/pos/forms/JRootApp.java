@@ -216,12 +216,13 @@ public class JRootApp extends JPanel implements AppView {
         }        
         
         // Show Hostname, Warehouse and URL in taskbar
-        String url;
+        String url="";
+        /*
         try {
-            url = session.getURL();
+            // url = session.getURL();
         } catch (SQLException e) {
             url = "";
-        }        
+        } */       
         m_jHost.setText("<html>" + m_props.getHost() + " - " + sWareHouse + "<br>" + url);
         
         showLogin();
@@ -590,9 +591,10 @@ public class JRootApp extends JPanel implements AppView {
         m_jHost = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(1024, 768));
+        //setPreferredSize(new java.awt.Dimension(1024, 768));
         setLayout(new java.awt.BorderLayout());
 
+        /*
         m_jPanelTitle.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")));
         m_jPanelTitle.setLayout(new java.awt.BorderLayout());
 
@@ -608,7 +610,8 @@ public class JRootApp extends JPanel implements AppView {
         m_jPanelTitle.add(jLabel2, java.awt.BorderLayout.LINE_START);
 
         add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
-
+        */
+        
         m_jPanelContainer.setLayout(new java.awt.CardLayout());
 
         m_jPanelLogin.setLayout(new java.awt.BorderLayout());

@@ -36,7 +36,8 @@ import com.openbravo.pos.panels.*;
 
 public class JPanelSQLResult extends javax.swing.JPanel {
      
-    private final static Icon ICO_NULL = new javax.swing.ImageIcon(JPanelView.class.getResource("/com/openbravo/images/null.png"));
+	private static final long serialVersionUID = 8446348924150527204L;
+	private final static Icon ICO_NULL = new javax.swing.ImageIcon(JPanelView.class.getResource("/com/openbravo/images/null.png"));
     private final static Icon ICO_TRUE = new javax.swing.ImageIcon(JPanelView.class.getResource("/com/openbravo/images/true.png"));
     private final static Icon ICO_FALSE = new javax.swing.ImageIcon(JPanelView.class.getResource("/com/openbravo/images/false.png"));
     private final static Icon ICO_BYTEA = new javax.swing.ImageIcon(JPanelView.class.getResource("/com/openbravo/images/bytea.png"));
@@ -98,7 +99,9 @@ public class JPanelSQLResult extends javax.swing.JPanel {
     }
     
     static class StringRenderer extends DefaultTableCellRenderer.UIResource {
-        public StringRenderer() { super(); }
+
+		private static final long serialVersionUID = 1266137911450793467L;
+		public StringRenderer() { super(); }
         public void setValue(Object value) {
             if (value == null) {
                 setIcon(ICO_NULL);
@@ -111,7 +114,8 @@ public class JPanelSQLResult extends javax.swing.JPanel {
     }
 
     static class NumberRenderer extends DefaultTableCellRenderer.UIResource {
-        NumberFormat formatter = null;
+		private static final long serialVersionUID = -2476276667713799710L;
+		NumberFormat formatter = null;
         public NumberRenderer() { 
             super(); 
             setHorizontalAlignment(JLabel.RIGHT);
@@ -131,7 +135,9 @@ public class JPanelSQLResult extends javax.swing.JPanel {
     }
 
     static class DateRenderer extends DefaultTableCellRenderer.UIResource {
-        DateFormat formatter;
+
+		private static final long serialVersionUID = -1267533584661165728L;
+		DateFormat formatter;
         public DateRenderer() { super(); }
 
         public void setValue(Object value) {
@@ -149,7 +155,8 @@ public class JPanelSQLResult extends javax.swing.JPanel {
     }
 
     static class IconRenderer extends DefaultTableCellRenderer.UIResource {
-        public IconRenderer() {
+		private static final long serialVersionUID = 4757844336850999713L;
+		public IconRenderer() {
             super();
             setHorizontalAlignment(JLabel.CENTER);
         }
@@ -159,7 +166,11 @@ public class JPanelSQLResult extends javax.swing.JPanel {
     }
 
     static class ByteaRenderer  extends DefaultTableCellRenderer.UIResource {
-        public ByteaRenderer() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -484341433653961035L;
+		public ByteaRenderer() {
             super();
         }
         public void setValue(Object value) {
@@ -172,7 +183,8 @@ public class JPanelSQLResult extends javax.swing.JPanel {
     }
     
     static class BooleanRenderer  extends DefaultTableCellRenderer.UIResource {
-        public BooleanRenderer() {
+		private static final long serialVersionUID = -2372108677570884841L;
+		public BooleanRenderer() {
             super();
         }
         public void setValue(Object value) {

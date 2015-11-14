@@ -31,7 +31,9 @@ import java.util.*;
  */
 public class JCalendarDialog extends javax.swing.JDialog {
     
-    // private static ResourceBundle m_Intl;
+	private static final long serialVersionUID = -675641061030087215L;
+
+	// private static ResourceBundle m_Intl;
     private static LocaleResources m_resources;
     
     private Date m_date;

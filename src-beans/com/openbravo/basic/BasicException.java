@@ -21,7 +21,9 @@ package com.openbravo.basic;
 
 public class BasicException extends java.lang.Exception {
     
-    /**
+	private static final long serialVersionUID = -5235346466744331791L;
+
+	/**
      * Creates a new instance of <code>DataException</code> without detail message.
      */
     public BasicException() {

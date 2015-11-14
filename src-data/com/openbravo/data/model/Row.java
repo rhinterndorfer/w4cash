@@ -229,8 +229,8 @@ public class Row {
             return headers;
         }   
         
-        public Comparator createComparator(final int[] orderby) {
-            return new Comparator() {
+        public Comparator<Object> createComparator(final int[] orderby) {
+            return new Comparator<Object>() {
                 public int compare(Object o1, Object o2) {
                     if (o1 == null) {
                         if (o2 == null) {

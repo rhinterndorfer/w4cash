@@ -135,6 +135,7 @@ public class PreparedSentence extends JDBCSentence {
             logger.info("Executing prepared SQL: " + m_sentence);
 
             m_Stmt = m_s.getConnection().prepareStatement(m_sentence);
+            m_Stmt.setQueryTimeout(90);
  
             if (m_SerWrite != null) {
                 // si m_SerWrite fuera null deberiamos cascar.
@@ -152,6 +153,8 @@ public class PreparedSentence extends JDBCSentence {
                 }
             }
         } catch (SQLException eSQL) {
+        	logger.severe("Error executing prepared SQL: " + m_sentence);
+        	logger.severe(eSQL.getMessage());
             throw new BasicException(eSQL);
         }
     }

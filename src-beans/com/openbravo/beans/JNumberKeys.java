@@ -24,7 +24,9 @@ import java.util.*;
 
 public class JNumberKeys extends javax.swing.JPanel {
 
-    private Vector m_Listeners = new Vector();
+	private static final long serialVersionUID = 1L;
+
+	private Vector<EventListener> m_Listeners = new Vector<EventListener>();
     
     private boolean minusenabled = true;
     private boolean equalsenabled = true;
@@ -127,7 +129,7 @@ public class JNumberKeys extends javax.swing.JPanel {
             JNumberEvent oEv = new JNumberEvent(JNumberKeys.this, m_cCad);            
             JNumberEventListener oListener;
             
-            for (Enumeration e = m_Listeners.elements(); e.hasMoreElements();) {
+            for (Enumeration<EventListener> e = m_Listeners.elements(); e.hasMoreElements();) {
                 oListener = (JNumberEventListener) e.nextElement();
                 oListener.keyPerformed(oEv);
             }

@@ -29,7 +29,9 @@ import javax.swing.border.LineBorder;
 
 public class JCalendarPanel extends javax.swing.JPanel {
     
-    // private static ResourceBundle m_Intl;
+	private static final long serialVersionUID = 2224154113004312044L;
+
+	// private static ResourceBundle m_Intl;
     private static LocaleResources m_resources;
 
     private static GregorianCalendar m_CalendarHelper = new GregorianCalendar(); // solo de ayuda
@@ -214,7 +216,8 @@ public class JCalendarPanel extends javax.swing.JPanel {
 
     private static class JButtonDate extends JButton {
 
-        public Date DateInf;
+		private static final long serialVersionUID = -3483188388013822315L;
+		public Date DateInf;
 
         public JButtonDate(ActionListener datehandler) {
             super();

@@ -21,6 +21,8 @@ package com.openbravo.pos.forms;
 
 import com.openbravo.pos.config.JFrmConfig;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.rmi.RemoteException;
 import javax.swing.JFrame;
 import com.openbravo.pos.instance.AppMessage;
@@ -34,7 +36,8 @@ import javax.imageio.ImageIO;
  */
 public class JRootFrame extends javax.swing.JFrame implements AppMessage {
     
-    // Gestor de que haya solo una instancia corriendo en cada maquina.
+	private static final long serialVersionUID = 1L;
+	// Gestor de que haya solo una instancia corriendo en cada maquina.
     private InstanceManager m_instmanager = null;
     
     private JRootApp m_rootapp;
@@ -71,8 +74,13 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
             } catch (IOException e) {
             }   
             setTitle(AppLocal.APP_NAME + " - " + AppLocal.APP_VERSION);
-            pack();
+            
+            
+            // pack();
+            this.setExtendedState(MAXIMIZED_BOTH);
             setLocationRelativeTo(null);        
+            
+            
             
             setVisible(true);                        
         } else {

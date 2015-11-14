@@ -20,6 +20,8 @@
 package com.openbravo.data.gui;
 
 import java.awt.*;
+import java.util.logging.Logger;
+
 import javax.swing.*;
 import com.openbravo.data.loader.LocalRes;
 /**
@@ -28,6 +30,9 @@ import com.openbravo.data.loader.LocalRes;
  */
 public class JMessageDialog extends javax.swing.JDialog {
     
+	private static Logger logger = Logger.getLogger("com.openbravo.data.gui.JMessageDialog");
+	
+	
     /** Creates new form JMessageDialog */
     private JMessageDialog(java.awt.Frame parent, boolean modal) {        
         super(parent, modal);       
@@ -103,7 +108,8 @@ public class JMessageDialog extends javax.swing.JDialog {
                 sb.append(": \n");
                 sb.append(inf.getCause().toString());
             }
-            myMsg.jtxtException.setText(sb.toString());  
+            myMsg.jtxtException.setText(sb.toString()); 
+            logger.severe(sb.toString());
         }       
         myMsg.jtxtException.setCaretPosition(0);            
         

@@ -21,7 +21,9 @@ package com.openbravo.format;
 
 public class FormatsException extends java.lang.Exception {
     
-    /**
+	private static final long serialVersionUID = -4291318328826990049L;
+
+	/**
      * Creates a new instance of <code>FormatsException</code> without detail message.
      */
     public FormatsException() {

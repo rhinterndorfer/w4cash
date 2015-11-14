@@ -30,7 +30,8 @@ import javax.swing.SwingConstants;
 
 public class JFlowPanel extends JPanel implements Scrollable {
     
-    private int hgap = 5;
+	private static final long serialVersionUID = 3903585127812430292L;
+	private int hgap = 5;
     private int vgap  = 5;
     
     public JFlowPanel() {

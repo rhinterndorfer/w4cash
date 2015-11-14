@@ -19,6 +19,8 @@
 
 package com.openbravo.data.loader;
 
+import com.openbravo.basic.BasicException;
+
 /**
  *
  * @author adrianromero
@@ -42,7 +44,18 @@ public class SessionDBOracle implements SessionDB {
         return "Oracle";
     }
 
-    public SentenceFind getSequenceSentence(Session s, String sequence) {
-        return new StaticSentence(s, "SELECT " + sequence + ".NEXTVAL FROM DUAL", null, SerializerReadInteger.INSTANCE);
+    public SentenceFind getSequenceSentence(Session s, String sequence) throws BasicException {
+    	int ticketType;
+    	if("TICKETSNUM".equals(sequence))
+    		ticketType = 0;
+    	else if("TICKETSNUM_REFUND".equals(sequence))
+    		ticketType = 1;
+    	else if("TICKETSNUM_PAYMENT".equals(sequence))
+    		ticketType = 2;
+		else
+			throw new BasicException(String.format("Unkwnon sequence string %1", sequence));
+    	
+    	String sql=String.format("SELECT TICKETID+1 FROM TICKETS WHERE TICKETTYPE=%1$d AND TICKETID = (SELECT MAX(TICKETID) FROM TICKETS WHERE TICKETTYPE=%1$d) FOR UPDATE", ticketType);
+    	return new StaticSentence(s, sql, null, SerializerReadInteger.INSTANCE);
     }
 }

@@ -32,7 +32,9 @@ import java.util.GregorianCalendar;
 
 public class JClockPanel extends javax.swing.JPanel {
     
-    private static Calendar m_calendar = new GregorianCalendar(); // solo de ayuda...
+	private static final long serialVersionUID = 1046839525100526151L;
+
+	private static Calendar m_calendar = new GregorianCalendar(); // solo de ayuda...
     
     private Date m_date;
     private boolean m_bSeconds;

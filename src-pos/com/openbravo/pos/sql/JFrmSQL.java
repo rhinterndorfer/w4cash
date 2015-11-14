@@ -34,7 +34,8 @@ import com.openbravo.pos.scanpal2.DeviceScanner;
 
 public class JFrmSQL extends javax.swing.JFrame implements AppView {
     
-    private AppProperties m_props;
+	private static final long serialVersionUID = 6501052930774586858L;
+	private AppProperties m_props;
     private Session session;        
     private JPanelSQL sql;
     

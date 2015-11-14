@@ -72,11 +72,12 @@ public class StaticSentence extends JDBCSentence {
         // false -> un updatecount (si -1 entonces se acabo)
         
         closeExec();
-            
+        String sentence = "undefined";
         try {
             m_Stmt = m_s.getConnection().createStatement();
-
-            String sentence = m_sentence.getSQL(m_SerWrite, params);
+            m_Stmt.setQueryTimeout(90);
+            
+            sentence = m_sentence.getSQL(m_SerWrite, params);
             
             logger.info("Executing static SQL: " + sentence);
 
@@ -91,7 +92,9 @@ public class StaticSentence extends JDBCSentence {
                 }
             }
         } catch (SQLException eSQL) {
-            throw new BasicException(eSQL);
+        	logger.severe("Error executing static SQL: " + sentence);
+            logger.severe(eSQL.getMessage());
+        	throw new BasicException(eSQL);
         }
     }
     

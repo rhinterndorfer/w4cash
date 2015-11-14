@@ -25,7 +25,8 @@ import javax.swing.border.Border;
 
 public class RoundedBorder extends AbstractBorder {
     
-    private static Border blackLine;
+	private static final long serialVersionUID = -2230904795023599976L;
+	private static Border blackLine;
     private static Border grayLine;
     private static Border gradientBorder;
     

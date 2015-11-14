@@ -30,7 +30,11 @@ import javax.swing.ImageIcon;
  */
 public class MenuPanelAction extends AbstractAction {
 
-    private AppView m_App;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private AppView m_App;
     private String m_sMyView;
 
     /** Creates a new instance of MenuPanelAction */

@@ -40,7 +40,9 @@ import org.jvnet.substance.skin.SkinInfo;
  */
 public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConfig {
 
-    private DirtyManager dirty = new DirtyManager();
+	private static final long serialVersionUID = 1178822790895606879L;
+
+	private DirtyManager dirty = new DirtyManager();
 
     private ParametersConfig printer1printerparams;
 

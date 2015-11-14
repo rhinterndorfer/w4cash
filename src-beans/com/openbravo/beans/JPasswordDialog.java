@@ -21,11 +21,12 @@ package com.openbravo.beans;
 
 import java.awt.*;
 import javax.swing.*;
-import java.util.*;
 
 public class JPasswordDialog extends javax.swing.JDialog {
     
-    // private static ResourceBundle m_Intl;
+	private static final long serialVersionUID = 3513352016805581997L;
+
+	// private static ResourceBundle m_Intl;
     private static LocaleResources m_resources;
 
     private String m_sPassword;
@@ -177,11 +178,13 @@ public class JPasswordDialog extends javax.swing.JDialog {
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width-258)/2, (screenSize.height-428)/2, 258, 428);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /*
     private void jNumberKeys21KeyPerformed(com.openbravo.beans.JNumberEvent evt) {//GEN-FIRST:event_jNumberKeys21KeyPerformed
  
     }//GEN-LAST:event_jNumberKeys21KeyPerformed
-
+     */
+    
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
           
         m_sPassword = m_jpassword.getPassword(); 

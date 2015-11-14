@@ -50,13 +50,10 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
 import javax.print.PrintService;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRReport;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
-import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
-import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.type.*;
+import net.sf.jasperreports.engine.export.*;
+import net.sf.jasperreports.engine.util.*;
 
 
 /**
@@ -155,9 +152,10 @@ public class JRPrinterAWT300 implements Printable
 
 		printJob.setJobName("JasperReports - " + jasperPrint.getName());
 		
-		switch (jasperPrint.getOrientation())
+		switch (jasperPrint.getOrientationValue())
 		{
-			case JRReport.ORIENTATION_LANDSCAPE :
+		 
+			case LANDSCAPE :
 			{
 				pageFormat.setOrientation(PageFormat.LANDSCAPE);
 				paper.setSize(jasperPrint.getPageHeight(), jasperPrint.getPageWidth());
@@ -169,7 +167,7 @@ public class JRPrinterAWT300 implements Printable
 					);
 				break;
 			}
-			case JRReport.ORIENTATION_PORTRAIT :
+			case PORTRAIT :
 			default :
 			{
 				pageFormat.setOrientation(PageFormat.PORTRAIT);

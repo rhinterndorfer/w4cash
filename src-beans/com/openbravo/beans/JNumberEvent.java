@@ -28,7 +28,8 @@ import java.util.EventObject;
  */
 public class JNumberEvent extends EventObject {
 
-    private char m_cKey;
+	private static final long serialVersionUID = 1L;
+	private char m_cKey;
     
     public JNumberEvent(Object source, char cKey) {
         super(source);

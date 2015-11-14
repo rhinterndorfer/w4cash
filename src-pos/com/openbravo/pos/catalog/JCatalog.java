@@ -42,7 +42,8 @@ import com.openbravo.pos.ticket.TaxInfo;
  */
 public class JCatalog extends JPanel implements ListSelectionListener, CatalogSelector {
     
-    protected EventListenerList listeners = new EventListenerList();
+	private static final long serialVersionUID = 7484712968447112855L;
+	protected EventListenerList listeners = new EventListenerList();
     private DataLogicSales m_dlSales;   
     private TaxesLogic taxeslogic;
     

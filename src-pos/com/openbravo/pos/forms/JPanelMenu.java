@@ -29,8 +29,9 @@ import java.awt.Component;
  * @author adrianromero
  */
 public class JPanelMenu extends JPanel implements JPanelView {
-    
-    private MenuDefinition m_menu;
+
+	private static final long serialVersionUID = 5111450174036109379L;
+	private MenuDefinition m_menu;
     private boolean created = false;
     
     /** Creates new form JStockMenu */

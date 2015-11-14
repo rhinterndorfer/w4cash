@@ -38,7 +38,8 @@ import javax.swing.ListCellRenderer;
  */
 public class CustomersPanel extends JPanelTable {
     
-    private TableDefinition tcustomers;
+	private static final long serialVersionUID = -6252967383983749840L;
+	private TableDefinition tcustomers;
     private CustomersView jeditor;
     
     /** Creates a new instance of CustomersPanel */

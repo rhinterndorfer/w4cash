@@ -26,7 +26,8 @@ import com.openbravo.format.Formats;
 
 public abstract class JEditorNumber extends JEditorAbstract {
     
-    // Variable numerica
+	private static final long serialVersionUID = 2111143598176812918L;
+	// Variable numerica
     private final static int NUMBER_ZERONULL = 0;
     private final static int NUMBER_INT = 1;
     private final static int NUMBER_DEC = 2;

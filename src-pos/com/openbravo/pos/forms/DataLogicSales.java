@@ -328,7 +328,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         Transaction t = new Transaction(s) {
             public Object transact() throws BasicException {
 
-                // Set Receipt Id
+            	// Set Receipt Id
                 if (ticket.getTicketId() == 0) {
                     switch (ticket.getTicketType()) {
                         case TicketInfo.RECEIPT_NORMAL:
@@ -509,7 +509,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
 
     public final Integer getNextTicketIndex() throws BasicException {
-        return (Integer) s.DB.getSequenceSentence(s, "TICKETSNUM").find();
+    	return (Integer) s.DB.getSequenceSentence(s, "TICKETSNUM").find();
     }
 
     public final Integer getNextTicketRefundIndex() throws BasicException {

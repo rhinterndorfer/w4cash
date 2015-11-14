@@ -34,7 +34,13 @@ import java.awt.BorderLayout;
  */
 public class JRootKiosk extends javax.swing.JFrame implements AppMessage {
     
-    private InstanceManager m_instmanager = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("unused")
+	private InstanceManager m_instmanager = null;
     
     private JRootApp m_rootapp;
     private AppProperties m_props;

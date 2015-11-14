@@ -21,6 +21,7 @@ package com.openbravo.pos.sales.restaurant;
 
 import com.openbravo.pos.ticket.TicketInfo;
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -39,7 +40,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 //    private static final Icon ICO_OCU = new ImageIcon(JTicketsBag.class.getResource("/com/openbravo/images/edit_group.png"));
 //    private static final Icon ICO_FRE = new NullIcon(22, 22);
         
-    private java.util.List<Place> m_aplaces;
+	private static final long serialVersionUID = 5721678894828393596L;
+	private java.util.List<Place> m_aplaces;
     private java.util.List<Floor> m_afloors;
     
     private JTicketsBagRestaurant m_restaurantmap;  
@@ -571,6 +573,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
+        /*
         m_jbtnReservations.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
         m_jbtnReservations.setText(AppLocal.getIntString("button.reservations")); // NOI18N
         m_jbtnReservations.setFocusPainted(false);
@@ -582,7 +585,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
                 m_jbtnReservationsActionPerformed(evt);
             }
         });
-        jPanel2.add(m_jbtnReservations);
+        */
+        // jPanel2.add(m_jbtnReservations);
 
         m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reload.png"))); // NOI18N
         m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket")); // NOI18N

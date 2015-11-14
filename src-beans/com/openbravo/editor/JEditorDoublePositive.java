@@ -23,7 +23,9 @@ import com.openbravo.format.Formats;
 
 public class JEditorDoublePositive extends JEditorNumber {
     
-    /** Creates a new instance of JEditorDoublePositive */
+	private static final long serialVersionUID = 1244682026033776293L;
+
+	/** Creates a new instance of JEditorDoublePositive */
     public JEditorDoublePositive() {
     }
     

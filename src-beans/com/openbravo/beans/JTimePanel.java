@@ -33,7 +33,8 @@ import javax.swing.JButton;
 
 public class JTimePanel extends javax.swing.JPanel {
     
-    public final static int BUTTONS_ALL = 3;
+	private static final long serialVersionUID = 8113303906519658408L;
+	public final static int BUTTONS_ALL = 3;
     public final static int BUTTONS_HOUR = 1;
     public final static int BUTTONS_MINUTE = 2;
     
@@ -244,15 +245,18 @@ public class JTimePanel extends javax.swing.JPanel {
 
     private static class JButtonDate extends JButton {
 
-        public Date DateInf;
+		private static final long serialVersionUID = -2034472897831561388L;
+		public Date DateInf;
 
-        public JButtonDate(ActionListener datehandler) {
+		@SuppressWarnings("unused")
+		public JButtonDate(ActionListener datehandler) {
             super();
             initComponent();
             addActionListener(datehandler);
         }
 
-        public JButtonDate(String sText, ActionListener datehandler) {
+        @SuppressWarnings("unused")
+		public JButtonDate(String sText, ActionListener datehandler) {
             super(sText);
             initComponent();
             addActionListener(datehandler);

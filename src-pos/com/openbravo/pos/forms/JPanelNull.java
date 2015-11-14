@@ -29,7 +29,8 @@ import com.openbravo.basic.BasicException;
  */
 public class JPanelNull extends JPanel implements JPanelView {
 
-    /** Creates new form JPanelNull */
+	private static final long serialVersionUID = 3101647142347525313L;
+	/** Creates new form JPanelNull */
     public JPanelNull(AppView oApp, Object o) {
        
         initComponents ();
