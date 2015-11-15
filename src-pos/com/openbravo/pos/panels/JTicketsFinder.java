@@ -126,8 +126,11 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
     }
     
     private void initCombos() {
-        String[] values = new String[] {AppLocal.getIntString("label.sales"),
-                    AppLocal.getIntString("label.refunds"), AppLocal.getIntString("label.all")};
+        String[] values = new String[] {
+        		AppLocal.getIntString("label.all"), 
+        		AppLocal.getIntString("label.sales"),
+                AppLocal.getIntString("label.refunds")
+                };
         jComboBoxTicket.setModel(new DefaultComboBoxModel(values));
         
         jcboMoney.setModel(ListQBFModelNumber.getMandatoryNumber());
@@ -187,13 +190,13 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         }
         
         // Sale and refund checkbox        
-        if (jComboBoxTicket.getSelectedIndex() == 2) {
+        if (jComboBoxTicket.getSelectedIndex() == 0) {
             afilter[2] = QBFCompareEnum.COMP_DISTINCT;
-            afilter[3] = 2;
-        } else if (jComboBoxTicket.getSelectedIndex() == 0) {
+            afilter[3] = -1;
+        } else if (jComboBoxTicket.getSelectedIndex() == 1) {
             afilter[2] = QBFCompareEnum.COMP_EQUALS;
             afilter[3] = 0;
-        } else if (jComboBoxTicket.getSelectedIndex() == 1) {
+        } else if (jComboBoxTicket.getSelectedIndex() == 2) {
             afilter[2] = QBFCompareEnum.COMP_EQUALS;
             afilter[3] = 1;
         }

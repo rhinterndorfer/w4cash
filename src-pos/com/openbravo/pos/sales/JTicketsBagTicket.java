@@ -267,19 +267,6 @@ public class JTicketsBagTicket extends JTicketsBag {
         });
         m_jButtons.add(jButton2);
 
-        m_jEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/edit.png"))); // NOI18N
-        m_jEdit.setText(AppLocal.getIntString("button.edit")); // NOI18N
-        m_jEdit.setFocusPainted(false);
-        m_jEdit.setFocusable(false);
-        m_jEdit.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jEdit.setRequestFocusEnabled(false);
-        m_jEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jEditActionPerformed(evt);
-            }
-        });
-        m_jButtons.add(m_jEdit);
-
         m_jRefund.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/inbox.png"))); // NOI18N
         m_jRefund.setText(AppLocal.getIntString("button.refund")); // NOI18N
         m_jRefund.setFocusPainted(false);

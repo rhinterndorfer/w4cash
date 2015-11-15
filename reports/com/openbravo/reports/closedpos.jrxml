@@ -54,7 +54,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{HOST}]]></textFieldExpression>
 				</textField>
@@ -78,7 +78,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PARTIALTOTAL})]]></textFieldExpression>
 				</textField>
@@ -111,7 +111,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue($F{DATESTART})]]></textFieldExpression>
 				</textField>
@@ -125,7 +125,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue($F{DATEEND})]]></textFieldExpression>
 				</textField>
@@ -139,7 +139,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{SEQUENCE})]]></textFieldExpression>
 				</textField>
@@ -153,7 +153,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<text><![CDATA[-
 ]]></text>
@@ -172,7 +172,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-						<paragraph lineSpacing="Single"/>
+						<paragraph/>
 					</textElement>
 					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{DAYTOTAL})]]></textFieldExpression>
 				</textField>
@@ -200,7 +200,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue((java.util.Date)((Object[])((Object[])$P{ARG})[0])[1])]]></textFieldExpression>
 			</textField>
@@ -214,7 +214,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue((java.util.Date)((Object[])((Object[])$P{ARG})[0])[3])]]></textFieldExpression>
 			</textField>
@@ -228,7 +228,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<text><![CDATA[-
 ]]></text>
@@ -243,7 +243,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{label.title}]]></textFieldExpression>
 			</textField>
@@ -267,7 +267,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[str("transpayment." + (String)field_PAYMENT.getValue())]]></textFieldExpression>
 			</textField>
@@ -281,7 +281,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{TOTAL})]]></textFieldExpression>
 			</textField>
@@ -302,7 +302,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -316,7 +316,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -330,7 +330,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<text><![CDATA[/]]></text>
 			</staticText>
@@ -354,7 +354,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[$R{label.total}]]></textFieldExpression>
 			</textField>
@@ -368,7 +368,7 @@ ORDER BY CLOSEDCASH.HOST, CLOSEDCASH.DATESTART]]>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
 					<font fontName="Dialog" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					<paragraph lineSpacing="Single"/>
+					<paragraph/>
 				</textElement>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{BIGTOTAL})]]></textFieldExpression>
 			</textField>

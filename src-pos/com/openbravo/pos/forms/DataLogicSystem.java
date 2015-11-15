@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.*;
 import com.openbravo.format.Formats;
+import com.openbravo.pos.sales.SharedTicketInfo;
 import com.openbravo.pos.util.ThumbNailBuilder;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
     protected SentenceFind m_sequencecash;
     protected SentenceFind m_activecash;
+    protected StaticSentence m_allClosedCash;
     protected SentenceExec m_insertcash;
     
     private Map<String, byte[]> resourcescache;
@@ -124,7 +126,11 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         m_activecash = new StaticSentence(s
             , "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE MONEY = ?"
             , SerializerWriteString.INSTANCE
-            , new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));            
+            , new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
+        m_allClosedCash = new StaticSentence(s
+                , "SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH ORDER BY HOSTSEQUENCE DESC"
+                , null
+                , new SerializerReadClass(ClosedCashInfo.class));
         m_insertcash = new StaticSentence(s
                 , "INSERT INTO CLOSEDCASH(MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND) " +
                   "VALUES (?, ?, ?, ?, ?)"
@@ -266,6 +272,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         return (Object[]) m_activecash.find(sActiveCashIndex);
     }
     
+    
     public final void execInsertCash(Object[] cash) throws BasicException {
         m_insertcash.exec(cash);
     } 
@@ -273,4 +280,10 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public final String findLocationName(String iLocation) throws BasicException {
         return (String) m_locationfind.find(iLocation);
     }    
+    
+    public final List<ClosedCashInfo> getAllClosedCashList() throws BasicException {
+        return (List<ClosedCashInfo>) m_allClosedCash.list();
+    }
+    
+    
 }

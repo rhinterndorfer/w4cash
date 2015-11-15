@@ -8,5 +8,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.openbravo.pos.forms.StartPOS"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="w4cash"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.util.logging.config.file=&quot;logging.properties&quot;"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.util.logging.config.file=&quot;logging.debug.properties&quot;"/>
 </launchConfiguration>

@@ -906,7 +906,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                         : "Printer.Ticket2", ticket, ticketext);
                                 resultok = true;
                                 
-                            } catch (BasicException eData) {
+                            } catch (Exception eData) {
                                 MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"), eData);
                                 msg.show(this);
                                 resultok = false;

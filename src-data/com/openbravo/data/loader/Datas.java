@@ -21,6 +21,8 @@ package com.openbravo.data.loader;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.openbravo.basic.BasicException;
 
 public abstract class Datas {

@@ -29,7 +29,8 @@ import java.util.List;
 
 public class JParamsComposed extends javax.swing.JPanel implements ReportEditorCreator {
     
-    private List<ReportEditorCreator> editors = new ArrayList<ReportEditorCreator>();
+	private static final long serialVersionUID = -242454933865202873L;
+	private List<ReportEditorCreator> editors = new ArrayList<ReportEditorCreator>();
     
     /** Creates new form JParamsComposed */
     public JParamsComposed() {

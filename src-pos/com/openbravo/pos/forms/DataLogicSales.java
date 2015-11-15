@@ -27,6 +27,9 @@ import com.openbravo.pos.ticket.TicketLineInfo;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import org.jfree.chart.labels.IntervalXYItemLabelGenerator;
+
 import com.openbravo.data.loader.*;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
@@ -509,15 +512,28 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
 
     public final Integer getNextTicketIndex() throws BasicException {
-    	return (Integer) s.DB.getSequenceSentence(s, "TICKETSNUM").find();
+    	// sell 
+    	Object result = s.DB.getSequenceSentence(s, "TICKETSNUM").find();
+    	if(result == null)
+    		return 1; // first ticket
+    	return (Integer) result;
     }
 
     public final Integer getNextTicketRefundIndex() throws BasicException {
-        return (Integer) s.DB.getSequenceSentence(s, "TICKETSNUM_REFUND").find();
+        // refund
+    	// use same ticket id as for standard sell
+    	Object result = s.DB.getSequenceSentence(s, "TICKETSNUM").find();
+    	if(result == null)
+    		return 1;
+    	return (Integer) result;
     }
 
     public final Integer getNextTicketPaymentIndex() throws BasicException {
-        return (Integer) s.DB.getSequenceSentence(s, "TICKETSNUM_PAYMENT").find();
+    	// customer payment
+        Object result = s.DB.getSequenceSentence(s, "TICKETSNUM_PAYMENT").find();
+    	if(result == null)
+    		return 1;
+    	return (Integer) result;
     }
 
     public final SentenceList getProductCatQBF() {

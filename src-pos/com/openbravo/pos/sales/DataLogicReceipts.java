@@ -69,6 +69,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
                 , new SerializerReadClass(SharedTicketInfo.class)).list();
     }
     
+    
     public final void updateSharedTicket(final String id, final TicketInfo ticket) throws BasicException {
          
         Object[] values = new Object[] {id, ticket.getName(), ticket};
