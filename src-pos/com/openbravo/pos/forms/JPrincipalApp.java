@@ -91,7 +91,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         m_principalnotificator = new JLabel();
         m_principalnotificator.applyComponentOrientation(getComponentOrientation());
         m_principalnotificator.setText(m_appuser.getName());
-        m_principalnotificator.setIcon(m_appuser.getIcon());
+        // m_principalnotificator.setIcon(m_appuser.getIcon());
 //        m_principalnotificator.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("TextField.shadow")), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));        
         
         if (jButton1.getComponentOrientation().isLeftToRight()) {

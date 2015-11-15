@@ -204,9 +204,9 @@ public class JRootApp extends JPanel implements AppView {
         m_Scanner = DeviceScannerFactory.createInstance(m_props);
             
         // Leemos los recursos basicos
-        BufferedImage imgicon = m_dlSystem.getResourceAsImage("Window.Logo");
-        m_jLblTitle.setIcon(imgicon == null ? null : new ImageIcon(imgicon));
-        m_jLblTitle.setText(m_dlSystem.getResourceAsText("Window.Title"));  
+        //BufferedImage imgicon = m_dlSystem.getResourceAsImage("Window.Logo");
+        //m_jLblTitle.setIcon(imgicon == null ? null : new ImageIcon(imgicon));
+        //m_jLblTitle.setText(m_dlSystem.getResourceAsText("Window.Title"));  
         
         String sWareHouse;
         try {
@@ -570,10 +570,6 @@ public class JRootApp extends JPanel implements AppView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        m_jPanelTitle = new javax.swing.JPanel();
-        m_jLblTitle = new javax.swing.JLabel();
-        poweredby = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         m_jPanelContainer = new javax.swing.JPanel();
         m_jPanelLogin = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -591,27 +587,9 @@ public class JRootApp extends JPanel implements AppView {
         m_jHost = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
-        //setPreferredSize(new java.awt.Dimension(1024, 768));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
         setLayout(new java.awt.BorderLayout());
 
-        /*
-        m_jPanelTitle.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")));
-        m_jPanelTitle.setLayout(new java.awt.BorderLayout());
-
-        m_jLblTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        m_jLblTitle.setText("Window.Title");
-        m_jPanelTitle.add(m_jLblTitle, java.awt.BorderLayout.CENTER);
-
-        poweredby.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/poweredby.png"))); // NOI18N
-        poweredby.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        m_jPanelTitle.add(poweredby, java.awt.BorderLayout.LINE_END);
-
-        jLabel2.setPreferredSize(new java.awt.Dimension(142, 34));
-        m_jPanelTitle.add(jLabel2, java.awt.BorderLayout.LINE_START);
-
-        add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
-        */
-        
         m_jPanelContainer.setLayout(new java.awt.CardLayout());
 
         m_jPanelLogin.setLayout(new java.awt.BorderLayout());
@@ -619,16 +597,12 @@ public class JRootApp extends JPanel implements AppView {
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/logo.png"))); // NOI18N
-        jLabel1.setText("<html><center>Openbravo POS is a point of sale application designed for touch screens.<br>" +
-            "Copyright \u00A9 2007-2009 Openbravo, S.L.<br>" +
-            "http://www.openbravo.com/product/pos<br>" +
+        jLabel1.setText("<html><center>" +
+            "w4cash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>" +
             "<br>" +
-            "Openbravo POS is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>" +
+            "w4cash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>" +
             "<br>" +
-            "Openbravo POS is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>" +
-            "<br>" +
-            "You should have received a copy of the GNU General Public License along with Openbravo POS.  If not, see http://www.gnu.org/licenses/.<br>" +
+            "You should have received a copy of the GNU General Public License along with w4cash.  If not, see http://www.gnu.org/licenses/.<br>" +
             "</center>");
         jLabel1.setAlignmentX(0.5F);
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -692,7 +666,7 @@ public class JRootApp extends JPanel implements AppView {
         m_jPanelDown.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")));
         m_jPanelDown.setLayout(new java.awt.BorderLayout());
 
-        m_jHost.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/display.png"))); // NOI18N
+        m_jHost.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         m_jHost.setText("*Hostname");
         panelTask.add(m_jHost);
 
@@ -720,7 +694,6 @@ public class JRootApp extends JPanel implements AppView {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -730,14 +703,11 @@ public class JRootApp extends JPanel implements AppView {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton m_jClose;
     private javax.swing.JLabel m_jHost;
-    private javax.swing.JLabel m_jLblTitle;
     private javax.swing.JPanel m_jLogonName;
     private javax.swing.JPanel m_jPanelContainer;
     private javax.swing.JPanel m_jPanelDown;
     private javax.swing.JPanel m_jPanelLogin;
-    private javax.swing.JPanel m_jPanelTitle;
     private javax.swing.JTextField m_txtKeys;
     private javax.swing.JPanel panelTask;
-    private javax.swing.JLabel poweredby;
     // End of variables declaration//GEN-END:variables
 }

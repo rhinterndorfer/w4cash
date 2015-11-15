@@ -27,8 +27,8 @@ import com.openbravo.beans.LocaleResources;
  */
 public class AppLocal {
     
-    public static final String APP_NAME = "Wald4Kassa";
-    public static final String APP_ID = "openbravopos";
+    public static final String APP_NAME = "w4cash";
+    public static final String APP_ID = "w4cash";
     public static final String APP_VERSION = "2.30.2";
   
     // private static List<ResourceBundle> m_messages;

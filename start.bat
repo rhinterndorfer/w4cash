@@ -21,9 +21,10 @@ REM    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
 set DIRNAME=%~dp0
 
-set CP="%DIRNAME%openbravopos.jar"
+set CP="%DIRNAME%w4cash.jar"
 
-set CP=%CP%;"%DIRNAME%lib/jasperreports-3.1.4.jar"
+set CP=%CP%;"%DIRNAME%lib/joda-time-2.4.jar"
+set CP=%CP%;"%DIRNAME%lib/jasperreports-6.1.1.jar"
 set CP=%CP%;"%DIRNAME%lib/jcommon-1.0.15.jar"
 set CP=%CP%;"%DIRNAME%lib/jfreechart-1.0.12.jar"
 set CP=%CP%;"%DIRNAME%lib/jdt-compiler-3.1.1.jar"

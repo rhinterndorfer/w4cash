@@ -26,6 +26,8 @@ import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -41,6 +43,10 @@ import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.ticket.TicketLineInfo;
+
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStrokeStyle;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xml.sax.Attributes;
@@ -96,7 +102,7 @@ public class JTicketLines extends javax.swing.JPanel {
        
         m_jTicketTable.getTableHeader().setReorderingAllowed(false);         
         m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(acolumns));
-        m_jTicketTable.setRowHeight(40);
+        m_jTicketTable.setRowHeight(25);
         m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
         
         // reseteo la tabla...
@@ -214,6 +220,7 @@ public class JTicketLines extends javax.swing.JPanel {
             JLabel aux = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             aux.setVerticalAlignment(javax.swing.SwingConstants.TOP);
             aux.setHorizontalAlignment(m_acolumns[column].align);
+            //aux.setBorder(BorderFactory.createEmptyBorder(3,0,3,0));
             return aux;
         }
     }
