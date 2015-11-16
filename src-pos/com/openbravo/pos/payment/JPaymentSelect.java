@@ -100,6 +100,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         this.customerext = customerext;        
 
         m_jButtonPrint.setSelected(printselected);
+        m_jButtonPrint.setVisible(false); // hide print toggle button !!
+        
         m_jTotalEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal)));
         
         addTabs();

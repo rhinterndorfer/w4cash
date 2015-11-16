@@ -111,7 +111,7 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
         return null;
     }
 
-    public void setActiveCash(String value, int iSeq, Date dStart, Date dEnd) {
+    public void setActiveCash(String value, Date dStart, Date dEnd) {
     }
 
 

@@ -35,7 +35,6 @@ import com.openbravo.pos.util.StringUtils;
 public class PaymentsModel {
 
     private String m_sHost;
-    private int m_iSeq;
     private Date m_dDateStart;
     private Date m_dDateEnd;       
             
@@ -77,7 +76,6 @@ public class PaymentsModel {
         
         // Propiedades globales
         p.m_sHost = app.getProperties().getHost();
-        p.m_iSeq = app.getActiveCashSequence();
         p.m_dDateStart = app.getActiveCashDateStart();
         p.m_dDateEnd = null;
         
@@ -168,9 +166,6 @@ public class PaymentsModel {
     public String getHost() {
         return m_sHost;
     }
-    public int getSequence() {
-        return m_iSeq;
-    }
     public Date getDateStart() {
         return m_dDateStart;
     }
@@ -183,9 +178,6 @@ public class PaymentsModel {
     
     public String printHost() {
         return StringUtils.encodeXML(m_sHost);
-    }
-    public String printSequence() {
-        return Formats.INT.formatValue(m_iSeq);
     }
     public String printDateStart() {
         return Formats.TIMESTAMP.formatValue(m_dDateStart);

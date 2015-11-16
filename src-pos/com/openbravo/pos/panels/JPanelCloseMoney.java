@@ -110,7 +110,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
     private void loadData() throws BasicException {
         
         // Reset
-        m_jSequence.setText(null);
         m_jMinDate.setText(null);
         m_jMaxDate.setText(null);
         m_jPrintCash.setEnabled(false);
@@ -130,7 +129,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         m_PaymentsToClose = PaymentsModel.loadInstance(m_App);
         
         // Populate Data
-        m_jSequence.setText(m_PaymentsToClose.printSequence());
         m_jMinDate.setText(m_PaymentsToClose.printDateStart());
         m_jMaxDate.setText(m_PaymentsToClose.printDateEnd());
         
@@ -208,8 +206,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        m_jSequence = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         m_jMinDate = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -239,11 +235,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.datestitle"))); // NOI18N
 
-        jLabel11.setText(AppLocal.getIntString("label.sequence")); // NOI18N
-
-        m_jSequence.setEditable(false);
-        m_jSequence.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
         jLabel2.setText(AppLocal.getIntString("Label.StartDate")); // NOI18N
 
         m_jMinDate.setEditable(false);
@@ -262,10 +253,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSequence, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(m_jMinDate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -273,15 +260,12 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(m_jMaxDate, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(319, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(m_jSequence, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(m_jMinDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -289,7 +273,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(m_jMaxDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.paymentstitle"))); // NOI18N
@@ -466,7 +450,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(m_jCloseCash)
                     .addComponent(m_jPrintCash))
@@ -498,11 +482,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
             
             try {
                 // Creamos una nueva caja          
-                m_App.setActiveCash(UUID.randomUUID().toString(), m_App.getActiveCashSequence() + 1, dNow, null);
+                m_App.setActiveCash(UUID.randomUUID().toString(), dNow, null);
                 
                 // creamos la caja activa      
                 m_dlSystem.execInsertCash(
-                        new Object[] {m_App.getActiveCashIndex(), m_App.getProperties().getHost(), m_App.getActiveCashSequence(), m_App.getActiveCashDateStart(), m_App.getActiveCashDateEnd()});                  
+                        new Object[] {m_App.getActiveCashIndex(), m_App.getProperties().getHost(), m_App.getActiveCashDateStart(), m_App.getActiveCashDateEnd()});                  
                
                 // ponemos la fecha de fin
                 m_PaymentsToClose.setDateEnd(dNow);
@@ -536,7 +520,6 @@ private void m_jPrintCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -560,7 +543,6 @@ private void m_jPrintCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JTextField m_jSalesTotal;
     private javax.swing.JScrollPane m_jScrollSales;
     private javax.swing.JScrollPane m_jScrollTableTicket;
-    private javax.swing.JTextField m_jSequence;
     private javax.swing.JTable m_jTicketTable;
     private javax.swing.JTable m_jsalestable;
     // End of variables declaration//GEN-END:variables

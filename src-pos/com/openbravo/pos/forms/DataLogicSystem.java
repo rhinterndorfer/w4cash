@@ -56,7 +56,6 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     private SentenceExec m_resourcebytesinsert;
     private SentenceExec m_resourcebytesupdate;
 
-    protected SentenceFind m_sequencecash;
     protected SentenceFind m_activecash;
     protected StaticSentence m_allClosedCash;
     protected SentenceExec m_insertcash;
@@ -119,10 +118,6 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
                 , "UPDATE PEOPLE SET APPPASSWORD = ? WHERE ID = ?"
                 ,new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING}));
 
-        m_sequencecash = new StaticSentence(s,
-                "SELECT MAX(HOSTSEQUENCE) FROM CLOSEDCASH WHERE HOST = ?",
-                SerializerWriteString.INSTANCE,
-                SerializerReadInteger.INSTANCE);
         m_activecash = new StaticSentence(s
             , "SELECT HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE MONEY = ?"
             , SerializerWriteString.INSTANCE
@@ -132,9 +127,9 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
                 , null
                 , new SerializerReadClass(ClosedCashInfo.class));
         m_insertcash = new StaticSentence(s
-                , "INSERT INTO CLOSEDCASH(MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND) " +
-                  "VALUES (?, ?, ?, ?, ?)"
-                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP}));
+                , "INSERT INTO CLOSEDCASH(MONEY, HOST, DATESTART, DATEEND, HOSTSEQUENCE) " +
+                  "VALUES (?, ?, ?, ?, (SELECT NVL(max(hostsequence),0)+1 FROM CLOSEDCASH))"
+                , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP}));
             
         m_locationfind = new StaticSentence(s
                 , "SELECT NAME FROM LOCATIONS WHERE ID = ?"
@@ -263,10 +258,6 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
         return p;
     }
 
-    public final int getSequenceCash(String host) throws BasicException {
-        Integer i = (Integer) m_sequencecash.find(host);
-        return (i == null) ? 1 : i.intValue();
-    }
 
     public final Object[] findActiveCash(String sActiveCashIndex) throws BasicException {
         return (Object[]) m_activecash.find(sActiveCashIndex);

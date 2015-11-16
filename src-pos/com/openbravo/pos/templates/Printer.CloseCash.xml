@@ -73,10 +73,6 @@
             <text length="24" align="right">${payments.printHost()}</text>
         </line>    
         <line>
-            <text length="8">Nr:</text>
-            <text length="24" align="right">${payments.printSequence()}</text>
-        </line> 
-        <line>
             <text length="8">Start:</text>
             <text length="24" align="right">${payments.printDateStart()}</text>
         </line>  
