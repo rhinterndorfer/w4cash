@@ -23,6 +23,8 @@
     <class name="com.openbravo.pos.sales.JPanelTicketSales"/>
     <class name="com.openbravo.pos.sales.JPanelTicketEdits"/>
     <class name="com.openbravo.pos.panels.JPanelPayments"/>
+    <class name="sales.EditTicket"/>
+    <class name="sales.EditLines"/>
     <class name="sales.RefundTicket"/>
     <class name="sales.PrintTicket"/>
     <class name="sales.Total"/>

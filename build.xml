@@ -412,8 +412,6 @@
         <copy file="${basedir}/build.xml" todir="${basedir}/build/zip" />
         <copy file="${basedir}/.project" todir="${basedir}/build/zip" />
         <copy file="${basedir}/.classpath" todir="${basedir}/build/zip" />
-        <copy file="${basedir}/Base diff.launch" todir="${basedir}/build/zip" />
-        <copy file="${basedir}/Head diff.launch" todir="${basedir}/build/zip" />
 
         <!-- pda -->
 
