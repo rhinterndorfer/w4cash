@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jdbcDataAdapter class="net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl"><name>DataAdapterW4Cash</name><driver>oracle.jdbc.driver.OracleDriver</driver><username>open</username><password>silent</password><savePassword>true</savePassword><url>jdbc:oracle:thin:@localhost:1521:xe</url><database></database><serverAddress></serverAddress><classpath>C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib\ojdbc6.jar</classpath></jdbcDataAdapter>

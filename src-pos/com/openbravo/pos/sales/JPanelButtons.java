@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppUser;
+import com.openbravo.pos.payment.PaymentPanelType;
 import com.openbravo.pos.util.ThumbNailBuilder;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class JPanelButtons extends javax.swing.JPanel {
     private static SAXParser m_sp = null;
     
     private Properties props;
+    private Properties posprops;
     private Map<String, String> events;
     
     private ThumbNailBuilder tnbmacro;
@@ -66,6 +68,7 @@ public class JPanelButtons extends javax.swing.JPanel {
         tnbmacro = new ThumbNailBuilder(16, 16, "com/openbravo/images/greenled.png");
         
         this.panelticket = panelticket;
+        posprops = panelticket.dlSystem.getResourceAsProperties(panelticket.m_App.getProperties().getHost() + "/properties");
         
         props = new Properties();
         events = new HashMap<String, String>();
@@ -103,11 +106,17 @@ public class JPanelButtons extends javax.swing.JPanel {
     }
     
     public String getProperty(String key) {
-        return props.getProperty(key);
+        if(posprops.getProperty(key) != null)
+        	return posprops.getProperty(key);
+    	
+    	return props.getProperty(key);
     }
     
      public String getProperty(String key, String defaultvalue) {
-        return props.getProperty(key, defaultvalue);
+         if(posprops.getProperty(key) != null)
+         	return posprops.getProperty(key);
+         
+    	 return props.getProperty(key, defaultvalue);
     }
      
     public String getEvent(String key) {
@@ -160,8 +169,12 @@ public class JPanelButtons extends javax.swing.JPanel {
                 events.put(attributes.getValue("key"), attributes.getValue("code"));
             } else {
                 String value = attributes.getValue("value");
-                if (value != null) {                  
-                    props.setProperty(qName, attributes.getValue("value"));
+                
+                // check if property has been overwritten for current POS
+                String valuePOS = panelticket.m_App.getProperties().getProperty(qName);
+                
+                if (value != null || valuePOS != null) {                  
+                    props.setProperty(qName, valuePOS != null ? valuePOS : value);
                 }
             }
         }      

@@ -87,7 +87,7 @@ public class ClosedCashInfo implements SerializableRead, SerializableWrite, IKey
 	
 	@Override
     public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 		StringBuilder sb = new StringBuilder();
 		sb.append(sequence.toString());
 		sb.append(": ");

@@ -44,7 +44,7 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 	
 	private ComboBoxValModel m_endClosedPosModel;
 	private ComboBoxValModel m_startClosedPosModel;
-	
+	private AppView m_app;
 	
 	/** Creates new form JParamsClosedPos */
     public JParamsClosedPosInterval() {
@@ -52,7 +52,11 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
     }
     
     public void init(AppView app) {
-    	DataLogicSystem dlSys = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+    	m_app = app;
+    }
+
+    public void activate() throws BasicException {
+    	DataLogicSystem dlSys = (DataLogicSystem) m_app.getBean("com.openbravo.pos.forms.DataLogicSystem");
     	try {
 			List<ClosedCashInfo>  closedCashList = dlSys.getAllClosedCashList();
 			
@@ -68,9 +72,6 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 		} catch (BasicException e) {
 			// do nothing
 		}
-    }
-
-    public void activate() throws BasicException {
     }
     
     public SerializerWrite getSerializerWrite() {
@@ -91,6 +92,16 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
         	m_endClosedPosModel.getSelectedKey()
         };
     }    
+    
+    public Object getStartItem()
+    {
+    	return m_startClosedPosModel.getSelectedItem();
+    }
+    
+    public Object getEndItem()
+    {
+    	return m_endClosedPosModel.getSelectedItem();
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.

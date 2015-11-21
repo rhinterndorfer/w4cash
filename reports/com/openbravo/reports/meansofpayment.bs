@@ -1,0 +1,55 @@
+//    Openbravo POS is a point of sales application designed for touch screens.
+//    Copyright (C) 2007-2009 Openbravo, S.L.
+//    http://www.openbravo.com/product/pos
+//
+//    This file is part of Openbravo POS.
+//
+//    Openbravo POS is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    Openbravo POS is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
+
+report = new com.openbravo.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.MeansOfPayment");
+report.setReport("/com/openbravo/reports/meansofpayment");
+report.setResourceBundle("com/openbravo/reports/meansofpayment_messages");
+
+report.setSentence("select " +
+"	cc.HOSTSEQUENCE as CASHSEQUENCE, " + 
+"	cc.DATESTART, " + 
+"	cc.DATEEND, " +
+"	case p.PAYMENT when 'cash' then 'Bar' when 'cashin' then 'Einzahlung' when 'cashout' then 'Auszahlung' when 'magcard' then 'Karte' when 'free' then 'Frei' else p.PAYMENT end as PAYMENT, " +
+"	p.TOTAL " +
+"from " + 
+"	CLOSEDCASH cc " +
+"	inner join  " +
+"		RECEIPTS r " +
+"	on cc.MONEY=r.MONEY " + 
+"	inner join " +
+"		PAYMENTS p " +
+"	on r.ID=p.RECEIPT " +
+"where ?(QBF_FILTER) " +
+"order by p.PAYMENT");
+
+report.addParameter("cc.HOSTSEQUENCE");
+report.addParameter("cc.HOSTSEQUENCE");
+com.openbravo.pos.reports.JParamsClosedPosInterval filter = new com.openbravo.pos.reports.JParamsClosedPosInterval();
+report.addQBFFilter(filter);
+
+report.addField("CASHSEQUENCE", com.openbravo.data.loader.Datas.INT);
+report.addField("DATESTART", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("DATEEND", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("PAYMENT", com.openbravo.data.loader.Datas.STRING);
+report.addField("TOTAL", com.openbravo.data.loader.Datas.DOUBLE);
+
+report;
+

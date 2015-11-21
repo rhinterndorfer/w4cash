@@ -17,9 +17,12 @@
 --    You should have received a copy of the GNU General Public License
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
--- Database upgrade script for ORACLE
+-- Database upgrade script for ORACLE 2.30.2 -> 2.40.1
 
-
+DROP INDEX CLOSEDCASH_INX_SEQ;
+CREATE UNIQUE INDEX CLOSEDCASH_INX_SEQ2 ON CLOSEDCASH(HOSTSEQUENCE);
 
 -- final script
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.40.1');
+UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.1' WHERE ID = 'w4cashdb';

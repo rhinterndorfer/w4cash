@@ -18,6 +18,7 @@
 
     You should have received a copy of the GNU General Public License
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
+
  -->
 <permissions>
     <class name="com.openbravo.pos.sales.JPanelTicketSales"/>
@@ -70,6 +71,7 @@
     <class name="/com/openbravo/reports/taxes.bs"/>
     <class name="/com/openbravo/reports/chartsales.bs"/>  
     <class name="/com/openbravo/reports/productsales.bs"/> 
+    <class name="/com/openbravo/reports/meansofpayment.bs"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
     <class name="com.openbravo.pos.admin.RolesPanel"/>

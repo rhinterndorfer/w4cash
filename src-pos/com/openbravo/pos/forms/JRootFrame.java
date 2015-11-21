@@ -80,11 +80,7 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
             this.setExtendedState(MAXIMIZED_BOTH);
             setLocationRelativeTo(null);        
             
-            
-            
             setVisible(true);                        
-        } else {
-            new JFrmConfig(props).setVisible(true); // Show the configuration window.
         }
     }
     

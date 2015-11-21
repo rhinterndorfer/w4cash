@@ -2,11 +2,12 @@
 <output>
     <display>
         <line>
-            <text align="left" length="10">Total.</text>
-            <text align="right" length="10">${ticket.printTotal()}</text>
+            <text align="left" length="5"></text>
+            <text align="left" length="15"></text>
         </line>
         <line>
-           <text align="center" length="20">Danke.</text>
+            <text align="left" length="10"></text>
+            <text align="left" length="10"></text>
         </line>
     </display>
     <ticket>
@@ -96,8 +97,12 @@
             #if (${ticketline.getTaxInfo()} == "10%")
                <text align ="right" length="2">B</text>
             #end
-            #if (${ticketline.getTaxInfo()} == "20%")
+            #if (${ticketline.getTaxInfo()} == "13%")
                <text align ="right" length="2">C</text>
+            #end
+
+            #if (${ticketline.getTaxInfo()} == "20%")
+               <text align ="right" length="2">D</text>
             #end
         </line> 
         #if ($ticketline.productAttSetInstId)
@@ -123,8 +128,11 @@
             #if (${taxline.getTaxInfo()} == "10%")
                <text align ="left" length="2">B</text>
             #end
-            #if (${taxline.getTaxInfo()} == "20%")
+            #if (${taxline.getTaxInfo()} == "13%")
                <text align ="left" length="2">C</text>
+            #end
+            #if (${taxline.getTaxInfo()} == "20%")
+               <text align ="left" length="2">D</text>
             #end
 	<text align ="left" length="10">${taxline.getTaxInfo()}</text>  
 	<text align ="right" length="10">${taxline.printSubTotal()}</text> 

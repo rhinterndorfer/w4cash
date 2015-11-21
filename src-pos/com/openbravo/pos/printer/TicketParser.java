@@ -123,6 +123,18 @@ public class TicketParser extends DefaultHandler {
                 m_iOutputType = OUTPUT_TICKET;
                 m_oOutputPrinter = m_printer.getDevicePrinter(readString(attributes.getValue("printer"), "1"));
                 m_oOutputPrinter.beginReceipt();
+            } else if ("printer1".equals(qName)) {
+                m_iOutputType = OUTPUT_TICKET;
+                m_oOutputPrinter = m_printer.getDevicePrinter("1");
+                m_oOutputPrinter.beginReceipt();
+            } else if ("printer2".equals(qName)) {
+                m_iOutputType = OUTPUT_TICKET;
+                m_oOutputPrinter = m_printer.getDevicePrinter("2");
+                m_oOutputPrinter.beginReceipt();
+            } else if ("printer3".equals(qName)) {
+                m_iOutputType = OUTPUT_TICKET;
+                m_oOutputPrinter = m_printer.getDevicePrinter("3");
+                m_oOutputPrinter.beginReceipt();
             } else if ("display".equals(qName)) {
                 m_iOutputType = OUTPUT_DISPLAY;
                 String animation = attributes.getValue("animation");
@@ -264,6 +276,21 @@ public class TicketParser extends DefaultHandler {
                 m_oOutputPrinter.endLine();
             } else if ("ticket".equals(qName)) {
                 m_oOutputPrinter.endReceipt();
+                m_iOutputType = OUTPUT_NONE;
+                m_oOutputPrinter = null;
+            }
+            else if ("printer1".equals(qName)) {
+                m_oOutputPrinter.endReceipt();
+                m_iOutputType = OUTPUT_NONE;
+                m_oOutputPrinter = null;
+            }
+            else if ("printer2".equals(qName)) {
+                m_oOutputPrinter.endReceipt();
+                m_iOutputType = OUTPUT_NONE;
+                m_oOutputPrinter = null;
+            }
+            else if ("printer3".equals(qName)) {
+            	m_oOutputPrinter.endReceipt();
                 m_iOutputType = OUTPUT_NONE;
                 m_oOutputPrinter = null;
             }

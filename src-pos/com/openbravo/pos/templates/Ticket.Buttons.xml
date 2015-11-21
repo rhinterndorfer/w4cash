@@ -30,10 +30,12 @@
     <event key="ticket.save" code="ticket.save"/>
     <!-- <event key="ticket.total" code="event.total"/> -->
     <event key="ticket.close" code="ticket.close"/>
-    <img-width value="140"/>
-    <img-height value="55"/>
+    <product-img-width value="64"/>
+    <product-img-height value="54"/>
+    <category-img-width value="180"/>
+    <category-img-height value="54"/>
     <cat-height value="350" />
-    <taxesincluded value="false"/>   
+    <!--<taxesincluded value="false"/>-->
     <!-- <printselected value="true"/> -->    
     <!-- <taxcategoryid value="001"/> -->
     <!-- <pricevisible value="true" /> -->

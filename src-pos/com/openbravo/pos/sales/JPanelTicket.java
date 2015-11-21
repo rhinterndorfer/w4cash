@@ -334,14 +334,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
     
     private void paintTicketLine(int index, TicketLineInfo oLine){
-        
+        TicketLineInfo oOrigLine = m_oTicket.getLine(index);
         if (executeEventAndRefresh("ticket.setline", new ScriptArg("index", index), new ScriptArg("line", oLine)) == null) {
 
             m_oTicket.setLine(index, oLine);
             m_ticketlines.setTicketLine(index, oLine);
             m_ticketlines.setSelectedIndex(index);
 
-            visorTicketLine(oLine); // Y al visor tambien...
+            visorTicketLine(oLine, oOrigLine, true); // Y al visor tambien...
             printPartialTotals();   
             stateToZero();  
 
@@ -359,6 +359,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     
     protected void addTicketLine(TicketLineInfo oLine) {   
         
+    	TicketLineInfo oOrigLine = oLine.copyTicketLine();
+    	
         if (executeEventAndRefresh("ticket.addline", new ScriptArg("line", oLine)) == null) {
         
             if (oLine.isProductCom()) {
@@ -387,7 +389,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 m_ticketlines.addTicketLine(oLine); // Pintamos la linea en la vista... 
             }
 
-            visorTicketLine(oLine);
+            visorTicketLine(oLine, oOrigLine, false);
             printPartialTotals();   
             stateToZero();  
 
@@ -398,6 +400,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     
     private void removeTicketLine(int i){
         
+    	TicketLineInfo oOrigLine = m_oTicket.getLine(i);
         if (executeEventAndRefresh("ticket.removeline", new ScriptArg("index", i)) == null) {
         
             if (m_oTicket.getLine(i).isProductCom()) {
@@ -415,7 +418,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 }
             }
 
-            visorTicketLine(null); // borro el visor 
+            visorTicketLine(null, oOrigLine, false); // borro el visor 
             printPartialTotals(); // pinto los totales parciales...                           
             stateToZero(); // Pongo a cero    
 
@@ -998,13 +1001,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }               
     }
 
-    private void visorTicketLine(TicketLineInfo oLine){
+    private void visorTicketLine(TicketLineInfo oLine, TicketLineInfo oOrigLine, Boolean isEditOperation){
         if (oLine == null) { 
              m_App.getDeviceTicket().getDeviceDisplay().clearVisor();
         } else {                 
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
                 script.put("ticketline", oLine);
+                script.put("ticketlineOrig", oOrigLine);
+                script.put("ticketlineEdit", isEditOperation);
+                script.put("place", m_oTicketExt != null ? m_oTicketExt.toString() : null);
                 m_TTP.printTicket(script.eval(dlSystem.getResourceAsXML("Printer.TicketLine")).toString());
             } catch (ScriptException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintline"), e);

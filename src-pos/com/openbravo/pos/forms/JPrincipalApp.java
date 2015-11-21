@@ -84,6 +84,8 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
                 
         initComponents();
         
+        
+        
         jPanel2.add(Box.createVerticalStrut(50), 0);        
         
         applyComponentOrientation(appview.getComponentOrientation());
@@ -123,9 +125,37 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             } catch (ScriptException es) {
                 logger.log(Level.SEVERE, "Cannot read default menu", es);
             }
-        }               
+        }             
+        
+        
+        this.addComponentListener(new ComponentListener() {
+			
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				setMenuVisible(getBounds().width > 1024);
+			}
+			
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
     }
 
+    
     private Component getScriptMenu(String menutext) throws ScriptException {
 
         ScriptMenu menu = new ScriptMenu();
@@ -267,7 +297,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
     
     public void activate() {
         
-        setMenuVisible(getBounds().width > 800);
+        setMenuVisible(getBounds().width > 1024);
         
         // arranco la primera opcion
         if (m_actionfirst != null) {

@@ -17,8 +17,8 @@
 --    You should have received a copy of the GNU General Public License
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
--- Database initial script for ORACLE
--- v2.30.2
+-- Database script for ORACLE
+-- v2.40.1
 
 CREATE TABLE APPLICATIONS (
     ID VARCHAR2(256) NOT NULL,
@@ -27,6 +27,7 @@ CREATE TABLE APPLICATIONS (
     PRIMARY KEY (ID)
 );
 INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.40.1');
 
 CREATE TABLE ROLES (
     ID VARCHAR2(256) NOT NULL,
@@ -101,6 +102,7 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('30', 'Printer.PartialC
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('31', 'ticket.save', 0, $FILE{/com/openbravo/pos/templates/ticket.save.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('32', 'ticket.addline', 0, $FILE{/com/openbravo/pos/templates/ticket.addline.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'ticket.close', 0, $FILE{/com/openbravo/pos/templates/ticket.close.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'Reports.Address', 0, $FILE{/com/openbravo/pos/templates/reports.address.txt});
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,
