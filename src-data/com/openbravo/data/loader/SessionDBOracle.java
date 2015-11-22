@@ -49,7 +49,7 @@ public class SessionDBOracle implements SessionDB {
     	if("TICKETSNUM".equals(sequence))
     		ticketType = 0;
     	else if("TICKETSNUM_REFUND".equals(sequence))
-    		ticketType = 1;
+    		ticketType = 0;
     	else if("TICKETSNUM_PAYMENT".equals(sequence))
     		ticketType = 2;
 		else

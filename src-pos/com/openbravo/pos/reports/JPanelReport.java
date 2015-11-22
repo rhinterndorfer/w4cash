@@ -22,8 +22,6 @@ package com.openbravo.pos.reports;
 import java.awt.*;
 import javax.swing.*;
 
-import org.apache.commons.collections.functors.PrototypeFactory;
-
 import java.util.*;
 import java.util.Map.Entry;
 import java.io.*;
@@ -165,8 +163,9 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 
 				// Parametros y los datos
 				Object params = (editor == null) ? null : editor.createValue();
-
-				JRDataSource data = new JRDataSourceBasic(getSentence(), getReportFields(), params);
+				BaseSentence sentence = getSentence();
+				
+				JRDataSource data = new JRDataSourceBasic(sentence, getReportFields(), params);
 
 				// Construyo el mapa de los parametros.
 				Map<String, Object> reportparams = new HashMap<String, Object>();

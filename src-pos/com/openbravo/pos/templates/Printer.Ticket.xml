@@ -12,6 +12,9 @@
     </display>
     <ticket>
         <line>
+            <text align="center" length="32" bold="true"></text>
+        </line>
+        <line>
             <text align="center" length="32" bold="true">Gasthaus W4</text>
         </line>
         <line>
@@ -24,18 +27,10 @@
             <text align="center" length="32" bold="true">ATU xxxxxxxx</text>
         </line>
         <line></line>
-        #if (${ticket.ticketType} == 0)
         <line>
             <text align="left" length="16">Bon:</text>
             <text align="left" length="16">${ticket.printId()}</text>
         </line>
-        #end
-        #if (${ticket.ticketType} == 1)
-        <line>
-            <text align="left" length="16">Retour:</text>
-            <text align="left" length="16">${ticket.printId()}</text>
-        </line>
-        #end
         <line>
             <text align="left" length="16">Datum:</text>
             <text align="left" length="16">${ticket.printDate()}</text>
@@ -67,7 +62,7 @@
         </line>  
         <line></line>
         #end
-        #if ($place != "")
+        #if ($place)
         <line>
             <text align="left" length="16">Tisch:</text>
             <text align="left" length="16">${place}</text>
@@ -180,32 +175,16 @@
          #if ($paymentline.name == "magcard")
         <line></line>        
         <line>
-            <text bold="true">Mag card</text>
+            <text bold="true">Karte</text>
         </line>   
          <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>
         </line>    
-        <line>
-            <text align ="left" length="12">Number:</text>
-            <text>${paymentline.printCardNumber()}</text>
-        </line>
-        <line>
-            <text align ="left" length="12">Expiration date:</text>
-            <text>${paymentline.printExpirationDate()}</text>
-        </line>
-        <line>
-            <text align ="left" length="12">Operation:</text>
-            <text>${paymentline.printTransactionID()}</text>
-        </line>
-        <line>
-            <text align ="left" length="12">Authorization:</text>
-            <text>${paymentline.printAuthorization()}</text>
-        </line>
          #end  
          #if ($paymentline.name == "magcardrefund")
         <line></line>     
         <line>
-            <text bold="true">Mag card refund</text>
+            <text bold="true">Karte Rückzahlung</text>
         </line>    
         <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>
@@ -214,7 +193,7 @@
          #if ($paymentline.name == "cheque")
         <line></line>     
         <line>
-            <text bold="true">Cheque</text>
+            <text bold="true">Scheck</text>
         </line>    
         <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>
@@ -223,7 +202,7 @@
          #if ($paymentline.name == "chequerefund")
         <line></line>     
         <line>
-            <text bold="true">Cheque refund</text>
+            <text bold="true">Scheck Rückerstattung</text>
         </line>    
         <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>
@@ -232,7 +211,7 @@
          #if ($paymentline.name == "paperin")
         <line></line>     
         <line>
-            <text bold="true">Note</text>
+            <text bold="true">Notiz</text>
         </line>    
         <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>
@@ -241,7 +220,7 @@
          #if ($paymentline.name == "paperout")
         <line></line>     
         <line>
-            <text bold="true">Note Refund</text>
+            <text bold="true">Notiz Rückerstattung</text>
         </line>    
         <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>
@@ -259,7 +238,7 @@
          #if ($paymentline.name == "debt")
         <line></line>     
         <line>
-            <text bold="true">Debt</text>
+            <text bold="true">Kundenkonto</text>
         </line>    
         <line>
             <text align ="right" length="32">${paymentline.printTotal()}</text>

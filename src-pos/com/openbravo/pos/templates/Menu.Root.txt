@@ -38,8 +38,9 @@
 
     submenu = group.addSubmenu("/com/openbravo/images/contents.png", "Menu.SalesManagement", "com.openbravo.pos.forms.MenuSalesManagement");
         submenu.addTitle("Menu.SalesManagement.Reports");
-        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.UserSells", "/com/openbravo/reports/usersales.bs");
-        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.MeansOfPayment", "/com/openbravo/reports/meansofpayment.bs");
+        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.UserSells", "/com/openbravo/reports/usersales.bs");
+        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.MeansOfPayment", "/com/openbravo/reports/meansofpayment.bs");
+        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.Journal", "/com/openbravo/reports/journal.bs");
 
     submenu = group.addSubmenu("/com/openbravo/images/package_settings.png", "Menu.Maintenance", "com.openbravo.pos.forms.MenuMaintenance");
         submenu.addTitle("Menu.Maintenance.POS");        

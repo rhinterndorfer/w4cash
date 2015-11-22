@@ -1,0 +1,120 @@
+//    Openbravo POS is a point of sales application designed for touch screens.
+//    Copyright (C) 2007-2009 Openbravo, S.L.
+//    http://www.openbravo.com/product/pos
+//
+//    This file is part of Openbravo POS.
+//
+//    Openbravo POS is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    Openbravo POS is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
+
+report = new com.openbravo.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.Sales.Reports.Journal");
+report.setReport("/com/openbravo/reports/journal");
+report.setResourceBundle("com/openbravo/reports/journal_messages");
+
+report.setSentence("select " +
+"    * " +
+"from " +
+"( " +
+"select " +
+"		1 as LineType, " +
+"		'Verkauf' as LineTypeDesc, " +
+"		t.TICKETID as ReceiptNo, " +
+"		r.DATENEW as ReceiptDate, " +
+"		case when t.TICKETTYPE=0 then 'Verkauf' when t.TICKETTYPE=1 then 'Retoure' else '' end as ReceiptType, " +
+"		tl.LINE as Line, " +
+"		tl.UNITS as Amount, " +
+"		tl.UNITS * tl.PRICE as PriceNet, " +
+"		p.NAME as Product, " +
+"		ta.RATE * 100 as Tax, " +
+"		tl.UNITS * tl.PRICE * (1+ta.RATE) as PriceGross, "+
+"		cc.HOSTSEQUENCE as ClosedCashSequence, " +
+"		cc.DATESTART as ClosedCashStart, " +
+"		cc.DATEEND as ClosedCashEnd, " +
+"		null as Payment, " +
+"		null as Total " +
+"	from " +
+"	CLOSEDCASH cc" +
+"	inner join " +
+"		RECEIPTS r" +
+"		on cc.MONEY=r.MONEY" +
+"	inner join" +
+"		Tickets t" +
+"		on r.ID=t.ID" +
+"	inner join" +
+"		Ticketlines tl" +
+"		on t.id=tl.TICKET" +
+"	inner join" +
+"		Products p" +
+"		on tl.PRODUCT=p.ID" +
+"	inner join" +
+"		Taxes ta" +
+"		on ta.id=tl.TAXID" +
+" union all" +
+" select " +
+"		2 as LineType, " +
+"		'Zahlung' as LineTypeDesc, " +
+"		t.TICKETID as ReceiptNo, " +
+"		r.DATENEW as ReceiptDate, " +
+"		case when t.TICKETTYPE=0 then 'Verkauf' when t.TICKETTYPE=1 then 'Retoure' else '' end as ReceiptType, " +
+"		null as Line, " +
+"		null as Amount, " +
+"		null as PriceNet, " +
+"		null as Product, " +
+"		null as Tax, " +
+"		null as PriceGross, " +
+"		cc.HOSTSEQUENCE as ClosedCashSequence, " +
+"		cc.DATESTART as ClosedCashStart, " +
+"		cc.DATEEND as ClosedCashEnd, " +
+"		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' else PAYMENT end as Payment, " +
+"		Total " +
+"	from " +
+"	CLOSEDCASH cc " +
+"	inner join " +
+"		RECEIPTS r " +
+"		on cc.MONEY=r.MONEY " +
+"	inner join " +
+"		Tickets t " +
+"		on r.ID=t.ID " +
+"	inner join " +
+"		Payments p " +
+"		on r.id=p.RECEIPT " +
+") " +
+" where ?(QBF_FILTER) " +
+"order by ReceiptNo, LineType, Line ");
+
+report.addParameter("ClosedCashSequence");
+report.addParameter("ClosedCashSequence");
+com.openbravo.pos.reports.JParamsClosedPosInterval filter = new com.openbravo.pos.reports.JParamsClosedPosInterval();
+report.addQBFFilter(filter);
+
+report.addField("LineType", com.openbravo.data.loader.Datas.INT);
+report.addField("LineTypeDesc", com.openbravo.data.loader.Datas.STRING);
+report.addField("ReceiptNo", com.openbravo.data.loader.Datas.INT);
+report.addField("ReceiptDate", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("ReceiptType", com.openbravo.data.loader.Datas.STRING);
+report.addField("Line", com.openbravo.data.loader.Datas.INT);
+report.addField("Amount", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceNet", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("Product", com.openbravo.data.loader.Datas.STRING);
+report.addField("Tax", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceGross", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("ClosedCashSequence", com.openbravo.data.loader.Datas.INT);
+report.addField("ClosedCashStart", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("ClosedCashEnd", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("Payment", com.openbravo.data.loader.Datas.STRING);
+report.addField("Total", com.openbravo.data.loader.Datas.DOUBLE);
+
+report;
+

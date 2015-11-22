@@ -11,6 +11,9 @@
     </display>
     <ticket>
         <line>
+            <text align="center" length="32" bold="true"></text>
+        </line>
+        <line>
             <text align="center" length="32" bold="true">Gasthaus W4</text>
         </line>
         <line>
@@ -23,7 +26,6 @@
             <text align="center" length="32" bold="true">ATU xxxxxxxxx</text>
         </line>
         <line></line>
-        #if (${ticket.ticketType} == 0)
         <line>
             <text align="left" length="16">Bon:</text>
 	    #if (${ticket.getTicketId()} > 0)
@@ -32,13 +34,6 @@
 		<text align="left" length="16">Vorschau</text>
 	    #end
         </line>
-        #end
-        #if (${ticket.ticketType} == 1)
-        <line>
-            <text align="left" length="16">Retour:</text>
-            <text align="left" length="16">${ticket.printId()}</text>
-        </line>
-        #end
         <line>
             <text align="left" length="16">Datum:</text>
             <text align="left" length="16">${ticket.printDate()}</text>
@@ -70,7 +65,7 @@
         </line>  
         <line></line>
         #end
-        #if ($place != "")
+        #if ($place)
         <line>
             <text align="left" length="16">Tisch:</text>
             <text align="left" length="16">${place}</text>

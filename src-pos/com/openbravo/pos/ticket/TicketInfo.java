@@ -41,7 +41,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private static final long serialVersionUID = 2765650092387265178L;
 
     public static final int RECEIPT_NORMAL = 0;
-    public static final int RECEIPT_REFUND = 1;
+    public static final int RECEIPT_REFUND = 0;
     public static final int RECEIPT_PAYMENT = 2;
 
     private static DateFormat m_dateformat = new SimpleDateFormat("hh:mm");

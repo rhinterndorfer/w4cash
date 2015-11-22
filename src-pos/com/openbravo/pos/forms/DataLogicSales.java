@@ -337,9 +337,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         case TicketInfo.RECEIPT_NORMAL:
                             ticket.setTicketId(getNextTicketIndex().intValue());
                             break;
-                        case TicketInfo.RECEIPT_REFUND:
-                            ticket.setTicketId(getNextTicketRefundIndex().intValue());
-                            break;
+                        //case TicketInfo.RECEIPT_REFUND:
+                        //    ticket.setTicketId(getNextTicketIndex().intValue());
+                        //    break;
                         case TicketInfo.RECEIPT_PAYMENT:
                             ticket.setTicketId(getNextTicketPaymentIndex().intValue());
                             break;
