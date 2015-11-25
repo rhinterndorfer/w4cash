@@ -164,19 +164,19 @@ public class JNumberKeys extends javax.swing.JPanel {
 
         setLayout(new java.awt.GridBagLayout());
 
-        setBorder(new javax.swing.border.EmptyBorder(new java.awt.Insets(5, 5, 5, 5)));
+        //setBorder(new javax.swing.border.EmptyBorder(new java.awt.Insets(5, 5, 5, 5)));
         m_jCE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnce.png")));
         m_jCE.setFocusPainted(false);
         m_jCE.setFocusable(false);
-        m_jCE.setMargin(new java.awt.Insets(8, 16, 8, 16));
+      //  m_jCE.setMargin(new java.awt.Insets(8, 16, 8, 16));
         m_jCE.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
+//        gridBagConstraints.weightx = 1.0;
+//        gridBagConstraints.weighty = 1.0;
         add(m_jCE, gridBagConstraints);
 
         m_jMultiply.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnmult.png")));
@@ -337,7 +337,7 @@ public class JNumberKeys extends javax.swing.JPanel {
         m_jKey1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btn1.png")));
         m_jKey1.setFocusPainted(false);
         m_jKey1.setFocusable(false);
-        m_jKey1.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jKey1.setMargin(new java.awt.Insets(0, 0, 0, 0));
         m_jKey1.setRequestFocusEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -345,7 +345,7 @@ public class JNumberKeys extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
         add(m_jKey1, gridBagConstraints);
 
         m_jKey0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btn0.png")));
