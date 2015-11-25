@@ -27,7 +27,7 @@ CREATE TABLE APPLICATIONS (
     PRIMARY KEY (ID)
 );
 INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.40.1');
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.40.2');
 
 CREATE TABLE ROLES (
     ID VARCHAR2(256) NOT NULL,
@@ -102,7 +102,7 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('30', 'Printer.PartialC
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('31', 'ticket.save', 0, $FILE{/com/openbravo/pos/templates/ticket.save.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('32', 'ticket.addline', 0, $FILE{/com/openbravo/pos/templates/ticket.addline.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'ticket.close', 0, $FILE{/com/openbravo/pos/templates/ticket.close.txt});
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'Reports.Address', 0, $FILE{/com/openbravo/pos/templates/reports.address.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('34', 'Reports.Address', 0, $FILE{/com/openbravo/pos/templates/reports.address.txt});
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,
