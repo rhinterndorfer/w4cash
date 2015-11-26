@@ -106,7 +106,8 @@ public class Place implements SerializableRead, java.io.Serializable {
 
 	public void setButtonBounds() {
 		Dimension d = m_btn.getPreferredSize();
-		m_btn.setBounds(m_ix - d.width / 2, m_iy - d.height / 2, d.width, d.height);
+//		m_btn.setBounds(m_ix - d.width / 2, m_iy - d.height / 2, d.width, d.height);
+		m_btn.setBounds(m_ix , m_iy , d.width, d.height);
 	}
 
 	public void setX(int x) {
