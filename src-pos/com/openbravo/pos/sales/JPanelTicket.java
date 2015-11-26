@@ -885,6 +885,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
 
                     paymentdialog.setTransactionID(ticket.getTransactionID());
+                    paymentdialog.setSize(800, 800);
 
                     if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
@@ -1221,9 +1222,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jOptions.setLayout(new java.awt.BorderLayout());
 
         m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        m_jTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+      //  m_jTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jTicketId.setOpaque(true);
-        m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
+        m_jTicketId.setFont(new Font(m_jTicketId.getFont().getName(), Font.PLAIN, 16));
+        m_jTicketId.setPreferredSize(new java.awt.Dimension(100, 100));
         m_jTicketId.setRequestFocusEnabled(false);
         m_jButtons.add(m_jTicketId);
 
@@ -1269,13 +1271,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         m_jPanContainer.add(m_jOptions, java.awt.BorderLayout.NORTH);
 
-        m_jPanTicket.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        m_jPanTicket.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         m_jPanTicket.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
-        jPanel2.setLayout(new java.awt.GridLayout(0, 1, 5, 5));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1,0, 0));
 
         m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
 //        m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow22.png"))); // NOI18N
@@ -1318,7 +1320,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search22.png"))); // NOI18N
         m_jList.setFocusPainted(false);
         m_jList.setFocusable(false);
-        m_jList.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jList.setMargin(new java.awt.Insets(0, 0, 0, 0));
         m_jList.setRequestFocusEnabled(false);
         m_jList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
