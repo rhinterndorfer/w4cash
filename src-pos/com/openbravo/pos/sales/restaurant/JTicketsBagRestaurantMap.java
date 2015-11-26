@@ -159,6 +159,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
             currfloor.getContainer().add(pl.getButton());
             pl.setButtonBounds();
             pl.getButton().addActionListener(new MyActionListener(pl));
+            pl.getButton().setDraggable(false);
         }
         
         // Add the reservations panel

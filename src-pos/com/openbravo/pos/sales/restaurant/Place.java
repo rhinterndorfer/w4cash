@@ -91,7 +91,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		return m_sfloor;
 	}
 
-	public JButton getButton() {
+	public JPlaceButton getButton() {
 		return m_btn;
 	}
 
