@@ -70,6 +70,8 @@
     <class name="/com/openbravo/reports/chartsales.bs"/> 
     <class name="/com/openbravo/reports/productsales.bs"/> 
     <class name="/com/openbravo/reports/meansofpayment.bs"/>
+    <class name="/com/openbravo/reports/productgroups.bs"/>
+    <class name="/com/openbravo/reports/journal.bs"/>
     <class name="Menu.ChangePassword"/>
     <class name="button.print"/>
     <class name="button.opendrawer"/>

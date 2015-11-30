@@ -72,6 +72,7 @@
     <class name="/com/openbravo/reports/productsales.bs"/> 
     <class name="/com/openbravo/reports/meansofpayment.bs"/>
     <class name="/com/openbravo/reports/journal.bs"/>
+    <class name="/com/openbravo/reports/productgroups.bs"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
     <class name="com.openbravo.pos.admin.RolesPanel"/>
