@@ -254,7 +254,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) / 2, 730, 470);
+		
+//		setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) / 2, 730, 470);
+		setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) / 2, 730, 520);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed

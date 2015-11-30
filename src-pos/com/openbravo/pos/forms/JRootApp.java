@@ -627,13 +627,16 @@ public class JRootApp extends JPanel implements AppView {
 		jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		jLabel1.setText("<html><center>"
-				+ "w4cash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>"
-				+ "<br>"
-				+ "w4cash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>"
-				+ "<br>"
-				+ "You should have received a copy of the GNU General Public License along with w4cash.  If not, see http://www.gnu.org/licenses/.<br>"
-				+ "</center>");
+		
+		jLabel1.setText("<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldumsätzen und zur Erstellung von Belegen.</center></html>");
+		
+//		jLabel1.setText("<html><center>"
+//				+ "w4cash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>"
+//				+ "<br>"
+//				+ "w4cash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>"
+//				+ "<br>"
+//				+ "You should have received a copy of the GNU General Public License along with w4cash.  If not, see http://www.gnu.org/licenses/.<br>"
+//				+ "</center>");
 		jLabel1.setAlignmentX(0.5F);
 		jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		jLabel1.setMaximumSize(new java.awt.Dimension(800, 1024));
