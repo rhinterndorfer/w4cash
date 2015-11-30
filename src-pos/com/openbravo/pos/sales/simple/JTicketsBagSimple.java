@@ -34,6 +34,12 @@ public class JTicketsBagSimple extends JTicketsBag {
         initComponents();
     }
     
+    public void ScaleButtons(int btnWidth, int btnHeight)
+    {
+    	ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+    }
+
+    
     public void activate() {
         
         m_panelticket.setActiveTicket(new TicketInfo(), null);

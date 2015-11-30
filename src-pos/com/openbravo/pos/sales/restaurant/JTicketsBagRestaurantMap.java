@@ -167,6 +167,12 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
         add(m_jreservations, "res");
     }
     
+    public void ScaleButtons(int btnWidth, int btnHeight)
+    {
+    	//ScaleButtonIcon(btn, btnWidth, btnHeight);
+    	m_restaurantmap.ScaleButtons(btnWidth, btnHeight);
+    }
+    
     public void activate() {
         
         // precondicion es que no tenemos ticket activado ni ticket en el panel

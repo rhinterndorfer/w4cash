@@ -21,8 +21,12 @@ package com.openbravo.beans;
 
 import java.awt.Color;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 
 public class JNumberKeys extends javax.swing.JPanel {
@@ -38,6 +42,7 @@ public class JNumberKeys extends javax.swing.JPanel {
     public JNumberKeys() {
         initComponents ();
         
+              
         m_jKey0.addActionListener(new MyKeyNumberListener('0'));
         m_jKey1.addActionListener(new MyKeyNumberListener('1'));
         m_jKey2.addActionListener(new MyKeyNumberListener('2'));
@@ -51,11 +56,43 @@ public class JNumberKeys extends javax.swing.JPanel {
         m_jKeyDot.addActionListener(new MyKeyNumberListener('.'));
         m_jMultiply.addActionListener(new MyKeyNumberListener('*'));
         m_jCE.addActionListener(new MyKeyNumberListener('\u007f'));
-        m_jPlus.addActionListener(new MyKeyNumberListener('+'));        
-        m_jMinus.addActionListener(new MyKeyNumberListener('-'));        
+        m_jPlus.addActionListener(new MyKeyNumberListener('+'));
+        m_jMinus.addActionListener(new MyKeyNumberListener('-'));
         m_jEquals.addActionListener(new MyKeyNumberListener('='));
+
+    }
+    
+    public void ScaleButtons(int btnWidth, int btnHeight)
+    {
+        ScaleButtonIcon(m_jEquals, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jMinus, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jPlus, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jCE, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jMultiply, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey9, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey8, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey7, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey6, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey5, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey4, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey3, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey2, btnWidth, btnHeight);
+        ScaleButtonIcon(m_jKey1, btnWidth, btnHeight);
+    	ScaleButtonIcon(m_jKey0, btnWidth, btnHeight);
     }
 
+    private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height)
+    {
+    	if(javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
+        {
+    		javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+    		double radio = icon.getIconWidth() / icon.getIconWidth();
+    		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
+        	btn.setIcon(new javax.swing.ImageIcon(img));
+        }
+    }
+    
     public void setNumbersOnly(boolean value) {
         m_jEquals.setVisible(value);
         m_jMinus.setVisible(value);

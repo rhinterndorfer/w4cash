@@ -45,17 +45,17 @@ public class SessionDBOracle implements SessionDB {
     }
 
     public SentenceFind getSequenceSentence(Session s, String sequence) throws BasicException {
-    	int ticketType;
+    	String ticketType;
     	if("TICKETSNUM".equals(sequence))
-    		ticketType = 0;
+    		ticketType = "0,1";
     	else if("TICKETSNUM_REFUND".equals(sequence))
-    		ticketType = 0;
+    		ticketType = "0,1";
     	else if("TICKETSNUM_PAYMENT".equals(sequence))
-    		ticketType = 2;
+    		ticketType = "2";
 		else
 			throw new BasicException(String.format("Unkwnon sequence string %1", sequence));
     	
-    	String sql=String.format("SELECT TICKETID+1 FROM TICKETS WHERE TICKETTYPE=%1$d AND TICKETID = (SELECT MAX(TICKETID) FROM TICKETS WHERE TICKETTYPE=%1$d) FOR UPDATE", ticketType);
+    	String sql=String.format("SELECT TICKETID+1 FROM TICKETS WHERE TICKETTYPE in (%1$s) AND TICKETID = (SELECT MAX(TICKETID) FROM TICKETS WHERE TICKETTYPE in (%1$s)) FOR UPDATE", ticketType);
     	return new StaticSentence(s, sql, null, SerializerReadInteger.INSTANCE);
     }
 }

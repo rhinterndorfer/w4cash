@@ -133,8 +133,6 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 
 		m_jListCategories.setEnabled(value);
 		m_jscrollcat.setEnabled(value);
-		m_jUp.setEnabled(value);
-		m_jDown.setEnabled(value);
 		m_lblIndicator.setEnabled(value);
 		m_btnBack1.setEnabled(value);
 		m_jProducts.setEnabled(value);
@@ -464,7 +462,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 				m_jUpActionPerformed(evt);
 			}
 		});
-		jPanel3.add(m_jUp);
+		//jPanel3.add(m_jUp);
 
 		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
 		m_jDown.setFocusPainted(false);
@@ -477,9 +475,9 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 				m_jDownActionPerformed(evt);
 			}
 		});
-		jPanel3.add(m_jDown);
+		//jPanel3.add(m_jDown);
 
-		jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
+		//jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
 
 		m_jRootCategories.add(jPanel2, java.awt.BorderLayout.LINE_END);
 

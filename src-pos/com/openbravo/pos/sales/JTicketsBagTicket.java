@@ -79,6 +79,12 @@ public class JTicketsBagTicket extends JTicketsBag {
         m_jPanelTicket.add(m_TP.getDevicePrinter("1").getPrinterComponent(), BorderLayout.CENTER);
     }
     
+    
+    public void ScaleButtons(int btnWidth, int btnHeight)
+    {
+    	// ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+    }
+
     public void activate() {
         
         // precondicion es que no tenemos ticket activado ni ticket en el panel

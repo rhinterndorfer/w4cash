@@ -44,6 +44,13 @@ public class JTicketsBagShared extends JTicketsBag {
         initComponents();
     }
     
+    public void ScaleButtons(int btnWidth, int btnHeight)
+    {
+    	ScaleButtonIcon(m_jNewTicket, btnWidth, btnHeight);
+    	ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+    	ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight);
+    }
+    
     public void activate() {
         
         // precondicion es que no tenemos ticket activado ni ticket en el panel

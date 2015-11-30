@@ -627,7 +627,7 @@ public class JRootApp extends JPanel implements AppView {
 
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		
-		jLabel1.setText("<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldumsätzen und zur Erstellung von Belegen.</center></html>");
+		jLabel1.setText("<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.</center></html>");
 		
 //		jLabel1.setText("<html><center>"
 //				+ "w4cash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>"

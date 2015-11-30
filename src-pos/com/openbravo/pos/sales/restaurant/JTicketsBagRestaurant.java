@@ -19,6 +19,9 @@
 
 package com.openbravo.pos.sales.restaurant;
 
+import java.awt.Color;
+import java.awt.Image;
+
 import javax.swing.*;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
@@ -37,6 +40,24 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		initComponents();
 	}
 
+	public void ScaleButtons(int btnWidth, int btnHeight)
+    {
+		ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+		ScaleButtonIcon(jButton2, btnWidth, btnHeight);
+		ScaleButtonIcon(jButton1, btnWidth, btnHeight);
+    }
+	
+	protected void ScaleButtonIcon(javax.swing.JButton btn, int width, int height)
+    {
+    	if(javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
+        {
+    		javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+    		double radio = icon.getIconWidth() / icon.getIconWidth();
+    		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
+        	btn.setIcon(new javax.swing.ImageIcon(img));
+        }
+    }
+	
 	public void activate() {
 
 		// Authorization
