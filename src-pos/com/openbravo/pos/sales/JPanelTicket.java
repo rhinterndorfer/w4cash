@@ -181,7 +181,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_oTicketExt = null;
 
 		// font size
-		String prop2 = m_jbtnconfig.getProperty("price-font", "32");
+		String prop2 = m_jbtnconfig.getProperty("sales-ticketid-fontsize", "32");
 		Font font = m_jPrice.getFont();
 		m_jPrice.setFont(new Font(font.getName(), font.getStyle(), Integer.parseInt(prop2)));
 		Font font2 = m_jPor.getFont();
