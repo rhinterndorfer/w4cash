@@ -119,7 +119,7 @@ public class JRootApp extends JPanel implements AppView {
 		Boolean bQuestionOK = false;
 		do {
 			sDBVersion = readDataBaseVersion();
-			
+
 			if (sDBVersion == null)
 				sDBVersion = "2.30.2"; // default start version
 
@@ -229,7 +229,7 @@ public class JRootApp extends JPanel implements AppView {
 		printerStart();
 
 		// Inicializamos la bascula
-		m_Scale = new DeviceScale(this, m_props);
+		m_Scale = new DeviceScale(this, this, m_props);
 
 		// Inicializamos la scanpal
 		m_Scanner = DeviceScannerFactory.createInstance(m_props);
@@ -486,7 +486,7 @@ public class JRootApp extends JPanel implements AppView {
 				openAppView(m_actionuser);
 			} else {
 				// comprobemos la clave antes de entrar...
-				String sPassword = JPasswordDialog.showEditPassword(JRootApp.this,
+				String sPassword = JPasswordDialog.showEditPassword(JRootApp.this, JRootApp.this,
 						AppLocal.getIntString("Label.Password"), m_actionuser.getName(), m_actionuser.getIcon());
 				if (sPassword != null) {
 					if (m_actionuser.authenticate(sPassword)) {
@@ -626,16 +626,24 @@ public class JRootApp extends JPanel implements AppView {
 		jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		
-		jLabel1.setText("<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.</center></html>");
-		
-//		jLabel1.setText("<html><center>"
-//				+ "w4cash is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>"
-//				+ "<br>"
-//				+ "w4cash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>"
-//				+ "<br>"
-//				+ "You should have received a copy of the GNU General Public License along with w4cash.  If not, see http://www.gnu.org/licenses/.<br>"
-//				+ "</center>");
+
+		jLabel1.setText(
+				"<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.</center></html>");
+
+		// jLabel1.setText("<html><center>"
+		// + "w4cash is free software: you can redistribute it and/or modify it
+		// under the terms of the GNU General Public License as published by the
+		// Free Software Foundation, either version 3 of the License, or (at
+		// your option) any later version.<br>"
+		// + "<br>"
+		// + "w4cash is distributed in the hope that it will be useful, but
+		// WITHOUT ANY WARRANTY; without even the implied warranty of
+		// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+		// General Public License for more details.<br>"
+		// + "<br>"
+		// + "You should have received a copy of the GNU General Public License
+		// along with w4cash. If not, see http://www.gnu.org/licenses/.<br>"
+		// + "</center>");
 		jLabel1.setAlignmentX(0.5F);
 		jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		jLabel1.setMaximumSize(new java.awt.Dimension(800, 1024));

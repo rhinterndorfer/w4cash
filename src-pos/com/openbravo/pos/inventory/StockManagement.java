@@ -687,7 +687,7 @@ private void jEditAttributesActionPerformed(java.awt.event.ActionEvent evt) {//G
     } else {
         try {
             InventoryLine line = m_invlines.getLine(i);
-            JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(this, m_App.getSession());
+            JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(m_App, this, m_App.getSession());
             attedit.editAttributes(line.getProductAttSetId(), line.getProductAttSetInstId());
             attedit.setVisible(true);
             if (attedit.isOK()) {

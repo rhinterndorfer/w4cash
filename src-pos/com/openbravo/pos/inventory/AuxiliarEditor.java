@@ -48,9 +48,11 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
     
     private Object insertproduct;
 
+	private AppView m_app;
+
     /** Creates new form AuxiliarEditor */
     public AuxiliarEditor(AppView app, DirtyManager dirty) {
-
+    	this.m_app = app;
         m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 
         initComponents();
@@ -252,7 +254,7 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
         m_jSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search.png"))); // NOI18N
         m_jSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jSearchActionPerformed(evt);
+                m_jSearchActionPerformed(m_app, evt);
             }
         });
 
@@ -321,9 +323,9 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void m_jSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jSearchActionPerformed
+    private void m_jSearchActionPerformed(AppView app, java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jSearchActionPerformed
         
-        assignProduct(JProductFinder.showMessage(this, m_dlSales, JProductFinder.PRODUCT_AUXILIAR));
+        assignProduct(JProductFinder.showMessage(app, this, m_dlSales, JProductFinder.PRODUCT_AUXILIAR));
         
 }//GEN-LAST:event_m_jSearchActionPerformed
 

@@ -20,9 +20,12 @@
 package com.openbravo.pos.sales.restaurant;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 
@@ -40,24 +43,24 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		initComponents();
 	}
 
-	public void ScaleButtons(int btnWidth, int btnHeight)
-    {
+	public void ScaleButtons(int btnWidth, int btnHeight) {
 		ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
 		ScaleButtonIcon(jButton2, btnWidth, btnHeight);
 		ScaleButtonIcon(jButton1, btnWidth, btnHeight);
-    }
-	
-	protected void ScaleButtonIcon(javax.swing.JButton btn, int width, int height)
-    {
-    	if(javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
-        {
-    		javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-    		double radio = icon.getIconWidth() / icon.getIconWidth();
-    		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
-        	btn.setIcon(new javax.swing.ImageIcon(img));
-        }
-    }
-	
+	}
+
+	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
+		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
+					Image.SCALE_SMOOTH);
+			ImageIcon icon2 = new javax.swing.ImageIcon(img);
+			btn.setIcon(icon2);
+			
+			btn.setSize(width, height);}
+	}
+
 	public void activate() {
 
 		// Authorization
@@ -103,7 +106,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/redo161.png"))); // NOI18N
 		jButton2.setFocusPainted(false);
 		jButton2.setFocusable(false);
-		jButton2.setMargin(new java.awt.Insets(8, 14, 8, 14));
+
 		jButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		jButton2.setRequestFocusEnabled(false);
 		jButton2.addActionListener(new java.awt.event.ActionListener() {

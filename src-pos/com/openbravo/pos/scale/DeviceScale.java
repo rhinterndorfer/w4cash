@@ -21,6 +21,7 @@ package com.openbravo.pos.scale;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppProperties;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.StringParser;
 import java.awt.Component;
 
@@ -29,7 +30,7 @@ public class DeviceScale {
     private Scale m_scale;
     
     /** Creates a new instance of DeviceScale */
-    public DeviceScale(Component parent, AppProperties props) {
+    public DeviceScale(AppView app, Component parent, AppProperties props) {
         StringParser sd = new StringParser(props.getProperty("machine.scale"));
         String sScaleType = sd.nextToken(':');
         String sScaleParam1 = sd.nextToken(',');
@@ -42,7 +43,7 @@ public class DeviceScale {
         } else if ("fake".equals(sScaleType)) { // a fake scale for debugging purposes
             m_scale = new ScaleFake();            
         } else if ("screen".equals(sScaleType)) { // on screen scale
-            m_scale = new ScaleDialog(parent);
+            m_scale = new ScaleDialog(app, parent);
         } else {
             m_scale = null;
         }

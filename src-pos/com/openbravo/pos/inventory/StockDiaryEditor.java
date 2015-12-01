@@ -585,7 +585,7 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
                 msg.show(this);
         } else {
             try {
-                JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(this, m_App.getSession());
+                JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(m_App, this, m_App.getSession());
                 attedit.editAttributes(attsetid, attsetinstid);
                 attedit.setVisible(true);
                
@@ -619,7 +619,7 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
 
     private void jEditProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEditProductActionPerformed
         
-        assignProduct(JProductFinder.showMessage(this, m_dlSales));
+        assignProduct(JProductFinder.showMessage(m_App, this, m_dlSales));
 
 }//GEN-LAST:event_jEditProductActionPerformed
     

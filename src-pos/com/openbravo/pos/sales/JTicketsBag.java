@@ -22,6 +22,7 @@ package com.openbravo.pos.sales;
 import com.openbravo.pos.sales.simple.JTicketsBagSimple;
 import com.openbravo.pos.forms.*;
 
+import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.*;
@@ -29,47 +30,51 @@ import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.sales.shared.JTicketsBagShared;
 
 public abstract class JTicketsBag extends JPanel {
-    
-    protected AppView m_App;     
-    protected DataLogicSales m_dlSales;
-    protected TicketsEditor m_panelticket;    
-    
-    /** Creates new form JTicketsBag */
-    public JTicketsBag(AppView oApp, TicketsEditor panelticket) {        
-        m_App = oApp;     
-        m_panelticket = panelticket;        
-        m_dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
-    }
-    
-    public abstract void activate();
-    public abstract boolean deactivate();
-    public abstract void deleteTicket();
-    public abstract void ScaleButtons(int btnWidth, int btnHeight);
-    
-    protected abstract JComponent getBagComponent();
-    protected abstract JComponent getNullComponent();
-    
-    
-    public static JTicketsBag createTicketsBag(String sName, AppView app, TicketsEditor panelticket) {
-        
-        if ("standard".equals(sName)) {
-            // return new JTicketsBagMulti(oApp, user, panelticket);
-            return new JTicketsBagShared(app, panelticket);
-        } else if ("restaurant".equals(sName)) {
-            return new JTicketsBagRestaurantMap(app, panelticket);
-        } else { // "simple"
-            return new JTicketsBagSimple(app, panelticket);
-        }
-    }   
-    
-    protected void ScaleButtonIcon(javax.swing.JButton btn, int width, int height)
-    {
-    	if(javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
-        {
-    		javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-    		double radio = icon.getIconWidth() / icon.getIconWidth();
-    		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
-        	btn.setIcon(new javax.swing.ImageIcon(img));
-        }
-    }
+
+	protected AppView m_App;
+	protected DataLogicSales m_dlSales;
+	protected TicketsEditor m_panelticket;
+
+	/** Creates new form JTicketsBag */
+	public JTicketsBag(AppView oApp, TicketsEditor panelticket) {
+		m_App = oApp;
+		m_panelticket = panelticket;
+		m_dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
+	}
+
+	public abstract void activate();
+
+	public abstract boolean deactivate();
+
+	public abstract void deleteTicket();
+
+	public abstract void ScaleButtons(int btnWidth, int btnHeight);
+
+	protected abstract JComponent getBagComponent();
+
+	protected abstract JComponent getNullComponent();
+
+	public static JTicketsBag createTicketsBag(String sName, AppView app, TicketsEditor panelticket) {
+
+		if ("standard".equals(sName)) {
+			// return new JTicketsBagMulti(oApp, user, panelticket);
+			return new JTicketsBagShared(app, panelticket);
+		} else if ("restaurant".equals(sName)) {
+			return new JTicketsBagRestaurantMap(app, panelticket);
+		} else { // "simple"
+			return new JTicketsBagSimple(app, panelticket);
+		}
+	}
+
+	protected void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
+		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
+					Image.SCALE_SMOOTH);
+			btn.setIcon(new javax.swing.ImageIcon(img));
+
+			btn.setSize(width, height);
+		}
+	}
 }

@@ -164,7 +164,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
 
     public class JPaymentCashCreator implements JPaymentCreator {
         public JPaymentInterface createJPayment() {
-            return new JPaymentCashPos(JPaymentSelect.this, dlSystem);
+            return new JPaymentCashPos(app, JPaymentSelect.this, dlSystem);
         }
         public String getKey() { return "payment.cash"; }
         public String getLabelKey() { return "tab.cash"; }
@@ -173,7 +173,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         
     public class JPaymentChequeCreator implements JPaymentCreator {
         public JPaymentInterface createJPayment() {
-            return new JPaymentCheque(JPaymentSelect.this);
+            return new JPaymentCheque(app, JPaymentSelect.this);
         }
         public String getKey() { return "payment.cheque"; }
         public String getLabelKey() { return "tab.cheque"; }
@@ -182,7 +182,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         
     public class JPaymentPaperCreator implements JPaymentCreator {
         public JPaymentInterface createJPayment() {
-            return new JPaymentPaper(JPaymentSelect.this, "paperin");
+            return new JPaymentPaper(app, JPaymentSelect.this, "paperin");
         }
         public String getKey() { return "payment.paper"; }
         public String getLabelKey() { return "tab.paper"; }
@@ -209,7 +209,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         
     public class JPaymentDebtCreator implements JPaymentCreator {
         public JPaymentInterface createJPayment() {
-            return new JPaymentDebt(JPaymentSelect.this);
+            return new JPaymentDebt(app, JPaymentSelect.this);
         }
         public String getKey() { return "payment.debt"; }
         public String getLabelKey() { return "tab.debt"; }
@@ -338,7 +338,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jRemaininglEuros.setRequestFocusEnabled(false);
         jPanel6.add(m_jRemaininglEuros);
 
-        m_jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnplus1.png"))); // NOI18N
+        m_jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnplus.png"))); // NOI18N
         m_jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jButtonAddActionPerformed(evt);

@@ -22,6 +22,7 @@ package com.openbravo.pos.admin;
 import java.awt.Component;
 import javax.swing.*;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.Hashcypher;
 import java.awt.image.BufferedImage;
 import java.util.UUID;
@@ -44,11 +45,13 @@ public class PeopleView extends JPanel implements EditorRecord {
     private DirtyManager m_Dirty;
     
     private SentenceList m_sentrole;
-    private ComboBoxValModel m_RoleModel;  
+    private ComboBoxValModel m_RoleModel;
+	private AppView m_App;  
     
     /** Creates new form PeopleEditor */
-    public PeopleView(DataLogicAdmin dlAdmin, DirtyManager dirty) {
-        initComponents();
+    public PeopleView(AppView app, DataLogicAdmin dlAdmin, DirtyManager dirty) {
+        this.m_App = app;
+    	initComponents();
                 
         // El modelo de roles
         m_sentrole = dlAdmin.getRolesList();
@@ -291,7 +294,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String sNewPassword = Hashcypher.changePassword(this);
+        String sNewPassword = Hashcypher.changePassword(m_App, this);
         if (sNewPassword != null) {
             m_sPassword = sNewPassword;
             m_Dirty.setDirty(true);

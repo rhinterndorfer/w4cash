@@ -21,6 +21,7 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
@@ -42,6 +43,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	SimpleReceipt receiptone;
 	SimpleReceipt receipttwo;
 
+//	private AppView m_App;
+
 	/** Creates new form ReceiptSplit */
 	protected ReceiptSplit(java.awt.Frame parent) {
 		super(parent, true);
@@ -52,21 +55,23 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		super(parent, true);
 	}
 
-	private void init(String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
+	private void init(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
 			TaxesLogic taxeslogic) {
-
+		
+//		this.m_App = app;
+		
 		initComponents();
 		getRootPane().setDefaultButton(m_jButtonOK);
 
-		receiptone = new SimpleReceipt(ticketline, dlSales, dlCustomers, taxeslogic);
+		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic);
 		receiptone.setCustomerEnabled(false);
 		jPanel5.add(receiptone, BorderLayout.CENTER);
 
-		receipttwo = new SimpleReceipt(ticketline, dlSales, dlCustomers, taxeslogic);
+		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic);
 		jPanel3.add(receipttwo, BorderLayout.CENTER);
 	}
 
-	public static ReceiptSplit getDialog(Component parent, String ticketline, DataLogicSales dlSales,
+	public static ReceiptSplit getDialog(AppView app, Component parent, String ticketline, DataLogicSales dlSales,
 			DataLogicCustomers dlCustomers, TaxesLogic taxeslogic) {
 
 		Window window = getWindow(parent);
@@ -79,7 +84,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			myreceiptsplit = new ReceiptSplit((Dialog) window);
 		}
 
-		myreceiptsplit.init(ticketline, dlSales, dlCustomers, taxeslogic);
+		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
 
 		return myreceiptsplit;
 	}

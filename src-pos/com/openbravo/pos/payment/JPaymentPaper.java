@@ -26,6 +26,8 @@ import java.beans.PropertyChangeListener;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.RoundUtils;
 
 public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterface {
@@ -40,7 +42,7 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
     
     
     /** Creates new form JPaymentTicket */
-    public JPaymentPaper(JPaymentNotifier notifier, String sPaper) {
+    public JPaymentPaper(AppView app, JPaymentNotifier notifier, String sPaper) {
         
         m_notifier = notifier;
         m_sPaper = sPaper;
@@ -49,6 +51,10 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         
         m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
         m_jTendered.addEditorKeys(m_jKeys);
+        
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		m_jKeys.ScaleButtons(widht, height);
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
@@ -140,7 +146,7 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         jPanel12.add(jPanel1);
 
         jPanel11.add(jPanel12, java.awt.BorderLayout.NORTH);
-
+        
         add(jPanel11, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
     

@@ -20,6 +20,8 @@ package com.openbravo.pos.mant;
 
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -92,6 +94,10 @@ public class JPlacesBagTicket extends JPlacesBag {
 
 		// Este deviceticket solo tiene una impresora, la de pantalla
 		m_jPanelTicket.add(m_TP.getDevicePrinter("1").getPrinterComponent(), BorderLayout.CENTER);
+
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		m_jKeys.ScaleButtons(widht, height);
 	}
 
 	@Override
@@ -473,7 +479,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 	}// GEN-LAST:event_m_jKeysActionPerformed
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed
-		JTicketsFinder finder = JTicketsFinder.getReceiptFinder(this, m_dlSales, dlCustomers);
+		JTicketsFinder finder = JTicketsFinder.getReceiptFinder(m_App, this, m_dlSales, dlCustomers);
 		finder.setVisible(true);
 		FindTicketsInfo selectedTicket = finder.getSelectedCustomer();
 		if (selectedTicket == null) {

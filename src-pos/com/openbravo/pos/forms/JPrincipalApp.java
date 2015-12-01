@@ -342,7 +342,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
         }
         public void actionPerformed(ActionEvent evt) {
                        
-            String sNewPassword = Hashcypher.changePassword(JPrincipalApp.this, m_appuser.getPassword());
+            String sNewPassword = Hashcypher.changePassword(m_appview, JPrincipalApp.this, m_appuser.getPassword());
             if (sNewPassword != null) {
                 try {
                     

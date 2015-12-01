@@ -23,12 +23,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.RoundUtils;
 import com.openbravo.pos.util.ThumbNailBuilder;
 import java.awt.event.ActionEvent;
@@ -49,7 +51,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
     private double m_dTotal;    
     
     /** Creates new form JPaymentCash */
-    public JPaymentCashPos(JPaymentNotifier notifier, DataLogicSystem dlSystem) {
+    public JPaymentCashPos(AppView app, JPaymentNotifier notifier, DataLogicSystem dlSystem) {
         
         m_notifier = notifier;
         
@@ -70,6 +72,9 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
             }
         }
         
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		m_jKeys.ScaleButtons(widht, height);
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
@@ -231,7 +236,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
         jPanel1.add(jPanel3);
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.NORTH);
-
+        
         add(jPanel2, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
     

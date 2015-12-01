@@ -19,6 +19,8 @@
 
 package com.openbravo.pos.payment;
 
+import com.openbravo.pos.forms.AppView;
+
 /**
  *
  * @author adrianromero
@@ -29,7 +31,7 @@ public class PaymentPanelFac {
     private PaymentPanelFac() {
     }
     
-    public static PaymentPanel getPaymentPanel(String sReader, JPaymentNotifier notifier) {
+    public static PaymentPanel getPaymentPanel(AppView app, String sReader, JPaymentNotifier notifier) {
         
         if ("Intelligent".equals(sReader)) {
             return new PaymentPanelMagCard(new MagCardReaderIntelligent(), notifier);
@@ -38,7 +40,7 @@ public class PaymentPanelFac {
         } else if ("Alternative".equals(sReader)) {
             return new PaymentPanelMagCard(new MagCardReaderAlternative(), notifier);
         } else if ("Keyboard".equals(sReader)) {
-            return new PaymentPanelType(notifier);
+            return new PaymentPanelType(app, notifier);
         } else { // "Not defined
             return new PaymentPanelBasic(notifier);
         }

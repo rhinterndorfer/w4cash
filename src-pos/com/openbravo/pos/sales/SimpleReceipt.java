@@ -24,6 +24,7 @@ import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.customers.JCustomerFinder;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
@@ -44,10 +45,11 @@ public class SimpleReceipt extends javax.swing.JPanel {
     private JTicketLines ticketlines;
     private TicketInfo ticket;
     private Object ticketext;
+	private AppView m_App;
     
     /** Creates new form SimpleReceipt */
-    public SimpleReceipt(String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers, TaxesLogic taxeslogic) {        
-        
+    public SimpleReceipt(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers, TaxesLogic taxeslogic) {        
+        this.m_App = app;
         initComponents();
         
         // dlSystem.getResourceAsXML("Ticket.Line")
@@ -358,7 +360,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
     private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerActionPerformed
         
-        JCustomerFinder finder = JCustomerFinder.getCustomerFinder(this, dlCustomers);
+        JCustomerFinder finder = JCustomerFinder.getCustomerFinder(m_App, this, dlCustomers);
         finder.search(ticket.getCustomer());
         finder.setVisible(true);
         

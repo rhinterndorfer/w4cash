@@ -242,7 +242,7 @@
                     <Component class="javax.swing.JButton" name="m_jList">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/openbravo/images/search22.png"/>
+                          <Image iconType="3" name="/com/openbravo/images/search.png"/>
                         </Property>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>

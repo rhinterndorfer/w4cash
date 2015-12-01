@@ -21,7 +21,9 @@ package com.openbravo.pos.payment;
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.customers.CustomerInfoExt;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.RoundUtils;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
@@ -40,7 +42,7 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
     private double m_dTotal;
 
     /** Creates new form JPaymentDebt */
-    public JPaymentDebt(JPaymentNotifier notifier) {
+    public JPaymentDebt(AppView app, JPaymentNotifier notifier) {
         
         this.notifier = notifier;
         
@@ -48,6 +50,10 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
         
         m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
         m_jTendered.addEditorKeys(m_jKeys);
+        
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		m_jKeys.ScaleButtons(widht, height);
         
     }
     
@@ -255,6 +261,8 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
 
         jPanel2.add(jPanel1, java.awt.BorderLayout.NORTH);
 
+    
+        
         add(jPanel2, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
     

@@ -22,6 +22,9 @@ package com.openbravo.beans;
 import java.awt.*;
 import javax.swing.*;
 
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
+
 public class JPasswordDialog extends javax.swing.JDialog {
     
 	private static final long serialVersionUID = 3513352016805581997L;
@@ -32,17 +35,17 @@ public class JPasswordDialog extends javax.swing.JDialog {
     private String m_sPassword;
         
     /** Creates new form JCalendarDialog */
-    public JPasswordDialog(java.awt.Frame parent, boolean modal) {
+    public JPasswordDialog(AppView app, java.awt.Frame parent, boolean modal) {
         super(parent, modal);            
-        init();
+        init(app);
     }
     /** Creates new form JCalendarDialog */
-    public JPasswordDialog(java.awt.Dialog parent, boolean modal) {
+    public JPasswordDialog(AppView app, java.awt.Dialog parent, boolean modal) {
         super(parent, modal);            
-        init();
+        init(app);
     }    
     
-    private void init() {
+    private void init(AppView app) {
         
         if (m_resources == null) {
             m_resources = new LocaleResources();
@@ -59,6 +62,10 @@ public class JPasswordDialog extends javax.swing.JDialog {
         m_jPanelTitle.setBorder(RoundedBorder.createGradientBorder());
 
         m_sPassword = null;
+        
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width","48"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height","48"));
+		m_jKeys.ScaleButtons(widht, height);
     }
     
     private void setTitle(String title, String message, Icon icon) {
@@ -77,21 +84,21 @@ public class JPasswordDialog extends javax.swing.JDialog {
         }
     }    
     
-    public static String showEditPassword(Component parent, String title) {
-        return showEditPassword(parent, title, null, null);
+    public static String showEditPassword(AppView app, Component parent, String title) {
+        return showEditPassword(app, parent, title, null, null);
     }
-    public static String showEditPassword(Component parent, String title, String message) {
-        return showEditPassword(parent, title, message, null);
+    public static String showEditPassword(AppView app, Component parent, String title, String message) {
+        return showEditPassword(app, parent, title, message, null);
     }
-    public static String showEditPassword(Component parent, String title, String message, Icon icon) {
+    public static String showEditPassword(AppView app, Component parent, String title, String message, Icon icon) {
         
         Window window = getWindow(parent);      
         
         JPasswordDialog myMsg;
         if (window instanceof Frame) { 
-            myMsg = new JPasswordDialog((Frame) window, true);
+            myMsg = new JPasswordDialog(app, (Frame) window, true);
         } else {
-            myMsg = new JPasswordDialog((Dialog) window, true);
+            myMsg = new JPasswordDialog(app, (Dialog) window, true);
         }
         myMsg.setSize(400, 800);
         
@@ -180,6 +187,7 @@ public class JPasswordDialog extends javax.swing.JDialog {
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width), (screenSize.height), 258, 428);
 //        setBounds((screenSize.width-258)/2, (screenSize.height-428)/2, 258, 428);
+     
     }// </editor-fold>//GEN-END:initComponents
     
     /*

@@ -41,6 +41,7 @@ public class JParamsCustomer extends javax.swing.JPanel implements ReportEditorC
     
     private DataLogicCustomers dlCustomers;
     private CustomerInfo currentcustomer;
+	private AppView m_App;
     
     /** Creates new form JParamsCustomer */
     public JParamsCustomer() {
@@ -61,7 +62,8 @@ public class JParamsCustomer extends javax.swing.JPanel implements ReportEditorC
     }
 
     public void init(AppView app) {
-        dlCustomers = (DataLogicCustomers) app.getBean("com.openbravo.pos.customers.DataLogicCustomers");
+       this.m_App = app;
+    	dlCustomers = (DataLogicCustomers) app.getBean("com.openbravo.pos.customers.DataLogicCustomers");
     }
     
     public void activate() throws BasicException {
@@ -125,7 +127,7 @@ public class JParamsCustomer extends javax.swing.JPanel implements ReportEditorC
 
     private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerActionPerformed
 
-        JCustomerFinder finder = JCustomerFinder.getCustomerFinder(this, dlCustomers);
+        JCustomerFinder finder = JCustomerFinder.getCustomerFinder(m_App, this, dlCustomers);
         finder.search(currentcustomer);
         finder.setVisible(true);
         currentcustomer = finder.getSelectedCustomer();

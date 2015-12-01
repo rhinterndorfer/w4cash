@@ -22,8 +22,10 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.CustomerInfoExt;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.RoundUtils;
 
 public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterface {
@@ -34,7 +36,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
     private double m_dTotal;
     
     /** Creates new form JPaymentCash */
-    public JPaymentCheque(JPaymentNotifier notifier) {
+    public JPaymentCheque(AppView app, JPaymentNotifier notifier) {
         
         m_notifier = notifier;
         
@@ -42,6 +44,10 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
         
         m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
         m_jTendered.addEditorKeys(m_jKeys);
+        
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width","48"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height","48"));
+		m_jKeys.ScaleButtons(widht, height);
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
@@ -132,7 +138,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
         m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(150, 25));
         jPanel4.add(m_jMoneyEuros);
         m_jMoneyEuros.setBounds(120, 20, 150, 25);
-
+        
         add(jPanel4, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
     

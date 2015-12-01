@@ -21,6 +21,7 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.data.loader.LocalRes;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -116,6 +117,7 @@ public class JPanelButtons extends javax.swing.JPanel {
     		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
         	btn.setIcon(new javax.swing.ImageIcon(img));
 
+			btn.setSize(width, height);
         }
     }
     

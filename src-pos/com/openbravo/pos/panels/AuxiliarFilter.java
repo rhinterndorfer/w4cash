@@ -46,6 +46,7 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
     private DataLogicSales m_dlSales;
     
     protected EventListenerList listeners = new EventListenerList();
+	private AppView m_app;
 
     /** Creates new form AuxiliarFilter */
     public AuxiliarFilter() {
@@ -54,7 +55,8 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
 
     @Override
     public void init(AppView app) {   
-         m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+        this.m_app = app;
+    	m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
     }
 
     @Override
@@ -206,7 +208,7 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
         search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search.png"))); // NOI18N
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchActionPerformed(evt);
+                searchActionPerformed(m_app, evt);
             }
         });
 
@@ -265,9 +267,9 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
         this.assignProductByReference();
     }//GEN-LAST:event_m_jReference1ActionPerformed
 
-    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+    private void searchActionPerformed(AppView app, java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         
-        assignProduct(JProductFinder.showMessage(this, m_dlSales, JProductFinder.PRODUCT_NORMAL));       
+        assignProduct(JProductFinder.showMessage(app, this, m_dlSales, JProductFinder.PRODUCT_NORMAL));       
         
 }//GEN-LAST:event_searchActionPerformed
 

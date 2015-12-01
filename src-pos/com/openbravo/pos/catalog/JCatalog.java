@@ -87,6 +87,16 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		return this;
 	}
 
+	@Override
+	public void ScaleButtonIcons(int width, int height) {
+		ScaleButtonIcon(m_jUp, width, height);
+		ScaleButtonIcon(m_jDown, width, height);
+		ScaleButtonIcon(m_btnBack1, width, height);
+	}
+	
+	
+	
+	
 	public void showCatalogPanel(String id) {
 
 		if (id == null) {
@@ -165,6 +175,13 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 			}
 		}
 	}
+	
+	public void setCatWidth(int catWidth) {
+		Dimension ms = m_jCategories.getMaximumSize();
+		Dimension ps = m_jCategories.getPreferredSize();
+		m_jCategories.setMaximumSize(new java.awt.Dimension(catWidth, ms.height));
+		m_jCategories.setPreferredSize(new java.awt.Dimension(catWidth, ps.height));
+	}
 
 	protected void fireSelectedProduct(ProductInfoExt prod) {
 		EventListener[] l = listeners.getListeners(ActionListener.class);
@@ -174,6 +191,18 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 				e = new ActionEvent(prod, ActionEvent.ACTION_PERFORMED, prod.getID());
 			}
 			((ActionListener) l[i]).actionPerformed(e);
+		}
+	}
+	
+	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
+		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
+					Image.SCALE_SMOOTH);
+			btn.setIcon(new javax.swing.ImageIcon(img));
+
+			btn.setSize(width, height);
 		}
 	}
 
@@ -329,6 +358,123 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 			cl.show(m_jProducts, "PRODUCT." + id);
 		}
 	}
+	
+	private void initComponents() {
+
+		m_jCategories = new javax.swing.JPanel();
+		m_jRootCategories = new javax.swing.JPanel();
+		m_jscrollcat = new javax.swing.JScrollPane();
+		m_jListCategories = new javax.swing.JList();
+		jPanel2 = new javax.swing.JPanel();
+		jPanel3 = new javax.swing.JPanel();
+		m_jUp = new javax.swing.JButton();
+		m_jDown = new javax.swing.JButton();
+		m_jSubCategories = new javax.swing.JPanel();
+		jPanel4 = new javax.swing.JPanel();
+		m_lblIndicator = new javax.swing.JLabel();
+		jPanel1 = new javax.swing.JPanel();
+		jPanel5 = new javax.swing.JPanel();
+		m_btnBack1 = new javax.swing.JButton();
+		m_jProducts = new javax.swing.JPanel();
+
+		setLayout(new java.awt.BorderLayout());
+
+		m_jCategories.setMaximumSize(new java.awt.Dimension(275, 600));
+		m_jCategories.setPreferredSize(new java.awt.Dimension(275, 600));
+
+		m_jCategories.setLayout(new java.awt.CardLayout());
+
+		m_jRootCategories.setLayout(new java.awt.BorderLayout());
+
+		m_jscrollcat.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		m_jscrollcat.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		m_jListCategories.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		m_jListCategories.setFocusable(false);
+		m_jListCategories.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+			public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+				m_jListCategoriesValueChanged(evt);
+			}
+		});
+		m_jscrollcat.setViewportView(m_jListCategories);
+
+		m_jRootCategories.add(m_jscrollcat, java.awt.BorderLayout.CENTER);
+
+		jPanel2.setLayout(new java.awt.BorderLayout());
+
+		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
+		jPanel3.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
+		m_jUp.setFocusPainted(false);
+		m_jUp.setFocusable(false);
+		// m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		m_jUp.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		m_jUp.setRequestFocusEnabled(false);
+		m_jUp.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jUpActionPerformed(evt);
+			}
+		});
+		// jPanel3.add(m_jUp);
+
+		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
+		m_jDown.setFocusPainted(false);
+		m_jDown.setFocusable(false);
+		// m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		m_jDown.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		m_jDown.setRequestFocusEnabled(false);
+		m_jDown.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jDownActionPerformed(evt);
+			}
+		});
+		// jPanel3.add(m_jDown);
+
+		// jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
+
+		m_jRootCategories.add(jPanel2, java.awt.BorderLayout.LINE_END);
+
+		m_jCategories.add(m_jRootCategories, "rootcategories");
+
+		m_jSubCategories.setLayout(new java.awt.BorderLayout());
+
+		jPanel4.setLayout(new java.awt.BorderLayout());
+
+		m_lblIndicator.setText("jLabel1");
+		jPanel4.add(m_lblIndicator, java.awt.BorderLayout.NORTH);
+
+		m_jSubCategories.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+		jPanel1.setLayout(new java.awt.BorderLayout());
+
+		jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
+		jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
+
+		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow25.png"))); // NOI18N
+//		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/3uparrow2.png"))); // NOI18N
+		m_btnBack1.setFocusPainted(false);
+		m_btnBack1.setFocusable(false);
+		m_btnBack1.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		m_btnBack1.setRequestFocusEnabled(false);
+		m_btnBack1.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_btnBack1ActionPerformed(evt);
+			}
+		});
+		jPanel5.add(m_btnBack1);
+
+		jPanel1.add(jPanel5, java.awt.BorderLayout.NORTH);
+
+		m_jSubCategories.add(jPanel1, java.awt.BorderLayout.LINE_END);
+
+		m_jCategories.add(m_jSubCategories, "subcategories");
+
+		add(m_jCategories, java.awt.BorderLayout.LINE_START);
+
+		m_jProducts.setLayout(new java.awt.CardLayout());
+		add(m_jProducts, java.awt.BorderLayout.CENTER);
+	}// </editor-fold>//GEN-END:initComponents
 
 	private class SelectedAction implements ActionListener {
 		private ProductInfoExt prod;
@@ -390,12 +536,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		}
 	}
 
-	public void setCatWidth(int catWidth) {
-		Dimension ms = m_jCategories.getMaximumSize();
-		Dimension ps = m_jCategories.getPreferredSize();
-		m_jCategories.setMaximumSize(new java.awt.Dimension(catWidth, ms.height));
-		m_jCategories.setPreferredSize(new java.awt.Dimension(catWidth, ps.height));
-	}
+
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -405,121 +546,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 
 	// <editor-fold defaultstate="collapsed" desc="Generated
 	// Code">//GEN-BEGIN:initComponents
-	private void initComponents() {
-
-		m_jCategories = new javax.swing.JPanel();
-		m_jRootCategories = new javax.swing.JPanel();
-		m_jscrollcat = new javax.swing.JScrollPane();
-		m_jListCategories = new javax.swing.JList();
-		jPanel2 = new javax.swing.JPanel();
-		jPanel3 = new javax.swing.JPanel();
-		m_jUp = new javax.swing.JButton();
-		m_jDown = new javax.swing.JButton();
-		m_jSubCategories = new javax.swing.JPanel();
-		jPanel4 = new javax.swing.JPanel();
-		m_lblIndicator = new javax.swing.JLabel();
-		jPanel1 = new javax.swing.JPanel();
-		jPanel5 = new javax.swing.JPanel();
-		m_btnBack1 = new javax.swing.JButton();
-		m_jProducts = new javax.swing.JPanel();
-
-		setLayout(new java.awt.BorderLayout());
-
-		m_jCategories.setMaximumSize(new java.awt.Dimension(275, 600));
-		m_jCategories.setPreferredSize(new java.awt.Dimension(275, 600));
-
-		m_jCategories.setLayout(new java.awt.CardLayout());
-
-		m_jRootCategories.setLayout(new java.awt.BorderLayout());
-
-		m_jscrollcat.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		m_jscrollcat.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-		m_jListCategories.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		m_jListCategories.setFocusable(false);
-		m_jListCategories.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-			public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-				m_jListCategoriesValueChanged(evt);
-			}
-		});
-		m_jscrollcat.setViewportView(m_jListCategories);
-
-		m_jRootCategories.add(m_jscrollcat, java.awt.BorderLayout.CENTER);
-
-		jPanel2.setLayout(new java.awt.BorderLayout());
-
-		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
-		jPanel3.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
-
-		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
-		m_jUp.setFocusPainted(false);
-		m_jUp.setFocusable(false);
-		// m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		m_jUp.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		m_jUp.setRequestFocusEnabled(false);
-		m_jUp.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jUpActionPerformed(evt);
-			}
-		});
-		//jPanel3.add(m_jUp);
-
-		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
-		m_jDown.setFocusPainted(false);
-		m_jDown.setFocusable(false);
-		// m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		m_jDown.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		m_jDown.setRequestFocusEnabled(false);
-		m_jDown.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jDownActionPerformed(evt);
-			}
-		});
-		//jPanel3.add(m_jDown);
-
-		//jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
-
-		m_jRootCategories.add(jPanel2, java.awt.BorderLayout.LINE_END);
-
-		m_jCategories.add(m_jRootCategories, "rootcategories");
-
-		m_jSubCategories.setLayout(new java.awt.BorderLayout());
-
-		jPanel4.setLayout(new java.awt.BorderLayout());
-
-		m_lblIndicator.setText("jLabel1");
-		jPanel4.add(m_lblIndicator, java.awt.BorderLayout.NORTH);
-
-		m_jSubCategories.add(jPanel4, java.awt.BorderLayout.CENTER);
-
-		jPanel1.setLayout(new java.awt.BorderLayout());
-
-		jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
-		jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
-
-		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/3uparrow2.png"))); // NOI18N
-		m_btnBack1.setFocusPainted(false);
-		m_btnBack1.setFocusable(false);
-		m_btnBack1.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		m_btnBack1.setRequestFocusEnabled(false);
-		m_btnBack1.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_btnBack1ActionPerformed(evt);
-			}
-		});
-		jPanel5.add(m_btnBack1);
-
-		jPanel1.add(jPanel5, java.awt.BorderLayout.NORTH);
-
-		m_jSubCategories.add(jPanel1, java.awt.BorderLayout.LINE_END);
-
-		m_jCategories.add(m_jSubCategories, "subcategories");
-
-		add(m_jCategories, java.awt.BorderLayout.LINE_START);
-
-		m_jProducts.setLayout(new java.awt.CardLayout());
-		add(m_jProducts, java.awt.BorderLayout.CENTER);
-	}// </editor-fold>//GEN-END:initComponents
+	
 
 	private void m_jDownActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDownActionPerformed
 
@@ -594,5 +621,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 	private javax.swing.JScrollPane m_jscrollcat;
 	private javax.swing.JLabel m_lblIndicator;
 	// End of variables declaration//GEN-END:variables
+
+	
 
 }
