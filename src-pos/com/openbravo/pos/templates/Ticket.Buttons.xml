@@ -20,7 +20,8 @@
     along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <configuration>
-    <button key="button.print" titlekey="button.print" template="Printer.TicketPreview"/>
+    <button key="button.discountpercent" title="Rabatt %" image="percent.png" code="Script.DiscountPercentLine" />
+    <button key="button.print" title="Vorschau" image="receipt.png" template="Printer.TicketPreview"/>
     <!-- <button key="button.opendrawer" titlekey="button.opendrawer" template="Printer.OpenDrawer"/> -->
     <!-- <event key="ticket.change" code="event.change"/> -->
     <event key="ticket.addline" code="ticket.addline"/>

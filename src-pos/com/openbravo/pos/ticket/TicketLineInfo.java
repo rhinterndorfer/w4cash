@@ -21,6 +21,9 @@ package com.openbravo.pos.ticket;
 
 import java.io.*;
 import com.openbravo.pos.util.StringUtils;
+
+import net.sf.jasperreports.engine.util.Java14BigDecimalHandler;
+
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.SerializableRead;
 import com.openbravo.data.loader.DataWrite;
@@ -276,7 +279,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     }
 
     public double getSubValue() {
-        return price * multiply;
+    	return price * multiply;
     }
 
     public double getTax() {

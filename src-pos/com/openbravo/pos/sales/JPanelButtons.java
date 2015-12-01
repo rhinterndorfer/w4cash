@@ -21,6 +21,7 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.data.loader.LocalRes;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +41,7 @@ import com.openbravo.pos.forms.AppUser;
 import com.openbravo.pos.payment.PaymentPanelType;
 import com.openbravo.pos.util.ThumbNailBuilder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -65,7 +67,7 @@ public class JPanelButtons extends javax.swing.JPanel {
         initComponents();
         
         // Load categories default thumbnail
-        tnbmacro = new ThumbNailBuilder(16, 16, "com/openbravo/images/greenled.png");
+        tnbmacro = new ThumbNailBuilder(100, 100, "com/openbravo/images/greenled.png");
         
         this.panelticket = panelticket;
         posprops = panelticket.dlSystem.getResourceAsProperties(panelticket.m_App.getProperties().getHost() + "/properties");
@@ -91,7 +93,30 @@ public class JPanelButtons extends javax.swing.JPanel {
                 logger.log(Level.WARNING, LocalRes.getIntString("exception.iofile"), eIO);
             }
         }     
+        
+        for(int i=0;i < this.getComponents().length; i++)
+        {
+        	Component c = this.getComponents()[i];
+        
+        	if(JButton.class.isAssignableFrom(c.getClass()))
+        	{
+        		ScaleButtonIcon(JButton.class.cast(c), 
+        				Integer.parseInt(getProperty("button-touchlarge-width", "60")), 
+        				Integer.parseInt(getProperty("button-touchlarge-height", "60")));
+        	}
+        }
+    }
     
+    private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height)
+    {
+    	if(javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
+        {
+    		javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+    		double radio = icon.getIconWidth() / icon.getIconWidth();
+    		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
+        	btn.setIcon(new javax.swing.ImageIcon(img));
+
+        }
     }
     
     public void setPermissions(AppUser user) {
@@ -130,7 +155,7 @@ public class JPanelButtons extends javax.swing.JPanel {
         public void endDocument() throws SAXException {}    
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
-            if ("button".equals(qName)){
+        	if ("button".equals(qName)){
                 
                 
                 // The button title text
@@ -147,6 +172,7 @@ public class JPanelButtons extends javax.swing.JPanel {
                         attributes.getValue("image"), 
                         title);
                 
+               
                  // The template resource or the code resource
                 final String template = attributes.getValue("template");
                 if (template == null) {
@@ -177,6 +203,8 @@ public class JPanelButtons extends javax.swing.JPanel {
                     props.setProperty(qName, valuePOS != null ? valuePOS : value);
                 }
             }
+            
+
         }      
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {}
@@ -189,12 +217,19 @@ public class JPanelButtons extends javax.swing.JPanel {
         public JButtonFunc(String sKey, String sImage, String title) {
             
             setName(sKey);
-            setText(title);
-            setIcon(new ImageIcon(tnbmacro.getThumbNail(panelticket.getResourceAsImage(sImage))));
+            if(sImage == null)
+            	setText(title);
+            
+            java.net.URL resourceURL = getClass().getResource("/com/openbravo/images/" + sImage);
+            if(resourceURL == null)
+            	setIcon(new ImageIcon(tnbmacro.getThumbNail(panelticket.getResourceAsImage(sImage))));
+            else
+            	setIcon(new javax.swing.ImageIcon(resourceURL));
+            
             setFocusPainted(false);
             setFocusable(false);
             setRequestFocusEnabled(false);
-            setMargin(new Insets(8, 14, 8, 14));  
+            setMargin(new Insets(0, 4, 0, 0));  
         }         
     }
     

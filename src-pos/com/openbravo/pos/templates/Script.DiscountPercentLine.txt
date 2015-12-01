@@ -1,0 +1,28 @@
+import com.openbravo.format.Formats;
+import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.ticket.TicketProductInfo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+ 
+//private static Logger logger = Logger.getLogger("com.openbravo.pos.sales.JPanelButtons");
+
+discountamount = sales.getPorValue();
+index = sales.getSelectedIndex();
+
+
+if (index >= 0) {
+    line = ticket.getLine(index);
+
+//    logger.log(Level.WARNING, java.lang.Double.toString(discountamount));
+//    logger.log(Level.WARNING, java.lang.Double.toString(line.getPrice()));
+
+    if (line.getPrice() > 0.0 && discountamount > 0.0) { 
+        sdiscount = Formats.DOUBLE.formatValue(discountamount);
+	line.setPrice(line.getPrice() * (1 - discountamount / 100));
+	line.setProperty("product.name", line.getProductName() + " -" + sdiscount + "%");
+    } else {  
+         java.awt.Toolkit.getDefaultToolkit().beep();  
+    }
+} else {
+    java.awt.Toolkit.getDefaultToolkit().beep();  
+}

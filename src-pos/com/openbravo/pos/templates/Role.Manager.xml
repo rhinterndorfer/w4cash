@@ -75,4 +75,5 @@
     <class name="Menu.ChangePassword"/>
     <class name="button.print"/>
     <class name="button.opendrawer"/>
+    <class name="button.discountpercent" />
 </permissions>

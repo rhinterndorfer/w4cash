@@ -158,7 +158,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		JComponent bagNull = m_ticketsbag.getNullComponent();
 		add(bagNull, "null");
 		
-				
 		
 		// Los botones configurables...
 		m_jbtnconfig = new JPanelButtons("Ticket.Buttons", this);
@@ -1244,8 +1243,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 
 		public double getInputValue() {
-			if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
+			if (m_iNumberStatusInput == NUMBERVALID) {
 				return JPanelTicket.this.getInputValue();
+			} else {
+				return 0.0;
+			}
+		}
+		
+		public double getPorValue() {
+			if (m_iNumberStatusPor == NUMBERVALID) {
+				return JPanelTicket.this.getPorValue();
 			} else {
 				return 0.0;
 			}
