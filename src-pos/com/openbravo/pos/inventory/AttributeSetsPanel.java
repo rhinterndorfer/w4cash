@@ -67,4 +67,10 @@ public class AttributeSetsPanel extends JPanelTable2 {
     public String getTitle() {
         return AppLocal.getIntString("Menu.AttributeSets");
     }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}
 }

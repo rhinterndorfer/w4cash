@@ -151,5 +151,11 @@ public class RolesView extends javax.swing.JPanel implements EditorRecord {
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextArea m_jText;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

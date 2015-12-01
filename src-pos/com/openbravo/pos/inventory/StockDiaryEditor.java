@@ -42,7 +42,10 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.catalog.JCatalog;
 import com.openbravo.pos.panels.JProductFinder;
 import com.openbravo.pos.sales.JProductAttEdit;
+import com.openbravo.pos.scale.Scale;
 import com.openbravo.pos.ticket.ProductInfoExt;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.Dimension;
 
 /**
@@ -107,6 +110,8 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
         m_jprice.getDocument().addDocumentListener(dirty);
          
         writeValueEOF();
+        
+        ScaleButtons();
     }
     
     public void activate() throws BasicException {
@@ -650,5 +655,14 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
     private javax.swing.JTextField m_jreference;
     private javax.swing.JTextField m_junits;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+
+		PropertyUtil.ScaleButtonIcon(jEditAttributes, menuwidth, menuheight);
+	}
     
 }

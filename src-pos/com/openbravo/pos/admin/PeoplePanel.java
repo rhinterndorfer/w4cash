@@ -82,5 +82,11 @@ public class PeoplePanel extends JPanelTable {
     }      
     public String getTitle() {
         return AppLocal.getIntString("Menu.Users");
-    }     
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}     
 }

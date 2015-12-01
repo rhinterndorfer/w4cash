@@ -366,5 +366,11 @@ public class ThirdPartiesView extends javax.swing.JPanel implements EditorRecord
     private javax.swing.JTextField m_jPhoneNumber;
     private javax.swing.JTextField m_jWebPage;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

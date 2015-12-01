@@ -28,6 +28,7 @@ import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.StringUtils;
 import java.awt.Component;
 import java.util.List;
@@ -48,10 +49,12 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
     private ComboBoxValModel m_CategoryModel;
     
     private DirtyManager m_Dirty;
+
+	private AppView m_App;
         
     /** Creates new form CustomersView */
     public CustomersView(AppView app, DirtyManager dirty) {
-        
+        this.m_App = app;
         DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
         
         initComponents();
@@ -822,5 +825,15 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
     private javax.swing.JTextField txtPostal;
     private javax.swing.JTextField txtRegion;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+	public void ScaleButtons() {
+
+		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+
+//		PropertyUtil.ScaleButtonIcon(m_jSearch, menuwidth, menuheight);
+	}
     
 }

@@ -88,5 +88,10 @@ public class CustomersPanel extends JPanelTable {
     
     public String getTitle() {
         return AppLocal.getIntString("Menu.CustomersManagement");
-    }    
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		
+	}    
 }

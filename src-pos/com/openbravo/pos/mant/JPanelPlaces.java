@@ -96,4 +96,10 @@ public class JPanelPlaces extends JPanelTable {
 	public BrowsableEditableData getBrowseableData() {
 		return this.bd;
 	}
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}
 }

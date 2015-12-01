@@ -87,5 +87,11 @@ public class ResourcesPanel extends JPanelTable {
     
     public String getTitle() {
         return AppLocal.getIntString("Menu.Resources");
-    }        
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}        
 }

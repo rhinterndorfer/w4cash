@@ -492,6 +492,12 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		return m_aplaces.get(index);
 	}
 
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	// private javax.swing.JButton m_jbtnRefresh;
 	// private javax.swing.JButton m_jbtnReservations;
 

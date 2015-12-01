@@ -488,4 +488,11 @@ public class JTicketsBagTicket extends JTicketsBag {
 	private javax.swing.JLabel m_jTicketId;
 	// End of variables declaration//GEN-END:variables
 
+	private void ScaleButtons() {
+		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+
+		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight);
+	}
 }

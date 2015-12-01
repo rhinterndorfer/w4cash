@@ -780,5 +780,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JTextField m_jstockvolume;
     private javax.swing.JTextArea txtAttributes;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

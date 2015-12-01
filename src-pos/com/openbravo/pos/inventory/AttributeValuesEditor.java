@@ -150,5 +150,11 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
     private javax.swing.JTextField jValue;
     // End of variables declaration//GEN-END:variables
 
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

@@ -88,5 +88,11 @@ public class TaxPanel extends JPanelTable {
         
     public String getTitle() {
         return AppLocal.getIntString("Menu.Taxes");
-    }     
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}     
 }

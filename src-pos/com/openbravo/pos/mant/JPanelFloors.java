@@ -79,5 +79,10 @@ public class JPanelFloors extends JPanelTable {
     
     public String getTitle() {
         return AppLocal.getIntString("Menu.Floors");
-    }     
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		
+	}     
 }

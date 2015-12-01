@@ -179,5 +179,11 @@ public class ProductsWarehouseEditor extends javax.swing.JPanel implements Edito
     private javax.swing.JTextField m_jQuantity;
     private javax.swing.JLabel m_jTitle;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

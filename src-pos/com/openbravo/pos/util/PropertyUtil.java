@@ -1,5 +1,6 @@
 package com.openbravo.pos.util;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -154,6 +155,18 @@ public class PropertyUtil {
 
 		@Override
 		public void characters(char[] ch, int start, int length) throws SAXException {
+		}
+	}
+
+	public static void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
+		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
+					Image.SCALE_SMOOTH);
+			btn.setIcon(new javax.swing.ImageIcon(img));
+
+			btn.setSize(width, height);
 		}
 	}
 }

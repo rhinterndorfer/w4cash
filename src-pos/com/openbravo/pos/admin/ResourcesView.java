@@ -274,5 +274,11 @@ public class ResourcesView extends JPanel implements EditorRecord {
     private javax.swing.JTextArea m_jText;
     private javax.swing.JComboBox m_jType;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

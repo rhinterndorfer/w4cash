@@ -129,4 +129,10 @@ public class AttributeSetsEditor extends javax.swing.JPanel implements EditorRec
     private javax.swing.JTextField m_jName;
     // End of variables declaration//GEN-END:variables
 
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -113,4 +113,10 @@ public class AttributeUsePanel extends JPanelTable2 {
             }
         }
     }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}
 }

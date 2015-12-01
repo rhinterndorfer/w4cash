@@ -201,5 +201,11 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
     private javax.swing.JTextField jLineno;
     // End of variables declaration//GEN-END:variables
 
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

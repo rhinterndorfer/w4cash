@@ -277,4 +277,10 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	private javax.swing.JComboBox m_jreason;
 	// End of variables declaration//GEN-END:variables
 
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

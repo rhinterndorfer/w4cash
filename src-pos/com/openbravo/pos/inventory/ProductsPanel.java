@@ -111,5 +111,11 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
     } 
     
     public void updateValue(Object value) {
-    }    
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}    
 }

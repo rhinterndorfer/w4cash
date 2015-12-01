@@ -96,8 +96,20 @@ public class JPlacesBagTicket extends JPlacesBag {
 		m_jPanelTicket.add(m_TP.getDevicePrinter("1").getPrinterComponent(), BorderLayout.CENTER);
 
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
+
+		ScaleButtons(-1, -1);
+	}
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+
+		ScaleButtonIcon(jButton2, menuwidth, menuheight);
 	}
 
 	@Override

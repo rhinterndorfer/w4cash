@@ -76,5 +76,11 @@ public class RolesPanel extends JPanelTable {
     
     public String getTitle() {
         return AppLocal.getIntString("Menu.Roles");
-    }        
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}        
 }

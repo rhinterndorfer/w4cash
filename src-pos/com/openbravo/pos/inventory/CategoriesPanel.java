@@ -77,5 +77,11 @@ public class CategoriesPanel extends JPanelTable {
     
     public String getTitle() {
         return AppLocal.getIntString("Menu.Categories");
-    }        
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}        
 }

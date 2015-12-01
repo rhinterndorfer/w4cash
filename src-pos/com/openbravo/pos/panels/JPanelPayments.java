@@ -59,5 +59,11 @@ public class JPanelPayments extends JPanelTable {
     
     public String getTitle() {
         return AppLocal.getIntString("Menu.Payments");
-    }    
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	}    
 }

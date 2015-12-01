@@ -67,5 +67,11 @@ public class StockDiaryPanel extends JPanelTable {
     public void activate() throws BasicException {
         jeditor.activate(); // primero activo el editor 
         super.activate();   // segundo activo el padre        
-    } 
+    }
+
+	@Override
+	public void ScaleButtons(int btnWidth, int btnHeight) {
+		// TODO Auto-generated method stub
+		
+	} 
 }
