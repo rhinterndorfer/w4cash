@@ -100,6 +100,12 @@ public class JParamsComposed extends javax.swing.JPanel implements ReportEditorC
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
     }// </editor-fold>//GEN-END:initComponents
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

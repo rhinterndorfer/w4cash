@@ -44,6 +44,7 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.util.JRViewer300;
+import com.openbravo.pos.util.PropertyUtil;
 
 public abstract class JPanelReport extends JPanel implements JPanelView, BeanFactoryApp {
 
@@ -104,6 +105,8 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 			msg.show(this);
 			jr = null;
 		}
+		
+		ScaleButtons();
 	}
 
 	public Object getBean() {
@@ -164,7 +167,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 				// Parametros y los datos
 				Object params = (editor == null) ? null : editor.createValue();
 				BaseSentence sentence = getSentence();
-				
+
 				JRDataSource data = new JRDataSourceBasic(sentence, getReportFields(), params);
 
 				// Construyo el mapa de los parametros.
@@ -284,6 +287,14 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 	private javax.swing.JPanel jPanelFilter;
 	private javax.swing.JPanel jPanelHeader;
 	private javax.swing.JToggleButton jToggleFilter;
-	// End of variables declaration//GEN-END:variables
 
+	// End of variables declaration//GEN-END:variables
+	public void ScaleButtons() {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
+	}
 }

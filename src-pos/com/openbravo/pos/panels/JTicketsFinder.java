@@ -64,7 +64,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	private FindTicketsInfo selectedTicket;
 
 	private AppView app;
-	
+
 	/** Creates new form JCustomerFinder */
 	private JTicketsFinder(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -96,7 +96,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 	private void init(AppView app, DataLogicSales dlSales, DataLogicCustomers dlCustomers) {
 		this.app = app;
-		
+
 		this.dlSales = dlSales;
 		this.dlCustomers = dlCustomers;
 
@@ -121,8 +121,11 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		selectedTicket = null;
 
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
+
+		ScaleButtons();
 	}
 
 	public void executeSearch() {
@@ -155,6 +158,16 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		catlist.add(0, null);
 		m_CategoryModel = new ComboBoxValModel(catlist);
 		jcboUser.setModel(m_CategoryModel);
+	}
+
+	@Override
+	public void ScaleButtons() {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
 	}
 
 	private void defaultValues() {
@@ -678,4 +691,5 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	private javax.swing.JLabel labelCustomer;
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	// End of variables declaration//GEN-END:variables
+
 }

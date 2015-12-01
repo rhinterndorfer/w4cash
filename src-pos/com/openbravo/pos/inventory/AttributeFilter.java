@@ -132,4 +132,10 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

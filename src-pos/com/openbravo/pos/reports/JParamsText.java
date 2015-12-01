@@ -167,5 +167,11 @@ public class JParamsText extends javax.swing.JPanel implements ReportEditorCreat
     private javax.swing.JLabel lblField;
     private javax.swing.JTextField txtField;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

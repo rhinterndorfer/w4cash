@@ -190,5 +190,11 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
     private com.openbravo.editor.JEditorString m_jtxtBarCode;
     private com.openbravo.editor.JEditorString m_jtxtName;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

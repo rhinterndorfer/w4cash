@@ -43,6 +43,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 	private CustomerInfo selectedCustomer;
 	private ListProvider lpr;
+	private AppView m_App;
 
 	/** Creates new form JCustomerFinder */
 	private JCustomerFinder(java.awt.Frame parent, boolean modal) {
@@ -73,6 +74,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	}
 
 	private void init(AppView app, DataLogicCustomers dlCustomers) {
+		this.m_App = app;
 
 		initComponents();
 
@@ -97,7 +99,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		selectedCustomer = null;
 
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
 	}
 
@@ -444,4 +447,14 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	private com.openbravo.editor.JEditorString m_jtxtSearchKey;
 	private com.openbravo.editor.JEditorString m_jtxtTaxID;
 	// End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+	}
 }

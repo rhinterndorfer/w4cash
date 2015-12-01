@@ -133,5 +133,11 @@ public class JParamsLocation extends javax.swing.JPanel implements ReportEditorC
     private javax.swing.JLabel jLabel8;
     private javax.swing.JComboBox m_jLocation;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

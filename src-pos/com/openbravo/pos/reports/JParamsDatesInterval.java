@@ -158,6 +158,11 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
     private javax.swing.JTextField jTxtEndDate;
     private javax.swing.JTextField jTxtStartDate;
     // End of variables declaration//GEN-END:variables
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
 

@@ -101,5 +101,11 @@ public class JParamsReason extends javax.swing.JPanel implements ReportEditorCre
     private javax.swing.JLabel jLabel2;
     private javax.swing.JComboBox m_jreason;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

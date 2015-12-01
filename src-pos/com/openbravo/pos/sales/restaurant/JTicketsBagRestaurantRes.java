@@ -139,6 +139,12 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 																									// ni
 																									// segundos.
 		}
+
+		@Override
+		public void ScaleButtons() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	public void activate() {

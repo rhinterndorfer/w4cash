@@ -251,5 +251,11 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
     private javax.swing.JTextField m_jPriceBuy;
     private javax.swing.JTextField m_jPriceSell;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

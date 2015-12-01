@@ -32,6 +32,7 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.scale.Scale;
 
 /**
  *
@@ -41,6 +42,7 @@ public class JProductFinder extends javax.swing.JDialog {
 
 	private ProductInfoExt m_ReturnProduct;
 	private ListProvider lpr;
+	private AppView m_App;
 
 	public final static int PRODUCT_ALL = 0;
 	public final static int PRODUCT_NORMAL = 1;
@@ -57,7 +59,7 @@ public class JProductFinder extends javax.swing.JDialog {
 	}
 
 	private ProductInfoExt init(AppView app, DataLogicSales dlSales, int productsType) {
-
+		this.m_App = app;
 		initComponents();
 
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
@@ -90,6 +92,8 @@ public class JProductFinder extends javax.swing.JDialog {
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
 
+		ScaleButtons();
+		
 		// show();
 		setVisible(true);
 
@@ -296,5 +300,13 @@ public class JProductFinder extends javax.swing.JDialog {
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	private javax.swing.JPanel m_jProductSelect;
 	// End of variables declaration//GEN-END:variables
+	
+	public void ScaleButtons() {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
 
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+	}
 }

@@ -19,6 +19,11 @@
 
 package com.openbravo.pos.forms;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,23 +62,24 @@ public class StartPOS {
 		}
 	}
 
-//	static BasicService basicService = null;
-//
-//	public static boolean javaWebStart() {
-//		try {
-//			basicService = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
-//
-//			URL url = new URL("http://www.hb-softsolution.com");
-//			basicService.showDocument(url);
-//		} catch (UnavailableServiceException e) {
-//			System.err.println("Lookup failed: " + e);
-//			return false;
-//		} catch (MalformedURLException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//		return true;
-//	}
+	// static BasicService basicService = null;
+	//
+	// public static boolean javaWebStart() {
+	// try {
+	// basicService = (BasicService)
+	// ServiceManager.lookup("javax.jnlp.BasicService");
+	//
+	// URL url = new URL("http://www.hb-softsolution.com");
+	// basicService.showDocument(url);
+	// } catch (UnavailableServiceException e) {
+	// System.err.println("Lookup failed: " + e);
+	// return false;
+	// } catch (MalformedURLException e) {
+	// e.printStackTrace();
+	// return false;
+	// }
+	// return true;
+	// }
 
 	public static void main(final String args[]) {
 
@@ -83,6 +89,8 @@ public class StartPOS {
 				if (!registerApp()) {
 					System.exit(1);
 				}
+
+				doLicense();
 
 				AppConfig config = new AppConfig(args);
 				config.load();
@@ -118,7 +126,7 @@ public class StartPOS {
 					logger.log(Level.WARNING, "Cannot set look and feel", e);
 				}
 
-//				boolean started = javaWebStart();
+				// boolean started = javaWebStart();
 				// if (!started) {
 				// return;
 				// }
@@ -130,6 +138,47 @@ public class StartPOS {
 				} else {
 					JRootFrame rootframe = new JRootFrame();
 					rootframe.initFrame(config);
+				}
+			}
+
+			private void doLicense() {
+				File license = new File("w4cash.sha1");
+				File hashing = new File("start.bat");
+
+				// match localfile with uploaded file
+				InputStream inTarget = null;
+				InputStream inTargetSha1 = null;
+				try {
+					try {
+						inTarget = new FileInputStream(hashing);
+						inTargetSha1 = new FileInputStream(license);
+						W4CashSha1 sha1 = new W4CashSha1();
+						// validate
+						boolean isSha1 = sha1.validateSha(inTarget, inTargetSha1,
+								"" + W4CashSha1.readCreationDate(hashing));
+						if (!isSha1) {
+							throw new NoSuchAlgorithmException("License is not working!");
+						}
+					} catch (NoSuchAlgorithmException e) {
+						throw new IOException(e);
+					} finally {
+						if (inTarget != null) {
+							try {
+								inTarget.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+						if (inTargetSha1 != null) {
+							try {
+								inTargetSha1.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				} catch (IOException e) {
+					System.exit(0);
 				}
 			}
 		});
