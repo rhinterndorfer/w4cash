@@ -178,6 +178,8 @@ public class StartPOS {
 						}
 					}
 				} catch (IOException e) {
+					// TODO: ERROR DIALOG
+					e.printStackTrace();
 					System.exit(0);
 				}
 			}

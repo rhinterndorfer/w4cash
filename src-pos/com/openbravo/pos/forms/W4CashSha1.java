@@ -131,6 +131,6 @@ public class W4CashSha1 {
 	public static long readCreationDate(File file) throws IOException {
 		Path p = Paths.get(file.toURI());
 		BasicFileAttributes view = Files.getFileAttributeView(p, BasicFileAttributeView.class).readAttributes();
-		return view.creationTime().toMillis();
+		return view.lastModifiedTime().toMillis();
 	}
 }
