@@ -118,7 +118,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator());
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
-			c = new JSaver(bd);
+			c = new JSaver(this.app, bd);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
 		}

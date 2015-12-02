@@ -120,7 +120,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jToolbar.add(new JLabelDirty(m_Dirty));
 		m_jToolbar.add(new JCounter(m_bd));
 		m_jToolbar.add(new JNavigator(m_App, m_bd));
-		m_jToolbar.add(new JSaver(m_bd));
+		m_jToolbar.add(new JSaver(m_App, m_bd));
 
 		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width","48"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height","48"));

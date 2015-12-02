@@ -111,6 +111,7 @@ public class JPanelSQL extends JPanel implements JPanelView {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
 
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight);
 	}
 
 	public JComponent getComponent() {

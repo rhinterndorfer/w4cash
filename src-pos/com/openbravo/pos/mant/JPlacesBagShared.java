@@ -20,6 +20,8 @@
 package com.openbravo.pos.mant;
 
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.util.*;
 import javax.swing.*;
 
@@ -261,8 +263,12 @@ public class JPlacesBagShared extends JPlacesBag {
 
 	@Override
 	public void ScaleButtons(int btnWidth, int btnHeight) {
-		// TODO Auto-generated method stub
-		
+		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+
+		ScaleButtonIcon(m_jDelTicket, width, height);
+		ScaleButtonIcon(m_jListTickets, width, height);
+		ScaleButtonIcon(m_jNewTicket, width, height);
 	}
 
 }
