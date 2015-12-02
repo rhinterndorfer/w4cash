@@ -32,4 +32,4 @@ UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Menu.Root.txt} W
 -- final script
 
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
-UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.4' WHERE ID = 'w4cashdb';
+UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.3' WHERE ID = 'w4cashdb';

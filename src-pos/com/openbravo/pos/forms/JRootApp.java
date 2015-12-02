@@ -121,13 +121,13 @@ public class JRootApp extends JPanel implements AppView {
 			sDBVersion = readDataBaseVersion();
 
 			if (sDBVersion == null)
-				sDBVersion = "2.30.2"; // default start version
+				sDBVersion = "create"; // default start version
 
 			if (!AppLocal.APP_VERSION.equals(sDBVersion)) {
 
 				// Create or upgrade database
 
-				String sScript = sDBVersion == null ? m_dlSystem.getInitScript() + "-create.sql"
+				String sScript = sDBVersion.equals("create") ? m_dlSystem.getInitScript() + "-create.sql"
 						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
 
 				if (JRootApp.class.getResource(sScript) == null) {
