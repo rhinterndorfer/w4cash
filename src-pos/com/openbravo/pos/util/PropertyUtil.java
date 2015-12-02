@@ -32,10 +32,15 @@ public class PropertyUtil {
 
 	public static String getProperty(AppView app, String sProperty, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
-		return getProperty(app, dlSystem, sProperty, key);
+		String value = getProperty(app, dlSystem, sProperty, key);
+		if (value == null) {
+			value = defaultValue;
+		}
+
+		return value;
 	}
 
-	public static String getProperty(AppView app, DataLogicSystem dlSystem, String sProperty, String key) {
+	private static String getProperty(AppView app, DataLogicSystem dlSystem, String sProperty, String key) {
 		// Properties property =
 		// dlSystem.getResourceAsProperties(app.getProperties().getHost() +
 		// "/properties");
