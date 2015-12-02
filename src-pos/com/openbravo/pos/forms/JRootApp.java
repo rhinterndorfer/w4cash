@@ -122,8 +122,6 @@ public class JRootApp extends JPanel implements AppView {
 
 			if (sDBVersion == null)
 				sDBVersion = "create"; // default start version
-			// if (sDBVersion == null)
-			// sDBVersion = "2.30.2"; // default start version
 
 			if (!AppLocal.APP_VERSION.equals(sDBVersion)) {
 
