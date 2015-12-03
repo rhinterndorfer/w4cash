@@ -112,6 +112,9 @@ public class JPanelSQL extends JPanel implements JPanelView {
 
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
 		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(m_jForward, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(m_jBack, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(m_jtabdelete, menuwidth, menuheight);
 	}
 
 	public JComponent getComponent() {

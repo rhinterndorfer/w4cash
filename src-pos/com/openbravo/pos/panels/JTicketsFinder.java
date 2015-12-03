@@ -166,7 +166,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
 		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
 	}
 
@@ -493,7 +493,11 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
+		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reset.png"))); // NOI18N
 		jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
+		jButton1.setFocusPainted(false);
+		jButton1.setFocusable(false);
+		jButton1.setRequestFocusEnabled(false);
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
@@ -501,7 +505,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		});
 		jPanel6.add(jButton1);
 
-		jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launch.png"))); // NOI18N
+		jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launchfilter.png"))); // NOI18N
 		jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
 		jButton3.setFocusPainted(false);
 		jButton3.setFocusable(false);

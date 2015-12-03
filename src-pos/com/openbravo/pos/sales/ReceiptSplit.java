@@ -25,6 +25,8 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dialog;
@@ -43,7 +45,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	SimpleReceipt receiptone;
 	SimpleReceipt receipttwo;
 
-//	private AppView m_App;
+	private AppView m_App;
+
+	// private AppView m_App;
 
 	/** Creates new form ReceiptSplit */
 	protected ReceiptSplit(java.awt.Frame parent) {
@@ -57,9 +61,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 	private void init(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
 			TaxesLogic taxeslogic) {
-		
-//		this.m_App = app;
-		
+
+		this.m_App = app;
+
 		initComponents();
 		getRootPane().setDefaultButton(m_jButtonOK);
 
@@ -69,6 +73,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic);
 		jPanel3.add(receipttwo, BorderLayout.CENTER);
+
+		ScaleButtons();
 	}
 
 	public static ReceiptSplit getDialog(AppView app, Component parent, String ticketline, DataLogicSales dlSales,
@@ -259,8 +265,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		
-//		setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) / 2, 730, 470);
+
+		// setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) /
+		// 2, 730, 470);
 		setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) / 2, 730, 520);
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -328,5 +335,16 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
 	// End of variables declaration//GEN-END:variables
+
+	private void ScaleButtons() {
+		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+
+		PropertyUtil.ScaleButtonIcon(jBtnToLeftAll, width, height);
+		PropertyUtil.ScaleButtonIcon(jBtnToLeftOne, width, height);
+		PropertyUtil.ScaleButtonIcon(jBtnToRightAll, width, height);
+		PropertyUtil.ScaleButtonIcon(jBtnToRightOne, width, height);
+	}
 
 }

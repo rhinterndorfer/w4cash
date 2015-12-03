@@ -105,7 +105,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 			msg.show(this);
 			jr = null;
 		}
-		
+
 		ScaleButtons();
 	}
 
@@ -244,10 +244,10 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
 		jToggleFilter
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
 		jToggleFilter.setSelected(true);
 		jToggleFilter.setSelectedIcon(
-				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow.png"))); // NOI18N
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
 		jToggleFilter.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleFilterActionPerformed(evt);
@@ -296,5 +296,6 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
 
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(jToggleFilter, menuwidth, menuheight);
 	}
 }

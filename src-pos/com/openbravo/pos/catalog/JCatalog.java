@@ -79,7 +79,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		m_jListCategories.addListSelectionListener(this);
 		m_jscrollcat.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 
-		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/folder_yellow.png");
+		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/bag.png");
 		tnbbutton = new ThumbNailBuilder(widthProduct, heightProduct, "com/openbravo/images/package.png");
 	}
 
@@ -92,6 +92,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		ScaleButtonIcon(m_jUp, width, height);
 		ScaleButtonIcon(m_jDown, width, height);
 		ScaleButtonIcon(m_btnBack1, width, height);
+//		ScaleButtonIcon(btn, width, height);
 	}
 	
 	

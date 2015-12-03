@@ -178,7 +178,7 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		m_jProductSelect.setLayout(new java.awt.BorderLayout());
 
-		jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launch.png"))); // NOI18N
+		jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launchfilter.png"))); // NOI18N
 		jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
 		jButton3.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -55,7 +55,10 @@ import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.JRPrinterAWT300;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
+import com.oracle.webservices.internal.api.message.PropertySet.Property;
+
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
@@ -177,60 +180,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_oTicket = null;
 		m_oTicketExt = null;
 
-		// font size
-		String prop2 = m_jbtnconfig.getProperty("sales-amountprice-fontsize", "32");
-		Font font = m_jPrice.getFont();
-		m_jPrice.setFont(new Font(font.getName(), font.getStyle(), Integer.parseInt(prop2)));
-		Font font2 = m_jPor.getFont();
-		m_jPor.setFont(new Font(font2.getName(), font2.getStyle(), Integer.parseInt(prop2)));
-
-		String propTicketIdFintSize = m_jbtnconfig.getProperty("sales-ticketid-fontsize", "32");
-		Font fontTicketId = m_jTicketId.getFont();
-		m_jTicketId.setFont(
-				new Font(fontTicketId.getName(), fontTicketId.getStyle(), Integer.parseInt(propTicketIdFintSize)));
-
-		// category container
-
-		// number button sizes
-		int labelHeight = Integer.parseInt(m_jbtnconfig.getProperty("numberpad-label-height", "22"));
-		int priceWidth = Integer.parseInt(m_jbtnconfig.getProperty("numberpad-price-width", "70"));
-		int pieceWidth = Integer.parseInt(m_jbtnconfig.getProperty("numberpad-price-width", "100"));
-		
-		m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, labelHeight));
-		m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, labelHeight));
-
-		m_jNumberKeys.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
-
-		ScaleButtonIcon(m_jEnter, Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
-
-		ScaleButtonIcon(btnCustomer, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(btnSplit, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(m_jUp, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(m_jDown, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(m_jDelete, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(m_jEditLine, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(jEditAttributes, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		ScaleButtonIcon(m_jList, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
-
-		m_ticketsbag.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+		ScaleButtons();
 	}
 
 	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
@@ -1289,6 +1239,56 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
+	private void ScaleButtons() {
+		// font size
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "sales-totalprice-fontsize", "64");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "sales-totalprice-fontsize", "64");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jPrice, "sales-amountprice-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jPor, "sales-amountprice-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");		
+		
+		// button sizes
+		
+//		int priceWidth = Integer.parseInt(m_jbtnconfig.getProperty("sales-totalprice-width", "70"));
+//		int pieceWidth = Integer.parseInt(m_jbtnconfig.getProperty("sales-totalpiece-width", "100"));
+//
+//		m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
+//		m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, -1));
+
+		m_jNumberKeys.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
+
+		ScaleButtonIcon(m_jEnter, Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
+
+		ScaleButtonIcon(btnCustomer, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(btnSplit, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(m_jUp, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(m_jDown, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(m_jDelete, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(m_jEditLine, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(jEditAttributes, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		ScaleButtonIcon(m_jList, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+
+		m_ticketsbag.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -1404,8 +1404,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		jPanel2.setLayout(new java.awt.GridLayout(0, 1, 0, 0));
 
 		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
-		// m_jUp.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow22.png")));
 		// // NOI18N
 		m_jUp.setFocusPainted(false);
 		m_jUp.setFocusable(false);
@@ -1419,8 +1417,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		jPanel2.add(m_jUp);
 
 		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
-		// m_jDown.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow22.png")));
 		// // NOI18N
 		m_jDown.setFocusPainted(false);
 		m_jDown.setFocusable(false);
@@ -1504,7 +1500,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jTotalEuros.setOpaque(true);
-		m_jTotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		// m_jTotalEuros.setMinimumSize(new Dimension(150,25));
+		// m_jTotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
 		m_jTotalEuros.setRequestFocusEnabled(false);
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 3;
@@ -1558,8 +1555,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridwidth = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 
-		// gridBagConstraints.weightx = 3.0;
-		// gridBagConstraints.weighty = 1.0;
+		 gridBagConstraints.weightx = 3.0;
+		 gridBagConstraints.weighty = 1.0;
 
 		jPanel9.add(m_jPrice, gridBagConstraints);
 
@@ -1577,8 +1574,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridwidth = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 
-		// gridBagConstraints.weightx = 2.0;
-		// gridBagConstraints.weighty = 1.0;
+		 gridBagConstraints.weightx = 2.0;
+		 gridBagConstraints.weighty = 1.0;
 
 		// gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
 		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
@@ -1752,8 +1749,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private void btnSplitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSplitActionPerformed
 
 		if (m_oTicket.getLinesCount() > 0) {
-			ReceiptSplit splitdialog = ReceiptSplit.getDialog(m_App,this, dlSystem.getResourceAsXML("Ticket.Line"), dlSales,
-					dlCustomers, taxeslogic);
+			ReceiptSplit splitdialog = ReceiptSplit.getDialog(m_App, this, dlSystem.getResourceAsXML("Ticket.Line"),
+					dlSales, dlCustomers, taxeslogic);
 
 			TicketInfo ticket1 = m_oTicket.copyTicket();
 			TicketInfo ticket2 = new TicketInfo();

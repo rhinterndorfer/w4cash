@@ -122,6 +122,7 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
     }
     
     public void refresh() {
+   
     }
     
     public void writeValueEOF() {

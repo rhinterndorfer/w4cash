@@ -37,6 +37,8 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -52,10 +54,12 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
     private SentenceExec m_sentdel;
     
     private Object m_id;
+	private AppView m_App;
     
     /** Creates new form JPanelCategories */
     public CategoriesEditor(AppView app, DirtyManager dirty) {
-        
+        this.m_App = app;
+    	
         DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
              
         initComponents();
@@ -66,6 +70,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
         
         m_sentadd = dlSales.getCatalogCategoryAdd();
         m_sentdel = dlSales.getCatalogCategoryDel();
+        dlSales.getCatalogCategoryAdd();
         
         m_jName.getDocument().addDocumentListener(dirty);
         m_jCategory.addActionListener(dirty);
@@ -245,8 +250,9 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "fontsize", "32");
 	}
     
 }
