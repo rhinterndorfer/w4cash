@@ -140,7 +140,7 @@ public class JPanelButtons extends javax.swing.JPanel {
         return events.get(key);
     }
     
-    private class ConfigurationHandler extends DefaultHandler {       
+    private class ConfigurationHandler extends DefaultHandler {     
         @Override
         public void startDocument() throws SAXException {}
         @Override

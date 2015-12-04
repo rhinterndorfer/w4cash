@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.sales.restaurant;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
