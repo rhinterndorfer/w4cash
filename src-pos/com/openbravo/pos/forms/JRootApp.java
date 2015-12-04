@@ -31,7 +31,7 @@ import java.util.UUID;
 import javax.swing.*;
 
 import com.openbravo.pos.printer.*;
-
+import com.openbravo.pos.sales.JPanelButtons;
 import com.openbravo.beans.*;
 
 import com.openbravo.basic.BasicException;
@@ -59,6 +59,7 @@ public class JRootApp extends JPanel implements AppView {
 	private DataLogicSystem m_dlSystem;
 
 	private Properties m_propsdb = null;
+	private Properties posprops;
 	private String m_sActiveCashIndex;
 	private Date m_dActiveCashDateStart;
 	private Date m_dActiveCashDateEnd;
@@ -254,6 +255,9 @@ public class JRootApp extends JPanel implements AppView {
 		 */
 		m_jHost.setText("<html>" + m_props.getHost() + " - " + sWareHouse + "<br>" + url);
 
+		// load properties for login button size
+		posprops = m_dlSystem.getResourceAsProperties("Window.Login");
+		
 		showLogin();
 
 		return true;
@@ -446,14 +450,25 @@ public class JRootApp extends JPanel implements AppView {
 				AppUser user = (AppUser) people.get(i);
 
 				JButton btn = new JButton(new AppUserAction(user));
+				
+				//JButton btn = new JPanelButtons(new AppUserAction(user));
+				
 				btn.applyComponentOrientation(getComponentOrientation());
 				btn.setFocusPainted(false);
 				btn.setFocusable(false);
 				btn.setRequestFocusEnabled(false);
 				btn.setHorizontalAlignment(SwingConstants.LEADING);
-				btn.setMaximumSize(new Dimension(150, 50));
-				btn.setPreferredSize(new Dimension(150, 50));
-				btn.setMinimumSize(new Dimension(150, 50));
+				/**
+				 * change user login buttons size
+				 */
+//				posprops.getProperty(key, defaultValue)
+				btn.setMaximumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+				btn.setPreferredSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+				btn.setMinimumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+				
+//				btn.setMaximumSize(new Dimension(150, 50));
+//				btn.setPreferredSize(new Dimension(150, 50));
+//				btn.setMinimumSize(new Dimension(150, 50));
 
 				jPeople.add(btn);
 			}
