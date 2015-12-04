@@ -133,7 +133,7 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
 			assignProduct(prod);
 		} catch (BasicException eData) {
 			MessageInf msg = new MessageInf(eData);
-			msg.show(this);
+			msg.show(m_App,this);
 			assignProduct(null);
 		}
 	}
@@ -147,7 +147,7 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
 			assignProduct(prod);
 		} catch (BasicException eData) {
 			MessageInf msg = new MessageInf(eData);
-			msg.show(this);
+			msg.show(m_App,this);
 			assignProduct(null);
 		}
 	}

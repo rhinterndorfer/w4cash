@@ -187,7 +187,7 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 		} catch (BasicException eData) {
 			assignProduct(null);
 			MessageInf msg = new MessageInf(eData);
-			msg.show(this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -201,7 +201,7 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 		} catch (BasicException eData) {
 			assignProduct(null);
 			MessageInf msg = new MessageInf(eData);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 

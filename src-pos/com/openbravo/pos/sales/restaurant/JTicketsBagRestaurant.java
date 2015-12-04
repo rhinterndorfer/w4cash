@@ -28,6 +28,7 @@ import javax.swing.border.Border;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JTicketsBagRestaurant extends javax.swing.JPanel {
 
@@ -44,21 +45,9 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	}
 
 	public void ScaleButtons(int btnWidth, int btnHeight) {
-		ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
-		ScaleButtonIcon(jButton2, btnWidth, btnHeight);
-		ScaleButtonIcon(jButton1, btnWidth, btnHeight);
-	}
-
-	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			ImageIcon icon2 = new javax.swing.ImageIcon(img);
-			btn.setIcon(icon2);
-			
-			btn.setSize(width, height);}
+		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(jButton2, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(jButton1, btnWidth, btnHeight);
 	}
 
 	public void activate() {

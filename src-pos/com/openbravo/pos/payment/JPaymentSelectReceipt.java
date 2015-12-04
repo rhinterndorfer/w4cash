@@ -52,7 +52,6 @@ public class JPaymentSelectReceipt extends JPaymentSelect {
     } 
     
     protected void addTabs() {
-        
         addTabPayment(new JPaymentSelect.JPaymentCashCreator());
         addTabPayment(new JPaymentSelect.JPaymentChequeCreator());
         addTabPayment(new JPaymentSelect.JPaymentPaperCreator());            

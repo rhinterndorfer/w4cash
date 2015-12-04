@@ -29,6 +29,8 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 
+import com.openbravo.pos.util.PropertyUtil;
+
 public class JNumberKeys extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -62,34 +64,22 @@ public class JNumberKeys extends javax.swing.JPanel {
 	}
 
 	public void ScaleButtons(int btnWidth, int btnHeight) {
-		ScaleButtonIcon(m_jEquals, btnWidth, btnHeight * 2);
-		ScaleButtonIcon(m_jMinus, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jPlus, btnWidth, btnHeight * 2);
-		ScaleButtonIcon(m_jCE, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jMultiply, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey9, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey8, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey7, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey6, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey5, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey4, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey3, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey2, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey1, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey0, btnWidth, btnHeight);
-	}
-
-	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-
-			btn.setSize(width, height);
-		}
+		PropertyUtil.ScaleButtonIcon(m_jEquals, btnWidth, btnHeight * 2);
+		PropertyUtil.ScaleButtonIcon(m_jMinus, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jPlus, btnWidth, btnHeight * 2);
+		PropertyUtil.ScaleButtonIcon(m_jCE, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jMultiply, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey9, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey8, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey7, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey6, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey5, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey4, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey3, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey2, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey1, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jKey0, btnWidth, btnHeight);
 	}
 
 	public void setNumbersOnly(boolean value) {

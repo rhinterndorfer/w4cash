@@ -58,14 +58,13 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 	/** Creates new form JTicketsBagTicket */
 	public JTicketsBagTicket(AppView app, JPanelTicketEdits panelticket) {
-
 		super(app, panelticket);
 		m_panelticketedit = panelticket;
 		m_dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
 
 		// Inicializo la impresora...
-		m_TP = new DeviceTicket();
+		m_TP = new DeviceTicket(app);
 
 		// Inicializo el parser de documentos de ticket
 		m_TTP = new TicketParser(m_TP, m_dlSystem); // para visualizar el ticket
@@ -94,9 +93,9 @@ public class JTicketsBagTicket extends JTicketsBag {
 		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
 
-		ScaleButtonIcon(jButton2, width, height);
-		ScaleButtonIcon(m_jRefund, width, height);
-		ScaleButtonIcon(m_jPrint, width, height);
+		PropertyUtil.ScaleButtonIcon(jButton2, width, height);
+		PropertyUtil.ScaleButtonIcon(m_jRefund, width, height);
+		PropertyUtil.ScaleButtonIcon(m_jPrint, width, height);
 	}
 
 	public void activate() {
@@ -141,7 +140,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 			} catch (BasicException eData) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"),
 						eData);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 		}
 
@@ -180,7 +179,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 			if (ticket == null) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.notexiststicket"));
-				msg.show(this);
+				msg.show(m_App,this);
 			} else {
 				m_ticket = ticket;
 				m_ticketCopy = null; // se asigna al pulsar el boton de editar o
@@ -191,7 +190,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		} catch (BasicException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotloadticket"),
 					e);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 
 		m_jTicketEditor.reset();
@@ -228,11 +227,11 @@ public class JTicketsBagTicket extends JTicketsBag {
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(this);
+				msg.show(m_App,this);
 			} catch (TicketPrinterException eTP) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), eTP);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 		}
 	}
@@ -411,10 +410,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("ticket", m_ticket);
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
 			} catch (ScriptException e) {
-				JMessageDialog.showMessage(this,
+				JMessageDialog.showMessage(m_App,this,
 						new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotprint"), e));
 			} catch (TicketPrinterException e) {
-				JMessageDialog.showMessage(this,
+				JMessageDialog.showMessage(m_App, this,
 						new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotprint"), e));
 			}
 		}

@@ -102,7 +102,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 		} catch (Exception e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotloadreport"),
 					e);
-			msg.show(this);
+			msg.show(m_App,this);
 			jr = null;
 		}
 
@@ -203,15 +203,15 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 			} catch (MissingResourceException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotloadresourcedata"), e);
-				msg.show(this);
+				msg.show(m_App,this);
 			} catch (JRException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotfillreport"), e);
-				msg.show(this);
+				msg.show(m_App,this);
 			} catch (BasicException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotloadreportdata"), e);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 		}
 

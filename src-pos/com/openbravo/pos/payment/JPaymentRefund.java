@@ -22,6 +22,8 @@ package com.openbravo.pos.payment;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import java.awt.Component;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JPaymentRefund extends javax.swing.JPanel implements JPaymentInterface {
     
@@ -29,14 +31,16 @@ public class JPaymentRefund extends javax.swing.JPanel implements JPaymentInterf
     private double m_dTotal;
     
     private String m_sName;
+	private AppView m_App;
     
     /** Creates new form JPaymentChequeRefund */
-    public JPaymentRefund(JPaymentNotifier notifier, String sName) {
-        
+    public JPaymentRefund(AppView app, JPaymentNotifier notifier, String sName) {
+        m_App = app;
         m_notifier = notifier;
         m_sName = sName;
         
         initComponents();
+        ScaleButtons();
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
@@ -66,7 +70,9 @@ public class JPaymentRefund extends javax.swing.JPanel implements JPaymentInterf
 
     }
     // </editor-fold>//GEN-END:initComponents
-    
+    private void ScaleButtons(){
+    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

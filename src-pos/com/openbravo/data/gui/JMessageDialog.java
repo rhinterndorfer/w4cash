@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 /**
  *
  * @author  adrian
@@ -31,6 +33,7 @@ import com.openbravo.data.loader.LocalRes;
 public class JMessageDialog extends javax.swing.JDialog {
     
 	private static Logger logger = Logger.getLogger("com.openbravo.data.gui.JMessageDialog");
+	private AppView m_App;
 	
 	
     /** Creates new form JMessageDialog */
@@ -52,7 +55,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         }
     }
     
-    public static void showMessage(Component parent, MessageInf inf) {
+    public static void showMessage(AppView app, Component parent, MessageInf inf) {
         
         Window window = getWindow(parent);      
         
@@ -63,61 +66,66 @@ public class JMessageDialog extends javax.swing.JDialog {
             myMsg = new JMessageDialog((Dialog) window, true);
         }
         
-        myMsg.initComponents();
-        myMsg.applyComponentOrientation(parent.getComponentOrientation());
-        myMsg.jscrException.setVisible(false);        
-        myMsg.getRootPane().setDefaultButton(myMsg.jcmdOK);
-        
-        myMsg.jlblIcon.setIcon(inf.getSignalWordIcon());
-        myMsg.jlblErrorCode.setText(inf.getErrorCodeMsg());
-        myMsg.jlblMessage.setText("<html>" + inf.getMessageMsg());
-        
-        // Capturamos el texto de la excepcion...
-        if (inf.getCause() == null) {
-            myMsg.jtxtException.setText(null);
-        } else {            
-            StringBuffer sb = new StringBuffer(); 
-            
-            if (inf.getCause() instanceof Throwable) {
-                Throwable t = (Throwable) inf.getCause();
-                while (t != null) {
-                    sb.append(t.getClass().getName());
-                    sb.append(": \n");
-                    sb.append(t.getMessage());
-                    sb.append("\n\n");
-                    t = t.getCause();
-                }
-            } else if (inf.getCause() instanceof Throwable[]) {
-                Throwable[] m_aExceptions = (Throwable[]) inf.getCause();
-                for (int i = 0; i < m_aExceptions.length; i++) {
-                    sb.append(m_aExceptions[i].getClass().getName());
-                    sb.append(": \n");
-                    sb.append(m_aExceptions[i].getMessage());
-                    sb.append("\n\n");
-                }             
-            } else if (inf.getCause() instanceof Object[]) {
-                Object [] m_aObjects = (Object []) inf.getCause();
-                for (int i = 0; i < m_aObjects.length; i++) {
-                    sb.append(m_aObjects[i].toString());
-                    sb.append("\n\n");
-                }             
-            } else if (inf.getCause() instanceof String) {
-                sb.append(inf.getCause().toString());
-            } else {
-                sb.append(inf.getCause().getClass().getName());
-                sb.append(": \n");
-                sb.append(inf.getCause().toString());
-            }
-            myMsg.jtxtException.setText(sb.toString()); 
-            logger.severe(sb.toString());
-        }       
-        myMsg.jtxtException.setCaretPosition(0);            
-        
-        //myMsg.show();
-        myMsg.setVisible(true);
+        myMsg.init(app,parent,inf);
     }
     
-    /** This method is called from within the constructor to
+    private void init(AppView app, Component parent, MessageInf inf) {
+    	this.m_App = app;  
+    	initComponents();
+          applyComponentOrientation(parent.getComponentOrientation());
+          jscrException.setVisible(false);        
+          getRootPane().setDefaultButton(jcmdOK);
+          
+          jlblIcon.setIcon(inf.getSignalWordIcon());
+          jlblErrorCode.setText(inf.getErrorCodeMsg());
+          jlblMessage.setText("<html>" + inf.getMessageMsg());
+          
+          // Capturamos el texto de la excepcion...
+          if (inf.getCause() == null) {
+              jtxtException.setText(null);
+          } else {            
+              StringBuffer sb = new StringBuffer(); 
+              
+              if (inf.getCause() instanceof Throwable) {
+                  Throwable t = (Throwable) inf.getCause();
+                  while (t != null) {
+                      sb.append(t.getClass().getName());
+                      sb.append(": \n");
+                      sb.append(t.getMessage());
+                      sb.append("\n\n");
+                      t = t.getCause();
+                  }
+              } else if (inf.getCause() instanceof Throwable[]) {
+                  Throwable[] m_aExceptions = (Throwable[]) inf.getCause();
+                  for (int i = 0; i < m_aExceptions.length; i++) {
+                      sb.append(m_aExceptions[i].getClass().getName());
+                      sb.append(": \n");
+                      sb.append(m_aExceptions[i].getMessage());
+                      sb.append("\n\n");
+                  }             
+              } else if (inf.getCause() instanceof Object[]) {
+                  Object [] m_aObjects = (Object []) inf.getCause();
+                  for (int i = 0; i < m_aObjects.length; i++) {
+                      sb.append(m_aObjects[i].toString());
+                      sb.append("\n\n");
+                  }             
+              } else if (inf.getCause() instanceof String) {
+                  sb.append(inf.getCause().toString());
+              } else {
+                  sb.append(inf.getCause().getClass().getName());
+                  sb.append(": \n");
+                  sb.append(inf.getCause().toString());
+              }
+              jtxtException.setText(sb.toString()); 
+              logger.severe(sb.toString());
+          }       
+          jtxtException.setCaretPosition(0);            
+          
+          //show();
+          setVisible(true);
+		
+	}
+	/** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
      * always regenerated by the Form Editor.
@@ -192,8 +200,10 @@ public class JMessageDialog extends javax.swing.JDialog {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-455)/2, (screenSize.height-171)/2, 455, 171);
+        PropertyUtil.ScaleDialog(m_App, this, 455, 171);
+        
+//        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//        setBounds((screenSize.width-455)/2, (screenSize.height-171)/2, 455, 171);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcmdMoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdMoreActionPerformed

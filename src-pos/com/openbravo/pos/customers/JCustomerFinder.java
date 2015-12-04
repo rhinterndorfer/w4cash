@@ -381,9 +381,32 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 613) / 2, (screenSize.height - 610) / 2, 613, 610);
+		PropertyUtil.ScaleDialog(m_App, this, 613, 610);
+
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 613) / 2, (screenSize.height - 610) /
+		// 2, 613, 610);
 	}// </editor-fold>//GEN-END:initComponents
+
+	@Override
+	public void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtTaxID, "common-small-fontsize", "32");
+
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
 
@@ -454,14 +477,4 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	private com.openbravo.editor.JEditorString m_jtxtTaxID;
 	// End of variables declaration//GEN-END:variables
 
-	@Override
-	public void ScaleButtons() {
-		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
-	}
 }

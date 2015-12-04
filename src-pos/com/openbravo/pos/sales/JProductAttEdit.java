@@ -66,6 +66,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	private String attInstanceDescription;
 
 	private boolean ok;
+	private AppView m_App;
 
 	/** Creates new form JProductAttEdit */
 	private JProductAttEdit(java.awt.Frame parent, boolean modal) {
@@ -78,7 +79,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	}
 
 	private void init(AppView app, Session s) {
-
+		this.m_App = app;
 		initComponents();
 
 		attsetSave = new PreparedSentence(s,
@@ -126,6 +127,12 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
+		
+		ScaleButtons();
+	}
+
+	private void ScaleButtons() {
+		
 	}
 
 	public static JProductAttEdit getAttributesEditor(AppView app, Component parent, Session s) {
@@ -331,8 +338,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) / 2, 609, 388);
+		PropertyUtil.ScaleDialog(m_App, this, 609, 388);
+		
+//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//		setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) / 2, 609, 388);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed

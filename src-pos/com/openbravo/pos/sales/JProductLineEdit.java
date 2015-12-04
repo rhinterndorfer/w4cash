@@ -42,6 +42,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 	private TicketLineInfo m_oLine;
 	private boolean m_bunitsok;
 	private boolean m_bpriceok;
+	private AppView m_App;
 
 	/** Creates new form JProductLineEdit */
 	private JProductLineEdit(java.awt.Frame parent, boolean modal) {
@@ -55,6 +56,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 	private TicketLineInfo init(AppView app, TicketLineInfo oLine) throws BasicException {
 		// Inicializo los componentes
+		this.m_App = app;
 		initComponents();
 
 		if (oLine.getTaxInfo() == null) {
@@ -93,17 +95,41 @@ public class JProductLineEdit extends javax.swing.JDialog {
 			m_jUnits.activate();
 		}
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width","48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height","48"));
+		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
 
 		printTotals();
 
 		getRootPane().setDefaultButton(m_jButtonOK);
 		returnLine = null;
+		
+		ScaleButtons();
+		
 		setVisible(true);
 
 		return returnLine;
+	}
+	
+	private void ScaleButtons(){
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotal, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxrate, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotal, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleEditnumbersontsize(m_App, m_jUnits, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPrice, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceTax, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jName, "common-small-fontsize", "32");
 	}
 
 	private void printTotals() {
@@ -351,8 +377,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 580) / 2, (screenSize.height - 362) / 2, 580, 362);
+		PropertyUtil.ScaleDialog(m_App, this, 580, 362);
+
+//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//		setBounds((screenSize.width - 580) / 2, (screenSize.height - 362) / 2, 580, 362);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed

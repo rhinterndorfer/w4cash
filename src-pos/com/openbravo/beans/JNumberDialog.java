@@ -40,6 +40,8 @@ public class JNumberDialog extends javax.swing.JDialog {
 
 	private Double m_value;
 
+	private AppView m_App;
+
 	/** Creates new form JNumberDialog */
 	public JNumberDialog(AppView app, java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -53,6 +55,8 @@ public class JNumberDialog extends javax.swing.JDialog {
 	}
 
 	private void init(AppView app) {
+
+		m_App = app;
 
 		if (m_resources == null) {
 			m_resources = new LocaleResources();
@@ -70,9 +74,10 @@ public class JNumberDialog extends javax.swing.JDialog {
 		m_jPanelTitle.setBorder(RoundedBorder.createGradientBorder());
 
 		m_value = null;
-		
+
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
 	}
 
@@ -127,7 +132,7 @@ public class JNumberDialog extends javax.swing.JDialog {
 		m_jPanelTitle = new javax.swing.JPanel();
 		m_lblMessage = new javax.swing.JLabel();
 
-		setResizable(false);
+		// setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				formWindowClosing(evt);
@@ -185,6 +190,8 @@ public class JNumberDialog extends javax.swing.JDialog {
 		m_jPanelTitle.add(m_lblMessage, java.awt.BorderLayout.CENTER);
 
 		getContentPane().add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
+
+		PropertyUtil.ScaleDialog(m_App, this, 253, 433);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((screenSize.width - 253) / 2, (screenSize.height - 433) / 2, 253, 433);

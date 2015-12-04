@@ -94,7 +94,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
     
     private void btnScanPalActionPerformed(java.awt.event.ActionEvent evt) {                                           
   
-        JDlgUploadProducts.showMessage(this, app.getDeviceScanner(), bd);
+        JDlgUploadProducts.showMessage(app,this, app.getDeviceScanner(), bd);
     }  
     
     public String getTitle() {
@@ -114,7 +114,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
     }
 
 	@Override
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		// TODO Auto-generated method stub
 		
 	}    

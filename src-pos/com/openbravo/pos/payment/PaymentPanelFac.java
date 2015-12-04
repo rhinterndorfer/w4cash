@@ -34,15 +34,15 @@ public class PaymentPanelFac {
     public static PaymentPanel getPaymentPanel(AppView app, String sReader, JPaymentNotifier notifier) {
         
         if ("Intelligent".equals(sReader)) {
-            return new PaymentPanelMagCard(new MagCardReaderIntelligent(), notifier);
+            return new PaymentPanelMagCard(app, new MagCardReaderIntelligent(), notifier);
         } else if ("Generic".equals(sReader)) {
-            return new PaymentPanelMagCard(new MagCardReaderGeneric(), notifier);
+            return new PaymentPanelMagCard(app, new MagCardReaderGeneric(), notifier);
         } else if ("Alternative".equals(sReader)) {
-            return new PaymentPanelMagCard(new MagCardReaderAlternative(), notifier);
+            return new PaymentPanelMagCard(app, new MagCardReaderAlternative(), notifier);
         } else if ("Keyboard".equals(sReader)) {
             return new PaymentPanelType(app, notifier);
         } else { // "Not defined
-            return new PaymentPanelBasic(notifier);
+            return new PaymentPanelBasic(app, notifier);
         }
     }      
 }

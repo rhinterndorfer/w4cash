@@ -98,7 +98,7 @@ public class StockManagement extends JPanel implements JPanelView {
         
         m_jreason.setModel(m_ReasonModel);
         
-        m_cat = new JCatalog(m_dlSales);
+        m_cat = new JCatalog(m_App,m_dlSales);
         m_cat.getComponent().setPreferredSize(new Dimension(0, 245));
         m_cat.addActionListener(new CatalogListener());
         catcontainer.add(m_cat.getComponent(), BorderLayout.CENTER);
@@ -199,7 +199,7 @@ public class StockManagement extends JPanel implements JPanelView {
             }
         } catch (BasicException eData) {       
             MessageInf msg = new MessageInf(eData);
-            msg.show(this);            
+            msg.show(m_App,this);            
         }
     }
     
@@ -313,7 +313,7 @@ public class StockManagement extends JPanel implements JPanelView {
             stateToInsert();  
         } catch (BasicException eData) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotsaveinventorydata"), eData);
-            msg.show(this);
+            msg.show(m_App,this);
         }             
     }
         
@@ -346,7 +346,7 @@ public class StockManagement extends JPanel implements JPanelView {
         String sresource = m_dlSystem.getResourceAsXML("Printer.Inventory");
         if (sresource == null) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
-            msg.show(this);
+            msg.show(m_App,this);
         } else {
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
@@ -354,10 +354,10 @@ public class StockManagement extends JPanel implements JPanelView {
                 m_TTP.printTicket(script.eval(sresource).toString());
             } catch (ScriptException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), e);
-                msg.show(this);
+                msg.show(m_App,this);
             } catch (TicketPrinterException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), e);
-                msg.show(this);
+                msg.show(m_App,this);
             }
         }
     }
@@ -608,7 +608,7 @@ public class StockManagement extends JPanel implements JPanelView {
             // msg.show(this);            
         } catch (DeviceScannerException e) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.scannerfail2"), e);
-            msg.show(this);            
+            msg.show(m_App,this);            
         } finally {
             s.disconnectDevice();
         }        
@@ -698,7 +698,7 @@ private void jEditAttributesActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
         } catch (BasicException ex) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindattributes"), ex);
-            msg.show(this);
+            msg.show(m_App,this);
         }
     }
 }//GEN-LAST:event_jEditAttributesActionPerformed

@@ -54,6 +54,10 @@ public abstract class JTicketsBag extends JPanel {
 
 	protected abstract JComponent getNullComponent();
 
+	public AppView getApp(){
+		return m_App;
+	}
+	
 	public static JTicketsBag createTicketsBag(String sName, AppView app, TicketsEditor panelticket) {
 
 		if ("standard".equals(sName)) {
@@ -63,18 +67,6 @@ public abstract class JTicketsBag extends JPanel {
 			return new JTicketsBagRestaurantMap(app, panelticket);
 		} else { // "simple"
 			return new JTicketsBagSimple(app, panelticket);
-		}
-	}
-
-	protected void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-
-			btn.setSize(width, height);
 		}
 	}
 }

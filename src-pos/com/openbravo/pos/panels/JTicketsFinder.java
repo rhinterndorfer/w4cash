@@ -63,7 +63,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	private DataLogicCustomers dlCustomers;
 	private FindTicketsInfo selectedTicket;
 
-	private AppView app;
+	private AppView m_App;
 
 	/** Creates new form JCustomerFinder */
 	private JTicketsFinder(java.awt.Frame parent, boolean modal) {
@@ -95,7 +95,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	}
 
 	private void init(AppView app, DataLogicSales dlSales, DataLogicCustomers dlCustomers) {
-		this.app = app;
+		this.m_App = app;
 
 		this.dlSales = dlSales;
 		this.dlCustomers = dlCustomers;
@@ -158,16 +158,6 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		catlist.add(0, null);
 		m_CategoryModel = new ComboBoxValModel(catlist);
 		jcboUser.setModel(m_CategoryModel);
-	}
-
-	@Override
-	public void ScaleButtons() {
-		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
 	}
 
 	private void defaultValues() {
@@ -379,7 +369,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		btnCustomer.setRequestFocusEnabled(false);
 		btnCustomer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnCustomerActionPerformed(app, evt);
+				btnCustomerActionPerformed(m_App, evt);
 			}
 		});
 
@@ -584,9 +574,29 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 695) / 2, (screenSize.height - 684) / 2, 695, 684);
+		PropertyUtil.ScaleDialog(m_App, this, 695, 684);
+
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 695) / 2, (screenSize.height - 684) /
+		// 2, 695, 684);
 	}// </editor-fold>//GEN-END:initComponents
+
+	@Override
+	public void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
 		selectedTicket = (FindTicketsInfo) jListTickets.getSelectedValue();
@@ -656,7 +666,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		} catch (BasicException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"),
 					e);
-			msg.show(this);
+			msg.show(app, this);
 		}
 
 	}// GEN-LAST:event_btnCustomerActionPerformed

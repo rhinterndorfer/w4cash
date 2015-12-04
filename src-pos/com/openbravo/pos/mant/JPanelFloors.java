@@ -82,7 +82,7 @@ public class JPanelFloors extends JPanelTable {
     }
 
 	@Override
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		
 	}     
 }

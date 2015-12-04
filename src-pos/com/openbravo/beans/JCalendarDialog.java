@@ -153,7 +153,7 @@ public class JCalendarDialog extends javax.swing.JDialog {
         jPanelGrid = new javax.swing.JPanel();
 
         setTitle(m_resources.getString("title.calendar"));
-        setResizable(false);
+//        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeWindow(evt);

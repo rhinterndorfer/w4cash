@@ -49,13 +49,15 @@ public class TaxEditor extends JPanel implements EditorRecord {
     private ComboBoxValModel taxcustcatmodel;   
     
     private SentenceList taxparentsent;
-    private ComboBoxValModel taxparentmodel;    
+    private ComboBoxValModel taxparentmodel;
+
+	private AppView m_App;    
     
     /** Creates new form taxEditor */
     public TaxEditor(AppView app, DirtyManager dirty) {
         
         DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
-        
+        m_App = app;
         initComponents();
         
         taxcatsent = dlSales.getTaxCategoriesList();
@@ -101,7 +103,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
             a = taxparentsent.list();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotloadlists"), eD);
-            msg.show(this);
+            msg.show(m_App,this);
             a = new ArrayList();
         }
         

@@ -36,10 +36,11 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 	private double m_dTotal;
 	private String m_sTransactionID;
 	private JPaymentNotifier m_notifier;
+	private AppView m_App;
 
 	/** Creates new form JPaymentCash */
 	public PaymentPanelType(AppView app, JPaymentNotifier notifier) {
-
+		m_App = app;
 		m_notifier = notifier;
 
 		initComponents();
@@ -55,7 +56,8 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
-
+		
+		ScaleButtons();
 	}
 
 	public JComponent getComponent() {
@@ -207,6 +209,13 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 		add(jPanel5, java.awt.BorderLayout.NORTH);
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void ScaleButtons(){
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+	}
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;

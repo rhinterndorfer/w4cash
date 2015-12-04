@@ -33,6 +33,8 @@ public class JPasswordDialog extends javax.swing.JDialog {
     private static LocaleResources m_resources;
 
     private String m_sPassword;
+
+	private AppView m_App;
         
     /** Creates new form JCalendarDialog */
     public JPasswordDialog(AppView app, java.awt.Frame parent, boolean modal) {
@@ -46,7 +48,7 @@ public class JPasswordDialog extends javax.swing.JDialog {
     }    
     
     private void init(AppView app) {
-        
+        m_App = app;
         if (m_resources == null) {
             m_resources = new LocaleResources();
             m_resources.addBundleName("beans_messages");
@@ -128,7 +130,7 @@ public class JPasswordDialog extends javax.swing.JDialog {
         m_jPanelTitle = new javax.swing.JPanel();
         m_lblMessage = new javax.swing.JLabel();
 
-        setResizable(false);
+//        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeWindow(evt);
@@ -184,6 +186,9 @@ public class JPasswordDialog extends javax.swing.JDialog {
 
         getContentPane().add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
 
+        PropertyUtil.ScaleDialog(m_App, this, 258, 428);
+        
+        
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width), (screenSize.height), 258, 428);
 //        setBounds((screenSize.width-258)/2, (screenSize.height-428)/2, 258, 428);

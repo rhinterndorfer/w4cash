@@ -146,7 +146,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 		dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
 
-		m_ticketlines = new JTicketLines(dlSystem.getResourceAsXML("Ticket.Line"));
+		m_ticketlines = new JTicketLines(app, "sales-producttable-lineheight", "sales-producttable-fontsize",
+				dlSystem.getResourceAsXML("Ticket.Line"));
 		m_jPanelCentral.add(m_ticketlines, java.awt.BorderLayout.CENTER);
 
 		m_TTP = new TicketParser(m_App.getDeviceTicket(), dlSystem);
@@ -181,19 +182,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_oTicketExt = null;
 
 		ScaleButtons();
-	}
-
-	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			// button image size
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-			// button size
-			btn.setSize(width, height);
-		}
 	}
 
 	public Object getBean() {
@@ -529,7 +517,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			ProductInfoExt oProduct = dlSales.getProductInfoByCode(sCode);
 			if (oProduct == null) {
 				Toolkit.getDefaultToolkit().beep();
-				new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noproduct")).show(this);
+				new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noproduct")).show(m_App, this);
 				stateToZero();
 			} else {
 				// Se anade directamente una unidad con el precio y todo
@@ -537,7 +525,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 		} catch (BasicException eData) {
 			stateToZero();
-			new MessageInf(eData).show(this);
+			new MessageInf(eData).show(m_App, this);
 		}
 	}
 
@@ -548,7 +536,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			ProductInfoExt oProduct = dlSales.getProductInfoByCode(sCode);
 			if (oProduct == null) {
 				Toolkit.getDefaultToolkit().beep();
-				new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noproduct")).show(this);
+				new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noproduct")).show(m_App, this);
 				stateToZero();
 			} else {
 				// Se anade directamente una unidad con el precio y todo
@@ -564,7 +552,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 		} catch (BasicException eData) {
 			stateToZero();
-			new MessageInf(eData).show(this);
+			new MessageInf(eData).show(m_App, this);
 		}
 	}
 
@@ -578,7 +566,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				}
 			} catch (ScaleException e) {
 				Toolkit.getDefaultToolkit().beep();
-				new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noweight"), e).show(this);
+				new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noweight"), e).show(m_App, this);
 				stateToZero();
 			}
 		} else {
@@ -617,7 +605,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						if (newcustomer == null) {
 							Toolkit.getDefaultToolkit().beep();
 							new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.nocustomer"))
-									.show(this);
+									.show(m_App, this);
 						} else {
 							m_oTicket.setCustomer(newcustomer);
 							m_jTicketId.setText(m_oTicket.getName(m_oTicketExt));
@@ -625,7 +613,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					} catch (BasicException e) {
 						Toolkit.getDefaultToolkit().beep();
 						new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.nocustomer"), e)
-								.show(this);
+								.show(m_App, this);
 					}
 					stateToZero();
 				} else {
@@ -754,7 +742,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					} catch (ScaleException e) {
 						// Error de pesada.
 						Toolkit.getDefaultToolkit().beep();
-						new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noweight"), e).show(this);
+						new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.noweight"), e).show(m_App,
+								this);
 						stateToZero();
 					}
 				} else {
@@ -932,7 +921,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
 
 					paymentdialog.setTransactionID(ticket.getTransactionID());
-					paymentdialog.setSize(800, 800);
+					paymentdialog.setSize(800, 500);
 
 					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
@@ -965,7 +954,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 							} catch (Exception eData) {
 								MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE,
 										AppLocal.getIntString("message.nosaveticket"), eData);
-								msg.show(this);
+								msg.show(m_App, this);
 								resultok = false;
 							}
 						}
@@ -974,7 +963,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} catch (TaxesException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotcalculatetaxes"));
-				msg.show(this);
+				msg.show(m_App, this);
 				resultok = false;
 			}
 
@@ -994,7 +983,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		String sresource = dlSystem.getResourceAsXML(sresourcename);
 		if (sresource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
-			msg.show(JPanelTicket.this);
+			msg.show(m_App, JPanelTicket.this);
 		} else {
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
@@ -1006,11 +995,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(JPanelTicket.this);
+				msg.show(m_App, JPanelTicket.this);
 			} catch (TicketPrinterException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(JPanelTicket.this);
+				msg.show(m_App, JPanelTicket.this);
 			}
 		}
 	}
@@ -1057,7 +1046,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		} catch (Exception e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotloadreport"),
 					e);
-			msg.show(this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -1075,11 +1064,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintline"), e);
-				msg.show(JPanelTicket.this);
+				msg.show(m_App, JPanelTicket.this);
 			} catch (TicketPrinterException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintline"), e);
-				msg.show(JPanelTicket.this);
+				msg.show(m_App, JPanelTicket.this);
 			}
 		}
 	}
@@ -1092,7 +1081,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			return scr.evalScript(dlSystem.getResourceAsXML(resource), args);
 		} catch (ScriptException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotexecute"), e);
-			msg.show(this);
+			msg.show(m_App, this);
 			return msg;
 		}
 	}
@@ -1101,7 +1090,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		if (resource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotexecute"));
-			msg.show(this);
+			msg.show(m_App, this);
 		} else {
 			ScriptObject scr = new ScriptObject(m_oTicket, m_oTicketExt);
 			scr.setSelectedIndex(m_ticketlines.getSelectedIndex());
@@ -1241,48 +1230,53 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private void ScaleButtons() {
 		// font size
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "sales-totalprice-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "sales-totalprice-fontsize", "64");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-large-fontsize", "64");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-large-fontsize", "64");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPrice, "sales-amountprice-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPor, "sales-amountprice-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");		
-		
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");
+
 		// button sizes
-		
-//		int priceWidth = Integer.parseInt(m_jbtnconfig.getProperty("sales-totalprice-width", "70"));
-//		int pieceWidth = Integer.parseInt(m_jbtnconfig.getProperty("sales-totalpiece-width", "100"));
-//
-//		m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
-//		m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, -1));
+
+		// m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
+		// m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, -1));
 
 		m_jNumberKeys.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
 
-		ScaleButtonIcon(m_jEnter, Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
+		PropertyUtil.ScaleButtonIcon(m_jEnter,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
 
-		ScaleButtonIcon(btnCustomer, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(btnCustomer,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(btnSplit, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(btnSplit,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(m_jUp, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(m_jUp, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(m_jDown, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(m_jDown,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(m_jDelete, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(m_jDelete,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(m_jEditLine, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(m_jEditLine,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(jEditAttributes, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(jEditAttributes,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
-		ScaleButtonIcon(m_jList, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+		PropertyUtil.ScaleButtonIcon(m_jList,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
 
 		m_ticketsbag.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
@@ -1555,8 +1549,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridwidth = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 
-		 gridBagConstraints.weightx = 3.0;
-		 gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.weightx = 3.0;
+		gridBagConstraints.weighty = 1.0;
 
 		jPanel9.add(m_jPrice, gridBagConstraints);
 
@@ -1574,8 +1568,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridwidth = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 
-		 gridBagConstraints.weightx = 2.0;
-		 gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.weightx = 2.0;
+		gridBagConstraints.weighty = 1.0;
 
 		// gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
 		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
@@ -1670,7 +1664,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					paintTicketLine(i, newline);
 				}
 			} catch (BasicException e) {
-				new MessageInf(e).show(this);
+				new MessageInf(e).show(m_App, this);
 			}
 		}
 
@@ -1739,7 +1733,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		} catch (BasicException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"),
 					e);
-			msg.show(this);
+			msg.show(m_App, this);
 		}
 
 		refreshTicket();
@@ -1787,7 +1781,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} catch (BasicException ex) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotfindattributes"), ex);
-				msg.show(this);
+				msg.show(m_App, this);
 			}
 		}
 

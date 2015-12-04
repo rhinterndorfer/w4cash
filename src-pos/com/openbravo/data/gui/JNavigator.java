@@ -246,34 +246,34 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
 	private void jbtnSortActionPerformed(java.awt.event.ActionEvent evt) {
 		try {
-			Comparator c = JSort.showMessage(this, m_cc);
+			Comparator c = JSort.showMessage(m_App, this, m_cc);
 			if (c != null) {
 				m_bd.sort(c);
 			}
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
 	private void jbtnFindActionPerformed(java.awt.event.ActionEvent evt) {
 
 		try {
-			FindInfo newFindInfo = JFind.showMessage(this, m_LastFindInfo);
+			FindInfo newFindInfo = JFind.showMessage(m_App, this, m_LastFindInfo);
 			if (newFindInfo != null) {
 				m_LastFindInfo = newFindInfo;
 
 				int index = m_bd.findNext(newFindInfo);
 				if (index < 0) {
 					MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.norecord"));
-					msg.show(this);
+					msg.show(m_App,this);
 				} else {
 					m_bd.moveTo(index);
 				}
 			}
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
@@ -288,7 +288,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.actionLoad();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
@@ -298,7 +298,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.moveLast();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
@@ -308,7 +308,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.moveFirst();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
@@ -317,7 +317,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.movePrev();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
@@ -326,7 +326,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.moveNext();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 

@@ -22,6 +22,8 @@ package com.openbravo.pos.printer.printer;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
@@ -97,6 +99,8 @@ public class DevicePrinterPrinter implements DevicePrinter {
 
 	private static final HashMap<String, MediaSizeName> mediasizenamemap = new HashMap<String, MediaSizeName>();
 
+	private AppView m_App;
+	
 	/**
 	 * Creates a new instance of DevicePrinterPrinter
 	 * 
@@ -105,9 +109,9 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	 * @param isReceiptPrinter
 	 *            - string with boolean values if the printer is a receipt
 	 */
-	public DevicePrinterPrinter(Component parent, String printername, int imageable_x, int imageable_y,
+	public DevicePrinterPrinter(AppView app, Component parent, String printername, int imageable_x, int imageable_y,
 			int imageable_width, int imageable_height, String mediasizename) {
-
+		this.m_App = app;
 		this.parent = parent;
 		m_sName = "Printer"; // "AppLocal.getIntString("Printer.Screen");
 		m_ticketcurrent = null;
@@ -246,7 +250,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 						logger.warning(AppLocal.getIntString("message.noprinters"));
 						ps = null;
 					} else {
-						SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers);
+						SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers, m_App);
 						selectprinter.setVisible(true);
 						if (selectprinter.isOK()) {
 							ps = ReportUtils.getPrintService(selectprinter.getPrintService());
@@ -275,7 +279,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 
 		} catch (PrintException ex) {
 			logger.log(Level.WARNING, AppLocal.getIntString("message.printererror"), ex);
-			JMessageDialog.showMessage(parent,
+			JMessageDialog.showMessage(m_App,parent,
 					new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.printererror"), ex));
 		}
 

@@ -94,7 +94,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			// el panel este
 			ListCellRenderer cr = getListCellRenderer();
 			if (cr != null) {
-				JListNavigator nl = new JListNavigator(bd);
+				JListNavigator nl = new JListNavigator(app, bd);
 				nl.applyComponentOrientation(getComponentOrientation());
 				if (cr != null)
 					nl.setCellRenderer(cr);
@@ -167,7 +167,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			return bd.actionClosingForm(this);
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.CannotMove"), eD);
-			msg.show(this);
+			msg.show(app,this);
 			return false;
 		}
 	}
@@ -198,19 +198,6 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	private javax.swing.JPanel toolbar;
 	// End of variables declaration//GEN-END:variables
 
-	public abstract void ScaleButtons(int btnWidth, int btnHeight);
-	
-	protected void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			ImageIcon icon2 = new javax.swing.ImageIcon(img);
-			btn.setIcon(icon2);
-
-			btn.setSize(width, height);
-		}
-	}
+	public abstract void ScaleButtons();
 
 }

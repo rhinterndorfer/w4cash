@@ -66,8 +66,11 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		writeValueEOF();
 
 		int widht = Integer.parseInt(PropertyUtil.getProperty(oApp, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(oApp, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(oApp, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		m_jKeys.ScaleButtons(widht, height);
+
+		ScaleButtons();
 	}
 
 	public void writeValueEOF() {
@@ -267,6 +270,16 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		add(jPanel2, java.awt.BorderLayout.LINE_END);
 	}// </editor-fold>//GEN-END:initComponents
 
+	@Override
+	public void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-large-fontsize", "64");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-large-fontsize", "64");
+
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jTotal, "common-large-fontsize", "64");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jreason, "common-large-fontsize", "64");
+
+	}
+
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel5;
@@ -276,11 +289,5 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	private javax.swing.JComboBox m_jreason;
 	// End of variables declaration//GEN-END:variables
-
-	@Override
-	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

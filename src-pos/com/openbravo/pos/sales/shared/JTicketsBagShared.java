@@ -20,6 +20,8 @@
 package com.openbravo.pos.sales.shared;
 
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.util.*;
 import javax.swing.*;
 
@@ -44,9 +46,9 @@ public class JTicketsBagShared extends JTicketsBag {
 	}
 
 	public void ScaleButtons(int btnWidth, int btnHeight) {
-		ScaleButtonIcon(m_jNewTicket, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jNewTicket, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+		PropertyUtil.ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight);
 	}
 
 	public void activate() {
@@ -98,7 +100,7 @@ public class JTicketsBagShared extends JTicketsBag {
 			try {
 				dlReceipts.insertSharedTicket(m_sCurrentTicket, m_panelticket.getActiveTicket());
 			} catch (BasicException e) {
-				new MessageInf(e).show(this);
+				new MessageInf(e).show(m_App,this);
 			}
 		}
 	}
@@ -128,7 +130,7 @@ public class JTicketsBagShared extends JTicketsBag {
 				setActiveTicket(l.get(0).getId());
 			}
 		} catch (BasicException e) {
-			new MessageInf(e).show(this);
+			new MessageInf(e).show(m_App,this);
 			newTicket();
 		}
 	}
@@ -213,7 +215,7 @@ public class JTicketsBagShared extends JTicketsBag {
 				try {
 					List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
 
-					JTicketsBagSharedList listDialog = JTicketsBagSharedList.newJDialog(JTicketsBagShared.this);
+					JTicketsBagSharedList listDialog = JTicketsBagSharedList.newJDialog(m_App, JTicketsBagShared.this);
 					String id = listDialog.showTicketsList(l);
 
 					if (id != null) {
@@ -221,7 +223,7 @@ public class JTicketsBagShared extends JTicketsBag {
 						setActiveTicket(id);
 					}
 				} catch (BasicException e) {
-					new MessageInf(e).show(JTicketsBagShared.this);
+					new MessageInf(e).show(m_App,JTicketsBagShared.this);
 					newTicket();
 				}
 			}

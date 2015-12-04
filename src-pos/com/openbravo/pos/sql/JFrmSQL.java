@@ -52,7 +52,7 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
         try {
             session = AppViewConnection.createSession(props);
         } catch (BasicException e) {
-            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
+            JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
             return false;
         }        
 

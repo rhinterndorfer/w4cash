@@ -726,6 +726,12 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         jTabbedPane1.setBounds(10, 90, 560, 280);
     }// </editor-fold>//GEN-END:initComponents
 
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
+    
     private void m_jInCatalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jInCatalogActionPerformed
  
         if (m_jInCatalog.isSelected()) {
@@ -781,10 +787,6 @@ public class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JTextArea txtAttributes;
     // End of variables declaration//GEN-END:variables
 
-	@Override
-	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
-	}
+
     
 }

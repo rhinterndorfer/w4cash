@@ -112,7 +112,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		m_bd = new BrowsableEditableData(lpr, spr, new CompareReservations(), this, m_Dirty);
 
-		JListNavigator nl = new JListNavigator(m_bd, true);
+		JListNavigator nl = new JListNavigator(m_App,m_bd, true);
 		nl.setCellRenderer(new JCalendarItemRenderer());
 		m_jPanelList.add(nl, BorderLayout.CENTER);
 
@@ -159,7 +159,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 			return m_bd.actionClosingForm(this);
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.CannotMove"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 			return false;
 		}
 	}
@@ -299,7 +299,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				m_bd.actionLoad();
 			} catch (BasicException eD) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
-				msg.show(this);
+				msg.show(m_App,this);
 				m_dcurrentday = doldcurrentday; // nos retractamos...
 			}
 		}
@@ -483,7 +483,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 			m_restaurantmap.viewTables(customer);
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nosaveticket"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 
 	}// GEN-LAST:event_m_jbtnReceiveActionPerformed

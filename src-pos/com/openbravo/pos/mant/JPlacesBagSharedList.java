@@ -20,7 +20,10 @@
 package com.openbravo.pos.mant;
 
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.sales.SharedTicketInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -35,6 +38,7 @@ import javax.swing.JFrame;
 public class JPlacesBagSharedList extends javax.swing.JDialog {
 
 	private String m_sDialogTicket;
+	private AppView m_App;
 
 	/** Creates new form JTicketsBagSharedList */
 	private JPlacesBagSharedList(java.awt.Frame parent, boolean modal) {
@@ -57,8 +61,7 @@ public class JPlacesBagSharedList extends javax.swing.JDialog {
 		return m_sDialogTicket;
 	}
 
-	public static JPlacesBagSharedList newJDialog(JPlacesBagShared ticketsbagshared) {
-
+	public static JPlacesBagSharedList newJDialog(AppView app, JPlacesBagShared ticketsbagshared) {
 		Window window = getWindow(ticketsbagshared);
 		JPlacesBagSharedList mydialog;
 		if (window instanceof Frame) {
@@ -67,11 +70,15 @@ public class JPlacesBagSharedList extends javax.swing.JDialog {
 			mydialog = new JPlacesBagSharedList((Dialog) window, true);
 		}
 
-		mydialog.initComponents();
-
-		mydialog.jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
-
+		mydialog.init(app);
 		return mydialog;
+	}
+
+	private void init(AppView app) {
+		this.m_App = app;
+		initComponents();
+		
+		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 	}
 
 	private static Window getWindow(Component parent) {
@@ -168,8 +175,9 @@ public class JPlacesBagSharedList extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 340) / 2, (screenSize.height - 272) / 2, 340, 272);
+		PropertyUtil.ScaleDialog(m_App, this, 340, 272);
+//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//		setBounds((screenSize.width - 340) / 2, (screenSize.height - 272) / 2, 340, 272);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed

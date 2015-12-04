@@ -22,6 +22,7 @@ package com.openbravo.pos.sales;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JTicketsBagTicketBag extends javax.swing.JPanel {
     
@@ -31,9 +32,21 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
     public JTicketsBagTicketBag(JTicketsBagTicket ticketsbagticket) {
         m_ticketsbagticket = ticketsbagticket;
         initComponents();
+        ScaleButtons();
     }
     
-    public void showEdit() {
+    private void ScaleButtons() {
+    	int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_ticketsbagticket.getApp(), "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_ticketsbagticket.getApp(), "Ticket.Buttons", "button-touchlarge-height", "60"));
+
+    	PropertyUtil.ScaleButtonIcon(m_jBtnCancel, btnWidth, btnHeight);
+    	PropertyUtil.ScaleButtonIcon(m_jBtnCancel1, btnWidth, btnHeight);
+    	PropertyUtil.ScaleButtonIcon(m_jBtnDelete, btnWidth, btnHeight);
+	}
+
+	public void showEdit() {
         showView("edit");
     }
     
@@ -64,11 +77,11 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
 
         jPanEdit.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        m_jBtnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete.png"))); // NOI18N
+        m_jBtnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png"))); // NOI18N
         m_jBtnDelete.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
         m_jBtnDelete.setFocusPainted(false);
         m_jBtnDelete.setFocusable(false);
-        m_jBtnDelete.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jBtnDelete.setMargin(new java.awt.Insets(0, 0, 0, 0));
         m_jBtnDelete.setRequestFocusEnabled(false);
         m_jBtnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,11 +90,11 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
         });
         jPanEdit.add(m_jBtnDelete);
 
-        m_jBtnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
+        m_jBtnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
         m_jBtnCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         m_jBtnCancel.setFocusPainted(false);
         m_jBtnCancel.setFocusable(false);
-        m_jBtnCancel.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jBtnCancel.setMargin(new java.awt.Insets(0, 0, 0, 0));
         m_jBtnCancel.setRequestFocusEnabled(false);
         m_jBtnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,11 +107,11 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
 
         jPanRefund.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        m_jBtnCancel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
+        m_jBtnCancel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
         m_jBtnCancel1.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         m_jBtnCancel1.setFocusPainted(false);
         m_jBtnCancel1.setFocusable(false);
-        m_jBtnCancel1.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jBtnCancel1.setMargin(new java.awt.Insets(0, 0, 0, 0));
         m_jBtnCancel1.setRequestFocusEnabled(false);
         m_jBtnCancel1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

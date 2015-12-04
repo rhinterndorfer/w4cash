@@ -23,6 +23,7 @@ import com.openbravo.pos.forms.*;
 import javax.swing.*;
 import com.openbravo.pos.sales.*;
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JTicketsBagSimple extends JTicketsBag {
     
@@ -36,7 +37,7 @@ public class JTicketsBagSimple extends JTicketsBag {
     
     public void ScaleButtons(int btnWidth, int btnHeight)
     {
-    	ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+    	PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
     }
 
     

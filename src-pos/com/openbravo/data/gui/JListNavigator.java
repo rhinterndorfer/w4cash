@@ -29,18 +29,20 @@ import com.openbravo.data.loader.LocalRes;
 import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.BrowseListener;
+import com.openbravo.pos.forms.AppView;
 
 public class JListNavigator extends javax.swing.JPanel implements BrowseListener, ListSelectionListener {
     
     protected BrowsableEditableData m_bd;
+	private AppView m_App;
     
     /** Creates new form JListBrowse */
-    public JListNavigator(BrowsableEditableData bd) {
-        this(bd, false);
+    public JListNavigator(AppView app, BrowsableEditableData bd) {
+        this(app, bd, false);
     }
     
-    public JListNavigator(BrowsableEditableData bd, boolean bTouchable) {
-        
+    public JListNavigator(AppView app,BrowsableEditableData bd, boolean bTouchable) {
+        m_App = app;
         m_bd = bd;
         
         initComponents();
@@ -82,7 +84,7 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
                         m_bd.moveTo(i);
                     } catch (BasicException eD) {
                         MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-                        msg.show(this);
+                        msg.show(m_App,this);
                         // Y ahora tendriamos que seleccionar silenciosamente el registro donde estabamos.
                     }
                 }

@@ -349,7 +349,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
                     m_dlSystem.execChangePassword(new Object[] {sNewPassword, m_appuser.getId()});
                     m_appuser.setPassword(sNewPassword);
                 } catch (BasicException e) {
-                    JMessageDialog.showMessage(JPrincipalApp.this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotchangepassword")));             
+                    JMessageDialog.showMessage(m_appview,JPrincipalApp.this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotchangepassword")));             
                 }
             }
         }
@@ -398,7 +398,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
                 try {
                     m_jMyView.activate();
                 } catch (BasicException e) {
-                    JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notactive"), e));            
+                    JMessageDialog.showMessage(m_appview,this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notactive"), e));            
                 }
 
                 // se tiene que mostrar el panel                
@@ -414,7 +414,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             }
         } else  {
             // No hay permisos para ejecutar la accion...
-            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notpermissions")));            
+            JMessageDialog.showMessage(m_appview, this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notpermissions")));            
         }
         m_appview.waitCursorEnd();       
     }
@@ -432,18 +432,18 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
                     MessageInf m = myProcess.execute();    
                     if (m != null) {
                         // si devuelve un mensaje, lo muestro
-                        JMessageDialog.showMessage(JPrincipalApp.this, m);
+                        JMessageDialog.showMessage(m_appview,JPrincipalApp.this, m);
                     }
                 } catch (BasicException eb) {
                     // Si se produce un error lo muestro.
-                    JMessageDialog.showMessage(JPrincipalApp.this, new MessageInf(eb));            
+                    JMessageDialog.showMessage(m_appview, JPrincipalApp.this, new MessageInf(eb));            
                 }
             } catch (BeanFactoryException e) {
-                JMessageDialog.showMessage(JPrincipalApp.this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("Label.LoadError"), e));            
+                JMessageDialog.showMessage(m_appview, JPrincipalApp.this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("Label.LoadError"), e));            
             }                    
         } else  {
             // No hay permisos para ejecutar la accion...
-            JMessageDialog.showMessage(JPrincipalApp.this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notpermissions")));            
+            JMessageDialog.showMessage(m_appview,JPrincipalApp.this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notpermissions")));            
         }
         m_appview.waitCursorEnd();    
     }

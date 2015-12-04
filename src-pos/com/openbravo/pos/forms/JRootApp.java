@@ -107,7 +107,7 @@ public class JRootApp extends JPanel implements AppView {
 		try {
 			session = AppViewConnection.createSession(m_props);
 		} catch (BasicException e) {
-			JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
+			JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
 			return false;
 		}
 
@@ -131,7 +131,7 @@ public class JRootApp extends JPanel implements AppView {
 						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
 
 				if (JRootApp.class.getResource(sScript) == null) {
-					JMessageDialog.showMessage(this,
+					JMessageDialog.showMessage(this,this,
 							new MessageInf(MessageInf.SGN_DANGER,
 									sDBVersion == null
 											? AppLocal.getIntString("message.databasenotsupported",
@@ -169,13 +169,13 @@ public class JRootApp extends JPanel implements AppView {
 
 							java.util.List l = bsentence.list();
 							if (l.size() > 0) {
-								JMessageDialog.showMessage(this,
+								JMessageDialog.showMessage(this,this,
 										new MessageInf(MessageInf.SGN_WARNING,
 												AppLocal.getIntString("Database.ScriptWarning"),
 												l.toArray(new Throwable[l.size()])));
 							}
 						} catch (BasicException e) {
-							JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_DANGER,
+							JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER,
 									AppLocal.getIntString("Database.ScriptError"), e));
 							session.close();
 							return false;
@@ -208,7 +208,7 @@ public class JRootApp extends JPanel implements AppView {
 		} catch (BasicException e) {
 			// Casco. Sin caja no hay pos
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"), e);
-			msg.show(this);
+			msg.show(this,this);
 			session.close();
 			return false;
 		}
@@ -222,7 +222,7 @@ public class JRootApp extends JPanel implements AppView {
 		}
 
 		// Inicializo la impresora...
-		m_TP = new DeviceTicket(this, m_props);
+		m_TP = new DeviceTicket(this,this, m_props);
 
 		// Inicializamos
 		m_TTP = new TicketParser(getDeviceTicket(), m_dlSystem);
@@ -494,7 +494,7 @@ public class JRootApp extends JPanel implements AppView {
 					} else {
 						MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 								AppLocal.getIntString("message.BadPassword"));
-						msg.show(JRootApp.this);
+						msg.show(JRootApp.this, JRootApp.this);
 					}
 				}
 			}
@@ -579,7 +579,7 @@ public class JRootApp extends JPanel implements AppView {
 			if (user == null) {
 				// user not found
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.nocard"));
-				msg.show(this);
+				msg.show(this,this);
 			} else {
 				openAppView(user);
 			}
