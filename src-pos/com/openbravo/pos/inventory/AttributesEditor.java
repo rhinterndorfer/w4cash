@@ -97,7 +97,7 @@ public class AttributesEditor extends javax.swing.JPanel implements EditorRecord
         jLabel2 = new javax.swing.JLabel();
         m_jName = new javax.swing.JTextField();
 
-        jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
+        jLabel2.setText(AppLocal.getIntString("Label.AttributeName")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

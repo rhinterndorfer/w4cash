@@ -17,17 +17,18 @@
 --    You should have received a copy of the GNU General Public License
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
--- Database upgrade script for ORACLE 2.30.2 -> 2.40.1
-
-DROP INDEX CLOSEDCASH_INX_SEQ;
-CREATE UNIQUE INDEX CLOSEDCASH_INX_SEQ2 ON CLOSEDCASH(HOSTSEQUENCE);
-
-DROP SEQUENCE TICKETSNUM;
-DROP SEQUENCE TICKETSNUM_REFUND;
-DROP SEQUENCE TICKETSNUM_PAYMENT;
+-- Database upgrade script for ORACLE 2.40.4 -> 2.40.5
 
 
+-- role update
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Administrator.xml} WHERE ID='0';
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Manager.xml} WHERE ID='1';
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Employee.xml} WHERE ID='2';
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Guest.xml} WHERE ID='3';
+
+-- resources
+UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Menu.Root.txt} WHERE NAME='Menu.Root';
 -- final script
+
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.30.2');
-UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.1' WHERE ID = 'w4cashdb';
+UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.5' WHERE ID = 'w4cashdb';

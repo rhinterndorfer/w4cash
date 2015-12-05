@@ -20,6 +20,9 @@
 package com.openbravo.pos.sales;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Date;
@@ -57,15 +60,11 @@ import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.JRPrinterAWT300;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
-
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.print.PrintService;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -148,6 +147,21 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		m_ticketlines = new JTicketLines(dlSystem.getResourceAsXML("Ticket.Line"));
 		m_jPanelCentral.add(m_ticketlines, java.awt.BorderLayout.CENTER);
+		m_ticketlines.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+					int i = m_ticketlines.getSelectedIndex();
+					if (i >= 0) {
+						TicketLineInfo line = m_oTicket.getLine(i);
+						String setId = line.getProductAttSetId();
+						if (setId != null)
+							jEditAttributes.setEnabled(true);
+						else
+							jEditAttributes.setEnabled(false);
+					}
+				}
+			}
+		});
 
 		m_TTP = new TicketParser(m_App.getDeviceTicket(), dlSystem);
 
@@ -1000,6 +1014,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("taxes", taxcollection);
 				script.put("taxeslogic", taxeslogic);
+				if (taxeslogic != null) {
+					try {
+						taxeslogic.calculateTaxes(ticket);
+					} catch (Exception ex) {
+					}
+				}
 				script.put("ticket", ticket);
 				script.put("place", ticketext);
 				m_TTP.printTicket(script.eval(sresource).toString());
@@ -1245,15 +1265,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "sales-totalprice-fontsize", "64");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPrice, "sales-amountprice-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPor, "sales-amountprice-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");		
-		
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");
+
 		// button sizes
-		
-//		int priceWidth = Integer.parseInt(m_jbtnconfig.getProperty("sales-totalprice-width", "70"));
-//		int pieceWidth = Integer.parseInt(m_jbtnconfig.getProperty("sales-totalpiece-width", "100"));
-//
-//		m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
-//		m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, -1));
+
+		// int priceWidth =
+		// Integer.parseInt(m_jbtnconfig.getProperty("sales-totalprice-width",
+		// "70"));
+		// int pieceWidth =
+		// Integer.parseInt(m_jbtnconfig.getProperty("sales-totalpiece-width",
+		// "100"));
+		//
+		// m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
+		// m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, -1));
 
 		m_jNumberKeys.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
@@ -1468,7 +1492,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		jPanel2.add(m_jEditLine);
 
 		jEditAttributes
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/colorize.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/colorize25.png"))); // NOI18N
 		jEditAttributes.setFocusPainted(false);
 		jEditAttributes.setFocusable(false);
 		// jEditAttributes.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -1480,8 +1504,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 		});
 		jPanel2.add(jEditAttributes);
-		// invisible
-		jEditAttributes.setVisible(false);
+		jEditAttributes.setEnabled(false);
 
 		jPanel5.add(jPanel2, java.awt.BorderLayout.NORTH);
 
@@ -1555,8 +1578,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridwidth = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 
-		 gridBagConstraints.weightx = 3.0;
-		 gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.weightx = 3.0;
+		gridBagConstraints.weighty = 1.0;
 
 		jPanel9.add(m_jPrice, gridBagConstraints);
 
@@ -1574,8 +1597,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridwidth = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 
-		 gridBagConstraints.weightx = 2.0;
-		 gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.weightx = 2.0;
+		gridBagConstraints.weighty = 1.0;
 
 		// gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
 		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);

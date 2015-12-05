@@ -197,10 +197,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     public String getProductAttSetInstDesc() {
         return attributes.getProperty("product.attsetdesc", "");
     }
-
+    
     public void setProductAttSetInstDesc(String value) {
         if (value == null) {
-            attributes.remove(value);
+            attributes.remove("product.attsetdesc");
         } else {
             attributes.setProperty("product.attsetdesc", value);
         }

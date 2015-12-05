@@ -27,11 +27,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import com.openbravo.data.gui.MessageInf;
+import com.openbravo.data.loader.SentenceList;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.printer.*;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.ListKeyed;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
@@ -39,11 +42,13 @@ import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.panels.JTicketsFinder;
 import com.openbravo.pos.ticket.FindTicketsInfo;
+import com.openbravo.pos.ticket.TaxInfo;
 
 public class JTicketsBagTicket extends JTicketsBag {
 
 	private DataLogicSystem m_dlSystem = null;
 	protected DataLogicCustomers dlCustomers = null;
+	protected DataLogicSales dlSales;
 
 	private DeviceTicket m_TP;
 	private TicketParser m_TTP;
@@ -56,6 +61,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 	private JPanelTicketEdits m_panelticketedit;
 
+	private SentenceList senttax;
+	private ListKeyed taxcollection;
+	private TaxesLogic taxeslogic;
+
 	/** Creates new form JTicketsBagTicket */
 	public JTicketsBagTicket(AppView app, JPanelTicketEdits panelticket) {
 
@@ -63,6 +72,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		m_panelticketedit = panelticket;
 		m_dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
+		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 
 		// Inicializo la impresora...
 		m_TP = new DeviceTicket();
@@ -73,6 +83,15 @@ public class JTicketsBagTicket extends JTicketsBag {
 																		// imprimir
 																		// el
 																		// ticket
+		senttax = dlSales.getTaxList();
+		try {
+			java.util.List<TaxInfo> taxlist = senttax.list();
+			taxcollection = new ListKeyed<TaxInfo>(taxlist);
+			taxeslogic = new TaxesLogic(taxlist);
+		} catch (BasicException bex) {
+			taxcollection = null;
+			taxeslogic = null;
+		}
 
 		initComponents();
 
@@ -223,6 +242,17 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+				if (taxcollection != null)
+					script.put("taxes", taxcollection);
+				if (taxeslogic != null) {
+					script.put("taxeslogic", taxeslogic);
+					try {
+						taxeslogic.calculateTaxes(m_ticket);
+					} catch (Exception ex) {
+
+					}
+				}
+
 				script.put("ticket", m_ticket);
 				m_TTP.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
 			} catch (ScriptException e) {
@@ -408,6 +438,16 @@ public class JTicketsBagTicket extends JTicketsBag {
 		if (m_ticket != null) {
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+				if (taxcollection != null)
+					script.put("taxes", taxcollection);
+				if (taxeslogic != null) {
+					script.put("taxeslogic", taxeslogic);
+					try {
+						taxeslogic.calculateTaxes(m_ticket);
+					} catch (Exception ex) {
+
+					}
+				}
 				script.put("ticket", m_ticket);
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
 			} catch (ScriptException e) {

@@ -31,7 +31,7 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
     private String attid;
 
     /** Creates new form JProductAttEditItem */
-    public JProductAttEditItem(String attid, String label, String value, JEditorKeys keys) {
+    public JProductAttEditItem(String attid, String label, String value) {
 
         this.attid = attid;
 
@@ -39,7 +39,7 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
 
         jLabel1.setText(label);
 
-        jValue.addEditorKeys(keys);
+        //jValue.addEditorKeys(keys);
         jValue.setText(value);
     }
 

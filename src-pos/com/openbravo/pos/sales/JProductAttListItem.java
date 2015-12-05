@@ -41,6 +41,7 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
 
         jLabel1.setText(label);
 
+        jValues.addItem(""); // add empty item
         for (String item : values) {
             jValues.addItem(item);
         }

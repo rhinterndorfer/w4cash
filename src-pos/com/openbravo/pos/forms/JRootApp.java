@@ -44,6 +44,9 @@ import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.pos.scale.DeviceScale;
 import com.openbravo.pos.scanpal2.DeviceScanner;
 import com.openbravo.pos.scanpal2.DeviceScannerFactory;
+
+import javafx.application.Application;
+
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -82,6 +85,7 @@ public class JRootApp extends JPanel implements AppView {
 															// compatibility
 															// purposes
 
+	
 	static {
 		initOldClasses();
 	}
@@ -121,16 +125,17 @@ public class JRootApp extends JPanel implements AppView {
 		do {
 			sDBVersion = readDataBaseVersion();
 
-			if (sDBVersion == null)
-				sDBVersion = "create"; // default start version
-
 			if (!AppLocal.APP_VERSION.equals(sDBVersion)) {
 
 				// Create or upgrade database
-
 				String sScript = sDBVersion.equals("create") ? m_dlSystem.getInitScript() + "-create.sql"
 						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
-
+				
+				/* only for testing !!!
+				String sScript = sDBVersion.equals("create") ? m_dlSystem.getInitScript() + "-create-2.30.2.sql"
+						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
+				*/
+				
 				if (JRootApp.class.getResource(sScript) == null) {
 					JMessageDialog.showMessage(this,
 							new MessageInf(MessageInf.SGN_DANGER,
@@ -267,7 +272,8 @@ public class JRootApp extends JPanel implements AppView {
 		try {
 			return m_dlSystem.findVersion();
 		} catch (Exception ed) {
-			return null;
+			// database exception => run create script
+			return "create";
 		}
 	}
 
