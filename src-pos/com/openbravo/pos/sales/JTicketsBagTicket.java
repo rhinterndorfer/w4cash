@@ -209,6 +209,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		} catch (BasicException e) {
 			m_jEdit.setEnabled(false);
 		}
+		
 		m_jRefund.setEnabled(m_ticket != null && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL);
 		m_jPrint.setEnabled(m_ticket != null);
 
@@ -289,6 +290,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		jButton2.setFocusable(false);
 		jButton2.setMargin(new java.awt.Insets(8, 14, 8, 14));
 		jButton2.setRequestFocusEnabled(false);
+		
 		jButton2.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton2ActionPerformed(evt);
@@ -487,11 +489,4 @@ public class JTicketsBagTicket extends JTicketsBag {
 	private javax.swing.JLabel m_jTicketId;
 	// End of variables declaration//GEN-END:variables
 
-	private void ScaleButtons() {
-		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
-		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight);
-	}
 }

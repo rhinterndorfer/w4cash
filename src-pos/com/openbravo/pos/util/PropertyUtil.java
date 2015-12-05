@@ -1,7 +1,9 @@
 package com.openbravo.pos.util;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.StringReader;
@@ -9,6 +11,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -69,6 +72,8 @@ public class PropertyUtil {
 			Font font = btn.getFont();
 			FontMetrics fm = btn.getFontMetrics(font);
 			newWidth += fm.stringWidth(text);
+			btn.setHorizontalTextPosition(JButton.CENTER);
+			btn.setVerticalTextPosition(JButton.BOTTOM);
 		}
 
 		btn.setSize(newWidth, height);
@@ -410,6 +415,35 @@ public class PropertyUtil {
 		// super.paintTab(g, tabPlacement, rects, tabIndex, iconRect, textRect);
 		// }
 		// });
+	}
+
+	public static int findMaxLabelWidth(JLabel... jLabels) {
+		int maxvalue = 0;
+		for (JLabel label : jLabels) {
+
+			FontMetrics fm = label.getFontMetrics(label.getFont());
+			int width = fm.stringWidth(label.getText());
+			if (maxvalue < width) {
+				maxvalue = width;
+			}
+
+		}
+
+		return maxvalue;
+	}
+
+	public static void setGridBagConstraints(GridBagConstraints layoutData, int column, int row, int align,
+			int columnspan) {
+		setGridBagConstraints(layoutData, column, row, align);
+		layoutData.gridwidth = columnspan;
+
+	}
+
+	public static void setGridBagConstraints(GridBagConstraints layoutData, int gridx, int gridy, int align) {
+		layoutData.fill = align;
+		layoutData.gridx = gridx;
+		layoutData.gridy = gridy;
+		layoutData.gridwidth = 1;
 	}
 
 }

@@ -23,6 +23,10 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
 import javax.swing.*;
 
 public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPanel {
@@ -170,7 +174,8 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 
 		add(jPanel2, java.awt.BorderLayout.NORTH);
 
-		jPanel1.setLayout(null);
+		jPanel1.setLayout(new GridLayout(4, 2));
+		// GridBagConstraints layoutData = new GridBagConstraints();
 
 		jReset.setText(AppLocal.getIntString("button.reset")); // NOI18N
 		jReset.setFocusPainted(false);
@@ -181,18 +186,15 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 				jResetActionPerformed(evt);
 			}
 		});
-		jPanel1.add(jReset);
-		jReset.setBounds(380, 20, 90, 30);
-		jPanel1.add(m_jKeyFactory);
-		m_jKeyFactory.setBounds(0, 0, 0, 0);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 4,
+		// GridBagConstraints.HORIZONTAL);
+
+//		jPanel1.add(m_jKeyFactory);
+//		m_jKeyFactory.setBounds(0, 0, 0, 0);
 
 		jLabel6.setText(AppLocal.getIntString("label.cardnumber")); // NOI18N
-		jPanel1.add(jLabel6);
-		jLabel6.setBounds(20, 50, 100, 15);
 
 		jLabel7.setText(AppLocal.getIntString("label.cardexpdate")); // NOI18N
-		jPanel1.add(jLabel7);
-		jLabel7.setBounds(20, 80, 100, 15);
 
 		m_jExpirationDate.setBackground(java.awt.Color.white);
 		m_jExpirationDate.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -200,9 +202,6 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jExpirationDate.setOpaque(true);
-		m_jExpirationDate.setPreferredSize(new java.awt.Dimension(150, 25));
-		jPanel1.add(m_jExpirationDate);
-		m_jExpirationDate.setBounds(120, 80, 70, 25);
 
 		m_jCardNumber.setBackground(java.awt.Color.white);
 		m_jCardNumber.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -210,13 +209,8 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jCardNumber.setOpaque(true);
-		m_jCardNumber.setPreferredSize(new java.awt.Dimension(150, 25));
-		jPanel1.add(m_jCardNumber);
-		m_jCardNumber.setBounds(120, 50, 250, 25);
 
 		jLabel8.setText(AppLocal.getIntString("label.cardholder")); // NOI18N
-		jPanel1.add(jLabel8);
-		jLabel8.setBounds(20, 20, 100, 15);
 
 		m_jHolderName.setBackground(java.awt.Color.white);
 		m_jHolderName.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -224,9 +218,15 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jHolderName.setOpaque(true);
-		m_jHolderName.setPreferredSize(new java.awt.Dimension(150, 25));
+
+		jPanel1.add(jLabel8);
 		jPanel1.add(m_jHolderName);
-		m_jHolderName.setBounds(120, 20, 250, 25);
+		jPanel1.add(jLabel6);
+		jPanel1.add(m_jCardNumber);
+		jPanel1.add(jLabel7);
+		jPanel1.add(m_jExpirationDate);
+
+		jPanel1.add(jReset);
 
 		add(jPanel1, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
@@ -236,12 +236,11 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jCardNumber, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jExpirationDate, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jHolderName, "common-small-fontsize", "32");
-		
-		
+
 		int bwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int bheight = Integer

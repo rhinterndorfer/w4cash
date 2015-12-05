@@ -31,8 +31,11 @@ import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.GroupLayout;
 
 /**
  *
@@ -73,13 +76,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		PropertyUtil.ScaleButtonIcon(btnCustomer, bwidth, bheight);
 
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxesEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotalEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros2, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros3, "common-small-fontsize", "32");
 	}
 
 	public void setCustomerEnabled(boolean value) {
@@ -256,7 +252,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	// <editor-fold defaultstate="collapsed" desc="Generated
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
-		java.awt.GridBagConstraints gridBagConstraints;
 
 		jPanel1 = new javax.swing.JPanel();
 		m_jPanTotals = new javax.swing.JPanel();
@@ -276,90 +271,69 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		jPanel1.setLayout(new java.awt.BorderLayout());
 
-		m_jPanTotals.setLayout(new java.awt.GridBagLayout());
+		// GroupLayout totalLayout = new GroupLayout(m_jPanTotals);
+		GridLayout layout = new GridLayout(3, 2);
+		m_jPanTotals.setLayout(layout);
 
-		m_jTotalEuros.setBackground(java.awt.Color.white);
-		m_jTotalEuros.setFont(new java.awt.Font("Dialog", 1, 14));
-		m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-				javax.swing.BorderFactory
-						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-		m_jTotalEuros.setOpaque(true);
-		// m_jTotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
-		m_jTotalEuros.setRequestFocusEnabled(false);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-		m_jPanTotals.add(m_jTotalEuros, gridBagConstraints);
+		init2();
 
-		m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-		gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-		m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
+		m_jPanTotals.add(m_jLblTotalEuros3);
+		m_jPanTotals.add(m_jSubtotalEuros);
 
-		m_jSubtotalEuros.setBackground(java.awt.Color.white);
-		m_jSubtotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		m_jSubtotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-				javax.swing.BorderFactory
-						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-		m_jSubtotalEuros.setOpaque(true);
-		// m_jSubtotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
-		m_jSubtotalEuros.setRequestFocusEnabled(false);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
-		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-		m_jPanTotals.add(m_jSubtotalEuros, gridBagConstraints);
+		m_jPanTotals.add(m_jLblTotalEuros2);
+		m_jPanTotals.add(m_jTaxesEuros);
 
-		m_jTaxesEuros.setBackground(java.awt.Color.white);
-		m_jTaxesEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-		m_jTaxesEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-				javax.swing.BorderFactory
-						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-		m_jTaxesEuros.setOpaque(true);
-		// m_jTaxesEuros.setPreferredSize(new java.awt.Dimension(150, 25));
-		m_jTaxesEuros.setRequestFocusEnabled(false);
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-		gridBagConstraints.weightx = 1.0;
-		gridBagConstraints.weighty = 1.0;
-		gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
-		m_jPanTotals.add(m_jTaxesEuros, gridBagConstraints);
+		m_jPanTotals.add(m_jLblTotalEuros1);
+		m_jPanTotals.add(m_jTotalEuros);
 
-		m_jLblTotalEuros2.setText(AppLocal.getIntString("label.taxcash")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-		gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-		m_jPanTotals.add(m_jLblTotalEuros2, gridBagConstraints);
+		ScaleLabels();
 
-		m_jLblTotalEuros3.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-		m_jPanTotals.add(m_jLblTotalEuros3, gridBagConstraints);
+		//
+		// totalLayout.setHorizontalGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addGroup(totalLayout.createSequentialGroup()
+		// .addComponent(m_jLblTotalEuros3, width,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE)
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addComponent(m_jSubtotalEuros, javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE))
+		// .addGroup(totalLayout.createSequentialGroup()
+		// .addComponent(m_jLblTotalEuros2, width,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE)
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(m_jTaxesEuros,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE))
+		// .addGroup(totalLayout.createSequentialGroup()
+		// .addComponent(m_jLblTotalEuros1, width,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE)
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(m_jTotalEuros,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE)
+		// // .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+		// // Short.MAX_VALUE)
+		// ));
+		// totalLayout.setVerticalGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addGroup(totalLayout.createSequentialGroup().addContainerGap()
+		// .addGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addComponent(m_jLblTotalEuros3)
+		// .addComponent(m_jSubtotalEuros))
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addComponent(m_jLblTotalEuros2).addComponent(m_jTaxesEuros))
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addComponent(m_jLblTotalEuros1).addComponent(m_jTotalEuros))
+		//
+		// // .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+		// // Short.MAX_VALUE)
+		// ));
 
-		jPanel1.add(m_jPanTotals, java.awt.BorderLayout.EAST);
+		jPanel1.add(m_jPanTotals, java.awt.BorderLayout.CENTER);
 
 		add(jPanel1, java.awt.BorderLayout.SOUTH);
 
@@ -394,6 +368,108 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		jPanel2.setLayout(new java.awt.BorderLayout());
 		add(jPanel2, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
+
+	private void ScaleLabels() {
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxesEuros, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotalEuros, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros3, "common-small-fontsize", "32");
+	}
+
+	private void init2() {
+		// java.awt.GridBagConstraints gridBagConstraints;
+		// m_jPanTotals.setLayout(new java.awt.GridBagLayout());
+
+		m_jTotalEuros.setBackground(java.awt.Color.white);
+		m_jTotalEuros.setFont(new java.awt.Font("Dialog", 1, 14));
+		 m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+				javax.swing.BorderFactory
+						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+		m_jTotalEuros.setOpaque(true);
+		// m_jTotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		m_jTotalEuros.setRequestFocusEnabled(false);
+		// gridBagConstraints = new java.awt.GridBagConstraints();
+		// gridBagConstraints.gridx = 1;
+		// gridBagConstraints.gridy = 2;
+		// gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		// // gridBagConstraints.anchor =
+		// // java.awt.GridBagConstraints.FIRST_LINE_START;
+		// gridBagConstraints.weightx = 1.0;
+		// gridBagConstraints.weighty = 1.0;
+		// gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+		// m_jPanTotals.add(m_jTotalEuros, gridBagConstraints);
+
+		m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
+		// gridBagConstraints = new java.awt.GridBagConstraints();
+		// gridBagConstraints.gridx = 0;
+		// gridBagConstraints.gridy = 2;
+		// // gridBagConstraints.anchor =
+		// // java.awt.GridBagConstraints.FIRST_LINE_START;
+		// gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+		// m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
+
+		m_jSubtotalEuros.setBackground(java.awt.Color.white);
+		 m_jSubtotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jSubtotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+				javax.swing.BorderFactory
+						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+		m_jSubtotalEuros.setOpaque(true);
+		// m_jSubtotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		m_jSubtotalEuros.setRequestFocusEnabled(false);
+		// gridBagConstraints = new java.awt.GridBagConstraints();
+		// gridBagConstraints.gridx = 1;
+		// gridBagConstraints.gridy = 0;
+		// gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		// // gridBagConstraints.anchor =
+		// // java.awt.GridBagConstraints.FIRST_LINE_START;
+		// gridBagConstraints.weightx = 1.0;
+		// gridBagConstraints.weighty = 1.0;
+		// gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+		// m_jPanTotals.add(m_jSubtotalEuros, gridBagConstraints);
+
+		m_jTaxesEuros.setBackground(java.awt.Color.white);
+		 m_jTaxesEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jTaxesEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+				javax.swing.BorderFactory
+						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+		m_jTaxesEuros.setOpaque(true);
+		// m_jTaxesEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		m_jTaxesEuros.setRequestFocusEnabled(false);
+		// gridBagConstraints = new java.awt.GridBagConstraints();
+		// gridBagConstraints.gridx = 1;
+		// gridBagConstraints.gridy = 1;
+		// gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		// // gridBagConstraints.anchor =
+		// // java.awt.GridBagConstraints.FIRST_LINE_START;
+		// gridBagConstraints.weightx = 1.0;
+		// gridBagConstraints.weighty = 1.0;
+		// gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 0);
+		// m_jPanTotals.add(m_jTaxesEuros, gridBagConstraints);
+
+		m_jLblTotalEuros2.setText(AppLocal.getIntString("label.taxcash")); // NOI18N
+		// gridBagConstraints = new java.awt.GridBagConstraints();
+		// gridBagConstraints.gridx = 0;
+		// gridBagConstraints.gridy = 1;
+		// // gridBagConstraints.anchor =
+		// // java.awt.GridBagConstraints.FIRST_LINE_START;
+		// gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+		// m_jPanTotals.add(m_jLblTotalEuros2, gridBagConstraints);
+
+		m_jLblTotalEuros3.setText(AppLocal.getIntString("label.subtotalcash1")); // NOI18N
+		// gridBagConstraints = new java.awt.GridBagConstraints();
+		// gridBagConstraints.gridx = 0;
+		// gridBagConstraints.gridy = 0;
+		// // gridBagConstraints.anchor =
+		// // java.awt.GridBagConstraints.FIRST_LINE_START;
+		// m_jPanTotals.add(m_jLblTotalEuros3, gridBagConstraints);
+	}
 
 	private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCustomerActionPerformed
 

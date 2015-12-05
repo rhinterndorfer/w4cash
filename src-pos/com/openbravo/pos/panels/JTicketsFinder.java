@@ -325,7 +325,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
-		jPanel7.setPreferredSize(new java.awt.Dimension(0, 210));
+		// jPanel7.setPreferredSize(new java.awt.Dimension(0, 210));
 
 		jLabel1.setText(AppLocal.getIntString("label.ticketid")); // NOI18N
 
@@ -568,7 +568,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-		jPanel2.setPreferredSize(new java.awt.Dimension(200, 250));
+		// jPanel2.setPreferredSize(new java.awt.Dimension(200, 250));
 		jPanel2.setLayout(new java.awt.BorderLayout());
 		jPanel2.add(m_jKeys, java.awt.BorderLayout.NORTH);
 
@@ -584,18 +584,36 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
-
+//		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleLabelFontsize(m_App, labelCustomer, "common-small-fontsize", "32");
+//
+//		PropertyUtil.ScaleEditnumbersontsize(m_App, jtxtTicketID, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jtxtMoney, "common-small-fontsize", "32");
+//
+//		PropertyUtil.ScaleTextFieldFontsize(m_App, jtxtCustomer, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-small-fontsize", "32");
+//		
+//		PropertyUtil.ScaleComboFontsize(m_App, jComboBoxTicket, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleComboFontsize(m_App, jcboUser, "common-small-fontsize", "32");
+//		PropertyUtil.ScaleComboFontsize(m_App, jcboMoney, "common-small-fontsize", "32");
+		
+		
 		int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
 		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+		
+		// PropertyUtil.ScaleButtonIcon(btnCustomer, menuwidth, menuheight);
+		// PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight);
+		// PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight);
+		
 	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed

@@ -23,6 +23,9 @@ import com.openbravo.basic.BasicException;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -104,15 +107,15 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		getRootPane().setDefaultButton(m_jButtonOK);
 		returnLine = null;
-		
+
 		ScaleButtons();
-		
+
 		setVisible(true);
 
 		return returnLine;
 	}
-	
-	private void ScaleButtons(){
+
+	private void ScaleLabels() {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
@@ -123,13 +126,17 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotal, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxrate, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotal, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleEditnumbersontsize(m_App, m_jUnits, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPrice, "common-small-fontsize", "32");
 		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceTax, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jName, "common-small-fontsize", "32");
+	}
+
+	private void ScaleButtons() {
+
 	}
 
 	private void printTotals() {
@@ -259,31 +266,13 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
-		jPanel2.setLayout(null);
+		jPanel2.setLayout(new GridLayout(7, 2));
+		// GridBagConstraints layoutData = new GridBagConstraints();
 
 		jLabel1.setText(AppLocal.getIntString("label.price")); // NOI18N
-		jPanel2.add(jLabel1);
-		jLabel1.setBounds(10, 80, 90, 15);
-
 		jLabel2.setText(AppLocal.getIntString("label.units")); // NOI18N
-		jPanel2.add(jLabel2);
-		jLabel2.setBounds(10, 50, 90, 15);
-
 		jLabel3.setText(AppLocal.getIntString("label.pricetax")); // NOI18N
-		jPanel2.add(jLabel3);
-		jLabel3.setBounds(10, 110, 90, 15);
-
 		jLabel4.setText(AppLocal.getIntString("label.item")); // NOI18N
-		jPanel2.add(jLabel4);
-		jLabel4.setBounds(10, 20, 90, 15);
-		jPanel2.add(m_jName);
-		m_jName.setBounds(100, 20, 270, 25);
-		jPanel2.add(m_jUnits);
-		m_jUnits.setBounds(100, 50, 240, 25);
-		jPanel2.add(m_jPrice);
-		m_jPrice.setBounds(100, 80, 240, 25);
-		jPanel2.add(m_jPriceTax);
-		m_jPriceTax.setBounds(100, 110, 240, 25);
 
 		m_jTaxrate.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.disabledBackground"));
 		m_jTaxrate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -292,18 +281,12 @@ public class JProductLineEdit extends javax.swing.JDialog {
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jTaxrate.setOpaque(true);
-		m_jTaxrate.setPreferredSize(new java.awt.Dimension(150, 25));
+		// m_jTaxrate.setPreferredSize(new java.awt.Dimension(150, 25));
 		m_jTaxrate.setRequestFocusEnabled(false);
-		jPanel2.add(m_jTaxrate);
-		m_jTaxrate.setBounds(100, 140, 210, 25);
 
 		jLabel5.setText(AppLocal.getIntString("label.tax")); // NOI18N
-		jPanel2.add(jLabel5);
-		jLabel5.setBounds(10, 140, 90, 15);
 
 		jLabel6.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
-		jPanel2.add(jLabel6);
-		jLabel6.setBounds(10, 200, 90, 15);
 
 		m_jTotal.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.disabledBackground"));
 		m_jTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -312,14 +295,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jTotal.setOpaque(true);
-		m_jTotal.setPreferredSize(new java.awt.Dimension(150, 25));
+		// m_jTotal.setPreferredSize(new java.awt.Dimension(150, 25));
 		m_jTotal.setRequestFocusEnabled(false);
-		jPanel2.add(m_jTotal);
-		m_jTotal.setBounds(100, 200, 210, 25);
 
 		jLabel7.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
-		jPanel2.add(jLabel7);
-		jLabel7.setBounds(10, 170, 90, 15);
 
 		m_jSubtotal.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.disabledBackground"));
 		m_jSubtotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -328,10 +307,69 @@ public class JProductLineEdit extends javax.swing.JDialog {
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jSubtotal.setOpaque(true);
-		m_jSubtotal.setPreferredSize(new java.awt.Dimension(150, 25));
+		// m_jSubtotal.setPreferredSize(new java.awt.Dimension(150, 25));
 		m_jSubtotal.setRequestFocusEnabled(false);
+
+		ScaleLabels();
+
+		jPanel2.add(jLabel4);
+		jPanel2.add(m_jName);
+		jPanel2.add(jLabel2);
+		jPanel2.add(m_jUnits);
+		jPanel2.add(jLabel1);
+		jPanel2.add(m_jPrice);
+		jPanel2.add(jLabel3);
+		jPanel2.add(m_jPriceTax);
+
+		jPanel2.add(jLabel5);
+		jPanel2.add(m_jTaxrate);
+		jPanel2.add(jLabel7 );
 		jPanel2.add(m_jSubtotal);
-		m_jSubtotal.setBounds(100, 170, 210, 25);
+		jPanel2.add(jLabel6);
+		jPanel2.add(m_jTotal);
+
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 2,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel1, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 1,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel2, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 3,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel3, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 0,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel4, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 0,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jName, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 1,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jUnits, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 2,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jPrice, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 3,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jPriceTax, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 4,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jTaxrate, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 4,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel5, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 6,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel6, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 6,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jTotal, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 0, 5,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(jLabel7, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 1, 5,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel2.add(m_jSubtotal, layoutData);
 
 		jPanel5.add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -379,8 +417,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		PropertyUtil.ScaleDialog(m_App, this, 580, 362);
 
-//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-//		setBounds((screenSize.width - 580) / 2, (screenSize.height - 362) / 2, 580, 362);
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 580) / 2, (screenSize.height - 362) /
+		// 2, 580, 362);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed

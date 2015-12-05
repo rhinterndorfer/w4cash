@@ -27,13 +27,20 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -44,6 +51,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	private CustomerInfo selectedCustomer;
 	private ListProvider lpr;
 	private AppView m_App;
+	private JPanel jPanel77;
 
 	/** Creates new form JCustomerFinder */
 	private JCustomerFinder(java.awt.Frame parent, boolean modal) {
@@ -252,48 +260,128 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		jLabel6.setText(AppLocal.getIntString("label.searchkey")); // NOI18N
 
-		jLabel7.setText(AppLocal.getIntString("label.taxid")); // NOI18N
+//		jPanel77 = new JPanel();
+//		jPanel77.setBorder(BorderFactory.createLineBorder(Color.black));
+//		GridBagLayout jPanel77Layout = new GridBagLayout();
+//		jPanel77.setLayout(jPanel77Layout);
+//
+//		GridBagConstraints gbc = new GridBagConstraints();
+//		PropertyUtil.setGridBagConstraints(gbc, 0, 0, GridBagConstraints.EAST);
+//		jPanel77.add(jLabel7, gbc);
+//
+//		PropertyUtil.setGridBagConstraints(gbc, 0, 1, GridBagConstraints.HORIZONTAL);
+//		jPanel77.add(m_jtxtTaxID, gbc);
+//
+//		PropertyUtil.setGridBagConstraints(gbc, 1, 0, GridBagConstraints.EAST);
+//		jPanel77.add(jLabel5, gbc);
+//
+//		PropertyUtil.setGridBagConstraints(gbc, 1, 1, GridBagConstraints.HORIZONTAL);
+//		jPanel77.add(m_jtxtName, gbc);
+//
+//		PropertyUtil.setGridBagConstraints(gbc, 2, 0, GridBagConstraints.EAST);
+//		jPanel77.add(jLabel6, gbc);
+//
+//		PropertyUtil.setGridBagConstraints(gbc, 2, 1, GridBagConstraints.HORIZONTAL);
+//		jPanel77.add(m_jtxtSearchKey, gbc);
 
+		jLabel7.setText(AppLocal.getIntString("label.taxid")); // NOI18N
 		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
 		jPanel7.setLayout(jPanel7Layout);
+
+		// jPanel7.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+		ScaleLabels();
+
+		int width = PropertyUtil.findMaxLabelWidth(jLabel7, jLabel5, jLabel6);
 		jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 								.addGroup(jPanel7Layout.createSequentialGroup()
-										.addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addComponent(jLabel7, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE)
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
+										.addComponent(m_jtxtTaxID, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addGroup(jPanel7Layout.createSequentialGroup()
-								.addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(jLabel5, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addComponent(m_jtxtName, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addGroup(jPanel7Layout.createSequentialGroup()
-								.addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(jLabel6, width,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-										javax.swing.GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+								.addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)))
+		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+		// Short.MAX_VALUE)
+		));
 		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel7).addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addComponent(jLabel7).addComponent(m_jtxtTaxID, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 								.addComponent(jLabel6).addComponent(m_jtxtSearchKey,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 								.addComponent(jLabel5).addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
+		// jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
+		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addGroup(jPanel7Layout.createSequentialGroup()
+		// .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+		// javax.swing.GroupLayout.PREFERRED_SIZE)
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE,
+		// 220,
+		// javax.swing.GroupLayout.PREFERRED_SIZE))
+		// .addGroup(jPanel7Layout.createSequentialGroup()
+		// .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+		// javax.swing.GroupLayout.PREFERRED_SIZE)
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE,
+		// 220,
+		// javax.swing.GroupLayout.PREFERRED_SIZE))
+		// .addGroup(jPanel7Layout.createSequentialGroup()
+		// .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
+		// javax.swing.GroupLayout.PREFERRED_SIZE)
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addComponent(m_jtxtSearchKey,
+		// javax.swing.GroupLayout.PREFERRED_SIZE, 220,
+		// javax.swing.GroupLayout.PREFERRED_SIZE)))
+		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+		// Short.MAX_VALUE)));
+		// jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
+		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addComponent(jLabel7).addComponent(m_jtxtTaxID,
+		// javax.swing.GroupLayout.PREFERRED_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.PREFERRED_SIZE))
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addComponent(jLabel6).addComponent(m_jtxtSearchKey,
+		// javax.swing.GroupLayout.PREFERRED_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.PREFERRED_SIZE))
+		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		// .addComponent(jLabel5).addComponent(m_jtxtName,
+		// javax.swing.GroupLayout.PREFERRED_SIZE,
+		// javax.swing.GroupLayout.DEFAULT_SIZE,
+		// javax.swing.GroupLayout.PREFERRED_SIZE))
+		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
+		// Short.MAX_VALUE)));
+
+		// jPanel5.add(jPanel77, java.awt.BorderLayout.CENTER);
 		jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
 		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reset.png"))); // NOI18N
@@ -389,8 +477,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		// 2, 613, 610);
 	}// </editor-fold>//GEN-END:initComponents
 
-	@Override
-	public void ScaleButtons() {
+	private void ScaleLabels() {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
@@ -398,6 +485,11 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-small-fontsize", "32");
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-small-fontsize", "32");
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtTaxID, "common-small-fontsize", "32");
+
+	}
+
+	@Override
+	public void ScaleButtons() {
 
 		int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));

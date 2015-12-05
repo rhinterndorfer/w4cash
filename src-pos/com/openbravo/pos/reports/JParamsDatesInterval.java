@@ -130,21 +130,27 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 	@Override
 	public void ScaleButtons() {
 
-		int btnWidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "32"));
-		int btnHeight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "32"));
-
-		PropertyUtil.ScaleButtonIcon(btnDateEnd, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(btnDateStart, btnWidth, btnHeight);
-
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
-
-		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-small-fontsize", "32");
-
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder)getBorder(), "common-small-fontsize", "32");
+		// int btnWidth = Integer
+		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
+		// "button-touchsmall-width", "32"));
+		// int btnHeight = Integer
+		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
+		// "button-touchsmall-height", "32"));
+		//
+		// PropertyUtil.ScaleButtonIcon(btnDateEnd, btnWidth, btnHeight);
+		// PropertyUtil.ScaleButtonIcon(btnDateStart, btnWidth, btnHeight);
+		//
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel1,
+		// "common-small-fontsize", "32");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel2,
+		// "common-small-fontsize", "32");
+		//
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate,
+		// "common-small-fontsize", "32");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate,
+		// "common-small-fontsize", "32");
+		//
+		// PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder)getBorder(), "common-small-fontsize", "32");
 	}
 
 	private void btnDateStartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDateStartActionPerformed

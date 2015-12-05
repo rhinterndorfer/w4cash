@@ -488,31 +488,49 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel12, "common-large-fontsize", "64");
-
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCash, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCount, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jMaxDate, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jMinDate, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSales, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSalesSubtotal, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSalesTaxes, "common-large-fontsize", "64");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSalesTotal, "common-large-fontsize", "64");
-
-		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable, "sales-tablecolumn-fontsize", "14");
-		// PropertyUtil.ScaleTableRowheight(m_App, m_jTicketTable,
-		// "sales-producttable-lineheight", "25");
-		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jsalestable, "sales-tablecolumn-fontsize", "14");
-		// PropertyUtil.ScaleTableRowheight(m_App, m_jsalestable,
-		// "sales-producttable-lineheight", "25");
-
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel1,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel2,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel3,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel4,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel5,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel6,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel7,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel12,
+		// "common-large-fontsize", "64");
+		//
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCash,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCount,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jMaxDate,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jMinDate,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSales,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSalesSubtotal,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSalesTaxes,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jSalesTotal,
+		// "common-large-fontsize", "64");
+		//
+		// PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable,
+		// "sales-tablecolumn-fontsize", "14");
+		// // PropertyUtil.ScaleTableRowheight(m_App, m_jTicketTable,
+		// // "sales-producttable-lineheight", "25");
+		// PropertyUtil.ScaleTableColumnFontsize(m_App, m_jsalestable,
+		// "sales-tablecolumn-fontsize", "14");
+		// // PropertyUtil.ScaleTableRowheight(m_App, m_jsalestable,
+		// // "sales-producttable-lineheight", "25");
+		//
 		int btnWidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
 		int btnHeight = Integer
