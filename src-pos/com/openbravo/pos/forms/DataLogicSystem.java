@@ -137,7 +137,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		if (result != null)
 			return result.toString();
 		else
-			return null;
+			return "2.30.2";
 	}
 
 	public final void execDummy() throws BasicException {

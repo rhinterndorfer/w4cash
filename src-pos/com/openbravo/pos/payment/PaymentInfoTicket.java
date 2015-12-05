@@ -70,6 +70,10 @@ public class PaymentInfoTicket extends PaymentInfo implements SerializableRead  
     public String printPaid() {
         return Formats.CURRENCY.formatValue(new Double(m_dTicket));
     }
+    public String printChange() {
+        return null;
+    }
+    
     
     // Especificas
     public String printPaperTotal() {

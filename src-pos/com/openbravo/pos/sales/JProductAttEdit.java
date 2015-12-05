@@ -123,6 +123,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE);
 
 		getRootPane().setDefaultButton(m_jButtonOK);
+<<<<<<< HEAD
 
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
@@ -133,6 +134,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 	private void ScaleButtons() {
 		
+=======
+>>>>>>> branch 'master' of https://github.com/rhinterndorfer/w4cash/
 	}
 
 	public static JProductAttEdit getAttributesEditor(AppView app, Component parent, Session s) {
@@ -183,7 +186,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				List<String> values = attvaluesSent.list(aii.getAttid());
 				if (values.isEmpty()) {
 					// Does not exist a list of values then a textfield
-					item = new JProductAttEditItem(aii.getAttid(), aii.getAttname(), aii.getValue(), m_jKeys);
+					item = new JProductAttEditItem(aii.getAttid(), aii.getAttname(), aii.getValue());
 				} else {
 					// Does exist a list with the values
 					item = new JProductAttListItem(aii.getAttid(), aii.getAttname(), aii.getValue(), values);
@@ -286,8 +289,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonOK = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
-		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		//jPanel4 = new javax.swing.JPanel();
+		//m_jKeys = new com.openbravo.editor.JEditorKeys();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -331,10 +334,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		jPanel3.setLayout(new java.awt.BorderLayout());
 
-		jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
-		jPanel4.add(m_jKeys);
+		//jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+		//jPanel4.add(m_jKeys);
 
-		jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
+		//jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 

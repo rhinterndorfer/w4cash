@@ -27,7 +27,7 @@
 	<!-- program name -->
 	<property name="name" value="w4cash" />
 	<!-- project version -->
-	<property name="version" value="2.40.4" />
+	<property name="version" value="2.40.5" />
 	<!-- javac properties -->
 	<property name="javac.deprecation" value="off" />
 	<property name="javac.optimize" value="on" />
@@ -36,8 +36,6 @@
 	<!-- read in property files -->
 	<property file="build.properties" />
 	<property name="src.pos" value="${basedir}/src-pos" />
-	<!-- <property name="src.data" value="${basedir}/src-data" /> -->
-	<!-- <property name="src.beans" value="${basedir}/src-beans" /> -->
 	<property name="src.erp" value="${basedir}/src-erp" />
 	<property name="reports" value="${basedir}/reports" />
 	<property name="locales" value="${basedir}/locales" />
@@ -115,8 +113,8 @@
 				<fileset dir="${basedir}/lib">
 					<include name="**/*.jar" />
 				</fileset>
-				<!-- <pathelement location="${dest.classes}/beans" /> -->
-				<!-- <pathelement location="${dest.classes}/data" /> -->
+				<pathelement location="${dest.classes}/beans" />
+				<pathelement location="${dest.classes}/data" />
 				<pathelement location="${dest.classes}/pos" />
 			</classpath>
 		</javac>
@@ -140,8 +138,6 @@
 		<mkdir dir="${basedir}/build/zip" />
 
 		<copy todir="${basedir}/build/zip">
-			<!-- <fileset dir="${dest.classes}/beans" /> -->
-			<!-- <fileset dir="${dest.classes}/data" /> -->
 			<fileset dir="${dest.classes}/pos" />
 			<fileset dir="${dest.classes}/erp" />
 		</copy>
@@ -283,6 +279,7 @@
 		<mkdir dir="${basedir}/build/zip" />
 
 		<!-- w4cash -->
+
 		<copy todir="${basedir}/build/zip/src-pos">
 			<fileset dir="${src.pos}">
 				<exclude name="**/.nbattrs" />

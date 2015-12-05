@@ -70,7 +70,8 @@ public class JPanelTicketSales extends JPanelTicket {
 	}
 
 	protected void resetSouthComponent() {
-		m_cat.showCatalogPanel(null);
+		// do not reset current catalog selection
+		// m_cat.showCatalogPanel(null);
 	}
 
 	protected JTicketsBag getJTicketsBag() {
