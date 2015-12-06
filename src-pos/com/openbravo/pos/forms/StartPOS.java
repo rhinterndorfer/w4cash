@@ -19,6 +19,9 @@
 
 package com.openbravo.pos.forms;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,7 +31,12 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractAction;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.LookAndFeel;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
@@ -36,6 +44,12 @@ import org.jvnet.substance.api.SubstanceSkin;
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.instance.InstanceQuery;
+
+import java.awt.Dialog.ModalityType;
+import java.awt.Point;
+import java.awt.Window;
+import java.beans.PropertyChangeListener;
+import javax.swing.*;
 
 /**
  *
@@ -137,6 +151,8 @@ public class StartPOS {
 					rootkiosk.initFrame(config);
 				} else {
 					JRootFrame rootframe = new JRootFrame();
+					
+					new StartPOS().new ShowWaitAction("Show Wait Dialog").actionPerformed(new ActionEvent(rootframe, 0, "") );
 					rootframe.initFrame(config);
 				}
 			}
@@ -179,10 +195,70 @@ public class StartPOS {
 					}
 				} catch (IOException e) {
 					// TODO: ERROR DIALOG
-					e.printStackTrace();
+//					e.printStackTrace();
+					final JDialog dialog = new JDialog(null, "W4CASH Lizenz.", ModalityType.APPLICATION_MODAL);
+					JPanel panel = new JPanel(new BorderLayout());
+					panel.add(new JLabel("Lizenz wurde nicht gefunden, w4cash schlieﬂt."), BorderLayout.PAGE_START);
+					dialog.add(panel);
+					dialog.pack();
+					dialog.setLocation(new Point(100, 100));
+					dialog.setVisible(true);
+					
 					System.exit(0);
 				}
 			}
 		});
+	}
+
+	public class ShowWaitAction extends AbstractAction {
+		/**
+		* 
+		*/
+		private static final long serialVersionUID = -7964048200093662696L;
+
+		protected static final long SLEEP_TIME = 3 * 1000;
+
+		public ShowWaitAction(String name) {
+			super(name);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			SwingWorker<Void, Void> mySwingWorker = new SwingWorker<Void, Void>() {
+				@Override
+				protected Void doInBackground() throws Exception {
+
+					// mimic some long-running process here...
+					Thread.sleep(SLEEP_TIME);
+					return null;
+				}
+			};
+
+			Window win = SwingUtilities.getWindowAncestor((JRootFrame) evt.getSource());
+			final JDialog dialog = new JDialog(win, "W4CASH startet.", ModalityType.APPLICATION_MODAL);
+
+			mySwingWorker.addPropertyChangeListener(new PropertyChangeListener() {
+
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					if (evt.getPropertyName().equals("state")) {
+						if (evt.getNewValue() == SwingWorker.StateValue.DONE) {
+							dialog.dispose();
+						}
+					}
+				}
+			});
+			mySwingWorker.execute();
+
+			JProgressBar progressBar = new JProgressBar();
+			progressBar.setIndeterminate(true);
+			JPanel panel = new JPanel(new BorderLayout());
+			panel.add(progressBar, BorderLayout.CENTER);
+			panel.add(new JLabel("Bitte warten ......."), BorderLayout.PAGE_START);
+			dialog.add(panel);
+			dialog.pack();
+			dialog.setLocationRelativeTo(win);
+			dialog.setVisible(true);
+		}
 	}
 }
