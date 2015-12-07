@@ -22,6 +22,8 @@ package com.openbravo.pos.forms;
 import com.openbravo.pos.config.JFrmConfig;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.rmi.RemoteException;
 import javax.swing.JFrame;
 import com.openbravo.pos.instance.AppMessage;

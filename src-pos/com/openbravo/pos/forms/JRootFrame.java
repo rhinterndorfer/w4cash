@@ -77,6 +77,7 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
             
             
             // pack();
+            this.setSize(800, 600); // set size for normal window state
             this.setExtendedState(MAXIMIZED_BOTH);
             setLocationRelativeTo(null);        
             
