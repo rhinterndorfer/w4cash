@@ -1251,6 +1251,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			script.put("sales", this);
 			script.put("app", m_App.getAppUserView());
 			
+			
 			// more arguments
 			for (ScriptArg arg : args) {
 				script.put(arg.getKey(), arg.getValue());

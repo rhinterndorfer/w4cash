@@ -344,6 +344,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
     }
     
     
+    
     // La accion de cambio de password..
     private class ChangePasswordAction extends AbstractAction {
         public ChangePasswordAction(String icon, String keytext) {
