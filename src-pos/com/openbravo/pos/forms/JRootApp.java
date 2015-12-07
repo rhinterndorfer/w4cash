@@ -677,7 +677,7 @@ public class JRootApp extends JPanel implements AppView {
 		m_jLogonName.setLayout(new java.awt.BorderLayout());
 
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane1.setPreferredSize(new java.awt.Dimension(510, 118));
 		m_jLogonName.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
