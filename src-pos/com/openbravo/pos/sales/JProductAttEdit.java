@@ -188,6 +188,36 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		}
 	}
 
+	public void scaleFont(int fontSize) {
+
+		if (itemslist != null && itemslist.size() > 0) {
+			double scaleFactor = 1;
+
+			for (int i = 0; i < itemslist.size(); i++) {
+				JProductAttEditI item = itemslist.get(i);
+				scaleFactor = item.scaleFont(fontSize);
+			}
+
+			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+			int compWidth = (int) ((fontSize + 80) * scaleFactor) + 450;
+			int compHeight = (int) (fontSize * scaleFactor) * itemslist.size() + (int) (scaleFactor * scaleFactor) + 150;
+
+			if (compWidth > screenSize.getWidth())
+				compWidth = (int) screenSize.getWidth();
+			if (compHeight > screenSize.getHeight())
+				compHeight = (int) screenSize.getHeight();
+
+			setBounds((screenSize.width - compWidth) / 2, (screenSize.height - compHeight) / 2, compWidth, compHeight);
+
+			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
+			PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize);
+
+		}
+	}
+
 	public boolean isOK() {
 		return ok;
 	}
@@ -275,8 +305,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonOK = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
-		//jPanel4 = new javax.swing.JPanel();
-		//m_jKeys = new com.openbravo.editor.JEditorKeys();
+		// jPanel4 = new javax.swing.JPanel();
+		// m_jKeys = new com.openbravo.editor.JEditorKeys();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -320,15 +350,17 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		jPanel3.setLayout(new java.awt.BorderLayout());
 
-		//jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
-		//jPanel4.add(m_jKeys);
+		// jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4,
+		// javax.swing.BoxLayout.Y_AXIS));
+		// jPanel4.add(m_jKeys);
 
-		//jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
+		// jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) / 2, 609, 388);
+		setBounds((screenSize.width - 350) / 2, (screenSize.height - 150) / 2, 350, 150);
+
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed

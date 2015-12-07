@@ -21,6 +21,8 @@ package com.openbravo.pos.sales;
 
 import java.awt.Component;
 
+import com.openbravo.pos.util.PropertyUtil;
+
 /**
  *
  * @author adrianromero
@@ -32,4 +34,6 @@ public interface JProductAttEditI {
 
     public Component getComponent();
     public void assignSelection();
+    
+    public double scaleFont(int fontSize);
 }

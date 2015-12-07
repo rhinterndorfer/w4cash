@@ -1,5 +1,6 @@
 package com.openbravo.pos.util;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -13,7 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -79,6 +82,53 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
+	
+	public static double ScaleButtonFontsize(JButton button, int fontSize) {
+		Font fontLabel = button.getFont();
+		
+		double scaleFactor = fontSize / fontLabel.getSize();
+		
+		button.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+		button.setSize((int) (button.getSize().getWidth() * scaleFactor), fontSize);
+		
+		return scaleFactor;
+	}
+	
+	public static double ScaleLabelFontsize(JLabel label, int fontSize) {
+			Font fontLabel = label.getFont();
+			
+			double scaleFactor = fontSize / fontLabel.getSize();
+			
+			label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+			label.setSize((int) (label.getSize().getWidth() * scaleFactor), fontSize);
+			
+			return scaleFactor;
+	}
+	
+	public static double ScaleLabelFontsize(JTextField textfield, int fontSize) {
+		Font fontLabel = textfield.getFont();
+		
+		double scaleFactor = fontSize / fontLabel.getSize();
+		
+		textfield.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+		if(textfield.getSize().getWidth() > 0)
+			textfield.setSize((int) (textfield.getSize().getWidth() * scaleFactor), fontSize);
+		if(textfield.getPreferredSize().getWidth() > 0)
+			textfield.setPreferredSize(new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), fontSize));
+		
+		return scaleFactor;
+}
+	
+	public static double ScaleComboboxFontSize(JComboBox combobox, int fontSize) {
+		Font fontLabel = combobox.getFont();
+		
+		double scaleFactor = fontSize / fontLabel.getSize();
+		combobox.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+		combobox.setSize((int) (combobox.getSize().getWidth() * scaleFactor), fontSize);
+		
+		return scaleFactor;
+	}
+	
 
 	public static String getProperty(AppView app, String sProperty, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
