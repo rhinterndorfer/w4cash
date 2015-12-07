@@ -51,7 +51,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	public String getSName() {
 		return m_sName;
 	}
-
+	
 	public void setSName(String m_sName) {
 		this.m_sName = m_sName;
 	}

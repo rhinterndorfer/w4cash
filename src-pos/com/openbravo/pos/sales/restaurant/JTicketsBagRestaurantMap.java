@@ -280,8 +280,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_place.setSId("Direkt");
 		m_place.setSName("Direkt Verkauf");
 //		m_place.setPeople(false);
-		
-		// check if the sharedticket is the same
+				// check if the sharedticket is the same
 //		TicketInfo ticket = new TicketInfo();
 
 		// check
