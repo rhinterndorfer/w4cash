@@ -20,8 +20,12 @@
 package com.openbravo.pos.sales;
 
 import com.openbravo.data.gui.ComboBoxValModel;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.Component;
 import java.util.List;
+
+import javax.swing.JComboBox;
 
 /**
  *
@@ -46,6 +50,21 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
             jValues.addItem(item);
         }
         jValues.setSelectedItem(value);
+    }
+    
+    public double scaleFont(int fontSize)
+    {
+    	PropertyUtil.ScaleLabelFontsize(jLabel1, fontSize);
+    	return PropertyUtil.ScaleComboboxFontSize(jValues, fontSize);
+    }
+    
+    public int getComponentWidth(){
+    	return jLabel1.getSize().width + jValues.getSize().width + 10;
+    }
+    
+    public int getComponentHeight()
+    {
+    	return jLabel1.getHeight();
     }
 
     public void assignSelection() {
@@ -88,9 +107,9 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(75, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

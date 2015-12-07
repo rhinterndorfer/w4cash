@@ -1802,6 +1802,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				TicketLineInfo line = m_oTicket.getLine(i);
 				JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(m_App, this, m_App.getSession());
 				attedit.editAttributes(line.getProductAttSetId(), line.getProductAttSetInstId());
+				attedit.scaleFont(Integer.parseInt(m_jbtnconfig.getProperty("common-dialog-fontsize", "22")));
 				attedit.setVisible(true);
 				if (attedit.isOK()) {
 					// The user pressed OK

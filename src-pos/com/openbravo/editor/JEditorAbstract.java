@@ -76,7 +76,7 @@ public abstract class JEditorAbstract extends javax.swing.JPanel implements Edit
     }
     public void activate() {
         if (isEnabled()) {
-            editorkeys.setActive(this, getMode());        
+            //editorkeys.setActive(this, getMode());        
             setActive(true);
         }
     }
