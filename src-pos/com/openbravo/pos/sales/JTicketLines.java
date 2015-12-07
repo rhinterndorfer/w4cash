@@ -108,7 +108,7 @@ public class JTicketLines extends javax.swing.JPanel {
 		m_jTicketTable.getTableHeader().setReorderingAllowed(false);
 		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(acolumns));
 		
-		m_jTicketTable.setRowHeight(55);
+		// m_jTicketTable.setRowHeight(55);
 		
 		m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
