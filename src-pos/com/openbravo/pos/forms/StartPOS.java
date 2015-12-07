@@ -20,24 +20,18 @@
 package com.openbravo.pos.forms;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingWorker;
-import javax.swing.UIManager;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.api.SubstanceSkin;
@@ -59,6 +53,8 @@ public class StartPOS {
 
 	private static Logger logger = Logger.getLogger("com.openbravo.pos.forms.StartPOS");
 
+	private Icon icon = new ImageIcon(getClass().getResource("/com/openbravo/images/wait.gif"));
+	
 	/** Creates a new instance of StartPOS */
 	private StartPOS() {
 	}
@@ -103,12 +99,26 @@ public class StartPOS {
 				if (!registerApp()) {
 					System.exit(1);
 				}
-
-				doLicense();
-
+				
 				AppConfig config = new AppConfig(args);
 				config.load();
 
+				JFrame root = null;
+				String screenmode = config.getProperty("machine.screenmode");
+				
+				if ("fullscreen".equals(screenmode)) {
+					root = new JRootKiosk();
+				}
+				else {
+					root = new JRootFrame();
+				}
+				
+				ShowWaitAction action = new StartPOS().new ShowWaitAction("Show Wait Dialog");
+				action.actionPerformed(new ActionEvent(root, 0, "") );
+				
+				doLicense();
+
+				
 				// set Locale.
 				String slang = config.getProperty("user.language");
 				String scountry = config.getProperty("user.country");
@@ -145,16 +155,14 @@ public class StartPOS {
 				// return;
 				// }
 
-				String screenmode = config.getProperty("machine.screenmode");
+				
 				if ("fullscreen".equals(screenmode)) {
-					JRootKiosk rootkiosk = new JRootKiosk();
-					rootkiosk.initFrame(config);
+					((JRootKiosk)root).initFrame(config);
 				} else {
-					JRootFrame rootframe = new JRootFrame();
-					
-					new StartPOS().new ShowWaitAction("Show Wait Dialog").actionPerformed(new ActionEvent(rootframe, 0, "") );
-					rootframe.initFrame(config);
+					((JRootFrame)root).initFrame(config);
 				}
+				
+				action.getSwingWorker().firePropertyChange("state", null, SwingWorker.StateValue.DONE);
 			}
 
 			private void doLicense() {
@@ -202,6 +210,7 @@ public class StartPOS {
 					dialog.add(panel);
 					dialog.pack();
 					dialog.setLocation(new Point(100, 100));
+					dialog.setSize(250, 250);
 					dialog.setVisible(true);
 					
 					System.exit(0);
@@ -216,27 +225,44 @@ public class StartPOS {
 		*/
 		private static final long serialVersionUID = -7964048200093662696L;
 
-		protected static final long SLEEP_TIME = 3 * 1000;
+		protected static final long SLEEP_TIME = 30 * 1000;
 
 		public ShowWaitAction(String name) {
 			super(name);
 		}
+		
+		SwingWorker<Void, Void> mySwingWorker = null;
 
 		@Override
 		public void actionPerformed(ActionEvent evt) {
-			SwingWorker<Void, Void> mySwingWorker = new SwingWorker<Void, Void>() {
+			Window win = SwingUtilities.getWindowAncestor((Component) evt.getSource());
+			final JDialog dialog = new JDialog(win, "W4CASH startet.", ModalityType.DOCUMENT_MODAL);
+//			final JFrame dialog = new JFrame("W4CASH startet."); //, ModalityType.APPLICATION_MODAL);
+
+			mySwingWorker = new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-
+			        //Icon icon = new ImageIcon(getClass().getResource("/com/openbravo/images/wait.gif"));
+			        JLabel label = new JLabel(icon);
+			        
+//					JPanel panel = new JPanel(new BorderLayout());
+//					panel.add(label, BorderLayout.CENTER);
+//					dialog.getContentPane().add(label);
+					dialog.add(label);
+					dialog.pack();
+					
+					dialog.setLocationRelativeTo(win);
+					dialog.setSize(250, 250);
+//					dialog.setUndecorated(true);
+					dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+					dialog.setVisible(true);
 					// mimic some long-running process here...
-					Thread.sleep(SLEEP_TIME);
+					//Thread.sleep(SLEEP_TIME);
 					return null;
 				}
 			};
 
-			Window win = SwingUtilities.getWindowAncestor((JRootFrame) evt.getSource());
-			final JDialog dialog = new JDialog(win, "W4CASH startet.", ModalityType.APPLICATION_MODAL);
-
+			
 			mySwingWorker.addPropertyChangeListener(new PropertyChangeListener() {
 
 				@Override
@@ -250,15 +276,11 @@ public class StartPOS {
 			});
 			mySwingWorker.execute();
 
-			JProgressBar progressBar = new JProgressBar();
-			progressBar.setIndeterminate(true);
-			JPanel panel = new JPanel(new BorderLayout());
-			panel.add(progressBar, BorderLayout.CENTER);
-			panel.add(new JLabel("Bitte warten ......."), BorderLayout.PAGE_START);
-			dialog.add(panel);
-			dialog.pack();
-			dialog.setLocationRelativeTo(win);
-			dialog.setVisible(true);
+			
+		}
+		
+		public SwingWorker<Void, Void> getSwingWorker() {
+			return this.mySwingWorker;
 		}
 	}
 }
