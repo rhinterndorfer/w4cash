@@ -274,6 +274,56 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_panelticket.setActiveTicket(null, null);
 	}
 
+	public void promptTicket() {
+		
+		Place m_place = new Place();
+		m_place.setSId("Direkt");
+		m_place.setSName("Direkt Verkauf");
+//		m_place.setPeople(false);
+		
+		// check if the sharedticket is the same
+//		TicketInfo ticket = new TicketInfo();
+
+		// check
+//		if (ticket == null && !m_place.hasPeople()) {
+			// Empty table and checked
+
+			// table occupied
+		TicketInfo ticket = new TicketInfo();
+		
+//			try {
+////				dlReceipts.insertSharedTicket(m_place.getId(), ticket);
+//			} catch (BasicException e) {
+//				new MessageInf(e).show(JTicketsBagRestaurantMap.this); // Glup.
+//																		// But
+//																		// It
+//																		// was
+//																		// empty.
+//			}
+//			m_place.setPeople(true);
+		// m_panelticket = null;
+		m_restaurantmap.setPromptTicket(true);
+			setActivePlace(m_place, ticket);
+
+//		} else if (ticket == null && m_place.hasPeople()) {
+//			// The table is now empty
+//			new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.tableempty"))
+//					.show(JTicketsBagRestaurantMap.this);
+//			m_place.setPeople(false); // fixed
+//
+//		} else if (ticket != null && !m_place.hasPeople()) {
+//			// The table is now full
+//			new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.tablefull"))
+//					.show(JTicketsBagRestaurantMap.this);
+//			m_place.setPeople(true);
+//
+//		} else { // both != null
+//			// Full table
+//			// m_place.setPeople(true); // already true
+//			setActivePlace(m_place, ticket);
+//		}
+	}
+	
 	public void deleteTicket() {
 
 		if (m_PlaceCurrent != null) {
@@ -285,7 +335,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				new MessageInf(e).show(this);
 			}
 
-			m_PlaceCurrent.setPeople(false);
+			if(!m_restaurantmap.isPromptTicket())
+				m_PlaceCurrent.setPeople(false);
 
 			m_PlaceCurrent = null;
 		}
@@ -459,6 +510,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		public void actionPerformed(ActionEvent evt) {
 
+			m_restaurantmap.setPromptTicket(false);
 			if (m_PlaceClipboard == null) {
 
 				if (customer == null) {
