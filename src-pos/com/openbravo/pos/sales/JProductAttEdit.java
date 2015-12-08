@@ -220,9 +220,9 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
 			PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize,0);
 			PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize,0);
 
 		}
 	}

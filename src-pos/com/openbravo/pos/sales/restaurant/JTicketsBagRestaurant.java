@@ -64,10 +64,11 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jButton2, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jButton1, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(btn_promptTicket, btnWidth, btnHeight, fontsize);
 	}
 
 	public void activate() {
@@ -98,7 +99,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// // NOI18N
 		m_jDelTicket
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png"))); // NOI18N
-        m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
+		m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
 		m_jDelTicket.setFocusPainted(false);
 		m_jDelTicket.setFocusable(false);
 		// m_jDelTicket.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -119,22 +120,23 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		jButton2.setFocusPainted(false);
 		jButton2.setFocusable(false);
 
-			// add direct bonieren button
-			// TODO make a check if a direct bon table is available
-			btn_promptTicket
-					.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/promptTicket.png")));
-			btn_promptTicket.setFocusPainted(false);
-			btn_promptTicket.setFocusable(false);
-			// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));
-			btn_promptTicket.setMargin(new java.awt.Insets(0, 0, 0, 0));
-			btn_promptTicket.setRequestFocusEnabled(false);
-			btn_promptTicket.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent evt) {
-					btn_promptTicketActionPerformed(evt);
-				}
-			});
-			add(btn_promptTicket);
-//		}
+		// add direct bonieren button
+		// TODO make a check if a direct bon table is available
+		btn_promptTicket.setText(AppLocal.getIntString("menu.prompt"));
+		btn_promptTicket
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/atlantikdesignersmall1.png")));
+		btn_promptTicket.setFocusPainted(false);
+		btn_promptTicket.setFocusable(false);
+		// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		btn_promptTicket.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_promptTicket.setRequestFocusEnabled(false);
+		btn_promptTicket.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btn_promptTicketActionPerformed(evt);
+			}
+		});
+		add(btn_promptTicket);
+		// }
 
 		// jButton1.setIcon(
 		// new
@@ -181,7 +183,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		m_restaurant.promptTicket();
 
 	}
-	
+
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;

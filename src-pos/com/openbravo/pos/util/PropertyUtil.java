@@ -13,17 +13,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-<<<<<<< HEAD
 import javax.swing.JDialog;
-=======
->>>>>>> branch 'master' of https://github.com/rhinterndorfer/w4cash/
 import javax.swing.JLabel;
-<<<<<<< HEAD
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-=======
->>>>>>> branch 'master' of https://github.com/rhinterndorfer/w4cash/
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
@@ -80,7 +74,7 @@ public class PropertyUtil {
 			// String text = btn.getText();
 			Font font = btn.getFont();
 			btn.setFont(new Font(font.getName(), font.getStyle(), fontsize));
-			
+
 			FontMetrics fm = btn.getFontMetrics(font);
 			// newWidth += fm.stringWidth(text);
 			btn.setHorizontalTextPosition(JButton.CENTER);
@@ -291,7 +285,7 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static void ScaleRadiobuttonFontsize(AppView app, JRadioButton btn, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -306,8 +300,9 @@ public class PropertyUtil {
 			btn.setSize((int) btn.getSize().getWidth(), fontsize);
 			// label.setMaximumSize(new java.awt.Dimension((int) 100,
 			// fontsize));
-//			btn.setMinimumSize(new java.awt.Dimension((int) 100, fontsize));
-//			btn.setPreferredSize(new java.awt.Dimension((int) 100, fontsize));
+			// btn.setMinimumSize(new java.awt.Dimension((int) 100, fontsize));
+			// btn.setPreferredSize(new java.awt.Dimension((int) 100,
+			// fontsize));
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -378,6 +373,7 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
+	
 
 	public static void ScaleTableRowheight(AppView app, final JTable table, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -406,53 +402,53 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static double ScaleButtonFontsize(JButton button, int fontSize) {
 		Font fontLabel = button.getFont();
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
-		
+
 		button.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
 		button.setSize((int) (button.getSize().getWidth() * scaleFactor), fontSize);
-		
+
 		return scaleFactor;
 	}
-	
+
 	public static double ScaleLabelFontsize(JLabel label, int fontSize) {
-			Font fontLabel = label.getFont();
-			
-			double scaleFactor = fontSize / fontLabel.getSize();
-			
-			label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
-			label.setSize((int) (label.getSize().getWidth() * scaleFactor), fontSize);
-			
-			return scaleFactor;
+		Font fontLabel = label.getFont();
+
+		double scaleFactor = fontSize / fontLabel.getSize();
+
+		label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+		label.setSize((int) (label.getSize().getWidth() * scaleFactor), fontSize);
+
+		return scaleFactor;
 	}
-	
+
 	public static double ScaleLabelFontsize(JTextField textfield, int fontSize) {
 		Font fontLabel = textfield.getFont();
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
-		
+
 		textfield.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
-		if(textfield.getSize().getWidth() > 0)
+		if (textfield.getSize().getWidth() > 0)
 			textfield.setSize((int) (textfield.getSize().getWidth() * scaleFactor), fontSize);
-		if(textfield.getPreferredSize().getWidth() > 0)
-			textfield.setPreferredSize(new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), fontSize));
-		
+		if (textfield.getPreferredSize().getWidth() > 0)
+			textfield.setPreferredSize(
+					new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), fontSize));
+
 		return scaleFactor;
-}
-	
+	}
+
 	public static double ScaleComboboxFontSize(JComboBox combobox, int fontSize) {
 		Font fontLabel = combobox.getFont();
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
 		combobox.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
 		combobox.setSize((int) (combobox.getSize().getWidth() * scaleFactor), fontSize);
-		
+
 		return scaleFactor;
 	}
-	
 
 	public static String getProperty(AppView app, String sProperty, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -635,7 +631,5 @@ public class PropertyUtil {
 		layoutData.gridy = gridy;
 		layoutData.gridwidth = 1;
 	}
-
-	
 
 }

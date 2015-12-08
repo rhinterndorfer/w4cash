@@ -171,9 +171,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 		
 		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight, fontsize);
-
+		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
 		m_restaurantmap.ScaleButtons();
-		this.ScaleButtonIcon(m_jbtnLogout, btnWidth, btnHeight);
+		
 	}
 
 	public void activate() {
@@ -498,7 +498,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		
 		
 		m_jbtnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/logout.png"))); // NOI18N
-		// m_jbtnLogout.setText(AppLocal.getIntString("button.reloadticket")); // NOI18N
+		 m_jbtnLogout.setText(AppLocal.getIntString("button.logout")); // NOI18N
 		m_jbtnLogout.setFocusPainted(false);
 		m_jbtnLogout.setFocusable(false);
 		m_jbtnLogout.setMargin(new java.awt.Insets(0,0,0,0));
