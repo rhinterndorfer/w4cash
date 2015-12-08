@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -265,7 +266,8 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue) {
+	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue,
+			int preferedWidth) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -279,11 +281,15 @@ public class PropertyUtil {
 			label.setSize((int) label.getSize().getWidth(), fontsize);
 			// label.setMaximumSize(new java.awt.Dimension((int) 100,
 			// fontsize));
-			label.setMinimumSize(new java.awt.Dimension((int) 100, fontsize));
-			label.setPreferredSize(new java.awt.Dimension((int) 100, fontsize));
+			label.setMinimumSize(new java.awt.Dimension((int) preferedWidth, fontsize));
+			label.setPreferredSize(new java.awt.Dimension((int) preferedWidth, fontsize));
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
+	}
+
+	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue) {
+		ScaleLabelFontsizePrefered(app, label, key, defaultValue, 100);
 	}
 
 	public static void ScaleRadiobuttonFontsize(AppView app, JRadioButton btn, String key, String defaultValue) {
@@ -373,7 +379,6 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
 
 	public static void ScaleTableRowheight(AppView app, final JTable table, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -630,6 +635,12 @@ public class PropertyUtil {
 		layoutData.gridx = gridx;
 		layoutData.gridy = gridy;
 		layoutData.gridwidth = 1;
+	}
+
+	public static void ScaleScrollbar(AppView app, JScrollPane jScrollPane1) {
+		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
+		int value = Integer.parseInt(property);
+		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
 	}
 
 }

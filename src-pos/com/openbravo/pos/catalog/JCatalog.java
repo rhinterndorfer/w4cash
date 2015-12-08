@@ -81,7 +81,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		initComponents();
 
 		m_jListCategories.addListSelectionListener(this);
-		m_jscrollcat.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+		PropertyUtil.ScaleScrollbar(m_App, m_jscrollcat);
 
 		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/bag.png");
 		tnbbutton = new ThumbNailBuilder(widthProduct, heightProduct, "com/openbravo/images/package.png");
@@ -208,7 +208,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 			// Load categories panel if not exists
 			if (!m_categoriesset.contains(catid)) {
 
-				JCatalogTab jcurrTab = new JCatalogTab();
+				JCatalogTab jcurrTab = new JCatalogTab(m_App);
 				jcurrTab.applyComponentOrientation(getComponentOrientation());
 				m_jProducts.add(jcurrTab, catid);
 				m_categoriesset.add(catid);
@@ -319,7 +319,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 						product = m_dlSales.getProductInfo(id);
 						m_productsset.put(id, product);
 
-						JCatalogTab jcurrTab = new JCatalogTab();
+						JCatalogTab jcurrTab = new JCatalogTab(m_App);
 						jcurrTab.applyComponentOrientation(getComponentOrientation());
 						m_jProducts.add(jcurrTab, "PRODUCT." + id);
 

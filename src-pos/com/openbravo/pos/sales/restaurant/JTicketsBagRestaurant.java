@@ -19,12 +19,8 @@
 
 package com.openbravo.pos.sales.restaurant;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
-
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
@@ -124,7 +120,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// TODO make a check if a direct bon table is available
 		btn_promptTicket.setText(AppLocal.getIntString("menu.prompt"));
 		btn_promptTicket
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/atlantikdesignersmall1.png")));
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/receipt.png")));
 		btn_promptTicket.setFocusPainted(false);
 		btn_promptTicket.setFocusable(false);
 		// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));

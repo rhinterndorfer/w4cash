@@ -86,7 +86,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		initComponents();
 
-		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+		PropertyUtil.ScaleScrollbar(m_App, jScrollPane1);
 
 		m_jtxtTaxID.addEditorKeys(m_jKeys);
 		m_jtxtSearchKey.addEditorKeys(m_jKeys);

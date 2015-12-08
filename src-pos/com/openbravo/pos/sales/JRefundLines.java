@@ -89,10 +89,11 @@ public class JRefundLines extends javax.swing.JPanel {
 
 		jPanel2.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
+		m_jbtnAddOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/rightarrow.png")));
 		m_jbtnAddOne.setText(AppLocal.getIntString("button.refundone")); // NOI18N
 		m_jbtnAddOne.setFocusPainted(false);
 		m_jbtnAddOne.setFocusable(false);
-		m_jbtnAddOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		// m_jbtnAddOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
 		m_jbtnAddOne.setRequestFocusEnabled(false);
 		m_jbtnAddOne.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,10 +102,12 @@ public class JRefundLines extends javax.swing.JPanel {
 		});
 		jPanel2.add(m_jbtnAddOne);
 
+		m_jbtnAddLine
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22rightarrow.png")));
 		m_jbtnAddLine.setText(AppLocal.getIntString("button.refundline")); // NOI18N
 		m_jbtnAddLine.setFocusPainted(false);
 		m_jbtnAddLine.setFocusable(false);
-		m_jbtnAddLine.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		// m_jbtnAddLine.setMargin(new java.awt.Insets(8, 14, 8, 14));
 		m_jbtnAddLine.setRequestFocusEnabled(false);
 		m_jbtnAddLine.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,10 +116,11 @@ public class JRefundLines extends javax.swing.JPanel {
 		});
 		jPanel2.add(m_jbtnAddLine);
 
+		m_jbtnAddAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/inbox.png")));
 		m_jbtnAddAll.setText(AppLocal.getIntString("button.refundall")); // NOI18N
 		m_jbtnAddAll.setFocusPainted(false);
 		m_jbtnAddAll.setFocusable(false);
-		m_jbtnAddAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		// m_jbtnAddAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
 		m_jbtnAddAll.setRequestFocusEnabled(false);
 		m_jbtnAddAll.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,14 +138,13 @@ public class JRefundLines extends javax.swing.JPanel {
 
 	private void ScaleButtons() {
 		int bwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "32"));
 		int bheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "32"));
 
 		int fontsize = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-large-fontsize", "32"));
-		
-		
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+
 		PropertyUtil.ScaleButtonIcon(m_jbtnAddAll, bwidth, bheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnAddOne, bwidth, bheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnAddLine, bwidth, bheight, fontsize);

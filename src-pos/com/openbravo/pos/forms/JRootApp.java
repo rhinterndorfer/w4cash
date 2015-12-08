@@ -44,6 +44,7 @@ import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.pos.scale.DeviceScale;
 import com.openbravo.pos.scanpal2.DeviceScanner;
 import com.openbravo.pos.scanpal2.DeviceScannerFactory;
+import com.openbravo.pos.util.PropertyUtil;
 
 import javafx.application.Application;
 

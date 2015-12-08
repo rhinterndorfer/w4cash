@@ -62,7 +62,7 @@ public class JProductFinder extends javax.swing.JDialog {
 		this.m_App = app;
 		initComponents();
 
-		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+		PropertyUtil.ScaleScrollbar(m_App, jScrollPane1);
 
 		// ProductFilter jproductfilter = new ProductFilter(app);
 		ProductFilterSales jproductfilter = new ProductFilterSales(app, dlSales, m_jKeys);
