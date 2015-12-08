@@ -429,7 +429,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 //		
 		
 		PropertyUtil.ScaleEditnumbersFontsize(m_App, m_jTicketEditor, "common-large-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsizePrefered(m_App, m_jTicketId, "common-large-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsizePrefered(m_App, m_jTicketId, "common-large-fontsize", "32", 200);
 		
 		
 		PropertyUtil.ScaleRadiobuttonFontsize(m_App, jrbRefunds, "common-small-fontsize", "32");

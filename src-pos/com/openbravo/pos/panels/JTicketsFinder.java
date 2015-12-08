@@ -102,7 +102,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		initComponents();
 
-		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+		PropertyUtil.ScaleScrollbar(m_App, jScrollPane1);
 
 		jtxtTicketID.addEditorKeys(m_jKeys);
 		jtxtMoney.addEditorKeys(m_jKeys);
@@ -469,7 +469,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 										.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
 										.addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout
 												.createSequentialGroup()
-												.addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, 120,
+												.addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, 170,
 														javax.swing.GroupLayout.PREFERRED_SIZE)
 												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
 														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -19,12 +19,8 @@
 
 package com.openbravo.pos.sales.restaurant;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
-
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;

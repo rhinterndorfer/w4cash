@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -74,7 +75,7 @@ public class PropertyUtil {
 			// String text = btn.getText();
 			Font font = btn.getFont();
 			btn.setFont(new Font(font.getName(), font.getStyle(), fontsize));
-			
+
 			FontMetrics fm = btn.getFontMetrics(font);
 			// newWidth += fm.stringWidth(text);
 			btn.setHorizontalTextPosition(JButton.CENTER);
@@ -265,7 +266,8 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue) {
+	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue,
+			int preferedWidth) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -279,13 +281,17 @@ public class PropertyUtil {
 			label.setSize((int) label.getSize().getWidth(), fontsize);
 			// label.setMaximumSize(new java.awt.Dimension((int) 100,
 			// fontsize));
-			label.setMinimumSize(new java.awt.Dimension((int) 100, fontsize));
-			label.setPreferredSize(new java.awt.Dimension((int) 100, fontsize));
+			label.setMinimumSize(new java.awt.Dimension((int) preferedWidth, fontsize));
+			label.setPreferredSize(new java.awt.Dimension((int) preferedWidth, fontsize));
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
 	}
-	
+
+	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue) {
+		ScaleLabelFontsizePrefered(app, label, key, defaultValue, 100);
+	}
+
 	public static void ScaleRadiobuttonFontsize(AppView app, JRadioButton btn, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -300,8 +306,9 @@ public class PropertyUtil {
 			btn.setSize((int) btn.getSize().getWidth(), fontsize);
 			// label.setMaximumSize(new java.awt.Dimension((int) 100,
 			// fontsize));
-//			btn.setMinimumSize(new java.awt.Dimension((int) 100, fontsize));
-//			btn.setPreferredSize(new java.awt.Dimension((int) 100, fontsize));
+			// btn.setMinimumSize(new java.awt.Dimension((int) 100, fontsize));
+			// btn.setPreferredSize(new java.awt.Dimension((int) 100,
+			// fontsize));
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -400,53 +407,53 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static double ScaleButtonFontsize(JButton button, int fontSize) {
 		Font fontLabel = button.getFont();
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
-		
+
 		button.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
 		button.setSize((int) (button.getSize().getWidth() * scaleFactor), fontSize);
-		
+
 		return scaleFactor;
 	}
-	
+
 	public static double ScaleLabelFontsize(JLabel label, int fontSize) {
-			Font fontLabel = label.getFont();
-			
-			double scaleFactor = fontSize / fontLabel.getSize();
-			
-			label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
-			label.setSize((int) (label.getSize().getWidth() * scaleFactor), fontSize);
-			
-			return scaleFactor;
+		Font fontLabel = label.getFont();
+
+		double scaleFactor = fontSize / fontLabel.getSize();
+
+		label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+		label.setSize((int) (label.getSize().getWidth() * scaleFactor), fontSize);
+
+		return scaleFactor;
 	}
-	
+
 	public static double ScaleLabelFontsize(JTextField textfield, int fontSize) {
 		Font fontLabel = textfield.getFont();
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
-		
+
 		textfield.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
-		if(textfield.getSize().getWidth() > 0)
+		if (textfield.getSize().getWidth() > 0)
 			textfield.setSize((int) (textfield.getSize().getWidth() * scaleFactor), fontSize);
-		if(textfield.getPreferredSize().getWidth() > 0)
-			textfield.setPreferredSize(new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), fontSize));
-		
+		if (textfield.getPreferredSize().getWidth() > 0)
+			textfield.setPreferredSize(
+					new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), fontSize));
+
 		return scaleFactor;
-}
-	
+	}
+
 	public static double ScaleComboboxFontSize(JComboBox combobox, int fontSize) {
 		Font fontLabel = combobox.getFont();
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
 		combobox.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
 		combobox.setSize((int) (combobox.getSize().getWidth() * scaleFactor), fontSize);
-		
+
 		return scaleFactor;
 	}
-	
 
 	public static String getProperty(AppView app, String sProperty, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -630,6 +637,10 @@ public class PropertyUtil {
 		layoutData.gridwidth = 1;
 	}
 
-	
+	public static void ScaleScrollbar(AppView app, JScrollPane jScrollPane1) {
+		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
+		int value = Integer.parseInt(property);
+		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
+	}
 
 }

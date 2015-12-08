@@ -106,13 +106,11 @@ public class JTicketLines extends javax.swing.JPanel {
 		for (int i = 0; i < acolumns.length; i++) {
 			jColumns.getColumn(i).setPreferredWidth(acolumns[i].width);
 			jColumns.getColumn(i).setResizable(false);
-
 		}
 
-		m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+		PropertyUtil.ScaleScrollbar(m_App, m_jScrollTableTicket);
 
 		m_jTicketTable.getTableHeader().setReorderingAllowed(false);
-
 		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(app, acolumns, propertyFontsize));
 
 		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable, "sales-tablecolumn-fontsize", "14");
@@ -248,7 +246,8 @@ public class JTicketLines extends javax.swing.JPanel {
 			aux.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 			aux.setHorizontalAlignment(m_acolumns[column].align);
 
-//			fontsize = Integer.parseInt(PropertyUtil.getProperty(m_app, "Ticket.Buttons", sProperty, "25"));
+			// fontsize = Integer.parseInt(PropertyUtil.getProperty(m_app,
+			// "Ticket.Buttons", sProperty, "25"));
 
 			PropertyUtil.ScaleTableLabelFontsize(m_app, aux, propertyFontsize, "25");
 			// aux.setBorder(BorderFactory.createEmptyBorder(3,0,3,0));
