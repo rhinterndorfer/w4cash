@@ -41,9 +41,13 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
 		int btnHeight = Integer
 				.parseInt(PropertyUtil.getProperty(m_ticketsbagticket.getApp(), "Ticket.Buttons", "button-touchlarge-height", "60"));
 
-    	PropertyUtil.ScaleButtonIcon(m_jBtnCancel, btnWidth, btnHeight);
-    	PropertyUtil.ScaleButtonIcon(m_jBtnCancel1, btnWidth, btnHeight);
-    	PropertyUtil.ScaleButtonIcon(m_jBtnDelete, btnWidth, btnHeight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_ticketsbagticket.getApp(), "Ticket.Buttons", "button-large-fontsize", "16"));
+		
+		
+    	PropertyUtil.ScaleButtonIcon(m_jBtnCancel, btnWidth, btnHeight, fontsize);
+    	PropertyUtil.ScaleButtonIcon(m_jBtnCancel1, btnWidth, btnHeight, fontsize);
+    	PropertyUtil.ScaleButtonIcon(m_jBtnDelete, btnWidth, btnHeight, fontsize);
 	}
 
 	public void showEdit() {

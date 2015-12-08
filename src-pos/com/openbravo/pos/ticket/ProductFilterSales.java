@@ -22,6 +22,7 @@ package com.openbravo.pos.ticket;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -64,7 +65,6 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 
 		m_jtxtBarCode.addEditorKeys(jKeys);
 
-		
 	}
 
 	public void activate() {
@@ -151,72 +151,73 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 		jLabel1 = new javax.swing.JLabel();
 		ScaleButtons();
 		setLayout(new BorderLayout());
-		
+
 		JPanel main = new JPanel();
-		
-		
+
 		// setPreferredSize(new java.awt.Dimension(370, 170));
 		GridBagLayout layout = new GridBagLayout();
 		main.setLayout(layout);
 		GridBagConstraints layoutData = new GridBagConstraints();
-
+		layoutData.insets = new Insets(5, 0, 0, 5);
+		
 		jLabel1.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 0, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 0, GridBagConstraints.BOTH);
 		main.add(jLabel1, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 0, GridBagConstraints.HORIZONTAL,2);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 0, GridBagConstraints.BOTH, 2);
 		main.add(m_jtxtBarCode, layoutData);
 
 		jLabel5.setText(AppLocal.getIntString("label.prodname")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 1, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 1, GridBagConstraints.BOTH);
 		main.add(jLabel5, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 1, GridBagConstraints.HORIZONTAL,2);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 1, GridBagConstraints.BOTH, 2);
 		main.add(m_jtxtName, layoutData);
 
 		jLabel2.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 2, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 2, GridBagConstraints.BOTH);
 		main.add(jLabel2, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 2, GridBagConstraints.HORIZONTAL,2);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 2, GridBagConstraints.BOTH, 2);
 		main.add(m_jCategory, layoutData);
-//		PropertyUtil.setGridBagConstraints(layoutData, 2, 2, GridBagConstraints.HORIZONTAL);
-//		add(m_j, layoutData);
+		// PropertyUtil.setGridBagConstraints(layoutData, 2, 2,
+		// GridBagConstraints.HORIZONTAL);
+		// add(m_j, layoutData);
 
 		jLabel4.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 3, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 3, GridBagConstraints.BOTH);
 		main.add(jLabel4, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 3, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 3, GridBagConstraints.BOTH);
 		main.add(m_jCboPriceBuy, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 2, 3, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 2, 3, GridBagConstraints.BOTH);
 		main.add(m_jPriceBuy, layoutData);
 
 		jLabel3.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 4, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 4, GridBagConstraints.BOTH);
 		main.add(jLabel3, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 4, GridBagConstraints.HORIZONTAL);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 4, GridBagConstraints.BOTH);
 		main.add(m_jCboPriceSell, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 2, 4, GridBagConstraints.HORIZONTAL);
-		main.	add(m_jPriceSell, layoutData);
-		
+		PropertyUtil.setGridBagConstraints(layoutData, 2, 4, GridBagConstraints.BOTH);
+		main.add(m_jPriceSell, layoutData);
+
 		add(main, BorderLayout.CENTER);
 
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceBuy, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceSell, "common-small-fontsize", "32");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceBuy, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceSell, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtBarCode, "common-small-fontsize", "32");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtBarCode, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceSell, "common-small-fontsize", "32");
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceBuy, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceSell, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceBuy, "common-dialog-fontsize", "22");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

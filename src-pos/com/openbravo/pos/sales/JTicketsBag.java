@@ -48,7 +48,7 @@ public abstract class JTicketsBag extends JPanel {
 
 	public abstract void deleteTicket();
 
-	public abstract void ScaleButtons(int btnWidth, int btnHeight);
+	public abstract void ScaleButtons();
 
 	protected abstract JComponent getBagComponent();
 

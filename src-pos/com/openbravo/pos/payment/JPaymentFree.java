@@ -69,7 +69,7 @@ public class JPaymentFree extends javax.swing.JPanel implements JPaymentInterfac
     }// </editor-fold>//GEN-END:initComponents
     
     public void ScaleButtons(){
-    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1,"common-small-fontsize", "32");
+    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1,"common-dialog-fontsize", "22");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

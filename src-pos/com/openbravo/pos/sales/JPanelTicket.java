@@ -139,12 +139,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	/** Creates new form JTicketView */
 	public JPanelTicket() {
 
-		initComponents();
+		
 	}
 
 	public void init(AppView app) throws BeanFactoryException {
-
 		m_App = app;
+		
+		initComponents();
+		
 		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 		dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
@@ -1239,6 +1241,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPor, "sales-amountprice-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");
 
+		int fontsizeSmall = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+//		int fontsizeLarge = Integer
+//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-large-fontsize", "32"));
+
 		// button sizes
 
 		// m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
@@ -1249,41 +1256,45 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		PropertyUtil.ScaleButtonIcon(m_jEnter,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")), fontsizeSmall);
 
 		PropertyUtil.ScaleButtonIcon(btnCustomer,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
 
 		PropertyUtil.ScaleButtonIcon(btnSplit,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
 
-		PropertyUtil.ScaleButtonIcon(m_jUp, Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+		// PropertyUtil.ScaleButtonIcon(m_jUp,
+		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width",
+		// "60")),
+		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height",
+		// "60")));
 
-		PropertyUtil.ScaleButtonIcon(m_jDown,
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+		// PropertyUtil.ScaleButtonIcon(m_jDown,
+		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width",
+		// "60")),
+		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height",
+		// "60")));
 
 		PropertyUtil.ScaleButtonIcon(m_jDelete,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
 
 		PropertyUtil.ScaleButtonIcon(m_jEditLine,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
 
 		PropertyUtil.ScaleButtonIcon(jEditAttributes,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
 
 		PropertyUtil.ScaleButtonIcon(m_jList,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
 
-		m_ticketsbag.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+		m_ticketsbag.ScaleButtons();
 	}
 
 	/**
@@ -1309,8 +1320,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jPanTicket = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
-		m_jUp = new javax.swing.JButton();
-		m_jDown = new javax.swing.JButton();
+		// m_jUp = new javax.swing.JButton();
+		// m_jDown = new javax.swing.JButton();
 		m_jDelete = new javax.swing.JButton();
 		m_jList = new javax.swing.JButton();
 		m_jEditLine = new javax.swing.JButton();
@@ -1322,7 +1333,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jLblTotalEuros1 = new javax.swing.JLabel();
 		m_jContEntries = new javax.swing.JPanel();
 		m_jPanEntries = new javax.swing.JPanel();
-		m_jNumberKeys = new com.openbravo.beans.JNumberKeys();
+		m_jNumberKeys = new com.openbravo.beans.JNumberKeys(m_App);
 		jPanel9 = new javax.swing.JPanel();
 		m_jPrice = new javax.swing.JLabel();
 		m_jPor = new javax.swing.JLabel();
@@ -1349,7 +1360,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// btnCustomer.setIcon(new
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png")));
 		// // NOI18N
-		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser1.png"))); // NOI18N
+		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
+		btnCustomer.setText(AppLocal.getIntString("label.customer"));
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
 		btnCustomer.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -1365,6 +1377,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editcut.png")));
 		// // NOI18N
 		btnSplit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editcut1.png"))); // NOI18N
+		btnSplit.setText(AppLocal.getIntString("caption.split"));
 		btnSplit.setFocusPainted(false);
 		btnSplit.setFocusable(false);
 		btnSplit.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -1398,33 +1411,38 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
 		jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		jPanel2.setLayout(new java.awt.GridLayout(0, 1, 0, 0));
+		jPanel2.setLayout(new java.awt.GridBagLayout());
+		GridBagConstraints layoutData = new GridBagConstraints();
 
-		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
+		// m_jUp.setIcon(new
+		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png")));
 		// // NOI18N
-		m_jUp.setFocusPainted(false);
-		m_jUp.setFocusable(false);
-		m_jUp.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		m_jUp.setRequestFocusEnabled(false);
-		m_jUp.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jUpActionPerformed(evt);
-			}
-		});
-		jPanel2.add(m_jUp);
-
-		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
+		// // // NOI18N
+		// m_jUp.setFocusPainted(false);
+		// m_jUp.setFocusable(false);
+		// m_jUp.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		// m_jUp.setRequestFocusEnabled(false);
+		// m_jUp.addActionListener(new java.awt.event.ActionListener() {
+		// public void actionPerformed(java.awt.event.ActionEvent evt) {
+		// m_jUpActionPerformed(evt);
+		// }
+		// });
+		// jPanel2.add(m_jUp);
+		//
+		// m_jDown.setIcon(new
+		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png")));
 		// // NOI18N
-		m_jDown.setFocusPainted(false);
-		m_jDown.setFocusable(false);
-		m_jDown.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		m_jDown.setRequestFocusEnabled(false);
-		m_jDown.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jDownActionPerformed(evt);
-			}
-		});
-		jPanel2.add(m_jDown);
+		// // // NOI18N
+		// m_jDown.setFocusPainted(false);
+		// m_jDown.setFocusable(false);
+		// m_jDown.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		// m_jDown.setRequestFocusEnabled(false);
+		// m_jDown.addActionListener(new java.awt.event.ActionListener() {
+		// public void actionPerformed(java.awt.event.ActionEvent evt) {
+		// m_jDownActionPerformed(evt);
+		// }
+		// });
+		// jPanel2.add(m_jDown);
 
 		m_jDelete.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
@@ -1437,7 +1455,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				m_jDeleteActionPerformed(evt);
 			}
 		});
-		jPanel2.add(m_jDelete);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 0, GridBagConstraints.NONE);
+		jPanel2.add(m_jDelete, layoutData);
 
 		m_jList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search.png"))); // NOI18N
 		m_jList.setFocusPainted(false);
@@ -1449,7 +1468,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				m_jListActionPerformed(evt);
 			}
 		});
-		jPanel2.add(m_jList);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 1, GridBagConstraints.NONE);
+		jPanel2.add(m_jList, layoutData);
 
 		m_jEditLine.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/color_line.png"))); // NOI18N
 		m_jEditLine.setFocusPainted(false);
@@ -1462,7 +1482,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				m_jEditLineActionPerformed(evt);
 			}
 		});
-		jPanel2.add(m_jEditLine);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 2, GridBagConstraints.NONE);
+		jPanel2.add(m_jEditLine, layoutData);
 
 		jEditAttributes
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/colorize.png"))); // NOI18N
@@ -1476,7 +1497,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				jEditAttributesActionPerformed(evt);
 			}
 		});
-		jPanel2.add(jEditAttributes);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 3, GridBagConstraints.NONE);
+		jPanel2.add(jEditAttributes, layoutData);
 		// invisible
 		jEditAttributes.setVisible(false);
 
@@ -1804,7 +1826,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private javax.swing.JPanel m_jButtonsExt;
 	private javax.swing.JPanel m_jContEntries;
 	private javax.swing.JButton m_jDelete;
-	private javax.swing.JButton m_jDown;
+	// private javax.swing.JButton m_jDown;
 	private javax.swing.JButton m_jEditLine;
 	private javax.swing.JButton m_jEnter;
 	private javax.swing.JTextField m_jKeyFactory;
@@ -1824,7 +1846,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private javax.swing.JComboBox m_jTax;
 	private javax.swing.JLabel m_jTicketId;
 	private javax.swing.JLabel m_jTotalEuros;
-	private javax.swing.JButton m_jUp;
+	// private javax.swing.JButton m_jUp;
 	private javax.swing.JToggleButton m_jaddtax;
 	// End of variables declaration//GEN-END:variables
 

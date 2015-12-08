@@ -44,10 +44,17 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		initComponents();
 	}
 
-	public void ScaleButtons(int btnWidth, int btnHeight) {
-		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(jButton2, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(jButton1, btnWidth, btnHeight);
+	public void ScaleButtons() {
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton2, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton1, btnWidth, btnHeight, fontsize);
 	}
 
 	public void activate() {
@@ -77,6 +84,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// // NOI18N
 		m_jDelTicket
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png"))); // NOI18N
+        m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
 		m_jDelTicket.setFocusPainted(false);
 		m_jDelTicket.setFocusable(false);
 		// m_jDelTicket.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -93,6 +101,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/redo16.png")));
 		// // NOI18N
 		jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/redo161.png"))); // NOI18N
+		jButton2.setText(AppLocal.getIntString("menu.move"));
 		jButton2.setFocusPainted(false);
 		jButton2.setFocusable(false);
 
@@ -111,6 +120,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// // NOI18N
 		jButton1.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/atlantikdesignersmall1.png")));
+		jButton1.setText(AppLocal.getIntString("menu.back"));
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
 		// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));

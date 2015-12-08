@@ -21,6 +21,8 @@ package com.openbravo.pos.admin;
 
 import javax.swing.*;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.util.UUID;
@@ -40,10 +42,13 @@ public class ResourcesView extends JPanel implements EditorRecord {
     
     private Object m_oId;
     private ComboBoxValModel m_ResourceModel;
+	private AppView m_App;
             
     /** Creates new form ResourcesEditor */
-    public ResourcesView(DirtyManager dirty) {
-        initComponents();
+    public ResourcesView(AppView app, DirtyManager dirty) {
+    	m_App = app;
+    	
+    	initComponents();
         
         m_ResourceModel = new ComboBoxValModel();
         m_ResourceModel.add(ResourceType.TEXT);
@@ -58,6 +63,8 @@ public class ResourcesView extends JPanel implements EditorRecord {
         
         writeValueEOF();        
     }
+    
+    
 
     public void writeValueEOF() {
         m_oId = null;
@@ -190,7 +197,7 @@ public class ResourcesView extends JPanel implements EditorRecord {
         jScrollPane1 = new javax.swing.JScrollPane();
         m_jText = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
-        m_jImage = new com.openbravo.data.gui.JImageEditor();
+        m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
         jLabel2 = new javax.swing.JLabel();
         m_jName = new javax.swing.JTextField();
         m_jType = new javax.swing.JComboBox();

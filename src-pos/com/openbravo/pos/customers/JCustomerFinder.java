@@ -106,10 +106,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		selectedCustomer = null;
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -223,7 +220,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	private void initComponents() {
 
 		jPanel2 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel3 = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
 		jPanel7 = new javax.swing.JPanel();
@@ -384,7 +381,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		// jPanel5.add(jPanel77, java.awt.BorderLayout.CENTER);
 		jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reset.png"))); // NOI18N
+		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
 		jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
@@ -469,7 +466,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialog(m_App, this, 613, 610);
+		PropertyUtil.ScaleDialog(m_App, this, 860, 610);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -478,26 +475,29 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleLabels() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5,"common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-small-fontsize", "32");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-small-fontsize", "32");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtTaxID, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-small-fontsize", "22");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtTaxID, "common-dialog-fontsize", "22");
 
 	}
 
 	@Override
 	public void ScaleButtons() {
-
 		int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
+//		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
+//		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
 	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed

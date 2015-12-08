@@ -93,9 +93,12 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 
 	@Override
 	public void ScaleButtonIcons(int width, int height) {
-		PropertyUtil.ScaleButtonIcon(m_jUp, width, height);
-		PropertyUtil.ScaleButtonIcon(m_jDown, width, height);
-		PropertyUtil.ScaleButtonIcon(m_btnBack1, width, height);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jUp, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jDown, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_btnBack1, width, height, fontsize);
 //		ScaleButtonIcon(btn, width, height);
 	}
 	
@@ -398,7 +401,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		jPanel3.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
+		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
 		m_jUp.setFocusPainted(false);
 		m_jUp.setFocusable(false);
 		// m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -411,7 +414,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		});
 		// jPanel3.add(m_jUp);
 
-		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
+		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
 		m_jDown.setFocusPainted(false);
 		m_jDown.setFocusable(false);
 		// m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -444,8 +447,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow25.png"))); // NOI18N
-//		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/3uparrow2.png"))); // NOI18N
+		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/leftarrow.png"))); // NOI18N
 		m_btnBack1.setFocusPainted(false);
 		m_btnBack1.setFocusable(false);
 		m_btnBack1.setMargin(new java.awt.Insets(8, 14, 8, 14));

@@ -48,10 +48,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
 		m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
 		m_jTendered.addEditorKeys(m_jKeys);
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 		
 		ScaleButtons();
 	}
@@ -109,7 +106,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
 
 		jPanel2 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel3 = new javax.swing.JPanel();
 		m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
 		jPanel4 = new javax.swing.JPanel();
@@ -154,8 +151,8 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-dialog-fontsize", "22");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

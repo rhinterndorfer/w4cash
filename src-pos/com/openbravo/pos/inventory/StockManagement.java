@@ -387,7 +387,7 @@ public class StockManagement extends JPanel implements JPanelView {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jNumberKeys = new com.openbravo.beans.JNumberKeys();
+        jNumberKeys = new com.openbravo.beans.JNumberKeys(m_App);
         jPanel4 = new javax.swing.JPanel();
         m_jEnter = new javax.swing.JButton();
         m_jcodebar = new javax.swing.JLabel();
@@ -539,7 +539,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jDelete);
         m_jDelete.setBounds(430, 230, 56, 44);
 
-        m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow22.png"))); // NOI18N
+        m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
         m_jUp.setFocusPainted(false);
         m_jUp.setFocusable(false);
         m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -552,7 +552,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jUp);
         m_jUp.setBounds(430, 130, 56, 44);
 
-        m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow22.png"))); // NOI18N
+        m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
         m_jDown.setFocusPainted(false);
         m_jDown.setFocusable(false);
         m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -654,7 +654,7 @@ public class StockManagement extends JPanel implements JPanelView {
         } catch (BasicException e) {
             date = null;
         }
-        date = JCalendarDialog.showCalendarTime(this, date);
+        date = JCalendarDialog.showCalendarTime(m_App, this, date);
         if (date != null) {
             m_jdate.setText(Formats.TIMESTAMP.formatValue(date));
         }

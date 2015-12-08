@@ -76,10 +76,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 			}
 		}
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -132,10 +129,11 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 	}
 
 	public void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jChangeEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jChangeEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleEditnumbersFontsize(m_App, m_jTendered, "common-dialog-fontsize", "22");
 	}
 
 	public class ScriptPaymentCash {
@@ -200,7 +198,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 		jPanel6 = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel3 = new javax.swing.JPanel();
 		m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
 

@@ -31,7 +31,6 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
 
 public class JNavigator extends javax.swing.JPanel implements BrowseListener, StateListener {
-
 	public final static int BUTTONS_ALL = 0;
 	public final static int BUTTONS_NONAVIGATE = 1;
 
@@ -47,6 +46,8 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 	private javax.swing.JButton jbtnNext = null;
 	private javax.swing.JButton jbtnPrev = null;
 	private javax.swing.JButton jbtnRefresh = null;
+	private javax.swing.JButton jbtnMoveUp = null;
+	private javax.swing.JButton jbtnMoveDown = null;
 	private javax.swing.JButton jbtnReload = null;
 	private AppView m_App;
 
@@ -57,8 +58,8 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
 		if (iButtons == BUTTONS_ALL) {
 			jbtnFirst = new javax.swing.JButton();
-			jbtnFirst
-					.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2leftarrow.png")));
+			jbtnFirst.setIcon(
+					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22leftarrow.png")));
 			jbtnFirst.setMargin(new java.awt.Insets(2, 8, 2, 8));
 			jbtnFirst.setFocusPainted(false);
 			jbtnFirst.setFocusable(false);
@@ -73,7 +74,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
 		if (iButtons == BUTTONS_ALL) {
 			jbtnPrev = new javax.swing.JButton();
-			jbtnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow.png")));
+			jbtnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/leftarrow.png")));
 			jbtnPrev.setMargin(new java.awt.Insets(2, 8, 2, 8));
 			jbtnPrev.setFocusPainted(false);
 			jbtnPrev.setFocusable(false);
@@ -85,9 +86,24 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			});
 			add(jbtnPrev);
 		}
+		if (iButtons == BUTTONS_ALL) {
+			jbtnMoveUp = new javax.swing.JButton();
+			jbtnMoveUp
+					.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22uparrow.png")));
+			jbtnMoveUp.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnMoveUp.setFocusPainted(false);
+			jbtnMoveUp.setFocusable(false);
+			jbtnMoveUp.setRequestFocusEnabled(false);
+			jbtnMoveUp.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					jbtnMoveUpActionPerformed(evt);
+				}
+			});
+			add(jbtnMoveUp);
+		}
 
 		jbtnRefresh = new javax.swing.JButton();
-		jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow.png")));
+		jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png")));
 		jbtnRefresh.setMargin(new java.awt.Insets(2, 8, 2, 8));
 		jbtnRefresh.setFocusPainted(false);
 		jbtnRefresh.setFocusable(false);
@@ -100,9 +116,24 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		add(jbtnRefresh);
 
 		if (iButtons == BUTTONS_ALL) {
+			jbtnMoveDown = new javax.swing.JButton();
+			jbtnMoveDown.setIcon(
+					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22downarrow.png")));
+			jbtnMoveDown.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnMoveDown.setFocusPainted(false);
+			jbtnMoveDown.setFocusable(false);
+			jbtnMoveDown.setRequestFocusEnabled(false);
+			jbtnMoveDown.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					jbtnMoveDownActionPerformed(evt);
+				}
+			});
+			add(jbtnMoveDown);
+		}
+
+		if (iButtons == BUTTONS_ALL) {
 			jbtnNext = new javax.swing.JButton();
-			jbtnNext.setIcon(
-					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1rightarrow.png")));
+			jbtnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/rightarrow.png")));
 			jbtnNext.setMargin(new java.awt.Insets(2, 8, 2, 8));
 			jbtnNext.setFocusPainted(false);
 			jbtnNext.setFocusable(false);
@@ -118,7 +149,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		if (iButtons == BUTTONS_ALL) {
 			jbtnLast = new javax.swing.JButton();
 			jbtnLast.setIcon(
-					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2rightarrow.png")));
+					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22rightarrow.png")));
 			jbtnLast.setMargin(new java.awt.Insets(2, 8, 2, 8));
 			jbtnLast.setFocusPainted(false);
 			jbtnLast.setFocusable(false);
@@ -135,7 +166,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
 		if (bd.canLoadData()) {
 			jbtnReload = new javax.swing.JButton();
-			jbtnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reload.png")));
+			jbtnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png")));
 			jbtnReload.setMargin(new java.awt.Insets(2, 8, 2, 8));
 			jbtnReload.setFocusPainted(false);
 			jbtnReload.setFocusable(false);
@@ -229,6 +260,10 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnLast.setEnabled(iIndex < iCounter - 1);
 			if (jbtnRefresh != null)
 				jbtnRefresh.setEnabled(true);
+			if (jbtnMoveUp != null) 
+				jbtnMoveUp.setEnabled(iIndex > 0);
+			if (jbtnMoveDown != null) 
+				jbtnMoveDown.setEnabled(iIndex < iCounter - 1);
 		} else {
 			// EOF
 			if (jbtnFirst != null)
@@ -241,6 +276,10 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnLast.setEnabled(false);
 			if (jbtnRefresh != null)
 				jbtnRefresh.setEnabled(false);
+			if (jbtnMoveUp != null) 
+				jbtnMoveUp.setEnabled(false);
+			if (jbtnMoveDown != null) 
+				jbtnMoveDown.setEnabled(false);
 		}
 	}
 
@@ -252,7 +291,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			}
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -266,14 +305,14 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				int index = m_bd.findNext(newFindInfo);
 				if (index < 0) {
 					MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.norecord"));
-					msg.show(m_App,this);
+					msg.show(m_App, this);
 				} else {
 					m_bd.moveTo(index);
 				}
 			}
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -282,13 +321,23 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		m_bd.actionReloadCurrent(this);
 	}
 
+	private void jbtnMoveUpActionPerformed(java.awt.event.ActionEvent evt) {
+
+		m_bd.actionMoveUpCurrent(this);
+	}
+
+	private void jbtnMoveDownActionPerformed(java.awt.event.ActionEvent evt) {
+
+		m_bd.actionMoveDownCurrent(this);
+	}
+
 	private void jbtnReloadActionPerformed(java.awt.event.ActionEvent evt) {
 
 		try {
 			m_bd.actionLoad();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -298,7 +347,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.moveLast();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -308,7 +357,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.moveFirst();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -317,7 +366,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.movePrev();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -326,7 +375,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_bd.moveNext();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nomove"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -340,23 +389,29 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
 		if (jbtnFind != null)
-			PropertyUtil.ScaleButtonIcon(jbtnFind, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnFind, menuwidth, menuheight, fontsize);
 		if (jbtnSort != null)
-			PropertyUtil.ScaleButtonIcon(jbtnSort, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnSort, menuwidth, menuheight, fontsize);
 		if (jbtnFirst != null)
-			PropertyUtil.ScaleButtonIcon(jbtnFirst, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnFirst, menuwidth, menuheight, fontsize);
 		if (jbtnLast != null)
-			PropertyUtil.ScaleButtonIcon(jbtnLast, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnLast, menuwidth, menuheight, fontsize);
 		if (jbtnNext != null)
-			PropertyUtil.ScaleButtonIcon(jbtnNext, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnNext, menuwidth, menuheight, fontsize);
 		if (jbtnPrev != null)
-			PropertyUtil.ScaleButtonIcon(jbtnPrev, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnPrev, menuwidth, menuheight, fontsize);
 		if (jbtnRefresh != null)
-			PropertyUtil.ScaleButtonIcon(jbtnRefresh, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnRefresh, menuwidth, menuheight, fontsize);
 		if (jbtnReload != null)
-			PropertyUtil.ScaleButtonIcon(jbtnReload, menuwidth, menuheight);
+			PropertyUtil.ScaleButtonIcon(jbtnReload, menuwidth, menuheight, fontsize);
+		if (jbtnMoveUp != null)
+			PropertyUtil.ScaleButtonIcon(jbtnMoveUp, menuwidth, menuheight, fontsize);
+		if (jbtnMoveDown != null)
+			PropertyUtil.ScaleButtonIcon(jbtnMoveDown, menuwidth, menuheight, fontsize);
 
 	}
 

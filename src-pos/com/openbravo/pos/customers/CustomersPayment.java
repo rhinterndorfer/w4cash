@@ -82,10 +82,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		dlsystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		ttp = new TicketParser(app.getDeviceTicket(), dlsystem);
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 	}
 
 	public Object getBean() {
@@ -247,7 +244,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		btnPay = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel5 = new javax.swing.JPanel();
 		editorcard = new com.openbravo.editor.JEditorString();
 		jButton1 = new javax.swing.JButton();
@@ -272,6 +269,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		jPanel2.setLayout(new java.awt.BorderLayout());
 
 		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
+//		btnCustomer.setText(AppLocal.getIntString("Menu.Customers"));
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
 		btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));

@@ -302,7 +302,9 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
 		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
-		PropertyUtil.ScaleButtonIcon(search, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(search, menuwidth, menuheight, fontsize);
 	}
 }

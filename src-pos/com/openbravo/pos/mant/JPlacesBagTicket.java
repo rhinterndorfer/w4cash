@@ -95,10 +95,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 		// Este deviceticket solo tiene una impresora, la de pantalla
 		m_jPanelTicket.add(m_TP.getDevicePrinter("1").getPrinterComponent(), BorderLayout.CENTER);
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -108,8 +105,10 @@ public class JPlacesBagTicket extends JPlacesBag {
 		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
-		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight, fontsize);
 	}
 
 	@Override
@@ -279,7 +278,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 		m_jPanelTicket = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel5 = new javax.swing.JPanel();
 		jButton1 = new javax.swing.JButton();
 		m_jTicketEditor = new com.openbravo.editor.JEditorIntegerPositive();

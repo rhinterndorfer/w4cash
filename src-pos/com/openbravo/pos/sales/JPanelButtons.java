@@ -96,6 +96,9 @@ public class JPanelButtons extends javax.swing.JPanel {
             }
         }     
         
+        
+        int fontsize = Integer
+				.parseInt(getProperty("button-small-fontsize", "16"));
         for(int i=0;i < this.getComponents().length; i++)
         {
         	Component c = this.getComponents()[i];
@@ -104,7 +107,7 @@ public class JPanelButtons extends javax.swing.JPanel {
         	{
         		PropertyUtil.ScaleButtonIcon(JButton.class.cast(c), 
         				Integer.parseInt(getProperty("button-touchlarge-width", "60")), 
-        				Integer.parseInt(getProperty("button-touchlarge-height", "60")));
+        				Integer.parseInt(getProperty("button-touchlarge-height", "60")), fontsize);
         	}
         }
     }

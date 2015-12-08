@@ -174,7 +174,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		jLabel2 = new javax.swing.JLabel();
 		m_jName = new javax.swing.JTextField();
 		jLabel3 = new javax.swing.JLabel();
-		m_jImage = new com.openbravo.data.gui.JImageEditor();
+		m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
 		m_jCatalogAdd = new javax.swing.JButton();
 		m_jCatalogDelete = new javax.swing.JButton();
 		jLabel5 = new javax.swing.JLabel();
@@ -192,7 +192,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		add(jLabel3);
 		jLabel3.setBounds(20, 80, 80, 14);
 		add(m_jImage);
-		m_jImage.setBounds(100, 80, 240, 180);
+		m_jImage.setBounds(100, 80, 260, 360);
 
 		m_jCatalogAdd.setText(AppLocal.getIntString("button.catalogadd")); // NOI18N
 		m_jCatalogAdd.addActionListener(new java.awt.event.ActionListener() {

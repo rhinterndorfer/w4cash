@@ -232,20 +232,23 @@ public class PaymentPanelMagCard extends javax.swing.JPanel implements PaymentPa
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jCardNumber, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jExpirationDate, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jHolderName, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jCardNumber, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jExpirationDate, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jHolderName, "common-dialog-fontsize", "22");
 
 		int bwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int bheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		PropertyUtil.ScaleButtonIcon(jReset, bwidth, bheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jReset, bwidth, bheight, fontsize);
 	}
 
 	private void jResetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jResetActionPerformed

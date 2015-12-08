@@ -27,6 +27,7 @@ import java.awt.image.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
@@ -63,10 +64,13 @@ public class ProductsEditor extends JPanel implements EditorRecord {
     private boolean priceselllock = false;
     
     private boolean reportlock = false;
+	private AppView m_App;
     
     /** Creates new form JEditProduct */
-    public ProductsEditor(DataLogicSales dlSales, DirtyManager dirty) {
-        initComponents();
+    public ProductsEditor(AppView app, DataLogicSales dlSales, DirtyManager dirty) {
+        m_App = app;
+    	
+    	initComponents();
         
         // The taxes sentence
         taxsent = dlSales.getTaxList();
@@ -550,7 +554,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         m_jCode = new javax.swing.JTextField();
-        m_jImage = new com.openbravo.data.gui.JImageEditor();
+        m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
         jLabel3 = new javax.swing.JLabel();
         m_jPriceBuy = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -608,7 +612,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         jPanel1.add(m_jCode);
         m_jCode.setBounds(160, 20, 170, 19);
         jPanel1.add(m_jImage);
-        m_jImage.setBounds(340, 20, 200, 180);
+        m_jImage.setBounds(340, 20, 260, 360);
 
         jLabel3.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
         jPanel1.add(jLabel3);
@@ -634,9 +638,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
         jLabel7.setText(AppLocal.getIntString("label.taxcategory")); // NOI18N
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(10, 140, 150, 15);
+        jLabel7.setBounds(10, 110, 150, 15);
         jPanel1.add(m_jTax);
-        m_jTax.setBounds(160, 140, 170, 20);
+        m_jTax.setBounds(160, 110, 170, 20);
 
         m_jmargin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jmargin);
@@ -644,11 +648,12 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
         m_jPriceSellTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jPanel1.add(m_jPriceSellTax);
-        m_jPriceSellTax.setBounds(160, 110, 80, 19);
+        m_jPriceSellTax.setBounds(160, 140, 80, 19);
 
         jLabel16.setText(AppLocal.getIntString("label.prodpriceselltax")); // NOI18N
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(10, 110, 150, 15);
+        jLabel16.setBounds(10, 140, 150, 15);
+       
         jPanel1.add(m_jCodetype);
         m_jCodetype.setBounds(250, 40, 80, 20);
 
@@ -723,12 +728,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
         jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
 
         add(jTabbedPane1);
-        jTabbedPane1.setBounds(10, 90, 560, 280);
+        jTabbedPane1.setBounds(10, 90, 660, 460);
     }// </editor-fold>//GEN-END:initComponents
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
     

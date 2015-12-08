@@ -123,19 +123,14 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE);
 
 		getRootPane().setDefaultButton(m_jButtonOK);
-<<<<<<< HEAD
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
-		
+		m_jKeys.ScaleButtons();
+
 		ScaleButtons();
 	}
 
 	private void ScaleButtons() {
-		
-=======
->>>>>>> branch 'master' of https://github.com/rhinterndorfer/w4cash/
+
 	}
 
 	public static JProductAttEdit getAttributesEditor(AppView app, Component parent, Session s) {
@@ -289,8 +284,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonOK = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
-		//jPanel4 = new javax.swing.JPanel();
-		//m_jKeys = new com.openbravo.editor.JEditorKeys();
+		// jPanel4 = new javax.swing.JPanel();
+		// m_jKeys = new com.openbravo.editor.JEditorKeys();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -334,17 +329,20 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		jPanel3.setLayout(new java.awt.BorderLayout());
 
-		//jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
-		//jPanel4.add(m_jKeys);
+		// jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4,
+		// javax.swing.BoxLayout.Y_AXIS));
+		// jPanel4.add(m_jKeys);
 
-		//jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
+		// jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
 		PropertyUtil.ScaleDialog(m_App, this, 609, 388);
-		
-//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-//		setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) / 2, 609, 388);
+
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) /
+		// 2, 609, 388);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed

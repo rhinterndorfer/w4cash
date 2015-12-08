@@ -21,6 +21,8 @@ package com.openbravo.pos.reports;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -82,7 +84,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 			jPanelFilter.add(((ReportEditorCreator) editor).getComponent(), BorderLayout.CENTER);
 		}
 
-		reportviewer = new JRViewer300(null);
+		reportviewer = new JRViewer300(m_App, null);
 
 		add(reportviewer, BorderLayout.CENTER);
 
@@ -102,7 +104,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 		} catch (Exception e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotloadreport"),
 					e);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 			jr = null;
 		}
 
@@ -203,15 +205,15 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 			} catch (MissingResourceException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotloadresourcedata"), e);
-				msg.show(m_App,this);
+				msg.show(m_App, this);
 			} catch (JRException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotfillreport"), e);
-				msg.show(m_App,this);
+				msg.show(m_App, this);
 			} catch (BasicException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotloadreportdata"), e);
-				msg.show(m_App,this);
+				msg.show(m_App, this);
 			}
 		}
 
@@ -242,20 +244,33 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 		jPanelHeader.add(jPanelFilter, java.awt.BorderLayout.CENTER);
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		jToggleFilter.addChangeListener(new ChangeListener() {
 
-		jToggleFilter
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if (jToggleFilter.isSelected()) {
+					jToggleFilter.setText(AppLocal.getIntString("label.collapse"));
+				} else {
+					jToggleFilter.setText(AppLocal.getIntString("label.expand"));
+				}
+			}
+		});
+
+		jToggleFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
 		jToggleFilter.setSelected(true);
+		jToggleFilter.setMargin(new Insets(0, 0, 0, 0));
 		jToggleFilter.setSelectedIcon(
-				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
 		jToggleFilter.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jToggleFilterActionPerformed(evt);
 			}
 		});
+
 		jPanel1.add(jToggleFilter);
 
-		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launch.png"))); // NOI18N
+		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search.png"))); // NOI18N
+		jButton1.setMargin(new Insets(0, 0, 0, 0));
 		jButton1.setText(AppLocal.getIntString("Button.ExecuteReport")); // NOI18N
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,11 +306,13 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 	// End of variables declaration//GEN-END:variables
 	public void ScaleButtons() {
 		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
 		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(jToggleFilter, menuwidth, menuheight);
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight,fontsize);
+		PropertyUtil.ScaleButtonIcon(jToggleFilter, menuwidth, menuheight, fontsize);
 	}
 }

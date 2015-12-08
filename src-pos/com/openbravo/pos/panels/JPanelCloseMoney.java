@@ -436,7 +436,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE))))
 						.addContainerGap(16, Short.MAX_VALUE)));
-
+	
+		m_jCloseCash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 		m_jCloseCash.setText(AppLocal.getIntString("Button.CloseCash")); // NOI18N
 		m_jCloseCash.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -444,6 +445,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 			}
 		});
 
+		m_jPrintCash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/yast_printer.png")));
 		m_jPrintCash.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
 		m_jPrintCash.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -535,9 +537,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
 		int btnHeight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
-
-		PropertyUtil.ScaleButtonIcon(m_jCloseCash, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jPrintCash, btnWidth, btnHeight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jCloseCash, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jPrintCash, btnWidth, btnHeight, fontsize);
 
 	}
 

@@ -21,6 +21,7 @@ package com.openbravo.pos.payment;
 
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Window;
 import javax.swing.JFrame;
@@ -408,6 +409,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(AppLocal.getIntString("payment.title")); // NOI18N
 
+		PropertyUtil.ScaleTabbedPaneFontsize(m_App, m_jTabPayment, "common-dialog-fontsize", "22");
+		
 		m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
 		jPanel4.add(m_jLblTotalEuros1);
 
@@ -462,8 +465,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		getContentPane().add(jPanel4, java.awt.BorderLayout.NORTH);
 
 		jPanel3.setLayout(new java.awt.BorderLayout());
-
-		m_jTabPayment.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+//		m_jTabPayment.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 5));
+//		m_jTabPayment.setPreferredSize(new Dimension(1000, 1000));
 		m_jTabPayment.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 		m_jTabPayment.setFocusable(false);
 		m_jTabPayment.setRequestFocusEnabled(false);
@@ -489,7 +492,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		jPanel2.add(jPanel1);
 
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
-		m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
+		m_jButtonOK.setText(AppLocal.getIntString("message.pay")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
 		m_jButtonOK.setFocusable(false);
 		m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
@@ -519,7 +522,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-		PropertyUtil.ScaleDialog(m_App, this, 672, 497);
+		PropertyUtil.ScaleDialog(m_App, this, 1000, 860);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -590,22 +593,22 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	// End of variables declaration//GEN-END:variables
 
 	private void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jRemaininglEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblRemainingEuros, "common-small-fontsize", "32");
-
-		PropertyUtil.ScaleTabbedPaneFontsize(m_App, m_jTabPayment, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jRemaininglEuros,"common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblRemainingEuros, "common-dialog-fontsize", "22");
 		
 		PropertyUtil.StyleTabbedPane(m_jTabPayment);
 		
 		int blwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "32"));
 		int blheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
-
-		PropertyUtil.ScaleButtonIcon(m_jButtonAdd, blwidth, blheight);
-		PropertyUtil.ScaleButtonIcon(m_jButtonRemove, blwidth, blheight);
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "32"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jButtonAdd, blwidth, blheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonRemove, blwidth, blheight, fontsize);
 
 	}
 }

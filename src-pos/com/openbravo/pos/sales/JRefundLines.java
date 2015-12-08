@@ -138,9 +138,13 @@ public class JRefundLines extends javax.swing.JPanel {
 		int bheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 
-		PropertyUtil.ScaleButtonIcon(m_jbtnAddAll, bwidth, bheight);
-		PropertyUtil.ScaleButtonIcon(m_jbtnAddOne, bwidth, bheight);
-		PropertyUtil.ScaleButtonIcon(m_jbtnAddLine, bwidth, bheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-large-fontsize", "32"));
+		
+		
+		PropertyUtil.ScaleButtonIcon(m_jbtnAddAll, bwidth, bheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnAddOne, bwidth, bheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnAddLine, bwidth, bheight, fontsize);
 	}
 
 	private void m_jbtnAddAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnAddAllActionPerformed

@@ -87,10 +87,7 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		m_ReturnProduct = null;
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 		
@@ -154,7 +151,7 @@ public class JProductFinder extends javax.swing.JDialog {
 	private void initComponents() {
 
 		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel2 = new javax.swing.JPanel();
 		m_jProductSelect = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
@@ -241,7 +238,7 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialog(m_App, this, 665, 565);
+		PropertyUtil.ScaleDialog(m_App, this, 800, 660);
 //		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 //		setBounds((screenSize.width - 665) / 2, (screenSize.height - 565) / 2, 665, 565);
 	}// </editor-fold>//GEN-END:initComponents
@@ -251,8 +248,10 @@ public class JProductFinder extends javax.swing.JDialog {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
 	}
 	
 	private void jListProductsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jListProductsMouseClicked

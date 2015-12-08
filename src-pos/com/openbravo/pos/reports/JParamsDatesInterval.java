@@ -130,15 +130,16 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 	@Override
 	public void ScaleButtons() {
 
-		// int btnWidth = Integer
-		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
-		// "button-touchsmall-width", "32"));
-		// int btnHeight = Integer
-		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
-		// "button-touchsmall-height", "32"));
-		//
-		// PropertyUtil.ScaleButtonIcon(btnDateEnd, btnWidth, btnHeight);
-		// PropertyUtil.ScaleButtonIcon(btnDateStart, btnWidth, btnHeight);
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-width", "32"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-height", "32"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		
+		PropertyUtil.ScaleButtonIcon(btnDateEnd, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(btnDateStart, btnWidth, btnHeight, fontsize);
 		//
 		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel1,
 		// "common-small-fontsize", "32");
@@ -161,7 +162,7 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		} catch (BasicException e) {
 			date = null;
 		}
-		date = JCalendarDialog.showCalendarTimeHours(this, date);
+		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
 		if (date != null) {
 			jTxtStartDate.setText(Formats.TIMESTAMP.formatValue(date));
 		}
@@ -175,7 +176,7 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		} catch (BasicException e) {
 			date = null;
 		}
-		date = JCalendarDialog.showCalendarTimeHours(this, date);
+		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
 		if (date != null) {
 			jTxtEndDate.setText(Formats.TIMESTAMP.formatValue(date));
 		}

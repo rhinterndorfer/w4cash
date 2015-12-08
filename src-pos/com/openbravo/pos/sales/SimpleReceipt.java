@@ -21,6 +21,7 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.MessageInf;
+import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.customers.JCustomerFinder;
 import com.openbravo.pos.forms.AppLocal;
@@ -70,11 +71,12 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	}
 
 	private void ScaleButtons() {
-		int bwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int bheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		PropertyUtil.ScaleButtonIcon(btnCustomer, bwidth, bheight);
+		int bwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-img-small", "32"));
+		int bheight = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-img-small", "32"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(btnCustomer, bwidth, bheight, fontsize);
 
 	}
 
@@ -114,9 +116,9 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private void printTotals() {
 
 		if (ticket.getLinesCount() == 0) {
-			m_jSubtotalEuros.setText(null);
-			m_jTaxesEuros.setText(null);
-			m_jTotalEuros.setText(null);
+			m_jSubtotalEuros.setText(Formats.CURRENCY.formatValue(0.0));
+			m_jTaxesEuros.setText(Formats.CURRENCY.formatValue(0.0));
+			m_jTotalEuros.setText(Formats.CURRENCY.formatValue(0.0));
 		} else {
 			m_jSubtotalEuros.setText(ticket.printSubTotal());
 			m_jTaxesEuros.setText(ticket.printTax());
@@ -272,10 +274,11 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		jPanel1.setLayout(new java.awt.BorderLayout());
 
 		// GroupLayout totalLayout = new GroupLayout(m_jPanTotals);
-		GridLayout layout = new GridLayout(3, 2);
+		GridLayout layout = new GridLayout(3, 2, 5, 5);
 		m_jPanTotals.setLayout(layout);
 
 		init2();
+		ScaleLabels();
 
 		m_jPanTotals.add(m_jLblTotalEuros3);
 		m_jPanTotals.add(m_jSubtotalEuros);
@@ -285,8 +288,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		m_jPanTotals.add(m_jLblTotalEuros1);
 		m_jPanTotals.add(m_jTotalEuros);
-
-		ScaleLabels();
 
 		//
 		// totalLayout.setHorizontalGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,13 +371,13 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleLabels() {
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxesEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotalEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros2, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros3, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxesEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotalEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros2, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros3, "common-dialog-fontsize", "22");
 	}
 
 	private void init2() {
@@ -385,7 +386,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		m_jTotalEuros.setBackground(java.awt.Color.white);
 		m_jTotalEuros.setFont(new java.awt.Font("Dialog", 1, 14));
-		 m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
 				javax.swing.BorderFactory
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
@@ -414,7 +415,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		// m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
 
 		m_jSubtotalEuros.setBackground(java.awt.Color.white);
-		 m_jSubtotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jSubtotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		m_jSubtotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
 				javax.swing.BorderFactory
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
@@ -434,7 +435,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		// m_jPanTotals.add(m_jSubtotalEuros, gridBagConstraints);
 
 		m_jTaxesEuros.setBackground(java.awt.Color.white);
-		 m_jTaxesEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jTaxesEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		m_jTaxesEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
 				javax.swing.BorderFactory
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
@@ -469,6 +470,10 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		// // gridBagConstraints.anchor =
 		// // java.awt.GridBagConstraints.FIRST_LINE_START;
 		// m_jPanTotals.add(m_jLblTotalEuros3, gridBagConstraints);
+
+		// m_jTotalEuros.setText("0");
+		// m_jTaxesEuros.setText("0");
+		// m_jSubtotalEuros.setText("0");
 	}
 
 	private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCustomerActionPerformed

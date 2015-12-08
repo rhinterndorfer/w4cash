@@ -35,9 +35,16 @@ public class JTicketsBagSimple extends JTicketsBag {
         initComponents();
     }
     
-    public void ScaleButtons(int btnWidth, int btnHeight)
+    public void ScaleButtons()
     {
-    	PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
+    	int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+    	PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight, fontsize);
     }
 
     
@@ -77,6 +84,7 @@ public class JTicketsBagSimple extends JTicketsBag {
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         m_jDelTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png")));
+        m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
         m_jDelTicket.setFocusPainted(false);
         m_jDelTicket.setFocusable(false);
         m_jDelTicket.setMargin(new java.awt.Insets(0, 0, 0, 0));

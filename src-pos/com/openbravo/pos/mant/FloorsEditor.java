@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.util.UUID;
 import javax.swing.*;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.user.EditorRecord;
@@ -38,10 +39,12 @@ public class FloorsEditor extends JPanel implements EditorRecord {
     
 //    private DirtyManager m_Dirty = new DirtyManager();    
     private String m_sID;
+	private AppView m_App;
     
     /** Creates new form FloorsEditor */
-    public FloorsEditor(DirtyManager dirty) {
-        initComponents();
+    public FloorsEditor(AppView app, DirtyManager dirty) {
+		m_App = app;
+    	initComponents();
          
         m_jName.getDocument().addDocumentListener(dirty);
         m_jImage.addPropertyChangeListener("image", dirty);
@@ -118,7 +121,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
         jLabel3 = new javax.swing.JLabel();
         m_jName = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        m_jImage = new com.openbravo.data.gui.JImageEditor();
+        m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
 
         setLayout(new java.awt.BorderLayout());
 

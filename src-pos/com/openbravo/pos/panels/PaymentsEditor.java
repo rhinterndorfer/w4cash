@@ -20,6 +20,7 @@
 package com.openbravo.pos.panels;
 
 import java.awt.Component;
+import java.awt.TextField;
 import java.util.UUID;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
@@ -63,12 +64,12 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		m_jreason.addActionListener(dirty);
 		jTotal.addPropertyChangeListener("Text", dirty);
 
+		jDescription.addEditorKeys(m_jKeys);
+		jDescription.addPropertyChangeListener("Text", dirty);
+		
 		writeValueEOF();
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(oApp, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(oApp, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -79,6 +80,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = null;
 		setReasonTotal(null, null);
 		m_jreason.setEnabled(false);
+		jDescription.setEnabled(false);
 		jTotal.setEnabled(false);
 	}
 
@@ -88,6 +90,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = null;
 		setReasonTotal("cashin", null);
 		m_jreason.setEnabled(true);
+		jDescription.setEnabled(true);
 		jTotal.setEnabled(true);
 		jTotal.activate();
 	}
@@ -98,6 +101,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = (Date) payment[2];
 		m_sPaymentId = (String) payment[3];
 		setReasonTotal(payment[4], payment[5]);
+		jDescription.setEnabled(false);
 		m_jreason.setEnabled(false);
 		jTotal.setEnabled(false);
 	}
@@ -109,6 +113,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		m_sPaymentId = (String) payment[3];
 		setReasonTotal(payment[4], payment[5]);
 		m_jreason.setEnabled(false);
+		jDescription.setEnabled(false);
 		jTotal.setEnabled(false);
 		jTotal.activate();
 	}
@@ -219,48 +224,76 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	private void initComponents() {
 
 		jPanel3 = new javax.swing.JPanel();
-		jLabel5 = new javax.swing.JLabel();
+		// jLabel5 = new javax.swing.JLabel();
 		m_jreason = new javax.swing.JComboBox();
-		jLabel3 = new javax.swing.JLabel();
+		// jLabel3 = new javax.swing.JLabel();
 		jTotal = new com.openbravo.editor.JEditorCurrency();
 		jPanel2 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
+		jDescription = new com.openbravo.editor.JEditorString();
+
+		jLabelDesc = new javax.swing.JLabel();
 
 		setLayout(new java.awt.BorderLayout());
 
-		jLabel5.setText(AppLocal.getIntString("label.paymentreason")); // NOI18N
+		jLabelDesc.setText(AppLocal.getIntString("tab.paper"));
+
+		// jLabel5.setText(AppLocal.getIntString("label.paymentreason")); //
+		// NOI18N
 
 		m_jreason.setFocusable(false);
 
-		jLabel3.setText(AppLocal.getIntString("label.paymenttotal")); // NOI18N
+		// jLabel3.setText(AppLocal.getIntString("label.paymenttotal")); //
+		// NOI18N
+
+		ScaleLabels();
 
 		javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
 		jPanel3.setLayout(jPanel3Layout);
+
 		jPanel3Layout.setHorizontalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel3Layout.createSequentialGroup().addContainerGap()
+						// .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						// .addComponent(jLabel5,
+						// javax.swing.GroupLayout.DEFAULT_SIZE,
+						// javax.swing.GroupLayout.DEFAULT_SIZE,
+						// javax.swing.GroupLayout.DEFAULT_SIZE)
+						// .addComponent(jLabel3,
+						// javax.swing.GroupLayout.DEFAULT_SIZE,
+						// javax.swing.GroupLayout.DEFAULT_SIZE,
+						// javax.swing.GroupLayout.DEFAULT_SIZE)
+						// )
+						// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(m_jreason, javax.swing.GroupLayout.PREFERRED_SIZE, 200,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 234,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(63, Short.MAX_VALUE)));
+								.addComponent(m_jreason, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
+								.addComponent(jTotal, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
+								.addComponent(jLabelDesc, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
+								.addComponent(jDescription, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
+		// .addContainerGap(63, Short.MAX_VALUE)
+		));
 		jPanel3Layout.setVerticalGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel3Layout.createSequentialGroup().addContainerGap()
 						.addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(jLabel5).addComponent(m_jreason, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+								// .addComponent(jLabel5)
+								.addComponent(m_jreason, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-								.addComponent(jTotal, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel3))
-						.addContainerGap(320, Short.MAX_VALUE)));
+						.addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jTotal, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
+		// .addComponent(jLabel3)
+		).addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
+				jLabelDesc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+				javax.swing.GroupLayout.DEFAULT_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jDescription, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
+						.addContainerGap(Short.MAX_VALUE, Short.MAX_VALUE)));
 
 		add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -268,26 +301,36 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		jPanel2.add(m_jKeys, java.awt.BorderLayout.NORTH);
 
 		add(jPanel2, java.awt.BorderLayout.LINE_END);
+		
+		jDescription.reset();
 	}// </editor-fold>//GEN-END:initComponents
+
+	private void ScaleLabels() {
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel3,
+		// "common-large-fontsize", "64");
+		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel5,
+		// "common-large-fontsize", "64");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelDesc, "common-large-fontsize", "64");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jTotal, "common-large-fontsize", "64");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jreason, "common-large-fontsize", "64");
+		PropertyUtil.ScaleEditstringFontsize(m_App, jDescription, "common-large-fontsize", "64");
+	}
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-large-fontsize", "64");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-large-fontsize", "64");
-
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jTotal, "common-large-fontsize", "64");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jreason, "common-large-fontsize", "64");
 
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel5;
+	// private javax.swing.JLabel jLabel3;
+	// private javax.swing.JLabel jLabel5;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
 	private com.openbravo.editor.JEditorCurrency jTotal;
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	private javax.swing.JComboBox m_jreason;
+	private com.openbravo.editor.JEditorString jDescription;
+	private javax.swing.JLabel jLabelDesc;
 	// End of variables declaration//GEN-END:variables
 
 }

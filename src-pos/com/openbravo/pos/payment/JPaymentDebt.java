@@ -55,7 +55,7 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int height = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -172,7 +172,7 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
 		jlblMessage = new javax.swing.JTextArea();
 		jPanel2 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel3 = new javax.swing.JPanel();
 		m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
 
@@ -274,18 +274,18 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel12, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel12, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-dialog-fontsize", "22");
 //		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jNotes, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, txtCurdate, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, txtCurdebt, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, txtMaxdebt, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, txtCurdate, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, txtCurdebt, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, txtMaxdebt, "common-dialog-fontsize", "22");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

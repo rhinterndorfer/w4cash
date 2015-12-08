@@ -109,12 +109,14 @@ public class JPanelSQL extends JPanel implements JPanelView {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
-
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(m_jForward, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(m_jBack, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(m_jtabdelete, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jForward, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jBack, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jtabdelete, menuwidth, menuheight, fontsize);
 	}
 
 	public JComponent getComponent() {
@@ -223,7 +225,7 @@ public class JPanelSQL extends JPanel implements JPanelView {
 		add(jScrollPane4);
 		jScrollPane4.setBounds(530, 10, 150, 320);
 
-		m_jForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1rightarrow.png")));
+		m_jForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/rightarrow.png")));
 		m_jForward.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jForwardActionPerformed(evt);
@@ -233,7 +235,7 @@ public class JPanelSQL extends JPanel implements JPanelView {
 		add(m_jForward);
 		m_jForward.setBounds(70, 10, 49, 25);
 
-		m_jBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow.png")));
+		m_jBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/leftarrow.png")));
 		m_jBack.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jBackActionPerformed(evt);

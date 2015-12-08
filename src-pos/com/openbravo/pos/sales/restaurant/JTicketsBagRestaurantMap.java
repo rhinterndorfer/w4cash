@@ -161,14 +161,17 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		add(m_jreservations, "res");
 	}
 
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		int smallWidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "32"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
 		int smallHeight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "32"));
-		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight);
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight, fontsize);
 
-		m_restaurantmap.ScaleButtons(btnWidth, btnHeight);
+		m_restaurantmap.ScaleButtons();
 	}
 
 	public void activate() {
@@ -420,7 +423,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		 */
 		// jPanel2.add(m_jbtnReservations);
 
-		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reload.png"))); // NOI18N
+		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
 		m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket")); // NOI18N
 		m_jbtnRefresh.setFocusPainted(false);
 		m_jbtnRefresh.setFocusable(false);

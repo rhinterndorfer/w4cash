@@ -53,9 +53,7 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 		m_jCardNumber.addEditorKeys(m_jKeys);
 		m_jExpirationDate.addEditorKeys(m_jKeys);
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 		
 		ScaleButtons();
 	}
@@ -125,7 +123,7 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 
 		jPanel2 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel4 = new javax.swing.JPanel();
 		m_jCardNumber = new com.openbravo.editor.JEditorStringNumber();
 		m_jExpirationDate = new com.openbravo.editor.JEditorStringNumber();
@@ -210,10 +208,10 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleButtons(){
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-dialog-fontsize", "22");
 	}
 	
 	// Variables declaration - do not modify//GEN-BEGIN:variables

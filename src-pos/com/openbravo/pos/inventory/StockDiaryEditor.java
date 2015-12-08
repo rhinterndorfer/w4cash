@@ -616,7 +616,7 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
         } catch (BasicException e) {
             date = null;
         }        
-        date = JCalendarDialog.showCalendarTime(this, date);
+        date = JCalendarDialog.showCalendarTime(m_App, this, date);
         if (date != null) {
             m_jdate.setText(Formats.TIMESTAMP.formatValue(date));
         }
@@ -662,8 +662,10 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
 		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
-		PropertyUtil.ScaleButtonIcon(jEditAttributes, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jEditAttributes, menuwidth, menuheight, fontsize);
 	}
     
 }

@@ -49,12 +49,15 @@ public class JSaver extends JPanel implements StateListener {
 	public void ScaleButtons() {
 		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
 		if (jbtnDelete != null)
-			PropertyUtil.ScaleButtonIcon(jbtnDelete, width, height);
+			PropertyUtil.ScaleButtonIcon(jbtnDelete, width, height, fontsize);
 		if (jbtnNew != null)
-			PropertyUtil.ScaleButtonIcon(jbtnNew, width, height);
+			PropertyUtil.ScaleButtonIcon(jbtnNew, width, height, fontsize);
 		if (jbtnSave != null)
-			PropertyUtil.ScaleButtonIcon(jbtnSave, width, height);
+			PropertyUtil.ScaleButtonIcon(jbtnSave, width, height, fontsize);
 	}
 
 	public void updateState(int iState) {

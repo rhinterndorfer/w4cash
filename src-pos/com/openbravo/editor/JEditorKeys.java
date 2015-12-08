@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
 
 public class JEditorKeys extends javax.swing.JPanel implements EditorKeys {
@@ -45,9 +46,12 @@ public class JEditorKeys extends javax.swing.JPanel implements EditorKeys {
 	private char[] keysavailable;
 	private boolean m_bMinus;
 	private boolean m_bKeyDot;
+	
+	private AppView m_App;
 
 	/** Creates new form JEditorKeys */
-	public JEditorKeys() {
+	public JEditorKeys(AppView app) {
+		this.m_App = app;
 		initComponents();
 
 		m_jKey0.addActionListener(new MyKeyNumberListener('0'));
@@ -71,20 +75,25 @@ public class JEditorKeys extends javax.swing.JPanel implements EditorKeys {
 		doEnabled(false);
 	}
 
-	public void ScaleButtons(int btnWidth, int btnHeight) {
-		PropertyUtil.ScaleButtonIcon(m_jMinus, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jCE, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey9, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey8, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey7, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey6, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey5, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey4, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey3, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey2, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey1, btnWidth, btnHeight);
-		PropertyUtil.ScaleButtonIcon(m_jKey0, btnWidth, btnHeight);
+	public void ScaleButtons() {		
+		int btnWidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width","48"));
+		int btnHeight = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height","48"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jMinus, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jCE, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey9, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey8, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey7, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey6, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey5, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey4, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey3, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey2, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey1, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey0, btnWidth, btnHeight, fontsize);
 	}
 
 	@Override

@@ -98,10 +98,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 			m_jUnits.activate();
 		}
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		printTotals();
 
@@ -116,23 +113,23 @@ public class JProductLineEdit extends javax.swing.JDialog {
 	}
 
 	private void ScaleLabels() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotal, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxrate, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotal, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotal, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxrate, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotal, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditnumbersontsize(m_App, m_jUnits, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditnumbersFontsize(m_App, m_jUnits, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPrice, "common-small-fontsize", "32");
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceTax, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPrice, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceTax, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jName, "common-small-fontsize", "32");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jName, "common-dialog-fontsize", "22");
 	}
 
 	private void ScaleButtons() {
@@ -259,14 +256,14 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		m_jButtonCancel = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(AppLocal.getIntString("label.editline")); // NOI18N
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
-		jPanel2.setLayout(new GridLayout(7, 2));
+		jPanel2.setLayout(new GridLayout(7, 2, 5,5));
 		// GridBagConstraints layoutData = new GridBagConstraints();
 
 		jLabel1.setText(AppLocal.getIntString("label.price")); // NOI18N
@@ -287,7 +284,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		jLabel5.setText(AppLocal.getIntString("label.tax")); // NOI18N
 
 		jLabel6.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
-
+		
 		m_jTotal.setBackground(javax.swing.UIManager.getDefaults().getColor("TextField.disabledBackground"));
 		m_jTotal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		m_jTotal.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -415,7 +412,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
-		PropertyUtil.ScaleDialog(m_App, this, 580, 362);
+		PropertyUtil.ScaleDialog(m_App, this, 860, 410);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();

@@ -74,16 +74,16 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		initComponents();
 
-		m_datepanel = new JCalendarPanel();
+		m_datepanel = new JCalendarPanel(m_App);
 		jPanelDate.add(m_datepanel, BorderLayout.CENTER);
 		m_datepanel.addPropertyChangeListener("Date", new DateChangeCalendarListener());
 
-		m_timepanel = new JTimePanel(null, JTimePanel.BUTTONS_HOUR);
+		m_timepanel = new JTimePanel(m_App, null, JTimePanel.BUTTONS_HOUR);
 		m_timepanel.setPeriod(3600000L); // Los milisegundos que tiene una hora.
 		jPanelTime.add(m_timepanel, BorderLayout.CENTER);
 		m_timepanel.addPropertyChangeListener("Date", new DateChangeTimeListener());
 
-		m_timereservation = new JTimePanel(null, JTimePanel.BUTTONS_MINUTE);
+		m_timereservation = new JTimePanel(m_App, null, JTimePanel.BUTTONS_MINUTE);
 		m_jPanelTime.add(m_timereservation, BorderLayout.CENTER);
 
 		txtCustomer.addEditorKeys(m_jKeys);
@@ -112,7 +112,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		m_bd = new BrowsableEditableData(lpr, spr, new CompareReservations(), this, m_Dirty);
 
-		JListNavigator nl = new JListNavigator(m_App,m_bd, true);
+		JListNavigator nl = new JListNavigator(m_App, m_bd, true);
 		nl.setCellRenderer(new JCalendarItemRenderer());
 		m_jPanelList.add(nl, BorderLayout.CENTER);
 
@@ -122,28 +122,18 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jToolbar.add(new JNavigator(m_App, m_bd));
 		m_jToolbar.add(new JSaver(m_App, m_bd));
 
-		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width","48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height","48"));
-		m_jKeys.ScaleButtons(width, height);
-		
+		m_jKeys.ScaleButtons();
+
 	}
 
 	private class MyDateFilter implements EditorCreator {
 		public Object createValue() throws BasicException {
 			return new Object[] { m_dcurrentday, new Date(m_dcurrentday.getTime() + 3600000L) }; // m_dcurrentday
-																									// ya
-																									// no
-																									// tiene
-																									// ni
-																									// minutos,
-																									// ni
-																									// segundos.
 		}
 
 		@Override
 		public void ScaleButtons() {
-			// TODO Auto-generated method stub
-			
+		
 		}
 	}
 
@@ -159,7 +149,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 			return m_bd.actionClosingForm(this);
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.CannotMove"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 			return false;
 		}
 	}
@@ -299,7 +289,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				m_bd.actionLoad();
 			} catch (BasicException eD) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
-				msg.show(m_App,this);
+				msg.show(m_App, this);
 				m_dcurrentday = doldcurrentday; // nos retractamos...
 			}
 		}
@@ -368,7 +358,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		txtCustomer = new com.openbravo.editor.JEditorString();
 		jButton1 = new javax.swing.JButton();
 		jPanel5 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 
 		setLayout(new java.awt.BorderLayout());
 
@@ -451,6 +441,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		txtCustomer.setBounds(90, 150, 220, 20);
 
 		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
+		jButton1.setText(AppLocal.getIntString("Menu.Customers"));
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
 		jButton1.setRequestFocusEnabled(false);
@@ -483,7 +474,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 			m_restaurantmap.viewTables(customer);
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nosaveticket"), eD);
-			msg.show(m_App,this);
+			msg.show(m_App, this);
 		}
 
 	}// GEN-LAST:event_m_jbtnReceiveActionPerformed
@@ -538,7 +529,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

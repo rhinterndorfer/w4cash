@@ -97,7 +97,7 @@ public class PaymentPanelBasic extends javax.swing.JPanel implements PaymentPane
     // </editor-fold>//GEN-END:initComponents
     
     private void ScaleButtons(){
-    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
