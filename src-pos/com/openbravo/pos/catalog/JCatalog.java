@@ -21,6 +21,7 @@ package com.openbravo.pos.catalog;
 
 import com.openbravo.pos.ticket.CategoryInfo;
 import com.openbravo.pos.ticket.ProductInfoExt;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ThumbNailBuilder;
 
 import java.util.*;
@@ -29,6 +30,7 @@ import javax.swing.event.*;
 import java.awt.event.*;
 import java.awt.*;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.ListCellRendererBasic;
@@ -61,15 +63,17 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 	private ThumbNailBuilder tnbcat;
 
 	private CategoryInfo showingcategory = null;
+	private AppView m_App;
 
 	/** Creates new form JCatalog */
-	public JCatalog(DataLogicSales dlSales) {
-		this(dlSales, false, false, 64, 54, 32, 32);
+	public JCatalog(AppView app, DataLogicSales dlSales) {
+		this(app, dlSales, false, false, 64, 54, 32, 32);
 	}
 
-	public JCatalog(DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int widthProduct,
+	public JCatalog(AppView app, DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int widthProduct,
 			int heightProduct, int widthCat, int heightCat) {
-
+		
+		m_App = app;
 		m_dlSales = dlSales;
 		this.pricevisible = pricevisible;
 		this.taxesincluded = taxesincluded;
@@ -89,9 +93,12 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 
 	@Override
 	public void ScaleButtonIcons(int width, int height) {
-		ScaleButtonIcon(m_jUp, width, height);
-		ScaleButtonIcon(m_jDown, width, height);
-		ScaleButtonIcon(m_btnBack1, width, height);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jUp, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jDown, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_btnBack1, width, height, fontsize);
 //		ScaleButtonIcon(btn, width, height);
 	}
 	
@@ -194,18 +201,6 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 			((ActionListener) l[i]).actionPerformed(e);
 		}
 	}
-	
-	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-
-			btn.setSize(width, height);
-		}
-	}
 
 	private void selectCategoryPanel(String catid) {
 
@@ -239,7 +234,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 			CardLayout cl = (CardLayout) (m_jProducts.getLayout());
 			cl.show(m_jProducts, catid);
 		} catch (BasicException e) {
-			JMessageDialog.showMessage(this,
+			JMessageDialog.showMessage(m_App,this,
 					new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notactive"), e));
 		}
 	}
@@ -406,7 +401,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		jPanel3.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow25.png"))); // NOI18N
+		m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
 		m_jUp.setFocusPainted(false);
 		m_jUp.setFocusable(false);
 		// m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -419,7 +414,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		});
 		// jPanel3.add(m_jUp);
 
-		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow25.png"))); // NOI18N
+		m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
 		m_jDown.setFocusPainted(false);
 		m_jDown.setFocusable(false);
 		// m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -452,8 +447,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
 		jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow25.png"))); // NOI18N
-//		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/3uparrow2.png"))); // NOI18N
+		m_btnBack1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/leftarrow.png"))); // NOI18N
 		m_btnBack1.setFocusPainted(false);
 		m_btnBack1.setFocusable(false);
 		m_btnBack1.setMargin(new java.awt.Insets(8, 14, 8, 14));

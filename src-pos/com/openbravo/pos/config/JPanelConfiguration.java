@@ -38,6 +38,8 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
     private List<PanelConfig> m_panelconfig;
 
     private AppConfig config;
+
+	private AppView m_App;
     
     /** Creates new form JPanelConfiguration */
     public JPanelConfiguration(AppView oApp) {
@@ -45,7 +47,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
     }
     
     public JPanelConfiguration(AppProperties props) {
-        
+ 
         config = new AppConfig(props.getConfigFile());
         
         initComponents();
@@ -68,7 +70,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         if (config.delete()) {
             loadProperties();
         } else {
-            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotdeleteconfig")));            
+            JMessageDialog.showMessage(m_App, this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotdeleteconfig")));            
         }
     }
     
@@ -93,7 +95,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
             config.save();
             JOptionPane.showMessageDialog(this, AppLocal.getIntString("message.restartchanges"), AppLocal.getIntString("message.title"), JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotsaveconfig"), e));
+            JMessageDialog.showMessage(m_App, this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotsaveconfig"), e));
         }
     }
 

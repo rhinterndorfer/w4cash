@@ -39,12 +39,13 @@ public class ResourcesPanel extends JPanelTable {
     
     /** Creates a new instance of JPanelResources */
     public ResourcesPanel() {
+  
     }
     
     protected void init() {
-        DataLogicAdmin dlAdmin = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
+    	DataLogicAdmin dlAdmin = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
         tresources = dlAdmin.getTableResources();         
-        jeditor = new ResourcesView(dirty);           
+        jeditor = new ResourcesView(app, dirty);           
     }    
     
     @Override
@@ -90,7 +91,7 @@ public class ResourcesPanel extends JPanelTable {
     }
 
 	@Override
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		// TODO Auto-generated method stub
 		
 	}        

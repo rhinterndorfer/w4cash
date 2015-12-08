@@ -25,11 +25,14 @@ import java.util.Comparator;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JSort extends JDialog {
     
     private ComparatorCreator m_cc;
     private Comparator m_Comparator;
+	private AppView m_App;
         
     private JSort(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -39,8 +42,8 @@ public class JSort extends JDialog {
         super(parent, modal);
     }
     
-    private Comparator init(ComparatorCreator cc) throws BasicException {
-        
+    private Comparator init(AppView app, ComparatorCreator cc) throws BasicException {
+        m_App = app;
         initComponents();
 
         getRootPane().setDefaultButton(jcmdOK);   
@@ -85,7 +88,7 @@ public class JSort extends JDialog {
         }
     }
        
-    public static Comparator showMessage(Component parent, ComparatorCreator cc) throws BasicException {
+    public static Comparator showMessage(AppView app, Component parent, ComparatorCreator cc) throws BasicException {
          
         Window window = getWindow(parent);      
         
@@ -95,7 +98,7 @@ public class JSort extends JDialog {
         } else {
             myMsg = new JSort((Dialog) window, true);
         }
-        return myMsg.init(cc);
+        return myMsg.init(app,cc);
     }
     
     /** This method is called from within the constructor to
@@ -166,8 +169,10 @@ public class JSort extends JDialog {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-396)/2, (screenSize.height-199)/2, 396, 199);
+        PropertyUtil.ScaleDialog(m_App, this, 396, 199);
+        
+//        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//        setBounds((screenSize.width-396)/2, (screenSize.height-199)/2, 396, 199);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
@@ -193,7 +198,7 @@ public class JSort extends JDialog {
             dispose();
         } else {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nosort"));
-            msg.show(this);   
+            msg.show(m_App,this);   
         }
   
     }//GEN-LAST:event_jcmdOKActionPerformed

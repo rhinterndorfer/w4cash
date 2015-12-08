@@ -1,0 +1,4 @@
+import com.openbravo.pos.forms.JRootApp;
+
+// int numlines = ticket.getLinesCount();
+app.getAppview().closeAppView();

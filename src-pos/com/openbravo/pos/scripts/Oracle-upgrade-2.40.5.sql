@@ -33,7 +33,8 @@ UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/ticket.addline.t
 UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.Ticket.xml} WHERE NAME='Printer.Ticket';
 UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.TicketPreview.xml} WHERE NAME='Printer.TicketPreview';
 UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Ticket.Buttons.xml} WHERE NAME='Ticket.Buttons';
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Window.Logout', 0, $FILE{/com/openbravo/pos/templates/Window.Logout.txt});
 
--- final script
+
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
 UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.6' WHERE ID = 'w4cashdb';

@@ -20,6 +20,7 @@ package com.openbravo.pos.printer;
 
 import java.util.*;
 import com.openbravo.pos.forms.AppProperties;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.printer.escpos.*;
 import com.openbravo.pos.printer.javapos.DeviceDisplayJavaPOS;
 import com.openbravo.pos.printer.javapos.DeviceFiscalPrinterJavaPOS;
@@ -43,7 +44,7 @@ public class DeviceTicket {
     private List<DevicePrinter> m_deviceprinterslist;
 
     /** Creates a new instance of DeviceTicket */
-    public DeviceTicket() {
+    public DeviceTicket(AppView app) {
         // Una impresora solo de pantalla.
 
         m_deviceFiscal = new DeviceFiscalPrinterNull();
@@ -59,7 +60,7 @@ public class DeviceTicket {
         m_deviceprinterslist.add(p);
     }
 
-    public DeviceTicket(Component parent, AppProperties props) {
+    public DeviceTicket(AppView app,Component parent, AppProperties props) {
 
         PrinterWritterPool pws = new PrinterWritterPool();
 
@@ -146,7 +147,7 @@ public class DeviceTicket {
                         sPrinterParam2 = "standard";
                     }
 
-                    addPrinter(sPrinterIndex, new DevicePrinterPrinter(parent, sPrinterParam1,
+                    addPrinter(sPrinterIndex, new DevicePrinterPrinter(app,parent, sPrinterParam1,
                             Integer.parseInt(props.getProperty("paper." + sPrinterParam2 + ".x")),
                             Integer.parseInt(props.getProperty("paper." + sPrinterParam2 + ".y")),
                             Integer.parseInt(props.getProperty("paper." + sPrinterParam2 + ".width")),

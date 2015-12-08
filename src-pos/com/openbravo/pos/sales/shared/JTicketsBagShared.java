@@ -20,6 +20,8 @@
 package com.openbravo.pos.sales.shared;
 
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.util.*;
 import javax.swing.*;
 
@@ -43,10 +45,17 @@ public class JTicketsBagShared extends JTicketsBag {
 		initComponents();
 	}
 
-	public void ScaleButtons(int btnWidth, int btnHeight) {
-		ScaleButtonIcon(m_jNewTicket, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight);
+	public void ScaleButtons() {
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		PropertyUtil.ScaleButtonIcon(m_jNewTicket, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight, fontsize);
+		
 	}
 
 	public void activate() {
@@ -98,7 +107,7 @@ public class JTicketsBagShared extends JTicketsBag {
 			try {
 				dlReceipts.insertSharedTicket(m_sCurrentTicket, m_panelticket.getActiveTicket());
 			} catch (BasicException e) {
-				new MessageInf(e).show(this);
+				new MessageInf(e).show(m_App,this);
 			}
 		}
 	}
@@ -128,7 +137,7 @@ public class JTicketsBagShared extends JTicketsBag {
 				setActiveTicket(l.get(0).getId());
 			}
 		} catch (BasicException e) {
-			new MessageInf(e).show(this);
+			new MessageInf(e).show(m_App,this);
 			newTicket();
 		}
 	}
@@ -173,6 +182,7 @@ public class JTicketsBagShared extends JTicketsBag {
 
 		m_jDelTicket
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/deleteTicket.png")));
+        m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
 		m_jDelTicket.setFocusPainted(false);
 		m_jDelTicket.setFocusable(false);
 		// m_jDelTicket.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -213,7 +223,7 @@ public class JTicketsBagShared extends JTicketsBag {
 				try {
 					List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
 
-					JTicketsBagSharedList listDialog = JTicketsBagSharedList.newJDialog(JTicketsBagShared.this);
+					JTicketsBagSharedList listDialog = JTicketsBagSharedList.newJDialog(m_App, JTicketsBagShared.this);
 					String id = listDialog.showTicketsList(l);
 
 					if (id != null) {
@@ -221,7 +231,7 @@ public class JTicketsBagShared extends JTicketsBag {
 						setActiveTicket(id);
 					}
 				} catch (BasicException e) {
-					new MessageInf(e).show(JTicketsBagShared.this);
+					new MessageInf(e).show(m_App,JTicketsBagShared.this);
 					newTicket();
 				}
 			}

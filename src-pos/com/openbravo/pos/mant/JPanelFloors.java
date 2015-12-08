@@ -22,6 +22,7 @@ package com.openbravo.pos.mant;
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
 import com.openbravo.data.loader.Datas;
@@ -46,7 +47,7 @@ public class JPanelFloors extends JPanelTable {
     }
     
     protected void init() {
-        tfloors = new TableDefinition(app.getSession(),
+    	tfloors = new TableDefinition(app.getSession(),
             "FLOORS"
             , new String[] {"ID", "NAME", "IMAGE"}
             , new String[] {"ID", AppLocal.getIntString("Label.Name"), "IMAGE"}
@@ -54,7 +55,7 @@ public class JPanelFloors extends JPanelTable {
             , new Formats[] {Formats.NULL, Formats.STRING}
             , new int[] {0}
         );  
-        jeditor = new FloorsEditor(dirty); 
+        jeditor = new FloorsEditor(app, dirty); 
     }
     
     public ListProvider getListProvider() {
@@ -82,7 +83,7 @@ public class JPanelFloors extends JPanelTable {
     }
 
 	@Override
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		
 	}     
 }

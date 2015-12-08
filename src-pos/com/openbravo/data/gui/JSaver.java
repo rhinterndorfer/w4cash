@@ -49,12 +49,15 @@ public class JSaver extends JPanel implements StateListener {
 	public void ScaleButtons() {
 		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
 		if (jbtnDelete != null)
-			PropertyUtil.ScaleButtonIcon(jbtnDelete, width, height);
+			PropertyUtil.ScaleButtonIcon(jbtnDelete, width, height, fontsize);
 		if (jbtnNew != null)
-			PropertyUtil.ScaleButtonIcon(jbtnNew, width, height);
+			PropertyUtil.ScaleButtonIcon(jbtnNew, width, height, fontsize);
 		if (jbtnSave != null)
-			PropertyUtil.ScaleButtonIcon(jbtnSave, width, height);
+			PropertyUtil.ScaleButtonIcon(jbtnSave, width, height, fontsize);
 	}
 
 	public void updateState(int iState) {
@@ -146,7 +149,7 @@ public class JSaver extends JPanel implements StateListener {
 			m_bd.saveData();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nosave"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}// GEN-LAST:event_jbtnSaveActionPerformed
 
@@ -156,7 +159,7 @@ public class JSaver extends JPanel implements StateListener {
 			m_bd.actionDelete();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nodelete"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}// GEN-LAST:event_jbtnDeleteActionPerformed
 
@@ -166,7 +169,7 @@ public class JSaver extends JPanel implements StateListener {
 			m_bd.actionInsert();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nonew"), eD);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}// GEN-LAST:event_jbtnNewActionPerformed
 

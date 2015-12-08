@@ -29,6 +29,9 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
+
 public class JNumberKeys extends javax.swing.JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -38,8 +41,11 @@ public class JNumberKeys extends javax.swing.JPanel {
 	private boolean minusenabled = true;
 	private boolean equalsenabled = true;
 
+	private AppView m_App;
+
 	/** Creates new form JNumberKeys */
-	public JNumberKeys() {
+	public JNumberKeys(AppView app) {
+		m_App = app;
 		initComponents();
 
 		m_jKey0.addActionListener(new MyKeyNumberListener('0'));
@@ -62,34 +68,26 @@ public class JNumberKeys extends javax.swing.JPanel {
 	}
 
 	public void ScaleButtons(int btnWidth, int btnHeight) {
-		ScaleButtonIcon(m_jEquals, btnWidth, btnHeight * 2);
-		ScaleButtonIcon(m_jMinus, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jPlus, btnWidth, btnHeight * 2);
-		ScaleButtonIcon(m_jCE, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jMultiply, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey9, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey8, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey7, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey6, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey5, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey4, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey3, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey2, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey1, btnWidth, btnHeight);
-		ScaleButtonIcon(m_jKey0, btnWidth, btnHeight);
-	}
-
-	private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height) {
-		if (javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-
-			btn.setSize(width, height);
-		}
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		
+		PropertyUtil.ScaleButtonIcon(m_jEquals, btnWidth, btnHeight * 2, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jMinus, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jPlus, btnWidth, btnHeight * 2, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jCE, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jMultiply, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKeyDot, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey9, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey8, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey7, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey6, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey5, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey4, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey3, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey2, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey1, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jKey0, btnWidth, btnHeight, fontsize);
 	}
 
 	public void setNumbersOnly(boolean value) {

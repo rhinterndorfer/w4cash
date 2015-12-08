@@ -40,6 +40,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppUser;
 import com.openbravo.pos.payment.PaymentPanelType;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ThumbNailBuilder;
 import java.util.HashMap;
 import java.util.List;
@@ -95,31 +96,23 @@ public class JPanelButtons extends javax.swing.JPanel {
             }
         }     
         
+        
+        int fontsize = Integer
+				.parseInt(getProperty("button-small-fontsize", "16"));
         for(int i=0;i < this.getComponents().length; i++)
         {
         	Component c = this.getComponents()[i];
         
         	if(JButton.class.isAssignableFrom(c.getClass()))
         	{
-        		ScaleButtonIcon(JButton.class.cast(c), 
+        		PropertyUtil.ScaleButtonIcon(JButton.class.cast(c), 
         				Integer.parseInt(getProperty("button-touchlarge-width", "60")), 
-        				Integer.parseInt(getProperty("button-touchlarge-height", "60")));
+        				Integer.parseInt(getProperty("button-touchlarge-height", "60")), fontsize);
         	}
         }
     }
     
-    private void ScaleButtonIcon(javax.swing.JButton btn, int width, int height)
-    {
-    	if(javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
-        {
-    		javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-    		double radio = icon.getIconWidth() / icon.getIconWidth();
-    		Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height, Image.SCALE_SMOOTH);
-        	btn.setIcon(new javax.swing.ImageIcon(img));
 
-			btn.setSize(width, height);
-        }
-    }
     
     public void setPermissions(AppUser user) {
         for (Component c : this.getComponents()) {

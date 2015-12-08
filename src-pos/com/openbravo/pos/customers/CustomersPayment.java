@@ -82,10 +82,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		dlsystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		ttp = new TicketParser(app.getDeviceTicket(), dlsystem);
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 	}
 
 	public Object getBean() {
@@ -176,7 +173,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 			if (customer == null) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotfindcustomer"));
-				msg.show(this);
+				msg.show(m_App,this);
 			} else {
 				editCustomer(customer);
 			}
@@ -184,7 +181,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		} catch (BasicException ex) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"),
 					ex);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 
 		editorcard.reset();
@@ -200,7 +197,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 			editCustomer(customerext);
 		} catch (BasicException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosave"), e);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 
 	}
@@ -210,7 +207,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		String resource = dlsystem.getResourceAsXML(resname);
 		if (resource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
-			msg.show(this);
+			msg.show(m_App,this);
 		} else {
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
@@ -220,11 +217,11 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(this);
+				msg.show(m_App,this);
 			} catch (TicketPrinterException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 		}
 	}
@@ -247,7 +244,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		btnPay = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel5 = new javax.swing.JPanel();
 		editorcard = new com.openbravo.editor.JEditorString();
 		jButton1 = new javax.swing.JButton();
@@ -272,6 +269,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		jPanel2.setLayout(new java.awt.BorderLayout());
 
 		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
+//		btnCustomer.setText(AppLocal.getIntString("Menu.Customers"));
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
 		btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -500,14 +498,14 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 				if (c == null) {
 					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 							AppLocal.getIntString("message.cannotfindcustomer"));
-					msg.show(this);
+					msg.show(m_App,this);
 				} else {
 					editCustomer(c);
 				}
 			} catch (BasicException ex) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotfindcustomer"), ex);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 		}
 		editorcard.reset();
@@ -546,7 +544,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 			} catch (BasicException eData) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"),
 						eData);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 
 			// reload customer
@@ -556,7 +554,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 				if (c == null) {
 					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 							AppLocal.getIntString("message.cannotfindcustomer"));
-					msg.show(this);
+					msg.show(m_App,this);
 				} else {
 					editCustomer(c);
 				}
@@ -564,7 +562,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 				c = null;
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotfindcustomer"), ex);
-				msg.show(this);
+				msg.show(m_App,this);
 			}
 
 			printTicket(paymentdialog.isPrintSelected() ? "Printer.CustomerPaid" : "Printer.CustomerPaid2", ticket, c);

@@ -31,265 +31,286 @@ import java.beans.PropertyChangeListener;
 
 /**
  *
- * @author  adrianromero
+ * @author adrianromero
  */
 public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterface {
-    
-    private JPaymentNotifier notifier;
-    private CustomerInfoExt customerext;
-    
-    private double m_dPaid;
-    private double m_dTotal;
 
-    /** Creates new form JPaymentDebt */
-    public JPaymentDebt(AppView app, JPaymentNotifier notifier) {
-        
-        this.notifier = notifier;
-        
-        initComponents();  
-        
-        m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
-        m_jTendered.addEditorKeys(m_jKeys);
-        
+	private JPaymentNotifier notifier;
+	private CustomerInfoExt customerext;
+
+	private double m_dPaid;
+	private double m_dTotal;
+	private AppView m_App;
+
+	/** Creates new form JPaymentDebt */
+	public JPaymentDebt(AppView app, JPaymentNotifier notifier) {
+		m_App = app;
+		this.notifier = notifier;
+
+		initComponents();
+
+		m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
+		m_jTendered.addEditorKeys(m_jKeys);
+
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
-        
-    }
-    
-    public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
-        
-        this.customerext = customerext;
-        m_dTotal = dTotal;
-        
-        m_jTendered.reset();
-        
-        // 
-        if (customerext == null) {
-            m_jName.setText(null);
-            m_jNotes.setText(null);
-            txtMaxdebt.setText(null);
-            txtCurdate.setText(null);        
-            txtCurdebt.setText(null);
-            
-            m_jKeys.setEnabled(false);
-            m_jTendered.setEnabled(false);
-            
-            
-        } else {            
-            m_jName.setText(customerext.getName());
-            m_jNotes.setText(customerext.getNotes());
-            txtMaxdebt.setText(Formats.CURRENCY.formatValue(RoundUtils.getValue(customerext.getMaxdebt())));
-            txtCurdate.setText(Formats.DATE.formatValue(customerext.getCurdate()));        
-            txtCurdebt.setText(Formats.CURRENCY.formatValue(RoundUtils.getValue(customerext.getCurdebt())));   
-                
-            if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()), RoundUtils.getValue(customerext.getMaxdebt())) >= 0)  {
-                m_jKeys.setEnabled(false);
-                m_jTendered.setEnabled(false);                
-            } else {    
-                m_jKeys.setEnabled(true);
-                m_jTendered.setEnabled(true);
-                m_jTendered.activate();  
-            }
-        }        
-        
-        printState();
-        
-    }
-    public PaymentInfo executePayment() {
-        return new PaymentInfoTicket(m_dPaid, "debt");      
-    }
-    public Component getComponent() {
-        return this;
-    }
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		m_jKeys.ScaleButtons();
 
-    private void printState() {
-        
-        if (customerext == null) {
-            m_jMoneyEuros.setText(null);
-            jlblMessage.setText(AppLocal.getIntString("message.nocustomernodebt"));
-            notifier.setStatus(false, false);
-        } else {
-            Double value = m_jTendered.getDoubleValue();
-            if (value == null || value == 0.0) {
-                m_dPaid = m_dTotal;
-            } else {
-                m_dPaid = value;
-            } 
+		ScaleButtons();
+	}
 
-            m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
-            
-            
-            if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()) + m_dPaid, RoundUtils.getValue(customerext.getMaxdebt())) >= 0)  { 
-                // maximum debt exceded
-                jlblMessage.setText(AppLocal.getIntString("message.customerdebtexceded"));
-                notifier.setStatus(false, false);
-            } else {
-                jlblMessage.setText(null);
-                int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
-                // if iCompare > 0 then the payment is not valid
-                notifier.setStatus(m_dPaid > 0.0 && iCompare <= 0, iCompare == 0);
-            }
-        }        
-    }
-    
-    private class RecalculateState implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent evt) {
-            printState();
-        }
-    }     
-    
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+	public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
 
-        jPanel5 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        m_jMoneyEuros = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        m_jName = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtMaxdebt = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtCurdebt = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtCurdate = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        m_jNotes = new javax.swing.JTextArea();
-        jPanel6 = new javax.swing.JPanel();
-        jlblMessage = new javax.swing.JTextArea();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        m_jKeys = new com.openbravo.editor.JEditorKeys();
-        jPanel3 = new javax.swing.JPanel();
-        m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
+		this.customerext = customerext;
+		m_dTotal = dTotal;
 
-        setLayout(new java.awt.BorderLayout());
+		m_jTendered.reset();
 
-        jPanel5.setLayout(new java.awt.BorderLayout());
+		//
+		if (customerext == null) {
+			m_jName.setText(null);
+			m_jNotes.setText(null);
+			txtMaxdebt.setText(null);
+			txtCurdate.setText(null);
+			txtCurdebt.setText(null);
 
-        jPanel4.setLayout(null);
+			m_jKeys.setEnabled(false);
+			m_jTendered.setEnabled(false);
 
-        jLabel8.setText(AppLocal.getIntString("label.debt")); // NOI18N
-        jPanel4.add(jLabel8);
-        jLabel8.setBounds(20, 20, 100, 15);
+		} else {
+			m_jName.setText(customerext.getName());
+			m_jNotes.setText(customerext.getNotes());
+			txtMaxdebt.setText(Formats.CURRENCY.formatValue(RoundUtils.getValue(customerext.getMaxdebt())));
+			txtCurdate.setText(Formats.DATE.formatValue(customerext.getCurdate()));
+			txtCurdebt.setText(Formats.CURRENCY.formatValue(RoundUtils.getValue(customerext.getCurdebt())));
 
-        m_jMoneyEuros.setBackground(new java.awt.Color(153, 153, 255));
-        m_jMoneyEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        m_jMoneyEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-        m_jMoneyEuros.setOpaque(true);
-        m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(150, 25));
-        jPanel4.add(m_jMoneyEuros);
-        m_jMoneyEuros.setBounds(120, 20, 150, 25);
+			if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()),
+					RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
+				m_jKeys.setEnabled(false);
+				m_jTendered.setEnabled(false);
+			} else {
+				m_jKeys.setEnabled(true);
+				m_jTendered.setEnabled(true);
+				m_jTendered.activate();
+			}
+		}
 
-        jLabel3.setText(AppLocal.getIntString("label.name")); // NOI18N
-        jPanel4.add(jLabel3);
-        jLabel3.setBounds(20, 70, 100, 15);
+		printState();
 
-        m_jName.setEditable(false);
-        jPanel4.add(m_jName);
-        m_jName.setBounds(120, 70, 200, 19);
+	}
 
-        jLabel12.setText(AppLocal.getIntString("label.notes")); // NOI18N
-        jPanel4.add(jLabel12);
-        jLabel12.setBounds(20, 100, 100, 15);
+	public PaymentInfo executePayment() {
+		return new PaymentInfoTicket(m_dPaid, "debt");
+	}
 
-        jLabel2.setText(AppLocal.getIntString("label.maxdebt")); // NOI18N
-        jPanel4.add(jLabel2);
-        jLabel2.setBounds(20, 180, 100, 15);
+	public Component getComponent() {
+		return this;
+	}
 
-        txtMaxdebt.setEditable(false);
-        txtMaxdebt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jPanel4.add(txtMaxdebt);
-        txtMaxdebt.setBounds(120, 180, 130, 19);
+	private void printState() {
 
-        jLabel4.setText(AppLocal.getIntString("label.curdebt")); // NOI18N
-        jPanel4.add(jLabel4);
-        jLabel4.setBounds(20, 210, 100, 15);
+		if (customerext == null) {
+			m_jMoneyEuros.setText(null);
+			jlblMessage.setText(AppLocal.getIntString("message.nocustomernodebt"));
+			notifier.setStatus(false, false);
+		} else {
+			Double value = m_jTendered.getDoubleValue();
+			if (value == null || value == 0.0) {
+				m_dPaid = m_dTotal;
+			} else {
+				m_dPaid = value;
+			}
 
-        txtCurdebt.setEditable(false);
-        txtCurdebt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jPanel4.add(txtCurdebt);
-        txtCurdebt.setBounds(120, 210, 130, 19);
+			m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
 
-        jLabel6.setText(AppLocal.getIntString("label.curdate")); // NOI18N
-        jPanel4.add(jLabel6);
-        jLabel6.setBounds(20, 240, 100, 15);
+			if (RoundUtils.compare(RoundUtils.getValue(customerext.getCurdebt()) + m_dPaid,
+					RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
+				// maximum debt exceded
+				jlblMessage.setText(AppLocal.getIntString("message.customerdebtexceded"));
+				notifier.setStatus(false, false);
+			} else {
+				jlblMessage.setText(null);
+				int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
+				// if iCompare > 0 then the payment is not valid
+				notifier.setStatus(m_dPaid > 0.0 && iCompare <= 0, iCompare == 0);
+			}
+		}
+	}
 
-        txtCurdate.setEditable(false);
-        txtCurdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel4.add(txtCurdate);
-        txtCurdate.setBounds(120, 240, 130, 19);
+	private class RecalculateState implements PropertyChangeListener {
+		public void propertyChange(PropertyChangeEvent evt) {
+			printState();
+		}
+	}
 
-        m_jNotes.setEditable(false);
-        jScrollPane1.setViewportView(m_jNotes);
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	// <editor-fold defaultstate="collapsed" desc="Generated
+	// Code">//GEN-BEGIN:initComponents
+	private void initComponents() {
 
-        jPanel4.add(jScrollPane1);
-        jScrollPane1.setBounds(120, 100, 200, 70);
+		jPanel5 = new javax.swing.JPanel();
+		jPanel4 = new javax.swing.JPanel();
+		jLabel8 = new javax.swing.JLabel();
+		m_jMoneyEuros = new javax.swing.JLabel();
+		jLabel3 = new javax.swing.JLabel();
+		m_jName = new javax.swing.JTextField();
+		jLabel12 = new javax.swing.JLabel();
+		jLabel2 = new javax.swing.JLabel();
+		txtMaxdebt = new javax.swing.JTextField();
+		jLabel4 = new javax.swing.JLabel();
+		txtCurdebt = new javax.swing.JTextField();
+		jLabel6 = new javax.swing.JLabel();
+		txtCurdate = new javax.swing.JTextField();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		m_jNotes = new javax.swing.JTextArea();
+		jPanel6 = new javax.swing.JPanel();
+		jlblMessage = new javax.swing.JTextArea();
+		jPanel2 = new javax.swing.JPanel();
+		jPanel1 = new javax.swing.JPanel();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
+		jPanel3 = new javax.swing.JPanel();
+		m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
 
-        jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
+		setLayout(new java.awt.BorderLayout());
 
-        jlblMessage.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
-        jlblMessage.setEditable(false);
-        jlblMessage.setLineWrap(true);
-        jlblMessage.setWrapStyleWord(true);
-        jlblMessage.setFocusable(false);
-        jlblMessage.setPreferredSize(new java.awt.Dimension(300, 72));
-        jlblMessage.setRequestFocusEnabled(false);
-        jPanel6.add(jlblMessage);
+		jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel5.add(jPanel6, java.awt.BorderLayout.SOUTH);
+		jPanel4.setLayout(null);
 
-        add(jPanel5, java.awt.BorderLayout.CENTER);
+		jLabel8.setText(AppLocal.getIntString("label.debt")); // NOI18N
+		jPanel4.add(jLabel8);
+		jLabel8.setBounds(20, 20, 100, 15);
 
-        jPanel2.setLayout(new java.awt.BorderLayout());
+		m_jMoneyEuros.setBackground(new java.awt.Color(153, 153, 255));
+		m_jMoneyEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+		m_jMoneyEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+				javax.swing.BorderFactory
+						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+		m_jMoneyEuros.setOpaque(true);
+		m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		jPanel4.add(m_jMoneyEuros);
+		m_jMoneyEuros.setBounds(120, 20, 150, 25);
 
-        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
-        jPanel1.add(m_jKeys);
+		jLabel3.setText(AppLocal.getIntString("label.name")); // NOI18N
+		jPanel4.add(jLabel3);
+		jLabel3.setBounds(20, 70, 100, 15);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel3.setLayout(new java.awt.BorderLayout());
-        jPanel3.add(m_jTendered, java.awt.BorderLayout.CENTER);
+		m_jName.setEditable(false);
+		jPanel4.add(m_jName);
+		m_jName.setBounds(120, 70, 200, 19);
 
-        jPanel1.add(jPanel3);
+		jLabel12.setText(AppLocal.getIntString("label.notes")); // NOI18N
+		jPanel4.add(jLabel12);
+		jLabel12.setBounds(20, 100, 100, 15);
 
-        jPanel2.add(jPanel1, java.awt.BorderLayout.NORTH);
+		jLabel2.setText(AppLocal.getIntString("label.maxdebt")); // NOI18N
+		jPanel4.add(jLabel2);
+		jLabel2.setBounds(20, 180, 100, 15);
 
-    
-        
-        add(jPanel2, java.awt.BorderLayout.EAST);
-    }// </editor-fold>//GEN-END:initComponents
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jlblMessage;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private javax.swing.JLabel m_jMoneyEuros;
-    private javax.swing.JTextField m_jName;
-    private javax.swing.JTextArea m_jNotes;
-    private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
-    private javax.swing.JTextField txtCurdate;
-    private javax.swing.JTextField txtCurdebt;
-    private javax.swing.JTextField txtMaxdebt;
-    // End of variables declaration//GEN-END:variables
-    
+		txtMaxdebt.setEditable(false);
+		txtMaxdebt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		jPanel4.add(txtMaxdebt);
+		txtMaxdebt.setBounds(120, 180, 130, 19);
+
+		jLabel4.setText(AppLocal.getIntString("label.curdebt")); // NOI18N
+		jPanel4.add(jLabel4);
+		jLabel4.setBounds(20, 210, 100, 15);
+
+		txtCurdebt.setEditable(false);
+		txtCurdebt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		jPanel4.add(txtCurdebt);
+		txtCurdebt.setBounds(120, 210, 130, 19);
+
+		jLabel6.setText(AppLocal.getIntString("label.curdate")); // NOI18N
+		jPanel4.add(jLabel6);
+		jLabel6.setBounds(20, 240, 100, 15);
+
+		txtCurdate.setEditable(false);
+		txtCurdate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+		jPanel4.add(txtCurdate);
+		txtCurdate.setBounds(120, 240, 130, 19);
+
+		m_jNotes.setEditable(false);
+		jScrollPane1.setViewportView(m_jNotes);
+
+		jPanel4.add(jScrollPane1);
+		jScrollPane1.setBounds(120, 100, 200, 70);
+
+		jPanel5.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+		jlblMessage.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
+		jlblMessage.setEditable(false);
+		jlblMessage.setLineWrap(true);
+		jlblMessage.setWrapStyleWord(true);
+		jlblMessage.setFocusable(false);
+		jlblMessage.setPreferredSize(new java.awt.Dimension(300, 72));
+		jlblMessage.setRequestFocusEnabled(false);
+		jPanel6.add(jlblMessage);
+
+		jPanel5.add(jPanel6, java.awt.BorderLayout.SOUTH);
+
+		add(jPanel5, java.awt.BorderLayout.CENTER);
+
+		jPanel2.setLayout(new java.awt.BorderLayout());
+
+		jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
+		jPanel1.add(m_jKeys);
+
+		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		jPanel3.setLayout(new java.awt.BorderLayout());
+		jPanel3.add(m_jTendered, java.awt.BorderLayout.CENTER);
+
+		jPanel1.add(jPanel3);
+
+		jPanel2.add(jPanel1, java.awt.BorderLayout.NORTH);
+
+		add(jPanel2, java.awt.BorderLayout.EAST);
+	}// </editor-fold>//GEN-END:initComponents
+
+	private void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel12, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-dialog-fontsize", "22");
+//		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jNotes, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, txtCurdate, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, txtCurdebt, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, txtMaxdebt, "common-dialog-fontsize", "22");
+	}
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
+	private javax.swing.JLabel jLabel12;
+	private javax.swing.JLabel jLabel2;
+	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabel6;
+	private javax.swing.JLabel jLabel8;
+	private javax.swing.JPanel jPanel1;
+	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanel3;
+	private javax.swing.JPanel jPanel4;
+	private javax.swing.JPanel jPanel5;
+	private javax.swing.JPanel jPanel6;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JTextArea jlblMessage;
+	private com.openbravo.editor.JEditorKeys m_jKeys;
+	private javax.swing.JLabel m_jMoneyEuros;
+	private javax.swing.JTextField m_jName;
+	private javax.swing.JTextArea m_jNotes;
+	private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
+	private javax.swing.JTextField txtCurdate;
+	private javax.swing.JTextField txtCurdebt;
+	private javax.swing.JTextField txtMaxdebt;
+	// End of variables declaration//GEN-END:variables
+
 }

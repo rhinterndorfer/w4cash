@@ -53,11 +53,11 @@
             <Component class="javax.swing.JToggleButton" name="jToggleFilter">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/openbravo/images/1downarrow.png"/>
+                  <Image iconType="3" name="/com/openbravo/images/downarrow.png"/>
                 </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/openbravo/images/1uparrow.png"/>
+                  <Image iconType="3" name="/com/openbravo/images/uparrow.png"/>
                 </Property>
               </Properties>
               <Events>

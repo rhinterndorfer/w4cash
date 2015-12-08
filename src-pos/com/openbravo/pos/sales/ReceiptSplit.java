@@ -47,8 +47,6 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 	private AppView m_App;
 
-	// private AppView m_App;
-
 	/** Creates new form ReceiptSplit */
 	protected ReceiptSplit(java.awt.Frame parent) {
 		super(parent, true);
@@ -138,7 +136,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(AppLocal.getIntString("caption.split")); // NOI18N
-		setResizable(false);
+		// setResizable(false);
 
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
@@ -178,11 +176,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		jPanel4.setLayout(new java.awt.GridBagLayout());
 
-		// jBtnToRightAll.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2rightarrow.png")));
 		// // NOI18N
 		jBtnToRightAll
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2rightarrow25.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22rightarrow.png"))); // NOI18N
 		jBtnToRightAll.setFocusPainted(false);
 		jBtnToRightAll.setFocusable(false);
 		// jBtnToRightAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -197,11 +193,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		gridBagConstraints.gridy = 0;
 		jPanel4.add(jBtnToRightAll, gridBagConstraints);
 
-		// jBtnToRightOne.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1rightarrow.png")));
 		// // NOI18N
 		jBtnToRightOne
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1rightarrow25.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/rightarrow.png"))); // NOI18N
 		jBtnToRightOne.setFocusPainted(false);
 		jBtnToRightOne.setFocusable(false);
 		// jBtnToRightOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -214,14 +208,11 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		});
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridy = 1;
-		gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
 		jPanel4.add(jBtnToRightOne, gridBagConstraints);
 
-		// jBtnToLeftOne.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow.png")));
 		// // NOI18N
-		jBtnToLeftOne
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1leftarrow25.png"))); // NOI18N
+		jBtnToLeftOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/leftarrow.png"))); // NOI18N
 		jBtnToLeftOne.setFocusPainted(false);
 		jBtnToLeftOne.setFocusable(false);
 		// jBtnToLeftOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -237,11 +228,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
 		jPanel4.add(jBtnToLeftOne, gridBagConstraints);
 
-		// jBtnToLeftAll.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2leftarrow.png")));
 		// // NOI18N
 		jBtnToLeftAll
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/2leftarrow25.png")));
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22leftarrow.png")));
 		jBtnToLeftAll.setFocusPainted(false);
 		jBtnToLeftAll.setFocusable(false);
 		// jBtnToLeftAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -254,7 +243,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		});
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridy = 3;
-		gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
 		jPanel4.add(jBtnToLeftAll, gridBagConstraints);
 
 		jPanel1.add(jPanel4);
@@ -264,11 +253,12 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		PropertyUtil.ScaleDialog(m_App, this, 960, 620);
 
-		// setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) /
-		// 2, 730, 470);
-		setBounds((screenSize.width - 730) / 2, (screenSize.height - 470) / 2, 730, 520);
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 730) / 2, (screenSize.height - 520) /
+		// 2, 730, 520);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed
@@ -277,7 +267,6 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			accepted = true;
 			dispose();
 		}
-
 	}// GEN-LAST:event_m_jButtonOKActionPerformed
 
 	private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed
@@ -337,14 +326,26 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	// End of variables declaration//GEN-END:variables
 
 	private void ScaleButtons() {
-		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+
+		int width = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
 		int height = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		
+		PropertyUtil.ScaleButtonIcon(jBtnToLeftAll, width, height,fontsize);
+		PropertyUtil.ScaleButtonIcon(jBtnToLeftOne, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(jBtnToRightAll, width, height,fontsize);
+		PropertyUtil.ScaleButtonIcon(jBtnToRightOne, width, height, fontsize);
 
-		PropertyUtil.ScaleButtonIcon(jBtnToLeftAll, width, height);
-		PropertyUtil.ScaleButtonIcon(jBtnToLeftOne, width, height);
-		PropertyUtil.ScaleButtonIcon(jBtnToRightAll, width, height);
-		PropertyUtil.ScaleButtonIcon(jBtnToRightOne, width, height);
+//		PropertyUtil.ScaleButtonIcon(m_jButtonOK, width, height, fontsize);
+//		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, width, height, fontsize);
+		
+		// PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros,
+		// "common-large-fontsize", "64");
+
 	}
 
 }

@@ -27,6 +27,9 @@ import java.text.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
+
 public class JCalendarPanel extends javax.swing.JPanel {
     
 	private static final long serialVersionUID = 2224154113004312044L;
@@ -48,16 +51,19 @@ public class JCalendarPanel extends javax.swing.JPanel {
     private JButtonDate m_jBtnToday;
     
     private DateFormat fmtMonthYear = new SimpleDateFormat("MMMMM yyyy");
+
+	private AppView m_App;
     
     /** Creates new form JCalendarPanel2 */
-    public JCalendarPanel() {
-        this(new Date());
+    public JCalendarPanel(AppView app) {
+        this(app, new Date());
     }
 
-    public JCalendarPanel(Date dDate) {
+    public JCalendarPanel(AppView app, Date dDate) {
         
         super();
-    
+        m_App = app;
+        
         if (m_resources == null) {
             m_resources = new LocaleResources();
             m_resources.addBundleName("beans_messages");
@@ -73,6 +79,8 @@ public class JCalendarPanel extends javax.swing.JPanel {
         // pintamos
         renderMonth();
         renderDay();
+        
+        ScaleButtons();
     }
 
     public void setDate(Date dNewDate) {        
@@ -247,11 +255,11 @@ public class JCalendarPanel extends javax.swing.JPanel {
 
         ActionListener dateclick = new DateClick();
         
-        m_jBtnYearDec = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/2uparrow.png")), dateclick);
-        m_jBtnMonthDec = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow.png")), dateclick);
+        m_jBtnYearDec = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/22uparrow.png")), dateclick);
+        m_jBtnMonthDec = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png")), dateclick);
         m_jBtnToday = new JButtonDate(m_resources.getString("Button.Today"), dateclick);
-        m_jBtnMonthInc = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow.png")), dateclick);
-        m_jBtnYearInc = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/2downarrow.png")), dateclick);
+        m_jBtnMonthInc = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png")), dateclick);
+        m_jBtnYearInc = new JButtonDate(new ImageIcon(getClass().getResource("/com/openbravo/images/22downarrow.png")), dateclick);
                
         m_jBtnToday.DateInf = new Date();
         m_jActions.add(m_jBtnYearDec);
@@ -346,6 +354,20 @@ public class JCalendarPanel extends javax.swing.JPanel {
         add(jPanel3, java.awt.BorderLayout.LINE_END);
     }// </editor-fold>//GEN-END:initComponents
     
+    private void ScaleButtons(){
+    	int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jBtnMonthInc, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jBtnYearInc, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jBtnMonthDec, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jBtnYearDec, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jBtnToday, menuwidth, menuheight, fontsize);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

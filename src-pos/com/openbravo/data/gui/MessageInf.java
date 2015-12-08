@@ -22,6 +22,7 @@ package com.openbravo.data.gui;
 import java.awt.*;
 import javax.swing.*;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.forms.AppView;
 
 public class MessageInf {
         
@@ -65,8 +66,8 @@ public class MessageInf {
         this(SGN_WARNING, e.getLocalizedMessage(), e);
     }
     
-    public void show(Component parent) {
-        JMessageDialog.showMessage(parent, this);
+    public void show(AppView app, Component parent) {
+        JMessageDialog.showMessage(app, parent, this);
     }
     
     public Object getCause() {

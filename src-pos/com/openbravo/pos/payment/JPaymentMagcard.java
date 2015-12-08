@@ -22,6 +22,8 @@ package com.openbravo.pos.payment;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 
@@ -36,9 +38,11 @@ public class JPaymentMagcard extends javax.swing.JPanel implements JPaymentInter
     private JPaymentNotifier m_notifier;
     private String transaction;
     
+    private AppView m_App;
+    
     /** Creates new form JPaymentMagcard */
     public JPaymentMagcard(AppView app, JPaymentNotifier notifier) {
-        
+        m_App = app;
         initComponents();   
         
         m_notifier = notifier;
@@ -54,6 +58,8 @@ public class JPaymentMagcard extends javax.swing.JPanel implements JPaymentInter
             jlblMessage.setText(null);
             // jlblMessage.setText(AppLocal.getIntString("message.nocardreader"));
         }
+        
+        ScaleButtons();
     }
     
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {   
@@ -115,6 +121,9 @@ public class JPaymentMagcard extends javax.swing.JPanel implements JPaymentInter
 
     }// </editor-fold>//GEN-END:initComponents
     
+    private void ScaleButtons(){
+//    	PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-small-fontsize", "32");
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

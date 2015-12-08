@@ -63,7 +63,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	private DataLogicCustomers dlCustomers;
 	private FindTicketsInfo selectedTicket;
 
-	private AppView app;
+	private AppView m_App;
 
 	/** Creates new form JCustomerFinder */
 	private JTicketsFinder(java.awt.Frame parent, boolean modal) {
@@ -95,7 +95,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	}
 
 	private void init(AppView app, DataLogicSales dlSales, DataLogicCustomers dlCustomers) {
-		this.app = app;
+		this.m_App = app;
 
 		this.dlSales = dlSales;
 		this.dlCustomers = dlCustomers;
@@ -120,12 +120,59 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		selectedTicket = null;
 
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
+	}
+
+	@Override
+	public void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, labelCustomer, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleEditnumbersFontsize(m_App, jtxtTicketID, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jtxtMoney, "common-dialog-fontsize", "22");
+
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jtxtCustomer, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-dialog-fontsize", "22");
+	
+		PropertyUtil.ScaleComboFontsize(m_App, jComboBoxTicket, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleComboFontsize(m_App, jcboMoney, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleComboFontsize(m_App, jcboUser, "common-dialog-fontsize", "22");
+		
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
+
+//		menuwidth = Integer
+//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+//		menuheight = Integer
+//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+		menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-dialog-fontsize", "22"));
+		menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-dialog-fontsize", "22"));
+		fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-menu-fontsize", "8"));
+		
+		PropertyUtil.ScaleButtonIcon(btnCustomer, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight, fontsize);
+		// PropertyUtil.ScaleButtonIcon(btnCustomer, menuwidth, menuheight);
+		// PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight);
+		// PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight);
+
 	}
 
 	public void executeSearch() {
@@ -158,16 +205,6 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		catlist.add(0, null);
 		m_CategoryModel = new ComboBoxValModel(catlist);
 		jcboUser.setModel(m_CategoryModel);
-	}
-
-	@Override
-	public void ScaleButtons() {
-		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight);
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight);
 	}
 
 	private void defaultValues() {
@@ -326,7 +363,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		jcmdOK = new javax.swing.JButton();
 		jcmdCancel = new javax.swing.JButton();
 		jPanel2 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(AppLocal.getIntString("form.tickettitle")); // NOI18N
@@ -335,7 +372,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
-		jPanel7.setPreferredSize(new java.awt.Dimension(0, 210));
+		// jPanel7.setPreferredSize(new java.awt.Dimension(0, 210));
 
 		jLabel1.setText(AppLocal.getIntString("label.ticketid")); // NOI18N
 
@@ -349,12 +386,12 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jLabel4.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
 
-		jTxtStartDate.setPreferredSize(new java.awt.Dimension(200, 25));
+		jTxtStartDate.setPreferredSize(new java.awt.Dimension(250, 25));
 
-		jTxtEndDate.setPreferredSize(new java.awt.Dimension(200, 25));
+		jTxtEndDate.setPreferredSize(new java.awt.Dimension(250, 25));
 
 		btnDateStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
-		btnDateStart.setPreferredSize(new java.awt.Dimension(50, 25));
+		// btnDateStart.setPreferredSize(new java.awt.Dimension(50, 25));
 		btnDateStart.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnDateStartActionPerformed(evt);
@@ -362,24 +399,24 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		});
 
 		btnDateEnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
-		btnDateEnd.setPreferredSize(new java.awt.Dimension(50, 25));
+		// btnDateEnd.setPreferredSize(new java.awt.Dimension(50, 25));
 		btnDateEnd.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnDateEndActionPerformed(evt);
 			}
 		});
 
-		jtxtCustomer.setPreferredSize(new java.awt.Dimension(200, 25));
+		jtxtCustomer.setPreferredSize(new java.awt.Dimension(250, 25));
 
 		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
-		btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		btnCustomer.setPreferredSize(new java.awt.Dimension(50, 25));
+//		btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		// btnCustomer.setPreferredSize(new java.awt.Dimension(50, 25));
 		btnCustomer.setRequestFocusEnabled(false);
 		btnCustomer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				btnCustomerActionPerformed(app, evt);
+				btnCustomerActionPerformed(m_App, evt);
 			}
 		});
 
@@ -578,14 +615,18 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-		jPanel2.setPreferredSize(new java.awt.Dimension(200, 250));
+		// jPanel2.setPreferredSize(new java.awt.Dimension(200, 250));
 		jPanel2.setLayout(new java.awt.BorderLayout());
 		jPanel2.add(m_jKeys, java.awt.BorderLayout.NORTH);
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 695) / 2, (screenSize.height - 684) / 2, 695, 684);
+		PropertyUtil.ScaleDialog(m_App, this, 840, 650);
+
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 695) / 2, (screenSize.height - 684) /
+		// 2, 695, 684);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
@@ -626,7 +667,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		} catch (BasicException e) {
 			date = null;
 		}
-		date = JCalendarDialog.showCalendarTimeHours(this, date);
+		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
 		if (date != null) {
 			jTxtStartDate.setText(Formats.TIMESTAMP.formatValue(date));
 		}
@@ -639,7 +680,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		} catch (BasicException e) {
 			date = null;
 		}
-		date = JCalendarDialog.showCalendarTimeHours(this, date);
+		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
 		if (date != null) {
 			jTxtEndDate.setText(Formats.TIMESTAMP.formatValue(date));
 		}
@@ -656,7 +697,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		} catch (BasicException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"),
 					e);
-			msg.show(this);
+			msg.show(app, this);
 		}
 
 	}// GEN-LAST:event_btnCustomerActionPerformed

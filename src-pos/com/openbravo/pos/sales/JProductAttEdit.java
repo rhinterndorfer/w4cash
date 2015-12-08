@@ -68,6 +68,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	private boolean ok;
 	
 	public Boolean isForSingleProduct = false;
+	private AppView m_App;
 
 	/** Creates new form JProductAttEdit */
 	private JProductAttEdit(java.awt.Frame parent, boolean modal) {
@@ -80,7 +81,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	}
 
 	private void init(AppView app, Session s) {
-
+		this.m_App = app;
 		initComponents();
 
 		attsetSave = new PreparedSentence(s,
@@ -124,6 +125,14 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE);
 
 		getRootPane().setDefaultButton(m_jButtonOK);
+
+		//m_jKeys.ScaleButtons();
+
+		ScaleButtons();
+	}
+
+	private void ScaleButtons() {
+
 	}
 
 	public static JProductAttEdit getAttributesEditor(AppView app, Component parent, Session s) {
@@ -214,12 +223,12 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			setBounds((screenSize.width - compWidth) / 2, (screenSize.height - compHeight) / 2, compWidth, compHeight);
 
 			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
-			PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize);
-			PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle, buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize, buttonFontSize);
-			PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize);
+			//PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize, buttonFontSize);
+			//PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize, buttonFontSize, buttonFontSize);
+			//PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize, buttonFontSize);
 
 		}
 	}
@@ -384,6 +393,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((screenSize.width - 350) / 2, (screenSize.height - 200) / 2, 350, 200);
 
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 609) / 2, (screenSize.height - 388) /
+		// 2, 609, 388);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonOKSingleActionPerformed(java.awt.event.ActionEvent evt) {

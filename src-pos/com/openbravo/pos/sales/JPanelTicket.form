@@ -194,7 +194,7 @@
                     <Component class="javax.swing.JButton" name="m_jUp">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/openbravo/images/1uparrow22.png"/>
+                          <Image iconType="3" name="/com/openbravo/images/uparrow.png"/>
                         </Property>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
@@ -210,7 +210,7 @@
                     <Component class="javax.swing.JButton" name="m_jDown">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/com/openbravo/images/1downarrow22.png"/>
+                          <Image iconType="3" name="/com/openbravo/images/downarrow22.png"/>
                         </Property>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>

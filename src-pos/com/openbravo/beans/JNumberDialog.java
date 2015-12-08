@@ -40,6 +40,8 @@ public class JNumberDialog extends javax.swing.JDialog {
 
 	private Double m_value;
 
+	private AppView m_App;
+
 	/** Creates new form JNumberDialog */
 	public JNumberDialog(AppView app, java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
@@ -53,6 +55,8 @@ public class JNumberDialog extends javax.swing.JDialog {
 	}
 
 	private void init(AppView app) {
+
+		m_App = app;
 
 		if (m_resources == null) {
 			m_resources = new LocaleResources();
@@ -70,10 +74,8 @@ public class JNumberDialog extends javax.swing.JDialog {
 		m_jPanelTitle.setBorder(RoundedBorder.createGradientBorder());
 
 		m_value = null;
-		
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+
+			m_jKeys.ScaleButtons();
 	}
 
 	private void setTitle(String title, String message, Icon icon) {
@@ -121,13 +123,13 @@ public class JNumberDialog extends javax.swing.JDialog {
 		jPanel2 = new javax.swing.JPanel();
 		jPanelGrid = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys();
+		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel4 = new javax.swing.JPanel();
 		m_jnumber = new com.openbravo.editor.JEditorDoublePositive();
 		m_jPanelTitle = new javax.swing.JPanel();
 		m_lblMessage = new javax.swing.JLabel();
 
-		setResizable(false);
+		// setResizable(false);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent evt) {
 				formWindowClosing(evt);
@@ -185,10 +187,23 @@ public class JNumberDialog extends javax.swing.JDialog {
 		m_jPanelTitle.add(m_lblMessage, java.awt.BorderLayout.CENTER);
 
 		getContentPane().add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
+		ScaleButtons();
+		PropertyUtil.ScaleDialog(m_App, this, 253, 433);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((screenSize.width - 253) / 2, (screenSize.height - 433) / 2, 253, 433);
 	}// </editor-fold>//GEN-END:initComponents
+
+	private void ScaleButtons() {
+//		int width = Integer
+//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+//		int height = Integer
+//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+//		PropertyUtil.ScaleButtonIcon(jcmdOK, width, height);
+
+		// PropertyUtil.ScaleEditnumbersontsize(m_App, m_jnumber,
+		// "common-small-fontsize", "32");
+	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
 

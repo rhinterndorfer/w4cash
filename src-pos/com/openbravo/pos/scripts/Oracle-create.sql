@@ -104,6 +104,7 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('32', 'ticket.addline',
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'ticket.close', 0, $FILE{/com/openbravo/pos/templates/ticket.close.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('34', 'Reports.Address', 0, $FILE{/com/openbravo/pos/templates/reports.address.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('35', 'Script.DiscountPercentLine', 0, $FILE{/com/openbravo/pos/templates/Script.DiscountPercentLine.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Window.Logout', 0, $FILE{/com/openbravo/pos/templates/Window.Logout.txt});
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,

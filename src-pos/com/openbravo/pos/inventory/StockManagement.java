@@ -98,7 +98,7 @@ public class StockManagement extends JPanel implements JPanelView {
         
         m_jreason.setModel(m_ReasonModel);
         
-        m_cat = new JCatalog(m_dlSales);
+        m_cat = new JCatalog(m_App,m_dlSales);
         m_cat.getComponent().setPreferredSize(new Dimension(0, 245));
         m_cat.addActionListener(new CatalogListener());
         catcontainer.add(m_cat.getComponent(), BorderLayout.CENTER);
@@ -199,7 +199,7 @@ public class StockManagement extends JPanel implements JPanelView {
             }
         } catch (BasicException eData) {       
             MessageInf msg = new MessageInf(eData);
-            msg.show(this);            
+            msg.show(m_App,this);            
         }
     }
     
@@ -313,7 +313,7 @@ public class StockManagement extends JPanel implements JPanelView {
             stateToInsert();  
         } catch (BasicException eData) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotsaveinventorydata"), eData);
-            msg.show(this);
+            msg.show(m_App,this);
         }             
     }
         
@@ -346,7 +346,7 @@ public class StockManagement extends JPanel implements JPanelView {
         String sresource = m_dlSystem.getResourceAsXML("Printer.Inventory");
         if (sresource == null) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
-            msg.show(this);
+            msg.show(m_App,this);
         } else {
             try {
                 ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
@@ -354,10 +354,10 @@ public class StockManagement extends JPanel implements JPanelView {
                 m_TTP.printTicket(script.eval(sresource).toString());
             } catch (ScriptException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), e);
-                msg.show(this);
+                msg.show(m_App,this);
             } catch (TicketPrinterException e) {
                 MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"), e);
-                msg.show(this);
+                msg.show(m_App,this);
             }
         }
     }
@@ -387,7 +387,7 @@ public class StockManagement extends JPanel implements JPanelView {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jNumberKeys = new com.openbravo.beans.JNumberKeys();
+        jNumberKeys = new com.openbravo.beans.JNumberKeys(m_App);
         jPanel4 = new javax.swing.JPanel();
         m_jEnter = new javax.swing.JButton();
         m_jcodebar = new javax.swing.JLabel();
@@ -539,7 +539,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jDelete);
         m_jDelete.setBounds(430, 230, 56, 44);
 
-        m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1uparrow22.png"))); // NOI18N
+        m_jUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
         m_jUp.setFocusPainted(false);
         m_jUp.setFocusable(false);
         m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -552,7 +552,7 @@ public class StockManagement extends JPanel implements JPanelView {
         jPanel3.add(m_jUp);
         m_jUp.setBounds(430, 130, 56, 44);
 
-        m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/1downarrow22.png"))); // NOI18N
+        m_jDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
         m_jDown.setFocusPainted(false);
         m_jDown.setFocusable(false);
         m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -608,7 +608,7 @@ public class StockManagement extends JPanel implements JPanelView {
             // msg.show(this);            
         } catch (DeviceScannerException e) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.scannerfail2"), e);
-            msg.show(this);            
+            msg.show(m_App,this);            
         } finally {
             s.disconnectDevice();
         }        
@@ -654,7 +654,7 @@ public class StockManagement extends JPanel implements JPanelView {
         } catch (BasicException e) {
             date = null;
         }
-        date = JCalendarDialog.showCalendarTime(this, date);
+        date = JCalendarDialog.showCalendarTime(m_App, this, date);
         if (date != null) {
             m_jdate.setText(Formats.TIMESTAMP.formatValue(date));
         }
@@ -698,7 +698,7 @@ private void jEditAttributesActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
         } catch (BasicException ex) {
             MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindattributes"), ex);
-            msg.show(this);
+            msg.show(m_App,this);
         }
     }
 }//GEN-LAST:event_jEditAttributesActionPerformed

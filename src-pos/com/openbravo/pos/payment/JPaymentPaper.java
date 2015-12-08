@@ -39,11 +39,13 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
     
     private String m_sPaper; // "paperin", "paperout"
     // private String m_sCustomer; 
+
+	private AppView m_App;
     
     
     /** Creates new form JPaymentTicket */
     public JPaymentPaper(AppView app, JPaymentNotifier notifier, String sPaper) {
-        
+        m_App = app;
         m_notifier = notifier;
         m_sPaper = sPaper;
         
@@ -54,10 +56,12 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         
 		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons(widht, height);
+		m_jKeys.ScaleButtons();
+		
+		ScaleButtons();
     }
-    
-    public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
+
+	public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
         
         m_dTotal = dTotal;
         
@@ -112,7 +116,7 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         m_jMoneyEuros = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        m_jKeys = new com.openbravo.editor.JEditorKeys();
+        m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
         jPanel1 = new javax.swing.JPanel();
         m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
 
@@ -150,6 +154,10 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         add(jPanel11, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
     
+    private void ScaleButtons() {
+    	PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-dialog-fontsize", "22");
+    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

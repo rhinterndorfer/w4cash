@@ -34,6 +34,8 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,13 +51,15 @@ public class TaxEditor extends JPanel implements EditorRecord {
     private ComboBoxValModel taxcustcatmodel;   
     
     private SentenceList taxparentsent;
-    private ComboBoxValModel taxparentmodel;    
+    private ComboBoxValModel taxparentmodel;
+
+	private AppView m_App;    
     
     /** Creates new form taxEditor */
     public TaxEditor(AppView app, DirtyManager dirty) {
         
         DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
-        
+        m_App = app;
         initComponents();
         
         taxcatsent = dlSales.getTaxCategoriesList();
@@ -77,6 +81,8 @@ public class TaxEditor extends JPanel implements EditorRecord {
         jOrder.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();
+        
+        ScaleButtons();
     }
     
     public void activate() throws BasicException {
@@ -101,7 +107,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
             a = taxparentsent.list();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotloadlists"), eD);
-            msg.show(this);
+            msg.show(m_App,this);
             a = new ArrayList();
         }
         
@@ -311,7 +317,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
         } catch (BasicException e) {
             date = null;
         }
-        date = JCalendarDialog.showCalendarTimeHours(this, date);
+        date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
         if (date != null) {
             txtValidFrom.setText(Formats.TIMESTAMP.formatValue(date));
         }
@@ -339,8 +345,14 @@ public class TaxEditor extends JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 		
+		PropertyUtil.ScaleButtonIcon(btnValidFrom, menuwidth, menuheight, fontsize);
 	}
     
 }

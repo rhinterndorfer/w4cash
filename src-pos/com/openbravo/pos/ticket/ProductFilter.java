@@ -58,6 +58,8 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
         m_jCboName.setModel(ListQBFModelNumber.getMandatoryString());
         m_jCboPriceBuy.setModel(ListQBFModelNumber.getMandatoryNumber());
         m_jCboPriceSell.setModel(ListQBFModelNumber.getMandatoryNumber());
+        
+        ScaleButtons();
     }
     
     public void activate() throws BasicException {
@@ -232,6 +234,11 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
         );
     }// </editor-fold>//GEN-END:initComponents
    
+	@Override
+	public void ScaleButtons() {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -252,10 +259,6 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
     private javax.swing.JTextField m_jPriceSell;
     // End of variables declaration//GEN-END:variables
 
-	@Override
-	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
-	}
+
     
 }

@@ -130,7 +130,7 @@ public class JPlacesBagShared extends JPlacesBag {
 				setActiveTicket(l.get(0).getId());
 			}
 		} catch (BasicException e) {
-			new MessageInf(e).show(this);
+			new MessageInf(e).show(m_App,this);
 			newTicket();
 		}
 	}
@@ -210,7 +210,7 @@ public class JPlacesBagShared extends JPlacesBag {
 				try {
 					List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
 
-					JPlacesBagSharedList listDialog = JPlacesBagSharedList.newJDialog(JPlacesBagShared.this);
+					JPlacesBagSharedList listDialog = JPlacesBagSharedList.newJDialog(m_App,JPlacesBagShared.this);
 					String id = listDialog.showTicketsList(l);
 
 					if (id != null) {
@@ -218,7 +218,7 @@ public class JPlacesBagShared extends JPlacesBag {
 						setActiveTicket(id);
 					}
 				} catch (BasicException e) {
-					new MessageInf(e).show(JPlacesBagShared.this);
+					new MessageInf(e).show(m_App,JPlacesBagShared.this);
 					newTicket();
 				}
 			}
@@ -262,13 +262,15 @@ public class JPlacesBagShared extends JPlacesBag {
 	}
 
 	@Override
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
-		ScaleButtonIcon(m_jDelTicket, width, height);
-		ScaleButtonIcon(m_jListTickets, width, height);
-		ScaleButtonIcon(m_jNewTicket, width, height);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jDelTicket, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jListTickets, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jNewTicket, width, height, fontsize);
 	}
 
 }

@@ -22,16 +22,21 @@ package com.openbravo.pos.payment;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import java.awt.Component;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JPaymentFree extends javax.swing.JPanel implements JPaymentInterface {
     
     private double m_dTotal;
     private JPaymentNotifier m_notifier;
+	private AppView m_App;
     
     /** Creates new form JPaymentFree */
-    public JPaymentFree(JPaymentNotifier notifier) {
-        m_notifier = notifier;
+    public JPaymentFree(AppView app, JPaymentNotifier notifier) {
+        m_App = app;
+    	m_notifier = notifier;
         initComponents();
+        ScaleButtons();
     }
     public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
         
@@ -63,6 +68,9 @@ public class JPaymentFree extends javax.swing.JPanel implements JPaymentInterfac
 
     }// </editor-fold>//GEN-END:initComponents
     
+    public void ScaleButtons(){
+    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1,"common-dialog-fontsize", "22");
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

@@ -187,7 +187,7 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 		} catch (BasicException eData) {
 			assignProduct(null);
 			MessageInf msg = new MessageInf(eData);
-			msg.show(this);
+			msg.show(m_App, this);
 		}
 	}
 
@@ -201,7 +201,7 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 		} catch (BasicException eData) {
 			assignProduct(null);
 			MessageInf msg = new MessageInf(eData);
-			msg.show(this);
+			msg.show(m_App,this);
 		}
 	}
 
@@ -361,8 +361,10 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-
-		PropertyUtil.ScaleButtonIcon(m_jSearch, menuwidth, menuheight);
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jSearch, menuwidth, menuheight, fontsize);
 	}
 
 }

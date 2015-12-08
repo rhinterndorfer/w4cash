@@ -38,19 +38,23 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JImageEditor extends javax.swing.JPanel {
     
     private Dimension m_maxsize;
     private ZoomIcon m_icon;
     private BufferedImage m_Img = null;
+	private AppView m_App;
     
     private static File m_fCurrentDirectory = null;
     private static NumberFormat m_percentformat = new DecimalFormat("#,##0.##%");
     
     /** Creates new form JImageEditor */
-    public JImageEditor() {
-        initComponents();
+    public JImageEditor(AppView app) {
+        m_App = app;
+    	initComponents();
         
         m_Img = null;
         m_maxsize = null;
@@ -58,6 +62,23 @@ public class JImageEditor extends javax.swing.JPanel {
         m_jImage.setIcon(m_icon);
         m_jPercent.setText(m_percentformat.format(m_icon.getZoom()));
         privateSetEnabled(isEnabled());
+        
+        ScaleButtons();
+    }
+    
+    private void ScaleButtons(){
+    	int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jbtnclose, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnopen, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnzoomin, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnzoomout, menuwidth, menuheight, fontsize);
+    
     }
     
     public void setMaxDimensions(Dimension size) {
@@ -301,7 +322,7 @@ public class JImageEditor extends javax.swing.JPanel {
         });
         jPanel2.add(m_jbtnopen);
 
-        m_jbtnclose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
+        m_jbtnclose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
         m_jbtnclose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jbtncloseActionPerformed(evt);

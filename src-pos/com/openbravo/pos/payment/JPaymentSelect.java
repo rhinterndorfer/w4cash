@@ -21,6 +21,7 @@ package com.openbravo.pos.payment;
 
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Window;
 import javax.swing.JFrame;
@@ -47,7 +48,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	private boolean accepted;
 
-	private AppView app;
+	private AppView m_App;
 	private double m_dTotal;
 	private CustomerInfoExt customerext;
 	private DataLogicSystem dlSystem;
@@ -58,26 +59,26 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	/** Creates new form JPaymentSelect */
 	protected JPaymentSelect(java.awt.Frame parent, boolean modal, ComponentOrientation o) {
 		super(parent, modal);
-		initComponents();
+		// initComponents();
 
 		this.applyComponentOrientation(o);
 
-		getRootPane().setDefaultButton(m_jButtonOK);
 	}
 
 	/** Creates new form JPaymentSelect */
 	protected JPaymentSelect(java.awt.Dialog parent, boolean modal, ComponentOrientation o) {
 		super(parent, modal);
-		initComponents();
 
-		this.applyComponentOrientation(o);
 	}
 
 	public void init(AppView app) {
-		this.app = app;
+		this.m_App = app;
 		dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		printselected = true;
 
+		initComponents();
+
+		getRootPane().setDefaultButton(m_jButtonOK);
 		ScaleButtons();
 	}
 
@@ -143,7 +144,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	}
 
 	protected void addTabPayment(JPaymentCreator jpay) {
-		if (app.getAppUserView().getUser().hasPermission(jpay.getKey())) {
+		if (m_App.getAppUserView().getUser().hasPermission(jpay.getKey())) {
 
 			JPaymentInterface jpayinterface = payments.get(jpay.getKey());
 			if (jpayinterface == null) {
@@ -169,7 +170,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentCashCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentCashPos(app, JPaymentSelect.this, dlSystem);
+			return new JPaymentCashPos(m_App, JPaymentSelect.this, dlSystem);
 		}
 
 		public String getKey() {
@@ -187,7 +188,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentChequeCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentCheque(app, JPaymentSelect.this);
+			return new JPaymentCheque(m_App, JPaymentSelect.this);
 		}
 
 		public String getKey() {
@@ -205,7 +206,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentPaperCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentPaper(app, JPaymentSelect.this, "paperin");
+			return new JPaymentPaper(m_App, JPaymentSelect.this, "paperin");
 		}
 
 		public String getKey() {
@@ -223,7 +224,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentMagcardCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentMagcard(app, JPaymentSelect.this);
+			return new JPaymentMagcard(m_App, JPaymentSelect.this);
 		}
 
 		public String getKey() {
@@ -241,7 +242,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentFreeCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentFree(JPaymentSelect.this);
+			return new JPaymentFree(m_App, JPaymentSelect.this);
 		}
 
 		public String getKey() {
@@ -259,7 +260,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentDebtCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentDebt(app, JPaymentSelect.this);
+			return new JPaymentDebt(m_App, JPaymentSelect.this);
 		}
 
 		public String getKey() {
@@ -277,7 +278,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentCashRefundCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentRefund(JPaymentSelect.this, "cashrefund");
+			return new JPaymentRefund(m_App, JPaymentSelect.this, "cashrefund");
 		}
 
 		public String getKey() {
@@ -295,7 +296,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentChequeRefundCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentRefund(JPaymentSelect.this, "chequerefund");
+			return new JPaymentRefund(m_App, JPaymentSelect.this, "chequerefund");
 		}
 
 		public String getKey() {
@@ -313,7 +314,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentPaperRefundCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentRefund(JPaymentSelect.this, "paperout");
+			return new JPaymentRefund(m_App, JPaymentSelect.this, "paperout");
 		}
 
 		public String getKey() {
@@ -331,7 +332,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentMagcardRefundCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentMagcard(app, JPaymentSelect.this);
+			return new JPaymentMagcard(m_App, JPaymentSelect.this);
 		}
 
 		public String getKey() {
@@ -407,8 +408,9 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle(AppLocal.getIntString("payment.title")); // NOI18N
-		setResizable(false);
 
+		PropertyUtil.ScaleTabbedPaneFontsize(m_App, m_jTabPayment, "common-dialog-fontsize", "22");
+		
 		m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
 		jPanel4.add(m_jLblTotalEuros1);
 
@@ -420,7 +422,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jTotalEuros.setOpaque(true);
-		m_jTotalEuros.setPreferredSize(new java.awt.Dimension(125, 25));
+		// m_jTotalEuros.setPreferredSize(new java.awt.Dimension(125, 25));
 		m_jTotalEuros.setRequestFocusEnabled(false);
 		jPanel4.add(m_jTotalEuros);
 
@@ -437,7 +439,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jRemaininglEuros.setOpaque(true);
-		m_jRemaininglEuros.setPreferredSize(new java.awt.Dimension(125, 25));
+		// m_jRemaininglEuros.setPreferredSize(new java.awt.Dimension(125, 25));
 		m_jRemaininglEuros.setRequestFocusEnabled(false);
 		jPanel6.add(m_jRemaininglEuros);
 
@@ -463,8 +465,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		getContentPane().add(jPanel4, java.awt.BorderLayout.NORTH);
 
 		jPanel3.setLayout(new java.awt.BorderLayout());
-
-		m_jTabPayment.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+//		m_jTabPayment.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 5));
+//		m_jTabPayment.setPreferredSize(new Dimension(1000, 1000));
 		m_jTabPayment.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 		m_jTabPayment.setFocusable(false);
 		m_jTabPayment.setRequestFocusEnabled(false);
@@ -484,13 +486,13 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		m_jButtonPrint.setSelected(true);
 		m_jButtonPrint.setFocusPainted(false);
 		m_jButtonPrint.setFocusable(false);
-		m_jButtonPrint.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		m_jButtonPrint.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		m_jButtonPrint.setRequestFocusEnabled(false);
 		jPanel2.add(m_jButtonPrint);
 		jPanel2.add(jPanel1);
 
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
-		m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
+		m_jButtonOK.setText(AppLocal.getIntString("message.pay")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
 		m_jButtonOK.setFocusable(false);
 		m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
@@ -520,8 +522,12 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 672) / 2, (screenSize.height - 497) / 2, 672, 497);
+		PropertyUtil.ScaleDialog(m_App, this, 1000, 860);
+
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 672) / 2, (screenSize.height - 497) /
+		// 2, 672, 497);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonRemoveActionPerformed
@@ -587,9 +593,22 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	// End of variables declaration//GEN-END:variables
 
 	private void ScaleButtons() {
-		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-width", "60"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-height", "60"));
-
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jRemaininglEuros,"common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblRemainingEuros, "common-dialog-fontsize", "22");
 		
+		PropertyUtil.StyleTabbedPane(m_jTabPayment);
+		
+		int blwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "32"));
+		int blheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "32"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(m_jButtonAdd, blwidth, blheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonRemove, blwidth, blheight, fontsize);
+
 	}
 }

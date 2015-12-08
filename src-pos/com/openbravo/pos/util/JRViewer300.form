@@ -291,7 +291,7 @@
             <Component class="javax.swing.JButton" name="btnReload">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/openbravo/images/reload.png"/>
+                  <Image iconType="3" name="/com/openbravo/images/refresh.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="getBundleString(&quot;reload&quot;)" type="code"/>
@@ -434,7 +434,7 @@
             <Component class="javax.swing.JButton" name="btnPrevious">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/openbravo/images/1leftarrow.png"/>
+                  <Image iconType="3" name="/com/openbravo/images/leftarrow.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="getBundleString(&quot;previous.page&quot;)" type="code"/>
@@ -472,7 +472,7 @@
             <Component class="javax.swing.JButton" name="btnNext">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/openbravo/images/1rightarrow.png"/>
+                  <Image iconType="3" name="/com/openbravo/images/rightarrow.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="getBundleString(&quot;next.page&quot;)" type="code"/>

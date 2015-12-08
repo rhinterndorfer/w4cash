@@ -27,6 +27,7 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.panels.JPanelTable2;
 import com.openbravo.pos.ticket.ProductFilter;
@@ -46,10 +47,11 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
     
     /** Creates a new instance of ProductsPanel2 */
     public ProductsPanel() {
+    	
     }
     
     protected void init() {   
-        m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+    	m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
         
         // el panel del filtro
         jproductfilter = new ProductFilter();
@@ -65,7 +67,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
             m_dlSales.getProductCatDelete());
         
         // el panel del editor
-        jeditor = new ProductsEditor(m_dlSales, dirty);       
+        jeditor = new ProductsEditor(app, m_dlSales, dirty);       
     }
     
     public EditorRecord getEditor() {
@@ -94,7 +96,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
     
     private void btnScanPalActionPerformed(java.awt.event.ActionEvent evt) {                                           
   
-        JDlgUploadProducts.showMessage(this, app.getDeviceScanner(), bd);
+        JDlgUploadProducts.showMessage(app,this, app.getDeviceScanner(), bd);
     }  
     
     public String getTitle() {
@@ -114,7 +116,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
     }
 
 	@Override
-	public void ScaleButtons(int btnWidth, int btnHeight) {
+	public void ScaleButtons() {
 		// TODO Auto-generated method stub
 		
 	}    

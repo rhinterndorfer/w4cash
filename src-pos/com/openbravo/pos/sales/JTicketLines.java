@@ -40,6 +40,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -47,7 +48,9 @@ import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.PropertyUtil;
 
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -67,9 +70,11 @@ public class JTicketLines extends javax.swing.JPanel {
 
 	private TicketTableModel m_jTableModel;
 
-	/** Creates new form JLinesTicket */
-	public JTicketLines(String ticketline) {
+	private AppView m_App;
 
+	/** Creates new form JLinesTicket */
+	public JTicketLines(AppView app, String propertyHeight, String propertyFontsize, String ticketline) {
+		this.m_App = app;
 		initComponents();
 
 		ColumnTicket[] acolumns = new ColumnTicket[0];
@@ -101,15 +106,18 @@ public class JTicketLines extends javax.swing.JPanel {
 		for (int i = 0; i < acolumns.length; i++) {
 			jColumns.getColumn(i).setPreferredWidth(acolumns[i].width);
 			jColumns.getColumn(i).setResizable(false);
+
 		}
 
 		m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 
 		m_jTicketTable.getTableHeader().setReorderingAllowed(false);
-		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(acolumns));
-		
-		// m_jTicketTable.setRowHeight(55);
-		
+
+		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(app, acolumns, propertyFontsize));
+
+		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable, "sales-tablecolumn-fontsize", "14");
+		PropertyUtil.ScaleTableRowheight(m_App, m_jTicketTable, propertyHeight, "25");
+
 		m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		// reseteo la tabla...
@@ -223,9 +231,13 @@ public class JTicketLines extends javax.swing.JPanel {
 	private static class TicketCellRenderer extends DefaultTableCellRenderer {
 
 		private ColumnTicket[] m_acolumns;
+		private AppView m_app;
+		private String propertyFontsize;
 
-		public TicketCellRenderer(ColumnTicket[] acolumns) {
+		public TicketCellRenderer(AppView app, ColumnTicket[] acolumns, String sProperty) {
 			m_acolumns = acolumns;
+			m_app = app;
+			propertyFontsize = sProperty;
 		}
 
 		@Override
@@ -233,10 +245,13 @@ public class JTicketLines extends javax.swing.JPanel {
 				int row, int column) {
 
 			JLabel aux = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-			aux.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+			aux.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 			aux.setHorizontalAlignment(m_acolumns[column].align);
+
+//			fontsize = Integer.parseInt(PropertyUtil.getProperty(m_app, "Ticket.Buttons", sProperty, "25"));
+
+			PropertyUtil.ScaleTableLabelFontsize(m_app, aux, propertyFontsize, "25");
 			// aux.setBorder(BorderFactory.createEmptyBorder(3,0,3,0));
-			
 			return aux;
 		}
 	}
@@ -249,6 +264,10 @@ public class JTicketLines extends javax.swing.JPanel {
 
 		public TicketTableModel(ColumnTicket[] acolumns) {
 			m_acolumns = acolumns;
+		}
+
+		public ColumnTicket[] getColumnTickets() {
+			return this.m_acolumns;
 		}
 
 		public int getRowCount() {
@@ -298,6 +317,7 @@ public class JTicketLines extends javax.swing.JPanel {
 		}
 
 		public void addRow(TicketLineInfo oLine) {
+
 			insertRow(m_rows.size(), oLine);
 		}
 

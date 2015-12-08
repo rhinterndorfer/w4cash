@@ -20,6 +20,9 @@
 package com.openbravo.pos.payment;
 
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
+
 import javax.swing.*;
 
 public class PaymentPanelBasic extends javax.swing.JPanel implements PaymentPanel {
@@ -27,12 +30,14 @@ public class PaymentPanelBasic extends javax.swing.JPanel implements PaymentPane
     private double m_dTotal;
     private String m_sTransactionID;
     private JPaymentNotifier m_notifier;
+	private AppView m_App;
     
     /** Creates new form PaymentPanelSimple */
-    public PaymentPanelBasic(JPaymentNotifier notifier) {
-        
+    public PaymentPanelBasic(AppView app, JPaymentNotifier notifier) {
+        m_App = app;
         m_notifier = notifier;
         initComponents();
+        ScaleButtons();
     }
     
     public JComponent getComponent(){
@@ -91,6 +96,9 @@ public class PaymentPanelBasic extends javax.swing.JPanel implements PaymentPane
     }
     // </editor-fold>//GEN-END:initComponents
     
+    private void ScaleButtons(){
+    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

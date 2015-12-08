@@ -24,6 +24,8 @@ import javax.swing.*;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.Hashcypher;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.image.BufferedImage;
 import java.util.UUID;
 import com.openbravo.basic.BasicException;
@@ -65,6 +67,8 @@ public class PeopleView extends JPanel implements EditorRecord {
 
         
         writeValueEOF();
+        
+        ScaleButtons();
     }
 
     public void writeValueEOF() {
@@ -180,7 +184,7 @@ public class PeopleView extends JPanel implements EditorRecord {
         m_jVisible = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        m_jImage = new com.openbravo.data.gui.JImageEditor();
+        m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
         jButton1 = new javax.swing.JButton();
         m_jRole = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
@@ -188,7 +192,7 @@ public class PeopleView extends JPanel implements EditorRecord {
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileclose.png"))); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -256,7 +260,7 @@ public class PeopleView extends JPanel implements EditorRecord {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(m_jVisible))))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
@@ -286,12 +290,26 @@ public class PeopleView extends JPanel implements EditorRecord {
                     .addComponent(m_jVisible))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(246, 246, 246))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+	@Override
+	public void ScaleButtons() {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-width", "16"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-height", "16"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight,fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton2, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
+	}
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String sNewPassword = Hashcypher.changePassword(m_App, this);
@@ -338,10 +356,6 @@ public class PeopleView extends JPanel implements EditorRecord {
     private javax.swing.JCheckBox m_jVisible;
     // End of variables declaration//GEN-END:variables
 
-	@Override
-	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
-	}
+
     
 }
