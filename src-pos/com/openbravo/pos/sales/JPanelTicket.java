@@ -60,15 +60,11 @@ import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.JRPrinterAWT300;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
-
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.print.PrintService;
 import net.sf.jasperreports.engine.JasperCompileManager;

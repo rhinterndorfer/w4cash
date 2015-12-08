@@ -26,7 +26,6 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
 
 public class JRefundLines extends javax.swing.JPanel {
 

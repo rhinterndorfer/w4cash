@@ -38,7 +38,6 @@ import com.openbravo.editor.JEditorString;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
 
 public class PropertyUtil {
 
