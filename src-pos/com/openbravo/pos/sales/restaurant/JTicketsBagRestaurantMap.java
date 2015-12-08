@@ -56,6 +56,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	private DataLogicReceipts dlReceipts = null;
 	private DataLogicSales dlSales = null;
+	private JButton m_jbtnLogout;
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JTicketsBagRestaurantMap(AppView app, TicketsEditor panelticket) {
@@ -435,6 +436,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel2 = new javax.swing.JPanel();
 		m_jbtnReservations = new javax.swing.JButton();
 		m_jbtnRefresh = new javax.swing.JButton();
+		m_jbtnLogout = new javax.swing.JButton();
 		m_jText = new javax.swing.JLabel();
 
 		setLayout(new java.awt.CardLayout());
@@ -481,6 +483,23 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_jPanelMap.add(jPanel1, java.awt.BorderLayout.NORTH);
 
 		add(m_jPanelMap, "map");
+		
+		
+		m_jbtnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/logout.png"))); // NOI18N
+		// m_jbtnLogout.setText(AppLocal.getIntString("button.reloadticket")); // NOI18N
+		m_jbtnLogout.setFocusPainted(false);
+		m_jbtnLogout.setFocusable(false);
+		m_jbtnLogout.setMargin(new java.awt.Insets(0,0,0,0));
+		m_jbtnLogout.setRequestFocusEnabled(false);
+		m_jbtnLogout.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jbtnLogoutActionPerformed(evt);
+			}
+		});
+		this.ScaleButtonIcon(m_jbtnLogout, 65, 65);
+		jPanel1.add(m_jbtnLogout, BorderLayout.LINE_END);
+		
+		
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
@@ -492,6 +511,12 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	}// GEN-LAST:event_m_jbtnRefreshActionPerformed
 
+	private void m_jbtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
+
+		// TODO logout
+		((JPrincipalApp)m_App.getAppUserView()).getAppview().closeAppView();
+	}
+	
 	private void m_jbtnReservationsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnReservationsActionPerformed
 
 		showView("res");
