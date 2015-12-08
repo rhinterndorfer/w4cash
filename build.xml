@@ -250,6 +250,7 @@
 	<target name="dist.bin" depends="init.dist,jar" description="Generate the bin zip file.">
 		<mkdir dir="${basedir}/build/zip" />
 		<copy file="${basedir}/start.bat" todir="${basedir}/build/zip" />
+		<copy file="${basedir}/Icon.ico" todir="${basedir}/build/zip" />
 		<copy file="${basedir}/configure.bat" todir="${basedir}/build/zip" />
 		<copy file="${basedir}/start.sh" todir="${basedir}/build/zip" />
 		<copy file="${basedir}/configure.sh" todir="${basedir}/build/zip" />
@@ -304,6 +305,7 @@
 			<fileset dir="${basedir}/lib" />
 		</copy>
 		<copy file="${basedir}/start.bat" todir="${basedir}/build/zip" />
+		<copy file="${basedir}/Icon.ico" todir="${basedir}/build/zip" />
 		<copy file="${basedir}/configure.bat" todir="${basedir}/build/zip" />
 		<copy file="${basedir}/start.sh" todir="${basedir}/build/zip" />
 		<copy file="${basedir}/configure.sh" todir="${basedir}/build/zip" />
