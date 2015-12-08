@@ -92,7 +92,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// // NOI18N
 		m_jDelTicket
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/deleteTicket.png"))); // NOI18N
-		m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
+		m_jDelTicket.setText(AppLocal.getIntString("menu.deleteTicket")); // NOI18N
 		m_jDelTicket.setFocusPainted(false);
 		m_jDelTicket.setFocusable(false);
 		// m_jDelTicket.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -109,7 +109,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/redo16.png")));
 		// // NOI18N
 		jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/moveTable.png"))); // NOI18N
-		jButton2.setText(AppLocal.getIntString("menu.move"));
+		jButton2.setText(AppLocal.getIntString("menu.moveTable"));
 		jButton2.setFocusPainted(false);
 		jButton2.setFocusable(false);
 
@@ -125,7 +125,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		// // NOI18N
 		jButton1.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/table.png")));
-		jButton1.setText(AppLocal.getIntString("menu.back"));
+		jButton1.setText(AppLocal.getIntString("menu.leaveTable"));
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
 		// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));

@@ -380,7 +380,7 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleTableRowheight(AppView app, final JTable table, String key, String defaultValue) {
+	public static void ScaleTableRowheight(AppView app, final JTable table, int row, int multiply, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -388,7 +388,7 @@ public class PropertyUtil {
 		}
 		try {
 			int size = Integer.parseInt(value);
-			table.setRowHeight(size);
+			table.setRowHeight(row, size * multiply);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
