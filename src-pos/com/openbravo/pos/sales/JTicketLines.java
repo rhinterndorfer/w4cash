@@ -426,7 +426,7 @@ public class JTicketLines extends javax.swing.JPanel {
 		public void tableChanged(TableModelEvent e) {
 			super.tableChanged(e);
 
-			if (m_App != null && propertyRowHeight != null && e.getLastRow() > 0
+			if (m_App != null && propertyRowHeight != null && e.getLastRow() >= 0
 					&& (e.getType() == TableModelEvent.UPDATE || e.getType() == TableModelEvent.INSERT)) {
 				
 				for (int i = 0; i < this.getModel().getRowCount(); i++) {
