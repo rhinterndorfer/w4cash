@@ -163,6 +163,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	public void ScaleButtons(int btnWidth, int btnHeight) {
 		m_restaurantmap.ScaleButtons(btnWidth, btnHeight);
+		this.ScaleButtonIcon(m_jbtnLogout, btnWidth, btnHeight);
 	}
 
 	public void activate() {
@@ -496,7 +497,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				m_jbtnLogoutActionPerformed(evt);
 			}
 		});
-		this.ScaleButtonIcon(m_jbtnLogout, 65, 65);
+		
+//		this.ScaleButtons(Integer.parseInt(m_jbtnLogout.getProperty("button-touchlarge-width", "60")),
+//				Integer.parseInt(m_jbtnLogout.getProperty("button-touchlarge-height", "60")));
+		
+		
 		jPanel1.add(m_jbtnLogout, BorderLayout.LINE_END);
 		
 		
