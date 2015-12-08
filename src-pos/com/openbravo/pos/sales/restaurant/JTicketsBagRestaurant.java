@@ -34,6 +34,19 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 
 	private AppView m_App;
 	private JTicketsBagRestaurantMap m_restaurant;
+	private boolean m_promptTicket = false;
+
+	public boolean isPromptTicket() {
+		return m_promptTicket;
+	}
+
+	public void setPromptTicket(boolean m_promptTicket) {
+		this.m_promptTicket = m_promptTicket;
+		// update all controls
+		this.btn_promptTicket.setEnabled(!m_promptTicket);
+		this.jButton1.setEnabled(!m_promptTicket);
+		this.jButton2.setEnabled(!m_promptTicket);
+	}
 
 	/** Creates new form JTicketsBagRestaurantMap */
 	public JTicketsBagRestaurant(AppView app, JTicketsBagRestaurantMap restaurant) {
@@ -74,8 +87,9 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	private void initComponents() {
 
 		m_jDelTicket = new javax.swing.JButton();
-		jButton2 = new javax.swing.JButton();
-		jButton1 = new javax.swing.JButton();
+		jButton2 = new JButton();
+		jButton1 = new JButton();
+		btn_promptTicket = new JButton();
 
 		setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -105,14 +119,22 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		jButton2.setFocusPainted(false);
 		jButton2.setFocusable(false);
 
-		jButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		jButton2.setRequestFocusEnabled(false);
-		jButton2.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton2ActionPerformed(evt);
-			}
-		});
-		add(jButton2);
+			// add direct bonieren button
+			// TODO make a check if a direct bon table is available
+			btn_promptTicket
+					.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/promptTicket.png")));
+			btn_promptTicket.setFocusPainted(false);
+			btn_promptTicket.setFocusable(false);
+			// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));
+			btn_promptTicket.setMargin(new java.awt.Insets(0, 0, 0, 0));
+			btn_promptTicket.setRequestFocusEnabled(false);
+			btn_promptTicket.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					btn_promptTicketActionPerformed(evt);
+				}
+			});
+			add(btn_promptTicket);
+//		}
 
 		// jButton1.setIcon(
 		// new
@@ -151,14 +173,19 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	}// GEN-LAST:event_m_jDelTicketActionPerformed
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-
 		m_restaurant.newTicket();
 
 	}// GEN-LAST:event_jButton1ActionPerformed
 
+	private void btn_promptTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+		m_restaurant.promptTicket();
+
+	}
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
+	private javax.swing.JButton btn_promptTicket;
 	private javax.swing.JButton m_jDelTicket;
 	// End of variables declaration//GEN-END:variables
 

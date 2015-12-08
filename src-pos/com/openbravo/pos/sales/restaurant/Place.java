@@ -39,7 +39,23 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private static final Icon ICO_FRE = new NullIcon(22, 22);
 
 	private String m_sId;
+	public String getSId() {
+		return m_sId;
+	}
+
+	public void setSId(String m_sId) {
+		this.m_sId = m_sId;
+	}
+
 	private String m_sName;
+	public String getSName() {
+		return m_sName;
+	}
+	
+	public void setSName(String m_sName) {
+		this.m_sName = m_sName;
+	}
+
 	private int m_ix;
 	private int m_iy;
 	private String m_sfloor;

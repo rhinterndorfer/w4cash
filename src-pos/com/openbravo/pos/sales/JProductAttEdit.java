@@ -197,6 +197,36 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		}
 	}
 
+	public void scaleFont(int fontSize) {
+
+		if (itemslist != null && itemslist.size() > 0) {
+			double scaleFactor = 1;
+
+			for (int i = 0; i < itemslist.size(); i++) {
+				JProductAttEditI item = itemslist.get(i);
+				scaleFactor = item.scaleFont(fontSize);
+			}
+
+			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+			int compWidth = (int) ((fontSize + 80) * scaleFactor) + 450;
+			int compHeight = (int) (fontSize * scaleFactor) * itemslist.size() + (int) (scaleFactor * scaleFactor) + 150;
+
+			if (compWidth > screenSize.getWidth())
+				compWidth = (int) screenSize.getWidth();
+			if (compHeight > screenSize.getHeight())
+				compHeight = (int) screenSize.getHeight();
+
+			setBounds((screenSize.width - compWidth) / 2, (screenSize.height - compHeight) / 2, compWidth, compHeight);
+
+			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
+			PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize);
+
+		}
+	}
+
 	public boolean isOK() {
 		return ok;
 	}

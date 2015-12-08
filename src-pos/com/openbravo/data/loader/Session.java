@@ -54,18 +54,35 @@ public class Session {
         DB = getDiff();
     }
     
+    /** Creates a new instance of Session with login timeout */
+    public Session(String url, String user, String password, int timeout) throws SQLException {
+        m_surl = url;
+        m_suser = user;
+        m_spassword = password;
+        
+        m_c = null;
+        m_bInTransaction = false;
+        setConnectionTimeout(timeout);
+        connect(); // no lazy connection
+
+        DB = getDiff();
+    }
+    
     public void connect() throws SQLException {
         
         // primero cerramos si no estabamos cerrados
         close();
-        
         // creamos una nueva conexion.
         m_c = (m_suser == null && m_spassword == null)
         ? DriverManager.getConnection(m_surl)
         : DriverManager.getConnection(m_surl, m_suser, m_spassword);         
         m_c.setAutoCommit(true);
         m_bInTransaction = false;
-    }     
+    }
+    
+    public void setConnectionTimeout(int seconds) {
+    	DriverManager.setLoginTimeout(seconds);
+    }
 
     public void close() {
         

@@ -112,11 +112,18 @@ public class JTicketLines extends javax.swing.JPanel {
 		m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 
 		m_jTicketTable.getTableHeader().setReorderingAllowed(false);
+<<<<<<< HEAD
 		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(app, acolumns, propertyFontsize));
 
 		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable, "sales-tablecolumn-fontsize", "14");
 		PropertyUtil.ScaleTableRowheight(m_App, m_jTicketTable, propertyHeight, "25");
 
+=======
+		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(acolumns));
+		
+		// m_jTicketTable.setRowHeight(55);
+		
+>>>>>>> branch 'master' of https://github.com/rhinterndorfer/w4cash/
 		m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		// reseteo la tabla...

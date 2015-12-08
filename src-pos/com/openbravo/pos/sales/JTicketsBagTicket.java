@@ -241,7 +241,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 				}
 
 				script.put("ticket", m_ticket);
-				m_TTP.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
+//				script.put("place", "ticketext");
+				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview");
+				Object o = script.eval(asxml);
+				m_TTP.printTicket(o.toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);

@@ -51,7 +51,17 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
     private static Logger logger = Logger.getLogger("com.openbravo.pos.forms.JPrincipalApp");
     
     private JRootApp m_appview;
-    private AppUser m_appuser;
+    public JRootApp getAppview() {
+		return m_appview;
+	}
+
+
+	public void setAppview(JRootApp m_appview) {
+		this.m_appview = m_appview;
+	}
+
+
+	private AppUser m_appuser;
     
     private DataLogicSystem m_dlSystem;
     
@@ -332,6 +342,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
             m_appview.closeAppView();
         }
     }
+    
     
     
     // La accion de cambio de password..

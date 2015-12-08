@@ -20,7 +20,10 @@
 package com.openbravo.pos.sales;
 
 import com.openbravo.editor.JEditorKeys;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  *
@@ -42,9 +45,17 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
         //jValue.addEditorKeys(keys);
         jValue.setText(value);
     }
-
+    
+    public double scaleFont(int fontSize)
+    {
+    	double scaleFactor = PropertyUtil.ScaleLabelFontsize(jLabel1, fontSize);
+    	PropertyUtil.ScaleLabelFontsize(jValue, fontSize);
+    	
+    	return scaleFactor;
+    }
+    
     public void assignSelection() {
-        jValue.activate();
+        jValue.grabFocus();
     }
 
     public String getAttribute() {
@@ -71,19 +82,21 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jValue = new com.openbravo.editor.JEditorString();
+        jValue = new javax.swing.JTextField();
 
         jLabel1.setText("jLabel1");
-
+        jValue.setFont(jLabel1.getFont());
+        jValue.setPreferredSize(new Dimension(200, jLabel1.getFont().getSize()+5));
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,7 +112,7 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private com.openbravo.editor.JEditorString jValue;
+    private javax.swing.JTextField jValue;
     // End of variables declaration//GEN-END:variables
 
 }

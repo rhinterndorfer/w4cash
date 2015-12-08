@@ -85,7 +85,6 @@ public class JRootApp extends JPanel implements AppView {
 															// compatibility
 															// purposes
 
-	
 	static {
 		initOldClasses();
 	}
@@ -109,11 +108,14 @@ public class JRootApp extends JPanel implements AppView {
 		applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
 
 		// Database start
+		// we have three connection requests, before we say no connection
+		// possible
 		try {
 			session = AppViewConnection.createSession(m_props);
 		} catch (BasicException e) {
 			JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
 			return false;
+
 		}
 
 		m_dlSystem = (DataLogicSystem) getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -130,12 +132,14 @@ public class JRootApp extends JPanel implements AppView {
 				// Create or upgrade database
 				String sScript = sDBVersion.equals("create") ? m_dlSystem.getInitScript() + "-create.sql"
 						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
-				
-				/* only for testing !!!
-				String sScript = sDBVersion.equals("create") ? m_dlSystem.getInitScript() + "-create-2.30.2.sql"
-						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
-				*/
-				
+
+				/*
+				 * only for testing !!! String sScript =
+				 * sDBVersion.equals("create") ? m_dlSystem.getInitScript() +
+				 * "-create-2.30.2.sql" : m_dlSystem.getInitScript() +
+				 * "-upgrade-" + sDBVersion + ".sql";
+				 */
+
 				if (JRootApp.class.getResource(sScript) == null) {
 					JMessageDialog.showMessage(this,this,
 							new MessageInf(MessageInf.SGN_DANGER,
@@ -262,7 +266,7 @@ public class JRootApp extends JPanel implements AppView {
 
 		// load properties for login button size
 		posprops = m_dlSystem.getResourceAsProperties("Window.Login");
-		
+
 		showLogin();
 
 		return true;
@@ -456,9 +460,9 @@ public class JRootApp extends JPanel implements AppView {
 				AppUser user = (AppUser) people.get(i);
 
 				JButton btn = new JButton(new AppUserAction(user));
-				
-				//JButton btn = new JPanelButtons(new AppUserAction(user));
-				
+
+				// JButton btn = new JPanelButtons(new AppUserAction(user));
+
 				btn.applyComponentOrientation(getComponentOrientation());
 				btn.setFocusPainted(false);
 				btn.setFocusable(false);
@@ -467,14 +471,17 @@ public class JRootApp extends JPanel implements AppView {
 				/**
 				 * change user login buttons size
 				 */
-//				posprops.getProperty(key, defaultValue)
-				btn.setMaximumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
-				btn.setPreferredSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
-				btn.setMinimumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
-				
-//				btn.setMaximumSize(new Dimension(150, 50));
-//				btn.setPreferredSize(new Dimension(150, 50));
-//				btn.setMinimumSize(new Dimension(150, 50));
+				// posprops.getProperty(key, defaultValue)
+				btn.setMaximumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
+						Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+				btn.setPreferredSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
+						Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+				btn.setMinimumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
+						Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+
+				// btn.setMaximumSize(new Dimension(150, 50));
+				// btn.setPreferredSize(new Dimension(150, 50));
+				// btn.setMinimumSize(new Dimension(150, 50));
 
 				jPeople.add(btn);
 			}
@@ -677,7 +684,7 @@ public class JRootApp extends JPanel implements AppView {
 		m_jLogonName.setLayout(new java.awt.BorderLayout());
 
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		jScrollPane1.setPreferredSize(new java.awt.Dimension(510, 118));
 		m_jLogonName.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
