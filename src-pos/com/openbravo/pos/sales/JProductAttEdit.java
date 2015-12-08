@@ -66,6 +66,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	private String attInstanceDescription;
 
 	private boolean ok;
+	
+	public Boolean isForSingleProduct = false;
 
 	/** Creates new form JProductAttEdit */
 	private JProductAttEdit(java.awt.Frame parent, boolean modal) {
@@ -139,7 +141,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		return myMsg;
 	}
 
-	public void editAttributes(String attsetid, String attsetinstid) throws BasicException {
+	public void editAttributes(String attsetid, String attsetinstid, Boolean withAmountSelection) throws BasicException {
 
 		if (attsetid == null) {
 			throw new BasicException(AppLocal.getIntString("message.cannotfindattributes"));
@@ -150,6 +152,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			this.attInstanceDescription = null;
 
 			this.ok = false;
+			
+			m_jButtonOKSingle.setVisible(withAmountSelection);
 
 			// get attsetinst values
 			AttributeSetInfo asi = (AttributeSetInfo) attsetSent.find(attsetid);
@@ -200,7 +204,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 			int compWidth = (int) ((fontSize + 80) * scaleFactor) + 450;
-			int compHeight = (int) (fontSize * scaleFactor) * itemslist.size() + (int) (scaleFactor * scaleFactor) + 150;
+			int compHeight = (int) (fontSize * scaleFactor) * itemslist.size() + (int) (fontSize * scaleFactor) + 200;
 
 			if (compWidth > screenSize.getWidth())
 				compWidth = (int) screenSize.getWidth();
@@ -212,6 +216,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
 			PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
 			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize, buttonFontSize);
 			PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
 			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize);
 
@@ -303,6 +309,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		jPanel2 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
 		m_jButtonOK = new javax.swing.JButton();
+		m_jButtonOKSingle = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
 		// jPanel4 = new javax.swing.JPanel();
@@ -317,8 +324,24 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+		
+		m_jButtonOKSingle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		m_jButtonOKSingle.setText(AppLocal.getIntString("ProductAttEdit.Button.OKSingle")); // NOI18N
+		m_jButtonOKSingle.setFocusPainted(false);
+		m_jButtonOKSingle.setFocusable(false);
+		m_jButtonOKSingle.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		m_jButtonOKSingle.setRequestFocusEnabled(false);
+		m_jButtonOKSingle.setVisible(false);
+		m_jButtonOKSingle.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jButtonOKSingleActionPerformed(evt);
+			}
+		});
+		jPanel1.add(m_jButtonOKSingle);
+		
+		
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
-		m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
+		m_jButtonOK.setText(AppLocal.getIntString("ProductAttEdit.Button.OKAll")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
 		m_jButtonOK.setFocusable(false);
 		m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
@@ -359,10 +382,15 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 350) / 2, (screenSize.height - 150) / 2, 350, 150);
+		setBounds((screenSize.width - 350) / 2, (screenSize.height - 200) / 2, 350, 200);
 
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void m_jButtonOKSingleActionPerformed(java.awt.event.ActionEvent evt) {
+		isForSingleProduct = true;
+		m_jButtonOKActionPerformed(evt);
+	}
+	
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed
 
 		StringBuilder description = new StringBuilder();
@@ -435,6 +463,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel5;
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
+	private javax.swing.JButton m_jButtonOKSingle;
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	// End of variables declaration//GEN-END:variables
 

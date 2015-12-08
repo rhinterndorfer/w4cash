@@ -69,7 +69,7 @@
         </line>  
         <line></line>
         #end
-        #if ($place)
+        #if ($place != "")
         <line>
             <text align="left" length="16">Tisch:</text>
             <text align="left" length="16">${place}</text>

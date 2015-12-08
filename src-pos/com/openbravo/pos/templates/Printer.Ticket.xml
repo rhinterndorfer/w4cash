@@ -23,7 +23,7 @@
         <line>
             <text align="center" length="32" bold="true">3910 Zwettl</text>
         </line>
-	<line>
+	    <line>
             <text align="center" length="32" bold="true">ATU xxxxxxxx</text>
         </line>
         <line></line>
@@ -32,12 +32,12 @@
             <text align="left" length="16">Bon:</text>
             <text align="left" length="16">Vorschau</text>
         </line>
-	#else
-	<line>
+        #else
+        <line>
             <text align="left" length="16">Bon:</text>
             <text align="left" length="16">${ticket.printId()}</text>
         </line>
-	#end
+        #end
         <line>
             <text align="left" length="16">Datum:</text>
             <text align="left" length="16">${ticket.printDate()}</text>
@@ -69,7 +69,7 @@
         </line>  
         <line></line>
         #end
-        #if ($place)
+        #if ($place != "")
         <line>
             <text align="left" length="16">Tisch:</text>
             <text align="left" length="16">${place}</text>
