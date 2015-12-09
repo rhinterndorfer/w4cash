@@ -744,7 +744,6 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
 		jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
-
 		add(jTabbedPane1);
 		jTabbedPane1.setBounds(10, 90, 660, 460);
 	}// </editor-fold>//GEN-END:initComponents
