@@ -132,7 +132,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, labelCustomer, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, labelCustomer, "common-dialog-fontsize", "22");
 
 		PropertyUtil.ScaleEditnumbersFontsize(m_App, jtxtTicketID, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jtxtMoney, "common-dialog-fontsize", "22");

@@ -222,9 +222,11 @@ public class BrowsableEditableData {
 	}
 
 	private void moveData(int sourceindex, int targetindex) throws BasicException {
-		saveData();
 		m_bd.moveItem(sourceindex, targetindex);
 		baseMoveTo(targetindex);
+		fireDataBrowse();
+		m_Dirty.setDirty(true);
+		saveData();
 	}
 
 	public void sort(Comparator c) throws BasicException {

@@ -204,9 +204,9 @@ public class PropertyUtil {
 		}
 		try {
 			int fontsize = Integer.parseInt(value);
-			Font font = label.getFont();
-			label.setFont(new Font(font.getName(), font.getStyle(), fontsize));
-			label.setSize((int) label.getSize().getWidth(), fontsize);
+			Font font = label.getBFont();
+			label.setBFont(new Font(font.getName(), font.getStyle(), fontsize));
+			label.setBSize((int) label.getSize().getWidth(), fontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -221,9 +221,9 @@ public class PropertyUtil {
 		try {
 			int fontsize = Integer.parseInt(value);
 
-			Font font = label.getFont();
-			label.setFont(new Font(font.getName(), font.getStyle(), fontsize));
-			label.setSize((int) label.getSize().getWidth(), fontsize);
+			Font font = label.getBFont();
+			label.setBFont(new Font(font.getName(), font.getStyle(), fontsize));
+			label.setBSize((int) label.getSize().getWidth(), fontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -238,9 +238,9 @@ public class PropertyUtil {
 		try {
 			int fontsize = Integer.parseInt(value);
 
-			Font font = unit.getFont();
-			unit.setFont(new Font(font.getName(), font.getStyle(), fontsize));
-			unit.setSize((int) unit.getSize().getWidth(), fontsize);
+			Font font = unit.getBFont();
+			unit.setBFont(new Font(font.getName(), font.getStyle(), fontsize));
+			unit.setBSize((int) unit.getSize().getWidth(), fontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}

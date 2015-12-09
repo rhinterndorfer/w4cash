@@ -120,15 +120,13 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
+		
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotal, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxrate, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotal, "common-dialog-fontsize", "22");
-
 		PropertyUtil.ScaleEditnumbersFontsize(m_App, m_jUnits, "common-dialog-fontsize", "22");
-
 		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPrice, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceTax, "common-dialog-fontsize", "22");
-
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jName, "common-dialog-fontsize", "22");
 	}
 

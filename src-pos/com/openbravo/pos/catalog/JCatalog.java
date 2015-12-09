@@ -301,7 +301,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 							new SelectedAction(prod));
 				}
 			}
-
+			// HB select actual categorie
+			this.selectedCategory = catid;
+			
 			// Show categories panel
 			CardLayout cl = (CardLayout) (m_jProducts.getLayout());
 			cl.show(m_jProducts, catid.getID());
