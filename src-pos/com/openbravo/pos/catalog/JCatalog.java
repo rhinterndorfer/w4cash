@@ -275,6 +275,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			if (!m_categoriesset.contains(catid.getID())) {
 
 				JCatalogTab jcurrTab = new JCatalogTab(m_App);
+				jcurrTab.getScrollPane()
+				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 				jcurrTab.applyComponentOrientation(getComponentOrientation());
 				m_jProducts.add(jcurrTab, catid.getID());
 				m_categoriesset.add(catid.getID());
@@ -385,6 +387,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						m_productsset.put(id, product);
 
 						JCatalogTab jcurrTab = new JCatalogTab(m_App);
+						jcurrTab.getScrollPane().setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 						jcurrTab.applyComponentOrientation(getComponentOrientation());
 						m_jProducts.add(jcurrTab, "PRODUCT." + id);
 

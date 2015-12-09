@@ -380,7 +380,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		m_jbtnTables.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/atlantikdesignersmall.png"))); // NOI18N
-		m_jbtnTables.setText(AppLocal.getIntString("button.tables")); // NOI18N
+		m_jbtnTables.setText(AppLocal.getIntString("Button.Tables")); // NOI18N
 		m_jbtnTables.setFocusPainted(false);
 		m_jbtnTables.setFocusable(false);
 		m_jbtnTables.setRequestFocusEnabled(false);

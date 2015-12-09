@@ -443,10 +443,10 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
 										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 255,
+								.addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 305,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addGroup(jPanel7Layout.createSequentialGroup()
-										.addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+										.addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
 												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 182,

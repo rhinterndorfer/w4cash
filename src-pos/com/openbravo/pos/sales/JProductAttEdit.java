@@ -220,7 +220,9 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			if (compHeight > screenSize.getHeight())
 				compHeight = (int) screenSize.getHeight();
 
-			setBounds((screenSize.width - compWidth) / 2, (screenSize.height - compHeight) / 2, compWidth, compHeight);
+			PropertyUtil.ScaleDialog(m_App, this, compWidth, compHeight);
+			
+//			setBounds((screenSize.width - compWidth) / 2, (screenSize.height - compHeight) / 2, compWidth, compHeight);
 
 			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
 			//PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);

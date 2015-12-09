@@ -177,8 +177,8 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
 
 		PropertyUtil.ScaleDialog(m_App, this, 340, 272);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 340) / 2, (screenSize.height - 272) / 2, 340, 272);
+//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//		setBounds((screenSize.width - 340) / 2, (screenSize.height - 272) / 2, 340, 272);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed
