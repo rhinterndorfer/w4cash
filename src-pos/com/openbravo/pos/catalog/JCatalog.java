@@ -272,14 +272,10 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private void selectCategoryPanel(CategoryInfo catid) {
 
 		try {
-			
-	
-			
+					
 			// Load categories panel if not exists
 			if (!m_categoriesset.contains(catid.getID())) {
 
-				
-				
 				// HB select actual categorie
 				this.selectedCategory = catid;
 
@@ -345,7 +341,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		cl.show(m_jCategories, "rootcategories");
 	}
 
-	private void showPrevoisCategoriesPanel() {
+	private void showPreviousCategoriesPanel() {
 		if (this.previousCategory != null) {
 
 			// Show subcategories panel
@@ -353,7 +349,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			
 			// Show selected root category
 			CategoryInfo cat = (CategoryInfo) this.previousCategory;
-		
+			
 			if (cat != null) {
 				selectCategoryPanel(cat);
 				this.selectedCategory = cat;
@@ -393,7 +389,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			if (m_productsset.containsKey(id)) {
 				// It is an empty panel
 				if (showingcategory == null) {
-					showRootCategoriesPanel();
+					showPreviousCategoriesPanel();
 				} else {
 					showSubcategoryPanel(showingcategory);
 				}
@@ -718,7 +714,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	}// GEN-LAST:event_m_jListCategoriesValueChanged
 
 	private void m_btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_btnBack1ActionPerformed
-		showPrevoisCategoriesPanel();
+		showPreviousCategoriesPanel();
 	}// GEN-LAST:event_m_btnBack1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
