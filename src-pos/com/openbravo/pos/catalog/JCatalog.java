@@ -274,6 +274,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			// Load categories panel if not exists
 			if (!m_categoriesset.contains(catid.getID())) {
 
+				// HB select actual categorie
+				this.selectedCategory = catid;
+				
 				JCatalogTab jcurrTab = new JCatalogTab(m_App);
 				jcurrTab.getScrollPane()
 				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
