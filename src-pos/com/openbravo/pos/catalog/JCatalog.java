@@ -64,6 +64,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	private CategoryInfo showingcategory = null;
 	private CategoryInfo selectedCategory = null;
+	private CategoryInfo previousCategory = null;
 
 	private AppView m_App;
 	private JCatalogTab jcategoryTab;
@@ -271,15 +272,20 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private void selectCategoryPanel(CategoryInfo catid) {
 
 		try {
+			
+	
+			
 			// Load categories panel if not exists
 			if (!m_categoriesset.contains(catid.getID())) {
 
+				
+				
 				// HB select actual categorie
 				this.selectedCategory = catid;
-				
+
 				JCatalogTab jcurrTab = new JCatalogTab(m_App);
 				jcurrTab.getScrollPane()
-				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+						.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 				jcurrTab.applyComponentOrientation(getComponentOrientation());
 				m_jProducts.add(jcurrTab, catid.getID());
 				m_categoriesset.add(catid.getID());
@@ -339,6 +345,28 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		cl.show(m_jCategories, "rootcategories");
 	}
 
+	private void showPrevoisCategoriesPanel() {
+		if (this.previousCategory != null) {
+
+			// Show subcategories panel
+			selectIndicatorCategories();
+			
+			// Show selected root category
+			CategoryInfo cat = (CategoryInfo) this.previousCategory;
+		
+			if (cat != null) {
+				selectCategoryPanel(cat);
+				this.selectedCategory = cat;
+			}
+			
+			showingcategory = null;
+		}
+		else
+		{
+			showRootCategoriesPanel();
+		}
+	}
+
 	private void showRootCategoriesPanel() {
 
 		selectIndicatorCategories();
@@ -390,7 +418,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						m_productsset.put(id, product);
 
 						JCatalogTab jcurrTab = new JCatalogTab(m_App);
-						jcurrTab.getScrollPane().setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+						jcurrTab.getScrollPane().setVerticalScrollBarPolicy(
+								javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 						jcurrTab.applyComponentOrientation(getComponentOrientation());
 						m_jProducts.add(jcurrTab, "PRODUCT." + id);
 
@@ -681,14 +710,15 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		if (cat != null) {
 			selectCategoryPanel(cat);
 		}
+		
+		//store selection for navigation backwards
+		this.previousCategory = cat;
 		// }
 
 	}// GEN-LAST:event_m_jListCategoriesValueChanged
 
 	private void m_btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_btnBack1ActionPerformed
-
-		showRootCategoriesPanel();
-
+		showPrevoisCategoriesPanel();
 	}// GEN-LAST:event_m_btnBack1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
