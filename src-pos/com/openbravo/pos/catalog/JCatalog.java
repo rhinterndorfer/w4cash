@@ -189,7 +189,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			}
 			// Add products
 			// for (ProductInfoExt prod : products) {
-			jcategoryTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(category.getImage(), category.getName())),
+			jcategoryTab.addButton(new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName())),
 					new SelectedCategoryMain(category));
 					// }
 
@@ -284,7 +284,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				// Add subcategories
 				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID());
 				for (CategoryInfo cat : categories) {
-					jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(cat.getImage(), cat.getName())),
+					jcurrTab.addButton(new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName())),
 							new SelectedCategory(cat));
 				}
 

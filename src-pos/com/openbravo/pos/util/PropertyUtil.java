@@ -379,7 +379,8 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleTableRowheight(AppView app, final JTable table, int row, int multiply, String key, String defaultValue) {
+	public static void ScaleTableRowheight(AppView app, final JTable table, int row, int multiply, String key,
+			String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -465,32 +466,44 @@ public class PropertyUtil {
 	}
 
 	private static String getProperty(AppView app, DataLogicSystem dlSystem, String sProperty, String key) {
-		// Properties property =
-		// dlSystem.getResourceAsProperties(app.getProperties().getHost() +
-		// "/properties");
-		Properties property = null;
+		Properties property = dlSystem.getResourceAsProperties(app.getProperties().getHost() + "/properties");
+
+		if (property.getProperty(key) != null) {
+			return property.getProperty(key);
+		}
+
+		try {
+			String xmlProp = dlSystem.getResourceAsXML(sProperty);
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser sp = spf.newSAXParser();
+
+			ConfigurationHandler handler = new ConfigurationHandler(app);
+			sp.parse(new InputSource(new StringReader(xmlProp)), handler);
+			property = handler.getProperties();
+		} catch (ParserConfigurationException ePC) {
+			logger.log(Level.WARNING, LocalRes.getIntString("exception.parserconfig"), ePC);
+		} catch (SAXException eSAX) {
+			logger.log(Level.WARNING, LocalRes.getIntString("exception.xmlfile"), eSAX);
+		} catch (IOException eIO) {
+			logger.log(Level.WARNING, LocalRes.getIntString("exception.iofile"), eIO);
+		}
+		
 		// dlSystem.getResourceAsProperties(sProperty);
 
 		// if (property != null && property.isEmpty()) {
 
-		if (sProperty != null) {
-			try {
-				String xmlProp = dlSystem.getResourceAsXML(sProperty);
-
-				SAXParserFactory spf = SAXParserFactory.newInstance();
-				SAXParser sp = spf.newSAXParser();
-
-				ConfigurationHandler handler = new ConfigurationHandler(app);
-				sp.parse(new InputSource(new StringReader(xmlProp)), handler);
-				property = handler.getProperties();
-			} catch (ParserConfigurationException ePC) {
-				logger.log(Level.WARNING, LocalRes.getIntString("exception.parserconfig"), ePC);
-			} catch (SAXException eSAX) {
-				logger.log(Level.WARNING, LocalRes.getIntString("exception.xmlfile"), eSAX);
-			} catch (IOException eIO) {
-				logger.log(Level.WARNING, LocalRes.getIntString("exception.iofile"), eIO);
-			}
-		}
+		// if (sProperty != null) {
+		// // try {
+		// String xmlProp = dlSystem.getResourceAsXML(sProperty);
+		//
+		// SAXParserFactory spf = SAXParserFactory.newInstance();
+		// SAXParser sp = spf.newSAXParser();
+		//
+		// ConfigurationHandler handler = new ConfigurationHandler(app);
+		// sp.parse(new InputSource(new StringReader(xmlProp)), handler);
+		// property = handler.getProperties();
+		//
+		// }
 
 		// }
 
