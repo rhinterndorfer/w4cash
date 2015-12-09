@@ -522,7 +522,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-		PropertyUtil.ScaleDialog(m_App, this, 1000, 860);
+		PropertyUtil.ScaleDialog(m_App, this, 860, 600);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();

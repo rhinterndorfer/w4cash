@@ -273,10 +273,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		try {
 			// Load categories panel if not exists
 			if (!m_categoriesset.contains(catid.getID())) {
-
-				// HB select actual categorie
-				this.selectedCategory = catid;
-				
 				JCatalogTab jcurrTab = new JCatalogTab(m_App);
 				jcurrTab.getScrollPane()
 				.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -299,7 +295,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 							new SelectedAction(prod));
 				}
 			}
-
+			// HB select actual categorie
+			this.selectedCategory = catid;
+			
 			// Show categories panel
 			CardLayout cl = (CardLayout) (m_jProducts.getLayout());
 			cl.show(m_jProducts, catid.getID());

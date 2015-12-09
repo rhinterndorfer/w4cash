@@ -401,6 +401,8 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 		jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
 
+		jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
+		
 		buttonGroup1.add(jrbSales);
 		jrbSales.setText(AppLocal.getIntString("label.sales")); // NOI18N
 		jrbSales.setFocusPainted(false);

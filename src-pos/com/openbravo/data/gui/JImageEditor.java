@@ -78,7 +78,6 @@ public class JImageEditor extends javax.swing.JPanel {
 		PropertyUtil.ScaleButtonIcon(m_jbtnopen, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnzoomin, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnzoomout, menuwidth, menuheight, fontsize);
-    
     }
     
     public void setMaxDimensions(Dimension size) {
