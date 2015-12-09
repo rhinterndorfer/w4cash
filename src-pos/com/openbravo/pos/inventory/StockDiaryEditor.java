@@ -592,7 +592,7 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
         } else {
             try {
                 JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(m_App, this, m_App.getSession());
-                attedit.editAttributes(attsetid, attsetinstid);
+                attedit.editAttributes(attsetid, attsetinstid, false);
                 attedit.setVisible(true);
                
                 if (attedit.isOK()) {

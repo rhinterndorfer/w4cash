@@ -174,6 +174,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
 		m_restaurantmap.ScaleButtons();
 
+		m_restaurantmap.ScaleButtons();
+		
+		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(btn_promptTicket, smallWidth, smallHeight, fontsize);
+		
 	}
 
 	public void activate() {
@@ -274,10 +279,15 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		if (m_PlaceCurrent != null) {
 
 			try {
-				dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+				if(m_panelticket.getActiveTicket().getLinesCount() > 0)
+					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+				else
+				{
+					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
+					m_jbtnRefreshActionPerformed(null);
+				}
 			} catch (BasicException e) {
 				new MessageInf(e).show(m_App, this); // maybe other guy deleted
-														// it
 			}
 
 			m_PlaceCurrent = null;
@@ -290,52 +300,13 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	public void promptTicket() {
 
 		Place m_place = new Place();
-		m_place.setSId("Direkt");
-		m_place.setSName("Direkt Verkauf");
-		// m_place.setPeople(false);
-		// check if the sharedticket is the same
-		// TicketInfo ticket = new TicketInfo();
+		m_place.setSId("direkt");
+		m_place.setSName("direkt");
 
-		// check
-		// if (ticket == null && !m_place.hasPeople()) {
-		// Empty table and checked
-
-		// table occupied
 		TicketInfo ticket = new TicketInfo();
 
-		// try {
-		//// dlReceipts.insertSharedTicket(m_place.getId(), ticket);
-		// } catch (BasicException e) {
-		// new MessageInf(e).show(JTicketsBagRestaurantMap.this); // Glup.
-		// // But
-		// // It
-		// // was
-		// // empty.
-		// }
-		// m_place.setPeople(true);
-		// m_panelticket = null;
 		m_restaurantmap.setPromptTicket(true);
 		setActivePlace(m_place, ticket);
-
-		// } else if (ticket == null && m_place.hasPeople()) {
-		// // The table is now empty
-		// new MessageInf(MessageInf.SGN_WARNING,
-		// AppLocal.getIntString("message.tableempty"))
-		// .show(JTicketsBagRestaurantMap.this);
-		// m_place.setPeople(false); // fixed
-		//
-		// } else if (ticket != null && !m_place.hasPeople()) {
-		// // The table is now full
-		// new MessageInf(MessageInf.SGN_WARNING,
-		// AppLocal.getIntString("message.tablefull"))
-		// .show(JTicketsBagRestaurantMap.this);
-		// m_place.setPeople(true);
-		//
-		// } else { // both != null
-		// // Full table
-		// // m_place.setPeople(true); // already true
-		// setActivePlace(m_place, ticket);
-		// }
 	}
 
 	public void deleteTicket() {
@@ -452,6 +423,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_jbtnRefresh = new javax.swing.JButton();
 		m_jbtnLogout = new javax.swing.JButton();
 		m_jText = new javax.swing.JLabel();
+		btn_promptTicket = new JButton();
 
 		setLayout(new java.awt.CardLayout());
 
@@ -479,7 +451,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		// jPanel2.add(m_jbtnReservations);
 
 		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
-		m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket")); // NOI18N
+		m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket"));
 		m_jbtnRefresh.setFocusPainted(false);
 		m_jbtnRefresh.setFocusable(false);
 		// m_jbtnRefresh.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -490,6 +462,26 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		});
 		jPanel2.add(m_jbtnRefresh);
+		
+		
+		// add direct bonieren button
+		// TODO make a check if a direct bon table is available
+		btn_promptTicket
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/promptTicket.png")));
+		btn_promptTicket.setText(AppLocal.getIntString("button.promptTicket"));
+		btn_promptTicket.setFocusPainted(false);
+		btn_promptTicket.setFocusable(false);
+		// jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		btn_promptTicket.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_promptTicket.setRequestFocusEnabled(false);
+		btn_promptTicket.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btn_promptTicketActionPerformed(evt);
+			}
+		});
+		jPanel2.add(btn_promptTicket);
+		
+		
 		jPanel2.add(m_jText);
 
 		jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
@@ -499,7 +491,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		add(m_jPanelMap, "map");
 
 		m_jbtnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/logout.png"))); // NOI18N
-		m_jbtnLogout.setText(AppLocal.getIntString("button.logout")); // NOI18N
+		m_jbtnLogout.setText(AppLocal.getIntString("button.logout"));
 		m_jbtnLogout.setFocusPainted(false);
 		m_jbtnLogout.setFocusable(false);
 		// m_jbtnLogout.setMargin(new java.awt.Insets(0,0,0,0));
@@ -516,7 +508,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		// "60")));
 
 		jPanel1.add(m_jbtnLogout, BorderLayout.LINE_END);
-
+		
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
@@ -744,6 +736,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		}
 	}
+	
+	private void btn_promptTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+		promptTicket();
+	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JPanel jPanel1;
@@ -752,6 +748,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private javax.swing.JLabel m_jText;
 	private javax.swing.JButton m_jbtnRefresh;
 	private javax.swing.JButton m_jbtnReservations;
+	private javax.swing.JButton btn_promptTicket;
 	// End of variables declaration//GEN-END:variables
 
 }

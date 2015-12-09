@@ -17,7 +17,7 @@
 --    You should have received a copy of the GNU General Public License
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
--- Database upgrade script for ORACLE 2.40.5 -> 2.40.6
+-- Database upgrade script for ORACLE 2.40.6 -> 2.40.7
 
 
 -- role update
@@ -27,14 +27,7 @@ UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Employee.xm
 UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Guest.xml} WHERE ID='3';
 
 -- resources
-UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Menu.Root.txt} WHERE NAME='Menu.Root';
 UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/ticket.save.txt} WHERE NAME='ticket.save';
-UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/ticket.addline.txt} WHERE NAME='ticket.addline';
-UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.Ticket.xml} WHERE NAME='Printer.Ticket';
-UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.TicketPreview.xml} WHERE NAME='Printer.TicketPreview';
-UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Ticket.Buttons.xml} WHERE NAME='Ticket.Buttons';
-INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Window.Logout', 0, $FILE{/com/openbravo/pos/templates/Window.Logout.txt});
-
 
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
-UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.6' WHERE ID = 'w4cashdb';
+UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.7' WHERE ID = 'w4cashdb';

@@ -238,7 +238,7 @@ public class StartPOS {
 						}
 					});
 					// panel.setBackground(Color.red);
-					JLabel label = new JLabel("Lizenz wurde nicht gefunden, w4cash schlieﬂt.");
+					JLabel label = new JLabel("Lizenz wurde nicht gefunden, w4cash wird beendet.");
 					label.setFont(new Font("Tahoma", Font.BOLD, 20));
 					label.setHorizontalAlignment(SwingConstants.CENTER);
 					label.setVerticalAlignment(SwingConstants.CENTER);

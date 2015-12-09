@@ -83,7 +83,7 @@ public class JTicketsBagSimple extends JTicketsBag {
 
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        m_jDelTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png")));
+        m_jDelTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/deleteTicket.png")));
         m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
         m_jDelTicket.setFocusPainted(false);
         m_jDelTicket.setFocusable(false);

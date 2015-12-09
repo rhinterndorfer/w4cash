@@ -32,11 +32,19 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
+import javax.accessibility.Accessible;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.Scrollable;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.RowSorterListener;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -73,9 +81,12 @@ public class JTicketLines extends javax.swing.JPanel {
 	private AppView m_App;
 
 	/** Creates new form JLinesTicket */
-	public JTicketLines(AppView app, String propertyHeight, String propertyFontsize, String ticketline) {
+	public JTicketLines(AppView app, String propertyRowHeight, String propertyFontsize, String ticketline) {
 		this.m_App = app;
 		initComponents();
+
+		m_jTicketTable.m_App = app;
+		m_jTicketTable.propertyRowHeight = propertyRowHeight;
 
 		ColumnTicket[] acolumns = new ColumnTicket[0];
 
@@ -98,10 +109,10 @@ public class JTicketLines extends javax.swing.JPanel {
 			}
 		}
 
-		m_jTableModel = new TicketTableModel(acolumns);
+		m_jTableModel = new TicketTableModel(acolumns, propertyRowHeight);
 		m_jTicketTable.setModel(m_jTableModel);
-
-		// m_jTicketTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		m_jTicketTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		TableColumnModel jColumns = m_jTicketTable.getColumnModel();
 		for (int i = 0; i < acolumns.length; i++) {
 			jColumns.getColumn(i).setPreferredWidth(acolumns[i].width);
@@ -114,7 +125,6 @@ public class JTicketLines extends javax.swing.JPanel {
 		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(app, acolumns, propertyFontsize));
 
 		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable, "sales-tablecolumn-fontsize", "14");
-		PropertyUtil.ScaleTableRowheight(m_App, m_jTicketTable, propertyHeight, "25");
 
 		m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -231,26 +241,23 @@ public class JTicketLines extends javax.swing.JPanel {
 		private ColumnTicket[] m_acolumns;
 		private AppView m_app;
 		private String propertyFontsize;
+		private String propertyRowHeight;
 
-		public TicketCellRenderer(AppView app, ColumnTicket[] acolumns, String sProperty) {
+		public TicketCellRenderer(AppView app, ColumnTicket[] acolumns, String sPropertyFontSize) {
 			m_acolumns = acolumns;
 			m_app = app;
-			propertyFontsize = sProperty;
+			propertyFontsize = sPropertyFontSize;
 		}
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-
 			JLabel aux = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			aux.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 			aux.setHorizontalAlignment(m_acolumns[column].align);
 
-			// fontsize = Integer.parseInt(PropertyUtil.getProperty(m_app,
-			// "Ticket.Buttons", sProperty, "25"));
-
 			PropertyUtil.ScaleTableLabelFontsize(m_app, aux, propertyFontsize, "25");
-			// aux.setBorder(BorderFactory.createEmptyBorder(3,0,3,0));
+
 			return aux;
 		}
 	}
@@ -261,7 +268,7 @@ public class JTicketLines extends javax.swing.JPanel {
 		private ColumnTicket[] m_acolumns;
 		private ArrayList m_rows = new ArrayList();
 
-		public TicketTableModel(ColumnTicket[] acolumns) {
+		public TicketTableModel(ColumnTicket[] acolumns, String propertyRowHeight) {
 			m_acolumns = acolumns;
 		}
 
@@ -290,6 +297,21 @@ public class JTicketLines extends javax.swing.JPanel {
 		@Override
 		public boolean isCellEditable(int row, int column) {
 			return false;
+		}
+
+		@Override
+		public void fireTableRowsInserted(int firstRow, int lastRow) {
+			super.fireTableRowsInserted(firstRow, lastRow);
+		}
+
+		@Override
+		public void fireTableCellUpdated(int row, int column) {
+			super.fireTableCellUpdated(row, column);
+		}
+
+		@Override
+		public void fireTableRowsDeleted(int firstRow, int lastRow) {
+			super.fireTableRowsDeleted(firstRow, lastRow);
 		}
 
 		public void clear() {
@@ -396,6 +418,46 @@ public class JTicketLines extends javax.swing.JPanel {
 		public String value;
 	}
 
+	public class JTableEx extends JTable {
+		public AppView m_App;
+		public String propertyRowHeight;
+
+		@Override
+		public void tableChanged(TableModelEvent e) {
+			super.tableChanged(e);
+
+			if (m_App != null && propertyRowHeight != null && e.getLastRow() >= 0
+					&& (e.getType() == TableModelEvent.UPDATE || e.getType() == TableModelEvent.INSERT)) {
+				
+				for (int i = 0; i < this.getModel().getRowCount(); i++) {
+					Object val = this.getModel().getValueAt(i, 0);
+					PropertyUtil.ScaleTableRowheight(m_App, this, i,
+							getValueLines(val != null ? val.toString() : ""), propertyRowHeight, "35");
+					
+				}
+			}
+
+		}
+
+		private int getValueLines(String val) {
+			int multiply = 1;
+			String[] parts = val.split("\n");
+			if (parts.length <= 1)
+				parts = val.split("<br/>");
+			if (parts.length <= 1)
+				parts = val.split("<br>");
+
+			if (parts.length > 1) {
+				for (int i = 1; i < parts.length; i++) {
+					multiply++;
+				}
+			}
+
+			return multiply;
+		}
+
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -405,7 +467,7 @@ public class JTicketLines extends javax.swing.JPanel {
 	// ">//GEN-BEGIN:initComponents
 	private void initComponents() {
 		m_jScrollTableTicket = new javax.swing.JScrollPane();
-		m_jTicketTable = new javax.swing.JTable();
+		m_jTicketTable = new JTableEx();
 
 		setLayout(new java.awt.BorderLayout());
 
@@ -423,7 +485,7 @@ public class JTicketLines extends javax.swing.JPanel {
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JScrollPane m_jScrollTableTicket;
-	private javax.swing.JTable m_jTicketTable;
+	private JTableEx m_jTicketTable;
 	// End of variables declaration//GEN-END:variables
 
 }

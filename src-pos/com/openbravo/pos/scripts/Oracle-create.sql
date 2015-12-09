@@ -18,7 +18,7 @@
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
 -- Database script for ORACLE
--- V2.40.5 (set in line 30!!!)
+-- V2.40.7 (set in line 30!!!)
 
 CREATE TABLE APPLICATIONS (
     ID VARCHAR2(256) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE APPLICATIONS (
     PRIMARY KEY (ID)
 );
 INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.40.5');
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.40.7');
 
 CREATE TABLE ROLES (
     ID VARCHAR2(256) NOT NULL,
@@ -104,6 +104,7 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('32', 'ticket.addline',
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'ticket.close', 0, $FILE{/com/openbravo/pos/templates/ticket.close.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('34', 'Reports.Address', 0, $FILE{/com/openbravo/pos/templates/reports.address.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('35', 'Script.DiscountPercentLine', 0, $FILE{/com/openbravo/pos/templates/Script.DiscountPercentLine.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Window.Logout', 0, $FILE{/com/openbravo/pos/templates/Window.Logout.txt});
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,

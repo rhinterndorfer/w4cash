@@ -241,7 +241,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				}
 
 				script.put("ticket", m_ticket);
-//				script.put("place", "ticketext");
+				script.put("place", ""); // put empty place
 				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview");
 				Object o = script.eval(asxml);
 				m_TTP.printTicket(o.toString());
@@ -482,6 +482,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 					}
 				}
 				script.put("ticket", m_ticket);
+				script.put("place", ""); // put empty place
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
 			} catch (ScriptException e) {
 				JMessageDialog.showMessage(m_App, this,

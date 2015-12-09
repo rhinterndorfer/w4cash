@@ -181,7 +181,7 @@ public class JTicketsBagShared extends JTicketsBag {
 		jPanel1.add(m_jNewTicket);
 
 		m_jDelTicket
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png")));
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/deleteTicket.png")));
         m_jDelTicket.setText(AppLocal.getIntString("Button.DeleteTicket")); // NOI18N
 		m_jDelTicket.setFocusPainted(false);
 		m_jDelTicket.setFocusable(false);

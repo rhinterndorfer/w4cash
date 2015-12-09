@@ -38,7 +38,6 @@ import com.openbravo.editor.JEditorString;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
 
 public class PropertyUtil {
 
@@ -205,9 +204,9 @@ public class PropertyUtil {
 		}
 		try {
 			int fontsize = Integer.parseInt(value);
-			Font font = label.getBFont();
-			label.setBFont(new Font(font.getName(), font.getStyle(), fontsize));
-			label.setBSize((int) label.getSize().getWidth(), fontsize);
+			Font font = label.getFont();
+			label.setFont(new Font(font.getName(), font.getStyle(), fontsize));
+			label.setSize((int) label.getSize().getWidth(), fontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -222,9 +221,9 @@ public class PropertyUtil {
 		try {
 			int fontsize = Integer.parseInt(value);
 
-			Font font = label.getBFont();
-			label.setBFont(new Font(font.getName(), font.getStyle(), fontsize));
-			label.setBSize((int) label.getSize().getWidth(), fontsize);
+			Font font = label.getFont();
+			label.setFont(new Font(font.getName(), font.getStyle(), fontsize));
+			label.setSize((int) label.getSize().getWidth(), fontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -239,9 +238,9 @@ public class PropertyUtil {
 		try {
 			int fontsize = Integer.parseInt(value);
 
-			Font font = unit.getBFont();
-			unit.setBFont(new Font(font.getName(), font.getStyle(), fontsize));
-			unit.setBSize((int) unit.getSize().getWidth(), fontsize);
+			Font font = unit.getFont();
+			unit.setFont(new Font(font.getName(), font.getStyle(), fontsize));
+			unit.setSize((int) unit.getSize().getWidth(), fontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -380,7 +379,7 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleTableRowheight(AppView app, final JTable table, String key, String defaultValue) {
+	public static void ScaleTableRowheight(AppView app, final JTable table, int row, int multiply, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -388,7 +387,7 @@ public class PropertyUtil {
 		}
 		try {
 			int size = Integer.parseInt(value);
-			table.setRowHeight(size);
+			table.setRowHeight(row, size * multiply);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}

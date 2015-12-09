@@ -60,15 +60,11 @@ import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.JRPrinterAWT300;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
-
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.print.PrintService;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -154,6 +150,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_ticketlines = new JTicketLines(app, "sales-producttable-lineheight", "sales-producttable-fontsize",
 				dlSystem.getResourceAsXML("Ticket.Line"));
 		m_jPanelCentral.add(m_ticketlines, java.awt.BorderLayout.CENTER);
+		m_ticketlines.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+					int i = m_ticketlines.getSelectedIndex();
+					if (i >= 0) {
+						TicketLineInfo line = m_oTicket.getLine(i);
+						String setId = line.getProductAttSetId();
+						if (setId != null)
+							jEditAttributes.setEnabled(true);
+						else
+							jEditAttributes.setEnabled(false);
+					}
+					else
+						jEditAttributes.setEnabled(false);
+				}
+			}
+		});
 
 		m_TTP = new TicketParser(m_App.getDeviceTicket(), dlSystem);
 
@@ -1362,7 +1375,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// btnCustomer.setIcon(new
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png")));
 		// // NOI18N
-		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
+		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png"))); // NOI18N
 		btnCustomer.setText(AppLocal.getIntString("label.customer"));
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
@@ -1378,7 +1391,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// btnSplit.setIcon(new
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editcut.png")));
 		// // NOI18N
-		btnSplit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editcut1.png"))); // NOI18N
+		btnSplit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/splitTicket.png"))); // NOI18N
 		btnSplit.setText(AppLocal.getIntString("caption.split"));
 		btnSplit.setFocusPainted(false);
 		btnSplit.setFocusable(false);
@@ -1488,7 +1501,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		jPanel2.add(m_jEditLine, layoutData);
 
 		jEditAttributes
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/colorize.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/colorize25.png"))); // NOI18N
 		jEditAttributes.setFocusPainted(false);
 		jEditAttributes.setFocusable(false);
 		// jEditAttributes.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -1501,8 +1514,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		});
 		PropertyUtil.setGridBagConstraints(layoutData, 0, 3, GridBagConstraints.NONE);
 		jPanel2.add(jEditAttributes, layoutData);
-		// invisible
-		jEditAttributes.setVisible(false);
 
 		jPanel5.add(jPanel2, java.awt.BorderLayout.NORTH);
 
@@ -1797,14 +1808,31 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			try {
 				TicketLineInfo line = m_oTicket.getLine(i);
 				JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(m_App, this, m_App.getSession());
-				attedit.editAttributes(line.getProductAttSetId(), line.getProductAttSetInstId());
+				attedit.editAttributes(line.getProductAttSetId(), line.getProductAttSetInstId(), line.getMultiply() > 1);
 				attedit.scaleFont(Integer.parseInt(m_jbtnconfig.getProperty("common-dialog-fontsize", "22")));
 				attedit.setVisible(true);
 				if (attedit.isOK()) {
 					// The user pressed OK
-					line.setProductAttSetInstId(attedit.getAttributeSetInst());
-					line.setProductAttSetInstDesc(attedit.getAttributeSetInstDescription());
-					paintTicketLine(i, line);
+					// check amount
+					// if amount > 1 add new line
+					if(line.getMultiply() > 1 && attedit.isForSingleProduct)
+					{
+						line.setMultiply(line.getMultiply()-1);
+						paintTicketLine(i, line);
+						
+						TicketLineInfo newLine = line.copyTicketLine();
+						newLine.setMultiply(1);
+						newLine.setProductAttSetInstId(attedit.getAttributeSetInst());
+						newLine.setProductAttSetInstDesc(attedit.getAttributeSetInstDescription());
+						addTicketLine(newLine);
+						
+					}
+					else
+					{
+						line.setProductAttSetInstId(attedit.getAttributeSetInst());
+						line.setProductAttSetInstDesc(attedit.getAttributeSetInstDescription());
+						paintTicketLine(i, line);
+					}
 				}
 			} catch (BasicException ex) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
