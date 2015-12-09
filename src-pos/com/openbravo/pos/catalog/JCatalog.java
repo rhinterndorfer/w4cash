@@ -119,7 +119,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		// delete all categories panel
 		m_jProducts.removeAll();
-
+		m_jCategoryList.removeAll();
+		jcategoryTab = null;
 		m_productsset.clear();
 		m_categoriesset.clear();
 
