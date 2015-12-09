@@ -135,6 +135,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 
 		setVisibleFilter(true);
 		taxeslogic = new TaxesLogic(taxsent.list());
+//		launchreport();
 	}
 
 	public boolean deactivate() {

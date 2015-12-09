@@ -22,6 +22,7 @@ package com.openbravo.pos.catalog;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import com.openbravo.basic.BasicException;
+import com.openbravo.pos.ticket.CategoryInfo;
 
 /**
  *
@@ -38,5 +39,5 @@ public interface CatalogSelector {
     public void removeActionListener(ActionListener l);
 	public void setCatWidth(int parseInt);
 	public void ScaleButtonIcons(int parseInt, int parseInt2);
-	
+//	public void valueChanged(CategoryInfo category);
 }

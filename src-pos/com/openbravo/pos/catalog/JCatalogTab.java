@@ -33,13 +33,14 @@ import com.openbravo.pos.util.PropertyUtil;
 public class JCatalogTab extends javax.swing.JPanel {
 
 	private JFlowPanel flowpanel;
+	private JScrollPane scroll;
 
 	/** Creates new form JCategoryProducts */
 	public JCatalogTab(AppView app) {
 		initComponents();
 
 		flowpanel = new JFlowPanel();
-		JScrollPane scroll = new JScrollPane(flowpanel);
+		this.scroll = new JScrollPane(flowpanel);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		PropertyUtil.ScaleScrollbar(app, scroll);
@@ -47,6 +48,10 @@ public class JCatalogTab extends javax.swing.JPanel {
 		add(scroll, BorderLayout.CENTER);
 	}
 
+	protected JScrollPane getScrollPane(){
+		return this.scroll;
+	}
+	
 	public void setEnabled(boolean value) {
 		flowpanel.setEnabled(value);
 		super.setEnabled(value);
