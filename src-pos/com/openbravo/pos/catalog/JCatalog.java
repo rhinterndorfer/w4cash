@@ -346,6 +346,10 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			this.previousCategory = null;
 			this.selectedCategory = this.mainCategory;
 		}
+		else if(this.previousCategory == mainCategory){
+			this.previousCategory = null;
+			this.selectedCategory = mainCategory;
+		}
 
 		if (this.previousCategory != null) {
 			selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(this.previousCategory.getImage())),
