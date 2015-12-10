@@ -64,9 +64,11 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	private CategoryInfo showingcategory = null;
 	private CategoryInfo selectedCategory = null;
+	private CategoryInfo mainCategory = null;
 	private CategoryInfo previousCategory = null;
 
 	private AppView m_App;
+
 	private JCatalogTab jcategoryTab;
 
 	/** Creates new form JCatalog */
@@ -148,6 +150,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			m_jscrollcat.setVisible(true);
 			jPanel2.setVisible(true);
 			this.selectedCategory = categories.get(0);
+			this.mainCategory = categories.get(0);
 			selectCategoryPanel(selectedCategory);
 			// m_jListCategories.setSelectedIndex(0);
 		}
@@ -272,7 +275,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private void selectCategoryPanel(CategoryInfo catid) {
 
 		try {
-
 			// Load categories panel if not exists
 			if (!m_categoriesset.contains(catid.getID())) {
 				JCatalogTab jcurrTab = new JCatalogTab(m_App);
@@ -299,6 +301,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			}
 			// HB select actual categorie
 			this.selectedCategory = catid;
+
 			// Show categories panel
 			CardLayout cl = (CardLayout) (m_jProducts.getLayout());
 			cl.show(m_jProducts, catid.getID());
@@ -339,21 +342,27 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	}
 
 	private void showPreviousCategoriesPanel() {
-		if (this.previousCategory != null) {
+		if (this.previousCategory == this.selectedCategory) {
+			this.previousCategory = null;
+			this.selectedCategory = this.mainCategory;
+		}
 
-			// Show subcategories panel
-			selectIndicatorCategories();
+		if (this.previousCategory != null) {
+			selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(this.previousCategory.getImage())),
+					this.previousCategory.getName());
+					// Show subcategories panel
+					// selectIndicatorCategories();
 
 			// Show selected root category
 			CategoryInfo cat = (CategoryInfo) this.previousCategory;
 
 			if (cat != null) {
 				selectCategoryPanel(cat);
-				this.selectedCategory = cat;
 			}
 
 			showingcategory = null;
 		} else {
+			selectIndicatorCategories();
 			showRootCategoriesPanel();
 		}
 	}
@@ -372,6 +381,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	private void showSubcategoryPanel(CategoryInfo category) {
 		selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(category.getImage())), category.getName());
+		previousCategory = this.selectedCategory;
 		selectCategoryPanel(category);
 		showingcategory = category;
 	}
@@ -384,7 +394,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			if (m_productsset.containsKey(id)) {
 				// It is an empty panel
 				if (showingcategory == null) {
-					showPreviousCategoriesPanel();
+					showRootCategoriesPanel();
 				} else {
 					showSubcategoryPanel(showingcategory);
 				}
@@ -704,6 +714,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		// store selection for navigation backwards
 		this.previousCategory = cat;
+		this.mainCategory = cat;
 		// }
 
 	}// GEN-LAST:event_m_jListCategoriesValueChanged
