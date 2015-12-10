@@ -28,8 +28,10 @@ import javax.swing.SwingConstants;
 import com.openbravo.data.gui.NullIcon;
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.SerializableRead;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.mant.JPlaceButton;
 import com.openbravo.pos.mant.PlacesEditor;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.basic.BasicException;
 
 public class Place implements SerializableRead, java.io.Serializable {
@@ -39,6 +41,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private static final Icon ICO_FRE = new NullIcon(22, 22);
 
 	private String m_sId;
+
 	public String getSId() {
 		return m_sId;
 	}
@@ -48,10 +51,11 @@ public class Place implements SerializableRead, java.io.Serializable {
 	}
 
 	private String m_sName;
+
 	public String getSName() {
 		return m_sName;
 	}
-	
+
 	public void setSName(String m_sName) {
 		this.m_sName = m_sName;
 	}
@@ -121,10 +125,16 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setIcon(bValue ? ICO_OCU : ICO_FRE);
 	}
 
-	public void setButtonBounds() {
-		Dimension d = m_btn.getPreferredSize();
-//		m_btn.setBounds(m_ix - d.width / 2, m_iy - d.height / 2, d.width, d.height);
-		m_btn.setBounds(m_ix , m_iy , d.width, d.height);
+	public void setButtonBounds(AppView app) {
+		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-width", "60"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-height", "40"));
+		// int fontsize = Integer.parseInt(PropertyUtil.getProperty(app,
+		// "Ticket.Buttons", "button-small-fontsize", "16"));
+
+		// Dimension d = m_btn.getPreferredSize();
+		// m_btn.setBounds(m_ix - d.width / 2, m_iy - d.height / 2, d.width,
+		// d.height);
+		m_btn.setBounds(m_ix, m_iy, width, height);
 	}
 
 	public void setX(int x) {

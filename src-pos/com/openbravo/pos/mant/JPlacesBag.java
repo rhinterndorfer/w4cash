@@ -39,7 +39,8 @@ public abstract class JPlacesBag extends JPanel {
 	protected abstract JComponent getNullComponent();
 
 	public abstract void ScaleButtons();
-	
+
+	public abstract Place[] getPlaces();
 
 	public static JPlacesBag createPlacesBag(String sName, AppView app, PlacesEditor editor) {
 

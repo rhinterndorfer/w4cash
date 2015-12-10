@@ -126,4 +126,10 @@ public class JPlacesBagSimple extends JPlacesBag {
 		
 	}
 
+	@Override
+	public Place[] getPlaces() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

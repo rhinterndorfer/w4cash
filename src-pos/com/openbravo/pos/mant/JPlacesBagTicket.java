@@ -535,4 +535,10 @@ public class JPlacesBagTicket extends JPlacesBag {
 		return null;
 	}
 
+	@Override
+	public Place[] getPlaces() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

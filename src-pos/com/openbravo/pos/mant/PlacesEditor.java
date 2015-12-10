@@ -36,6 +36,7 @@ import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.sales.restaurant.Place;
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -171,7 +172,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel1 = new javax.swing.JLabel();
 		m_jFloor = new javax.swing.JComboBox();
 		m_placesBag = JPlacesBag.createPlacesBag(m_App.getProperties().getProperty("machine.ticketsbag"), m_App, this);
-		
+
 		setLayout(null);
 
 		jLabel2.setText(AppLocal.getIntString("Label.Name"));
@@ -198,7 +199,6 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		add(m_jFloor);
 		m_jFloor.setBounds(110, 50, 170, 20);
 
-		
 		add(m_placesBag);
 		m_placesBag.setBounds(20, 110, 1000, 750);
 
@@ -215,7 +215,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 					Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
 					place.setX(x);
 					place.setY(y);
-					place.setButtonBounds();
+					place.setButtonBounds(m_App);
 				} catch (NumberFormatException exc) {
 
 				}
@@ -235,7 +235,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 					Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
 					place.setX(x);
 					place.setY(y);
-					place.setButtonBounds();
+					place.setButtonBounds(m_App);
 				} catch (NumberFormatException exc) {
 
 				}
@@ -281,8 +281,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

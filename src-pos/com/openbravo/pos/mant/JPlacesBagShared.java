@@ -273,4 +273,10 @@ public class JPlacesBagShared extends JPlacesBag {
 		PropertyUtil.ScaleButtonIcon(m_jNewTicket, width, height, fontsize);
 	}
 
+	@Override
+	public Place[] getPlaces() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

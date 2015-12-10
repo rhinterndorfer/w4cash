@@ -63,7 +63,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 	public JPlacesBagRestaurantMap(AppView app, PlacesEditor editor) {
 
 		super(app/* , panelticket */);
-		
+
 		dlReceipts = (DataLogicReceipts) app.getBean("com.openbravo.pos.sales.DataLogicReceipts");
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 
@@ -154,7 +154,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			}
 
 			currfloor.getContainer().add(pl.getButton());
-			pl.setButtonBounds();
+			pl.setButtonBounds(m_App);
 			pl.setEditor(editor);
 			// pl.getButton().addActionListener(new MyActionListener(pl));
 		}
@@ -299,7 +299,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			try {
 				dlReceipts.deleteSharedTicket(id);
 			} catch (BasicException e) {
-				new MessageInf(e).show(m_App,this);
+				new MessageInf(e).show(m_App, this);
 			}
 
 			m_PlaceCurrent.setPeople(false);
@@ -323,7 +323,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 				atickets.add(ticket.getId());
 			}
 		} catch (BasicException e) {
-			new MessageInf(e).show(m_App,this);
+			new MessageInf(e).show(m_App, this);
 		}
 
 		for (Place table : m_aplaces) {
@@ -371,7 +371,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		try {
 			return dlReceipts.getSharedTicket(place.getId());
 		} catch (BasicException e) {
-			new MessageInf(e).show(m_App,JPlacesBagRestaurantMap.this);
+			new MessageInf(e).show(m_App, JPlacesBagRestaurantMap.this);
 			return null;
 		}
 	}
@@ -494,8 +494,12 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 	@Override
 	public void ScaleButtons() {
-	
-		
+
+	}
+
+	@Override
+	public Place[] getPlaces() {
+		return this.m_aplaces.toArray(new Place[0]);
 	}
 
 	// private javax.swing.JButton m_jbtnRefresh;
