@@ -175,7 +175,7 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-		PropertyUtil.ScaleDialog(m_App, this, 340, 272);
+		PropertyUtil.ScaleDialog(m_App, this, 440, 400);
 
 //		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 //		setBounds((screenSize.width - 340) / 2, (screenSize.height - 272) / 2, 340, 272);

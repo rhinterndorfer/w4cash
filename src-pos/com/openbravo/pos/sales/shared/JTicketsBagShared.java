@@ -167,6 +167,7 @@ public class JTicketsBagShared extends JTicketsBag {
 		setLayout(new java.awt.BorderLayout());
 
 		m_jNewTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editnew.png")));
+		m_jNewTicket.setText(AppLocal.getIntString("Button.NewTicket"));
 		m_jNewTicket.setFocusPainted(false);
 		m_jNewTicket.setFocusable(false);
 		// m_jNewTicket.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -198,6 +199,7 @@ public class JTicketsBagShared extends JTicketsBag {
 
 		m_jListTickets
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/unsortedList.png")));
+		m_jListTickets.setText(AppLocal.getIntString("caption.tickets"));
 		m_jListTickets.setFocusPainted(false);
 		m_jListTickets.setFocusable(false);
 		// m_jListTickets.setMargin(new java.awt.Insets(8, 14, 8, 14));

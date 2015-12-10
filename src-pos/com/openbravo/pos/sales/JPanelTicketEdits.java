@@ -62,7 +62,6 @@ public class JPanelTicketEdits extends JPanelTicket {
 	}
 
 	protected Component getSouthComponent() {
-
 		m_catandlines = new JTicketCatalogLines(m_App, this, "true".equals(m_jbtnconfig.getProperty("pricevisible")),
 				"true".equals(m_jbtnconfig.getProperty("taxesincluded")),
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-width", "64")),
