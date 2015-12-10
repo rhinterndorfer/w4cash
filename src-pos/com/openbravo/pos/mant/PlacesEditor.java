@@ -255,7 +255,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		int index = 0;
 		for (int i = 0; i < listmodel.getSize(); i++) {
 			Object[] element = (Object[]) listmodel.getElementAt(i);
-			int id = Integer.parseInt((String) element[0]);
+			String id = element[0].toString();
 			if (place.getId().equals(element[0])) {
 				break;
 			}
