@@ -70,20 +70,25 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private AppView m_App;
 
 	private JCatalogTab jcategoryTab;
+	private int productFontSize;
+	private int catFontSize;
 
 	/** Creates new form JCatalog */
 	public JCatalog(AppView app, DataLogicSales dlSales) {
-		this(app, dlSales, false, false, 64, 54, 32, 32);
+		this(app, dlSales, false, false, 64, 54, 32, 32, 12,12);
 	}
 
 	public JCatalog(AppView app, DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int widthProduct,
-			int heightProduct, int widthCat, int heightCat) {
+			int heightProduct, int widthCat, int heightCat, int productFont, int catFont) {
 
 		m_App = app;
 		m_dlSales = dlSales;
 		this.pricevisible = pricevisible;
 		this.taxesincluded = taxesincluded;
 
+		this.productFontSize = productFont;
+		this.catFontSize = catFont;
+		
 		initComponents();
 
 		// m_jListCategories.addListSelectionListener(this);

@@ -67,7 +67,9 @@ public class JPanelTicketEdits extends JPanelTicket {
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-width", "64")),
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-height", "54")),
 				Integer.parseInt(m_jbtnconfig.getProperty("category-img-width", "32")),
-				Integer.parseInt(m_jbtnconfig.getProperty("category-img-height", "32")));
+				Integer.parseInt(m_jbtnconfig.getProperty("category-img-height", "32")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-product-fontsize", "12")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-category-fontsize", "12")));
 		m_catandlines
 				.setPreferredSize(new Dimension(0, Integer.parseInt(m_jbtnconfig.getProperty("cat-height", "245"))));
 		m_catandlines.addActionListener(new CatalogListener());

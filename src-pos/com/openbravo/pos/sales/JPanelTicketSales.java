@@ -30,6 +30,8 @@ import com.openbravo.pos.catalog.JCatalog;
 import com.openbravo.pos.catalog.JCatalog2;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.ticket.ProductInfoExt;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.Dimension;
 
 public class JPanelTicketSales extends JPanelTicket {
@@ -56,8 +58,9 @@ public class JPanelTicketSales extends JPanelTicket {
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-width", "64")),
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-height", "54")),
 				Integer.parseInt(m_jbtnconfig.getProperty("category-img-width", "32")),
-				Integer.parseInt(m_jbtnconfig.getProperty("category-img-height", "32"))
-
+				Integer.parseInt(m_jbtnconfig.getProperty("category-img-height", "32")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-product-fontsize", "12")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-category-fontsize", "12"))
 		);
 		m_cat.addActionListener(new CatalogListener());
 		m_cat.setCatWidth(Integer.parseInt(m_jbtnconfig.getProperty("cat-width", "275")));
