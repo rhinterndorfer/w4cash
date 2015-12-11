@@ -75,7 +75,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	/** Creates new form JCatalog */
 	public JCatalog(AppView app, DataLogicSales dlSales) {
-		this(app, dlSales, false, false, 64, 54, 32, 32, 12,12);
+		this(app, dlSales, false, false, 64, 54, 32, 32, 12, 12);
 	}
 
 	public JCatalog(AppView app, DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int widthProduct,
@@ -88,7 +88,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		this.productFontSize = productFont;
 		this.catFontSize = catFont;
-		
+
 		initComponents();
 
 		// m_jListCategories.addListSelectionListener(this);
@@ -199,7 +199,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			// Add products
 			// for (ProductInfoExt prod : products) {
 			jcategoryTab.addButton(new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName())),
-					new SelectedCategoryMain(category));
+					new SelectedCategoryMain(category), catFontSize);
 					// }
 
 			// selectIndicatorPanel(new
@@ -293,7 +293,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID());
 				for (CategoryInfo cat : categories) {
 					jcurrTab.addButton(new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName())),
-							new SelectedCategory(cat));
+							new SelectedCategory(cat), catFontSize);
 				}
 
 				// Add products
@@ -301,7 +301,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				for (ProductInfoExt prod : products) {
 					jcurrTab.addButton(
 							new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))),
-							new SelectedAction(prod));
+							new SelectedAction(prod), productFontSize);
 				}
 			}
 			// HB select actual categorie
@@ -350,8 +350,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		if (this.previousCategory == this.selectedCategory) {
 			this.previousCategory = null;
 			this.selectedCategory = this.mainCategory;
-		}
-		else if(this.previousCategory == mainCategory){
+		} else if (this.previousCategory == mainCategory) {
 			this.previousCategory = null;
 			this.selectedCategory = mainCategory;
 		}
@@ -437,7 +436,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						for (ProductInfoExt prod : products) {
 							jcurrTab.addButton(
 									new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))),
-									new SelectedAction(prod));
+									new SelectedAction(prod), productFontSize);
 						}
 
 						selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(product.getImage())),

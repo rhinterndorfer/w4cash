@@ -57,7 +57,7 @@ public class JCatalogTab extends javax.swing.JPanel {
 		super.setEnabled(value);
 	}
 
-	public void addButton(Icon ico, ActionListener al) {
+	public void addButton(Icon ico, ActionListener al, int fontsize) {
 		JButton btn = new JButton();
 		btn.applyComponentOrientation(getComponentOrientation());
 		btn.setIcon(ico);
