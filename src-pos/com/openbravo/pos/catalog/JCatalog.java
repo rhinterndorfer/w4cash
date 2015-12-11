@@ -198,8 +198,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			}
 			// Add products
 			// for (ProductInfoExt prod : products) {
-			jcategoryTab.addButton(new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName())),
-					new SelectedCategoryMain(category), catFontSize);
+			jcategoryTab.addButton(new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)),
+					new SelectedCategoryMain(category));
 					// }
 
 			// selectIndicatorPanel(new
@@ -292,16 +292,17 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				// Add subcategories
 				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID());
 				for (CategoryInfo cat : categories) {
-					jcurrTab.addButton(new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName())),
-							new SelectedCategory(cat), catFontSize);
+					jcurrTab.addButton(
+							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),
+							new SelectedCategory(cat));
 				}
 
 				// Add products
 				java.util.List<ProductInfoExt> products = m_dlSales.getProductCatalog(catid.getID());
 				for (ProductInfoExt prod : products) {
-					jcurrTab.addButton(
-							new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))),
-							new SelectedAction(prod), productFontSize);
+					jcurrTab.addButton(new ImageIcon(
+							tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod), productFontSize)),
+							new SelectedAction(prod));
 				}
 			}
 			// HB select actual categorie
@@ -434,9 +435,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 						// Add products
 						for (ProductInfoExt prod : products) {
-							jcurrTab.addButton(
-									new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))),
-									new SelectedAction(prod), productFontSize);
+							jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(),
+									getProductLabel(prod), productFontSize)), new SelectedAction(prod));
 						}
 
 						selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(product.getImage())),
@@ -648,7 +648,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				boolean cellHasFocus) {
 			super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
 			CategoryInfo cat = (CategoryInfo) value;
-			ImageIcon icon = new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName()));
+			ImageIcon icon = new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), productFontSize));
 			if (icon.getIconWidth() > 50) {
 				setIcon(icon);
 				setText("");

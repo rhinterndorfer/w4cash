@@ -149,7 +149,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 		public void addButton(String image, double amount) {
 			JButton btn = new JButton();
 			btn.setIcon(new ImageIcon(tnbbutton.getThumbNailText(dlSystem.getResourceAsImage(image),
-					Formats.CURRENCY.formatValue(amount))));
+					Formats.CURRENCY.formatValue(amount), 12)));
 			btn.setFocusPainted(false);
 			btn.setFocusable(false);
 			btn.setRequestFocusEnabled(false);
@@ -219,7 +219,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jMoneyEuros.setOpaque(true);
-//		m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		// m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(150, 25));
 		jPanel4.add(m_jMoneyEuros);
 
 		jLabel6.setText(AppLocal.getIntString("Label.ChangeCash")); // NOI18N
@@ -232,7 +232,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jChangeEuros.setOpaque(true);
-//		m_jChangeEuros.setPreferredSize(new java.awt.Dimension(150, 25));
+		// m_jChangeEuros.setPreferredSize(new java.awt.Dimension(150, 25));
 		jPanel4.add(m_jChangeEuros);
 
 		jPanel5.add(jPanel4, java.awt.BorderLayout.NORTH);
