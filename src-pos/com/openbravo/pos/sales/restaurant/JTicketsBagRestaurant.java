@@ -22,6 +22,8 @@ package com.openbravo.pos.sales.restaurant;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import com.openbravo.data.gui.JConfirmDialog;
+import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
@@ -146,9 +148,9 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	}// GEN-LAST:event_jButton2ActionPerformed
 
 	private void m_jDelTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDelTicketActionPerformed
+		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"),
+				null);
 
-		int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"),
-				AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (res == JOptionPane.YES_OPTION) {
 			m_restaurant.deleteTicket();
 		}

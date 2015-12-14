@@ -26,6 +26,8 @@ import java.util.*;
 import javax.swing.*;
 
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.gui.JConfirmDialog;
+import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.sales.*;
 import com.openbravo.pos.forms.*;
@@ -242,9 +244,8 @@ public class JTicketsBagShared extends JTicketsBag {
 	}// GEN-LAST:event_m_jListTicketsActionPerformed
 
 	private void m_jDelTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDelTicketActionPerformed
-
-		int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"),
-				AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"),
+				null);
 		if (res == JOptionPane.YES_OPTION) {
 			deleteTicket();
 		}
