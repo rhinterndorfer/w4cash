@@ -55,6 +55,8 @@ public class JMessageDialog extends javax.swing.JDialog {
         }
     }
     
+  
+    
     public static void showMessage(AppView app, Component parent, MessageInf inf) {
         
         Window window = getWindow(parent);      

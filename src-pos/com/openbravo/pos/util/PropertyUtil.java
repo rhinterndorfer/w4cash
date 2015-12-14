@@ -246,6 +246,16 @@ public class PropertyUtil {
 		}
 	}
 
+	public static void ScaleLabelIcon(AppView app, JLabel label, int width, int height){
+		if (label.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(label.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(label.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
+					Image.SCALE_SMOOTH);
+			label.setIcon(new javax.swing.ImageIcon(img));
+		}
+	}
+	
 	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
