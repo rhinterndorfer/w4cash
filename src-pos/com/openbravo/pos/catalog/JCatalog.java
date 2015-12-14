@@ -104,12 +104,14 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	}
 
 	@Override
-	public void ScaleButtonIcons(int width, int height) {
+	public void ScaleButtonIcons() {
+		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "category-img-width", "32"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "category-img-height", "32"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
-		PropertyUtil.ScaleButtonIcon(m_jUp, width, height, fontsize);
-		PropertyUtil.ScaleButtonIcon(m_jDown, width, height, fontsize);
+		// PropertyUtil.ScaleButtonIcon(m_jUp, width, height, fontsize);
+		// PropertyUtil.ScaleButtonIcon(m_jDown, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_btnBack1, width, height, fontsize);
 		// ScaleButtonIcon(btn, width, height);
 	}
@@ -198,7 +200,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			}
 			// Add products
 			// for (ProductInfoExt prod : products) {
-			jcategoryTab.addButton(new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)),
+			jcategoryTab.addButton(
+					new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)),
 					new SelectedCategoryMain(category));
 					// }
 
@@ -472,8 +475,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		// m_jListCategories = new javax.swing.JList();
 		jPanel2 = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
-		m_jUp = new javax.swing.JButton();
-		m_jDown = new javax.swing.JButton();
+		// m_jUp = new javax.swing.JButton();
+		// m_jDown = new javax.swing.JButton();
 		m_jSubCategories = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
 		m_lblIndicator = new javax.swing.JLabel();
@@ -740,12 +743,12 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private javax.swing.JPanel jPanel5;
 	private javax.swing.JButton m_btnBack1;
 	private javax.swing.JPanel m_jCategories;
-	private javax.swing.JButton m_jDown;
+	// private javax.swing.JButton m_jDown;
 	// private javax.swing.JList m_jListCategories;
 	private javax.swing.JPanel m_jProducts;
 	private javax.swing.JPanel m_jRootCategories;
 	private javax.swing.JPanel m_jSubCategories;
-	private javax.swing.JButton m_jUp;
+	// private javax.swing.JButton m_jUp;
 	private javax.swing.JScrollPane m_jscrollcat;
 	private javax.swing.JLabel m_lblIndicator;
 	// End of variables declaration//GEN-END:variables

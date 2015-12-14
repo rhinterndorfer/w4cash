@@ -84,7 +84,12 @@ public class LocationsPanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}      
+	
+	@Override
+	public int getSortColumnIndex() {
+		return -1;
+	}
+	
 }

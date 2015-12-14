@@ -480,7 +480,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
 
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-small-fontsize", "22");
+		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtTaxID, "common-dialog-fontsize", "22");
 
 	}

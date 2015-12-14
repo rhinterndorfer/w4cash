@@ -119,4 +119,5 @@ public class AttributeUsePanel extends JPanelTable2 {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }

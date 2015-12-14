@@ -60,4 +60,9 @@ public abstract class JPanelTable2 extends JPanelTable {
     public final ListCellRenderer getListCellRenderer() {
         return row.getListCellRenderer();
     } 
+    
+    @Override
+	public int getSortColumnIndex() {
+		return -1;
+	}
 }

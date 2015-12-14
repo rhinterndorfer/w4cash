@@ -66,8 +66,7 @@ public class JPanelTicketSales extends JPanelTicket {
 		m_cat.getComponent()
 				.setPreferredSize(new Dimension(0, Integer.parseInt(m_jbtnconfig.getProperty("cat-height", "245"))));
 
-		m_cat.ScaleButtonIcons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")));
+		m_cat.ScaleButtonIcons();
 
 		return m_cat.getComponent();
 	}

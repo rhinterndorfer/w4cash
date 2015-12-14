@@ -99,6 +99,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 	public void writeValueEOF() {
 		m_id = null;
+		m_sortOrder = null;
 		m_jName.setText(null);
 		m_CategoryModel.setSelectedKey(null);
 		m_jImage.setImage(null);
@@ -107,6 +108,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(false);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
+		m_sortOrder = m_CategoryModel.getSize()-1;
 	}
 
 	public void writeValueInsert() {
@@ -119,6 +121,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
+		m_sortOrder = m_CategoryModel.getSize()-1;
 	}
 
 	public void writeValueDelete(Object value) {
@@ -132,6 +135,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(false);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
+		m_sortOrder = cat[4];
 	}
 
 	public void writeValueEdit(Object value) {
@@ -145,16 +149,18 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(true);
 		m_jCatalogAdd.setEnabled(true);
+		m_sortOrder = cat[4];
 	}
 
 	public Object createValue() throws BasicException {
 
-		Object[] cat = new Object[4];
+		Object[] cat = new Object[5];
 
 		cat[0] = m_id;
 		cat[1] = m_jName.getText();
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
+		cat[4] = m_sortOrder;
 		return cat;
 	}
 
@@ -257,6 +263,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private javax.swing.JButton m_jCatalogAdd;
 	private javax.swing.JButton m_jCatalogDelete;
 	private javax.swing.JComboBox m_jCategory;
+	private Object m_sortOrder;
 	private com.openbravo.data.gui.JImageEditor m_jImage;
 	private javax.swing.JTextField m_jName;
 	// End of variables declaration//GEN-END:variables

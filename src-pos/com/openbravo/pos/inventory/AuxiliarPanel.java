@@ -119,4 +119,5 @@ public class AuxiliarPanel extends JPanelTable2 {
 		// TODO Auto-generated method stub
 		
 	}
+ 
 }

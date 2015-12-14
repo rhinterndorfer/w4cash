@@ -120,4 +120,5 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 		// TODO Auto-generated method stub
 		
 	}    
+ 
 }

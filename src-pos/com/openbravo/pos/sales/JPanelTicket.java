@@ -1258,14 +1258,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		int fontsizeSmall = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-//		int fontsizeLarge = Integer
-//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-large-fontsize", "32"));
-
-		// button sizes
-
-		// m_jPor.setPreferredSize(new java.awt.Dimension(pieceWidth, -1));
-		// m_jPrice.setPreferredSize(new java.awt.Dimension(priceWidth, -1));
-
+		
 		m_jNumberKeys.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
 
@@ -1280,18 +1273,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		PropertyUtil.ScaleButtonIcon(btnSplit,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
-
-		// PropertyUtil.ScaleButtonIcon(m_jUp,
-		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width",
-		// "60")),
-		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height",
-		// "60")));
-
-		// PropertyUtil.ScaleButtonIcon(m_jDown,
-		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width",
-		// "60")),
-		// Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height",
-		// "60")));
 
 		PropertyUtil.ScaleButtonIcon(m_jDelete,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),

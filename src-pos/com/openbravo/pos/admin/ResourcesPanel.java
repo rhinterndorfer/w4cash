@@ -95,4 +95,10 @@ public class ResourcesPanel extends JPanelTable {
 		// TODO Auto-generated method stub
 		
 	}        
+	
+	@Override
+	public int getSortColumnIndex() {
+		return -1;
+	}
+	
 }

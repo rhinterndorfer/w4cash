@@ -50,10 +50,14 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 	private javax.swing.JButton jbtnMoveDown = null;
 	private javax.swing.JButton jbtnReload = null;
 	private AppView m_App;
+	private int columnSortIndex;
 
 	/** Creates new form JNavigator */
-	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int iButtons) {
+	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int iButtons,
+			int columnSortIndex) {
 		this.m_App = app;
+		this.columnSortIndex = columnSortIndex;
+		
 		initComponents();
 
 		if (iButtons == BUTTONS_ALL) {
@@ -222,12 +226,12 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		ScaleButtons();
 	}
 
-	public JNavigator(AppView app, BrowsableEditableData bd) {
-		this(app, bd, null, null, BUTTONS_ALL);
+	public JNavigator(AppView app, BrowsableEditableData bd, int columnSortIndex) {
+		this(app, bd, null, null, BUTTONS_ALL, columnSortIndex);
 	}
 
-	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc) {
-		this(app, bd, vec, cc, BUTTONS_ALL);
+	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int columnSortIndex) {
+		this(app, bd, vec, cc, BUTTONS_ALL, columnSortIndex);
 	}
 
 	public void updateState(int iState) {
@@ -260,9 +264,9 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnLast.setEnabled(iIndex < iCounter - 1);
 			if (jbtnRefresh != null)
 				jbtnRefresh.setEnabled(true);
-			if (jbtnMoveUp != null) 
+			if (jbtnMoveUp != null)
 				jbtnMoveUp.setEnabled(iIndex > 0);
-			if (jbtnMoveDown != null) 
+			if (jbtnMoveDown != null)
 				jbtnMoveDown.setEnabled(iIndex < iCounter - 1);
 		} else {
 			// EOF
@@ -276,9 +280,9 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnLast.setEnabled(false);
 			if (jbtnRefresh != null)
 				jbtnRefresh.setEnabled(false);
-			if (jbtnMoveUp != null) 
+			if (jbtnMoveUp != null)
 				jbtnMoveUp.setEnabled(false);
-			if (jbtnMoveDown != null) 
+			if (jbtnMoveDown != null)
 				jbtnMoveDown.setEnabled(false);
 		}
 	}
@@ -323,12 +327,12 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
 	private void jbtnMoveUpActionPerformed(java.awt.event.ActionEvent evt) {
 
-		m_bd.actionMoveUpCurrent(this);
+		m_bd.actionMoveUpCurrent(this.columnSortIndex, this);
 	}
 
 	private void jbtnMoveDownActionPerformed(java.awt.event.ActionEvent evt) {
 
-		m_bd.actionMoveDownCurrent(this);
+		m_bd.actionMoveDownCurrent(this.columnSortIndex, this);
 	}
 
 	private void jbtnReloadActionPerformed(java.awt.event.ActionEvent evt) {
@@ -391,7 +395,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		if (jbtnFind != null)
 			PropertyUtil.ScaleButtonIcon(jbtnFind, menuwidth, menuheight, fontsize);
 		if (jbtnSort != null)

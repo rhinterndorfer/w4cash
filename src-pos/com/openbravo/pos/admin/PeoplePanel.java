@@ -88,5 +88,11 @@ public class PeoplePanel extends JPanelTable {
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
 		
-	}     
+	}   
+
+	@Override
+	public int getSortColumnIndex() {
+		return -1;
+	}
+	
 }

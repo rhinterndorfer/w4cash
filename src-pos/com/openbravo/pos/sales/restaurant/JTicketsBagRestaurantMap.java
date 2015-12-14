@@ -172,7 +172,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
-		m_restaurantmap.ScaleButtons();
+		
+//		m_restaurantmap.ScaleButtons();
 
 		m_restaurantmap.ScaleButtons();
 		

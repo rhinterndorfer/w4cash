@@ -266,20 +266,38 @@ public class BrowsableData implements ListModel {
 		}
 	}
 
-	public void moveItem(int sourceindex, int targetindex) {
+	public List<Object[]> moveItem(int sortColumnIndex, int sourceindex, int targetindex) {
+		List<Object[]> values2sort = new ArrayList<>();
 		// int oldSize = m_aData.size();
 		if (sourceindex > targetindex) {
-			Object removed = m_aData.remove(sourceindex);
-			Object removed2 = m_aData.remove(targetindex);
+			Object[] removed = (Object[]) m_aData.remove(sourceindex);
+			Object[] removed2 = (Object[]) m_aData.remove(targetindex);
+
+			if (sortColumnIndex >= 0) {
+				removed[sortColumnIndex] = targetindex;
+				removed2[sortColumnIndex] = sourceindex;
+			}
+			values2sort.add(removed);
+			values2sort.add(removed2);
 
 			m_aData.add(targetindex, removed);
 			m_aData.add(sourceindex, removed2);
 		} else {
-			Object removed2 = m_aData.remove(targetindex);
+			Object[] moved = (Object[]) m_aData.get(sourceindex);
+			Object[] removed2 = (Object[]) m_aData.remove(targetindex);
+			if (sortColumnIndex >= 0) {
+				moved[sortColumnIndex] = targetindex;
+				removed2[sortColumnIndex] = sourceindex;
+			}
+			values2sort.add(moved);
+			values2sort.add(removed2);
+
 			m_aData.add(sourceindex, removed2);
 		}
 
 		fireDataContentsChanged(sourceindex, targetindex);
+
+		return values2sort;
 	}
 
 	private final void putNewData(List aData) {

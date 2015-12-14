@@ -38,6 +38,6 @@ public interface CatalogSelector {
     public void addActionListener(ActionListener l);  
     public void removeActionListener(ActionListener l);
 	public void setCatWidth(int parseInt);
-	public void ScaleButtonIcons(int parseInt, int parseInt2);
+	public void ScaleButtonIcons();
 //	public void valueChanged(CategoryInfo category);
 }

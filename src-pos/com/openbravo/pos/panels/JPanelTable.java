@@ -115,7 +115,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			c = new JCounter(bd);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
-			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator());
+			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(),getSortColumnIndex());
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
 			c = new JSaver(this.app, bd);
@@ -161,13 +161,37 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		bd.actionLoad();
 	}
 
+	public void fillSortOrderIfNeeded(int sortColumnIndex) {
+		boolean hasChanged = true;
+		ListModel model = bd.getListModel();
+		for (int i = 0; i < model.getSize(); i++) {
+			Object[] element = (Object[]) model.getElementAt(i);
+
+			if (element[sortColumnIndex] != null) {
+				hasChanged = false;
+				break;
+			}
+			element[sortColumnIndex] = i;
+		}
+
+		if (!hasChanged) {
+			return;
+		}
+
+		try {
+			bd.saveDataSortOrder();
+		} catch (BasicException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public boolean deactivate() {
 
 		try {
 			return bd.actionClosingForm(this);
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.CannotMove"), eD);
-			msg.show(app,this);
+			msg.show(app, this);
 			return false;
 		}
 	}
@@ -199,5 +223,5 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	// End of variables declaration//GEN-END:variables
 
 	public abstract void ScaleButtons();
-
+	public abstract int getSortColumnIndex();
 }

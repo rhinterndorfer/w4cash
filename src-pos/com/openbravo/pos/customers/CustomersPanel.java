@@ -92,6 +92,10 @@ public class CustomersPanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		
-	}    
+	}   
+	
+	@Override
+	public int getSortColumnIndex() {
+		return -1;
+	}
 }

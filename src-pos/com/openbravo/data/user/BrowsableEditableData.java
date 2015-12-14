@@ -202,31 +202,55 @@ public class BrowsableEditableData {
 		baseMoveTo(0);
 	}
 
-	public void actionMoveUpCurrent(Component jNavigator) {
+	public void actionMoveUpCurrent(int sortIndex, Component jNavigator) {
 		int index = getIndex();
 
 		try {
-			moveData(index, index - 1);
+			moveData(sortIndex, index, index - 1);
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void actionMoveDownCurrent(Component jNavigator) {
+	public void actionMoveDownCurrent(int sortIndex, Component jNavigator) {
 		int index = getIndex();
 		try {
-			moveData(index, index + 1);
+			moveData(sortIndex, index, index + 1);
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void moveData(int sourceindex, int targetindex) throws BasicException {
-		m_bd.moveItem(sourceindex, targetindex);
+	private void moveData(int sortColumnIndex, int sourceindex, int targetindex) throws BasicException {
+		List<Object[]> changes = m_bd.moveItem(sortColumnIndex, sourceindex, targetindex);
 		baseMoveTo(targetindex);
-		fireDataBrowse();
-		m_Dirty.setDirty(true);
-		saveData();
+		// m_Dirty.setDirty(true);
+		saveSortedData(sortColumnIndex, changes);
+		baseMoveTo(targetindex);
+		// m_bd.refreshData();
+	}
+
+	private void saveSortedData(int sortColumnIndex, List<Object[]> changes) throws BasicException {
+		// if (m_Dirty.isDirty()) {
+		// if (m_iState == ST_UPDATE) {
+		for (Object[] change : changes) {
+			if (sortColumnIndex < 0) {
+				continue;
+			}
+			m_bd.updateRecord((Integer) change[sortColumnIndex], change);
+			m_editorrecord.refresh();
+		}
+
+		// } else if (m_iState == ST_INSERT) {
+		// int i = m_bd.insertRecord(m_editorrecord.createValue());
+		// m_editorrecord.refresh();
+		// baseMoveTo(i);
+		// } else if (m_iState == ST_DELETE) {
+		// int i = m_bd.removeRecord(m_iIndex);
+		// m_editorrecord.refresh();
+		// baseMoveTo(i);
+		// } // queda ST_NORECORD
+		// }
 	}
 
 	public void sort(Comparator c) throws BasicException {
@@ -272,6 +296,13 @@ public class BrowsableEditableData {
 
 	public final int findNext(Finder f) throws BasicException {
 		return m_bd.findNext(m_iIndex, f);
+	}
+
+	public void saveDataSortOrder() throws BasicException {
+		for (int i = 0; i < m_bd.getSize(); i++) {
+			m_bd.updateRecord(i, m_bd.getElementAt(i));
+		}
+		// m_bd.refreshData();
 	}
 
 	public void saveData() throws BasicException {
