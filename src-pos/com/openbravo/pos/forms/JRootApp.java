@@ -115,8 +115,12 @@ public class JRootApp extends JPanel implements AppView {
 			session = AppViewConnection.createSession(m_props);
 		} catch (BasicException e) {
 			JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
+			// try to close session after a invalid connection! TODO: testen
+			if(session != null){
+				session.close();
+			}
+			
 			return false;
-
 		}
 
 		m_dlSystem = (DataLogicSystem) getBean("com.openbravo.pos.forms.DataLogicSystem");
