@@ -106,6 +106,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 	public void activate() {
 
+		m_jEdit.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.EditTicket"));
+		m_jRefund.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.RefundTicket"));
+		m_jPrint.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.PrintTicket"));
+
 		// precondicion es que no tenemos ticket activado ni ticket en el panel
 
 		m_ticket = null;
@@ -119,10 +123,6 @@ public class JTicketsBagTicket extends JTicketsBag {
 		m_panelticketedit.setActiveTicket(null, null);
 
 		jrbSales.setSelected(true);
-
-		m_jEdit.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.EditTicket"));
-		m_jRefund.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.RefundTicket"));
-		m_jPrint.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.PrintTicket"));
 
 		// postcondicion es que tenemos ticket activado aqui y ticket en el
 		// panel
@@ -293,7 +293,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 		m_jButtons.setLayout(new java.awt.GridBagLayout());
 		GridBagConstraints layoutData = new GridBagConstraints();
-		
+
 		m_jTicketId.setBackground(java.awt.Color.white);
 		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		m_jTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -301,7 +301,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jTicketId.setOpaque(true);
-//		m_jTicketId.setPreferredSize(new java.awt.Dimension(160, -1));
+		// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, -1));
 		m_jTicketId.setRequestFocusEnabled(false);
 		PropertyUtil.setGridBagConstraints(layoutData, 0, 0, GridBagConstraints.NONE);
 		m_jButtons.add(m_jTicketId, layoutData);
@@ -402,7 +402,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
 
 		jPanel1.setLayout(new BoxLayout(jPanel1, BoxLayout.Y_AXIS));
-		
+
 		buttonGroup1.add(jrbSales);
 		jrbSales.setText(AppLocal.getIntString("label.sales")); // NOI18N
 		jrbSales.setFocusPainted(false);
@@ -428,15 +428,14 @@ public class JTicketsBagTicket extends JTicketsBag {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
 		int btnHeight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
-//		
-		
+		//
+
 		PropertyUtil.ScaleEditnumbersFontsize(m_App, m_jTicketEditor, "common-large-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsizePrefered(m_App, m_jTicketId, "common-large-fontsize", "32", 200);
-		
-		
+
 		PropertyUtil.ScaleRadiobuttonFontsize(m_App, jrbRefunds, "common-small-fontsize", "32");
 		PropertyUtil.ScaleRadiobuttonFontsize(m_App, jrbSales, "common-small-fontsize", "32");
-		
+
 		// int bwidth = Integer
 		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
 		// "button-touchsmall-width", "48"));
@@ -446,13 +445,14 @@ public class JTicketsBagTicket extends JTicketsBag {
 		//
 		// PropertyUtil.ScaleButtonIcon(jButton2, bwidth, bheight);
 
-//		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
-//		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
+		// int width = Integer.parseInt(PropertyUtil.getProperty(m_App,
+		// "Ticket.Buttons", "menubar-img-width", "16"));
+		// int height = Integer.parseInt(PropertyUtil.getProperty(m_App,
+		// "Ticket.Buttons", "menubar-img-height", "16"));
 
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-large-fontsize", "16"));
-		
-		
+
 		PropertyUtil.ScaleButtonIcon(jButton2, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jRefund, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jPrint, btnWidth, btnHeight, fontsize);
@@ -541,6 +541,20 @@ public class JTicketsBagTicket extends JTicketsBag {
 			readTicket(selectedTicket.getTicketId(), selectedTicket.getTicketType());
 		}
 	}// GEN-LAST:event_jButton2ActionPerformed
+
+	@Override
+	protected void ticketListChange(JTicketLines ticketLines) {
+		// // ticket list
+		if (ticketLines.getTableModelSize() >= 0) {
+			// jButton2.setEnabled(true);
+			// m_jDelTicket.setEnabled(true);
+		}
+		// // empty
+		else {
+			// jButton2.setEnabled(false);
+			// m_jDelTicket.setEnabled(false);
+		}
+	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.ButtonGroup buttonGroup1;

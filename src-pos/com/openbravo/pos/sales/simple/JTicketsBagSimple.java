@@ -49,13 +49,11 @@ public class JTicketsBagSimple extends JTicketsBag {
 	}
 
 	public void activate() {
-
-		m_panelticket.setActiveTicket(new TicketInfo(), null);
-
 		// Authorization
 		m_jDelTicket.setEnabled(
 				m_App.getAppUserView().getUser().hasPermission("com.openbravo.pos.sales.JPanelTicketEdits"));
-
+		
+		m_panelticket.setActiveTicket(new TicketInfo(), null);
 	}
 
 	public boolean deactivate() {
@@ -112,6 +110,18 @@ public class JTicketsBagSimple extends JTicketsBag {
 		}
 
 	}// GEN-LAST:event_m_jDelTicketActionPerformed
+
+	@Override
+	protected void ticketListChange(JTicketLines ticketLines) {
+		// ticket list
+		if (ticketLines.getTableModelSize() >= 0) {
+			m_jDelTicket.setEnabled(true);
+		}
+		// empty
+		else {
+			m_jDelTicket.setEnabled(false);
+		}
+	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton m_jDelTicket;

@@ -135,14 +135,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	/** Creates new form JTicketView */
 	public JPanelTicket() {
 
-		
 	}
 
 	public void init(AppView app) throws BeanFactoryException {
 		m_App = app;
-		
+
 		initComponents();
-		
+
 		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 		dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
@@ -153,17 +152,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_ticketlines.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if (e.getValueIsAdjusting() == false) {
-					int i = m_ticketlines.getSelectedIndex();
-					if (i >= 0) {
-						TicketLineInfo line = m_oTicket.getLine(i);
-						String setId = line.getProductAttSetId();
-						if (setId != null)
-							jEditAttributes.setEnabled(true);
-						else
-							jEditAttributes.setEnabled(false);
-					}
-					else
-						jEditAttributes.setEnabled(false);
+					ticketListChanged();
+
 				}
 			}
 		});
@@ -270,6 +260,33 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	protected abstract void resetSouthComponent();
 
+	public void ticketListChanged() {
+		m_ticketsbag.ticketListChange(m_ticketlines);
+
+		int i = m_ticketlines.getSelectedIndex();
+		if (i >= 0) {
+			
+			// side buttons
+			btnSplit.setEnabled(true);
+			m_jEditLine.setEnabled(true);
+			m_jDelete.setEnabled(true);
+			
+			TicketLineInfo line = m_oTicket.getLine(i);
+			// product attributes
+			String setId = line.getProductAttSetId();
+			if (setId != null) {
+				jEditAttributes.setEnabled(true);
+			} else {
+				jEditAttributes.setEnabled(false);
+			}
+		} else {
+			btnSplit.setEnabled(false);
+			jEditAttributes.setEnabled(false);
+			m_jEditLine.setEnabled(false);
+			m_jDelete.setEnabled(false);
+		}
+	}
+
 	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt) {
 
 		m_oTicket = oTicket;
@@ -285,6 +302,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		executeEvent(m_oTicket, m_oTicketExt, "ticket.show");
 
 		refreshTicket();
+		
+		ticketListChanged();
 	}
 
 	public TicketInfo getActiveTicket() {
@@ -1237,8 +1256,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			script.put("user", m_App.getAppUserView().getUser());
 			script.put("sales", this);
 			script.put("app", m_App.getAppUserView());
-			
-			
+
 			// more arguments
 			for (ScriptArg arg : args) {
 				script.put(arg.getKey(), arg.getValue());
@@ -1258,7 +1276,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		int fontsizeSmall = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		m_jNumberKeys.ScaleButtons(Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-width", "48")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchsmall-height", "48")));
 
@@ -1789,27 +1807,25 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			try {
 				TicketLineInfo line = m_oTicket.getLine(i);
 				JProductAttEdit attedit = JProductAttEdit.getAttributesEditor(m_App, this, m_App.getSession());
-				attedit.editAttributes(line.getProductAttSetId(), line.getProductAttSetInstId(), line.getMultiply() > 1);
+				attedit.editAttributes(line.getProductAttSetId(), line.getProductAttSetInstId(),
+						line.getMultiply() > 1);
 				attedit.scaleFont(Integer.parseInt(m_jbtnconfig.getProperty("common-dialog-fontsize", "22")));
 				attedit.setVisible(true);
 				if (attedit.isOK()) {
 					// The user pressed OK
 					// check amount
 					// if amount > 1 add new line
-					if(line.getMultiply() > 1 && attedit.isForSingleProduct)
-					{
-						line.setMultiply(line.getMultiply()-1);
+					if (line.getMultiply() > 1 && attedit.isForSingleProduct) {
+						line.setMultiply(line.getMultiply() - 1);
 						paintTicketLine(i, line);
-						
+
 						TicketLineInfo newLine = line.copyTicketLine();
 						newLine.setMultiply(1);
 						newLine.setProductAttSetInstId(attedit.getAttributeSetInst());
 						newLine.setProductAttSetInstDesc(attedit.getAttributeSetInstDescription());
 						addTicketLine(newLine);
-						
-					}
-					else
-					{
+
+					} else {
 						line.setProductAttSetInstId(attedit.getAttributeSetInst());
 						line.setProductAttSetInstDesc(attedit.getAttributeSetInstDescription());
 						paintTicketLine(i, line);

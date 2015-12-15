@@ -26,6 +26,7 @@ import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.sales.JTicketLines;
 import com.openbravo.pos.util.PropertyUtil;
 
 public class JTicketsBagRestaurant extends javax.swing.JPanel {
@@ -125,8 +126,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		add(jButton2);
 
 		// // NOI18N
-		jButton1.setIcon(
-				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/table.png")));
+		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/table.png")));
 		jButton1.setText(AppLocal.getIntString("menu.leaveTable"));
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
@@ -148,8 +148,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	}// GEN-LAST:event_jButton2ActionPerformed
 
 	private void m_jDelTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDelTicketActionPerformed
-		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"),
-				null);
+		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"), null);
 
 		if (res == JOptionPane.YES_OPTION) {
 			m_restaurant.deleteTicket();
@@ -167,5 +166,27 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	private javax.swing.JButton jButton2;
 	private javax.swing.JButton m_jDelTicket;
 	// End of variables declaration//GEN-END:variables
+
+	public void ticketListChange(JTicketLines ticketLines) {
+		// prompt modus
+		if (m_promptTicket) {
+			m_jDelTicket.setEnabled(true);
+			jButton2.setEnabled(false);
+			jButton1.setEnabled(false);
+		}
+		// table modus
+		else {
+			// ticket list
+			if (ticketLines.getTableModelSize() >= 0) {
+				jButton2.setEnabled(true);
+				m_jDelTicket.setEnabled(true);
+			}
+			// empty
+			else {
+				jButton2.setEnabled(false);
+				m_jDelTicket.setEnabled(false);
+			}
+		}
+	}
 
 }

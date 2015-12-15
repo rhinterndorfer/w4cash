@@ -54,10 +54,12 @@ public abstract class JTicketsBag extends JPanel {
 
 	protected abstract JComponent getNullComponent();
 
-	public AppView getApp(){
+	protected abstract void ticketListChange(JTicketLines ticketLines);
+
+	public AppView getApp() {
 		return m_App;
 	}
-	
+
 	public static JTicketsBag createTicketsBag(String sName, AppView app, TicketsEditor panelticket) {
 
 		if ("standard".equals(sName)) {

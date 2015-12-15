@@ -111,7 +111,7 @@ public class JTicketLines extends javax.swing.JPanel {
 
 		m_jTableModel = new TicketTableModel(acolumns, propertyRowHeight);
 		m_jTicketTable.setModel(m_jTableModel);
-		
+
 		m_jTicketTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		TableColumnModel jColumns = m_jTicketTable.getColumnModel();
 		for (int i = 0; i < acolumns.length; i++) {
@@ -234,6 +234,10 @@ public class JTicketLines extends javax.swing.JPanel {
 			// Solo seleccionamos si podemos.
 			setSelectedIndex(i);
 		}
+	}
+
+	public int getTableModelSize() {
+		return this.getSelectedIndex();
 	}
 
 	private static class TicketCellRenderer extends DefaultTableCellRenderer {
@@ -428,12 +432,12 @@ public class JTicketLines extends javax.swing.JPanel {
 
 			if (m_App != null && propertyRowHeight != null && e.getLastRow() >= 0
 					&& (e.getType() == TableModelEvent.UPDATE || e.getType() == TableModelEvent.INSERT)) {
-				
+
 				for (int i = 0; i < this.getModel().getRowCount(); i++) {
 					Object val = this.getModel().getValueAt(i, 0);
-					PropertyUtil.ScaleTableRowheight(m_App, this, i,
-							getValueLines(val != null ? val.toString() : ""), propertyRowHeight, "35");
-					
+					PropertyUtil.ScaleTableRowheight(m_App, this, i, getValueLines(val != null ? val.toString() : ""),
+							propertyRowHeight, "35");
+
 				}
 			}
 

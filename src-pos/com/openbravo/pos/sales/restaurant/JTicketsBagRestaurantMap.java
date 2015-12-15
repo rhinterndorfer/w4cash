@@ -61,7 +61,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JTicketsBagRestaurantMap(AppView app, TicketsEditor panelticket) {
-
 		super(app, panelticket);
 
 		dlReceipts = (DataLogicReceipts) app.getBean("com.openbravo.pos.sales.DataLogicReceipts");
@@ -172,14 +171,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
-		
-//		m_restaurantmap.ScaleButtons();
+
+		// m_restaurantmap.ScaleButtons();
 
 		m_restaurantmap.ScaleButtons();
-		
+
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btn_promptTicket, smallWidth, smallHeight, fontsize);
-		
+
 	}
 
 	public void activate() {
@@ -280,10 +279,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		if (m_PlaceCurrent != null) {
 
 			try {
-				if(m_panelticket.getActiveTicket().getLinesCount() > 0)
+				if (m_panelticket.getActiveTicket().getLinesCount() > 0)
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-				else
-				{
+				else {
 					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
 					m_jbtnRefreshActionPerformed(null);
 				}
@@ -357,6 +355,12 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		return this;
 	}
 
+	@Override
+	protected void ticketListChange(JTicketLines ticketLines) {
+		m_restaurantmap.ticketListChange(ticketLines);
+
+	}
+	
 	private void printState() {
 
 		if (m_PlaceClipboard == null) {
@@ -463,8 +467,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		});
 		jPanel2.add(m_jbtnRefresh);
-		
-		
+
 		// add direct bonieren button
 		// TODO make a check if a direct bon table is available
 		btn_promptTicket
@@ -481,8 +484,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		});
 		jPanel2.add(btn_promptTicket);
-		
-		
+
 		jPanel2.add(m_jText);
 
 		jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
@@ -509,7 +511,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		// "60")));
 
 		jPanel1.add(m_jbtnLogout, BorderLayout.LINE_END);
-		
+
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
@@ -543,7 +545,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		}
 
 		public void actionPerformed(ActionEvent evt) {
-
 			m_restaurantmap.setPromptTicket(false);
 			if (m_PlaceClipboard == null) {
 
@@ -737,7 +738,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		}
 	}
-	
+
 	private void btn_promptTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 		promptTicket();
 	}
@@ -751,5 +752,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private javax.swing.JButton m_jbtnReservations;
 	private javax.swing.JButton btn_promptTicket;
 	// End of variables declaration//GEN-END:variables
+
+	
 
 }
