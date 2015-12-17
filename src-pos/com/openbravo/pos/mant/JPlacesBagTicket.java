@@ -541,4 +541,10 @@ public class JPlacesBagTicket extends JPlacesBag {
 		return null;
 	}
 
+	@Override
+	protected void floorChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

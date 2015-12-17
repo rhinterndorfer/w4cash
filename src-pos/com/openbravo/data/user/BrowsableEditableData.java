@@ -405,4 +405,8 @@ public class BrowsableEditableData {
 		fireDataBrowse();
 	}
 
+	public void setListProvider(ListProvider lProv) {
+		this.m_bd.setDataProv(lProv);
+	}
+
 }

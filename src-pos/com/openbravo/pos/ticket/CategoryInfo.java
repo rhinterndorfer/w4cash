@@ -27,59 +27,72 @@ import com.openbravo.data.loader.SerializerRead;
 
 /**
  *
- * @author  Adrian
- * @version 
+ * @author Adrian
+ * @version
  */
 public class CategoryInfo implements IKeyed {
 
-    private static final long serialVersionUID = 8612449444103L;
-    private String m_sID;
-    private String m_sName;
-    private BufferedImage m_Image;
+	private static final long serialVersionUID = 8612449444103L;
+	private String m_sID;
+	private String m_sName;
+	private BufferedImage m_Image;
+	private Integer m_SortOrder;
 
-    /** Creates new CategoryInfo */
-    public CategoryInfo(String id, String name, BufferedImage image) {
-        m_sID = id;
-        m_sName = name;
-        m_Image = image;
-    }
+	/** Creates new CategoryInfo */
+	public CategoryInfo(String id, String name, BufferedImage image, Integer sortOrder) {
+		m_sID = id;
+		m_sName = name;
+		m_Image = image;
+		m_SortOrder = sortOrder;
+	}
 
-    public Object getKey() {
-        return m_sID;
-    }
+	public Object getKey() {
+		return m_sID;
+	}
 
-    public void setID(String sID) {
-        m_sID = sID;
-    }
+	public void setID(String sID) {
+		m_sID = sID;
+	}
+	
+	public void setSortOrder(int sortOrder){
+		this.m_SortOrder = sortOrder;
+	}
 
-    public String getID() {
-        return m_sID;
-    }
+	public int getSortOrder() {
+		return this.m_SortOrder;
+	}
 
-    public String getName() {
-        return m_sName;
-    }
+	public String getID() {
+		return m_sID;
+	}
 
-    public void setName(String sName) {
-        m_sName = sName;
-    }
+	public String getName() {
+		return m_sName;
+	}
 
-    public BufferedImage getImage() {
-        return m_Image;
-    }
+	public void setName(String sName) {
+		m_sName = sName;
+	}
 
-    public void setImage(BufferedImage img) {
-        m_Image = img;
-    }
+	public BufferedImage getImage() {
+		return m_Image;
+	}
 
-    @Override
-    public String toString() {
-        return m_sName;
-    }
+	public void setImage(BufferedImage img) {
+		m_Image = img;
+	}
 
-    public static SerializerRead getSerializerRead() {
-        return new SerializerRead() { public Object readValues(DataRead dr) throws BasicException {
-            return new CategoryInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)));
-        }};
-    }
+	@Override
+	public String toString() {
+		return m_sName;
+	}
+
+	public static SerializerRead getSerializerRead() {
+		return new SerializerRead() {
+			public Object readValues(DataRead dr) throws BasicException {
+				return new CategoryInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)),
+						dr.getInt(4));
+			}
+		};
+	}
 }

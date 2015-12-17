@@ -49,6 +49,10 @@ public class BrowsableData implements ListModel {
 		m_aData = new ArrayList<Object>();
 	}
 
+	public void setDataProv(ListProvider prov) {
+		this.m_dataprov = prov;
+	}
+
 	public BrowsableData(ListProvider dataprov, SaveProvider saveprov) {
 		this(dataprov, saveprov, null);
 	}

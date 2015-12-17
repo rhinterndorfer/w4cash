@@ -279,4 +279,10 @@ public class JPlacesBagShared extends JPlacesBag {
 		return null;
 	}
 
+	@Override
+	protected void floorChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

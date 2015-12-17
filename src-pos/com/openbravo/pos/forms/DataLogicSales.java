@@ -132,7 +132,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		// CATEGORIES WHERE PARENTID IS NULL ORDER BY NAME",
 		// null, CategoryInfo.getSerializerRead()).list();
 		return new PreparedSentence(s,
-				"SELECT ID, NAME, IMAGE FROM CATEGORIES WHERE PARENTID IS NULL ORDER BY SORTORDER", null,
+				"SELECT ID, NAME, IMAGE , SORTORDER FROM CATEGORIES WHERE PARENTID IS NULL ORDER BY SORTORDER", null,
 				CategoryInfo.getSerializerRead()).list();
 	}
 
@@ -141,7 +141,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		// CATEGORIES WHERE PARENTID = ? ORDER BY NAME",
 		// SerializerWriteString.INSTANCE,
 		// CategoryInfo.getSerializerRead()).list(category);
-		return new PreparedSentence(s, "SELECT ID, NAME, IMAGE FROM CATEGORIES WHERE PARENTID = ? ORDER BY SORTORDER",
+		return new PreparedSentence(s, "SELECT ID, NAME, IMAGE, SORTORDER FROM CATEGORIES WHERE PARENTID = ? ORDER BY SORTORDER",
 				SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
 	}
 

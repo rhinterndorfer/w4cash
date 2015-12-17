@@ -37,6 +37,7 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.ticket.CategoryInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 	private Object m_id;
 	private AppView m_App;
+	private Integer lastOrderIndex = 0;
 
 	/** Creates new form JPanelCategories */
 	public CategoriesEditor(AppView app, DirtyManager dirty) {
@@ -91,10 +93,20 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 			msg.show(m_App, this);
 			a = new ArrayList();
 		}
-
+		if (!a.isEmpty()) {
+			this.lastOrderIndex = ((CategoryInfo) a.get(a.size() - 1)).getSortOrder();
+		}
 		a.add(0, null); // The null item
 		m_CategoryModel = new ComboBoxValModel(a);
 		m_jCategory.setModel(m_CategoryModel);
+	}
+
+	private int getNextOrderNumber() {
+		return lastOrderIndex + 1;
+	}
+	
+	private void incOrderNumber() {
+		this.lastOrderIndex += 1;
 	}
 
 	public void writeValueEOF() {
@@ -108,7 +120,6 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(false);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
-		m_sortOrder = m_CategoryModel.getSize()-1;
 	}
 
 	public void writeValueInsert() {
@@ -121,8 +132,10 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
-		m_sortOrder = m_CategoryModel.getSize()-1;
+//		m_sortOrder = getNextOrderNumber();
 	}
+
+	
 
 	public void writeValueDelete(Object value) {
 		Object[] cat = (Object[]) value;
@@ -160,7 +173,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		cat[1] = m_jName.getText();
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
-		cat[4] = m_sortOrder;
+		cat[4] = getNextOrderNumber();
+		incOrderNumber();
 		return cat;
 	}
 

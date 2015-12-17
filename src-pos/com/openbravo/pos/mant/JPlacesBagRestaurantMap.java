@@ -24,15 +24,24 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import com.openbravo.pos.sales.*;
 import com.openbravo.pos.sales.restaurant.Floor;
 import com.openbravo.pos.sales.restaurant.Place;
 import com.openbravo.pos.forms.*;
 import com.openbravo.data.loader.StaticSentence;
+import com.openbravo.data.loader.TableDefinition;
+import com.openbravo.data.user.ListProvider;
+import com.openbravo.format.Formats;
 import com.openbravo.data.loader.SerializerReadClass;
+import com.openbravo.data.loader.Session;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.MessageInf;
+import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.SentenceList;
+import com.openbravo.data.loader.SerializerRead;
 import com.openbravo.pos.customers.CustomerInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 
@@ -58,6 +67,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 	private DataLogicSales dlSales = null;
 
 	private PlacesEditor m_Editor;
+	private JTabbedPane jTabFloors;
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JPlacesBagRestaurantMap(AppView app, PlacesEditor editor) {
@@ -82,6 +92,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		} catch (BasicException eD) {
 			m_afloors = new ArrayList<Floor>();
 		}
+
+		// read all places
 		try {
 			SentenceList sent = new StaticSentence(app.getSession(),
 					"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
@@ -93,10 +105,11 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		initComponents();
 
-		// add the Floors containers
+		// add the Floors containers (Tabbed)
 		if (m_afloors.size() > 1) {
 			// A tab container for 2 or more floors
-			JTabbedPane jTabFloors = new JTabbedPane();
+			this.jTabFloors = new JTabbedPane();
+
 			jTabFloors.applyComponentOrientation(getComponentOrientation());
 			jTabFloors.setBorder(new javax.swing.border.EmptyBorder(new Insets(5, 5, 5, 5)));
 			jTabFloors.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -116,7 +129,17 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 				jScrCont.setViewportView(jPanCont);
 				jPanCont.add(f.getContainer());
 			}
-		} else if (m_afloors.size() == 1) {
+
+			jTabFloors.addChangeListener(new ChangeListener() {
+
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					floorChanged();
+				}
+			});
+		}
+		// A tab container for 1 floor
+		else if (m_afloors.size() == 1) {
 			// Just a frame for 1 floor
 			Floor f = m_afloors.get(0);
 			f.getContainer().applyComponentOrientation(getComponentOrientation());
@@ -162,6 +185,42 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		// Add the reservations panel
 		// m_jreservations = new JPlacesBagRestaurantRes(app, this);
 		// add(m_jreservations, "res");
+	}
+
+	@Override
+	protected void floorChanged() {
+		if (jTabFloors == null) {
+			return;
+		}
+
+		String title = jTabFloors.getTitleAt(jTabFloors.getSelectedIndex());
+
+		String id = null;
+		for (int i = 0; i < m_afloors.size(); i++) {
+			Floor floor = m_afloors.get(i);
+			if (title.equals(floor.getName())) {
+				id = floor.getID();
+				break;
+			}
+		}
+
+		TableDefinition td = new PlacesTableDefinition(m_App.getSession(), "PLACES",
+				new String[] { "ID", "NAME", "X", "Y", "FLOOR" },
+				new String[] { "ID", AppLocal.getIntString("Label.Name"), "X", "Y",
+						AppLocal.getIntString("label.placefloor") },
+				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING },
+				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL },
+				new int[] { 0 }, id);
+
+		m_Editor.getPanelPlaces().setTableDefinition(td);
+		try {
+			ListProvider lProv = m_Editor.getPanelPlaces().getListProvider();
+			m_Editor.getPanelPlaces().getBrowseableData().setListProvider(lProv);
+			m_Editor.getPanelPlaces().getBrowseableData().refreshData();
+		} catch (BasicException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public void activate() {
@@ -506,5 +565,50 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 	// private javax.swing.JButton m_jbtnReservations;
 
 	// End of variables declaration//GEN-END:variables
+
+	class PlacesTableDefinition extends TableDefinition {
+
+		private String id;
+
+		public PlacesTableDefinition(Session s, String tablename, String[] fieldname, String[] fieldtran,
+				Datas[] fielddata, Formats[] fieldformat, int[] idinx) {
+			super(s, tablename, fieldname, fielddata, fieldformat, idinx);
+		}
+
+		public PlacesTableDefinition(Session s, String tablename, String[] fieldname, Datas[] fielddata,
+				Formats[] fieldformat, int[] idinx) {
+			super(s, tablename, fieldname, fielddata, fieldformat, idinx);
+		}
+
+		public PlacesTableDefinition(Session s, String tablename, String[] fieldname, String[] fieldtran,
+				Datas[] fielddata, Formats[] fieldformat, int[] idinx, String id) {
+			this(s, tablename, fieldname, fieldtran, fielddata, fieldformat, idinx);
+			this.id = id;
+		}
+
+		@Override
+		public SentenceList getListSentence() {
+			return super.getListSentence();
+		}
+
+		@Override
+		public SentenceList getListSentence(SerializerRead sr) {
+			return super.getListSentence(sr);
+		}
+
+		@Override
+		public String getListSQL() {
+			String sent = super.getListSQL();
+
+			if (id != null) {
+				sent += " where FLOOR ='" + id + "'";
+			}
+
+			return sent;
+		}
+
+		
+		
+	}
 
 }

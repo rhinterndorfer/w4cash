@@ -52,13 +52,21 @@ public class JPanelPlaces extends JPanelTable {
 		DataLogicSales dlSales = null;
 		dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 
-		tplaces = new TableDefinition(app.getSession(), "PLACES", new String[] { "ID", "NAME", "X", "Y", "FLOOR" },
+		TableDefinition td = new TableDefinition(app.getSession(), "PLACES",
+				new String[] { "ID", "NAME", "X", "Y", "FLOOR" },
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "X", "Y",
 						AppLocal.getIntString("label.placefloor") },
 				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING },
 				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL },
 				new int[] { 0 });
+
 		jeditor = new PlacesEditor(app, dlSales, this, dirty);
+		
+		setTableDefinition(td);
+	}
+
+	protected void setTableDefinition(TableDefinition definition) {
+		tplaces = definition;
 	}
 
 	public ListProvider getListProvider() {
@@ -91,6 +99,7 @@ public class JPanelPlaces extends JPanelTable {
 	public void activate() throws BasicException {
 		jeditor.activate(); // primero activo el editor
 		super.activate(); // segundo activo el padre
+		jeditor.activateFill();
 	}
 
 	public BrowsableEditableData getBrowseableData() {
@@ -100,9 +109,9 @@ public class JPanelPlaces extends JPanelTable {
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public int getSortColumnIndex() {
 		return -1;

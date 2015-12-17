@@ -19,7 +19,7 @@ public abstract class JPlacesBag extends JPanel {
 
 	protected AppView m_App;
 	protected DataLogicSales m_dlSales;
-	protected PlacesEditor m_panelticket;
+//	protected PlacesEditor m_panelticket;
 
 	/** Creates new form JTicketsBag */
 	public JPlacesBag(AppView oApp/* , PlacesEditor panelticket */) {
@@ -57,4 +57,10 @@ public abstract class JPlacesBag extends JPanel {
 	public abstract void selectPlace(String id);
 
 	public abstract Place getPlace(int index);
+
+	protected abstract void floorChanged();
+	
+	public void activateFill() {
+		floorChanged();
+	}
 }

@@ -244,6 +244,10 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 	}// </editor-fold>//GEN-END:initComponents
 
+	public JPanelPlaces getPanelPlaces(){
+		return this.m_panelPlaces;
+	}
+	
 	public void setXYCoordinates(int x, int y) {
 		this.m_jX.setText("" + x);
 		this.m_jY.setText("" + y);
@@ -282,6 +286,10 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 	@Override
 	public void ScaleButtons() {
 
+	}
+
+	public void activateFill() {
+		m_placesBag.activateFill();
 	}
 
 }
