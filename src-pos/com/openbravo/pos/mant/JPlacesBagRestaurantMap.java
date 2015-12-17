@@ -548,6 +548,9 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 	@Override
 	public Place getPlace(int index) {
+		if (index < 0 || index >= m_aplaces.size()) {
+			return null;
+		}
 		return m_aplaces.get(index);
 	}
 
@@ -607,8 +610,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			return sent;
 		}
 
-		
-		
 	}
 
 }

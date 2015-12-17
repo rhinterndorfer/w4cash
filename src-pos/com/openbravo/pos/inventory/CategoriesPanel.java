@@ -55,7 +55,7 @@ public class CategoriesPanel extends JPanelTable {
 		super.activate();
 		fillSortOrderIfNeeded(4);
 		ComparatorCreator ccreator = getComparatorCreator();
-		Comparator c = ccreator.createComparator(new int[] { 4 });
+		Comparator c = ccreator.createComparator(new int[] { 1 });
 		bd.sort(c);
 	}
 
@@ -78,7 +78,7 @@ public class CategoriesPanel extends JPanelTable {
 	}
 
 	public ComparatorCreator getComparatorCreator() {
-		return tcategories.getComparatorCreator(new int[] { 0, 1, 2, 3, 4 });
+		return tcategories.getComparatorCreator(new int[] { 1, 4 });
 	}
 
 	public ListCellRenderer getListCellRenderer() {

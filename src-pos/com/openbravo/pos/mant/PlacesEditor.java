@@ -97,17 +97,16 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 	}
 
 	public void writeValueInsert() {
-
 		m_sID = UUID.randomUUID().toString();
 		m_jName.setText(null);
-		m_FloorModel.setSelectedKey(null);
-		m_jX.setText(null);
-		m_jY.setText(null);
+		// m_FloorModel.setSelectedKey(null);
+		m_jX.setText("0");
+		m_jY.setText("0");
 
 		m_jName.setEnabled(true);
-		m_jFloor.setEnabled(true);
-		m_jX.setEnabled(true);
-		m_jY.setEnabled(true);
+		m_jFloor.setEnabled(false);
+		m_jX.setEnabled(false);
+		m_jY.setEnabled(false);
 	}
 
 	public void writeValueDelete(Object value) {
@@ -135,7 +134,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_FloorModel.setSelectedKey(place[4]);
 
 		m_jName.setEnabled(true);
-		m_jFloor.setEnabled(true);
+		m_jFloor.setEnabled(false);
 		m_jX.setEnabled(true);
 		m_jY.setEnabled(true);
 
@@ -196,6 +195,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		add(jLabel1);
 		jLabel1.setBounds(20, 50, 90, 15);
 
+		m_jFloor.setEditable(false);
+		m_jFloor.setEnabled(false);
 		add(m_jFloor);
 		m_jFloor.setBounds(110, 50, 170, 20);
 
@@ -213,6 +214,9 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 					int y = Integer.parseInt(String.valueOf(valueY));
 
 					Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
+					if (place == null) {
+						return;
+					}
 					place.setX(x);
 					place.setY(y);
 					place.setButtonBounds(m_App);
@@ -233,6 +237,9 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 					int y = Integer.parseInt(String.valueOf(valueY));
 
 					Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
+					if (place == null) {
+						return;
+					}
 					place.setX(x);
 					place.setY(y);
 					place.setButtonBounds(m_App);
@@ -244,10 +251,10 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 	}// </editor-fold>//GEN-END:initComponents
 
-	public JPanelPlaces getPanelPlaces(){
+	public JPanelPlaces getPanelPlaces() {
 		return this.m_panelPlaces;
 	}
-	
+
 	public void setXYCoordinates(int x, int y) {
 		this.m_jX.setText("" + x);
 		this.m_jY.setText("" + y);

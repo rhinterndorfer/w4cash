@@ -132,7 +132,9 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
-//		m_sortOrder = getNextOrderNumber();
+		
+		m_sortOrder = getNextOrderNumber();
+		incOrderNumber();
 	}
 
 	
@@ -173,8 +175,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		cat[1] = m_jName.getText();
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
-		cat[4] = getNextOrderNumber();
-		incOrderNumber();
+		cat[4] = m_sortOrder;
 		return cat;
 	}
 
