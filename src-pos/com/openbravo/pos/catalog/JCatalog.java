@@ -65,6 +65,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private CategoryInfo showingcategory = null;
 	private CategoryInfo selectedCategory = null;
 	private CategoryInfo mainCategory = null;
+	private CategoryInfo mainCategoryFirst = null;
 	private CategoryInfo previousCategory = null;
 
 	private AppView m_App;
@@ -118,7 +119,13 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	public void showCatalogPanel(String id) {
 
-		if (id == null) {
+		if ("".equals(id) && this.mainCategoryFirst != null) {
+			this.selectedCategory = this.mainCategoryFirst;
+			this.previousCategory = this.mainCategoryFirst;
+			this.mainCategory = this.mainCategoryFirst;
+			showRootCategoriesPanel();
+		}
+		else if (id == null) {
 			showRootCategoriesPanel();
 		} else {
 			showProductPanel(id);
@@ -158,6 +165,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			jPanel2.setVisible(true);
 			this.selectedCategory = categories.get(0);
 			this.mainCategory = categories.get(0);
+			this.mainCategoryFirst = categories.get(0);
 			selectCategoryPanel(selectedCategory);
 			// m_jListCategories.setSelectedIndex(0);
 		}

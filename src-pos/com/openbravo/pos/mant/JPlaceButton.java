@@ -13,7 +13,6 @@ import javax.swing.JButton;
 
 import com.openbravo.pos.sales.restaurant.Place;
 
-
 public class JPlaceButton extends JButton {
 
 	/** If sets <b>TRUE</b> this component is draggable */
@@ -107,8 +106,12 @@ public class JPlaceButton extends JButton {
 
 				for (int i = 0; i < getParent().getComponentCount(); i++) {
 					if (e.getComponent() == getParent().getComponent(i)) {
-						int x = getParent().getComponent(i).getX() /* + 36 */;
-						int y = getParent().getComponent(i).getY() /* + 23 */;
+						int x = getParent().getComponent(i).getX();
+						int y = getParent().getComponent(i).getY();
+						x = x - (x % 5);
+						y = y - (y % 5);
+
+						getParent().getComponent(i).setLocation(new Point(x, y));
 
 						m_Place.setXYCoordinates(x, y);
 					}

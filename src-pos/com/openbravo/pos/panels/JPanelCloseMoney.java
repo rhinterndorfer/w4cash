@@ -111,8 +111,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		return true;
 	}
 
-	private void loadData() throws BasicException {
-
+	private void resetData() {
 		// Reset
 		m_jMinDate.setText(null);
 		m_jMaxDate.setText(null);
@@ -128,6 +127,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 		m_jTicketTable.setModel(new DefaultTableModel());
 		m_jsalestable.setModel(new DefaultTableModel());
+	}
+
+	private void loadData() throws BasicException {
+
+		resetData();
 
 		// LoadData
 		m_PaymentsToClose = PaymentsModel.loadInstance(m_App);
@@ -436,8 +440,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE))))
 						.addContainerGap(16, Short.MAX_VALUE)));
-	
-		m_jCloseCash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
+
+		m_jCloseCash.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 		m_jCloseCash.setText(AppLocal.getIntString("Button.CloseCash")); // NOI18N
 		m_jCloseCash.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -445,7 +450,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 			}
 		});
 
-		m_jPrintCash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/yast_printer.png")));
+		m_jPrintCash
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/yast_printer.png")));
 		m_jPrintCash.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
 		m_jPrintCash.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,7 +545,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		PropertyUtil.ScaleButtonIcon(m_jCloseCash, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jPrintCash, btnWidth, btnHeight, fontsize);
 
@@ -553,13 +559,25 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 			Date dNow = new Date();
 
+			// print report before closing
+			// otherwise new cash session is opened
+			printPayments("Printer.CloseCash");
+			
 			try {
 				// Cerramos la caja si esta pendiente de cerrar.
 				if (m_App.getActiveCashDateEnd() == null) {
+					// set closed info
+					String activeCash = m_App.getActiveCashIndex();
+					m_App.setActiveCashDateEnd(dNow); // fail save: if sql
+														// command fails data
+														// will be reloaded from
+														// DB
+
 					new StaticSentence(m_App.getSession(),
 							"UPDATE CLOSEDCASH SET DATEEND = ? WHERE HOST = ? AND MONEY = ?",
-							new SerializerWriteBasic(new Datas[] { Datas.TIMESTAMP, Datas.STRING, Datas.STRING })).exec(
-									new Object[] { dNow, m_App.getProperties().getHost(), m_App.getActiveCashIndex() });
+							new SerializerWriteBasic(new Datas[] { Datas.TIMESTAMP, Datas.STRING, Datas.STRING }))
+									.exec(new Object[] { dNow, m_App.getProperties().getHost(), activeCash });
+
 				}
 			} catch (BasicException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"),
@@ -567,36 +585,12 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				msg.show(m_App, this);
 			}
 
-			try {
-				// Creamos una nueva caja
-				m_App.setActiveCash(UUID.randomUUID().toString(), dNow, null);
+			// Mostramos el mensaje
+			JOptionPane.showMessageDialog(this, AppLocal.getIntString("message.closecashok"),
+					AppLocal.getIntString("message.title"), JOptionPane.INFORMATION_MESSAGE);
 
-				// creamos la caja activa
-				m_dlSystem.execInsertCash(new Object[] { m_App.getActiveCashIndex(), m_App.getProperties().getHost(),
-						m_App.getActiveCashDateStart(), m_App.getActiveCashDateEnd() });
+			resetData();
 
-				// ponemos la fecha de fin
-				m_PaymentsToClose.setDateEnd(dNow);
-
-				// print report
-				printPayments("Printer.CloseCash");
-
-				// Mostramos el mensaje
-				JOptionPane.showMessageDialog(this, AppLocal.getIntString("message.closecashok"),
-						AppLocal.getIntString("message.title"), JOptionPane.INFORMATION_MESSAGE);
-			} catch (BasicException e) {
-				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"),
-						e);
-				msg.show(m_App, this);
-			}
-
-			try {
-				loadData();
-			} catch (BasicException e) {
-				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("label.noticketstoclose"),
-						e);
-				msg.show(m_App, this);
-			}
 		}
 	}// GEN-LAST:event_m_jCloseCashActionPerformed
 

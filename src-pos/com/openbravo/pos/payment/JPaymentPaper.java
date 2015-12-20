@@ -20,6 +20,7 @@
 
 package com.openbravo.pos.payment;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -35,7 +36,6 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
     private JPaymentNotifier m_notifier;
     
     private double m_dTicket;
-    private double m_dTotal;    
     
     private String m_sPaper; // "paperin", "paperout"
     // private String m_sCustomer; 
@@ -46,29 +46,26 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
     /** Creates new form JPaymentTicket */
     public JPaymentPaper(AppView app, JPaymentNotifier notifier, String sPaper) {
         m_App = app;
-        m_notifier = notifier;
         m_sPaper = sPaper;
         
         initComponents();
         
-        m_jTendered.addPropertyChangeListener("Edition", new RecalculateState());
-        m_jTendered.addEditorKeys(m_jKeys);
+        m_notifier = notifier;
         
-		int widht = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
-		m_jKeys.ScaleButtons();
-		
 		ScaleButtons();
     }
 
 	public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
+        m_dTicket = dTotal;
         
-        m_dTotal = dTotal;
+        m_notifier.setStatus(customerext != null, customerext != null);
         
-        m_jTendered.reset();
-        m_jTendered.activate();
-        
-        printState();        
+        if(customerext == null)
+        {
+        	jlblMessage.setText(AppLocal.getIntString("message.nocustomerselected")); 
+        }
+        else
+        	jlblMessage.setText("");
     }
     
     public Component getComponent() {
@@ -80,28 +77,7 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
         return new PaymentInfoTicket(m_dTicket, m_sPaper);
     }    
     
-    private void printState() {
-
-        Double value = m_jTendered.getDoubleValue();
-        if (value == null) {
-            m_dTicket = 0.0;
-        } else {
-            m_dTicket = value;
-        } 
-        
-        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTicket)));
-        
-        int iCompare = RoundUtils.compare(m_dTicket, m_dTotal);
-        
-        // it is allowed to pay more
-        m_notifier.setStatus(m_dTicket > 0.0, iCompare >= 0);
-    }
-    
-    private class RecalculateState implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent evt) {
-            printState();
-        }
-    }    
+   
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -110,64 +86,29 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        m_jMoneyEuros = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
-        jPanel1 = new javax.swing.JPanel();
-        m_jTendered = new com.openbravo.editor.JEditorCurrencyPositive();
+    	jPanel1 = new javax.swing.JPanel();
+        jlblMessage = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setLayout(null);
+        jlblMessage.setBackground(javax.swing.UIManager.getDefaults().getColor("Label.background"));
+        jlblMessage.setEditable(false);
+        jlblMessage.setLineWrap(true);
+        jlblMessage.setWrapStyleWord(true);
+        jlblMessage.setFocusable(false);
+        jlblMessage.setPreferredSize(new java.awt.Dimension(350, 150));
+        jlblMessage.setRequestFocusEnabled(false);
+        jPanel1.add(jlblMessage);
 
-        jLabel1.setText(AppLocal.getIntString("Label.InputCash")); // NOI18N
-        jPanel4.add(jLabel1);
-        jLabel1.setBounds(20, 20, 100, 15);
-
-        m_jMoneyEuros.setBackground(new java.awt.Color(153, 153, 255));
-        m_jMoneyEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        m_jMoneyEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-        m_jMoneyEuros.setOpaque(true);
-        m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(150, 25));
-        jPanel4.add(m_jMoneyEuros);
-        m_jMoneyEuros.setBounds(120, 20, 150, 25);
-
-        add(jPanel4, java.awt.BorderLayout.CENTER);
-
-        jPanel11.setLayout(new java.awt.BorderLayout());
-
-        jPanel12.setLayout(new javax.swing.BoxLayout(jPanel12, javax.swing.BoxLayout.Y_AXIS));
-        jPanel12.add(m_jKeys);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        jPanel1.setLayout(new java.awt.BorderLayout());
-        jPanel1.add(m_jTendered, java.awt.BorderLayout.CENTER);
-
-        jPanel12.add(jPanel1);
-
-        jPanel11.add(jPanel12, java.awt.BorderLayout.NORTH);
+        add(jPanel1, java.awt.BorderLayout.CENTER);
         
-        add(jPanel11, java.awt.BorderLayout.EAST);
     }// </editor-fold>//GEN-END:initComponents
     
     private void ScaleButtons() {
-    	PropertyUtil.ScaleLabelFontsize(m_App, m_jMoneyEuros, "common-dialog-fontsize", "22");
-    	PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
+    	PropertyUtil.ScaleTextAreaFontsize(m_App, jlblMessage, "common-small-fontsize", "32");
 	}
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel4;
-    private com.openbravo.editor.JEditorKeys m_jKeys;
-    private javax.swing.JLabel m_jMoneyEuros;
-    private com.openbravo.editor.JEditorCurrencyPositive m_jTendered;
-    // End of variables declaration//GEN-END:variables
     
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextArea jlblMessage;
 }

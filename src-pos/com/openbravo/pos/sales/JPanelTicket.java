@@ -265,20 +265,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		int i = m_ticketlines.getSelectedIndex();
 		if (i >= 0) {
-			
+
 			// side buttons
 			btnSplit.setEnabled(true);
 			m_jEditLine.setEnabled(true);
 			m_jDelete.setEnabled(true);
-			
-			TicketLineInfo line = m_oTicket.getLine(i);
-			// product attributes
-			String setId = line.getProductAttSetId();
-			if (setId != null) {
-				jEditAttributes.setEnabled(true);
-			} else {
-				jEditAttributes.setEnabled(false);
-			}
+			jEditAttributes.setEnabled(true);
 		} else {
 			btnSplit.setEnabled(false);
 			jEditAttributes.setEnabled(false);
@@ -295,12 +287,21 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		if (m_oTicket != null) {
 			// Asign preeliminary properties to the receipt
 			m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+			try {
 			m_oTicket.setActiveCash(m_App.getActiveCashIndex());
+			}
+			catch(Exception ex)
+			{
+				m_oTicket.setActiveCash(null);
+			}
 			m_oTicket.setDate(new Date()); // Set the edition date.
 		}
 
 		executeEvent(m_oTicket, m_oTicketExt, "ticket.show");
 
+		if(oTicket != null)
+			resetSouthComponent(); //reset categories and products
+		
 		refreshTicket();
 		
 		ticketListChanged();
@@ -326,7 +327,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			// Muestro el panel de nulos.
 			cl.show(this, "null");
-			resetSouthComponent();
 
 		} else {
 			if (m_oTicket.getTicketType() == TicketInfo.RECEIPT_REFUND) {
@@ -355,7 +355,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			// Muestro el panel de tickets.
 			cl.show(this, "ticket");
-			resetSouthComponent();
 
 			// activo el tecleador...
 			m_jKeyFactory.setText(null);
@@ -966,18 +965,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						ticket.setPayments(paymentdialog.getSelectedPayments());
 
 						// Asigno los valores definitivos del ticket...
-						ticket.setUser(m_App.getAppUserView().getUser().getUserInfo()); // El
-																						// usuario
-																						// que
-																						// lo
-																						// cobra
-						ticket.setActiveCash(m_App.getActiveCashIndex());
-						ticket.setDate(new Date()); // Le pongo la fecha de
-													// cobro
+						ticket.setUser(m_App.getAppUserView().getUser().getUserInfo());
 
 						if (executeEvent(ticket, ticketext, "ticket.save") == null) {
 							// Save the receipt and assign a receipt number
 							try {
+								ticket.setActiveCash(m_App.getActiveCashIndex());
+								ticket.setDate(new Date());
+
 								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
 
 								executeEvent(ticket, ticketext, "ticket.close",

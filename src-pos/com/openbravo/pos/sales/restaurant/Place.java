@@ -150,7 +150,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		this.m_ix = x;
 		this.m_iy = y;
 
-		this.editor.setXYCoordinates(x, y);
+		this.editor.setXYCoordinates(this.m_ix, this.m_iy);
 	}
 
 	public PlacesEditor getEditor() {

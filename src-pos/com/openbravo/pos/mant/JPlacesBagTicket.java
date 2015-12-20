@@ -100,6 +100,8 @@ public class JPlacesBagTicket extends JPlacesBag {
 		ScaleButtons();
 	}
 
+	public void refreshPlaces(){}
+	
 	@Override
 	public void ScaleButtons() {
 		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));

@@ -206,28 +206,6 @@ public class JRootApp extends JPanel implements AppView {
 		// Cargamos las propiedades de base de datos
 		m_propsdb = m_dlSystem.getResourceAsProperties(m_props.getHost() + "/properties");
 
-		// creamos la caja activa si esta no existe
-		try {
-			String sActiveCashIndex = m_propsdb.getProperty("activecash");
-			Object[] valcash = sActiveCashIndex == null ? null : m_dlSystem.findActiveCash(sActiveCashIndex);
-			if (valcash == null || !m_props.getHost().equals(valcash[0])) {
-				// no la encuentro o no es de mi host por tanto creo una...
-				setActiveCash(UUID.randomUUID().toString(), new Date(), null);
-
-				// creamos la caja activa
-				m_dlSystem.execInsertCash(new Object[] { getActiveCashIndex(), m_props.getHost(),
-						getActiveCashDateStart(), getActiveCashDateEnd() });
-			} else {
-				setActiveCash(sActiveCashIndex, (Date) valcash[2], (Date) valcash[3]);
-			}
-		} catch (BasicException e) {
-			// Casco. Sin caja no hay pos
-			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"), e);
-			msg.show(this,this);
-			session.close();
-			return false;
-		}
-
 		// Leo la localizacion de la caja (Almacen).
 		m_sInventoryLocation = m_propsdb.getProperty("location");
 		if (m_sInventoryLocation == null) {
@@ -323,18 +301,52 @@ public class JRootApp extends JPanel implements AppView {
 		return m_sInventoryLocation;
 	}
 
-	public String getActiveCashIndex() {
+	private void CheckActiveCash() throws BasicException
+	{
+		if(m_sActiveCashIndex == null || m_dActiveCashDateEnd != null)
+		{
+			String host = this.getProperties().getHost();
+			Object[] valcash = m_dlSystem.findActiveCashHost(host);
+			if (valcash == null || !host.equals(valcash[1])) {
+				String id = UUID.randomUUID().toString();
+				Date start = new Date();
+				// open new cash session
+				m_dlSystem.execInsertCash(new Object[] { id, host,
+						start , null});
+				
+				m_sActiveCashIndex = id;
+				m_dActiveCashDateStart = start;
+				m_dActiveCashDateEnd = null;
+				
+			} else {
+				m_sActiveCashIndex = (String) valcash[0];
+				m_dActiveCashDateStart = (Date) valcash[3];
+				m_dActiveCashDateEnd = null;
+			}
+		}
+	}
+	
+	public String getActiveCashIndex() throws BasicException {
+		CheckActiveCash();
+		
 		return m_sActiveCashIndex;
 	}
 
-	public Date getActiveCashDateStart() {
+	public Date getActiveCashDateStart() throws BasicException {
+		CheckActiveCash();
 		return m_dActiveCashDateStart;
 	}
 
-	public Date getActiveCashDateEnd() {
+	public Date getActiveCashDateEnd() throws BasicException {
+		CheckActiveCash();
 		return m_dActiveCashDateEnd;
 	}
+	
+	public void setActiveCashDateEnd(Date dateEnd){
+		m_dActiveCashDateEnd = dateEnd;
+	}
 
+	/*
 	public void setActiveCash(String sIndex, Date dStart, Date dEnd) {
 		m_sActiveCashIndex = sIndex;
 		m_dActiveCashDateStart = dStart;
@@ -343,7 +355,8 @@ public class JRootApp extends JPanel implements AppView {
 		m_propsdb.setProperty("activecash", m_sActiveCashIndex);
 		m_dlSystem.setResourceAsProperties(m_props.getHost() + "/properties", m_propsdb);
 	}
-
+	*/
+	
 	public AppProperties getProperties() {
 		return m_props;
 	}

@@ -94,14 +94,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		}
 
 		// read all places
-		try {
-			SentenceList sent = new StaticSentence(app.getSession(),
-					"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
-					new SerializerReadClass(Place.class));
-			m_aplaces = sent.list();
-		} catch (BasicException eD) {
-			m_aplaces = new ArrayList<Place>();
-		}
+		refreshPlaces();
 
 		initComponents();
 
@@ -187,6 +180,60 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		// add(m_jreservations, "res");
 	}
 
+	public void refreshPlaces() {
+		// read all places
+		try {
+			SentenceList sent = new StaticSentence(m_App.getSession(),
+					"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
+					new SerializerReadClass(Place.class));
+			m_aplaces = sent.list();
+		} catch (BasicException eD) {
+			m_aplaces = new ArrayList<Place>();
+		}
+		
+		
+		
+		
+		// refresh/repaint floor
+		if (jTabFloors == null) {
+			return;
+		}
+
+		
+		// Add all the Table buttons.
+		Floor currfloor = null;
+		String title = jTabFloors.getTitleAt(jTabFloors.getSelectedIndex());
+		for (int i = 0; i < m_afloors.size(); i++) {
+			Floor floor = m_afloors.get(i);
+			if (title.equals(floor.getName())) {
+				currfloor = floor;
+				break;
+			}
+		}
+		if(currfloor != null)
+		{
+			
+			Component[] components = currfloor.getContainer().getComponents();
+			for (Component c : components)
+			{
+				currfloor.getContainer().remove(c);
+			}
+			
+			for (Place pl : m_aplaces) {
+				if(currfloor.getID().equals(pl.getFloor()))
+				{
+					currfloor.getContainer().add(pl.getButton());
+					pl.setButtonBounds(m_App);
+					pl.setEditor(this.m_Editor);
+					// 	pl.getButton().addActionListener(new MyActionListener(pl));
+				}
+			}
+		}
+		
+		
+		
+	}
+
 	@Override
 	protected void floorChanged() {
 		if (jTabFloors == null) {
@@ -217,6 +264,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			ListProvider lProv = m_Editor.getPanelPlaces().getListProvider();
 			m_Editor.getPanelPlaces().getBrowseableData().setListProvider(lProv);
 			m_Editor.getPanelPlaces().getBrowseableData().refreshData();
+			m_Editor.selectFloor(id);
+
 		} catch (BasicException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
