@@ -103,7 +103,6 @@ public class JPasswordDialog extends javax.swing.JDialog {
 		} else {
 			myMsg = new JPasswordDialog(app, (Dialog) window, true);
 		}
-		myMsg.setSize(400, 800);
 
 		myMsg.setTitle(title, message, icon);
 		myMsg.setVisible(true);
@@ -191,10 +190,10 @@ public class JPasswordDialog extends javax.swing.JDialog {
 
 		getContentPane().add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
 
-		PropertyUtil.ScaleDialog(m_App, this, 258, 428);
+		PropertyUtil.ScaleDialog(m_App, this, 350, 520);
 
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width), (screenSize.height), 258, 428);
+		// java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width), (screenSize.height), 258, 428);
 		// setBounds((screenSize.width-258)/2, (screenSize.height-428)/2, 258,
 		// 428);
 
