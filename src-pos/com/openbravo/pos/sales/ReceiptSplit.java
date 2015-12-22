@@ -65,11 +65,11 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		initComponents();
 		getRootPane().setDefaultButton(m_jButtonOK);
 
-		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic);
+		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, false);
 		receiptone.setCustomerEnabled(false);
 		jPanel5.add(receiptone, BorderLayout.CENTER);
 
-		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic);
+		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, true);
 		jPanel3.add(receipttwo, BorderLayout.CENTER);
 
 		ScaleButtons();
@@ -123,6 +123,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		java.awt.GridBagConstraints gridBagConstraints;
 
 		jPanel2 = new javax.swing.JPanel();
+		m_jButtonMove = new javax.swing.JButton();
 		m_jButtonOK = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
@@ -140,6 +141,19 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
+		m_jButtonMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		m_jButtonMove.setText(AppLocal.getIntString("Button.Move")); // NOI18N
+		m_jButtonMove.setFocusPainted(false);
+		m_jButtonMove.setFocusable(false);
+		m_jButtonMove.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		m_jButtonMove.setRequestFocusEnabled(false);
+		m_jButtonMove.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jButtonMoveActionPerformed(evt);
+			}
+		});
+		jPanel2.add(m_jButtonMove);
+		
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
 		m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
@@ -261,8 +275,16 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		// 2, 730, 520);
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void m_jButtonMoveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed
+		this.m_receipt = false;
+		if (receipttwo.getTicket().getLinesCount() > 0) {
+			accepted = true;
+			dispose();
+		}
+	}
+	
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed
-
+		this.m_receipt = true;
 		if (receipttwo.getTicket().getLinesCount() > 0) {
 			accepted = true;
 			dispose();
@@ -322,7 +344,10 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
 	private javax.swing.JButton m_jButtonCancel;
+	private javax.swing.JButton m_jButtonMove;
 	private javax.swing.JButton m_jButtonOK;
+	
+	private boolean m_receipt = true;
 	// End of variables declaration//GEN-END:variables
 
 	private void ScaleButtons() {
@@ -346,6 +371,30 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		// PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros,
 		// "common-large-fontsize", "64");
 
+	}
+
+	/**
+	 * get the actual table name
+	 * @return
+	 */
+	public Object getTicketText() {
+		return this.receipttwo.getTicket();
+	}
+
+	/**
+	 * ist it a receipt or a table shift
+	 * @return
+	 */
+	public boolean isReceipt() {
+		return this.m_receipt;
+	}
+
+	/**
+	 * get actual selected table id
+	 * @return
+	 */
+	public String getTicketId() {
+		return this.receipttwo.getTicketId();
 	}
 
 }

@@ -145,6 +145,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 		dlCustomers = (DataLogicCustomers) m_App.getBean("com.openbravo.pos.customers.DataLogicCustomers");
+		dlReceipts = (DataLogicReceipts) app.getBean("com.openbravo.pos.sales.DataLogicReceipts");
 
 		m_ticketlines = new JTicketLines(app, "sales-producttable-lineheight", "sales-producttable-fontsize",
 				dlSystem.getResourceAsXML("Ticket.Line"));
@@ -1783,11 +1784,49 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			ticket2.setCustomer(m_oTicket.getCustomer());
 
 			if (splitdialog.showDialog(ticket1, ticket2, m_oTicketExt)) {
-				if (closeTicket(ticket2, m_oTicketExt)) { // already checked
-															// that number of
-															// lines > 0
-					setActiveTicket(ticket1, m_oTicketExt);// set result ticket
+				Object currentTicket = splitdialog.getTicketText();
+				String currentTicketId = splitdialog.getTicketId();
+				if (splitdialog.isReceipt()) {
+
+					if (closeTicket(ticket2, currentTicket)) { // already
+																// checked
+																// that number
+																// of
+																// lines > 0
+					}
+				} else {
+					// now we move lines to the selected Table
+					try {
+						dlReceipts.insertSharedTicket(currentTicketId, ticket2);
+					} catch (BasicException e) {
+						// insert was not possible, so try to perform an update
+						try {
+							//first read all booked elements
+							TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
+							for(TicketLineInfo info : dummy.getLines()) {
+								// does info exists?
+								TicketLineInfo inf = null;
+								for(TicketLineInfo lni : ticket2.getLines()) {
+									if(lni.getProductID().compareTo(info.getProductID()) == 0) {
+										inf = lni;
+										break;
+									}
+								}
+								if(inf != null) {
+									inf.setMultiply(inf.getMultiply() + info.getMultiply());
+								} else {
+									ticket2.addLine(info);
+								}
+							}
+							dlReceipts.updateSharedTicket(currentTicketId, ticket2);
+						} catch (BasicException ex) {
+							new MessageInf(ex).show(m_App, this);
+						}
+					}
 				}
+
+				setActiveTicket(ticket1, m_oTicketExt); // set result
+				// ticket
 			}
 		}
 
@@ -1871,6 +1910,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private javax.swing.JLabel m_jTotalEuros;
 	// private javax.swing.JButton m_jUp;
 	private javax.swing.JToggleButton m_jaddtax;
+
+	private DataLogicReceipts dlReceipts = null;
 	// End of variables declaration//GEN-END:variables
 
 }

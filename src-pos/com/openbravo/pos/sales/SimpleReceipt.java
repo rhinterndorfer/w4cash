@@ -21,22 +21,39 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.MessageInf;
+import com.openbravo.data.loader.SentenceList;
+import com.openbravo.data.loader.SerializerReadClass;
+import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.customers.JCustomerFinder;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.sales.restaurant.Place;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
+import javafx.scene.control.ComboBox;
+
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -51,12 +68,16 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private JTicketLines ticketlines;
 	private TicketInfo ticket;
 	private Object ticketext;
+	private String ticketId;
 	private AppView m_App;
+	private boolean tableSelect = false;
+	private Place selectedTable;
 
 	/** Creates new form SimpleReceipt */
 	public SimpleReceipt(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
-			TaxesLogic taxeslogic) {
+			TaxesLogic taxeslogic, boolean tableSelect) {
 		this.m_App = app;
+		this.tableSelect = tableSelect;
 		initComponents();
 
 		// dlSystem.getResourceAsXML("Ticket.Line")
@@ -75,7 +96,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		int bheight = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-img-small", "32"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		PropertyUtil.ScaleButtonIcon(btnCustomer, bwidth, bheight, fontsize);
 
 	}
@@ -84,13 +105,35 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		btnCustomer.setEnabled(value);
 	}
 
-	public void setTicket(TicketInfo ticket, Object ticketext) {
+	public void setTicket(TicketInfo ticket, Object tt) {
 
 		this.ticket = ticket;
-		this.ticketext = ticketext;
+		this.ticketext = tt;
 
 		// The ticket name
-		m_jTicketId.setText(ticket.getName(ticketext));
+		if (this.tableSelect) {
+			// find selected talbe
+			for (Place place : this.m_aplaces) {
+				if (place.getName().compareTo(tt.toString()) == 0) {
+					this.selectedTable = place;
+					break;
+				}
+			}
+
+			((JComboBox<Place>) m_jTicketId).setSelectedItem(selectedTable);
+
+			((JComboBox<Place>) m_jTicketId).addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					selectedTable = (Place) ((JComboBox<Place>) e.getSource()).getSelectedItem();
+					ticketext = selectedTable.getName();
+					ticketId = selectedTable.getId();
+				}
+			});
+		} else {
+			((JLabel) m_jLTicketId).setText(ticket.getName(tt));
+		}
 
 		ticketlines.clearTicketLines();
 		for (int i = 0; i < ticket.getLinesCount(); i++) {
@@ -264,7 +307,41 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		m_jLblTotalEuros2 = new javax.swing.JLabel();
 		m_jLblTotalEuros3 = new javax.swing.JLabel();
 		m_jButtons = new javax.swing.JPanel();
-		m_jTicketId = new javax.swing.JLabel();
+		// m_jTicketId = new javax.swing.JLabel();
+		if (this.tableSelect) {
+			fillpossibleTables();
+			
+			// first add direct sales place
+			Place place = new Place();
+			place.setSId("direkt");
+			place.setSName("direkt");
+
+			// TicketInfo ticket = new TicketInfo();
+
+//			m_restaurantmap.setPromptTicket(true);
+//			setActivePlace(m_place, ticket);
+			
+			
+			m_jTicketId = new JComboBox<Place>(this.m_aplaces.toArray(new Place[this.m_aplaces.size()]));
+			// TODO activate next line to activate spit to direkt buchen possibility
+//			m_jTicketId.insertItemAt(place, 0);
+			
+			((JComboBox<Place>) m_jTicketId).setRenderer(new ListCellRenderer<Place>() {
+
+				public Component getListCellRendererComponent(JList<? extends Place> list, Place value, int index,
+						boolean isSelected, boolean cellHasFocus) {
+					// TODO Auto-generated method stub
+					JLabel renderer = new JLabel(value.getName());
+					PropertyUtil.ScaleLabelFontsize(m_App, renderer, "common-dialog-fontsize", "22");
+					return renderer;
+				}
+			});
+
+			PropertyUtil.ScaleJBomboBoxScrollbar(m_App, m_jTicketId);
+		} // else {
+		m_jLTicketId = new javax.swing.JLabel();
+		// }
+
 		btnCustomer = new javax.swing.JButton();
 		jPanel2 = new javax.swing.JPanel();
 
@@ -340,16 +417,35 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		m_jButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-		m_jTicketId.setBackground(java.awt.Color.white);
-		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		m_jTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+		if (tableSelect) {
+			m_jTicketId.setBackground(java.awt.Color.white);
+			// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+			m_jTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+					javax.swing.BorderFactory
+							.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+					javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+			m_jTicketId.setOpaque(true);
+			// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
+			m_jTicketId.setRequestFocusEnabled(false);
+
+			m_jButtons.add(m_jTicketId);
+			
+			m_jLTicketId.setVisible(false);
+		}
+
+		m_jLTicketId.setBackground(java.awt.Color.white);
+		// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+		m_jLTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
 				javax.swing.BorderFactory
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-		m_jTicketId.setOpaque(true);
+		m_jLTicketId.setOpaque(true);
 		// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
-		m_jTicketId.setRequestFocusEnabled(false);
-		m_jButtons.add(m_jTicketId);
+		m_jLTicketId.setRequestFocusEnabled(false);
+
+		m_jButtons.add(m_jLTicketId);
 
 		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
 		btnCustomer.setFocusPainted(false);
@@ -370,11 +466,30 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		add(jPanel2, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void fillpossibleTables() {
+		if (this.tableSelect) {
+			try {
+				SentenceList sent = new StaticSentence(m_App.getSession(),
+						"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
+						new SerializerReadClass(Place.class));
+				this.m_aplaces = sent.list();
+			} catch (BasicException eD) {
+				this.m_aplaces = new ArrayList<Place>();
+			}
+		}
+
+	}
+
 	private void ScaleLabels() {
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxesEuros, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotalEuros, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "common-dialog-fontsize", "22");
+		if (this.tableSelect) {
+			PropertyUtil.ScaleComboFontsize(m_App, ((JComboBox<Place>) m_jTicketId), "common-dialog-fontsize", "22");
+		}
+//		} else {
+			PropertyUtil.ScaleLabelFontsize(m_App, m_jLTicketId, "common-dialog-fontsize", "22");
+//		}
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros2, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros3, "common-dialog-fontsize", "22");
@@ -492,7 +607,20 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		}
 
 		// The ticket name
-		m_jTicketId.setText(ticket.getName(ticketext));
+		if (this.tableSelect) {
+			if(finder.getSelectedCustomer() == null) {
+				m_jTicketId.setVisible(true);
+				m_jLTicketId.setVisible(false);
+				((JComboBox<Place>) m_jTicketId).setSelectedItem(ticket.getName(ticketext));
+			} else {
+				m_jTicketId.setVisible(false);
+				m_jLTicketId.setVisible(true);
+				((JLabel) m_jLTicketId).setText(ticket.getName(ticketext));
+			}
+			
+		} else {
+			((JLabel) m_jLTicketId).setText(ticket.getName(ticketext));
+		}
 
 		refreshTicketTaxes();
 
@@ -512,8 +640,18 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private javax.swing.JPanel m_jPanTotals;
 	private javax.swing.JLabel m_jSubtotalEuros;
 	private javax.swing.JLabel m_jTaxesEuros;
-	private javax.swing.JLabel m_jTicketId;
+	// private javax.swing.JLabel m_jTicketId;
+	private javax.swing.JComboBox<Place> m_jTicketId;
+	private javax.swing.JLabel m_jLTicketId;
 	private javax.swing.JLabel m_jTotalEuros;
+	private List<Place> m_aplaces;
 	// End of variables declaration//GEN-END:variables
 
+	public Object getTicketText() {
+		return this.ticketext;
+	}
+
+	public String getTicketId() {
+		return this.ticketId;
+	}
 }
