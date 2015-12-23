@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.sales.restaurant;
 
+import com.openbravo.pos.ticket.CategoryInfo;
 import com.openbravo.pos.ticket.TicketInfo;
 import java.util.*;
 import java.util.List;
@@ -26,7 +27,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import com.openbravo.pos.sales.*;
+import com.openbravo.pos.scripting.ScriptEngine;
+import com.openbravo.pos.scripting.ScriptException;
+import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.forms.*;
+import com.openbravo.pos.printer.TicketParser;
+import com.openbravo.pos.printer.TicketPrinterException;
 import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.data.loader.SerializerReadClass;
 import com.openbravo.basic.BasicException;
@@ -58,13 +64,19 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private DataLogicReceipts dlReceipts = null;
 	private DataLogicSales dlSales = null;
 	private JButton m_jbtnLogout;
+	private DataLogicSystem dlSystem = null;
+
+	private TicketParser m_TTP;
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JTicketsBagRestaurantMap(AppView app, TicketsEditor panelticket) {
 		super(app, panelticket);
 
+		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlReceipts = (DataLogicReceipts) app.getBean("com.openbravo.pos.sales.DataLogicReceipts");
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
+
+		m_TTP = new TicketParser(m_App.getDeviceTicket(), dlSystem);
 
 		m_restaurantmap = new JTicketsBagRestaurant(app, this);
 		m_PlaceCurrent = null;
@@ -275,15 +287,115 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		return viewTables(null);
 	}
 
+	/**
+	 * find the printer id by category
+	 * 
+	 * @param categoryID
+	 * @return
+	 */
+	private int findPrinterIdByCategory(String categoryID) {
+		try {
+			for(CategoryInfo info : dlSales.getRootCategories()) {
+				if(info.getID().compareTo(categoryID) == 0) {
+					// category was found
+					return info.getPrinterId();
+				}
+			}
+			
+		} catch (BasicException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
 	public void newTicket() {
 
 		// guardamos el ticket
 		if (m_PlaceCurrent != null) {
 
 			try {
-				if (m_panelticket.getActiveTicket().getLinesCount() > 0)
+				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+					// here we add ticket for each printer
+					HashMap<Integer, TicketInfo> printabletickets = new HashMap<Integer, TicketInfo>();
+
+					// and schank printer
+					TicketInfo ticketinfo1 = m_panelticket.getActiveTicket().copyTicket();
+					TicketInfo clone = m_panelticket.getActiveTicketClone();
+
+					// first check if we have something to print
+					for (TicketLineInfo line : ticketinfo1.getLines()) {
+
+						int printerId = findPrinterIdByCategory(line.getProperty("product.categoryid"));
+
+						if (printerId < 0) {
+							continue; // no printer for category configured
+						}
+						
+						// get ti from map
+						TicketInfo ti = printabletickets.get(printerId);
+
+						// we couldn't find a ticketinfo for the configured
+						// printer, so we add a new one
+						if (ti == null) {
+							ti = ticketinfo1.copyTicket();
+							ti.getLines().clear();
+							printabletickets.put(printerId, ti);
+						}
+
+						// try to find line in clone
+						int index = 0;
+						boolean linematch = false;
+						for (TicketLineInfo inf : clone.getLines()) {
+							if (line.getProductID().compareTo(inf.getProductID()) == 0) {
+								// line found, so verify amount
+								if (line.getMultiply() != inf.getMultiply()) {
+									line.setMultiply(line.getMultiply() - inf.getMultiply());
+									ti.addLine(line);
+									clone.removeLine(index);
+									linematch = true;
+									break;
+								}
+							}
+							index++;
+						}
+						// if we couldn't find the line so put the whole line
+						// into printer spooler
+						if (!linematch) {
+							ti.addLine(line);
+						}
+						// now we put all different lines into printer ordered
+						// ticketinfo
+
+						// now try to find lines which were deleted from
+						// original
+						for (TicketLineInfo inf : clone.getLines()) {
+							printerId = findPrinterIdByCategory(inf.getProperty("product.categoryid"));
+							if (printerId < 0)
+								continue;
+
+							ti = printabletickets.get(printerId);
+							if (ti == null) {
+								ti = ticketinfo1.copyTicket();
+								ti.getLines().clear();
+								printabletickets.put(printerId, ti);
+							}
+
+							inf.setMultiply(0 - inf.getMultiply());
+							ti.addLine(inf);
+							//
+						}
+
+					}
+
+					printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent.getSName());
+					// for(int key : printabletickets.keySet()) {
+					// printOrder("Printer.AdditionalPrinter",
+					// printabletickets.get(key), m_PlaceCurrent.getSName());
+					// }
+
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-				else {
+				} else {
 					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
 					m_jbtnRefreshActionPerformed(null);
 				}
@@ -296,6 +408,32 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		printState();
 		m_panelticket.setActiveTicket(null, null);
+	}
+
+	private void printOrder(String sresourcename, HashMap<Integer, TicketInfo> tickets, Object ticketext) {
+		String sresource = dlSystem.getResourceAsXML(sresourcename);
+		if (sresource == null) {
+			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintorder"));
+			msg.show(m_App, JTicketsBagRestaurantMap.this);
+		} else {
+			for (int key : tickets.keySet()) {
+				try {
+					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+					script.put("ticket", tickets.get(key));
+					script.put("place", ticketext);
+					script.put("printer", "" + key);
+					m_TTP.printTicket(script.eval(sresource).toString());
+				} catch (ScriptException e) {
+					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+							AppLocal.getIntString("message.cannotprintticket"), e);
+					msg.show(m_App, JTicketsBagRestaurantMap.this);
+				} catch (TicketPrinterException e) {
+					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+							AppLocal.getIntString("message.cannotprintticket"), e);
+					msg.show(m_App, JTicketsBagRestaurantMap.this);
+				}
+			}
+		}
 	}
 
 	public void promptTicket() {
@@ -362,7 +500,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_restaurantmap.ticketListChange(ticketLines);
 
 	}
-	
+
 	private void printState() {
 
 		if (m_PlaceClipboard == null) {
@@ -754,7 +892,5 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private javax.swing.JButton m_jbtnReservations;
 	private javax.swing.JButton btn_promptTicket;
 	// End of variables declaration//GEN-END:variables
-
-	
 
 }

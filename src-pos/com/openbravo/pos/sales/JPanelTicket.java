@@ -131,6 +131,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private JPaymentSelect paymentdialogreceipt;
 	private JPaymentSelect paymentdialogrefund;
+	private TicketInfo m_oTicketClone;
 
 	/** Creates new form JTicketView */
 	public JPanelTicket() {
@@ -299,6 +300,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 
 		executeEvent(m_oTicket, m_oTicketExt, "ticket.show");
+		
+		if(m_oTicket != null)
+			m_oTicketClone = m_oTicket.copyTicket();
 
 		if(oTicket != null)
 			resetSouthComponent(); //reset categories and products
@@ -310,6 +314,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	public TicketInfo getActiveTicket() {
 		return m_oTicket;
+	}
+	
+	public TicketInfo getActiveTicketClone() {
+		return m_oTicketClone;
 	}
 
 	private void refreshTicket() {

@@ -25,6 +25,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.ticket.ProductInfoExt;
+import com.openbravo.pos.ticket.TicketInfo;
+
 import java.awt.Dimension;
 
 public class JPanelTicketEdits extends JPanelTicket {
@@ -84,5 +86,4 @@ public class JPanelTicketEdits extends JPanelTicket {
 			buttonTransition((ProductInfoExt) e.getSource());
 		}
 	}
-
 }
