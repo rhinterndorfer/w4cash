@@ -26,6 +26,7 @@ import javax.swing.*;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppLocal;
 
@@ -119,7 +120,11 @@ public class TaxCategoriesEditor extends JPanel implements EditorRecord {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField m_jName;

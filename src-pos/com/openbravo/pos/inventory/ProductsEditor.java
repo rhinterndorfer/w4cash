@@ -33,6 +33,7 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.sales.TaxesLogic;
@@ -751,6 +752,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	@Override
 	public void ScaleButtons() {
 
+	}
+	
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
 	}
 
 	private void m_jInCatalogActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jInCatalogActionPerformed

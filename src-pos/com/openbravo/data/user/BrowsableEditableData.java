@@ -256,6 +256,7 @@ public class BrowsableEditableData {
 	public void sort(Comparator c) throws BasicException {
 		saveData();
 		m_bd.sort(c);
+		m_editorrecord.sortEditor(this);
 		baseMoveTo(0);
 	}
 

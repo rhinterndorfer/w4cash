@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.api.SubstanceSkin;
 
+import com.openbravo.data.gui.JLicenseDialog;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.instance.InstanceQuery;
 
@@ -101,7 +102,7 @@ public class StartPOS {
 				config.load();
 
 				String screenmode = config.getProperty("machine.screenmode");
-				
+
 				// Set the look and feel.
 				try {
 
@@ -115,8 +116,8 @@ public class StartPOS {
 				} catch (Exception e) {
 					logger.log(Level.WARNING, "Cannot set look and feel", e);
 				}
-				
-				JFrame r = null;
+
+				JRootGUI r = null;
 
 				if ("fullscreen".equals(screenmode)) {
 					r = new JRootKiosk();
@@ -124,7 +125,7 @@ public class StartPOS {
 					r = new JRootFrame();
 				}
 
-				final JFrame root = r;
+				final JRootGUI root = r;
 				final GuiWorker action = new StartPOS().new GuiWorker(r);
 
 				new Thread(new Runnable() {
@@ -137,8 +138,6 @@ public class StartPOS {
 						// );
 					}
 				}).start();
-
-				doLicense(root);
 
 				// set Locale.
 				String slang = config.getProperty("user.language");
@@ -158,23 +157,26 @@ public class StartPOS {
 				Formats.setDateTimePattern(config.getProperty("format.datetime"));
 
 				// Set the look and feel.
-//				try {
-//
-//					Object laf = Class.forName(config.getProperty("swing.defaultlaf")).newInstance();
-//
-//					if (laf instanceof LookAndFeel) {
-//						UIManager.setLookAndFeel((LookAndFeel) laf);
-//					} else if (laf instanceof SubstanceSkin) {
-//						SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
-//					}
-//				} catch (Exception e) {
-//					logger.log(Level.WARNING, "Cannot set look and feel", e);
-//				}
+				// try {
+				//
+				// Object laf =
+				// Class.forName(config.getProperty("swing.defaultlaf")).newInstance();
+				//
+				// if (laf instanceof LookAndFeel) {
+				// UIManager.setLookAndFeel((LookAndFeel) laf);
+				// } else if (laf instanceof SubstanceSkin) {
+				// SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
+				// }
+				// } catch (Exception e) {
+				// logger.log(Level.WARNING, "Cannot set look and feel", e);
+				// }
 
 				// boolean started = javaWebStart();
 				// if (!started) {
 				// return;
 				// }
+
+				// doLicense( root);
 
 				if ("fullscreen".equals(screenmode)) {
 					((JRootKiosk) root).initFrame(config);
@@ -187,7 +189,7 @@ public class StartPOS {
 				action.done();
 			}
 
-			private void doLicense(JFrame root) {
+			private void doLicense(JRootGUI root) {
 				File license = new File("w4cash.sha1");
 				File hashing = new File("start.bat");
 
@@ -225,47 +227,55 @@ public class StartPOS {
 					}
 				} catch (IOException e) {
 					// TODO: ERROR DIALOG
+
 					// e.printStackTrace();
 					Window win = SwingUtilities.getWindowAncestor(root);
 
-					final JDialog dialog = new JDialog(win, "W4CASH Lizenz.", ModalityType.APPLICATION_MODAL);
-					dialog.setLocationRelativeTo(win);
+					// JLicenseDialog.showDialog(root.getAppView(), root,
+					// "License", "license");
+					// dialog.setLocationRelativeTo(win);
 
-					JPanel panel = new JPanel();
-					panel.addMouseListener(new java.awt.event.MouseAdapter() {
-						public void mouseClicked(java.awt.event.MouseEvent evt) {
-							dialog.dispose();
-						}
-					});
+					// final JDialog dialog = new JDialog(win, "W4CASH Lizenz.",
+					// ModalityType.APPLICATION_MODAL);
+					// dialog.setLocationRelativeTo(win);
+
+					// JPanel panel = new JPanel();
+					// panel.addMouseListener(new java.awt.event.MouseAdapter()
+					// {
+					// public void mouseClicked(java.awt.event.MouseEvent evt) {
+					// dialog.dispose();
+					// }
+					// });
 					// panel.setBackground(Color.red);
-					JLabel label = new JLabel("Lizenz wurde nicht gefunden, w4cash wird beendet.");
-					label.setFont(new Font("Tahoma", Font.BOLD, 20));
-					label.setHorizontalAlignment(SwingConstants.CENTER);
-					label.setVerticalAlignment(SwingConstants.CENTER);
-					panel.add(label, BorderLayout.CENTER);
-
-					dialog.add(panel);
-					dialog.pack();
+					// JLabel label = new JLabel("Lizenz wurde nicht gefunden,
+					// w4cash wird beendet.");
+					// label.setFont(new Font("Tahoma", Font.BOLD, 20));
+					// label.setHorizontalAlignment(SwingConstants.CENTER);
+					// label.setVerticalAlignment(SwingConstants.CENTER);
+					// panel.add(label, BorderLayout.CENTER);
+					//
+					// dialog.add(panel);
+					// dialog.pack();
 					// dialog.setLocation(new Point(100, 100));
-					dialog.setSize(500, 50);
-					dialog.dispose();
-					dialog.setUndecorated(true);
-					new Thread(new Runnable() {
+					// dialog.setSize(500, 50);
+					// dialog.dispose();
+					// dialog.setUndecorated(true);
+					// new Thread(new Runnable() {
+					//
+					// @Override
+					// public void run() {
+					// // TODO Auto-generated method stub
+					// try {
+					// Thread.sleep(5000);
+					// } catch (InterruptedException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					// dialog.dispose();
+					// }
+					// }).start();
 
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							try {
-								Thread.sleep(5000);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							dialog.dispose();
-						}
-					}).start();
-
-					dialog.setVisible(true);
+					// dialog.setVisible(true);
 
 					System.exit(0);
 				}

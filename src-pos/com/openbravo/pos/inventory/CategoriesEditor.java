@@ -34,6 +34,7 @@ import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceExec;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
@@ -82,7 +83,6 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	}
 
 	public void refresh() {
-
 		List a;
 
 		try {
@@ -101,10 +101,10 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCategory.setModel(m_CategoryModel);
 	}
 
-	private int getNextOrderNumber() {
+	private Integer getNextOrderNumber() {
 		return lastOrderIndex + 1;
 	}
-	
+
 	private void incOrderNumber() {
 		this.lastOrderIndex += 1;
 	}
@@ -132,12 +132,10 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
-		
+
 		m_sortOrder = getNextOrderNumber();
 		incOrderNumber();
 	}
-
-	
 
 	public void writeValueDelete(Object value) {
 		Object[] cat = (Object[]) value;
@@ -246,6 +244,11 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
 	}
+	
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		PropertyUtil.fillSortOrder(bd, 4);
+	}
 
 	private void m_jCatalogDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCatalogDeleteActionPerformed
 
@@ -282,5 +285,5 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private com.openbravo.data.gui.JImageEditor m_jImage;
 	private javax.swing.JTextField m_jName;
 	// End of variables declaration//GEN-END:variables
-
+	
 }

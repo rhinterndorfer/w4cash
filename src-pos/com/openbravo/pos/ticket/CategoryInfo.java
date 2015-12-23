@@ -58,7 +58,7 @@ public class CategoryInfo implements IKeyed {
 		this.m_SortOrder = sortOrder;
 	}
 
-	public int getSortOrder() {
+	public Integer getSortOrder() {
 		return this.m_SortOrder;
 	}
 

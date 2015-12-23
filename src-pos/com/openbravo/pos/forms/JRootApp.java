@@ -114,12 +114,12 @@ public class JRootApp extends JPanel implements AppView {
 		try {
 			session = AppViewConnection.createSession(m_props);
 		} catch (BasicException e) {
-			JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
+			JMessageDialog.showMessage(this, this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
 			// try to close session after a invalid connection! TODO: testen
-			if(session != null){
+			if (session != null) {
 				session.close();
 			}
-			
+
 			return false;
 		}
 
@@ -146,7 +146,7 @@ public class JRootApp extends JPanel implements AppView {
 				 */
 
 				if (JRootApp.class.getResource(sScript) == null) {
-					JMessageDialog.showMessage(this,this,
+					JMessageDialog.showMessage(this, this,
 							new MessageInf(MessageInf.SGN_DANGER,
 									sDBVersion == null
 											? AppLocal.getIntString("message.databasenotsupported",
@@ -184,13 +184,13 @@ public class JRootApp extends JPanel implements AppView {
 
 							java.util.List l = bsentence.list();
 							if (l.size() > 0) {
-								JMessageDialog.showMessage(this,this,
+								JMessageDialog.showMessage(this, this,
 										new MessageInf(MessageInf.SGN_WARNING,
 												AppLocal.getIntString("Database.ScriptWarning"),
 												l.toArray(new Throwable[l.size()])));
 							}
 						} catch (BasicException e) {
-							JMessageDialog.showMessage(this,this, new MessageInf(MessageInf.SGN_DANGER,
+							JMessageDialog.showMessage(this, this, new MessageInf(MessageInf.SGN_DANGER,
 									AppLocal.getIntString("Database.ScriptError"), e));
 							session.close();
 							return false;
@@ -223,7 +223,7 @@ public class JRootApp extends JPanel implements AppView {
 		} catch (BasicException e) {
 			// Casco. Sin caja no hay pos
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"), e);
-			msg.show(this,this);
+			msg.show(this, this);
 			session.close();
 			return false;
 		}
@@ -237,7 +237,7 @@ public class JRootApp extends JPanel implements AppView {
 		}
 
 		// Inicializo la impresora...
-		m_TP = new DeviceTicket(this,this, m_props);
+		m_TP = new DeviceTicket(this, this, m_props);
 
 		// Inicializamos
 		m_TTP = new TicketParser(getDeviceTicket(), m_dlSystem);
@@ -612,7 +612,7 @@ public class JRootApp extends JPanel implements AppView {
 			if (user == null) {
 				// user not found
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.nocard"));
-				msg.show(this,this);
+				msg.show(this, this);
 			} else {
 				openAppView(user);
 			}
@@ -763,6 +763,16 @@ public class JRootApp extends JPanel implements AppView {
 		processKey(evt.getKeyChar());
 
 	}// GEN-LAST:event_m_txtKeysKeyTyped
+
+	public void setMessage(String message) {
+		if (message != null && !message.isEmpty()) {
+			jLabel1.setText("<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.<br>"+message+"</center></html>");
+		} else {
+			jLabel1.setText(
+					"<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.</center></html>");
+
+		}
+	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel1;

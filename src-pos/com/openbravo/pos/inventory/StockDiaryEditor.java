@@ -33,6 +33,7 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.format.Formats;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.pos.catalog.CatalogSelector;
@@ -629,6 +630,10 @@ public class StockDiaryEditor extends javax.swing.JPanel implements EditorRecord
 
 }//GEN-LAST:event_jEditProductActionPerformed
     
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jEditAttributes;

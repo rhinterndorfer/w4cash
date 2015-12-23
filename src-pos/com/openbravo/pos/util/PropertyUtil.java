@@ -21,6 +21,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.ListModel;
 import javax.swing.border.TitledBorder;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -31,7 +32,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.editor.JEditorCurrency;
 import com.openbravo.editor.JEditorNumber;
 import com.openbravo.editor.JEditorString;
@@ -43,6 +46,54 @@ public class PropertyUtil {
 
 	private static Logger logger = Logger.getLogger("com.openbravo.pos.util.PropertyUtil");
 
+	public static void fillSortOrderIfNeeded(BrowsableEditableData bd, int sortColumnIndex) {
+		boolean hasChanged = true;
+		ListModel model = bd.getListModel();
+		for (int i = 0; i < model.getSize(); i++) {
+			Object[] element = (Object[]) model.getElementAt(i);
+
+			if (element[sortColumnIndex] != null) {
+				hasChanged = false;
+				break;
+			}
+			element[sortColumnIndex] = i;
+		}
+
+		if (!hasChanged) {
+			return;
+		}
+
+		try {
+			bd.saveDataSortOrder();
+		} catch (BasicException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void fillSortOrder(BrowsableEditableData bd, int sortColumnIndex) {
+		boolean hasChanged = true;
+		ListModel model = bd.getListModel();
+		for (int i = 0; i < model.getSize(); i++) {
+			Object[] element = (Object[]) model.getElementAt(i);
+
+			if (element[sortColumnIndex] != null) {
+				hasChanged = false;
+//				break;
+			}
+			element[sortColumnIndex] = i;
+		}
+
+//		if (!hasChanged) {
+//			return;
+//		}
+
+		try {
+			bd.saveDataSortOrder();
+		} catch (BasicException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public static void ScaleBorderFontsize(AppView app, TitledBorder border, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);

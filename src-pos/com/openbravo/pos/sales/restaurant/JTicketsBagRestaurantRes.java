@@ -531,5 +531,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		// TODO Auto-generated method stub
 
 	}
-
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
 }

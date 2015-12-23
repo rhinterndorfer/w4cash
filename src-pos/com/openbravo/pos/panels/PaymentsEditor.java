@@ -25,6 +25,7 @@ import java.util.UUID;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.IKeyed;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.pos.forms.AppLocal;
@@ -332,5 +333,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	private com.openbravo.editor.JEditorString jDescription;
 	private javax.swing.JLabel jLabelDesc;
 	// End of variables declaration//GEN-END:variables
-
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
 }

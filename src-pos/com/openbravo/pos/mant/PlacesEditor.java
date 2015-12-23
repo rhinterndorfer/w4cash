@@ -52,6 +52,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 	private AppView m_App;
 	private JPlacesBag m_placesBag;
 	private JPanelPlaces m_panelPlaces;
+	
 
 	/** Creates new form PlacesEditor */
 	public PlacesEditor(AppView appView, DataLogicSales dlSales, JPanelPlaces panelPlaces, DirtyManager dirty) {
@@ -67,7 +68,10 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jFloor.addActionListener(dirty);
 		m_jX.getDocument().addDocumentListener(dirty);
 		m_jY.getDocument().addDocumentListener(dirty);
-
+	
+//		m_jWidth.getDocument().addDocumentListener(dirty);
+//		m_jHeight.getDocument().addDocumentListener(dirty);
+		
 		writeValueEOF();
 	}
 
@@ -94,19 +98,25 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jFloor.setEnabled(false);
 		m_jX.setEnabled(false);
 		m_jY.setEnabled(false);
+//		m_jWidth.setEnabled(false);
+//		m_jHeight.setEnabled(false);
 	}
 
 	public void writeValueInsert() {
 		m_sID = UUID.randomUUID().toString();
 		m_jName.setText(null);
-		// m_FloorModel.setSelectedKey(null);
+//		 m_FloorModel.setSelectedKey();
 		m_jX.setText("0");
 		m_jY.setText("0");
-
+//		m_jWidth.setText("80");
+//		m_jHeight.setText("50");
+		
 		m_jName.setEnabled(true);
 		m_jFloor.setEnabled(false);
 		m_jX.setEnabled(false);
 		m_jY.setEnabled(false);
+//		m_jWidth.setEnabled(false);
+//		m_jHeight.setEnabled(false);
 	}
 
 	public void writeValueDelete(Object value) {
@@ -122,7 +132,9 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jFloor.setEnabled(false);
 		m_jX.setEnabled(false);
 		m_jY.setEnabled(false);
-	}
+//		m_jWidth.setEnabled(false);
+//		m_jHeight.setEnabled(false);
+}
 
 	public void writeValueEdit(Object value) {
 
@@ -132,22 +144,29 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jX.setText(Formats.INT.formatValue(place[2]));
 		m_jY.setText(Formats.INT.formatValue(place[3]));
 		m_FloorModel.setSelectedKey(place[4]);
+//		m_jWidth.setText(Formats.INT.formatValue(place[5]));
+//		m_jHeight.setText(Formats.INT.formatValue(place[6]));
 
 		m_jName.setEnabled(true);
 		m_jFloor.setEnabled(false);
 		m_jX.setEnabled(true);
 		m_jY.setEnabled(true);
+//		m_jWidth.setEnabled(true);
+//		m_jHeight.setEnabled(true);
+	
 
 		this.m_placesBag.selectPlace(Formats.STRING.formatValue(place[0]));
 	}
 
 	public Object createValue() throws BasicException {
-		Object[] place = new Object[5];
+		Object[] place = new Object[7];
 		place[0] = m_sID;
 		place[1] = m_jName.getText();
 		place[2] = Formats.INT.parseValue(m_jX.getText());
 		place[3] = Formats.INT.parseValue(m_jY.getText());
 		place[4] = m_FloorModel.getSelectedKey();
+//		place[5] = Formats.INT.parseValue(m_jWidth.getText());
+//		place[6] = Formats.INT.parseValue(m_jHeight.getText());
 		return place;
 	}
 
@@ -168,6 +187,10 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel3 = new javax.swing.JLabel();
 		m_jX = new javax.swing.JTextField();
 		m_jY = new javax.swing.JTextField();
+//		m_jWidth = new javax.swing.JTextField();
+//		m_jHeight = new javax.swing.JTextField();
+
+		jLabel4 = new JLabel();
 		jLabel1 = new javax.swing.JLabel();
 		m_jFloor = new javax.swing.JComboBox();
 		m_placesBag = JPlacesBag.createPlacesBag(m_App.getProperties().getProperty("machine.ticketsbag"), m_App, this);
@@ -185,11 +208,25 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		add(jLabel3);
 		jLabel3.setBounds(20, 80, 90, 15);
 
+		jLabel4.setText(AppLocal.getIntString("label.placesize"));
+		add(jLabel4);
+		jLabel4.setBounds(20, 110, 90, 15);
+		
 		add(m_jX);
 		m_jX.setBounds(110, 80, 50, 19);
 
 		add(m_jY);
 		m_jY.setBounds(170, 80, 50, 19);
+
+		jLabel4.setText(AppLocal.getIntString("label.placesize"));
+		add(jLabel3);
+		jLabel3.setBounds(20, 80, 90, 15);
+		
+//		add(m_jWidth);
+//		m_jWidth.setBounds(110, 110, 50, 19);
+//
+//		add(m_jHeight);
+//		m_jHeight.setBounds(170, 110, 50, 19);
 
 		jLabel1.setText(AppLocal.getIntString("label.placefloor"));
 		add(jLabel1);
@@ -201,63 +238,88 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jFloor.setBounds(110, 50, 170, 20);
 
 		add(m_placesBag);
-		m_placesBag.setBounds(20, 110, 1000, 750);
+		m_placesBag.setBounds(20, 140, 1000, 750);
 
 		m_jX.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				String valueX = m_jX.getText();
-				String valueY = m_jY.getText();
-
-				try {
-					int x = Integer.parseInt(String.valueOf(valueX));
-					int y = Integer.parseInt(String.valueOf(valueY));
-
-					Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
-					if (place == null) {
-						return;
-					}
-					place.setX(x);
-					place.setY(y);
-					place.setButtonBounds(m_App);
-				} catch (NumberFormatException exc) {
-
-				}
+				moveXYPlace();
 			}
 
 		});
 		m_jY.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				String valueX = m_jX.getText();
-				String valueY = m_jY.getText();
-
-				try {
-					int x = Integer.parseInt(String.valueOf(valueX));
-					int y = Integer.parseInt(String.valueOf(valueY));
-
-					Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
-					if (place == null) {
-						return;
-					}
-					place.setX(x);
-					place.setY(y);
-					place.setButtonBounds(m_App);
-				} catch (NumberFormatException exc) {
-
-				}
+				moveXYPlace();
 			}
 		});
+		
+//		m_jWidth.addKeyListener(new KeyAdapter() {
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				sizePlace();
+//			}
+//		});
+//		
+//		m_jHeight.addKeyListener(new KeyAdapter() {
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				sizePlace();
+//			}
+//			
+//			
+//			
+//		});
 
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void sizePlace(){
+//		String v1 = m_jWidth.getText();
+//		String v2 = m_jHeight.getText();
+//	
+//		int width = Integer.parseInt(String.valueOf(v1));
+//		int height = Integer.parseInt(String.valueOf(v2));
+//	
+//		Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
+//		if (place == null) {
+//			return;
+//		}
+//		
+//		place.setButtonBounds(m_App,width, height);
+	}
+	
+	private void moveXYPlace(){
+		String valueX = m_jX.getText();
+		String valueY = m_jY.getText();
+
+		try {
+			int x = Integer.parseInt(String.valueOf(valueX));
+			int y = Integer.parseInt(String.valueOf(valueY));
+
+			Place place = m_placesBag.getPlace(m_panelPlaces.getBrowseableData().getIndex());
+			if (place == null) {
+				return;
+			}
+			place.setX(x);
+			place.setY(y);
+			place.setButtonBounds(m_App);
+		} catch (NumberFormatException exc) {
+
+		}
+	}
+	
 	public JPanelPlaces getPanelPlaces() {
 		return this.m_panelPlaces;
 	}
 
-	public void setXYCoordinates(int x, int y) {
+	public void setXYCoordinates(int x, int y, int width, int height) {
 		this.m_jX.setText("" + x);
 		this.m_jY.setText("" + y);
+		
+//		this.m_jWidth.setText(""+width);
+//		this.m_jHeight.setText(""+height);
 	}
 
 	public void selectPlace(Place place) {
@@ -284,10 +346,13 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel jLabel4;
 	private javax.swing.JComboBox m_jFloor;
 	private javax.swing.JTextField m_jName;
 	private javax.swing.JTextField m_jX;
 	private javax.swing.JTextField m_jY;
+//	private JTextField m_jWidth;
+//	private JTextField m_jHeight;
 	// End of variables declaration//GEN-END:variables
 
 	@Override
@@ -299,4 +364,22 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_placesBag.activateFill();
 	}
 
+	public void setFloorModel(String id) {
+		for(int i = 0; i < m_FloorModel.getSize(); i++){
+			Object element = m_FloorModel.getElementAt(i);
+			if(!(element instanceof FloorsInfo)){
+				continue;
+			}
+			
+			
+			if(((FloorsInfo)element).getID().equals(id)){
+				m_FloorModel.setSelectedItem(element);
+				break;
+			}
+		}
+	}
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
 }

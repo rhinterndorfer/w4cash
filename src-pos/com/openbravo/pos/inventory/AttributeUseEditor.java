@@ -25,6 +25,7 @@ import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.SerializerRead;
 import com.openbravo.data.loader.StaticSentence;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
@@ -206,6 +207,9 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
 
 }

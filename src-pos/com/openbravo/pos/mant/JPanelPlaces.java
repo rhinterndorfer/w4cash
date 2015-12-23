@@ -53,15 +53,15 @@ public class JPanelPlaces extends JPanelTable {
 		dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 
 		TableDefinition td = new TableDefinition(app.getSession(), "PLACES",
-				new String[] { "ID", "NAME", "X", "Y", "FLOOR" },
+				new String[] { "ID", "NAME", "X", "Y", "FLOOR", "WIDTH","HEIGHT" },
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "X", "Y",
-						AppLocal.getIntString("label.placefloor") },
-				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING },
-				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL },
+						AppLocal.getIntString("label.placefloor"), "WIDTH", "HEIGHT" },
+				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING , Datas.INT, Datas.INT},
+				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT,Formats.NULL , Formats.INT, Formats.INT},
 				new int[] { 0 });
 
 		jeditor = new PlacesEditor(app, dlSales, this, dirty);
-		
+
 		setTableDefinition(td);
 	}
 

@@ -28,6 +28,7 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 
 
@@ -157,5 +158,8 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		// TODO Auto-generated method stub
 		
 	}
-    
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
 }

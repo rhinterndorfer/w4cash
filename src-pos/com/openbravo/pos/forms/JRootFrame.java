@@ -34,7 +34,7 @@ import javax.imageio.ImageIO;
  *
  * @author  adrianromero
  */
-public class JRootFrame extends javax.swing.JFrame implements AppMessage {
+public class JRootFrame extends JRootGUI implements AppMessage {
     
 	private static final long serialVersionUID = 1L;
 	// Gestor de que haya solo una instancia corriendo en cada maquina.
@@ -49,16 +49,14 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
         initComponents();    
     }
     
-    public void initFrame(AppProperties props) {
-        
+    @Override
+    public void initFrame(AppProperties props) {        
         m_props = props;
-        
-        m_rootapp = new JRootApp();
+             
+        m_rootapp = new JRootApp();       
         
         if (m_rootapp.initApp(m_props)) {
-
-
-            if ("true".equals(props.getProperty("machine.uniqueinstance"))) {
+        	if ("true".equals(props.getProperty("machine.uniqueinstance"))) {
                 // Register the running application
                 try {
                     m_instmanager = new InstanceManager(this);
@@ -80,7 +78,7 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
             this.setSize(800, 600); // set size for normal window state
             this.setExtendedState(MAXIMIZED_BOTH);
             setLocationRelativeTo(null);        
-            
+            super.initFrame(props);
             setVisible(true);                        
         }
     }
@@ -126,6 +124,11 @@ public class JRootFrame extends javax.swing.JFrame implements AppMessage {
         System.exit(0);
         
     }//GEN-LAST:event_formWindowClosed
+
+	@Override
+	protected AppView getAppView() {
+		return m_rootapp;
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

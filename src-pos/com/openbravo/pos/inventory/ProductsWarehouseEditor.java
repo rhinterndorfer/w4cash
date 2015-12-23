@@ -22,6 +22,7 @@ package com.openbravo.pos.inventory;
 
 import java.awt.Component;
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
@@ -169,7 +170,11 @@ public class ProductsWarehouseEditor extends javax.swing.JPanel implements Edito
 
     }// </editor-fold>//GEN-END:initComponents
     
-    
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

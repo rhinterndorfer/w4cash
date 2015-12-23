@@ -22,6 +22,7 @@ package com.openbravo.pos.customers;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.SentenceList;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
@@ -835,5 +836,8 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 //		PropertyUtil.ScaleButtonIcon(m_jSearch, menuwidth, menuheight);
 	}
-    
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
 }

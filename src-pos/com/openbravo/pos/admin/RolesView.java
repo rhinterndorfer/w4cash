@@ -22,6 +22,7 @@ package com.openbravo.pos.admin;
 import java.awt.Component;
 import java.util.UUID;
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
@@ -98,6 +99,11 @@ public class RolesView extends javax.swing.JPanel implements EditorRecord {
     
     public void refresh() {
     }
+    
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
     
     /** This method is called from within the constructor to
      * initialize the form.

@@ -22,6 +22,7 @@ package com.openbravo.pos.thirdparties;
 import java.awt.Component;
 import java.util.UUID;
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.pos.forms.AppView;
@@ -334,6 +335,10 @@ public class ThirdPartiesView extends javax.swing.JPanel implements EditorRecord
 
     }// </editor-fold>//GEN-END:initComponents
     
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel10;

@@ -205,11 +205,11 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		}
 
 		TableDefinition td = new PlacesTableDefinition(m_App.getSession(), "PLACES",
-				new String[] { "ID", "NAME", "X", "Y", "FLOOR" },
+				new String[] { "ID", "NAME", "X", "Y", "FLOOR", "WIDTH","HEIGHT" },
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "X", "Y",
-						AppLocal.getIntString("label.placefloor") },
-				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING },
-				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL },
+						AppLocal.getIntString("label.placefloor"), "WIDTH","HEIGHT" },
+				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING, Datas.INT, Datas.INT },
+				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL,Formats.INT, Formats.INT },
 				new int[] { 0 }, id);
 
 		m_Editor.getPanelPlaces().setTableDefinition(td);
@@ -217,8 +217,9 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			ListProvider lProv = m_Editor.getPanelPlaces().getListProvider();
 			m_Editor.getPanelPlaces().getBrowseableData().setListProvider(lProv);
 			m_Editor.getPanelPlaces().getBrowseableData().refreshData();
+		
+			m_Editor.setFloorModel(id);
 		} catch (BasicException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

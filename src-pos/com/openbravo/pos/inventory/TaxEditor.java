@@ -31,6 +31,7 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
@@ -323,6 +324,10 @@ public class TaxEditor extends JPanel implements EditorRecord {
         }
 }//GEN-LAST:event_btnValidFromActionPerformed
     
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnValidFrom;

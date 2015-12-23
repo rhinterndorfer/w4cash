@@ -29,6 +29,7 @@ import java.util.UUID;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.ImageUtils;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
@@ -268,7 +269,10 @@ public class ResourcesView extends JPanel implements EditorRecord {
       
     }//GEN-LAST:event_m_jTypeActionPerformed
     
-    
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -161,30 +161,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		bd.actionLoad();
 	}
 
-	public void fillSortOrderIfNeeded(int sortColumnIndex) {
-		boolean hasChanged = true;
-		ListModel model = bd.getListModel();
-		for (int i = 0; i < model.getSize(); i++) {
-			Object[] element = (Object[]) model.getElementAt(i);
-
-			if (element[sortColumnIndex] != null) {
-				hasChanged = false;
-				break;
-			}
-			element[sortColumnIndex] = i;
-		}
-
-		if (!hasChanged) {
-			return;
-		}
-
-		try {
-			bd.saveDataSortOrder();
-		} catch (BasicException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	public boolean deactivate() {
 
 		try {

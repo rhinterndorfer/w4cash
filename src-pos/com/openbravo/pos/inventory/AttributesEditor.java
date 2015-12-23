@@ -20,6 +20,7 @@
 package com.openbravo.pos.inventory;
 
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
@@ -132,6 +133,11 @@ public class AttributesEditor extends javax.swing.JPanel implements EditorRecord
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void sortEditor(BrowsableEditableData bd) {
 		
 	}
 

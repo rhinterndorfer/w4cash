@@ -68,6 +68,8 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private JPlaceButton m_btn;
 
 	private PlacesEditor editor;
+	private int m_iWidth;
+	private int m_iHeight;
 
 	/** Creates a new instance of TablePlace */
 	public Place() {
@@ -128,12 +130,14 @@ public class Place implements SerializableRead, java.io.Serializable {
 	public void setButtonBounds(AppView app) {
 		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-width", "60"));
 		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-height", "40"));
-		// int fontsize = Integer.parseInt(PropertyUtil.getProperty(app,
-		// "Ticket.Buttons", "button-small-fontsize", "16"));
-
-		// Dimension d = m_btn.getPreferredSize();
-		// m_btn.setBounds(m_ix - d.width / 2, m_iy - d.height / 2, d.width,
-		// d.height);
+	
+		setButtonBounds(app, width, height);
+	}
+	
+	
+	public void setButtonBounds(AppView app, int width, int height) {
+		this.m_iWidth = width;
+		this.m_iHeight = height;
 		m_btn.setBounds(m_ix, m_iy, width, height);
 	}
 
@@ -149,7 +153,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		this.m_ix = x;
 		this.m_iy = y;
 
-		this.editor.setXYCoordinates(x, y);
+		this.editor.setXYCoordinates(x, y, m_iWidth, m_iHeight);
 	}
 
 	public PlacesEditor getEditor() {

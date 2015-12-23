@@ -29,6 +29,7 @@ import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.*;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.user.EditorRecord;
@@ -53,7 +54,7 @@ public class CategoriesPanel extends JPanelTable {
 	@Override
 	public void activate() throws BasicException {
 		super.activate();
-		fillSortOrderIfNeeded(4);
+		PropertyUtil.fillSortOrderIfNeeded(bd, 4);
 		ComparatorCreator ccreator = getComparatorCreator();
 		Comparator c = ccreator.createComparator(new int[] { 1 });
 		bd.sort(c);
@@ -78,7 +79,7 @@ public class CategoriesPanel extends JPanelTable {
 	}
 
 	public ComparatorCreator getComparatorCreator() {
-		return tcategories.getComparatorCreator(new int[] { 1, 4 });
+		return tcategories.getComparatorCreator(new int[] { 1,4 });
 	}
 
 	public ListCellRenderer getListCellRenderer() {

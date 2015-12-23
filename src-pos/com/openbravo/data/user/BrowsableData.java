@@ -142,6 +142,7 @@ public class BrowsableData implements ListModel {
 	public void sort(Comparator c) throws BasicException {
 
 		Collections.sort(m_aData, c);
+		
 		putNewData(m_aData);
 	}
 

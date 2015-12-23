@@ -31,4 +31,6 @@ public interface EditorRecord extends EditorCreator {
     public void refresh();
     
     public Component getComponent(); 
+    
+    public void sortEditor(BrowsableEditableData bd);
 }

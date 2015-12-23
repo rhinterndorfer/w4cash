@@ -338,7 +338,10 @@ public class PeopleView extends JPanel implements EditorRecord {
         }
         
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+    @Override
+	public void sortEditor(BrowsableEditableData bd) {
+		
+	}  
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
