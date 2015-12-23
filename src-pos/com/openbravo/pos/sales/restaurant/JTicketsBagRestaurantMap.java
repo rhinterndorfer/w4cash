@@ -323,17 +323,28 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					TicketInfo ticketinfo1 = m_panelticket.getActiveTicket().copyTicket();
 					TicketInfo clone = m_panelticket.getActiveTicketClone();
 
+					int printerId = -1;
+					TicketInfo ti = null;
 					// first check if we have something to print
 					for (TicketLineInfo line : ticketinfo1.getLines()) {
 
-						int printerId = findPrinterIdByCategory(line.getProperty("product.categoryid"));
-
+						printerId = findPrinterIdByCategory(line.getProperty("product.categoryid"));
+						int index = 0;
+						
 						if (printerId < 0) {
+							for (TicketLineInfo inf : clone.getLines()) {
+								if (line.getProductID().compareTo(inf.getProductID()) == 0) {
+									// line found, so verify amount
+									clone.removeLine(index);
+									break;
+								}
+								index++;
+							}
 							continue; // no printer for category configured
 						}
 						
 						// get ti from map
-						TicketInfo ti = printabletickets.get(printerId);
+						ti = printabletickets.get(printerId);
 
 						// we couldn't find a ticketinfo for the configured
 						// printer, so we add a new one
@@ -344,7 +355,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 						}
 
 						// try to find line in clone
-						int index = 0;
+						index = 0;
 						boolean linematch = false;
 						for (TicketLineInfo inf : clone.getLines()) {
 							if (line.getProductID().compareTo(inf.getProductID()) == 0) {
@@ -352,10 +363,13 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 								if (line.getMultiply() != inf.getMultiply()) {
 									line.setMultiply(line.getMultiply() - inf.getMultiply());
 									ti.addLine(line);
-									clone.removeLine(index);
-									linematch = true;
-									break;
+									
+//									clone.removeLine(index);
+//									break;
 								}
+								linematch = true;
+								clone.removeLine(index);
+								break;
 							}
 							index++;
 						}
@@ -367,25 +381,25 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 						// now we put all different lines into printer ordered
 						// ticketinfo
 
-						// now try to find lines which were deleted from
-						// original
-						for (TicketLineInfo inf : clone.getLines()) {
-							printerId = findPrinterIdByCategory(inf.getProperty("product.categoryid"));
-							if (printerId < 0)
-								continue;
+					}
+					
+					// now try to find lines which were deleted from
+					// original
+					for (TicketLineInfo inf : clone.getLines()) {
+						printerId = findPrinterIdByCategory(inf.getProperty("product.categoryid"));
+						if (printerId < 0)
+							continue;
 
-							ti = printabletickets.get(printerId);
-							if (ti == null) {
-								ti = ticketinfo1.copyTicket();
-								ti.getLines().clear();
-								printabletickets.put(printerId, ti);
-							}
-
-							inf.setMultiply(0 - inf.getMultiply());
-							ti.addLine(inf);
-							//
+						ti = printabletickets.get(printerId);
+						if (ti == null) {
+							ti = ticketinfo1.copyTicket();
+							ti.getLines().clear();
+							printabletickets.put(printerId, ti);
 						}
 
+						inf.setMultiply(0 - inf.getMultiply());
+						ti.addLine(inf);
+						//
 					}
 
 					printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent.getSName());
@@ -417,6 +431,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			msg.show(m_App, JTicketsBagRestaurantMap.this);
 		} else {
 			for (int key : tickets.keySet()) {
+				if(tickets.get(key).getLinesCount() <= 0)
+					continue;
 				try {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("ticket", tickets.get(key));
