@@ -35,8 +35,6 @@ import com.openbravo.pos.util.StringUtils;
 public class PaymentsModel {
 
     private String m_sHost;
-    private Date m_dDateStart;
-    private Date m_dDateEnd;       
             
     private Integer m_iPayments;
     private Double m_dPaymentsTotal;
@@ -48,6 +46,7 @@ public class PaymentsModel {
     private Double m_dSalesBase;
     private Double m_dSalesTaxes;
     private java.util.List<SalesLine> m_lsales;
+    private AppView m_app;
     
     private final static String[] SALEHEADERS = {"label.taxcash", "label.totalcash"};
 
@@ -73,12 +72,10 @@ public class PaymentsModel {
     public static PaymentsModel loadInstance(AppView app) throws BasicException {
         
         PaymentsModel p = new PaymentsModel();
-        
+
         // Propiedades globales
         p.m_sHost = app.getProperties().getHost();
-        p.m_dDateStart = app.getActiveCashDateStart();
-        p.m_dDateEnd = null;
-        
+        p.m_app = app;
         
         // Pagos
         Object[] valtickets = (Object []) new StaticSentence(app.getSession()
@@ -166,24 +163,25 @@ public class PaymentsModel {
     public String getHost() {
         return m_sHost;
     }
-    public Date getDateStart() {
-        return m_dDateStart;
-    }
-    public void setDateEnd(Date dValue) {
-        m_dDateEnd = dValue;
-    }
-    public Date getDateEnd() {
-        return m_dDateEnd;
-    }
-    
+
     public String printHost() {
         return StringUtils.encodeXML(m_sHost);
     }
     public String printDateStart() {
-        return Formats.TIMESTAMP.formatValue(m_dDateStart);
+    	try {
+    		return Formats.TIMESTAMP.formatValue(m_app.getActiveCashDateStart());
+    	} catch(Exception ex)
+    	{
+    		return "";
+    	}
     }
     public String printDateEnd() {
-        return Formats.TIMESTAMP.formatValue(m_dDateEnd);
+        try {
+    		return Formats.TIMESTAMP.formatValue(m_app.getActiveCashDateEnd());
+    	} catch(Exception ex)
+    	{
+    		return "";
+    	}
     }  
     
     public String printPayments() {

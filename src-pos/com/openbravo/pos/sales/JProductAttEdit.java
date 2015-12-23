@@ -52,21 +52,27 @@ import javax.swing.SwingUtilities;
 public class JProductAttEdit extends javax.swing.JDialog {
 
 	private SentenceFind attsetSent;
+	
 	private SentenceList attvaluesSent;
 	private SentenceList attinstSent;
 	private SentenceList attinstSent2;
+	private SentenceList attinstSentMisc;
 	private SentenceFind attsetinstExistsSent;
 
 	private SentenceExec attsetSave;
 	private SentenceExec attinstSave;
-
+	private SentenceExec attinstDelete;
+	private SentenceExec attinstDelete2;
+	
 	private List<JProductAttEditI> itemslist;
 	private String attsetid;
+	private String attsetDescription;
 	private String attInstanceId;
 	private String attInstanceDescription;
+	
 
 	private boolean ok;
-	
+
 	public Boolean isForSingleProduct = false;
 	private AppView m_App;
 
@@ -90,7 +96,14 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		attinstSave = new PreparedSentence(s,
 				"INSERT INTO ATTRIBUTEINSTANCE(ID, ATTRIBUTESETINSTANCE_ID, ATTRIBUTE_ID, VALUE) VALUES (?, ?, ?, ?)",
 				new SerializerWriteBasic(Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING));
-
+		attinstDelete = new PreparedSentence(s,
+				"DELETE FROM ATTRIBUTEINSTANCE WHERE ATTRIBUTESETINSTANCE_ID = ? AND ATTRIBUTE_ID is NULL",
+				SerializerWriteString.INSTANCE);
+		attinstDelete2 = new PreparedSentence(s,
+				"DELETE FROM ATTRIBUTEINSTANCE WHERE ATTRIBUTESETINSTANCE_ID = ? AND ATTRIBUTE_ID = ?",
+				new SerializerWriteBasic(Datas.STRING, Datas.STRING));
+		
+		
 		attsetSent = new PreparedSentence(s, "SELECT ID, NAME FROM ATTRIBUTESET WHERE ID = ?",
 				SerializerWriteString.INSTANCE, new SerializerRead() {
 					public Object readValues(DataRead dr) throws BasicException {
@@ -121,12 +134,20 @@ public class JProductAttEdit extends javax.swing.JDialog {
 								dr.getString(4));
 					}
 				});
+
+		attinstSentMisc = new PreparedSentence(s,
+				"SELECT AI.ID, AI.VALUE " + "FROM ATTRIBUTEINSTANCE AI " + "WHERE AI.ATTRIBUTESETINSTANCE_ID = ?",
+				SerializerWriteString.INSTANCE, new SerializerRead() {
+					public Object readValues(DataRead dr) throws BasicException {
+						return new AttributeInstInfo("", "", dr.getString(1), dr.getString(2));
+					}
+				});
 		attvaluesSent = new PreparedSentence(s, "SELECT VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ?",
 				SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE);
 
 		getRootPane().setDefaultButton(m_jButtonOK);
 
-		//m_jKeys.ScaleButtons();
+		// m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -150,19 +171,18 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		return myMsg;
 	}
 
-	public void editAttributes(String attsetid, String attsetinstid, Boolean withAmountSelection) throws BasicException {
+	public void editAttributes(String attsetid, String attsetinstid, Boolean withAmountSelection)
+			throws BasicException {
 
-		if (attsetid == null) {
-			throw new BasicException(AppLocal.getIntString("message.cannotfindattributes"));
-		} else {
-
-			this.attsetid = attsetid;
-			this.attInstanceId = null;
+		itemslist = new ArrayList<JProductAttEditI>();
+		this.attsetid = attsetid;
+		this.attInstanceId = attsetinstid;
+		
+		m_jButtonOKSingle.setVisible(withAmountSelection);
+		this.ok = false;
+		
+		if (attsetid != null) {
 			this.attInstanceDescription = null;
-
-			this.ok = false;
-			
-			m_jButtonOKSingle.setVisible(withAmountSelection);
 
 			// get attsetinst values
 			AttributeSetInfo asi = (AttributeSetInfo) attsetSent.find(attsetid);
@@ -172,11 +192,9 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			}
 
 			setTitle(asi.getName());
-
+			this.attsetDescription = asi.getName(); 
 			List<AttributeInstInfo> attinstinfo = attsetinstid == null ? attinstSent.list(attsetid)
 					: attinstSent2.list(attsetid, attsetinstid);
-
-			itemslist = new ArrayList<JProductAttEditI>();
 
 			for (AttributeInstInfo aii : attinstinfo) {
 
@@ -194,11 +212,27 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				itemslist.add(item);
 				jPanel2.add(item.getComponent());
 			}
-
-			if (itemslist.size() > 0) {
-				itemslist.get(0).assignSelection();
-			}
+		} else
+		{
+			// TODO: Translations
+			setTitle(AppLocal.getIntString("title.attributesMisc"));
+			this.attsetDescription = AppLocal.getIntString("title.attributesMisc");
 		}
+		// always add an text input field
+		String value = "";
+		if (attsetinstid != null) {
+			List<AttributeInstInfo> attinstinfoMisc = attinstSentMisc.list(attsetinstid);
+			value = attinstinfoMisc.get(0).getValue();
+		}
+		// TODO: Translations		
+		JProductAttEditI itemMisc = new JProductAttEditItem(null, AppLocal.getIntString("label.attributesMisc"), value);
+		itemslist.add(itemMisc);
+		jPanel2.add(itemMisc.getComponent());
+
+		if (itemslist.size() > 0) {
+			itemslist.get(0).assignSelection();
+		}
+
 	}
 
 	public void scaleFont(int fontSize) {
@@ -221,15 +255,18 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				compHeight = (int) screenSize.getHeight();
 
 			PropertyUtil.ScaleDialog(m_App, this, compWidth, compHeight);
-			
-//			setBounds((screenSize.width - compWidth) / 2, (screenSize.height - compHeight) / 2, compWidth, compHeight);
+
+			// setBounds((screenSize.width - compWidth) / 2, (screenSize.height
+			// - compHeight) / 2, compWidth, compHeight);
 
 			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
-			//PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
+			// PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
 			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize, buttonFontSize);
-			//PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle, buttonFontSize);
+			// PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle,
+			// buttonFontSize);
 			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize, buttonFontSize, buttonFontSize);
-			//PropertyUtil.ScaleButtonFontsize(m_jButtonCancel, buttonFontSize);
+			// PropertyUtil.ScaleButtonFontsize(m_jButtonCancel,
+			// buttonFontSize);
 			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize, buttonFontSize);
 
 		}
@@ -335,8 +372,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		
-		m_jButtonOKSingle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		m_jButtonOKSingle
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
 		m_jButtonOKSingle.setText(AppLocal.getIntString("ProductAttEdit.Button.OKSingle")); // NOI18N
 		m_jButtonOKSingle.setFocusPainted(false);
 		m_jButtonOKSingle.setFocusable(false);
@@ -349,8 +386,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			}
 		});
 		jPanel1.add(m_jButtonOKSingle);
-		
-		
+
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
 		m_jButtonOK.setText(AppLocal.getIntString("ProductAttEdit.Button.OKAll")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
@@ -405,7 +441,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		isForSingleProduct = true;
 		m_jButtonOKActionPerformed(evt);
 	}
-	
+
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed
 
 		StringBuilder description = new StringBuilder();
@@ -419,47 +455,33 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			}
 		}
 
-		String id;
-
 		if (description.length() == 0) {
 			// No values then id is null
-			id = null;
+			this.attInstanceId = null;
 		} else {
-			// Some values then an instance should exists.
-			try {
-				// Exist an attribute set instance with these values for the
-				// attributeset selected
-				id = (String) attsetinstExistsSent.find(attsetid, description.toString());
-			} catch (BasicException ex) {
-				// Logger.getLogger(JProductAttEdit.class.getName()).log(Level.SEVERE,
-				// null, ex);
-				return;
-			}
 
-			if (id == null) {
-				// No, create a new ATTRIBUTESETINSTANCE and return the ID
-				// generated
-				// or return null... That means that that product does not
-				// exists....
-				// Maybe these two modes must be supported one for selection and
-				// other for creation....
-				id = UUID.randomUUID().toString();
+			if (this.attInstanceId == null) {
+				this.attInstanceId = UUID.randomUUID().toString();
 				try {
-					attsetSave.exec(id, attsetid, description.toString());
-					for (JProductAttEditI item : itemslist) {
-						attinstSave.exec(UUID.randomUUID().toString(), id, item.getAttribute(), item.getValue());
-					}
-
+					attsetSave.exec(this.attInstanceId, attsetid, this.attsetDescription);
 				} catch (BasicException ex) {
-					// Logger.getLogger(JProductAttEdit.class.getName()).log(Level.SEVERE,
-					// null, ex);
 					return;
 				}
+			}
+			
+			try {
+				attinstDelete.exec(this.attInstanceId); //remove old entries with no attribute reference (misc entries)
+				for (JProductAttEditI item : itemslist) {
+					attinstDelete2.exec(this.attInstanceId, item.getAttribute()); //remove old entries with attribute reference
+					attinstSave.exec(UUID.randomUUID().toString(), this.attInstanceId, item.getAttribute(), item.getValue());
+				}
+
+			} catch (BasicException ex) {
+				return;
 			}
 		}
 
 		ok = true;
-		attInstanceId = id;
 		attInstanceDescription = description.toString();
 
 		dispose();

@@ -76,6 +76,8 @@ public class JPlacesBagShared extends JPlacesBag {
 		// postcondicion es que no tenemos ticket activado ni ticket en el panel
 	}
 
+	public void refreshPlaces(){}
+	
 	public void deleteTicket() {
 		m_sCurrentTicket = null;
 		selectValidTicket();

@@ -92,6 +92,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		m_btn.setIcon(ICO_FRE);
 		m_btn.setText(m_sName);
+		m_btn.setMargin(new java.awt.Insets(0, 0, 0, 0));
 	}
 
 	public String getId() {

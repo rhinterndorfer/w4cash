@@ -54,6 +54,8 @@ public abstract class JPlacesBag extends JPanel {
 		}
 	}
 
+	public abstract void refreshPlaces();
+	
 	public abstract void selectPlace(String id);
 
 	public abstract Place getPlace(int index);

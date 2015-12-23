@@ -59,7 +59,7 @@ public class CategoryInfo implements IKeyed {
 	}
 
 	public Integer getSortOrder() {
-		return this.m_SortOrder;
+		return this.m_SortOrder == null ? 0 : this.m_SortOrder;
 	}
 
 	public String getID() {

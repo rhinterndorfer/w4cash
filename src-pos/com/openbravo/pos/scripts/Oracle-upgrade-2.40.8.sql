@@ -19,6 +19,25 @@
 
 -- Database upgrade script for ORACLE 2.40.8( -> 2.40.9)
 
+-- role update
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Administrator.xml} WHERE ID='0';
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Manager.xml} WHERE ID='1';
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Employee.xml} WHERE ID='2';
+UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Guest.xml} WHERE ID='3';
+
+-- attribute update
+ALTER TABLE ATTRIBUTESETINSTANCE DROP CONSTRAINT ATTSETINST_SET;
+ALTER TABLE ATTRIBUTESETINSTANCE MODIFY ATTRIBUTESET_ID VARCHAR2(256) null;
+
+ALTER TABLE ATTRIBUTEINSTANCE DROP CONSTRAINT ATTINST_SET;
+ALTER TABLE ATTRIBUTEINSTANCE DROP CONSTRAINT ATTINST_ATT;
+ALTER TABLE ATTRIBUTEINSTANCE MODIFY ATTRIBUTESETINSTANCE_ID VARCHAR2(256) null;
+ALTER TABLE ATTRIBUTEINSTANCE MODIFY ATTRIBUTE_ID VARCHAR2(256) null;
+
+-- resources
+UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.Ticket.xml} WHERE NAME='Printer.Ticket';
+UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.TicketPreview.xml} WHERE NAME='Printer.TicketPreview';
+
 
 -- table places width, height
 

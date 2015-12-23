@@ -95,6 +95,8 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
         return null;
     }
 
+    
+    
     public String getActiveCashIndex() {
         return null;
     }
@@ -107,13 +109,18 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
     public Date getActiveCashDateEnd(){
         return null;
     }
+    
+    public void setActiveCashDateEnd(Date dateEnd){
+    	
+    }
     public String getInventoryLocation() {
         return null;
     }
 
+    /*
     public void setActiveCash(String value, Date dStart, Date dEnd) {
     }
-
+	*/
 
     public Session getSession() {
         return session;

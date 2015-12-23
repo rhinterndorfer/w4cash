@@ -94,6 +94,8 @@ public class JPlacesBagSimple extends JPlacesBag {
 		add(m_jDelTicket);
 	}// </editor-fold>//GEN-END:initComponents
 
+	public void refreshPlaces(){}
+	
 	private void m_jDelTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDelTicketActionPerformed
 
 		int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"),

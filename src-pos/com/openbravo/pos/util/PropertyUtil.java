@@ -1,5 +1,7 @@
 package com.openbravo.pos.util;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -16,9 +18,11 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListModel;
@@ -390,6 +394,23 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
+	
+	public static void ScaleTextAreaFontsize(AppView app, JTextArea text, String key, String defaultValue) {
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		try {
+			int fontsize = Integer.parseInt(value);
+
+			Font fontTotalEuros = text.getFont();
+			text.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
+			text.setSize((int) text.getSize().getWidth(), fontsize);
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
+	}
 
 	public static void ScaleTextFieldFontsizePrefered(AppView app, JTextField text, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -714,6 +735,25 @@ public class PropertyUtil {
 		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
 		int value = Integer.parseInt(property);
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
+		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
 
+	public static void ScaleJBomboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {
+		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
+		int value = Integer.parseInt(property);
+		
+		Object popup = jScrollBox.getUI().getAccessibleChild(jScrollBox, 0);
+	      Component c = ((Container) popup).getComponent(0);
+	      if (c instanceof JScrollPane)
+	      {
+	         JScrollPane scrollpane = (JScrollPane) c;
+	         JScrollBar scrollBar = scrollpane.getVerticalScrollBar();
+	         Dimension scrollBarDim = new Dimension(value, scrollBar
+	               .getPreferredSize().height);
+	         scrollBar.setPreferredSize(scrollBarDim);
+	      }
+	      
+		// jScrollBox.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
+		// jScrollBox.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+	}
 }

@@ -20,6 +20,8 @@
 package com.openbravo.pos.forms;
 
 import java.util.Date;
+
+import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.Session;
 import com.openbravo.pos.printer.*;
 import com.openbravo.pos.scale.DeviceScale;
@@ -39,10 +41,11 @@ public interface AppView {
     public AppProperties getProperties();
     public Object getBean(String beanfactory) throws BeanFactoryException;
      
-    public void setActiveCash(String value, Date dStart, Date dEnd);
-    public String getActiveCashIndex();
-    public Date getActiveCashDateStart();
-    public Date getActiveCashDateEnd();
+    //public void setActiveCash(String value, Date dStart, Date dEnd);
+    public String getActiveCashIndex() throws BasicException;
+    public Date getActiveCashDateStart() throws BasicException;
+    public Date getActiveCashDateEnd() throws BasicException;
+    public void setActiveCashDateEnd(Date dateEnd);
     
     public String getInventoryLocation();
     

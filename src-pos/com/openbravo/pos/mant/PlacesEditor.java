@@ -84,6 +84,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 	}
 
 	public void refresh() {
+		this.m_placesBag.refreshPlaces();
 	}
 
 	public void writeValueEOF() {
@@ -322,6 +323,11 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 //		this.m_jHeight.setText(""+height);
 	}
 
+	public void selectFloor(String id) {
+		if(m_FloorModel != null)
+			m_FloorModel.setSelectedKey(id);
+	}
+	
 	public void selectPlace(Place place) {
 		BrowsableEditableData bd = this.m_panelPlaces.getBrowseableData();
 		ListModel listmodel = bd.getListModel();

@@ -235,23 +235,25 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	public void moveTicket() {
 
-		// guardamos el ticket
-		if (m_PlaceCurrent != null) {
+		if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+			// guardamos el ticket
+			if (m_PlaceCurrent != null) {
+				try {
+					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+				} catch (BasicException e) {
+					new MessageInf(e).show(m_App, this);
+				}
 
-			try {
-				dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-			} catch (BasicException e) {
-				new MessageInf(e).show(m_App, this);
+				// me guardo el ticket que quiero copiar.
+				m_PlaceClipboard = m_PlaceCurrent;
+				customer = null;
+				m_PlaceCurrent = null;
 			}
 
-			// me guardo el ticket que quiero copiar.
-			m_PlaceClipboard = m_PlaceCurrent;
-			customer = null;
-			m_PlaceCurrent = null;
+			printState();
+			m_panelticket.setActiveTicket(null, null);
 		}
 
-		printState();
-		m_panelticket.setActiveTicket(null, null);
 	}
 
 	public boolean viewTables(CustomerInfo c) {

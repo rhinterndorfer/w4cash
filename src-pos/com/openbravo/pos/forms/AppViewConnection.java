@@ -66,8 +66,20 @@ public class AppViewConnection {
 				return new Session(props.getProperty("db.URL"), sDBUser, sDBPassword, 5);
 			} catch (SQLException eSQL) {
 				try {
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return new Session(props.getProperty("db.URL"), sDBUser, sDBPassword, 10);
 				} catch (SQLException eSQLx) {
+					try {
+						Thread.sleep(15000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return new Session(props.getProperty("db.URL"), sDBUser, sDBPassword, 15);
 				}
 			}
