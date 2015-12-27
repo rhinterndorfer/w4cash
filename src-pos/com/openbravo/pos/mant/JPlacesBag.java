@@ -19,7 +19,8 @@ public abstract class JPlacesBag extends JPanel {
 
 	protected AppView m_App;
 	protected DataLogicSales m_dlSales;
-//	protected PlacesEditor m_panelticket;
+	private Place m_selectedPlace = null;
+	// protected PlacesEditor m_panelticket;
 
 	/** Creates new form JTicketsBag */
 	public JPlacesBag(AppView oApp/* , PlacesEditor panelticket */) {
@@ -42,6 +43,14 @@ public abstract class JPlacesBag extends JPanel {
 
 	public abstract Place[] getPlaces();
 
+	protected Place getSelectedPlace() {
+		return this.m_selectedPlace;
+	}
+
+	protected void setSelectedPlace(Place place) {
+		this.m_selectedPlace = place;
+	}
+
 	public static JPlacesBag createPlacesBag(String sName, AppView app, PlacesEditor editor) {
 
 		if ("standard".equals(sName)) {
@@ -55,13 +64,13 @@ public abstract class JPlacesBag extends JPanel {
 	}
 
 	public abstract void refreshPlaces();
-	
-	public abstract void selectPlace(String id);
 
-	public abstract Place getPlace(int index);
+	public abstract Place selectPlace(String id);
+
+	public abstract Place getPlace();
 
 	protected abstract void floorChanged();
-	
+
 	public void activateFill() {
 		floorChanged();
 	}

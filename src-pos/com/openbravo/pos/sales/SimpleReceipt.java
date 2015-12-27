@@ -470,7 +470,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		if (this.tableSelect) {
 			try {
 				SentenceList sent = new StaticSentence(m_App.getSession(),
-						"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
+						"SELECT ID, NAME, X, Y, FLOOR, WIDTH,HEIGHT FROM PLACES ORDER BY FLOOR", null,
 						new SerializerReadClass(Place.class));
 				this.m_aplaces = sent.list();
 			} catch (BasicException eD) {

@@ -81,7 +81,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		}
 		try {
 			SentenceList sent = new StaticSentence(app.getSession(),
-					"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
+					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT FROM PLACES ORDER BY FLOOR", null,
 					new SerializerReadClass(Place.class));
 			m_aplaces = sent.list();
 		} catch (BasicException eD) {
@@ -151,7 +151,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 
 			currfloor.getContainer().add(pl.getButton());
-			pl.setButtonBounds(m_App);
+			pl.setButtonBounds(m_App, pl.getWidth(), pl.getHeight());
 			pl.getButton().addActionListener(new MyActionListener(pl));
 			pl.getButton().setDraggable(false);
 		}

@@ -274,6 +274,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return new StaticSentence(s, "SELECT ID, NAME FROM FLOORS ORDER BY NAME", null,
 				new SerializerReadClass(FloorsInfo.class));
 	}
+	
+	public final SentenceList getPlacesList() {
+		return new StaticSentence(s, "SELECT ID, NAME, FLOOR FROM PLACES ORDER BY NAME", null,
+				new SerializerReadClass(FloorsInfo.class));
+	}
 
 	public CustomerInfoExt findCustomerExt(String card) throws BasicException {
 		return (CustomerInfoExt) new PreparedSentence(s,

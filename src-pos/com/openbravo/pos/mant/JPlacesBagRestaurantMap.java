@@ -21,6 +21,7 @@ package com.openbravo.pos.mant;
 
 import com.openbravo.pos.ticket.TicketInfo;
 import java.util.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -170,7 +171,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			}
 
 			currfloor.getContainer().add(pl.getButton());
-			pl.setButtonBounds(m_App);
+			pl.setButtonBounds(m_App, pl.getWidth(), pl.getHeight());
 			pl.setEditor(editor);
 			// pl.getButton().addActionListener(new MyActionListener(pl));
 		}
@@ -181,25 +182,21 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 	}
 
 	public void refreshPlaces() {
-		// read all places
+
 		try {
+			// read all places for floor
 			SentenceList sent = new StaticSentence(m_App.getSession(),
-					"SELECT ID, NAME, X, Y, FLOOR FROM PLACES ORDER BY FLOOR", null,
+					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT FROM PLACES ORDER BY FLOOR", null,
 					new SerializerReadClass(Place.class));
 			m_aplaces = sent.list();
 		} catch (BasicException eD) {
 			m_aplaces = new ArrayList<Place>();
 		}
-		
-		
-		
-		
 		// refresh/repaint floor
 		if (jTabFloors == null) {
 			return;
 		}
 
-		
 		// Add all the Table buttons.
 		Floor currfloor = null;
 		String title = jTabFloors.getTitleAt(jTabFloors.getSelectedIndex());
@@ -210,28 +207,32 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 				break;
 			}
 		}
-		if(currfloor != null)
-		{
-			
+
+		if (currfloor != null) {
+			List<Place> places2remove = new ArrayList<>();
+			for (Place place : m_aplaces) {
+				if (!currfloor.getID().equals(place.getFloor())) {
+					places2remove.add(place);
+				}
+			}
+			m_aplaces.removeAll(places2remove);
+
 			Component[] components = currfloor.getContainer().getComponents();
-			for (Component c : components)
-			{
+			for (Component c : components) {
 				currfloor.getContainer().remove(c);
 			}
-			
+			currfloor.getContainer().repaint();
+
 			for (Place pl : m_aplaces) {
-				if(currfloor.getID().equals(pl.getFloor()))
-				{
+				if (currfloor.getID().equals(pl.getFloor())) {
 					currfloor.getContainer().add(pl.getButton());
-					pl.setButtonBounds(m_App);
+					pl.setButtonBounds(m_App, pl.getWidth(), pl.getHeight());
 					pl.setEditor(this.m_Editor);
-					// 	pl.getButton().addActionListener(new MyActionListener(pl));
+					// pl.getButton().addActionListener(new
+					// MyActionListener(pl));
 				}
 			}
 		}
-		
-		
-		
 	}
 
 	@Override
@@ -252,11 +253,12 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		}
 
 		TableDefinition td = new PlacesTableDefinition(m_App.getSession(), "PLACES",
-				new String[] { "ID", "NAME", "X", "Y", "FLOOR", "WIDTH","HEIGHT" },
+				new String[] { "ID", "NAME", "X", "Y", "FLOOR", "WIDTH", "HEIGHT" },
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "X", "Y",
-						AppLocal.getIntString("label.placefloor"), "WIDTH","HEIGHT" },
+						AppLocal.getIntString("label.placefloor"), "WIDTH", "HEIGHT" },
 				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING, Datas.INT, Datas.INT },
-				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL,Formats.INT, Formats.INT },
+				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL, Formats.INT,
+						Formats.INT },
 				new int[] { 0 }, id);
 
 		m_Editor.getPanelPlaces().setTableDefinition(td);
@@ -582,23 +584,34 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 	private javax.swing.JLabel m_jText;
 
 	@Override
-	public void selectPlace(String id) {
+	public Place selectPlace(String id) {
+		boolean hasSelected = false;
 		for (Place place : m_aplaces) {
 			if (place.getId().equals(id)) {
 				place.getButton().setSelected(true);
+				setSelectedPlace(place);
+				hasSelected = true;
 			} else {
 				place.getButton().setSelected(false);
 			}
 		}
 
+		if (!hasSelected) {
+			setSelectedPlace(null);
+		}
+
+		return getSelectedPlace();
 	}
 
 	@Override
-	public Place getPlace(int index) {
-		if (index < 0 || index >= m_aplaces.size()) {
-			return null;
-		}
-		return m_aplaces.get(index);
+	public Place getPlace() {
+	
+		return getSelectedPlace();
+		
+		// if (index < 0 || index >= m_aplaces.size()) {
+		// return null;
+		// }
+		// return m_aplaces.get(index);
 	}
 
 	@Override

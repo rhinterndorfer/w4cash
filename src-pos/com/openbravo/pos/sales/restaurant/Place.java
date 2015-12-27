@@ -81,7 +81,18 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_ix = dr.getInt(3).intValue();
 		m_iy = dr.getInt(4).intValue();
 		m_sfloor = dr.getString(5);
-
+		try {
+			m_iWidth = dr.getInt(6);
+		} catch (NullPointerException npe) {
+//			npe.printStackTrace();
+			m_iWidth = 100;
+		}
+		try {
+			m_iHeight = dr.getInt(7);
+		} catch (NullPointerException npe) {
+//			npe.printStackTrace();
+			m_iHeight = 60;
+		}
 		m_bPeople = false;
 		m_btn = new JPlaceButton(this);
 
@@ -111,6 +122,14 @@ public class Place implements SerializableRead, java.io.Serializable {
 		return m_iy;
 	}
 
+	public int getWidth(){
+		return m_iWidth;
+	}
+
+	public int getHeight(){
+		return m_iHeight;
+	}
+	
 	public String getFloor() {
 		return m_sfloor;
 	}
@@ -128,14 +147,13 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setIcon(bValue ? ICO_OCU : ICO_FRE);
 	}
 
-	public void setButtonBounds(AppView app) {
-		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-width", "60"));
-		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-height", "40"));
-	
-		setButtonBounds(app, width, height);
-	}
-	
-	
+//	public void setButtonBounds(AppView app) {
+//		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-width", "60"));
+//		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-height", "40"));
+//
+//		setButtonBounds(app, width, height);
+//	}
+
 	public void setButtonBounds(AppView app, int width, int height) {
 		this.m_iWidth = width;
 		this.m_iHeight = height;
@@ -154,7 +172,14 @@ public class Place implements SerializableRead, java.io.Serializable {
 		this.m_ix = x;
 		this.m_iy = y;
 
-		this.editor.setXYCoordinates(x, y, m_iWidth, m_iHeight);
+		this.editor.setXYCoordinates(x, y);
+	}
+
+	public void setSize(int width, int height) {
+		this.m_iWidth = width;
+		this.m_iHeight = height;
+
+		this.editor.setPlaceSize(m_iWidth, m_iHeight);
 	}
 
 	public PlacesEditor getEditor() {
@@ -171,4 +196,5 @@ public class Place implements SerializableRead, java.io.Serializable {
 		}
 		this.editor.selectPlace(this);
 	}
+
 }

@@ -114,9 +114,9 @@ public class JPlaceButton extends JButton {
 						getParent().getComponent(i).setLocation(new Point(x, y));
 
 						m_Place.setXYCoordinates(x, y);
+//						m_Place.setSize(getParent().getComponent(i).getWidth(),getParent().getComponent(i).getHeight());
 					}
 				}
-
 			}
 
 		});

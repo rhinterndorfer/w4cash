@@ -252,13 +252,12 @@ public class JPlacesBagShared extends JPlacesBag {
 	// End of variables declaration//GEN-END:variables
 
 	@Override
-	public void selectPlace(String id) {
-		// TODO Auto-generated method stub
-
+	public Place selectPlace(String id) {
+		return null;
 	}
 
 	@Override
-	public Place getPlace(int index) {
+	public Place getPlace() {
 		// TODO Auto-generated method stub
 		return null;
 	}
