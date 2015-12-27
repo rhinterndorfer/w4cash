@@ -70,7 +70,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		stockdiaryDatas = new Datas[] { Datas.STRING, Datas.TIMESTAMP, Datas.INT, Datas.STRING, Datas.STRING,
 				Datas.STRING, Datas.DOUBLE, Datas.DOUBLE };
 		paymenttabledatas = new Datas[] { Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.STRING, Datas.STRING,
-				Datas.DOUBLE };
+				Datas.DOUBLE , Datas.STRING};
 		stockdatas = new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.DOUBLE, Datas.DOUBLE, Datas.DOUBLE };
 		auxiliarDatas = new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING,
 				Datas.STRING };
@@ -660,8 +660,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			public int execInTransaction(Object params) throws BasicException {
 				new PreparedSentence(s, "INSERT INTO RECEIPTS (ID, MONEY, DATENEW) VALUES (?, ?, ?)",
 						new SerializerWriteBasicExt(paymenttabledatas, new int[] { 0, 1, 2 })).exec(params);
-				return new PreparedSentence(s, "INSERT INTO PAYMENTS (ID, RECEIPT, PAYMENT, TOTAL) VALUES (?, ?, ?, ?)",
-						new SerializerWriteBasicExt(paymenttabledatas, new int[] { 3, 0, 4, 5 })).exec(params);
+				return new PreparedSentence(s, "INSERT INTO PAYMENTS (ID, RECEIPT, PAYMENT, TOTAL,DESCRIPTION) VALUES (?, ?, ?, ?,?)",
+						new SerializerWriteBasicExt(paymenttabledatas, new int[] { 3, 0, 4, 5,6 })).exec(params);
 			}
 		};
 	}

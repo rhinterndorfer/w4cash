@@ -80,6 +80,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		m_sPaymentId = null;
 		datenew = null;
 		setReasonTotal(null, null);
+		jDescription.setText(null);
+		
 		m_jreason.setEnabled(false);
 		jDescription.setEnabled(false);
 		jTotal.setEnabled(false);
@@ -90,6 +92,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		m_sPaymentId = null;
 		datenew = null;
 		setReasonTotal("cashin", null);
+		jDescription.setText(null);
+		
 		m_jreason.setEnabled(true);
 		jDescription.setEnabled(true);
 		jTotal.setEnabled(true);
@@ -102,6 +106,9 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = (Date) payment[2];
 		m_sPaymentId = (String) payment[3];
 		setReasonTotal(payment[4], payment[5]);
+		jDescription.setText(""+payment[6]);
+		
+		
 		jDescription.setEnabled(false);
 		m_jreason.setEnabled(false);
 		jTotal.setEnabled(false);
@@ -113,6 +120,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = (Date) payment[2];
 		m_sPaymentId = (String) payment[3];
 		setReasonTotal(payment[4], payment[5]);
+		jDescription.setText(""+payment[6]);
+		
 		m_jreason.setEnabled(false);
 		jDescription.setEnabled(false);
 		jTotal.setEnabled(false);
@@ -120,7 +129,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	}
 
 	public Object createValue() throws BasicException {
-		Object[] payment = new Object[6];
+		Object[] payment = new Object[7];
 		payment[0] = m_sId == null ? UUID.randomUUID().toString() : m_sId;
 		payment[1] = m_App.getActiveCashIndex();
 		payment[2] = datenew == null ? new Date() : datenew;
@@ -129,6 +138,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		PaymentReason reason = (PaymentReason) m_ReasonModel.getSelectedItem();
 		Double dtotal = jTotal.getDoubleValue();
 		payment[5] = reason == null ? dtotal : reason.addSignum(dtotal);
+		payment[6] = jDescription.getText();
 		return payment;
 	}
 
