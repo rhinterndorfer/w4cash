@@ -19,9 +19,14 @@
 
 package com.openbravo.pos.panels;
 
+import com.openbravo.basic.BasicException;
+import com.openbravo.data.loader.Datas;
+import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
+import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.data.user.SaveProvider;
+import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
 
@@ -33,18 +38,30 @@ public class JPanelPayments extends JPanelTable {
     
     private PaymentsEditor jeditor;    
     private DataLogicSales m_dlSales = null;
+	private TableDefinition td;
     
     /** Creates a new instance of JPanelPayments */
     public JPanelPayments() {
+    
     }
     
     protected void init() {
         m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");         
         jeditor = new PaymentsEditor(app, dirty);    
+//    	td =  new TableDefinition(app.getSession(), "PAYMENTS",
+//				new String[] { "ID", "RECEIPT", "PAYMENT", "TOTAL", "TRANSID", "RETURNMSG","DESCRIPTION" },
+//				new String[] { "ID", "RECEIPT", "PAYMENT", "TOTAL", "TRANSID", "RETURNMSG","DESCRIPTION"  },
+//				new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.DOUBLE, Datas.STRING , Datas.NULL, Datas.STRING},
+//				new Formats[] { Formats.STRING, Formats.STRING, Formats.STRING, Formats.DOUBLE,Formats.STRING , Formats.NULL, Formats.STRING},
+//				new int[] { 0 });
     }
     
     public ListProvider getListProvider() {
-        return null;
+        try {
+			return new ListProviderCreator(m_dlSales.getPaymentList(app));
+		} catch (BasicException e) {
+			return null;
+		}
     }
     
     public SaveProvider getSaveProvider() {

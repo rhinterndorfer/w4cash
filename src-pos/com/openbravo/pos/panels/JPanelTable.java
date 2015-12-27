@@ -159,6 +159,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	public void activate() throws BasicException {
 		startNavigation();
 		bd.actionLoad();
+		bd.moveLast();
 	}
 
 	

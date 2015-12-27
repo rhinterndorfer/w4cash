@@ -70,7 +70,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		stockdiaryDatas = new Datas[] { Datas.STRING, Datas.TIMESTAMP, Datas.INT, Datas.STRING, Datas.STRING,
 				Datas.STRING, Datas.DOUBLE, Datas.DOUBLE };
 		paymenttabledatas = new Datas[] { Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.STRING, Datas.STRING,
-				Datas.DOUBLE , Datas.STRING};
+				Datas.DOUBLE, Datas.STRING };
 		stockdatas = new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.DOUBLE, Datas.DOUBLE, Datas.DOUBLE };
 		auxiliarDatas = new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING,
 				Datas.STRING };
@@ -132,8 +132,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		// CATEGORIES WHERE PARENTID IS NULL ORDER BY NAME",
 		// null, CategoryInfo.getSerializerRead()).list();
 		return new PreparedSentence(s,
-				"SELECT ID, NAME, IMAGE , SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID IS NULL ORDER BY SORTORDER", null,
-				CategoryInfo.getSerializerRead()).list();
+				"SELECT ID, NAME, IMAGE , SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID IS NULL ORDER BY SORTORDER",
+				null, CategoryInfo.getSerializerRead()).list();
 	}
 
 	public final List<CategoryInfo> getSubcategories(String category) throws BasicException {
@@ -141,7 +141,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		// CATEGORIES WHERE PARENTID = ? ORDER BY NAME",
 		// SerializerWriteString.INSTANCE,
 		// CategoryInfo.getSerializerRead()).list(category);
-		return new PreparedSentence(s, "SELECT ID, NAME, IMAGE, SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID = ? ORDER BY SORTORDER",
+		return new PreparedSentence(s,
+				"SELECT ID, NAME, IMAGE, SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID = ? ORDER BY SORTORDER",
 				SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
 	}
 
@@ -274,7 +275,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return new StaticSentence(s, "SELECT ID, NAME FROM FLOORS ORDER BY NAME", null,
 				new SerializerReadClass(FloorsInfo.class));
 	}
-	
+
 	public final SentenceList getPlacesList() {
 		return new StaticSentence(s, "SELECT ID, NAME, FLOOR FROM PLACES ORDER BY NAME", null,
 				new SerializerReadClass(FloorsInfo.class));
@@ -660,10 +661,48 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			public int execInTransaction(Object params) throws BasicException {
 				new PreparedSentence(s, "INSERT INTO RECEIPTS (ID, MONEY, DATENEW) VALUES (?, ?, ?)",
 						new SerializerWriteBasicExt(paymenttabledatas, new int[] { 0, 1, 2 })).exec(params);
-				return new PreparedSentence(s, "INSERT INTO PAYMENTS (ID, RECEIPT, PAYMENT, TOTAL,DESCRIPTION) VALUES (?, ?, ?, ?,?)",
-						new SerializerWriteBasicExt(paymenttabledatas, new int[] { 3, 0, 4, 5,6 })).exec(params);
+				return new PreparedSentence(s,
+						"INSERT INTO PAYMENTS (ID, RECEIPT, PAYMENT, TOTAL,DESCRIPTION) VALUES (?, ?, ?, ?,?)",
+						new SerializerWriteBasicExt(paymenttabledatas, new int[] { 3, 0, 4, 5, 6 })).exec(params);
 			}
 		};
+	}
+
+	public SentenceList getPaymentList(AppView app) throws BasicException {
+
+		/*
+		 * SELECT R.ID, R.MONEY, R.DATENEW, P.ID, P.PAYMENT,
+		 * P.TOTAL,P.DESCRIPTION
+		 * 
+		 * FROM RECEIPTS R, PAYMENTS P WHERE R.ID == P.RECEIPT AND R.MONEY ==
+		 * s.<ACTIVEMONEYTICKET>
+		 * 
+		 */
+
+		return new StaticSentence(s,
+				new QBFBuilder(
+						"SELECT R.ID, R.MONEY, R.DATENEW, P.ID, P.PAYMENT, P.TOTAL,P.DESCRIPTION "
+								+ "FROM RECEIPTS R, PAYMENTS P WHERE R.ID = P.RECEIPT AND R.MONEY = '"
+								+ app.getActiveCashIndex() + "'",
+						new String[] { "ID", "MONEY", "DATENEW", "ID2", "PAYMENT", "TOTAL", "DESCRIPTION" }),
+				new SerializerWriteBasic(new Datas[] { Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.STRING,
+						Datas.STRING, Datas.DOUBLE, Datas.STRING }),
+				new SerializerRead() {
+
+					@Override
+					public Object readValues(DataRead dr) throws BasicException {
+						Object[] payment = new Object[7];
+						payment[0] = dr.getString(1);
+						payment[1] = dr.getString(2);
+						payment[2] = dr.getTimestamp(3);
+						payment[3] = dr.getString(4);
+						payment[4] = dr.getString(5);
+						payment[5] = dr.getDouble(6);
+						payment[6] = dr.getString(7);
+						return payment;
+					}
+
+				});
 	}
 
 	public final SentenceExec getPaymentMovementDelete() {
@@ -776,4 +815,5 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			return c;
 		}
 	}
+
 }

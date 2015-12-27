@@ -67,7 +67,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 
 		jDescription.addEditorKeys(m_jKeys);
 		jDescription.addPropertyChangeListener("Text", dirty);
-		
+
 		writeValueEOF();
 
 		m_jKeys.ScaleButtons();
@@ -81,7 +81,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = null;
 		setReasonTotal(null, null);
 		jDescription.setText(null);
-		
+
 		m_jreason.setEnabled(false);
 		jDescription.setEnabled(false);
 		jTotal.setEnabled(false);
@@ -93,7 +93,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = null;
 		setReasonTotal("cashin", null);
 		jDescription.setText(null);
-		
+
 		m_jreason.setEnabled(true);
 		jDescription.setEnabled(true);
 		jTotal.setEnabled(true);
@@ -106,9 +106,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = (Date) payment[2];
 		m_sPaymentId = (String) payment[3];
 		setReasonTotal(payment[4], payment[5]);
-		jDescription.setText(""+payment[6]);
-		
-		
+		jDescription.setText("" + payment[6]);
+
 		jDescription.setEnabled(false);
 		m_jreason.setEnabled(false);
 		jTotal.setEnabled(false);
@@ -120,8 +119,8 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		datenew = (Date) payment[2];
 		m_sPaymentId = (String) payment[3];
 		setReasonTotal(payment[4], payment[5]);
-		jDescription.setText(""+payment[6]);
-		
+		jDescription.setText((String) payment[6]);
+
 		m_jreason.setEnabled(false);
 		jDescription.setEnabled(false);
 		jTotal.setEnabled(false);
@@ -312,7 +311,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 		jPanel2.add(m_jKeys, java.awt.BorderLayout.NORTH);
 
 		add(jPanel2, java.awt.BorderLayout.LINE_END);
-		
+
 		jDescription.reset();
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -342,9 +341,10 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	private javax.swing.JComboBox m_jreason;
 	private com.openbravo.editor.JEditorString jDescription;
 	private javax.swing.JLabel jLabelDesc;
+
 	// End of variables declaration//GEN-END:variables
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {
-		
+
 	}
 }
