@@ -476,7 +476,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		try {
 			bd.moveTo(index);
-			this.m_placesBag.setSelectedPlace(place);
+			// this.m_placesBag.setSelectedPlace(place);
 			// if (element != null) {
 			// writeValueEdit(element);
 			// }
