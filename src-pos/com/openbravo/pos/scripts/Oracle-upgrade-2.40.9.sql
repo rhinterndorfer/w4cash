@@ -17,16 +17,24 @@
 --    You should have received a copy of the GNU General Public License
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
--- Database upgrade script for ORACLE 2.40.9( -> 2.40.9.1)
+-- Database upgrade script for ORACLE 2.40.9( -> 2.41.1)
 
 -- table categories for printer
-
 ALTER TABLE CATEGORIES ADD PRINTER INT DEFAULT -1;
 
+
 -- table devices
-ALTER TABLE DEVICE ADD LICENSE VARCHAR(255);
+-- table places width, height
+ALTER TABLE PLACES ADD WIDTH INT;
+ALTER TABLE PLACES ADD HEIGHT INT;
 
 
+-- table devices
+CREATE TABLE DEVICE (
+    ID VARCHAR2(255) NOT NULL,
+    INSTALL VARCHAR2(255) NOT NULL,
+    LICENSE VARCHAR(255)
+);
 
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
-UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.40.9.1' WHERE ID = 'w4cashdb';
+UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.41.1' WHERE ID = 'w4cashdb';
