@@ -176,8 +176,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jX.setValue(place[2]);
 		m_jY.setValue(place[3]);
 
-		m_jWidth.setValue(place[5]);
-		m_jHeight.setValue(place[6]);
+		m_jWidth.setValue(place[5] == null ? 0 : place[5]);
+		m_jHeight.setValue(place[6] == null ? 0 : place[6]);
 	}
 
 	public Object createValue() throws BasicException {
