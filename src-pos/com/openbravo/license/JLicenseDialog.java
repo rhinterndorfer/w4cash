@@ -1,4 +1,4 @@
-package com.openbravo.data.gui;
+package com.openbravo.license;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -24,12 +24,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.hbsoft.w4cash.license.LicenseTool;
-import com.openbravo.license.LicenseManager;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.GridLayout;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 public class JLicenseDialog extends JDialog {
 
@@ -40,7 +40,7 @@ public class JLicenseDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txt_license;
 	private JLabel m_jName;
-	private JLabel m_jMac;
+
 	private JLabel m_jKey;
 	/**
 	 * Launch the application.
@@ -50,11 +50,14 @@ public class JLicenseDialog extends JDialog {
 
 	private String host;
 	private String mac;
-	private String serialKey;
+	private String m_LicenseUserKey;
 	private String license;
 	private JButton cancelButton;
 	private JLabel lbl_Name;
-	private JLabel lbl_Mac;
+	// private JLabel lbl_Mac;
+	// private JLabel m_jMac;
+	private JLabel lbl_UserSerial;
+	private JTextField m_jSerial;
 
 	public static JLicenseDialog showDialog(AppView app, Component parent, String message, String title) {
 		Window window = getWindow(parent);
@@ -79,7 +82,7 @@ public class JLicenseDialog extends JDialog {
 	 */
 	private JLicenseDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
-		// init(null);
+//		init(null);
 	}
 
 	/** Creates new form JMessageDialog */
@@ -117,8 +120,9 @@ public class JLicenseDialog extends JDialog {
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0 };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			this.lbl_Name = new JLabel("Name");
+			this.lbl_Name = new JLabel("Kassenname");
 			GridBagConstraints gbc_lbl_name = new GridBagConstraints();
+			gbc_lbl_name.anchor = GridBagConstraints.EAST;
 			gbc_lbl_name.fill = GridBagConstraints.BOTH;
 			gbc_lbl_name.insets = new Insets(0, 0, 5, 5);
 			gbc_lbl_name.gridx = 0;
@@ -133,21 +137,42 @@ public class JLicenseDialog extends JDialog {
 			gbc_lblName.gridy = 0;
 			contentPanel.add(m_jName, gbc_lblName);
 		}
+		// {
+		// this.lbl_Mac = new JLabel("MAC");
+		// GridBagConstraints gbc_lblMac = new GridBagConstraints();
+		// gbc_lblMac.insets = new Insets(0, 0, 5, 5);
+		// gbc_lblMac.gridx = 0;
+		// gbc_lblMac.gridy = 1;
+		// contentPanel.add(lbl_Mac, gbc_lblMac);
+		// }
+		// {
+		// this.m_jMac = new JLabel("");
+		// GridBagConstraints gbc_m_jMac = new GridBagConstraints();
+		// gbc_m_jMac.insets = new Insets(0, 0, 5, 0);
+		// gbc_m_jMac.gridx = 1;
+		// gbc_m_jMac.gridy = 1;
+		// contentPanel.add(m_jMac, gbc_m_jMac);
+		// }
+
 		{
-			this.lbl_Mac = new JLabel("MAC");
+			this.lbl_UserSerial = new JLabel("Serial");
 			GridBagConstraints gbc_lblMac = new GridBagConstraints();
+			gbc_lblMac.anchor = GridBagConstraints.EAST;
 			gbc_lblMac.insets = new Insets(0, 0, 5, 5);
 			gbc_lblMac.gridx = 0;
 			gbc_lblMac.gridy = 1;
-			contentPanel.add(lbl_Mac, gbc_lblMac);
+			contentPanel.add(lbl_UserSerial, gbc_lblMac);
 		}
 		{
-			this.m_jMac = new JLabel("");
+			this.m_jSerial = new JTextField();
+			this.m_jSerial.setBorder(null);
+			this.m_jSerial.setEditable(false);
+
 			GridBagConstraints gbc_m_jMac = new GridBagConstraints();
 			gbc_m_jMac.insets = new Insets(0, 0, 5, 0);
 			gbc_m_jMac.gridx = 1;
 			gbc_m_jMac.gridy = 1;
-			contentPanel.add(m_jMac, gbc_m_jMac);
+			contentPanel.add(m_jSerial, gbc_m_jMac);
 		}
 
 		{
@@ -190,7 +215,7 @@ public class JLicenseDialog extends JDialog {
 				this.cancelButton = new JButton("Cancel");
 				this.cancelButton.setIcon(
 						new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png")));
-				
+
 				cancelButton.setActionCommand("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 
@@ -234,10 +259,14 @@ public class JLicenseDialog extends JDialog {
 
 	private void ScaleButtons(AppView app) {
 		PropertyUtil.ScaleLabelFontsize(app, lbl_Name, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(app, lbl_Mac, "common-dialog-fontsize", "22");
+		// PropertyUtil.ScaleLabelFontsize(app, lbl_Mac,
+		// "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(app, lbl_UserSerial, "common-dialog-fontsize", "22");
 
 		PropertyUtil.ScaleLabelFontsize(app, m_jName, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(app, m_jMac, "common-dialog-fontsize", "22");
+		// PropertyUtil.ScaleLabelFontsize(app, m_jMac,
+		// "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(app, m_jSerial, "common-dialog-fontsize", "22");
 
 		PropertyUtil.ScaleTextFieldFontsize(app, txt_license, "common-dialog-fontsize", "22");
 
@@ -254,7 +283,9 @@ public class JLicenseDialog extends JDialog {
 	private void validateSerialKey() {
 		String text = txt_license.getText();
 
-		if (text != null && text.equals(serialKey)) {
+		String license2match = LicenseTool.genLicenseApplication(m_LicenseUserKey, LicenseTool.DEFAULT_DELIMITER);
+
+		if (text != null && text.equals(license2match)) {
 			this.okButton.setEnabled(true);
 		} else {
 			this.okButton.setEnabled(false);
@@ -265,11 +296,11 @@ public class JLicenseDialog extends JDialog {
 	private void fill(AppView app) {
 		this.host = app.getProperties().getHost();
 		this.mac = LicenseManager.getMAC();
-		String[] key = LicenseTool.licenseSerial(host, mac);
-		this.serialKey = LicenseTool.licenseSerial(key, "-");
+		String[] key = LicenseTool.genLicenseUser(host, mac);
+		this.m_LicenseUserKey = LicenseTool.formatKey(key, LicenseTool.DEFAULT_DELIMITER);
 
 		m_jName.setText(host);
-		m_jMac.setText(mac);
+		m_jSerial.setText(m_LicenseUserKey);
 		// m_jKey.setText(serialKey);
 	}
 

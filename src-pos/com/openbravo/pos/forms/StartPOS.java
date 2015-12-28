@@ -33,8 +33,8 @@ import java.util.logging.Logger;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.api.SubstanceSkin;
 
-import com.openbravo.data.gui.JLicenseDialog;
 import com.openbravo.format.Formats;
+import com.openbravo.license.JLicenseDialog;
 import com.openbravo.pos.instance.InstanceQuery;
 
 import java.awt.Dialog.ModalityType;

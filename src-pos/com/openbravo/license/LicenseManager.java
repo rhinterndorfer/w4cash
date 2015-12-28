@@ -23,7 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.openbravo.basic.BasicException;
-import com.openbravo.data.gui.JLicenseDialog;
 import com.openbravo.data.loader.DataParams;
 import com.openbravo.data.loader.SerializerWriteParams;
 import com.openbravo.data.loader.SerializerWriteString;
