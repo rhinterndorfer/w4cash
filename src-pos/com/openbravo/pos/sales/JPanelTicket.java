@@ -53,6 +53,7 @@ import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
+import com.openbravo.pos.ticket.ProductInfoEdit;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.ticket.TicketInfo;
@@ -290,32 +291,30 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			// Asign preeliminary properties to the receipt
 			m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
 			try {
-			m_oTicket.setActiveCash(m_App.getActiveCashIndex());
-			}
-			catch(Exception ex)
-			{
+				m_oTicket.setActiveCash(m_App.getActiveCashIndex());
+			} catch (Exception ex) {
 				m_oTicket.setActiveCash(null);
 			}
 			m_oTicket.setDate(new Date()); // Set the edition date.
 		}
 
 		executeEvent(m_oTicket, m_oTicketExt, "ticket.show");
-		
-		if(m_oTicket != null)
+
+		if (m_oTicket != null)
 			m_oTicketClone = m_oTicket.copyTicket();
 
-		if(oTicket != null)
-			resetSouthComponent(); //reset categories and products
-		
+		if (oTicket != null)
+			resetSouthComponent(); // reset categories and products
+
 		refreshTicket();
-		
+
 		ticketListChanged();
 	}
 
 	public TicketInfo getActiveTicket() {
 		return m_oTicket;
 	}
-	
+
 	public TicketInfo getActiveTicketClone() {
 		return m_oTicketClone;
 	}
@@ -621,8 +620,30 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	}
 
 	private void incProduct(double dPor, ProductInfoExt prod) {
+		double price = 0.0;
+
+		if (prod.getPriceSell() > 0.0) {
+			price = prod.getPriceSell();
+		} else {
+			// open edit dialog to input price
+			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
+			TicketLineInfo ticketLine = new TicketLineInfo(prod, prod.getPriceSell(), tax,
+					(java.util.Properties) (prod.getProperties().clone()));
+
+			try {
+				TicketLineInfo newTL = JProductLineEdit.showMessage(this, m_App, ticketLine);
+				price = newTL.getPrice();
+				dPor = newTL.getMultiply();
+			} catch (BasicException e) {
+				e.printStackTrace();
+				price = 0.0;
+				dPor = 1.0;
+			}
+
+		}
+
 		// precondicion: prod != null
-		addTicketLine(prod, dPor, prod.getPriceSell());
+		addTicketLine(prod, dPor, price);
 	}
 
 	protected void buttonTransition(ProductInfoExt prod) {
@@ -1809,18 +1830,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					} catch (BasicException e) {
 						// insert was not possible, so try to perform an update
 						try {
-							//first read all booked elements
+							// first read all booked elements
 							TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
-							for(TicketLineInfo info : dummy.getLines()) {
+							for (TicketLineInfo info : dummy.getLines()) {
 								// does info exists?
 								TicketLineInfo inf = null;
-								for(TicketLineInfo lni : ticket2.getLines()) {
-									if(lni.getProductID().compareTo(info.getProductID()) == 0) {
+								for (TicketLineInfo lni : ticket2.getLines()) {
+									if (lni.getProductID().compareTo(info.getProductID()) == 0) {
 										inf = lni;
 										break;
 									}
 								}
-								if(inf != null) {
+								if (inf != null) {
 									inf.setMultiply(inf.getMultiply() + info.getMultiply());
 								} else {
 									ticket2.addLine(info);
