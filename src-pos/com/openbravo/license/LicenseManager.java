@@ -27,6 +27,7 @@ import com.openbravo.data.loader.DataParams;
 import com.openbravo.data.loader.SerializerWriteParams;
 import com.openbravo.data.loader.SerializerWriteString;
 import com.openbravo.data.loader.StaticSentence;
+import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.JRootGUI;
 import com.openbravo.pos.forms.W4CashSha1;
@@ -191,6 +192,31 @@ public class LicenseManager {
 	// return result.trim();
 	// }
 
+	public DeviceInfo readDeviceInfo(AppView app)  {
+		String host = app.getProperties().getHost();
+		String mac = getMAC();
+		String common = host + "/" + mac;
+		String startup = "" + System.currentTimeMillis();
+
+		List<DeviceInfo> devices = new ArrayList<>();
+		try {
+			devices = getDeviceInfo(app, common, startup);
+		} catch (BasicException e) {
+			e.printStackTrace();
+		}
+		
+		DeviceInfo devinfo = null;
+		for (Object device : devices) {
+			String id = ((DeviceInfo) device).getDeviceId();
+
+			if ((common).equals(id)) {
+				devinfo = (DeviceInfo) device;
+				break;
+			}
+		}
+		return devinfo;
+	}
+	
 	public int getRemainingDaysOfLicense() {
 		long install = Long.parseLong(this.dev.getInstall());
 		long current = System.currentTimeMillis();
@@ -270,7 +296,7 @@ public class LicenseManager {
 			return 0;
 		} catch (IOException e) {
 			// check for demo version
-			JLicenseDialog dialog = JLicenseDialog.showDialog(app, root, "License", "license");
+			JLicenseDialog dialog = JLicenseDialog.showDialog(app, root, AppLocal.getIntString("Button.License"));
 			// license generated successful
 			if (JLicenseDialog.OK == dialog.getReturnCode()) {
 				try {
@@ -322,5 +348,7 @@ public class LicenseManager {
 		info.setInstallDate(startup);
 		return info;
 	}
+
+	
 
 }

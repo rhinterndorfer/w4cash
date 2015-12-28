@@ -59,7 +59,7 @@ public class JLicenseDialog extends JDialog {
 	private JLabel lbl_UserSerial;
 	private JTextField m_jSerial;
 
-	public static JLicenseDialog showDialog(AppView app, Component parent, String message, String title) {
+	public static JLicenseDialog showDialog(AppView app, Component parent, String title) {
 		Window window = getWindow(parent);
 
 		JLicenseDialog myMsg;
@@ -68,9 +68,12 @@ public class JLicenseDialog extends JDialog {
 		} else {
 			myMsg = new JLicenseDialog((Dialog) window, true);
 		}
+
+		if (title != null && !title.isEmpty()) {
+			myMsg.setTitle(title);
+		}
+
 		myMsg.init(app);
-		// myMsg.setTitle(title);
-		// myMsg.init();
 
 		return myMsg;
 	}
@@ -82,7 +85,7 @@ public class JLicenseDialog extends JDialog {
 	 */
 	private JLicenseDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
-//		init(null);
+		// init(null);
 	}
 
 	/** Creates new form JMessageDialog */

@@ -25,6 +25,7 @@ import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
@@ -41,6 +42,9 @@ import com.openbravo.data.loader.BatchSentence;
 import com.openbravo.data.loader.BatchSentenceResource;
 import com.openbravo.data.loader.Session;
 import com.openbravo.data.loader.StaticSentence;
+import com.openbravo.license.DeviceInfo;
+import com.openbravo.license.JLicenseDialog;
+import com.openbravo.license.LicenseManager;
 import com.openbravo.pos.scale.DeviceScale;
 import com.openbravo.pos.scanpal2.DeviceScanner;
 import com.openbravo.pos.scanpal2.DeviceScannerFactory;
@@ -280,6 +284,20 @@ public class JRootApp extends JPanel implements AppView {
 		}
 	}
 
+	private void tryToLicense() {
+		LicenseManager manager = new LicenseManager();
+		DeviceInfo deviceinfo = manager.readDeviceInfo(this);
+		JLicenseDialog dialog = JLicenseDialog.showDialog(this, this, AppLocal.getIntString("Button.License"));
+		// license generated successful
+		if (JLicenseDialog.OK == dialog.getReturnCode()) {
+			try {
+				deviceinfo.writeDeviceInfoLicense(this, dialog.getLicense());
+			} catch (BasicException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
 	// Interfaz de aplicacion
 	public DeviceTicket getDeviceTicket() {
 		return m_TP;
@@ -301,23 +319,20 @@ public class JRootApp extends JPanel implements AppView {
 		return m_sInventoryLocation;
 	}
 
-	private void CheckActiveCash() throws BasicException
-	{
-		if(m_sActiveCashIndex == null || m_dActiveCashDateEnd != null)
-		{
+	private void CheckActiveCash() throws BasicException {
+		if (m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
 			String host = this.getProperties().getHost();
 			Object[] valcash = m_dlSystem.findActiveCashHost(host);
 			if (valcash == null || !host.equals(valcash[1])) {
 				String id = UUID.randomUUID().toString();
 				Date start = new Date();
 				// open new cash session
-				m_dlSystem.execInsertCash(new Object[] { id, host,
-						start , null});
-				
+				m_dlSystem.execInsertCash(new Object[] { id, host, start, null });
+
 				m_sActiveCashIndex = id;
 				m_dActiveCashDateStart = start;
 				m_dActiveCashDateEnd = null;
-				
+
 			} else {
 				m_sActiveCashIndex = (String) valcash[0];
 				m_dActiveCashDateStart = (Date) valcash[3];
@@ -325,10 +340,10 @@ public class JRootApp extends JPanel implements AppView {
 			}
 		}
 	}
-	
+
 	public String getActiveCashIndex() throws BasicException {
 		CheckActiveCash();
-		
+
 		return m_sActiveCashIndex;
 	}
 
@@ -341,22 +356,21 @@ public class JRootApp extends JPanel implements AppView {
 		CheckActiveCash();
 		return m_dActiveCashDateEnd;
 	}
-	
-	public void setActiveCashDateEnd(Date dateEnd){
+
+	public void setActiveCashDateEnd(Date dateEnd) {
 		m_dActiveCashDateEnd = dateEnd;
 	}
 
 	/*
-	public void setActiveCash(String sIndex, Date dStart, Date dEnd) {
-		m_sActiveCashIndex = sIndex;
-		m_dActiveCashDateStart = dStart;
-		m_dActiveCashDateEnd = dEnd;
+	 * public void setActiveCash(String sIndex, Date dStart, Date dEnd) {
+	 * m_sActiveCashIndex = sIndex; m_dActiveCashDateStart = dStart;
+	 * m_dActiveCashDateEnd = dEnd;
+	 * 
+	 * m_propsdb.setProperty("activecash", m_sActiveCashIndex);
+	 * m_dlSystem.setResourceAsProperties(m_props.getHost() + "/properties",
+	 * m_propsdb); }
+	 */
 
-		m_propsdb.setProperty("activecash", m_sActiveCashIndex);
-		m_dlSystem.setResourceAsProperties(m_props.getHost() + "/properties", m_propsdb);
-	}
-	*/
-	
 	public AppProperties getProperties() {
 		return m_props;
 	}
@@ -655,6 +669,7 @@ public class JRootApp extends JPanel implements AppView {
 		jPanel2 = new javax.swing.JPanel();
 		jPanel8 = new javax.swing.JPanel();
 		m_jClose = new javax.swing.JButton();
+		m_jLicense = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
 		m_txtKeys = new javax.swing.JTextField();
 		m_jPanelDown = new javax.swing.JPanel();
@@ -711,6 +726,22 @@ public class JRootApp extends JPanel implements AppView {
 
 		jPanel8.setLayout(new java.awt.GridLayout(0, 1, 5, 5));
 
+		// license
+		m_jLicense.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/license.png"))); // NOI18N
+		m_jLicense.setText(AppLocal.getIntString("Button.License")); // NOI18N
+		m_jLicense.setFocusPainted(false);
+		m_jLicense.setFocusable(false);
+		m_jLicense.setPreferredSize(new java.awt.Dimension(115, 35));
+		m_jLicense.setRequestFocusEnabled(false);
+		m_jLicense.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jLicenseActionPerformed(evt);
+			}
+		});
+
+		jPanel8.add(m_jLicense);
+
+		// close
 		m_jClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/exit.png"))); // NOI18N
 		m_jClose.setText(AppLocal.getIntString("Button.Close")); // NOI18N
 		m_jClose.setFocusPainted(false);
@@ -722,6 +753,7 @@ public class JRootApp extends JPanel implements AppView {
 				m_jCloseActionPerformed(evt);
 			}
 		});
+
 		jPanel8.add(m_jClose);
 
 		jPanel2.add(jPanel8, java.awt.BorderLayout.NORTH);
@@ -763,6 +795,10 @@ public class JRootApp extends JPanel implements AppView {
 		add(m_jPanelDown, java.awt.BorderLayout.SOUTH);
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void m_jLicenseActionPerformed(java.awt.event.ActionEvent evt) {
+		tryToLicense();
+	}
+
 	private void m_jCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseActionPerformed
 
 		tryToClose();
@@ -779,7 +815,9 @@ public class JRootApp extends JPanel implements AppView {
 
 	public void setMessage(String message) {
 		if (message != null && !message.isEmpty()) {
-			jLabel1.setText("<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.<br>"+message+"</center></html>");
+			jLabel1.setText(
+					"<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.<br>"
+							+ message + "</center></html>");
 		} else {
 			jLabel1.setText(
 					"<html><center>Registrierkasse W4CASH<br><br>W4CASH ist ein auf den Verkauf von Waren oder Dienstleistungen spezialisierte Datenerfassungsapplikation.<br>Diese dient zur Abrechnung von Bargeldums&auml;tzen und zur Erstellung von Belegen.</center></html>");
@@ -797,6 +835,7 @@ public class JRootApp extends JPanel implements AppView {
 	private javax.swing.JPanel jPanel8;
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JButton m_jClose;
+	private javax.swing.JButton m_jLicense;
 	private javax.swing.JLabel m_jHost;
 	private javax.swing.JPanel m_jLogonName;
 	private javax.swing.JPanel m_jPanelContainer;
