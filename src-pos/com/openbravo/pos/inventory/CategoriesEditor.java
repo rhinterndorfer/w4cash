@@ -56,6 +56,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private SentenceExec m_sentdel;
 
 	private Object m_id;
+	private Object m_printerIndex;
+
 	private AppView m_App;
 	private Integer lastOrderIndex = 0;
 
@@ -77,6 +79,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 		m_jName.getDocument().addDocumentListener(dirty);
 		m_jCategory.addActionListener(dirty);
+		m_jPrinter.getDocument().addDocumentListener(dirty);
 		m_jImage.addPropertyChangeListener("image", dirty);
 
 		writeValueEOF();
@@ -114,9 +117,11 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_sortOrder = null;
 		m_jName.setText(null);
 		m_CategoryModel.setSelectedKey(null);
+		m_jPrinter.setText(null);
 		m_jImage.setImage(null);
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
+		m_jPrinter.setEnabled(false);
 		m_jImage.setEnabled(false);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
@@ -126,9 +131,11 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_id = UUID.randomUUID().toString();
 		m_jName.setText(null);
 		m_CategoryModel.setSelectedKey(null);
+		m_jPrinter.setText(null);
 		m_jImage.setImage(null);
 		m_jName.setEnabled(true);
 		m_jCategory.setEnabled(true);
+		m_jPrinter.setEnabled(true);
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
@@ -145,35 +152,48 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setImage((BufferedImage) cat[3]);
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
+		m_jPrinter.setEnabled(false);
 		m_jImage.setEnabled(false);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
 		m_sortOrder = cat[4];
+		m_printerIndex = cat[5];
 	}
 
 	public void writeValueEdit(Object value) {
 		Object[] cat = (Object[]) value;
 		m_id = cat[0];
+		m_sortOrder = cat[4];
+		m_printerIndex = cat[5];
+
 		m_jName.setText(Formats.STRING.formatValue(cat[1]));
 		m_CategoryModel.setSelectedKey(cat[2]);
 		m_jImage.setImage((BufferedImage) cat[3]);
+		m_jPrinter.setText(Formats.INT.formatValue(m_printerIndex));
+
 		m_jName.setEnabled(true);
 		m_jCategory.setEnabled(true);
+		m_jPrinter.setEnabled(true);
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(true);
 		m_jCatalogAdd.setEnabled(true);
-		m_sortOrder = cat[4];
+
 	}
 
 	public Object createValue() throws BasicException {
 
-		Object[] cat = new Object[5];
-
+		Object[] cat = new Object[6];
 		cat[0] = m_id;
 		cat[1] = m_jName.getText();
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
 		cat[4] = m_sortOrder;
+		if (m_jPrinter.getText() != null && !m_jPrinter.getText().isEmpty()) {
+			cat[5] = Integer.parseInt(m_jPrinter.getText());
+		} else {
+			cat[5] = -1;
+		}
+
 		return cat;
 	}
 
@@ -198,6 +218,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCatalogDelete = new javax.swing.JButton();
 		jLabel5 = new javax.swing.JLabel();
 		m_jCategory = new javax.swing.JComboBox();
+		jLabel7 = new javax.swing.JLabel();
+		m_jPrinter = new javax.swing.JTextField();
 
 		setLayout(null);
 
@@ -207,11 +229,25 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		add(m_jName);
 		m_jName.setBounds(100, 20, 180, 18);
 
+		jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
+		add(jLabel5);
+		jLabel5.setBounds(20, 50, 90, 14);
+
+		add(m_jCategory);
+		m_jCategory.setBounds(100, 50, 180, 20);
+
+		jLabel7.setText(AppLocal.getIntString("Menu.Printer")); // NOI18N
+		add(jLabel7);
+		jLabel7.setBounds(20, 80, 90, 14);
+
+		add(m_jPrinter);
+		m_jPrinter.setBounds(100, 80, 180, 20);
+
 		jLabel3.setText(AppLocal.getIntString("label.image")); // NOI18N
 		add(jLabel3);
-		jLabel3.setBounds(20, 80, 80, 14);
+		jLabel3.setBounds(20, 110, 80, 14);
 		add(m_jImage);
-		m_jImage.setBounds(100, 80, 260, 360);
+		m_jImage.setBounds(100, 110, 260, 360);
 
 		m_jCatalogAdd.setText(AppLocal.getIntString("button.catalogadd")); // NOI18N
 		m_jCatalogAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -230,12 +266,6 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		});
 		add(m_jCatalogDelete);
 		m_jCatalogDelete.setBounds(370, 50, 170, 24);
-
-		jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
-		add(jLabel5);
-		jLabel5.setBounds(20, 50, 90, 14);
-		add(m_jCategory);
-		m_jCategory.setBounds(100, 50, 180, 20);
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
@@ -244,7 +274,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
 	}
-	
+
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {
 		PropertyUtil.fillSortOrder(bd, 4);
@@ -278,12 +308,15 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel5;
+	private javax.swing.JLabel jLabel7;
+	private javax.swing.JTextField m_jName;
+	private javax.swing.JTextField m_jPrinter;
 	private javax.swing.JButton m_jCatalogAdd;
 	private javax.swing.JButton m_jCatalogDelete;
 	private javax.swing.JComboBox m_jCategory;
 	private Object m_sortOrder;
 	private com.openbravo.data.gui.JImageEditor m_jImage;
-	private javax.swing.JTextField m_jName;
+
 	// End of variables declaration//GEN-END:variables
-	
+
 }

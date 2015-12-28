@@ -237,8 +237,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		// return new StaticSentence(s, "SELECT ID, NAME, IMAGE, SORTORDER FROM
 		// CATEGORIES ORDER BY NAME", null,
 		// CategoryInfo.getSerializerRead());
-		return new StaticSentence(s, "SELECT ID, NAME, IMAGE, SORTORDER, PRINTER FROM CATEGORIES ORDER BY SORTORDER", null,
-				CategoryInfo.getSerializerRead());
+		return new StaticSentence(s, "SELECT ID, NAME, IMAGE, SORTORDER, PRINTER FROM CATEGORIES ORDER BY SORTORDER",
+				null, CategoryInfo.getSerializerRead());
 	}
 
 	public final SentenceList getTaxCustCategoriesList() {
@@ -743,11 +743,13 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	}
 
 	public final TableDefinition getTableCategories() {
-		return new TableDefinition(s, "CATEGORIES", new String[] { "ID", "NAME", "PARENTID", "IMAGE", "SORTORDER" },
+		return new TableDefinition(s, "CATEGORIES",
+				new String[] { "ID", "NAME", "PARENTID", "IMAGE", "SORTORDER", "PRINTER" },
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "", AppLocal.getIntString("label.image"),
-						"SORTORDER" },
-				new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT },
-				new Formats[] { Formats.STRING, Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT },
+						"SORTORDER", "PRINTER" },
+				new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.INT },
+				new Formats[] { Formats.STRING, Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT,
+						Formats.INT },
 				new int[] { 0 });
 	}
 
