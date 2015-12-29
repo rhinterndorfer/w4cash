@@ -19,8 +19,11 @@
 
 package com.openbravo.pos.panels;
 
+import java.util.List;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.Datas;
+import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
@@ -35,58 +38,64 @@ import com.openbravo.pos.forms.DataLogicSales;
  * @author adrianromero
  */
 public class JPanelPayments extends JPanelTable {
-    
-    private PaymentsEditor jeditor;    
-    private DataLogicSales m_dlSales = null;
+
+	private PaymentsEditor jeditor;
+	private DataLogicSales m_dlSales = null;
 	private TableDefinition td;
-    
-    /** Creates a new instance of JPanelPayments */
-    public JPanelPayments() {
-    
-    }
-    
-    protected void init() {
-        m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");         
-        jeditor = new PaymentsEditor(app, dirty);    
-//    	td =  new TableDefinition(app.getSession(), "PAYMENTS",
-//				new String[] { "ID", "RECEIPT", "PAYMENT", "TOTAL", "TRANSID", "RETURNMSG","DESCRIPTION" },
-//				new String[] { "ID", "RECEIPT", "PAYMENT", "TOTAL", "TRANSID", "RETURNMSG","DESCRIPTION"  },
-//				new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING, Datas.DOUBLE, Datas.STRING , Datas.NULL, Datas.STRING},
-//				new Formats[] { Formats.STRING, Formats.STRING, Formats.STRING, Formats.DOUBLE,Formats.STRING , Formats.NULL, Formats.STRING},
-//				new int[] { 0 });
-    }
-    
-    public ListProvider getListProvider() {
-        try {
-			return new ListProviderCreator(m_dlSales.getPaymentList(app));
+
+	/** Creates a new instance of JPanelPayments */
+	public JPanelPayments() {
+
+	}
+
+	protected void init() {
+		m_dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+		jeditor = new PaymentsEditor(app, dirty);
+	}
+
+	public ListProvider getListProvider() {
+		try {
+			return new PaymentListProvider(m_dlSales.getPaymentList(app));
 		} catch (BasicException e) {
 			return null;
 		}
-    }
-    
-    public SaveProvider getSaveProvider() {
-        return  new SaveProvider(null
-                , m_dlSales.getPaymentMovementInsert()
-                , m_dlSales.getPaymentMovementDelete());
-    }
-    
-    public EditorRecord getEditor() {
-        return jeditor;
-    }
-    
-    public String getTitle() {
-        return AppLocal.getIntString("Menu.Payments");
-    }
+	}
+
+	public SaveProvider getSaveProvider() {
+		return new SaveProvider(null, m_dlSales.getPaymentMovementInsert(), m_dlSales.getPaymentMovementDelete());
+	}
+
+	public EditorRecord getEditor() {
+		return jeditor;
+	}
+
+	public String getTitle() {
+		return AppLocal.getIntString("Menu.Payments");
+	}
 
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
-		
-	}   
-	
+
+	}
+
 	@Override
 	public int getSortColumnIndex() {
 		return -1;
+	}
+
+	class PaymentListProvider extends ListProviderCreator {
+
+		public PaymentListProvider(SentenceList sent) {
+			super(sent);
+		}
+
+		@Override
+		public List refreshData() throws BasicException {
+			setSQL(m_dlSales.getPaymentList(app));
+			return super.refreshData();
+		}
+
 	}
 
 }

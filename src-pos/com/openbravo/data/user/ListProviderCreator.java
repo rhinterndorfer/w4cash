@@ -83,4 +83,8 @@ public class ListProviderCreator implements ListProvider {
     public List refreshData() throws BasicException {
         return sent.list(params);
     }    
+    
+    protected void setSQL(SentenceList statement){
+    	this.sent = statement;
+    }
 }

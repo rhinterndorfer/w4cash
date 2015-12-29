@@ -578,6 +578,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 							new SerializerWriteBasic(new Datas[] { Datas.TIMESTAMP, Datas.STRING, Datas.STRING }))
 									.exec(new Object[] { dNow, m_App.getProperties().getHost(), activeCash });
 
+				m_App.closeCashIndex();
 				}
 			} catch (BasicException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"),

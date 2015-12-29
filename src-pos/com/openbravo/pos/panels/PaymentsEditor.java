@@ -50,7 +50,6 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 
 	/** Creates new form JPanelPayments */
 	public PaymentsEditor(AppView oApp, DirtyManager dirty) {
-
 		m_App = oApp;
 
 		initComponents();
@@ -146,10 +145,10 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	}
 
 	public void refresh() {
+		// TODO:
 	}
 
 	private void setReasonTotal(Object reasonfield, Object totalfield) {
-
 		m_ReasonModel.setSelectedKey(reasonfield);
 
 		PaymentReason reason = (PaymentReason) m_ReasonModel.getSelectedItem();

@@ -53,5 +53,7 @@ public interface AppView {
     public void waitCursorEnd();
     
     public AppUserView getAppUserView();
+    
+    void closeCashIndex();
 }
 

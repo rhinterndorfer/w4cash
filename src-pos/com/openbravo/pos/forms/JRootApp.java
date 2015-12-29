@@ -844,4 +844,8 @@ public class JRootApp extends JPanel implements AppView {
 	private javax.swing.JTextField m_txtKeys;
 	private javax.swing.JPanel panelTask;
 	// End of variables declaration//GEN-END:variables
+	@Override
+	public void closeCashIndex() {
+		this.m_sActiveCashIndex = null;
+	}
 }

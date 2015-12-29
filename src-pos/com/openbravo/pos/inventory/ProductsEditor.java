@@ -620,10 +620,10 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		add(m_jTitle);
 		m_jTitle.setBounds(10, 10, 320, 30);
 
-//		JScrollPane jScrCont = new JScrollPane();
-//		jScrCont.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		// JScrollPane jScrCont = new JScrollPane();
+		// jScrCont.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		jPanel1.setLayout(null);
-//		jScrCont.setViewportView(jPanel1);
+		// jScrCont.setViewportView(jPanel1);
 
 		jLabel6.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 		jPanel1.add(jLabel6);
@@ -753,10 +753,10 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	public void ScaleButtons() {
 
 	}
-	
+
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {
-		
+
 	}
 
 	private void m_jInCatalogActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jInCatalogActionPerformed

@@ -89,7 +89,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			SentenceList sent = new StaticSentence(app.getSession(), "SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY NAME",
 					null, new SerializerReadClass(Floor.class));
 			m_afloors = sent.list();
-
 		} catch (BasicException eD) {
 			m_afloors = new ArrayList<Floor>();
 		}

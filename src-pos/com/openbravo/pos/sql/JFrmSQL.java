@@ -190,6 +190,11 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
             }
         });
     }
+
+	@Override
+	public void closeCashIndex() {
+		
+	}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
