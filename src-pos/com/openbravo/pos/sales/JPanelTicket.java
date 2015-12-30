@@ -1050,7 +1050,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("taxes", taxcollection);
-				script.put("taxeslogic", taxeslogic);
+				if (taxeslogic != null) {
+					script.put("taxeslogic", taxeslogic);
+					try {
+						taxeslogic.calculateTaxes(ticket);
+					} catch (Exception ex) {
+
+					}
+				}
 				script.put("ticket", ticket);
 				script.put("place", ticketext);
 				m_TTP.printTicket(script.eval(sresource).toString());
