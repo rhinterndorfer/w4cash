@@ -19,7 +19,6 @@
 
 package com.openbravo.pos.forms;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,10 +33,8 @@ import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.api.SubstanceSkin;
 
 import com.openbravo.format.Formats;
-import com.openbravo.license.JLicenseDialog;
 import com.openbravo.pos.instance.InstanceQuery;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;

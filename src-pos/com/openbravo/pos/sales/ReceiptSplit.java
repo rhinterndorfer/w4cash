@@ -155,7 +155,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		jPanel2.add(m_jButtonMove);
 		
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
-		m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
+		m_jButtonOK.setText(AppLocal.getIntString("Button.cash")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
 		m_jButtonOK.setFocusable(false);
 		m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
