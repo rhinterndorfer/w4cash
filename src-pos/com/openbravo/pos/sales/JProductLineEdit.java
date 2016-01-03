@@ -95,7 +95,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		if (m_jName.isEnabled()) {
 			m_jName.activate();
 		} else {
-			m_jUnits.activate();
+			m_jPriceTax.activate();
 		}
 
 		m_jKeys.ScaleButtons();
@@ -165,7 +165,8 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		public void propertyChange(PropertyChangeEvent evt) {
 
 			Double value = m_jPrice.getDoubleValue();
-			if (value == null || value == 0.0) {
+			//|| value == 0.0) {
+			if (value == null) { 
 				m_bpriceok = false;
 			} else {
 				m_oLine.setPrice(value);
@@ -181,7 +182,8 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		public void propertyChange(PropertyChangeEvent evt) {
 
 			Double value = m_jPriceTax.getDoubleValue();
-			if (value == null || value == 0.0) {
+			//|| value == 0.0)
+			if (value == null) {
 				// m_jPriceTax.setValue(m_oLine.getPriceTax());
 				m_bpriceok = false;
 			} else {
@@ -309,13 +311,13 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		jPanel2.add(jLabel4);
 		jPanel2.add(m_jName);
-		jPanel2.add(jLabel2);
-		jPanel2.add(m_jUnits);
-		jPanel2.add(jLabel1);
-		jPanel2.add(m_jPrice);
 		jPanel2.add(jLabel3);
 		jPanel2.add(m_jPriceTax);
-
+		jPanel2.add(jLabel1);
+		jPanel2.add(m_jPrice);
+		jPanel2.add(jLabel2);
+		jPanel2.add(m_jUnits);
+		
 		jPanel2.add(jLabel5);
 		jPanel2.add(m_jTaxrate);
 		jPanel2.add(jLabel7 );
