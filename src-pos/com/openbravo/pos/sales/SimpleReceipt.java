@@ -321,6 +321,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 //			m_restaurantmap.setPromptTicket(true);
 //			setActivePlace(m_place, ticket);
 			
+			m_jRoomId = new JComboBox<String>();
+			m_jRoomId.insertItemAt("Restaurant", 0);
 			
 			m_jTicketId = new JComboBox<Place>(this.m_aplaces.toArray(new Place[this.m_aplaces.size()]));
 			// TODO activate next line to activate spit to direkt buchen possibility
@@ -418,6 +420,19 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		m_jButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
 		if (tableSelect) {
+			m_jRoomId.setBackground(java.awt.Color.white);
+			// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+			m_jRoomId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+					javax.swing.BorderFactory
+							.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+					javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+			m_jRoomId.setOpaque(true);
+			// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
+			m_jRoomId.setRequestFocusEnabled(false);
+
+			m_jButtons.add(m_jRoomId);
+			
 			m_jTicketId.setBackground(java.awt.Color.white);
 			// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -641,6 +656,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private javax.swing.JLabel m_jSubtotalEuros;
 	private javax.swing.JLabel m_jTaxesEuros;
 	// private javax.swing.JLabel m_jTicketId;
+	private javax.swing.JComboBox<String> m_jRoomId;
 	private javax.swing.JComboBox<Place> m_jTicketId;
 	private javax.swing.JLabel m_jLTicketId;
 	private javax.swing.JLabel m_jTotalEuros;
