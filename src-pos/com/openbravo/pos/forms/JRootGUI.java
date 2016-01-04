@@ -6,7 +6,7 @@ public abstract class JRootGUI extends javax.swing.JFrame {
 
 	private LicenseManager manager = new LicenseManager();
 
-	public void initFrame(AppProperties app) {
+	public Boolean initFrame(AppProperties app) {
 		manager.init(getAppView(), this);
 
 		JRootApp root = (JRootApp) getAppView();
@@ -21,8 +21,7 @@ public abstract class JRootGUI extends javax.swing.JFrame {
 			break;
 		}
 
-		
-
+		return true;
 	}
 	// 0 license good
 	// 1 evaluation license (7 days)
