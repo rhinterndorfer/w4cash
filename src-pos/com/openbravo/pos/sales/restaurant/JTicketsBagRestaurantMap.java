@@ -436,7 +436,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				try {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("ticket", tickets.get(key));
-					script.put("place", ticketext);
+					script.put("place", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 					script.put("printer", "" + key);
 					script.put("printername", "Drucker " + key);
 					m_TTP.printTicket(script.eval(sresource).toString());

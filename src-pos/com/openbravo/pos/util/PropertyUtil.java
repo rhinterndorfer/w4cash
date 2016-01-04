@@ -115,16 +115,11 @@ public class PropertyUtil {
 	}
 
 	public static void ScaleButtonIcon(javax.swing.JButton btn, int width, int height, int fontsize) {
-		int newWidth = width;
-		int newHeight = height;
 		btn.setMargin(null);
-		if (btn.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-		}
+		
+		int iconWidth = width;
+		int iconHeigth = height;
+		
 		if (btn.getText() != null && !btn.getText().isEmpty()) {
 			// String text = btn.getText();
 			Font font = btn.getFont();
@@ -134,11 +129,21 @@ public class PropertyUtil {
 			// newWidth += fm.stringWidth(text);
 			btn.setHorizontalTextPosition(JButton.CENTER);
 			btn.setVerticalTextPosition(JButton.BOTTOM);
-			newWidth += fm.getHeight();
-			newHeight += fm.getHeight();
+			iconWidth -= fm.getHeight();
+			iconHeigth -= fm.getHeight();
 		}
+		
+		
+		if (btn.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? iconWidth : -1, radio > 1 ? -1 : iconHeigth,
+					Image.SCALE_SMOOTH);
+			btn.setIcon(new javax.swing.ImageIcon(img));
+		}
+		
 
-		btn.setSize(newWidth, newHeight);
+		btn.setSize(width, height);
 		// btn.setMinimumSize(new Dimension(newWidth, newHeight));
 		// btn.setPreferredSize(new Dimension(width, newHeight));
 	}
