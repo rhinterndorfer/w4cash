@@ -44,7 +44,7 @@ public class MyPrinterState {
             case 0:
             	return 1;
             default:
-            	int mult = (int)Math.round(1.0 - 0.1 + (double)iSize / 2);
+            	int mult = (int)Math.round(1.4 + (double)iSize / 2);
                 return mult;
         }
     }
@@ -79,7 +79,7 @@ public class MyPrinterState {
                 break;
                 */
             default:
-            	a = AffineTransform.getScaleInstance(1.0 + (double)m_iSize / 5 , 1.0 + (double)m_iSize / 2);
+            	a = AffineTransform.getScaleInstance(1.0 + (double)m_iSize / 5 , 1.4 + (double)m_iSize / 2);
                 a.preConcatenate(baseFont.getTransform());
                 f = baseFont.deriveFont(a);
                 break;
