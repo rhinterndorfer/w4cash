@@ -38,15 +38,14 @@ public class MyPrinterState {
     }
 
     public static int getLineMult(int iSize) {
-        switch (iSize) {
+        
+    	
+    	switch (iSize) {
             case 0:
-            case 2:
-                return 1;
-            case 1:
-            case 3:
-                return 2;
+            	return 1;
             default:
-                return 1;
+            	int mult = (int)Math.round(1.0 - 0.1 + (double)iSize / 2);
+                return mult;
         }
     }
 
@@ -58,23 +57,31 @@ public class MyPrinterState {
             case 0:
                 f = baseFont;
                 break;
-            case 2:
-                a = AffineTransform.getScaleInstance(2.0, 1.0);
+            /* case 1:
+                a = AffineTransform.getScaleInstance(1, 1.5);
                 a.preConcatenate(baseFont.getTransform());
                 f = baseFont.deriveFont(a);
                 break;
-            case 1:
-                a = AffineTransform.getScaleInstance(1.0, 2.0);
+            case 2:
+                a = AffineTransform.getScaleInstance(1.2, 1.7);
                 a.preConcatenate(baseFont.getTransform());
                 f = baseFont.deriveFont(a);
                 break;
             case 3:
-                a = AffineTransform.getScaleInstance(2.0, 2.0);
+                a = AffineTransform.getScaleInstance(1.5, 2.0);
                 a.preConcatenate(baseFont.getTransform());
                 f = baseFont.deriveFont(a);
                 break;
+            case 4:
+                a = AffineTransform.getScaleInstance(1.75, 3.0);
+                a.preConcatenate(baseFont.getTransform());
+                f = baseFont.deriveFont(a);
+                break;
+                */
             default:
-                f = baseFont;
+            	a = AffineTransform.getScaleInstance(1.0 + (double)m_iSize / 10 , 1.0 + (double)m_iSize / 2);
+                a.preConcatenate(baseFont.getTransform());
+                f = baseFont.deriveFont(a);
                 break;
         }
         f = f.deriveFont((iStyle & DevicePrinter.STYLE_BOLD) != 0 ? Font.BOLD : baseFont.getStyle());
