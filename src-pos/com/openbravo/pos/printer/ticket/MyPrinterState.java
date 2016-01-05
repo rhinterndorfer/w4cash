@@ -79,7 +79,7 @@ public class MyPrinterState {
                 break;
                 */
             default:
-            	a = AffineTransform.getScaleInstance(1.0 + (double)m_iSize / 10 , 1.0 + (double)m_iSize / 2);
+            	a = AffineTransform.getScaleInstance(1.0 + (double)m_iSize / 5 , 1.0 + (double)m_iSize / 2);
                 a.preConcatenate(baseFont.getTransform());
                 f = baseFont.deriveFont(a);
                 break;
