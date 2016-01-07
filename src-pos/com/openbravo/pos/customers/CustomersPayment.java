@@ -326,7 +326,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		jPanel5.setLayout(new java.awt.GridBagLayout());
 		jPanel5.add(editorcard, new java.awt.GridBagConstraints());
 
-		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
 		jButton1.setMargin(new java.awt.Insets(8, 14, 8, 14));
@@ -474,6 +474,17 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 		add(jPanel1, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 
+//	private void ScaleButtons(AppView app) {
+//		int menuwidth = Integer
+//				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+//		int menuheight = Integer
+//				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+//		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+//
+//		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
+//		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
+//	}
+	
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 
 		readCustomer();

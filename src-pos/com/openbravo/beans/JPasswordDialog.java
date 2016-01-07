@@ -140,7 +140,7 @@ public class JPasswordDialog extends javax.swing.JDialog {
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		jcmdOK.setText(m_resources.getString("button.ok")); // NOI18N
 		jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
 		jcmdOK.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +151,7 @@ public class JPasswordDialog extends javax.swing.JDialog {
 		jPanel1.add(jcmdOK);
 
 		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		jcmdCancel.setText(m_resources.getString("button.cancel")); // NOI18N
 		jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
 		jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +190,8 @@ public class JPasswordDialog extends javax.swing.JDialog {
 
 		getContentPane().add(m_jPanelTitle, java.awt.BorderLayout.NORTH);
 
+		ScaleButtons(m_App);
+		
 		PropertyUtil.ScaleDialog(m_App, this, 350, 520);
 
 		// java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -228,6 +230,17 @@ public class JPasswordDialog extends javax.swing.JDialog {
 
 	}// GEN-LAST:event_closeWindow
 
+	private void ScaleButtons(AppView app) {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+
+		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
+	}
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;

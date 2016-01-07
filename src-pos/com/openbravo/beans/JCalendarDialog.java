@@ -181,7 +181,7 @@ public class JCalendarDialog extends javax.swing.JDialog {
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png")));
+		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png")));
 		jcmdOK.setText(m_resources.getString("button.ok"));
 		jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
 		jcmdOK.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +193,7 @@ public class JCalendarDialog extends javax.swing.JDialog {
 		jPanel1.add(jcmdOK);
 
 		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png")));
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 		jcmdCancel.setText(m_resources.getString("button.cancel"));
 		jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
 		jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -215,6 +215,7 @@ public class JCalendarDialog extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
+		ScaleButtons(m_App);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
@@ -254,6 +255,17 @@ public class JCalendarDialog extends javax.swing.JDialog {
 		dispose();
 	}// GEN-LAST:event_closeWindow
 
+	private void ScaleButtons(AppView app) {
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "48"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
+	}
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;

@@ -370,7 +370,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
 		m_jButtonOK.setFocusable(false);
@@ -384,7 +384,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		jPanel1.add(m_jButtonOK);
 
 		m_jButtonCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		m_jButtonCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
 		m_jButtonCancel.setFocusPainted(false);
 		m_jButtonCancel.setFocusable(false);

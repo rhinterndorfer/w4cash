@@ -101,6 +101,8 @@ public class JLicenseDialog extends JDialog {
 	public String getLicense() {
 		return this.license;
 	}
+	
+	
 
 	private void closeDialog(int code, String license) {
 		this.returnCode = code;
@@ -196,12 +198,12 @@ public class JLicenseDialog extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				this.okButton = new JButton("OK");
 				this.okButton.setIcon(
-						new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png")));
+						new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png")));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				okButton.addActionListener(new ActionListener() {
@@ -217,7 +219,7 @@ public class JLicenseDialog extends JDialog {
 			{
 				this.cancelButton = new JButton("Cancel");
 				this.cancelButton.setIcon(
-						new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png")));
+						new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 
 				cancelButton.setActionCommand("Cancel");
 				cancelButton.addActionListener(new ActionListener() {

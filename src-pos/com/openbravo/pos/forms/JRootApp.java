@@ -733,6 +733,7 @@ public class JRootApp extends JPanel implements AppView {
 		m_jLicense.setFocusable(false);
 		m_jLicense.setPreferredSize(new java.awt.Dimension(115, 35));
 		m_jLicense.setRequestFocusEnabled(false);
+		m_jLicense.setHorizontalAlignment(JButton.LEFT);
 		m_jLicense.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jLicenseActionPerformed(evt);
@@ -748,6 +749,7 @@ public class JRootApp extends JPanel implements AppView {
 		m_jClose.setFocusable(false);
 		m_jClose.setPreferredSize(new java.awt.Dimension(115, 35));
 		m_jClose.setRequestFocusEnabled(false);
+		m_jClose.setHorizontalAlignment(JButton.LEFT);
 		m_jClose.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jCloseActionPerformed(evt);
@@ -843,6 +845,7 @@ public class JRootApp extends JPanel implements AppView {
 	private javax.swing.JPanel m_jPanelLogin;
 	private javax.swing.JTextField m_txtKeys;
 	private javax.swing.JPanel panelTask;
+
 	// End of variables declaration//GEN-END:variables
 	@Override
 	public void closeCashIndex() {

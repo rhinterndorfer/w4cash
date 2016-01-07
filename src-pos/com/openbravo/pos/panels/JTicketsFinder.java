@@ -581,7 +581,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jPanel8.setLayout(new java.awt.BorderLayout());
 
-		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		jcmdOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
 		jcmdOK.setEnabled(false);
 		jcmdOK.setFocusPainted(false);
@@ -596,7 +596,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		jPanel1.add(jcmdOK);
 
 		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
 		jcmdCancel.setFocusPainted(false);
 		jcmdCancel.setFocusable(false);

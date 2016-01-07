@@ -109,7 +109,7 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
 		setResizable(false);
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png")));
+		jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png")));
 		jcmdOK.setText(AppLocal.getIntString("Button.OK"));
 		jcmdOK.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,7 +120,7 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
 		jPanel2.add(jcmdOK);
 
 		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_cancel.png")));
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 		jcmdCancel.setText(AppLocal.getIntString("Button.Cancel"));
 		jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
