@@ -43,8 +43,8 @@ public class DeviceDisplayPanel extends JPanel implements DeviceDisplay, DeviceD
         
         m_sName = AppLocal.getIntString("Display.Screen");
         
-        jline1.setFont(new Font("Monospaced", Font.BOLD, (int)(16 * dZoom)));
-        jline2.setFont(new Font("Monospaced", Font.BOLD, (int)(16 * dZoom)));
+        jline1.setFont(new Font("Courier New", Font.BOLD, (int)(16 * dZoom)));
+        jline2.setFont(new Font("Courier New", Font.BOLD, (int)(16 * dZoom)));
 
         m_displaylines = new DeviceDisplayBase(this);
     }

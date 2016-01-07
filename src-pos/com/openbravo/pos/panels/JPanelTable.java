@@ -115,7 +115,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			c = new JCounter(bd);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
-			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(),getSortColumnIndex());
+			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(), getSortColumnIndex());
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
 			c = new JSaver(this.app, bd);
@@ -159,6 +159,17 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	public void activate() throws BasicException {
 		startNavigation();
 		bd.actionLoad();
+		
+		// initial sort by first column in sort index
+		if(getComparatorCreator() != null)
+		{
+			try {
+				bd.sort(getComparatorCreator().createComparator(new int[]{0}));
+			} catch (BasicException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		bd.moveLast();
 	}
 

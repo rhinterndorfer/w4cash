@@ -212,7 +212,7 @@ public class JPanelButtons extends javax.swing.JPanel {
         public JButtonFunc(String sKey, String sImage, String title) {
             
             setName(sKey);
-            if(sImage == null)
+            if(title != null)
             	setText(title);
             
             java.net.URL resourceURL = getClass().getResource("/com/openbravo/images/" + sImage);

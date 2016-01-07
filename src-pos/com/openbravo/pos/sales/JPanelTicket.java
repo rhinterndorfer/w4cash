@@ -1050,9 +1050,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("taxes", taxcollection);
-				script.put("taxeslogic", taxeslogic);
+				if (taxeslogic != null) {
+					script.put("taxeslogic", taxeslogic);
+					try {
+						taxeslogic.calculateTaxes(ticket);
+					} catch (Exception ex) {
+
+					}
+				}
 				script.put("ticket", ticket);
-				script.put("place", ticketext);
+				script.put("place", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 				m_TTP.printTicket(script.eval(sresource).toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1095,7 +1102,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			Map reportfields = new HashMap();
 			reportfields.put("TICKET", ticket);
-			reportfields.put("PLACE", ticketext);
+			reportfields.put("PLACE", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 
 			JasperPrint jp = JasperFillManager.fillReport(jr, reportparams,
 					new JRMapArrayDataSource(new Object[] { reportfields }));
@@ -1121,7 +1128,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("ticketline", oLine);
 				script.put("ticketlineOrig", oOrigLine);
 				script.put("ticketlineEdit", isEditOperation);
-				script.put("place", m_oTicketExt != null ? m_oTicketExt.toString() : null);
+				script.put("place", m_oTicketExt != null && m_oTicketExt.getClass().equals(String.class) ? m_oTicketExt.toString() : "");
 				m_TTP.printTicket(script.eval(dlSystem.getResourceAsXML("Printer.TicketLine")).toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1275,7 +1282,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
 			script.put("ticket", ticket);
-			script.put("place", ticketext);
+			script.put("place", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 			script.put("taxes", taxcollection);
 			script.put("taxeslogic", taxeslogic);
 			script.put("user", m_App.getAppUserView().getUser());

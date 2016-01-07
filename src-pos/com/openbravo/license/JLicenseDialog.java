@@ -299,7 +299,7 @@ public class JLicenseDialog extends JDialog {
 	}
 
 	private void fill(AppView app) {
-		this.host = app.getProperties().getHost();
+		this.host = LicenseManager.getHost();
 		this.mac = LicenseManager.getMAC();
 		String[] key = LicenseTool.genLicenseUser(host, mac);
 		this.m_LicenseUserKey = LicenseTool.formatKey(key, LicenseTool.DEFAULT_DELIMITER);

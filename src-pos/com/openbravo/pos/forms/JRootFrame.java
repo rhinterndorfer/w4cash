@@ -50,7 +50,7 @@ public class JRootFrame extends JRootGUI implements AppMessage {
     }
     
     @Override
-    public void initFrame(AppProperties props) {        
+    public Boolean initFrame(AppProperties props) {        
         m_props = props;
              
         m_rootapp = new JRootApp();       
@@ -79,7 +79,12 @@ public class JRootFrame extends JRootGUI implements AppMessage {
             this.setExtendedState(MAXIMIZED_BOTH);
             setLocationRelativeTo(null);        
             super.initFrame(props);
-            setVisible(true);                        
+            setVisible(true);
+            return true;
+        }
+        else
+        {
+        	return false;
         }
     }
     

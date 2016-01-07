@@ -73,6 +73,7 @@ public abstract class Datas {
         }
     }
     
+    
     private static final class DatasINT extends Datas {
         public Object getValue(DataRead dr, int i) throws BasicException {
             return dr.getInt(i);
@@ -104,7 +105,7 @@ public abstract class Datas {
             return "\'" + DataWriteUtils.getEscaped((String) value) + "\'";
         }
         protected int compareAbstract(Object o1, Object o2) {
-            return ((String) o1).compareTo((String) o2);
+            return ((String) o1).compareToIgnoreCase((String) o2);
         }           
     }
     private static final class DatasDOUBLE extends Datas {

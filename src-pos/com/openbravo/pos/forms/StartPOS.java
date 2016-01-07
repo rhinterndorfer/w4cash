@@ -19,7 +19,6 @@
 
 package com.openbravo.pos.forms;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,10 +33,8 @@ import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.api.SubstanceSkin;
 
 import com.openbravo.format.Formats;
-import com.openbravo.license.JLicenseDialog;
 import com.openbravo.pos.instance.InstanceQuery;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Window;
@@ -127,7 +124,7 @@ public class StartPOS {
 
 				final JRootGUI root = r;
 				final GuiWorker action = new StartPOS().new GuiWorker(r);
-
+				
 				new Thread(new Runnable() {
 
 					@Override
@@ -138,7 +135,7 @@ public class StartPOS {
 						// );
 					}
 				}).start();
-
+				
 				// set Locale.
 				String slang = config.getProperty("user.language");
 				String scountry = config.getProperty("user.country");
@@ -178,15 +175,17 @@ public class StartPOS {
 
 				// doLicense( root);
 
+				Boolean result;
 				if ("fullscreen".equals(screenmode)) {
-					((JRootKiosk) root).initFrame(config);
+					result=((JRootKiosk) root).initFrame(config);
 				} else {
-					((JRootFrame) root).initFrame(config);
+					result=((JRootFrame) root).initFrame(config);
 				}
 
-				// action.getSwingWorker().firePropertyChange("state", null,
-				// SwingWorker.StateValue.DONE);
 				action.done();
+				
+				if(!result)
+					System.exit(1);
 			}
 
 			private void doLicense(JRootGUI root) {

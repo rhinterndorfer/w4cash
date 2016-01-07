@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2015-12-20T16:33:57 -->
+<!-- 2016-01-03T13:53:48 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="meansofpayment" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="meansofpayment_messages_de" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -14,7 +14,7 @@
 	cc.HOSTSEQUENCE as CASHSEQUENCE, 
 	cc.DATESTART, 
 	cc.DATEEND,
-	case p.PAYMENT when 'cash' then 'Bar' when 'cashin' then 'Einzahlung' when 'cashout' then 'Auszahlung' when 'magcard' then 'Karte' when 'free' then 'Frei' when 'paperin' then 'Rechnung' else p.PAYMENT end as PAYMENT,
+	case p.PAYMENT when 'cash' then 'Bar' when 'cashrefund' then 'Bar' when 'cashin' then 'Einzahlung' when 'cashout' then 'Auszahlung' when 'magcard' then 'Karte' when 'free' then 'Frei' when 'paperin' then 'Rechnung' else p.PAYMENT end as PAYMENT,
 	p.TOTAL
 from 
 	CLOSEDCASH cc

@@ -16,12 +16,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.hbsoft.w4cash.license.LicenseTool;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.DataParams;
 import com.openbravo.data.loader.SerializerWriteParams;
@@ -48,152 +51,54 @@ public class LicenseManager {
 		return this.license;
 	}
 
+	public static String getHost() {
+		return System.getenv("COMPUTERNAME");
+	}
+	
 	public static String getMAC() {
-		Map<String, String> buffer = new LinkedHashMap<>();
-		BufferedReader input = null;
+		String macaddress = null;
+		List<byte[]> macs = new ArrayList<byte[]>();
+
 		try {
-			Process p = Runtime.getRuntime().exec("ipconfig /all");
-			input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			Pattern pAddress = Pattern.compile(".*Physical Addres.*: (.*)");
-			Pattern pName = Pattern.compile(".*Description.*: (.*)");
+			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+			while (interfaces.hasMoreElements()) {
+				NetworkInterface adapter = interfaces.nextElement();
 
-			String name = null;
-			String line = "";
-			while ((line = input.readLine()) != null) {
-				Matcher mm = pName.matcher(line);
-				if (mm.matches()) {
-					name = mm.group(1);
-				}
-
-				mm = pAddress.matcher(line);
-				if (mm.matches()) {
-					buffer.put(name, mm.group(1));
+				if (!adapter.isPointToPoint() && !adapter.isVirtual() && !adapter.isLoopback()
+						&& adapter.getHardwareAddress() != null) {
+					byte[] mac = adapter.getHardwareAddress();
+					macs.add(mac);
 				}
 			}
+
+			if(macs.size() > 0)
+			{
+				StringBuffer sb = new StringBuffer();
+				byte[] mac = macs.get(0);
+				for (int i = 0; i < mac.length; i++) {
+					byte single = 1;
+					for (int j = 0; j < macs.size(); j++) {
+						// xor all macs
+						single = (byte)((int)macs.get(j)[i] * (int)single);
+					}
+					sb.append(String.format("%02X%s", single, (i < mac.length - 1) ? "-" : ""));
+				}
+			
+			macaddress = sb.toString();
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
-		String macaddress = null;
+		if (macaddress == null)
+			macaddress = "00-00-00-00-00-00";
 
-		try {
-			NetworkInterface localhost = NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
-			NetworkInterface loopback = NetworkInterface.getByInetAddress(InetAddress.getLoopbackAddress());
-
-			boolean isLoopback1 = localhost.isLoopback();
-			// boolean isLoopback2 = loopback.isLoopback();
-
-			// there is an active network interface
-			if (!isLoopback1 && !localhost.equals(loopback)) {
-				byte[] mac = localhost.getHardwareAddress();
-				StringBuffer sb = new StringBuffer();
-				for (int i = 0; i < mac.length; i++) {
-					sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-				}
-				macaddress = sb.toString();
-			}
-			// inactive nic
-			else {
-				Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-				while (interfaces.hasMoreElements()) {
-					NetworkInterface adapter = interfaces.nextElement();
-					// byte[] mac = adapter.getHardwareAddress();
-					String mac2use = buffer.get(adapter.getDisplayName());
-
-					if (mac2use != null) {
-						macaddress = mac2use;
-						break;
-					}
-
-				}
-			}
-		} catch (SocketException | UnknownHostException e) {
-			e.printStackTrace();
-		}
 		return macaddress;
 	}
 
-	// private String getMotherboardSN() {
-	// String result = "";
-	// try {
-	// File file = File.createTempFile("realhowto", ".vbs");
-	// file.deleteOnExit();
-	// FileWriter fw = new java.io.FileWriter(file);
-	//
-	// String vbs = "Set objWMIService =
-	// GetObject(\"winmgmts:\\\\.\\root\\cimv2\")\n"
-	// + "Set colItems = objWMIService.ExecQuery _ \n" + " (\"Select * from
-	// Win32_BaseBoard\") \n"
-	// + "For Each objItem in colItems \n" + " Wscript.Echo objItem.SerialNumber
-	// \n"
-	// + " exit for ' do the first cpu only! \n" + "Next \n";
-	//
-	// fw.write(vbs);
-	// fw.close();
-	// Process p = Runtime.getRuntime().exec("cscript //NoLogo " +
-	// file.getPath());
-	// BufferedReader input = new BufferedReader(new
-	// InputStreamReader(p.getInputStream()));
-	// String line;
-	// while ((line = input.readLine()) != null) {
-	// result += line;
-	// }
-	// input.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return result.trim();
-	// }
-
-	// private String getSerialNumber(String drive) {
-	// String result = "";
-	// try {
-	// File file = File.createTempFile("realhowto", ".vbs");
-	// file.deleteOnExit();
-	// FileWriter fw = null;
-	// try {
-	// fw = new java.io.FileWriter(file);
-	// String vbs = "Set objFSO =
-	// CreateObject(\"Scripting.FileSystemObject\")\n"
-	// + "Set colDrives = objFSO.Drives\n" + "Set objDrive = colDrives.item(\""
-	// + drive + "\")\n"
-	// + "Wscript.Echo objDrive.SerialNumber"; // see note
-	// fw.write(vbs);
-	// } finally {
-	// if (fw != null) {
-	// try {
-	// fw.close();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	//
-	// Process p = Runtime.getRuntime().exec("cscript //NoLogo " +
-	// file.getPath());
-	// BufferedReader input = new BufferedReader(new
-	// InputStreamReader(p.getInputStream()));
-	// String line;
-	// while ((line = input.readLine()) != null) {
-	// result += line;
-	// }
-	// input.close();
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// return result.trim();
-	// }
-
-	public DeviceInfo readDeviceInfo(AppView app)  {
-		String host = app.getProperties().getHost();
+	public DeviceInfo readDeviceInfo(AppView app) {
+		String host = getHost();
 		String mac = getMAC();
 		String common = host + "/" + mac;
 		String startup = "" + System.currentTimeMillis();
@@ -204,7 +109,7 @@ public class LicenseManager {
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
-		
+
 		DeviceInfo devinfo = null;
 		for (Object device : devices) {
 			String id = ((DeviceInfo) device).getDeviceId();
@@ -216,7 +121,7 @@ public class LicenseManager {
 		}
 		return devinfo;
 	}
-	
+
 	public int getRemainingDaysOfLicense() {
 		long install = Long.parseLong(this.dev.getInstall());
 		long current = System.currentTimeMillis();
@@ -233,7 +138,8 @@ public class LicenseManager {
 
 	public void init(AppView app, JRootGUI root) {
 		try {
-			String host = app.getProperties().getHost();
+			// String host = app.getProperties().getHost();
+			String host = getHost();
 			String mac = getMAC();
 			String common = host + "/" + mac;
 			String startup = "" + System.currentTimeMillis();
@@ -252,7 +158,7 @@ public class LicenseManager {
 			if (this.dev == null) {
 				this.dev = writeDeviceInfo(app, host, mac, startup);
 			}
-			this.license = checklicense(app, root, this.dev);
+			this.license = checklicense(app, root, this.dev, host, mac);
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
@@ -283,11 +189,14 @@ public class LicenseManager {
 		return b;
 	}
 
-	private int checklicense(AppView app, JRootGUI root, DeviceInfo info) {
+	private int checklicense(AppView app, JRootGUI root, DeviceInfo info, String currenthost, String currentmac) {
 
 		try {
-
-			boolean validLicense = info.validateLicense();
+			
+			String[] currentLicenseKeyParts = LicenseTool.genLicenseUser(currenthost, currentmac);
+			String currentLicenseKey = LicenseTool.formatKey(currentLicenseKeyParts, LicenseTool.DEFAULT_DELIMITER);
+			String license2match = LicenseTool.genLicenseApplication(currentLicenseKey, LicenseTool.DEFAULT_DELIMITER);
+			boolean validLicense = info.validateLicense(license2match);
 
 			if (!validLicense) {
 				throw new IOException();
@@ -348,7 +257,5 @@ public class LicenseManager {
 		info.setInstallDate(startup);
 		return info;
 	}
-
-	
 
 }

@@ -90,8 +90,8 @@ public class DeviceInfo {
 		return sql;
 	}
 
-	public boolean validateLicense() {
-		if (this.m_License == null) {
+	public boolean validateLicense(String currentLizense) {
+		if (currentLizense == null || this.m_License == null || !currentLizense.equals(this.m_License)) {
 			return false;
 		}
 		return true;
