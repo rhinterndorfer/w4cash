@@ -22,6 +22,7 @@ package com.openbravo.pos.mant;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.awt.BorderLayout;
 import java.util.*;
 import javax.swing.*;
 
@@ -161,6 +162,7 @@ public class JPlacesBagShared extends JPlacesBag {
 		m_jNewTicket = new javax.swing.JButton();
 		m_jDelTicket = new javax.swing.JButton();
 		m_jListTickets = new javax.swing.JButton();
+//		m_jbtnLogout = new javax.swing.JButton();
 
 		setLayout(new java.awt.BorderLayout());
 
@@ -202,6 +204,25 @@ public class JPlacesBagShared extends JPlacesBag {
 		jPanel1.add(m_jListTickets);
 
 		add(jPanel1, java.awt.BorderLayout.WEST);
+		
+//		m_jbtnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/logout.png"))); // NOI18N
+//		m_jbtnLogout.setText(AppLocal.getIntString("button.logout"));
+//		m_jbtnLogout.setFocusPainted(false);
+//		m_jbtnLogout.setFocusable(false);
+//		// m_jbtnLogout.setMargin(new java.awt.Insets(0,0,0,0));
+//		m_jbtnLogout.setRequestFocusEnabled(false);
+//		m_jbtnLogout.addActionListener(new java.awt.event.ActionListener() {
+//			public void actionPerformed(java.awt.event.ActionEvent evt) {
+//				//m_jbtnLogoutActionPerformed(evt);
+//			}
+//		});
+//
+//		// this.ScaleButtons(Integer.parseInt(m_jbtnLogout.getProperty("button-touchlarge-width",
+//		// "60")),
+//		// Integer.parseInt(m_jbtnLogout.getProperty("button-touchlarge-height",
+//		// "60")));
+//
+//		add(m_jbtnLogout, BorderLayout.LINE_END);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jListTicketsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jListTicketsActionPerformed
@@ -249,6 +270,8 @@ public class JPlacesBagShared extends JPlacesBag {
 	private javax.swing.JButton m_jDelTicket;
 	private javax.swing.JButton m_jListTickets;
 	private javax.swing.JButton m_jNewTicket;
+	
+//	private JButton m_jbtnLogout;
 	// End of variables declaration//GEN-END:variables
 
 	@Override
@@ -272,6 +295,8 @@ public class JPlacesBagShared extends JPlacesBag {
 		PropertyUtil.ScaleButtonIcon(m_jDelTicket, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jListTickets, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jNewTicket, width, height, fontsize);
+		
+//		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, width, height, fontsize);
 	}
 
 	@Override

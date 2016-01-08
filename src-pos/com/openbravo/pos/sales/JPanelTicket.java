@@ -167,7 +167,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// views and buttons
 		m_ticketsbag = getJTicketsBag();
 		JComponent bag = m_ticketsbag.getBagComponent();
-		m_jPanelBag.add(bag, BorderLayout.LINE_START);
+		m_jPanelBag.add(bag); //, BorderLayout.LINE_START);
 		JComponent bagNull = m_ticketsbag.getNullComponent();
 		add(bagNull, "null");
 
@@ -1819,6 +1819,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			TicketInfo ticket2 = new TicketInfo();
 			ticket2.setCustomer(m_oTicket.getCustomer());
 
+//			splitdialog.
 			if (splitdialog.showDialog(ticket1, ticket2, m_oTicketExt)) {
 				Object currentTicket = splitdialog.getTicketText();
 				String currentTicketId = splitdialog.getTicketId();

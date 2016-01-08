@@ -19,6 +19,22 @@
 
 package com.openbravo.pos.sales;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceList;
@@ -35,32 +51,17 @@ import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
-import javafx.scene.control.ComboBox;
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-
 /**
  *
  * @author adrian
  */
 public class SimpleReceipt extends javax.swing.JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1387584794105769578L;
+	
 	protected DataLogicCustomers dlCustomers;
 	protected DataLogicSales dlSales;
 	protected TaxesLogic taxeslogic;
@@ -73,15 +74,26 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private boolean tableSelect = false;
 	private Place selectedTable;
 
+	private ReceiptSplit parent = null;
+	
 	/** Creates new form SimpleReceipt */
 	public SimpleReceipt(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
-			TaxesLogic taxeslogic, boolean tableSelect) {
+			TaxesLogic taxeslogic, boolean tableSelect,  ReceiptSplit parent) {
 		this.m_App = app;
 		this.tableSelect = tableSelect;
+		this.parent = parent;
 		initComponents();
 
 		// dlSystem.getResourceAsXML("Ticket.Line")
 		ticketlines = new JTicketLines(app, "sales-dialogtable-lineheight", "sales-dialogtable-fontsize", ticketline);
+		ticketlines.addListDoubleClickListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				//System.out.println(ticket.getLine(e.getFirstIndex()).getProductName());
+				dblClickProduct(e.getFirstIndex());
+			}
+		});
 		this.dlCustomers = dlCustomers;
 		this.dlSales = dlSales;
 		this.taxeslogic = taxeslogic;
@@ -104,6 +116,10 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	public void setCustomerEnabled(boolean value) {
 		btnCustomer.setEnabled(value);
 	}
+	
+	public void setCustomerVisible(boolean value) {
+		btnCustomer.setVisible(value);
+	}
 
 	public void setTicket(TicketInfo ticket, Object tt) {
 
@@ -124,6 +140,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 			((JComboBox<Place>) m_jTicketId).addActionListener(new ActionListener() {
 
+				@SuppressWarnings("unchecked")
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					selectedTable = (Place) ((JComboBox<Place>) e.getSource()).getSelectedItem();
@@ -307,6 +324,10 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		m_jLblTotalEuros2 = new javax.swing.JLabel();
 		m_jLblTotalEuros3 = new javax.swing.JLabel();
 		m_jButtons = new javax.swing.JPanel();
+		m_jLTicketId = new javax.swing.JLabel();
+		btnCustomer = new javax.swing.JButton();
+		jPanel2 = new javax.swing.JPanel();
+		
 		// m_jTicketId = new javax.swing.JLabel();
 		if (this.tableSelect) {
 			fillpossibleTables();
@@ -321,8 +342,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 //			m_restaurantmap.setPromptTicket(true);
 //			setActivePlace(m_place, ticket);
 			
-			m_jRoomId = new JComboBox<String>();
-			m_jRoomId.insertItemAt("Restaurant", 0);
+//			m_jRoomId = new JComboBox<String>();
+//			m_jRoomId.insertItemAt("Restaurant", 0);
 			
 			m_jTicketId = new JComboBox<Place>(this.m_aplaces.toArray(new Place[this.m_aplaces.size()]));
 			// TODO activate next line to activate spit to direkt buchen possibility
@@ -341,11 +362,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 			PropertyUtil.ScaleJBomboBoxScrollbar(m_App, m_jTicketId);
 		} // else {
-		m_jLTicketId = new javax.swing.JLabel();
-		// }
-
-		btnCustomer = new javax.swing.JButton();
-		jPanel2 = new javax.swing.JPanel();
+	
 
 		setLayout(new java.awt.BorderLayout());
 
@@ -368,51 +385,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		m_jPanTotals.add(m_jLblTotalEuros1);
 		m_jPanTotals.add(m_jTotalEuros);
 
-		//
-		// totalLayout.setHorizontalGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(totalLayout.createSequentialGroup()
-		// .addComponent(m_jLblTotalEuros3, width,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jSubtotalEuros, javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE))
-		// .addGroup(totalLayout.createSequentialGroup()
-		// .addComponent(m_jLblTotalEuros2, width,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(m_jTaxesEuros,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE))
-		// .addGroup(totalLayout.createSequentialGroup()
-		// .addComponent(m_jLblTotalEuros1, width,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(m_jTotalEuros,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE)
-		// // .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// // Short.MAX_VALUE)
-		// ));
-		// totalLayout.setVerticalGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(totalLayout.createSequentialGroup().addContainerGap()
-		// .addGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(m_jLblTotalEuros3)
-		// .addComponent(m_jSubtotalEuros))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(m_jLblTotalEuros2).addComponent(m_jTaxesEuros))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(m_jLblTotalEuros1).addComponent(m_jTotalEuros))
-		//
-		// // .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// // Short.MAX_VALUE)
-		// ));
-
 		jPanel1.add(m_jPanTotals, java.awt.BorderLayout.CENTER);
 
 		add(jPanel1, java.awt.BorderLayout.SOUTH);
@@ -420,18 +392,18 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		m_jButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
 		if (tableSelect) {
-			m_jRoomId.setBackground(java.awt.Color.white);
-			// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-			m_jRoomId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-					javax.swing.BorderFactory
-							.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-					javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-			m_jRoomId.setOpaque(true);
-			// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
-			m_jRoomId.setRequestFocusEnabled(false);
-
-			m_jButtons.add(m_jRoomId);
+//			m_jRoomId.setBackground(java.awt.Color.white);
+//			// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//
+//			m_jRoomId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+//					javax.swing.BorderFactory
+//							.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+//					javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+//			m_jRoomId.setOpaque(true);
+//			// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
+//			m_jRoomId.setRequestFocusEnabled(false);
+//
+//			m_jButtons.add(m_jRoomId);
 			
 			m_jTicketId.setBackground(java.awt.Color.white);
 			// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -449,13 +421,13 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			m_jLTicketId.setVisible(false);
 		}
 
-		m_jLTicketId.setBackground(java.awt.Color.white);
+		//m_jLTicketId.setBackground(java.awt.Color.white);
 		// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-		m_jLTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-				javax.swing.BorderFactory
-						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
+//		m_jLTicketId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+//				javax.swing.BorderFactory
+//						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+//				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jLTicketId.setOpaque(true);
 		// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
 		m_jLTicketId.setRequestFocusEnabled(false);
@@ -466,12 +438,14 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
 		btnCustomer.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btnCustomer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 		btnCustomer.setRequestFocusEnabled(false);
 		btnCustomer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnCustomerActionPerformed(evt);
 			}
 		});
+//		m_jButtons.setBackground(Color.red);
 		m_jButtons.add(btnCustomer);
 
 		add(m_jButtons, java.awt.BorderLayout.NORTH);
@@ -481,6 +455,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		add(jPanel2, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 
+	@SuppressWarnings("unchecked")
 	private void fillpossibleTables() {
 		if (this.tableSelect) {
 			try {
@@ -493,6 +468,21 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			}
 		}
 
+	}
+	
+	private void dblClickProduct(int i) {
+		TicketLineInfo info = ticket.getLine(i);
+		
+		ticket.removeLine(i);
+		ticketlines.removeTicketLine(i);
+		
+		if(!tableSelect) {
+			parent.dblclickToRightAllActionPerformed(info);
+		}
+		else {
+			System.out.println("move left: " + info.getProductName());
+			parent.dblclickToLeftAllActionPerformed(info);
+		}
 	}
 
 	private void ScaleLabels() {
@@ -656,7 +646,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private javax.swing.JLabel m_jSubtotalEuros;
 	private javax.swing.JLabel m_jTaxesEuros;
 	// private javax.swing.JLabel m_jTicketId;
-	private javax.swing.JComboBox<String> m_jRoomId;
+//	private javax.swing.JComboBox<String> m_jRoomId;
 	private javax.swing.JComboBox<Place> m_jTicketId;
 	private javax.swing.JLabel m_jLTicketId;
 	private javax.swing.JLabel m_jTotalEuros;

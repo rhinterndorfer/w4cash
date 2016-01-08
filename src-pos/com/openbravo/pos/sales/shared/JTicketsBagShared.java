@@ -22,6 +22,8 @@ package com.openbravo.pos.sales.shared;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.*;
 import javax.swing.*;
 
@@ -36,6 +38,9 @@ public class JTicketsBagShared extends JTicketsBag {
 
 	private String m_sCurrentTicket = null;
 	private DataLogicReceipts dlReceipts = null;
+	private JPanel jPanel2;
+	private JPanel jPanel3;
+	private JPanel m_jPanelMap;
 
 	/** Creates new form JTicketsBagShared */
 	public JTicketsBagShared(AppView app, TicketsEditor panelticket) {
@@ -58,6 +63,7 @@ public class JTicketsBagShared extends JTicketsBag {
 		PropertyUtil.ScaleButtonIcon(m_jDelTicket, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight, fontsize);
 
+		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, btnWidth, btnHeight, fontsize);
 	}
 
 	public void activate() {
@@ -160,12 +166,22 @@ public class JTicketsBagShared extends JTicketsBag {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code
 	// ">//GEN-BEGIN:initComponents
 	private void initComponents() {
+		m_jPanelMap = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
+		jPanel2 = new javax.swing.JPanel();
+		jPanel3 = new javax.swing.JPanel();
 		m_jNewTicket = new javax.swing.JButton();
 		m_jDelTicket = new javax.swing.JButton();
 		m_jListTickets = new javax.swing.JButton();
+		m_jbtnLogout = new javax.swing.JButton();
 
-		setLayout(new java.awt.BorderLayout());
+		setLayout(new java.awt.CardLayout());
+
+		m_jPanelMap.setLayout(new java.awt.BorderLayout());
+
+		jPanel1.setLayout(new java.awt.BorderLayout());
+		jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
 		m_jNewTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editnew.png")));
 		m_jNewTicket.setText(AppLocal.getIntString("Button.NewTicket"));
@@ -180,7 +196,7 @@ public class JTicketsBagShared extends JTicketsBag {
 			}
 		});
 
-		jPanel1.add(m_jNewTicket);
+		jPanel2.add(m_jNewTicket);
 
 		m_jDelTicket
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/deleteTicket.png")));
@@ -196,7 +212,7 @@ public class JTicketsBagShared extends JTicketsBag {
 			}
 		});
 
-		jPanel1.add(m_jDelTicket);
+		jPanel2.add(m_jDelTicket);
 
 		m_jListTickets
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/unsortedList.png")));
@@ -212,12 +228,38 @@ public class JTicketsBagShared extends JTicketsBag {
 			}
 		});
 
-		jPanel1.add(m_jListTickets);
+		jPanel2.add(m_jListTickets);
 
-		add(jPanel1, java.awt.BorderLayout.WEST);
+		add(jPanel1, java.awt.BorderLayout.NORTH);
+		jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
+		jPanel1.add(jPanel3, java.awt.BorderLayout.LINE_END);
+		
+		
+//		m_jPanelMap.add(jPanel1, java.awt.BorderLayout.LINE_END);
+//
+//		add(m_jPanelMap, "map");
+		
+		m_jbtnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/logout.png"))); // NOI18N
+		m_jbtnLogout.setText(AppLocal.getIntString("button.logout"));
+		m_jbtnLogout.setFocusPainted(false);
+		m_jbtnLogout.setFocusable(false);
+		// m_jbtnLogout.setMargin(new java.awt.Insets(0,0,0,0));
+		m_jbtnLogout.setRequestFocusEnabled(false);
+		m_jbtnLogout.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jbtnLogoutActionPerformed(evt);
+			}
+		});
 
-	}// </editor-fold>//GEN-END:initComponents
+		jPanel3.add(m_jbtnLogout);
+	}
+	
+	private void m_jbtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
 
+		// TODO logout
+		((JPrincipalApp) m_App.getAppUserView()).getAppview().closeAppView();
+	}
+	
 	private void m_jListTicketsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jListTicketsActionPerformed
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -261,6 +303,8 @@ public class JTicketsBagShared extends JTicketsBag {
 	private javax.swing.JButton m_jDelTicket;
 	private javax.swing.JButton m_jListTickets;
 	private javax.swing.JButton m_jNewTicket;
+	
+	private JButton m_jbtnLogout;
 	// End of variables declaration//GEN-END:variables
 
 	@Override

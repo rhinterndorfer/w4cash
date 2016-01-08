@@ -23,11 +23,14 @@ import com.openbravo.data.loader.LocalRes;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.Scrollable;
 import javax.swing.event.CellEditorListener;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.RowSorterListener;
 import javax.swing.event.TableColumnModelListener;
@@ -79,6 +83,8 @@ public class JTicketLines extends javax.swing.JPanel {
 	private TicketTableModel m_jTableModel;
 
 	private AppView m_App;
+
+	private ListSelectionListener listDoubleClickListener;
 
 	/** Creates new form JLinesTicket */
 	public JTicketLines(AppView app, String propertyRowHeight, String propertyFontsize, String ticketline) {
@@ -128,10 +134,29 @@ public class JTicketLines extends javax.swing.JPanel {
 
 		m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+		m_jTicketTable.addMouseListener(new MouseAdapter() {
+		    public void mousePressed(MouseEvent me) {
+		        JTable table =(JTable) me.getSource();
+		        Point p = me.getPoint();
+		        int row = table.rowAtPoint(p);
+		        if (me.getClickCount() == 2) {
+		            // your valueChanged overridden method
+		        	listDoubleClickListener.valueChanged(new ListSelectionEvent(m_jTicketTable, row, row, false));
+		        }
+		    }
+		});
 		// reseteo la tabla...
 		m_jTableModel.clear();
 	}
 
+	public void addListDoubleClickListener(ListSelectionListener l) {
+		this.listDoubleClickListener = l;
+	}
+	
+	public void removeListDoubleClickListener(ListSelectionListener l) {
+		this.listDoubleClickListener = null;
+	}
+	
 	public void addListSelectionListener(ListSelectionListener l) {
 		m_jTicketTable.getSelectionModel().addListSelectionListener(l);
 	}

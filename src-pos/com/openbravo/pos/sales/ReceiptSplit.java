@@ -65,11 +65,12 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		initComponents();
 		getRootPane().setDefaultButton(m_jButtonOK);
 
-		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, false);
-		receiptone.setCustomerEnabled(false);
+		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, false, this);
+		 receiptone.setCustomerEnabled(false);
+//		receiptone.setCustomerVisible(false);
 		jPanel5.add(receiptone, BorderLayout.CENTER);
 
-		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, true);
+		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, true, this);
 		jPanel3.add(receipttwo, BorderLayout.CENTER);
 
 		ScaleButtons();
@@ -107,7 +108,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		receiptone.setTicket(ticket, ticketext);
 		receipttwo.setTicket(ticket2, ticketext);
-
+		pack();
 		setVisible(true);
 		return accepted;
 	}
@@ -282,7 +283,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			dispose();
 		}
 	}
-	
+
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed
 		this.m_receipt = true;
 		if (receipttwo.getTicket().getLinesCount() > 0) {
@@ -296,6 +297,14 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		dispose();
 
 	}// GEN-LAST:event_m_jButtonCancelActionPerformed
+
+	public void dblclickToRightAllActionPerformed(TicketLineInfo info) {
+		receipttwo.addSelectedLines(new TicketLineInfo[] { info });
+	}
+
+	public void dblclickToLeftAllActionPerformed(TicketLineInfo info) {
+		receiptone.addSelectedLines(new TicketLineInfo[] { info });
+	}
 
 	private void jBtnToRightAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jBtnToRightAllActionPerformed
 
@@ -346,7 +355,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonMove;
 	private javax.swing.JButton m_jButtonOK;
-	
+
 	private boolean m_receipt = true;
 	// End of variables declaration//GEN-END:variables
 
@@ -358,16 +367,16 @@ public class ReceiptSplit extends javax.swing.JDialog {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
-		
-		PropertyUtil.ScaleButtonIcon(jBtnToLeftAll, width, height,fontsize);
+
+		PropertyUtil.ScaleButtonIcon(jBtnToLeftAll, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jBtnToLeftOne, width, height, fontsize);
-		PropertyUtil.ScaleButtonIcon(jBtnToRightAll, width, height,fontsize);
+		PropertyUtil.ScaleButtonIcon(jBtnToRightAll, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jBtnToRightOne, width, height, fontsize);
 
-//		PropertyUtil.ScaleButtonIcon(m_jButtonOK, width, height, fontsize);
-//		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, width, height, fontsize);
-		
+		// PropertyUtil.ScaleButtonIcon(m_jButtonOK, width, height, fontsize);
+		// PropertyUtil.ScaleButtonIcon(m_jButtonCancel, width, height,
+		// fontsize);
+
 		// PropertyUtil.ScaleLabelFontsize(m_App, m_jTotalEuros,
 		// "common-large-fontsize", "64");
 

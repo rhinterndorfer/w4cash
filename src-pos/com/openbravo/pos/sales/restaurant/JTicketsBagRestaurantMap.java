@@ -67,6 +67,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private DataLogicSystem dlSystem = null;
 
 	private TicketParser m_TTP;
+	private JPanel jPanel3;
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JTicketsBagRestaurantMap(AppView app, TicketsEditor panelticket) {
@@ -581,6 +582,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_jPanelMap = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
+		jPanel3 = new javax.swing.JPanel();
 		m_jbtnReservations = new javax.swing.JButton();
 		m_jbtnRefresh = new javax.swing.JButton();
 		m_jbtnLogout = new javax.swing.JButton();
@@ -592,7 +594,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_jPanelMap.setLayout(new java.awt.BorderLayout());
 
 		jPanel1.setLayout(new java.awt.BorderLayout());
-
+		jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
 		/*
@@ -645,6 +647,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel2.add(m_jText);
 
 		jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
+		jPanel1.add(jPanel3, java.awt.BorderLayout.LINE_END);
 
 		m_jPanelMap.add(jPanel1, java.awt.BorderLayout.NORTH);
 
@@ -662,14 +665,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		});
 
-		// this.ScaleButtons(Integer.parseInt(m_jbtnLogout.getProperty("button-touchlarge-width",
-		// "60")),
-		// Integer.parseInt(m_jbtnLogout.getProperty("button-touchlarge-height",
-		// "60")));
-
-		jPanel1.add(m_jbtnLogout, BorderLayout.LINE_END);
-
-	}// </editor-fold>//GEN-END:initComponents
+		jPanel3.add(m_jbtnLogout);
+	}
 
 	private void m_jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
 
