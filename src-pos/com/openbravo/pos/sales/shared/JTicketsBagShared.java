@@ -24,6 +24,7 @@ import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.*;
 import javax.swing.*;
 
@@ -64,6 +65,11 @@ public class JTicketsBagShared extends JTicketsBag {
 		PropertyUtil.ScaleButtonIcon(m_jListTickets, btnWidth, btnHeight, fontsize);
 
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, btnWidth, btnHeight, fontsize);
+		
+//		m_jNewTicket.setPreferredSize(new Dimension(btnWidth, btnHeight));
+//		m_jDelTicket.setPreferredSize(new Dimension(btnWidth, btnHeight));
+//		m_jListTickets.setPreferredSize(new Dimension(btnWidth, btnHeight));
+//		m_jbtnLogout.setPreferredSize(new Dimension(btnWidth, btnHeight));
 	}
 
 	public void activate() {

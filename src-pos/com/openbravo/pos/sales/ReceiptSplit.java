@@ -30,6 +30,7 @@ import com.openbravo.pos.util.PropertyUtil;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Window;
 import javax.swing.JFrame;
@@ -40,12 +41,16 @@ import javax.swing.JFrame;
  */
 public class ReceiptSplit extends javax.swing.JDialog {
 
+	private static final String RESTAURANT = "restaurant";
+
 	private boolean accepted;
 
 	SimpleReceipt receiptone;
 	SimpleReceipt receipttwo;
 
 	private AppView m_App;
+
+	private String m_appType;
 
 	/** Creates new form ReceiptSplit */
 	protected ReceiptSplit(java.awt.Frame parent) {
@@ -61,12 +66,13 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			TaxesLogic taxeslogic) {
 
 		this.m_App = app;
+		this.m_appType = m_App.getProperties().getProperty("machine.ticketsbag");
 
 		initComponents();
 		getRootPane().setDefaultButton(m_jButtonOK);
 
 		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, false, this);
-		 receiptone.setCustomerEnabled(false);
+		receiptone.setCustomerEnabled(false);
 //		receiptone.setCustomerVisible(false);
 		jPanel5.add(receiptone, BorderLayout.CENTER);
 
@@ -90,7 +96,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		}
 
 		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
-
+		myreceiptsplit.setPreferredSize(new Dimension(750, 750));
 		return myreceiptsplit;
 	}
 
@@ -142,7 +148,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-		m_jButtonMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+		if (RESTAURANT.compareTo(m_appType) == 0) {
+		m_jButtonMove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		m_jButtonMove.setText(AppLocal.getIntString("Button.Move")); // NOI18N
 		m_jButtonMove.setFocusPainted(false);
 		m_jButtonMove.setFocusable(false);
@@ -154,6 +161,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			}
 		});
 		jPanel2.add(m_jButtonMove);
+		}
 		
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		m_jButtonOK.setText(AppLocal.getIntString("Button.cash")); // NOI18N
@@ -368,11 +376,19 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		
 		PropertyUtil.ScaleButtonIcon(jBtnToLeftAll, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jBtnToLeftOne, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jBtnToRightAll, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jBtnToRightOne, width, height, fontsize);
 
+		PropertyUtil.ScaleButtonIcon(m_jButtonMove, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonOK, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, btnWidth, btnHeight, fontsize);
 		// PropertyUtil.ScaleButtonIcon(m_jButtonOK, width, height, fontsize);
 		// PropertyUtil.ScaleButtonIcon(m_jButtonCancel, width, height,
 		// fontsize);
