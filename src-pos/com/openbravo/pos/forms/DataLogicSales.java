@@ -127,6 +127,16 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	}
 
 	// Catalogo de productos
+	public final List<CategoryInfo> getCategories() throws BasicException {
+		// return new PreparedSentence(s, "SELECT ID, NAME, IMAGE FROM
+		// CATEGORIES WHERE PARENTID IS NULL ORDER BY NAME",
+		// null, CategoryInfo.getSerializerRead()).list();
+		return new PreparedSentence(s,
+				"SELECT ID, NAME, IMAGE , SORTORDER, PRINTER FROM CATEGORIES ORDER BY SORTORDER",
+				null, CategoryInfo.getSerializerRead()).list();
+	}
+
+	// Catalogo de productos
 	public final List<CategoryInfo> getRootCategories() throws BasicException {
 		// return new PreparedSentence(s, "SELECT ID, NAME, IMAGE FROM
 		// CATEGORIES WHERE PARENTID IS NULL ORDER BY NAME",
@@ -683,9 +693,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return new StaticSentence(s,
 				new QBFBuilder(
 						"SELECT R.ID, R.MONEY, R.DATENEW, P.ID, P.PAYMENT, P.TOTAL,P.DESCRIPTION "
-								+ "FROM RECEIPTS R, PAYMENTS P, CLOSEDCASH C WHERE R.MONEY = '"+ app.getActiveCashIndex() + "' "
-										+ "AND R.ID = P.RECEIPT "
-										+ "AND C.MONEY = '" + app.getActiveCashIndex() + "' AND P.TRANSID IS NULL",
+								+ "FROM RECEIPTS R, PAYMENTS P, CLOSEDCASH C WHERE R.MONEY = '"
+								+ app.getActiveCashIndex() + "' " + "AND R.ID = P.RECEIPT " + "AND C.MONEY = '"
+								+ app.getActiveCashIndex() + "' AND P.TRANSID IS NULL",
 						new String[] { "ID", "MONEY", "DATENEW", "ID2", "PAYMENT", "TOTAL", "DESCRIPTION" }),
 				new SerializerWriteBasic(new Datas[] { Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.STRING,
 						Datas.STRING, Datas.DOUBLE, Datas.STRING }),

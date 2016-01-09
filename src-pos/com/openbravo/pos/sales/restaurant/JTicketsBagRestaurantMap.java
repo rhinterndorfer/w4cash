@@ -302,19 +302,15 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	 * @param categoryID
 	 * @return
 	 */
-	private int findPrinterIdByCategory(String categoryID) {
-		try {
-			for (CategoryInfo info : dlSales.getRootCategories()) {
-				if (info.getID().compareTo(categoryID) == 0) {
-					// category was found
-					return info.getPrinterId();
-				}
-			}
+	private int findPrinterIdByCategory(List<CategoryInfo> infos, String categoryID) {
 
-		} catch (BasicException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (CategoryInfo info : infos) {
+			if (info.getID().compareTo(categoryID) == 0) {
+				// category was found
+				return info.getPrinterId();
+			}
 		}
+
 		return -1;
 	}
 
@@ -327,17 +323,18 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				// if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 				// here we add ticket for each printer
 				HashMap<Integer, TicketInfo> printabletickets = new HashMap<Integer, TicketInfo>();
-
+				List<CategoryInfo> categories = dlSales.getCategories();
 				// and schank printer
-//				TicketInfo ticketinfo1 = m_panelticket.getActiveTicket().copyTicket();
-//				TicketInfo clone = m_panelticket.getActiveTicketClone();
+				// TicketInfo ticketinfo1 =
+				// m_panelticket.getActiveTicket().copyTicket();
+				// TicketInfo clone = m_panelticket.getActiveTicketClone();
 
 				int printerId = -1;
 				TicketInfo ti = null;
 				// first check if we have something to print
 				for (TicketLineInfo line : ticketinfo1.getLines()) {
 
-					printerId = findPrinterIdByCategory(line.getProperty("product.categoryid"));
+					printerId = findPrinterIdByCategory(categories, line.getProperty("product.categoryid"));
 					int index = 0;
 
 					if (printerId < 0) {
@@ -395,7 +392,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				// now try to find lines which were deleted from
 				// original
 				for (TicketLineInfo inf : clone.getLines()) {
-					printerId = findPrinterIdByCategory(inf.getProperty("product.categoryid"));
+					printerId = findPrinterIdByCategory(categories, inf.getProperty("product.categoryid"));
 					if (printerId < 0)
 						continue;
 
@@ -426,7 +423,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				new MessageInf(e).show(m_App, this); // maybe other guy deleted
 			}
 
-//			m_PlaceCurrent = null;
+			// m_PlaceCurrent = null;
 		}
 
 		printState();
@@ -477,10 +474,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	public void deleteTicket() {
 
-		//generate empty ticket
+		// generate empty ticket
 		TicketInfo info = new TicketInfo();
 		newTicket(info, m_panelticket.getActiveTicket().copyTicket());
-		
+
 		if (m_PlaceCurrent != null) {
 
 			String id = m_PlaceCurrent.getId();
