@@ -157,8 +157,10 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	}// GEN-LAST:event_m_jDelTicketActionPerformed
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-		m_restaurant.newTicket();
-
+		m_restaurant.newTicket(m_restaurant.getPanelticket().getActiveTicket().copyTicket(), m_restaurant.getPanelticket().getActiveTicketClone());
+		m_restaurant.setPlaceCurrent(null);
+		
+		// m_restaurant.setPlm_PlaceCurrent = null;
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

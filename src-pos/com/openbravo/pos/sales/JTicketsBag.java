@@ -35,6 +35,14 @@ public abstract class JTicketsBag extends JPanel {
 	protected DataLogicSales m_dlSales;
 	protected TicketsEditor m_panelticket;
 
+	public TicketsEditor getPanelticket() {
+		return m_panelticket;
+	}
+
+	public void setPanelticket(TicketsEditor panelticket) {
+		this.m_panelticket = panelticket;
+	}
+
 	/** Creates new form JTicketsBag */
 	public JTicketsBag(AppView oApp, TicketsEditor panelticket) {
 		m_App = oApp;

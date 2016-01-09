@@ -57,6 +57,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	private Place m_PlaceCurrent;
 
+	public Place getPlaceCurrent() {
+		return m_PlaceCurrent;
+	}
+
+	public void setPlaceCurrent(Place m_PlaceCurrent) {
+		this.m_PlaceCurrent = m_PlaceCurrent;
+	}
+
 	// State vars
 	private Place m_PlaceClipboard;
 	private CustomerInfo customer;
@@ -296,13 +304,13 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	 */
 	private int findPrinterIdByCategory(String categoryID) {
 		try {
-			for(CategoryInfo info : dlSales.getRootCategories()) {
-				if(info.getID().compareTo(categoryID) == 0) {
+			for (CategoryInfo info : dlSales.getRootCategories()) {
+				if (info.getID().compareTo(categoryID) == 0) {
 					// category was found
 					return info.getPrinterId();
 				}
 			}
-			
+
 		} catch (BasicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -310,105 +318,105 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		return -1;
 	}
 
-	public void newTicket() {
+	public void newTicket(TicketInfo ticketinfo1, TicketInfo clone) {
 
 		// guardamos el ticket
 		if (m_PlaceCurrent != null) {
 
 			try {
-				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
-					// here we add ticket for each printer
-					HashMap<Integer, TicketInfo> printabletickets = new HashMap<Integer, TicketInfo>();
+				// if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+				// here we add ticket for each printer
+				HashMap<Integer, TicketInfo> printabletickets = new HashMap<Integer, TicketInfo>();
 
-					// and schank printer
-					TicketInfo ticketinfo1 = m_panelticket.getActiveTicket().copyTicket();
-					TicketInfo clone = m_panelticket.getActiveTicketClone();
+				// and schank printer
+//				TicketInfo ticketinfo1 = m_panelticket.getActiveTicket().copyTicket();
+//				TicketInfo clone = m_panelticket.getActiveTicketClone();
 
-					int printerId = -1;
-					TicketInfo ti = null;
-					// first check if we have something to print
-					for (TicketLineInfo line : ticketinfo1.getLines()) {
+				int printerId = -1;
+				TicketInfo ti = null;
+				// first check if we have something to print
+				for (TicketLineInfo line : ticketinfo1.getLines()) {
 
-						printerId = findPrinterIdByCategory(line.getProperty("product.categoryid"));
-						int index = 0;
-						
-						if (printerId < 0) {
-							for (TicketLineInfo inf : clone.getLines()) {
-								if (line.getProductID().compareTo(inf.getProductID()) == 0) {
-									// line found, so verify amount
-									clone.removeLine(index);
-									break;
-								}
-								index++;
-							}
-							continue; // no printer for category configured
-						}
-						
-						// get ti from map
-						ti = printabletickets.get(printerId);
+					printerId = findPrinterIdByCategory(line.getProperty("product.categoryid"));
+					int index = 0;
 
-						// we couldn't find a ticketinfo for the configured
-						// printer, so we add a new one
-						if (ti == null) {
-							ti = ticketinfo1.copyTicket();
-							ti.getLines().clear();
-							printabletickets.put(printerId, ti);
-						}
-
-						// try to find line in clone
-						index = 0;
-						boolean linematch = false;
+					if (printerId < 0) {
 						for (TicketLineInfo inf : clone.getLines()) {
 							if (line.getProductID().compareTo(inf.getProductID()) == 0) {
 								// line found, so verify amount
-								if (line.getMultiply() != inf.getMultiply()) {
-									line.setMultiply(line.getMultiply() - inf.getMultiply());
-									ti.addLine(line);
-									
-//									clone.removeLine(index);
-//									break;
-								}
-								linematch = true;
 								clone.removeLine(index);
 								break;
 							}
 							index++;
 						}
-						// if we couldn't find the line so put the whole line
-						// into printer spooler
-						if (!linematch) {
-							ti.addLine(line);
-						}
-						// now we put all different lines into printer ordered
-						// ticketinfo
-
+						continue; // no printer for category configured
 					}
-					
-					// now try to find lines which were deleted from
-					// original
+
+					// get ti from map
+					ti = printabletickets.get(printerId);
+
+					// we couldn't find a ticketinfo for the configured
+					// printer, so we add a new one
+					if (ti == null) {
+						ti = ticketinfo1.copyTicket();
+						ti.getLines().clear();
+						printabletickets.put(printerId, ti);
+					}
+
+					// try to find line in clone
+					index = 0;
+					boolean linematch = false;
 					for (TicketLineInfo inf : clone.getLines()) {
-						printerId = findPrinterIdByCategory(inf.getProperty("product.categoryid"));
-						if (printerId < 0)
-							continue;
+						if (line.getProductID().compareTo(inf.getProductID()) == 0) {
+							// line found, so verify amount
+							if (line.getMultiply() != inf.getMultiply()) {
+								line.setMultiply(line.getMultiply() - inf.getMultiply());
+								ti.addLine(line);
 
-						ti = printabletickets.get(printerId);
-						if (ti == null) {
-							ti = ticketinfo1.copyTicket();
-							ti.getLines().clear();
-							printabletickets.put(printerId, ti);
+								// clone.removeLine(index);
+								// break;
+							}
+							linematch = true;
+							clone.removeLine(index);
+							break;
 						}
+						index++;
+					}
+					// if we couldn't find the line so put the whole line
+					// into printer spooler
+					if (!linematch) {
+						ti.addLine(line);
+					}
+					// now we put all different lines into printer ordered
+					// ticketinfo
 
-						inf.setMultiply(0 - inf.getMultiply());
-						ti.addLine(inf);
-						//
+				}
+
+				// now try to find lines which were deleted from
+				// original
+				for (TicketLineInfo inf : clone.getLines()) {
+					printerId = findPrinterIdByCategory(inf.getProperty("product.categoryid"));
+					if (printerId < 0)
+						continue;
+
+					ti = printabletickets.get(printerId);
+					if (ti == null) {
+						ti = ticketinfo1.copyTicket();
+						ti.getLines().clear();
+						printabletickets.put(printerId, ti);
 					}
 
-					printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent.getSName());
-					// for(int key : printabletickets.keySet()) {
-					// printOrder("Printer.AdditionalPrinter",
-					// printabletickets.get(key), m_PlaceCurrent.getSName());
-					// }
+					inf.setMultiply(0 - inf.getMultiply());
+					ti.addLine(inf);
+					//
+				}
 
+				printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent.getSName());
+				// for(int key : printabletickets.keySet()) {
+				// printOrder("Printer.AdditionalPrinter",
+				// printabletickets.get(key), m_PlaceCurrent.getSName());
+				// }
+				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
 				} else {
 					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
@@ -418,7 +426,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				new MessageInf(e).show(m_App, this); // maybe other guy deleted
 			}
 
-			m_PlaceCurrent = null;
+//			m_PlaceCurrent = null;
 		}
 
 		printState();
@@ -432,12 +440,13 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			msg.show(m_App, JTicketsBagRestaurantMap.this);
 		} else {
 			for (int key : tickets.keySet()) {
-				if(tickets.get(key).getLinesCount() <= 0)
+				if (tickets.get(key).getLinesCount() <= 0)
 					continue;
 				try {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("ticket", tickets.get(key));
-					script.put("place", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
+					script.put("place",
+							ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 					script.put("printer", "" + key);
 					script.put("printername", "Drucker " + key);
 					m_TTP.printTicket(script.eval(sresource).toString());
@@ -468,6 +477,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	public void deleteTicket() {
 
+		//generate empty ticket
+		TicketInfo info = new TicketInfo();
+		newTicket(info, m_panelticket.getActiveTicket().copyTicket());
+		
 		if (m_PlaceCurrent != null) {
 
 			String id = m_PlaceCurrent.getId();
