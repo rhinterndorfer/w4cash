@@ -26,6 +26,8 @@ import com.openbravo.pos.forms.AppLocal;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
+
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
@@ -56,7 +58,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private SentenceExec m_sentdel;
 
 	private Object m_id;
-	private Object m_printerIndex;
+	private Integer m_printerIndex;
 
 	private AppView m_App;
 	private Integer lastOrderIndex = 0;
@@ -79,7 +81,9 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 		m_jName.getDocument().addDocumentListener(dirty);
 		m_jCategory.addActionListener(dirty);
-		m_jPrinter.getDocument().addDocumentListener(dirty);
+		m_jPrinter.addActionListener(dirty);
+//		((JTextField) m_jPrinter.getEditor().getEditorComponent()).getDocument().addDocumentListener(dirty);
+		
 		m_jImage.addPropertyChangeListener("image", dirty);
 
 		writeValueEOF();
@@ -117,7 +121,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_sortOrder = null;
 		m_jName.setText(null);
 		m_CategoryModel.setSelectedKey(null);
-		m_jPrinter.setText(null);
+		m_jPrinter.setSelectedIndex(-1);
 		m_jImage.setImage(null);
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
@@ -131,7 +135,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_id = UUID.randomUUID().toString();
 		m_jName.setText(null);
 		m_CategoryModel.setSelectedKey(null);
-		m_jPrinter.setText(null);
+		m_jPrinter.setSelectedIndex(-1);
 		m_jImage.setImage(null);
 		m_jName.setEnabled(true);
 		m_jCategory.setEnabled(true);
@@ -150,26 +154,28 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jName.setText(Formats.STRING.formatValue(cat[1]));
 		m_CategoryModel.setSelectedKey(cat[2]);
 		m_jImage.setImage((BufferedImage) cat[3]);
+		m_sortOrder = cat[4];
+		m_printerIndex = (Integer) cat[5];
+	
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
 		m_jPrinter.setEnabled(false);
 		m_jImage.setEnabled(false);
 		m_jCatalogDelete.setEnabled(false);
 		m_jCatalogAdd.setEnabled(false);
-		m_sortOrder = cat[4];
-		m_printerIndex = cat[5];
 	}
 
 	public void writeValueEdit(Object value) {
 		Object[] cat = (Object[]) value;
 		m_id = cat[0];
 		m_sortOrder = cat[4];
-		m_printerIndex = cat[5];
+		m_printerIndex = (Integer) cat[5];
 
 		m_jName.setText(Formats.STRING.formatValue(cat[1]));
 		m_CategoryModel.setSelectedKey(cat[2]);
 		m_jImage.setImage((BufferedImage) cat[3]);
-		m_jPrinter.setText(Formats.INT.formatValue(m_printerIndex));
+		
+		m_jPrinter.setSelectedIndex(m_printerIndex);
 
 		m_jName.setEnabled(true);
 		m_jCategory.setEnabled(true);
@@ -188,11 +194,13 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
 		cat[4] = m_sortOrder;
-		if (m_jPrinter.getText() != null && !m_jPrinter.getText().isEmpty()) {
-			cat[5] = Integer.parseInt(m_jPrinter.getText());
-		} else {
-			cat[5] = -1;
-		}
+		cat[5] = m_jPrinter.getSelectedIndex();
+		
+//		if (m_jPrinter.getSelectedIndex() >= 0) {
+//			
+//		} else {
+//			cat[5] = -1;
+//		}
 
 		return cat;
 	}
@@ -219,8 +227,11 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		jLabel5 = new javax.swing.JLabel();
 		m_jCategory = new javax.swing.JComboBox();
 		jLabel7 = new javax.swing.JLabel();
-		m_jPrinter = new javax.swing.JTextField();
-
+		m_jPrinter = new javax.swing.JComboBox(); 
+		m_jPrinter.addItem("Drucker 1");
+		m_jPrinter.addItem("Drucker 2");
+		m_jPrinter.addItem("Drucker 3");
+		
 		setLayout(null);
 
 		jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
@@ -310,7 +321,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel7;
 	private javax.swing.JTextField m_jName;
-	private javax.swing.JTextField m_jPrinter;
+	private javax.swing.JComboBox<String> m_jPrinter;
 	private javax.swing.JButton m_jCatalogAdd;
 	private javax.swing.JButton m_jCatalogDelete;
 	private javax.swing.JComboBox m_jCategory;
