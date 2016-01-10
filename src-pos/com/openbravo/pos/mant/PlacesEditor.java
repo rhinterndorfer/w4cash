@@ -20,6 +20,9 @@
 package com.openbravo.pos.mant;
 
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -250,115 +253,138 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		m_placesBag = JPlacesBag.createPlacesBag(m_App.getProperties().getProperty("machine.ticketsbag"), m_App, this);
 
-		setLayout(null);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+		setLayout(gbl_panel);
 
 		jLabel2.setText(AppLocal.getIntString("Label.Name"));
-		add(jLabel2);
-		jLabel2.setBounds(20, 20, 90, 15);
-
-		add(m_jName);
-		m_jName.setBounds(110, 20, 180, 19);
-
-		jLabel3.setText(AppLocal.getIntString("label.placeposition"));
-		add(jLabel3);
-		jLabel3.setBounds(20, 80, 90, 15);
-
-		jLabel4.setText(AppLocal.getIntString("label.placesize"));
-		add(jLabel4);
-		jLabel4.setBounds(20, 110, 90, 15);
-
-		add(m_jX);
-		m_jX.setBounds(110, 80, 50, 19);
-
-		add(m_jY);
-		m_jY.setBounds(170, 80, 50, 19);
-
-		// m_jPosDec.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png")));
-		// // NOI18N
-		// m_jPosDec.setText(AppLocal.getIntString("label.customer"));
-		// m_jPosDec.setFocusPainted(false);
-		// m_jPosDec.setFocusable(false);
-		// m_jPosDec.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		// m_jPosDec.setRequestFocusEnabled(false);
-		// m_jPosDec.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// btnPosDecActionPerformed(evt);
-		// }
-		// });
-		// add(m_jPosDec);
-		// m_jPosDec.setBounds(230, 80, 20, 20);
-
-		// m_jPosInc.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png")));
-		// // NOI18N
-		// m_jPosInc.setText(AppLocal.getIntString("label.customer"));
-		// m_jPosInc.setFocusPainted(false);
-		// m_jPosInc.setFocusable(false);
-		// m_jPosInc.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		// m_jPosInc.setRequestFocusEnabled(false);
-		// m_jPosInc.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// btnPosIncActionPerformed(evt);
-		// }
-		// });
-		// add(m_jPosInc);
-		// m_jPosInc.setBounds(260, 80, 20, 20);
-
-		jLabel4.setText(AppLocal.getIntString("label.placesize"));
-		add(jLabel3);
-		jLabel3.setBounds(20, 80, 90, 15);
-
-		add(m_jWidth);
-		m_jWidth.setBounds(110, 110, 50, 19);
-
-		add(m_jHeight);
-		m_jHeight.setBounds(170, 110, 50, 19);
-
-		// m_jSizeDec.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png")));
-		// // NOI18N
-		// m_jSizeDec.setText(AppLocal.getIntString("label.customer"));
-		// m_jSizeDec.setFocusPainted(false);
-		// m_jSizeDec.setFocusable(false);
-		// m_jSizeDec.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		// m_jSizeDec.setRequestFocusEnabled(false);
-		// m_jSizeDec.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// btnSizeDecActionPerformed(evt);
-		// }
-		// });
-		// add(m_jSizeDec);
-		// m_jSizeDec.setBounds(230, 110, 20, 20);
-
-		// m_jSizeInc.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png")));
-		// // NOI18N
-		// m_jSizeInc.setText(AppLocal.getIntString("label.customer"));
-		// m_jSizeInc.setFocusPainted(false);
-		// m_jSizeInc.setFocusable(false);
-		// m_jSizeInc.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		// m_jSizeInc.setRequestFocusEnabled(false);
-		// m_jSizeInc.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// btnSizeIncActionPerformed(evt);
-		// }
-		// });
-		// add(m_jSizeInc);
-		// m_jSizeInc.setBounds(260, 110, 20, 20);
+		GridBagConstraints lbl1 = new GridBagConstraints();
+		lbl1.anchor = GridBagConstraints.WEST;
+		lbl1.insets = new Insets(0, 0, 5, 5);
+		lbl1.gridx = 0;
+		lbl1.gridy = 0;
+		add(jLabel2, lbl1);
+		
+		GridBagConstraints gbc_textPane = new GridBagConstraints();
+		gbc_textPane.gridwidth = 2;
+		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.weightx = 1.0;
+		gbc_textPane.gridx = 1;
+		gbc_textPane.gridy = 0;
+		add(m_jName, gbc_textPane);
+		
+		JLabel lblSpace1 = new JLabel("");
+		GridBagConstraints gbc_space1 = new GridBagConstraints();
+		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.weightx = 1.0;
+		gbc_space1.gridx = 3;
+		gbc_space1.gridy = 0;
+		add(lblSpace1, gbc_space1);
 
 		jLabel1.setText(AppLocal.getIntString("label.placefloor"));
-		add(jLabel1);
-		jLabel1.setBounds(20, 50, 90, 15);
-
+		GridBagConstraints gbc_lblfloor = new GridBagConstraints();
+		gbc_lblfloor.anchor = GridBagConstraints.WEST;
+		gbc_lblfloor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblfloor.gridx = 0;
+		gbc_lblfloor.gridy = 1;
+		add(jLabel1, gbc_lblfloor);
+		
 		m_jFloor.setEditable(false);
 		m_jFloor.setEnabled(false);
-		add(m_jFloor);
-		m_jFloor.setBounds(110, 50, 170, 20);
+		GridBagConstraints gbc_cmb_floor = new GridBagConstraints();
+		gbc_cmb_floor.gridwidth = 2;
+		gbc_cmb_floor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmb_floor.insets = new Insets(0, 0, 5, 5);
+		gbc_cmb_floor.weightx = 1.0;
+		gbc_cmb_floor.gridx = 1;
+		gbc_cmb_floor.gridy = 1;
+		add(m_jFloor, gbc_cmb_floor);
 
-		add(m_placesBag);
-		m_placesBag.setBounds(20, 140, 1000, 750);
+		JLabel lblSpace2 = new JLabel("");
+		GridBagConstraints gbc_space2 = new GridBagConstraints();
+		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.weightx = 1.0;
+		gbc_space2.gridx = 3;
+		gbc_space2.gridy = 1;
+		add(lblSpace2, gbc_space2);
 
+		jLabel3.setText(AppLocal.getIntString("label.placeposition"));
+		GridBagConstraints lbl2 = new GridBagConstraints();
+		lbl2.anchor = GridBagConstraints.WEST;
+		lbl2.insets = new Insets(0, 0, 5, 5);
+		lbl2.gridx = 0;
+		lbl2.gridy = 2;
+		add(jLabel3, lbl2);
+		
+		GridBagConstraints gbc_spinner1 = new GridBagConstraints();
+		gbc_spinner1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinner1.weightx = 1.0;
+		gbc_spinner1.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner1.gridx = 1;
+		gbc_spinner1.gridy = 2;
+		add(m_jX, gbc_spinner1);
+		
+		GridBagConstraints gbc_spinner2 = new GridBagConstraints();
+		gbc_spinner2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinner2.weightx = 1.0;
+		gbc_spinner2.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner2.gridx = 2;
+		gbc_spinner2.gridy = 2;
+		add(m_jY, gbc_spinner2);
+		
+		JLabel space3 = new JLabel("");
+		GridBagConstraints gbc_space3 = new GridBagConstraints();
+		gbc_space3.insets = new Insets(0, 0, 5, 0);
+		gbc_space3.weightx = 2.0;
+		gbc_space3.gridx = 3;
+		gbc_space3.gridy = 2;
+		add(space3, gbc_space3);
+
+		jLabel4.setText(AppLocal.getIntString("label.placesize"));
+		GridBagConstraints lbl3 = new GridBagConstraints();
+		lbl3.anchor = GridBagConstraints.WEST;
+		lbl3.insets = new Insets(0, 0, 5, 5);
+		lbl3.gridx = 0;
+		lbl3.gridy = 3;
+		add(jLabel4, lbl3);
+
+		GridBagConstraints gbc_spinner3 = new GridBagConstraints();
+		gbc_spinner3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinner3.weightx = 1.0;
+		gbc_spinner3.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner3.gridx = 1;
+		gbc_spinner3.gridy = 3;
+		add(m_jWidth, gbc_spinner3);
+		
+		GridBagConstraints gbc_spinner4 = new GridBagConstraints();
+		gbc_spinner4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinner4.weightx = 1.0;
+		gbc_spinner4.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner4.gridx = 2;
+		gbc_spinner4.gridy = 3;
+		add(m_jHeight, gbc_spinner4);
+
+		JLabel space4 = new JLabel("");
+		GridBagConstraints gbc_space4 = new GridBagConstraints();
+		gbc_space4.insets = new Insets(0, 0, 5, 0);
+		gbc_space4.weightx = 2.0;
+		gbc_space4.gridx = 3;
+		gbc_space4.gridy = 3;
+		add(space4, gbc_space4);
+
+		GridBagConstraints gbc_placesbag = new GridBagConstraints();
+		gbc_placesbag.weighty = 1.0;
+		gbc_placesbag.fill = GridBagConstraints.BOTH;
+		gbc_placesbag.gridwidth = 4;
+		gbc_placesbag.insets = new Insets(0, 0, 0, 5);
+		gbc_placesbag.gridx = 0;
+		gbc_placesbag.gridy = 4;
+
+		add(m_placesBag, gbc_placesbag);
+		
 		SpinnerNumberModel m1 = new SpinnerNumberModel();
 		m1.setStepSize(10);
 		m_jX.setModel(m1);
