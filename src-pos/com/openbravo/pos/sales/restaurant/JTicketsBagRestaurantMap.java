@@ -93,7 +93,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		customer = null;
 
 		try {
-			SentenceList sent = new StaticSentence(app.getSession(), "SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY NAME",
+			SentenceList sent = new StaticSentence(app.getSession(), "SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME",
 					null, new SerializerReadClass(Floor.class));
 			m_afloors = sent.list();
 

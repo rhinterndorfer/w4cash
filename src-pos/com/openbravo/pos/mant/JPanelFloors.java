@@ -19,12 +19,17 @@
 
 package com.openbravo.pos.mant;
 
+import java.util.Comparator;
+
 import javax.swing.ListCellRenderer;
+
+import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
+import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.user.EditorRecord;
@@ -32,6 +37,7 @@ import com.openbravo.data.user.SaveProvider;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.panels.*;
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -46,11 +52,20 @@ public class JPanelFloors extends JPanelTable {
 	public JPanelFloors() {
 	}
 
+	@Override
+	public void activate() throws BasicException {
+		super.activate();
+		PropertyUtil.fillSortOrderIfNeeded(bd, 3);
+		ComparatorCreator ccreator = getComparatorCreator();
+		Comparator c = ccreator.createComparator(new int[] { 1 });
+		bd.sort(c);
+	}
+
 	protected void init() {
-		tfloors = new TableDefinition(app.getSession(), "FLOORS", new String[] { "ID", "NAME", "IMAGE" },
-				new String[] { "ID", AppLocal.getIntString("Label.Name"), "IMAGE" },
-				new Datas[] { Datas.STRING, Datas.STRING, Datas.IMAGE }, new Formats[] { Formats.NULL, Formats.STRING },
-				new int[] { 0 });
+		tfloors = new TableDefinition(app.getSession(), "FLOORS", new String[] { "ID", "NAME", "IMAGE", "SORTORDER" },
+				new String[] { "ID", AppLocal.getIntString("Label.Name"), "IMAGE", "SORTORDER" },
+				new Datas[] { Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT },
+				new Formats[] { Formats.NULL, Formats.STRING }, new int[] { 0 });
 		jeditor = new FloorsEditor(app, dirty);
 	}
 
@@ -60,6 +75,11 @@ public class JPanelFloors extends JPanelTable {
 
 	public Vectorer getVectorer() {
 		return tfloors.getVectorerBasic(new int[] { 1 });
+	}
+
+	@Override
+	public ComparatorCreator getComparatorCreator() {
+		return tfloors.getComparatorCreator(new int[] { 1, 3 });
 	}
 
 	public ListCellRenderer getListCellRenderer() {
@@ -82,10 +102,10 @@ public class JPanelFloors extends JPanelTable {
 	public void ScaleButtons() {
 
 	}
-	
+
 	@Override
 	public int getSortColumnIndex() {
-		return -1;
+		return 3;
 	}
 
 }

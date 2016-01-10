@@ -282,7 +282,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	}
 
 	public final SentenceList getFloorsList() {
-		return new StaticSentence(s, "SELECT ID, NAME FROM FLOORS ORDER BY NAME", null,
+		return new StaticSentence(s, "SELECT ID, NAME FROM FLOORS ORDER BY SORTORDER,NAME", null,
 				new SerializerReadClass(FloorsInfo.class));
 	}
 
