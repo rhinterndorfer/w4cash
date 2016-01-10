@@ -25,8 +25,11 @@ import java.util.*;
 import java.util.List;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 import com.openbravo.pos.sales.*;
+import com.openbravo.pos.sales.restaurant.Floor.JPanelDrawing;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
@@ -93,8 +96,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		customer = null;
 
 		try {
-			SentenceList sent = new StaticSentence(app.getSession(), "SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME",
-					null, new SerializerReadClass(Floor.class));
+			SentenceList sent = new StaticSentence(app.getSession(),
+					"SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME", null,
+					new SerializerReadClass(Floor.class));
 			m_afloors = sent.list();
 
 		} catch (BasicException eD) {
@@ -117,12 +121,29 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			JTabbedPane jTabFloors = new JTabbedPane();
 			jTabFloors.applyComponentOrientation(getComponentOrientation());
 			jTabFloors.setBorder(new javax.swing.border.EmptyBorder(new Insets(5, 5, 5, 5)));
-			jTabFloors.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+			jTabFloors.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
 			jTabFloors.setFocusable(false);
 			jTabFloors.setRequestFocusEnabled(false);
 			m_jPanelMap.add(jTabFloors, BorderLayout.CENTER);
 
 			for (Floor f : m_afloors) {
+				// calculate dimensions
+				int maxWidth = 0;
+				int maxHeight = 0;
+				for (Place pl : m_aplaces) {
+					if (pl.getFloor().equals(f.getID())) {
+						int placeMaxX = pl.getX() + pl.getWidth();
+						int placeMaxY = pl.getY() + pl.getHeight();
+
+						maxWidth = maxWidth < placeMaxX ? placeMaxX : maxWidth;
+						maxHeight = maxHeight < placeMaxY ? placeMaxY : maxHeight;
+
+					}
+				}
+
+				if (maxWidth > 0 && maxHeight > 0)
+					f.getContainer().setPreferredSize(new Dimension(maxWidth, maxHeight));
+
 				f.getContainer().applyComponentOrientation(getComponentOrientation());
 
 				JScrollPane jScrCont = new JScrollPane();
@@ -180,6 +201,73 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		// Add the reservations panel
 		m_jreservations = new JTicketsBagRestaurantRes(app, this);
 		add(m_jreservations, "res");
+
+		// add resize listener
+		m_jPanelMap.addComponentListener(new ComponentListener() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Dimension d = e.getComponent().getSize();
+				for (Floor f : m_afloors) {
+					Container c = f.getContainer();
+					JPanelDrawing pd = JPanelDrawing.class.cast(c);
+					Dimension df = c.getPreferredSize();
+					double oldWidth = df.getWidth();
+
+					BufferedImage img = f.getImage();
+					if (img != null) {
+						oldWidth = img.getWidth();
+					}
+
+					double newWidth = d.getWidth() - 10; // 10 Margin
+					double scale = newWidth / oldWidth;
+					if (scale > 1)
+						scale = 1;
+
+					if (img != null) {
+						int w = img.getWidth();
+						int h = img.getHeight();
+						BufferedImage dimg = new BufferedImage((int) (w * scale), (int) (h * scale), img.getType());
+						Graphics2D g = dimg.createGraphics();
+						g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+								RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+						g.drawImage(img, 0, 0, (int) (w * scale), (int) (h * scale), 0, 0, w, h, null);
+						g.dispose();
+
+						pd.SetImage(dimg);
+						pd.repaint();
+					}
+
+					for (Place p : m_aplaces) {
+						if (p.getFloor().equals(f.getID())) {
+							Rectangle rect = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+							rect.setBounds((int) (rect.x * scale), (int) (rect.y * scale), (int) (rect.width * scale),
+									(int) (rect.height * scale));
+							p.getButton().setBounds(rect);
+						}
+					}
+
+				}
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 	}
 
 	public void ScaleButtons() {
