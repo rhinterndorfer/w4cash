@@ -1396,12 +1396,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		m_jOptions.setLayout(new java.awt.BorderLayout());
 
-		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		// m_jTicketId.setBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")));
-		m_jTicketId.setOpaque(true);
-		m_jTicketId.setFont(new Font(m_jTicketId.getFont().getName(), Font.PLAIN, 16));
-		m_jTicketId.setRequestFocusEnabled(false);
-		m_jButtons.add(m_jTicketId);
+		
 
 		// btnCustomer.setIcon(new
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png")));
@@ -1554,8 +1549,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		jPanel4.setLayout(new java.awt.BorderLayout());
 
+		
 		m_jPanTotals.setLayout(new java.awt.GridBagLayout());
 
+		
 		m_jTotalEuros.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 		m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 		m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -1563,18 +1560,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 				javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 		m_jTotalEuros.setOpaque(true);
-		// m_jTotalEuros.setMinimumSize(new Dimension(150,25));
-		// m_jTotalEuros.setPreferredSize(new java.awt.Dimension(150, 25));
 		m_jTotalEuros.setRequestFocusEnabled(false);
+
+		
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 3;
 		gridBagConstraints.gridy = 1;
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
-
-		// gridBagConstraints.weightx = 1.0;
-		// gridBagConstraints.weighty = 1.0;
-
 		gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
+		
 		m_jPanTotals.add(m_jTotalEuros, gridBagConstraints);
 
 		m_jLblTotalEuros1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1585,7 +1579,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
 		gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 5);
 		m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
-
+		
+		
+		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		m_jTicketId.setOpaque(true);
+		m_jTicketId.setFont(new Font(m_jTicketId.getFont().getName(), Font.PLAIN, 16));
+		m_jTicketId.setRequestFocusEnabled(false);
+		
+		
+		jPanel4.add(m_jTicketId, java.awt.BorderLayout.LINE_START);
 		jPanel4.add(m_jPanTotals, java.awt.BorderLayout.LINE_END);
 		m_jPanelCentral.add(jPanel4, java.awt.BorderLayout.SOUTH);
 		m_jPanTicket.add(m_jPanelCentral, java.awt.BorderLayout.CENTER);
