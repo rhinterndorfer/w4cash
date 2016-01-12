@@ -1578,7 +1578,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.gridy = 1;
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
 		gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 5);
-		m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
+		// m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
 		
 		
 		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1588,7 +1588,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		
 		
 		jPanel4.add(m_jTicketId, java.awt.BorderLayout.LINE_START);
+		
 		jPanel4.add(m_jPanTotals, java.awt.BorderLayout.LINE_END);
+		jPanel4.setComponentZOrder(m_jPanTotals, 0);
+		jPanel4.setComponentZOrder(m_jTicketId, 1);
 		m_jPanelCentral.add(jPanel4, java.awt.BorderLayout.SOUTH);
 		m_jPanTicket.add(m_jPanelCentral, java.awt.BorderLayout.CENTER);
 		m_jPanContainer.add(m_jPanTicket, java.awt.BorderLayout.CENTER);
