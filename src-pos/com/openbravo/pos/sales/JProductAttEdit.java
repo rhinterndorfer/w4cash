@@ -261,13 +261,13 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
 			// PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize*3, buttonFontSize*3, buttonFontSize);
 			// PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle,
 			// buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize*3, buttonFontSize*3, buttonFontSize);
 			// PropertyUtil.ScaleButtonFontsize(m_jButtonCancel,
 			// buttonFontSize);
-			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize, buttonFontSize, buttonFontSize);
+			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize*3, buttonFontSize*3, buttonFontSize);
 
 		}
 	}
@@ -373,7 +373,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
 		m_jButtonOKSingle
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok.png"))); // NOI18N
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		m_jButtonOKSingle.setText(AppLocal.getIntString("ProductAttEdit.Button.OKSingle")); // NOI18N
 		m_jButtonOKSingle.setFocusPainted(false);
 		m_jButtonOKSingle.setFocusable(false);

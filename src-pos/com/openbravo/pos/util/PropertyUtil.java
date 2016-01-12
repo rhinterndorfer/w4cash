@@ -133,7 +133,6 @@ public class PropertyUtil {
 			iconHeigth -= fm.getHeight();
 		}
 		
-		
 		if (btn.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
 			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
 			double radio = icon.getIconWidth() / icon.getIconWidth();
