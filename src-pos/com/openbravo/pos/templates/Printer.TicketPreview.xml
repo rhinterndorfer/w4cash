@@ -15,7 +15,7 @@
             <text align="center" length="32" bold="true"></text>
         </line>
         <line>
-            <text align="center" length="32" bold="true">Gasthaus W4</text>
+            <text align="center" length="32" bold="true">W4CASH</text>
         </line>
         <line>
             <text align="center" length="32" bold="true">Waldviertel</text>
@@ -23,24 +23,24 @@
         <line>
             <text align="center" length="32" bold="true">3910 Zwettl</text>
         </line>
-	<line>
+	    <line>
             <text align="center" length="32" bold="true">ATU xxxxxxxx</text>
         </line>
         <line></line>
         #if ($ticket.printId() == "")
 		<line>
-            <text align="left" length="16">Bon:</text>
-            <text align="left" length="16">Vorschau</text>
+            <text align="left" length="10">Bon:</text>
+            <text align="left" length="22">Vorschau</text>
         </line>
-	#else
-	<line>
-            <text align="left" length="16">Bon:</text>
-            <text align="left" length="16">${ticket.printId()}</text>
-        </line>
-	#end
+        #else
         <line>
-            <text align="left" length="16">Datum:</text>
-            <text align="left" length="16">${ticket.printDate()}</text>
+            <text align="left" length="10">Bon:</text>
+            <text align="left" length="22">${ticket.printId()}</text>
+        </line>
+        #end
+        <line>
+            <text align="left" length="10">Datum:</text>
+            <text align="left" length="22">${ticket.printDate()}</text>
         </line>  
          #if ($ticket.getCustomer())
         <line>
@@ -71,8 +71,8 @@
         #end
         #if ($place != "")
         <line>
-            <text align="left" length="16">Tisch:</text>
-            <text align="left" length="16">${place}</text>
+            <text align="left" length="10">Tisch:</text>
+            <text align="left" length="22">${place}</text>
         </line>  
         #end
         <line></line>    
@@ -118,11 +118,12 @@
         </line>   
         <line>
             <text align ="left" length="10">Menge: </text>
-            <text align ="right" length="13">${ticket.printArticlesCount()}</text>
+            <text align ="right" length="12">${ticket.printArticlesCount()}</text>
         </line> 
         <line></line> 
 	#foreach ($taxinfo in $taxes)  
 	#set( $taxline = $ticket.getTaxLine($taxinfo))
+	#if($taxline.getTax() != 0)
 	<line>  
             #if (${taxline.getTaxInfo()} == "0%")
                <text align ="left" length="2">A</text>
@@ -140,6 +141,7 @@
 	<text align ="right" length="10">${taxline.printSubTotal()}</text> 
 	<text align ="right" length="10">${taxline.printTax()}</text> 
 	</line>  
+	#end
 	#end 
 	<line> </line> 
         <line>
@@ -153,7 +155,7 @@
         <line></line> 
         <line size="1">
             <text align ="left" length="12" bold="true">Gesamt</text>
-            <text align ="right" length="20" bold="true">${ticket.printTotal()}</text>
+            <text align ="right" length="16" bold="true">${ticket.printTotal()}</text>
         </line>    
         #foreach ($paymentline in $ticket.payments)      
 		 #if ($paymentline.getClass().getSimpleName() == "PaymentInfoCash")
@@ -163,12 +165,12 @@
             <text bold="true">Bar</text>
         </line>  
         <line>
-             <text align="left" length="12">Gegeben:</text>
-             <text align ="right" length="20">${paymentline.printPaid()}</text>
+             <text align="left" length="10">Gegeben:</text>
+             <text align ="right" length="22">${paymentline.printPaid()}</text>
          </line>  
         <line>
-            <text align="left" length="12">Retour:</text>
-            <text align ="right" length="20">${paymentline.printChange()}</text>
+            <text align="left" length="10">Retour:</text>
+            <text align ="right" length="22">${paymentline.printChange()}</text>
         </line>   
          #end
 		 #end 
@@ -254,14 +256,13 @@
         </line>    
          #end 
          #end 
-        <line></line>
         <line>
-            <text align="left" length="15">Kassier:</text>
-            <text>${ticket.printUser()}</text>
+            <text align="left" length="10">Kassier:</text>
+            <text align="right" length="22">${ticket.printUser()}</text>
         </line> 
         <line></line>            
         <line>
-            <text align="center" length="32">Danke für Ihren Besuch.</text>
+            <text align="center" length="32">Powered by w4cash.at</text>
         </line>   
     </ticket>
     #foreach ($paymentline in $ticket.payments)      
