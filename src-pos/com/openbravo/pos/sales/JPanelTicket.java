@@ -987,7 +987,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
 
 					paymentdialog.setTransactionID(ticket.getTransactionID());
-					paymentdialog.setSize(800, 500);
+					//paymentdialog.setSize(800, 500);
 
 					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 

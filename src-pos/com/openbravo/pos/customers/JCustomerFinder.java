@@ -496,8 +496,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
-//		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
-//		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
 	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
