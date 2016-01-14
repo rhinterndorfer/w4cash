@@ -44,7 +44,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public static final int RECEIPT_REFUND = 1;
     public static final int RECEIPT_PAYMENT = 2;
 
-    private static DateFormat m_dateformat = new SimpleDateFormat("hh:mm");
+    private static DateFormat m_dateformat = new SimpleDateFormat("HH:mm:ss");
 
     private String m_sId;
     private int tickettype;
@@ -183,7 +183,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
 
         if (info == null) {
             if (m_iTicketId == 0) {
-                name.append("(" + m_dateformat.format(m_dDate) + " " + Long.toString(m_dDate.getTime() % 1000) + ")");
+                name.append("(" + m_dateformat.format(m_dDate) + ")");
             } else {
                 name.append(Integer.toString(m_iTicketId));
             }

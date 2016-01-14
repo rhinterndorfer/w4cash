@@ -98,6 +98,9 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		initComponents();
 
+		
+		
+		
 		// add the Floors containers (Tabbed)
 		if (m_afloors.size() > 1) {
 			// A tab container for 2 or more floors
@@ -105,12 +108,30 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 			jTabFloors.applyComponentOrientation(getComponentOrientation());
 			jTabFloors.setBorder(new javax.swing.border.EmptyBorder(new Insets(5, 5, 5, 5)));
-			jTabFloors.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+			jTabFloors.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
 			jTabFloors.setFocusable(false);
 			jTabFloors.setRequestFocusEnabled(false);
 			m_jPanelMap.add(jTabFloors, BorderLayout.CENTER);
 
 			for (Floor f : m_afloors) {
+				
+				// calculate dimensions
+				int maxWidth = 0;
+				int maxHeight = 0;
+				for (Place pl : m_aplaces) {
+					if(pl.getFloor().equals(f.getID()))
+					{
+						int placeMaxX = pl.getX() + pl.getWidth() + 640; // for design view add additional space
+						int placeMaxY = pl.getY() + pl.getHeight() + 640; // for design view add additional space
+						
+						maxWidth = maxWidth < placeMaxX ? placeMaxX : maxWidth;
+						maxHeight = maxHeight < placeMaxY ? placeMaxY : maxHeight;
+					}
+				}
+				
+				if(maxWidth > 0 && maxHeight > 0)
+					f.getContainer().setPreferredSize(new Dimension(maxWidth, maxHeight));
+				
 				f.getContainer().applyComponentOrientation(getComponentOrientation());
 
 				JScrollPane jScrCont = new JScrollPane();

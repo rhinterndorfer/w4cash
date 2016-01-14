@@ -252,6 +252,8 @@ public class JProductFinder extends javax.swing.JDialog {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 		
 		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
 	}
 	
 	private void jListProductsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jListProductsMouseClicked

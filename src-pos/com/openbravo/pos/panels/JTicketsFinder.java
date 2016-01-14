@@ -154,6 +154,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
 
 //		menuwidth = Integer
 //				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
@@ -169,7 +171,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		PropertyUtil.ScaleButtonIcon(btnCustomer, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight, fontsize);
-		// PropertyUtil.ScaleButtonIcon(btnCustomer, menuwidth, menuheight);
+		
+		
 		// PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight);
 		// PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight);
 

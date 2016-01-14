@@ -24,6 +24,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -31,7 +33,10 @@ import javax.swing.JPanel;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.ImageUtils;
+import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.SerializableRead;
+import com.openbravo.data.loader.SerializerReadClass;
+import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.pos.util.ThumbNailBuilder;
 
 public class Floor implements SerializableRead {
@@ -40,6 +45,7 @@ public class Floor implements SerializableRead {
     private String m_sName;
     private Container m_container;
     private Icon m_icon;
+    private BufferedImage m_img;
     
     private static Image defimg = null;
     
@@ -54,10 +60,10 @@ public class Floor implements SerializableRead {
     public void readValues(DataRead dr) throws BasicException {
         m_sID = dr.getString(1);
         m_sName = dr.getString(2);
-        BufferedImage img = ImageUtils.readImage(dr.getBytes(3));
+        m_img = ImageUtils.readImage(dr.getBytes(3));
         ThumbNailBuilder tnbcat = new ThumbNailBuilder(32, 32, defimg);
-        m_container = new JPanelDrawing(img);
-        m_icon = new ImageIcon(tnbcat.getThumbNail(img));        
+        m_container = new JPanelDrawing(m_img);
+        m_icon = new ImageIcon(tnbcat.getThumbNail(m_img));        
     }    
     
     public String getID() {
@@ -68,18 +74,28 @@ public class Floor implements SerializableRead {
     }
     public Icon getIcon() {
         return m_icon;
-    }    
+    }   
+    public BufferedImage getImage() {
+        return m_img;
+    }
     public Container getContainer() {
         return m_container;
     }    
     
-    private static class JPanelDrawing extends JPanel {
+    public static class JPanelDrawing extends JPanel {
 		private static final long serialVersionUID = 3808132479654034061L;
 		private Image img;
+		private int m_width=800;
+		private int m_height=800;
         
         public JPanelDrawing(Image img) {
             this.img = img;
             setLayout(null);
+        }
+        
+        public void SetImage(Image img)
+        {
+        	this.img = img;
         }
         
         protected void paintComponent (Graphics g) { 
@@ -89,9 +105,16 @@ public class Floor implements SerializableRead {
             }
         }
         
+        public void setPreferredSize(Dimension d)
+        {
+        	m_width = d.width;
+        	m_height = d.height;
+        }
+        
         public Dimension getPreferredSize() {
-            return (img == null) 
-                ? new Dimension(640, 480) 
+
+        	return (img == null) 
+                ? new Dimension(m_width, m_height) 
                 : new Dimension(img.getWidth(this), img.getHeight(this));
         }
         public Dimension getMinimumSize() {

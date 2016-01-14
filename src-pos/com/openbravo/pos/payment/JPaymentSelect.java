@@ -522,7 +522,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-		PropertyUtil.ScaleDialog(m_App, this, 860, 600);
+		PropertyUtil.ScaleDialog(m_App, this, 860, 700);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -609,6 +609,13 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		
 		PropertyUtil.ScaleButtonIcon(m_jButtonAdd, blwidth, blheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonRemove, blwidth, blheight, fontsize);
+		
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		PropertyUtil.ScaleButtonIcon(m_jButtonOK, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, btnWidth, btnHeight, fontsize);
 
 	}
 }
