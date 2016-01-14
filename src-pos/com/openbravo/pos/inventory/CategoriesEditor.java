@@ -94,7 +94,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.addPropertyChangeListener("image", dirty);
 
 		writeValueEOF();
-		
+
 		ScaleButtons();
 	}
 
@@ -242,7 +242,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jPrinter.addItem("Drucker 3");
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this. scrollView = new JScrollPane();
+		this.scrollView = new JScrollPane();
 		add(scrollView);
 		JPanel root = new JPanel();
 		scrollView.setViewportView(root);
@@ -253,7 +253,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(5,5, 0, 0);
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		root.add(jLabel2, gbc_lbl1);
@@ -261,7 +261,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(5,5, 0, 0);
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -269,7 +269,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(5,5, 0, 0);
+		gbc_space1.insets = new Insets(5, 5, 0, 0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 3;
 		gbc_space1.gridy = 0;
@@ -278,7 +278,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(5,5, 0, 0);
+		gbc_lbl2.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl2.gridx = 0;
 		gbc_lbl2.gridy = 1;
 		root.add(jLabel5, gbc_lbl2);
@@ -286,7 +286,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane2 = new GridBagConstraints();
 		gbc_textPane2.gridwidth = 1;
 		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane2.insets = new Insets(5,5, 0, 0);
+		gbc_textPane2.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane2.weightx = 1.0;
 		gbc_textPane2.gridx = 1;
 		gbc_textPane2.gridy = 1;
@@ -294,7 +294,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(5,5, 0, 0);
+		gbc_space2.insets = new Insets(5, 5, 0, 0);
 		gbc_space2.weightx = 1.0;
 		gbc_space2.gridx = 2;
 		gbc_space2.gridy = 1;
@@ -303,7 +303,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		jLabel7.setText(AppLocal.getIntString("Menu.Printer")); // NOI18N
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
 		gbc_lbl3.anchor = GridBagConstraints.WEST;
-		gbc_lbl3.insets = new Insets(5,5, 0, 0);
+		gbc_lbl3.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl3.gridx = 0;
 		gbc_lbl3.gridy = 2;
 		root.add(jLabel7, gbc_lbl3);
@@ -311,7 +311,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane3 = new GridBagConstraints();
 		gbc_textPane3.gridwidth = 1;
 		gbc_textPane3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane3.insets = new Insets(5,5, 0, 0);
+		gbc_textPane3.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane3.weightx = 1.0;
 		gbc_textPane3.gridx = 1;
 		gbc_textPane3.gridy = 2;
@@ -319,7 +319,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
-		gbc_space3.insets = new Insets(5,5, 0, 0);
+		gbc_space3.insets = new Insets(5, 5, 0, 0);
 		gbc_space3.weightx = 1.0;
 		gbc_space3.gridx = 2;
 		gbc_space3.gridy = 2;
@@ -337,7 +337,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		pfl1.add(m_jCatalogDelete);
 
 		GridBagConstraints gbc_pane = new GridBagConstraints();
-		gbc_pane.insets = new Insets(5,5, 0, 0);
+		gbc_pane.insets = new Insets(5, 5, 0, 0);
 		gbc_pane.gridwidth = 3;
 		gbc_pane.weightx = 1.0;
 		gbc_pane.gridx = 0;
@@ -345,7 +345,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		root.add(pfl1, gbc_pane);
 
 		GridBagConstraints gbc_img1 = new GridBagConstraints();
-		gbc_img1.insets = new Insets(5,5, 0, 0);
+		gbc_img1.insets = new Insets(5, 5, 0, 0);
 		gbc_img1.weighty = 1.0;
 		gbc_img1.fill = GridBagConstraints.BOTH;
 		gbc_img1.gridwidth = 3;
@@ -373,12 +373,13 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-small-fontsize", "32");
 		PropertyUtil.ScaleComboFontsize(m_App, m_jPrinter, "common-small-fontsize", "32");
-		
+
+		PropertyUtil.ScaleScrollbar(m_App, this.scrollView);
 
 		int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));

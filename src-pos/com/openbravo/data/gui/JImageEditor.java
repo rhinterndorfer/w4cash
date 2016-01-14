@@ -67,6 +67,8 @@ public class JImageEditor extends javax.swing.JPanel {
     }
     
     private void ScaleButtons(){
+    	PropertyUtil.ScaleScrollbar(m_App, m_jScr);
+    	
     	int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
 		int menuheight = Integer

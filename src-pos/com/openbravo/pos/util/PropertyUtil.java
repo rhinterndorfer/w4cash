@@ -834,6 +834,9 @@ public class PropertyUtil {
 		int value = Integer.parseInt(property);
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
 		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+	
+		jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(value, value));
+		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	}
 
 	public static void ScaleJComboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {

@@ -144,7 +144,7 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		gbc_lbl2.gridx = 0;
 		gbc_lbl2.gridy = 1;
 		add(jLabel2, gbc_lbl2);
-		
+
 		GridBagConstraints gbc_txt2 = new GridBagConstraints();
 		gbc_txt2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt2.weightx = 1.0;
@@ -152,7 +152,6 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		gbc_txt2.gridx = 1;
 		gbc_txt2.gridy = 1;
 		add(jTxtEndDate, gbc_txt2);
-		
 
 		btnDateEnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
 		btnDateEnd.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +165,7 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		gbc_btn2.gridx = 2;
 		gbc_btn2.gridy = 1;
 		add(btnDateEnd, gbc_btn2);
-		
+
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
 		gbc_space2.insets = new Insets(0, 0, 0, 0);
@@ -174,22 +173,23 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		gbc_space2.gridx = 3;
 		gbc_space2.gridy = 1;
 		add(space2, gbc_space2);
-		
+
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
 	public void ScaleButtons() {
 
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) getBorder(), "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) getBorder(), "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-filter-fontsize", "24");
 
-		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-filter-fontsize", "24");
 
-		int btnWidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-width", "32"));
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-filter-fontsize", "32"));
 		int btnHeight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-height", "32"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-filter-fontsize", "32"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 

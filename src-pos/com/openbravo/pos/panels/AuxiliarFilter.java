@@ -299,12 +299,12 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
 	// End of variables declaration//GEN-END:variables
 
 	public void ScaleButtons() {
-		int menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
-		int menuheight = Integer
+		int btnWidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
+		int btnHeight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 		
-		PropertyUtil.ScaleButtonIcon(search, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(search, btnWidth, btnHeight, fontsize);
 	}
 }

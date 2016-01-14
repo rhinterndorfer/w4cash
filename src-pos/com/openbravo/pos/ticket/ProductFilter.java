@@ -306,24 +306,24 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel2.getBorder(), "common-small-fontsize", "32");
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel1.getBorder(), "common-small-fontsize", "32");
+		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel2.getBorder(), "common-filter-fontsize", "24");
+		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel1.getBorder(), "common-filter-fontsize", "24");
 
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-filter-fontsize", "24");
 
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jBarcode, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jPriceBuy, "common-small-fontsize", "32");
-		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jPriceSell, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jBarcode, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jPriceBuy, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jPriceSell, "common-filter-fontsize", "24");
 
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboName, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceBuy, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceSell, "common-small-fontsize", "32");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCboName, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceBuy, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceSell, "common-filter-fontsize", "24");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

@@ -45,6 +45,7 @@ import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.SerializerRead;
 import com.openbravo.pos.customers.CustomerInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class JPlacesBagRestaurantMap extends JPlacesBag {
 
@@ -86,8 +87,9 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		this.m_Editor = editor;
 
 		try {
-			SentenceList sent = new StaticSentence(app.getSession(), "SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME",
-					null, new SerializerReadClass(Floor.class));
+			SentenceList sent = new StaticSentence(app.getSession(),
+					"SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME", null,
+					new SerializerReadClass(Floor.class));
 			m_afloors = sent.list();
 		} catch (BasicException eD) {
 			m_afloors = new ArrayList<Floor>();
@@ -98,9 +100,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		initComponents();
 
-		
-		
-		
 		// add the Floors containers (Tabbed)
 		if (m_afloors.size() > 1) {
 			// A tab container for 2 or more floors
@@ -114,30 +113,40 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			m_jPanelMap.add(jTabFloors, BorderLayout.CENTER);
 
 			for (Floor f : m_afloors) {
-				
+
 				// calculate dimensions
 				int maxWidth = 0;
 				int maxHeight = 0;
 				for (Place pl : m_aplaces) {
-					if(pl.getFloor().equals(f.getID()))
-					{
-						int placeMaxX = pl.getX() + pl.getWidth() + 640; // for design view add additional space
-						int placeMaxY = pl.getY() + pl.getHeight() + 640; // for design view add additional space
-						
+					if (pl.getFloor().equals(f.getID())) {
+						int placeMaxX = pl.getX() + pl.getWidth() + 640; // for
+																			// design
+																			// view
+																			// add
+																			// additional
+																			// space
+						int placeMaxY = pl.getY() + pl.getHeight() + 640; // for
+																			// design
+																			// view
+																			// add
+																			// additional
+																			// space
+
 						maxWidth = maxWidth < placeMaxX ? placeMaxX : maxWidth;
 						maxHeight = maxHeight < placeMaxY ? placeMaxY : maxHeight;
 					}
 				}
-				
-				if(maxWidth > 0 && maxHeight > 0)
+
+				if (maxWidth > 0 && maxHeight > 0)
 					f.getContainer().setPreferredSize(new Dimension(maxWidth, maxHeight));
-				
+
 				f.getContainer().applyComponentOrientation(getComponentOrientation());
 
 				JScrollPane jScrCont = new JScrollPane();
 				jScrCont.applyComponentOrientation(getComponentOrientation());
 				JPanel jPanCont = new JPanel();
 				jPanCont.applyComponentOrientation(getComponentOrientation());
+				PropertyUtil.ScaleScrollbar(m_App, jScrCont);
 
 				jTabFloors.addTab(f.getName(), f.getIcon(), jScrCont);
 				jScrCont.setViewportView(jPanCont);
@@ -169,6 +178,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			jScrCont.applyComponentOrientation(getComponentOrientation());
 			JPanel jPanCont = new JPanel();
 			jPanCont.applyComponentOrientation(getComponentOrientation());
+			PropertyUtil.ScaleScrollbar(m_App, jScrCont);
 
 			// jPlaces.setLayout(new FlowLayout());
 			m_jPanelMap.add(jPlaces, BorderLayout.CENTER);
@@ -528,8 +538,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		jPanel1 = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
 
-		// m_jbtnReservations = new javax.swing.JButton();
-		// m_jbtnRefresh = new javax.swing.JButton();
 		m_jText = new javax.swing.JLabel();
 
 		setLayout(new java.awt.CardLayout());
@@ -538,40 +546,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		jPanel1.setLayout(new java.awt.BorderLayout());
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-		// m_jbtnReservations.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png")));
-		// // NOI18N
-		// m_jbtnReservations.setText(AppLocal.getIntString("button.reservations"));
-		// // NOI18N
-		// m_jbtnReservations.setFocusPainted(false);
-		// m_jbtnReservations.setFocusable(false);
-		// m_jbtnReservations.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		// m_jbtnReservations.setRequestFocusEnabled(false);
-		// m_jbtnReservations.addActionListener(new
-		// java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// m_jbtnReservationsActionPerformed(evt);
-		// }
-		// });
-
-		// jPanel2.add(m_jbtnReservations);
-
-		// m_jbtnRefresh.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reload.png")));
-		// // NOI18N
-		// m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket"));
-		// // NOI18N
-		// m_jbtnRefresh.setFocusPainted(false);
-		// m_jbtnRefresh.setFocusable(false);
-		// m_jbtnRefresh.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		// m_jbtnRefresh.setRequestFocusEnabled(false);
-		// m_jbtnRefresh.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// m_jbtnRefreshActionPerformed(evt);
-		// }
-		// });
-
-		// jPanel2.add(m_jbtnRefresh);
 		jPanel2.add(m_jText);
 
 		jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_START);
@@ -625,9 +599,9 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 	@Override
 	public Place getPlace() {
-	
+
 		return getSelectedPlace();
-		
+
 		// if (index < 0 || index >= m_aplaces.size()) {
 		// return null;
 		// }

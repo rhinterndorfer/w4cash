@@ -54,6 +54,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 	private SentenceList m_sentrole;
 	private ComboBoxValModel m_RoleModel;
 	private AppView m_App;
+	private JScrollPane scrollView;
 
 	/** Creates new form PeopleEditor */
 	public PeopleView(AppView app, DataLogicAdmin dlAdmin, DirtyManager dirty) {
@@ -198,7 +199,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		jLabel5 = new javax.swing.JLabel();
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		JScrollPane scrollView = new JScrollPane();
+		this. scrollView = new JScrollPane();
 		add(scrollView);
 		JPanel root = new JPanel();
 		scrollView.setViewportView(root);
@@ -397,6 +398,8 @@ public class PeopleView extends JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
+		PropertyUtil.ScaleScrollbar(m_App, scrollView);
+		
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");

@@ -150,7 +150,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				jScrCont.applyComponentOrientation(getComponentOrientation());
 				JPanel jPanCont = new JPanel();
 				jPanCont.applyComponentOrientation(getComponentOrientation());
-
+				PropertyUtil.ScaleScrollbar(m_App, jScrCont);
+				
 				jTabFloors.addTab(f.getName(), f.getIcon(), jScrCont);
 				jScrCont.setViewportView(jPanCont);
 				jPanCont.add(f.getContainer());
@@ -171,7 +172,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			jScrCont.applyComponentOrientation(getComponentOrientation());
 			JPanel jPanCont = new JPanel();
 			jPanCont.applyComponentOrientation(getComponentOrientation());
-
+			PropertyUtil.ScaleScrollbar(m_App, jScrCont);
 			// jPlaces.setLayout(new FlowLayout());
 			m_jPanelMap.add(jPlaces, BorderLayout.CENTER);
 			jPlaces.add(jScrCont, BorderLayout.CENTER);

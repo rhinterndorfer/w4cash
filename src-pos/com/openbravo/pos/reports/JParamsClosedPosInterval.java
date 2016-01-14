@@ -186,13 +186,11 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
-		
-		PropertyUtil.ScaleComboFontsize(m_App, jcbEndClosedPos, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, jcbStartClosedPos, "common-small-fontsize", "32");
-		
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) getBorder(), "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleComboFontsize(m_App, jcbEndClosedPos, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleComboFontsize(m_App, jcbStartClosedPos, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) getBorder(), "common-filter-fontsize", "24");
 	}
 
 }

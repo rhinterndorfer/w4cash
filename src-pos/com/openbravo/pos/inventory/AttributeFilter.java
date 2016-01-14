@@ -158,8 +158,8 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
-		PropertyUtil.ScaleComboFontsize(m_App, jAttr, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-filter-fontsize", "24");
+		PropertyUtil.ScaleComboFontsize(m_App, jAttr, "common-filter-fontsize", "24");
 	}
 
 }
