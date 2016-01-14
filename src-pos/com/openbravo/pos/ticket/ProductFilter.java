@@ -23,14 +23,21 @@ import com.openbravo.data.loader.SerializerWrite;
 import com.openbravo.pos.forms.AppLocal;
 
 import com.openbravo.pos.forms.AppView;
+
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import com.openbravo.data.loader.QBFCompareEnum;
 import com.openbravo.format.Formats;
@@ -120,6 +127,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jLabel5 = new javax.swing.JLabel();
 		m_jBarcode = new javax.swing.JTextField();
 		jPanel1 = new javax.swing.JPanel();
+		jPanelFilter = new javax.swing.JPanel();
 		jLabel1 = new javax.swing.JLabel();
 		jLabel3 = new javax.swing.JLabel();
 		jLabel4 = new javax.swing.JLabel();
@@ -131,10 +139,39 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		m_jPriceSell = new javax.swing.JTextField();
 		m_jCategory = new javax.swing.JComboBox();
 		jLabel2 = new javax.swing.JLabel();
+		jToggleFilter = new javax.swing.JToggleButton();
 
+		jPanelFilter.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		
 		jPanel2.setLayout(new GridBagLayout());
 		jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.bybarcode"))); // NOI18N
 
+		jToggleFilter.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if (jToggleFilter.isSelected()) {
+					jToggleFilter.setText(AppLocal.getIntString("label.collapse"));
+				} else {
+					jToggleFilter.setText(AppLocal.getIntString("label.expand"));
+				}
+			}
+		});
+
+		jToggleFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
+		jToggleFilter.setSelected(true);
+		jToggleFilter.setSelectedIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
+		jToggleFilter.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jToggleFilterActionPerformed(evt);
+			}
+		});
+		jPanelFilter.add(jToggleFilter, BorderLayout.CENTER);
+		
+		
+		
 		jLabel5.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
@@ -292,16 +329,30 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
-		layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE).addComponent(jPanel1,
-						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+		layout.setHorizontalGroup(layout
+				.createSequentialGroup()
+				.addGroup(
+						layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+							.addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 
+								512, Short.MAX_VALUE)
+							.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 
+								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				)
+				.addComponent(jPanelFilter, javax.swing.GroupLayout.DEFAULT_SIZE, 
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				);
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jPanel1,
-								javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.PREFERRED_SIZE)));
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jPanel1,javax.swing.GroupLayout.PREFERRED_SIZE, 
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						)
+				.addComponent(jPanelFilter,javax.swing.GroupLayout.PREFERRED_SIZE, 
+						javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+				);
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
@@ -324,6 +375,16 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		PropertyUtil.ScaleComboFontsize(m_App, m_jCboName, "common-filter-fontsize", "24");
 		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceBuy, "common-filter-fontsize", "24");
 		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceSell, "common-filter-fontsize", "24");
+		
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		
+		PropertyUtil.ScaleButtonIcon(jToggleFilter, menuwidth, menuheight, fontsize);
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
@@ -334,6 +395,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
+	private javax.swing.JPanel jPanelFilter;
 	private javax.swing.JTextField m_jBarcode;
 	private javax.swing.JComboBox m_jCategory;
 	private javax.swing.JComboBox m_jCboName;
@@ -342,6 +404,14 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 	private javax.swing.JTextField m_jName;
 	private javax.swing.JTextField m_jPriceBuy;
 	private javax.swing.JTextField m_jPriceSell;
+	private javax.swing.JToggleButton jToggleFilter;
 	// End of variables declaration//GEN-END:variables
 
+	private void jToggleFilterActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jToggleFilterActionPerformed
+
+		jPanel1.setVisible(jToggleFilter.isSelected());
+		jPanel2.setVisible(jToggleFilter.isSelected());
+		
+	}// GEN-LAST:event_jToggleFilterActionPerformed
+	
 }
