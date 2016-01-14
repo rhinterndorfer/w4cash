@@ -90,7 +90,7 @@ public class JProductFinder extends javax.swing.JDialog {
 		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
-		
+
 		// show();
 		setVisible(true);
 
@@ -223,8 +223,8 @@ public class JProductFinder extends javax.swing.JDialog {
 		});
 		jPanel1.add(jcmdOK);
 
-		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
+		jcmdCancel.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
 		jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
 		jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -239,23 +239,25 @@ public class JProductFinder extends javax.swing.JDialog {
 		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
 		PropertyUtil.ScaleDialog(m_App, this, 800, 660);
-//		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-//		setBounds((screenSize.width - 665) / 2, (screenSize.height - 565) / 2, 665, 565);
+		// java.awt.Dimension screenSize =
+		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		// setBounds((screenSize.width - 665) / 2, (screenSize.height - 565) /
+		// 2, 665, 565);
 	}// </editor-fold>//GEN-END:initComponents
 
 	public void ScaleButtons() {
-		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int width = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "48"));
+		int height = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "48"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
+
+		PropertyUtil.ScaleButtonIcon(jButton3, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdOK, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, width, height, fontsize);
 	}
-	
+
 	private void jListProductsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jListProductsMouseClicked
 
 		if (evt.getClickCount() == 2) {
@@ -311,6 +313,5 @@ public class JProductFinder extends javax.swing.JDialog {
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	private javax.swing.JPanel m_jProductSelect;
 	// End of variables declaration//GEN-END:variables
-	
-	
+
 }

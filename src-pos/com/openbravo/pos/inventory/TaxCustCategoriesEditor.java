@@ -125,7 +125,7 @@ public class TaxCustCategoriesEditor extends JPanel implements EditorRecord {
 		jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(5,5,0,0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		root.add(jLabel2, gbc_lbl1);
@@ -133,7 +133,7 @@ public class TaxCustCategoriesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5,5,0,0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -141,7 +141,7 @@ public class TaxCustCategoriesEditor extends JPanel implements EditorRecord {
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5,5,0,0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
@@ -149,7 +149,7 @@ public class TaxCustCategoriesEditor extends JPanel implements EditorRecord {
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.insets = new Insets(5,5,0,0);
 		gbc_btnNewButton.weighty = 1.0;
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridwidth = 3;

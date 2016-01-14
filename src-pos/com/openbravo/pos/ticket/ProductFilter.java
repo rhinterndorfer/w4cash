@@ -138,7 +138,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jLabel5.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(10, 5, 10, 5);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		jPanel2.add(jLabel5, gbc_lbl1);
@@ -146,7 +146,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets =new Insets(10, 5, 10, 5);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -154,7 +154,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(10, 5, 10, 5);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
@@ -166,7 +166,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
 		GridBagConstraints gbc_lbl5 = new GridBagConstraints();
 		gbc_lbl5.anchor = GridBagConstraints.WEST;
-		gbc_lbl5.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl5.insets = new Insets(10, 5, 0, 0);
 		gbc_lbl5.gridx = 0;
 		gbc_lbl5.gridy = 0;
 		jPanel1.add(jLabel2, gbc_lbl5);
@@ -174,7 +174,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_cmb1 = new GridBagConstraints();
 		gbc_cmb1.gridwidth = 1;
 		gbc_cmb1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmb1.insets = new Insets(0, 0, 5, 5);
+		gbc_cmb1.insets = new Insets(10, 5, 0, 0);
 		gbc_cmb1.weightx = 1.0;
 		gbc_cmb1.gridx = 1;
 		gbc_cmb1.gridy = 0;
@@ -183,7 +183,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_txt1 = new GridBagConstraints();
 		gbc_txt1.gridwidth = 1;
 		gbc_txt1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt1.insets = new Insets(0, 0, 5, 5);
+		gbc_txt1.insets = new Insets(10, 5, 0, 0);
 		gbc_txt1.weightx = 1.0;
 		gbc_txt1.gridx = 2;
 		gbc_txt1.gridy = 0;
@@ -191,7 +191,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.insets = new Insets(10, 5, 0, 0);
 		gbc_space2.weightx = 2.0;
 		gbc_space2.gridx = 3;
 		gbc_space2.gridy = 0;
@@ -200,7 +200,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jLabel4.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
 		GridBagConstraints gbc_lbl4 = new GridBagConstraints();
 		gbc_lbl4.anchor = GridBagConstraints.WEST;
-		gbc_lbl4.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl4.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl4.gridx = 0;
 		gbc_lbl4.gridy = 1;
 		jPanel1.add(jLabel4, gbc_lbl4);
@@ -208,7 +208,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_cmb2 = new GridBagConstraints();
 		gbc_cmb2.gridwidth = 1;
 		gbc_cmb2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmb2.insets = new Insets(0, 0, 5, 5);
+		gbc_cmb2.insets = new Insets(5, 5, 0, 0);
 		gbc_cmb2.weightx = 1.0;
 		gbc_cmb2.gridx = 1;
 		gbc_cmb2.gridy = 1;
@@ -217,7 +217,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_txt2 = new GridBagConstraints();
 		gbc_txt2.gridwidth = 1;
 		gbc_txt2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt2.insets = new Insets(0, 0, 5, 5);
+		gbc_txt2.insets = new Insets(5, 5, 0, 0);
 		gbc_txt2.weightx = 1.0;
 		gbc_txt2.gridx = 2;
 		gbc_txt2.gridy = 1;
@@ -225,7 +225,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
-		gbc_space3.insets = new Insets(0, 0, 5, 0);
+		gbc_space3.insets = new Insets(5, 5, 0, 0);
 		gbc_space3.weightx = 2.0;
 		gbc_space3.gridx = 3;
 		gbc_space3.gridy = 1;
@@ -234,7 +234,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jLabel3.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
 		gbc_lbl3.anchor = GridBagConstraints.WEST;
-		gbc_lbl3.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl3.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl3.gridx = 0;
 		gbc_lbl3.gridy = 2;
 		jPanel1.add(jLabel3, gbc_lbl3);
@@ -242,7 +242,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_cmb3 = new GridBagConstraints();
 		gbc_cmb3.gridwidth = 1;
 		gbc_cmb3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmb3.insets = new Insets(0, 0, 5, 5);
+		gbc_cmb3.insets = new Insets(5, 5, 0, 0);
 		gbc_cmb3.weightx = 1.0;
 		gbc_cmb3.gridx = 1;
 		gbc_cmb3.gridy = 2;
@@ -251,7 +251,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_txt3 = new GridBagConstraints();
 		gbc_txt3.gridwidth = 1;
 		gbc_txt3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt3.insets = new Insets(0, 0, 5, 5);
+		gbc_txt3.insets = new Insets(5, 5, 0, 0);
 		gbc_txt3.weightx = 1.0;
 		gbc_txt3.gridx = 2;
 		gbc_txt3.gridy = 2;
@@ -259,7 +259,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		JLabel space4 = new JLabel("");
 		GridBagConstraints gbc_space4 = new GridBagConstraints();
-		gbc_space4.insets = new Insets(0, 0, 5, 0);
+		gbc_space4.insets = new Insets(5, 5, 0, 0);
 		gbc_space4.weightx = 2.0;
 		gbc_space4.gridx = 3;
 		gbc_space4.gridy = 2;
@@ -268,7 +268,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jLabel1.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl2.insets = new Insets(5, 5, 10, 0);
 		gbc_lbl2.gridx = 0;
 		gbc_lbl2.gridy = 3;
 		jPanel1.add(jLabel1, gbc_lbl2);
@@ -276,7 +276,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		GridBagConstraints gbc_txt5 = new GridBagConstraints();
 		gbc_txt5.gridwidth = 1;
 		gbc_txt5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt5.insets = new Insets(0, 0, 5, 5);
+		gbc_txt5.insets = new Insets(5, 5, 10, 0);
 		gbc_txt5.weightx = 1.0;
 		gbc_txt5.gridx = 1;
 		gbc_txt5.gridy = 3;
@@ -284,98 +284,11 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		JLabel space6 = new JLabel("");
 		GridBagConstraints gbc_space6 = new GridBagConstraints();
-		gbc_space6.insets = new Insets(0, 0, 5, 0);
+		gbc_space6.insets = new Insets(5, 5, 10, 0);
 		gbc_space6.weightx = 1.0;
 		gbc_space6.gridx = 3;
 		gbc_space6.gridy = 3;
 		jPanel1.add(space6, gbc_space6);
-
-		// javax.swing.GroupLayout jPanel1Layout = new
-		// javax.swing.GroupLayout(jPanel1);
-		// jPanel1.setLayout(jPanel1Layout);
-		// jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
-		// .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(jPanel1Layout.createSequentialGroup()
-		// .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jCboName, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 150,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(jPanel1Layout.createSequentialGroup()
-		// .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jCboPriceBuy, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 150,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jPriceBuy, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 60,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-		// false)
-		// .addGroup(javax.swing.GroupLayout.Alignment.LEADING,
-		// jPanel1Layout.createSequentialGroup()
-		// .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-		// javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-		// .addComponent(m_jCategory, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 220,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(javax.swing.GroupLayout.Alignment.LEADING,
-		// jPanel1Layout.createSequentialGroup()
-		// .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jCboPriceSell,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jPriceSell, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 60,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))))
-		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// Short.MAX_VALUE)));
-		// jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(jPanel1Layout.createSequentialGroup()
-		// .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel2)
-		// .addComponent(m_jCboName, javax.swing.GroupLayout.PREFERRED_SIZE, 20,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel4)
-		// .addComponent(m_jCboPriceBuy, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 20,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(m_jPriceBuy, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel3)
-		// .addComponent(m_jCboPriceSell,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 20,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(m_jPriceSell, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel1).addComponent(m_jCategory,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// Short.MAX_VALUE)));
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);

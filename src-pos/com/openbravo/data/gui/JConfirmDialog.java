@@ -108,23 +108,23 @@ public class JConfirmDialog extends JDialog {
 	}
 
 	private void ScaleButtons(AppView app) {
-		int btnWidth = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "30"));
-		int btnHeight = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "30"));
+//		int btnWidth = Integer
+//				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "30"));
+//		int btnHeight = Integer
+//				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "30"));
 
-		int lblWidth = Integer
+		int width = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-width", "30"));
-		int lblHeight = Integer
+		int height = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-height", "30"));
 
 		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "20"));
 
 		PropertyUtil.ScaleLabelFontsize(app, m_jMessage, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelIcon(app, m_jIcon, lblWidth, lblHeight);
+		PropertyUtil.ScaleLabelIcon(app, m_jIcon, width, height);
 
-		PropertyUtil.ScaleButtonIcon(okButton, btnWidth, btnHeight, fontsize);
-		PropertyUtil.ScaleButtonIcon(cancelButton, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(okButton, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(cancelButton, width, height, fontsize);
 
 		pack();
 

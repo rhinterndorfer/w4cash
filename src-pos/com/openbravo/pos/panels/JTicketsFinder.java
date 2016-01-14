@@ -43,6 +43,9 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Window;
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,39 +143,38 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		PropertyUtil.ScaleTextFieldFontsize(m_App, jtxtCustomer, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-dialog-fontsize", "22");
-	
+
 		PropertyUtil.ScaleComboFontsize(m_App, jComboBoxTicket, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleComboFontsize(m_App, jcboMoney, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleComboFontsize(m_App, jcboUser, "common-dialog-fontsize", "22");
-		
+
 		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "48"));
 		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "48"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
 
-//		menuwidth = Integer
-//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-width", "16"));
-//		menuheight = Integer
-//				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-img-height", "16"));
-		menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-dialog-fontsize", "22"));
+		// menuwidth = Integer
+		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
+		// "menubar-img-width", "16"));
+		// menuheight = Integer
+		// .parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons",
+		// "menubar-img-height", "16"));
+		menuwidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-dialog-fontsize", "22"));
 		menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "common-dialog-fontsize", "22"));
-		fontsize = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-menu-fontsize", "8"));
-		
+		fontsize = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-menu-fontsize", "8"));
+
 		PropertyUtil.ScaleButtonIcon(btnCustomer, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight, fontsize);
-		
-		
+
 		// PropertyUtil.ScaleButtonIcon(btnDateStart, menuwidth, menuheight);
 		// PropertyUtil.ScaleButtonIcon(btnDateEnd, menuwidth, menuheight);
 
@@ -375,23 +377,49 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
+		jPanel7.setLayout(new GridBagLayout());
 		// jPanel7.setPreferredSize(new java.awt.Dimension(0, 210));
 
 		jLabel1.setText(AppLocal.getIntString("label.ticketid")); // NOI18N
+		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
+		gbc_lbl1.anchor = GridBagConstraints.WEST;
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl1.gridx = 0;
+		gbc_lbl1.gridy = 0;
+		jPanel7.add(jLabel1, gbc_lbl1);
 
-		jLabel6.setText(AppLocal.getIntString("label.user")); // NOI18N
+		GridBagConstraints gbc_txt1 = new GridBagConstraints();
+		gbc_txt1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt1.weightx = 1.0;
+		gbc_txt1.insets = new Insets(5, 5, 0, 0);
+		gbc_txt1.gridx = 1;
+		gbc_txt1.gridy = 0;
+		jPanel7.add(jtxtTicketID, gbc_txt1);
 
-		jLabel7.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
-
-		labelCustomer.setText(AppLocal.getIntString("label.customer")); // NOI18N
+		GridBagConstraints gbc_cmb1 = new GridBagConstraints();
+		gbc_cmb1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmb1.weightx = 1.0;
+		gbc_cmb1.insets = new Insets(5, 5, 0, 0);
+		gbc_cmb1.gridx = 2;
+		gbc_cmb1.gridy = 0;
+		jPanel7.add(jComboBoxTicket, gbc_cmb1);
 
 		jLabel3.setText(AppLocal.getIntString("Label.StartDate")); // NOI18N
+		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
+		gbc_lbl2.anchor = GridBagConstraints.WEST;
+		gbc_lbl2.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl2.gridx = 0;
+		gbc_lbl2.gridy = 1;
+		jPanel7.add(jLabel3, gbc_lbl2);
 
-		jLabel4.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
-
-		jTxtStartDate.setPreferredSize(new java.awt.Dimension(250, 25));
-
-		jTxtEndDate.setPreferredSize(new java.awt.Dimension(250, 25));
+		GridBagConstraints gbc_txt2 = new GridBagConstraints();
+		gbc_txt2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt2.gridwidth = 2;
+		gbc_txt2.weightx = 1.0;
+		gbc_txt2.insets = new Insets(5, 5, 0, 0);
+		gbc_txt2.gridx = 1;
+		gbc_txt2.gridy = 1;
+		jPanel7.add(jTxtStartDate, gbc_txt2);
 
 		btnDateStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
 		// btnDateStart.setPreferredSize(new java.awt.Dimension(50, 25));
@@ -400,6 +428,29 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 				btnDateStartActionPerformed(evt);
 			}
 		});
+		GridBagConstraints gbc_btn1 = new GridBagConstraints();
+		gbc_lbl2.anchor = GridBagConstraints.WEST;
+		gbc_btn1.insets = new Insets(5, 5, 0, 0);
+		gbc_btn1.gridx = 3;
+		gbc_btn1.gridy = 1;
+		jPanel7.add(btnDateStart, gbc_btn1);
+
+		jLabel4.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
+		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
+		gbc_lbl3.anchor = GridBagConstraints.WEST;
+		gbc_lbl3.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl3.gridx = 0;
+		gbc_lbl3.gridy = 2;
+		jPanel7.add(jLabel4, gbc_lbl3);
+
+		GridBagConstraints gbc_txt3 = new GridBagConstraints();
+		gbc_txt3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt3.gridwidth = 2;
+		gbc_txt3.weightx = 1.0;
+		gbc_txt3.insets = new Insets(5, 5, 0, 0);
+		gbc_txt3.gridx = 1;
+		gbc_txt3.gridy = 2;
+		jPanel7.add(jTxtEndDate, gbc_txt3);
 
 		btnDateEnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
 		// btnDateEnd.setPreferredSize(new java.awt.Dimension(50, 25));
@@ -408,132 +459,90 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 				btnDateEndActionPerformed(evt);
 			}
 		});
+		GridBagConstraints gbc_btn2 = new GridBagConstraints();
+		gbc_lbl2.anchor = GridBagConstraints.WEST;
+		gbc_btn2.insets = new Insets(5, 5, 0, 0);
+		gbc_btn2.gridx = 3;
+		gbc_btn2.gridy = 2;
+		jPanel7.add(btnDateEnd, gbc_btn2);
 
-		jtxtCustomer.setPreferredSize(new java.awt.Dimension(250, 25));
+		labelCustomer.setText(AppLocal.getIntString("label.customer")); // NOI18N
+		GridBagConstraints gbc_lbl4 = new GridBagConstraints();
+		gbc_lbl4.anchor = GridBagConstraints.WEST;
+		gbc_lbl4.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl4.gridx = 0;
+		gbc_lbl4.gridy = 3;
+		jPanel7.add(labelCustomer, gbc_lbl4);
+
+		GridBagConstraints gbc_txt4 = new GridBagConstraints();
+		gbc_txt4.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt4.gridwidth = 2;
+		gbc_txt4.weightx = 1.0;
+		gbc_txt4.insets = new Insets(5, 5, 0, 0);
+		gbc_txt4.gridx = 1;
+		gbc_txt4.gridy = 3;
+		jPanel7.add(jtxtCustomer, gbc_txt4);
 
 		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
-//		btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		// btnCustomer.setPreferredSize(new java.awt.Dimension(50, 25));
 		btnCustomer.setRequestFocusEnabled(false);
 		btnCustomer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnCustomerActionPerformed(m_App, evt);
 			}
 		});
+		GridBagConstraints gbc_btn3 = new GridBagConstraints();
+		gbc_lbl2.anchor = GridBagConstraints.WEST;
+		gbc_btn3.insets = new Insets(5, 5, 0, 0);
+		gbc_btn3.gridx = 3;
+		gbc_btn3.gridy = 3;
+		jPanel7.add(btnCustomer, gbc_btn3);
 
-		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-		jPanel7.setLayout(jPanel7Layout);
-		jPanel7Layout
-				.setHorizontalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(jPanel7Layout.createSequentialGroup().addGap(33, 33, 33)
-								.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-										.addGroup(jPanel7Layout
-												.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-												.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-														jPanel7Layout.createSequentialGroup().addComponent(jLabel3)
-																.addGap(62, 62, 62))
-										.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-												jPanel7Layout.createSequentialGroup().addComponent(jLabel1).addGap(83,
-														83, 83))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										jPanel7Layout.createSequentialGroup().addComponent(jLabel4).addGap(68, 68, 68))
-								.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-										jPanel7Layout.createSequentialGroup().addComponent(labelCustomer).addGap(61, 61,
-												61)))
-										.addComponent(jLabel7).addComponent(jLabel6))
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE, 305,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addGroup(jPanel7Layout.createSequentialGroup()
-										.addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 182,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(jPanel7Layout.createSequentialGroup().addComponent(jtxtCustomer,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(jPanel7Layout.createSequentialGroup().addComponent(jTxtEndDate,
-										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(btnDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addGroup(jPanel7Layout
-										.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-										.addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout
-												.createSequentialGroup()
-												.addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE, 170,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(jComboBoxTicket, javax.swing.GroupLayout.PREFERRED_SIZE,
-														130, javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout
-												.createSequentialGroup()
-												.addComponent(jTxtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(btnDateStart, javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE))))
-								.addGap(59, 59, 59)));
-		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-								.addComponent(jLabel1)
-								.addComponent(jtxtTicketID, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jComboBoxTicket, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-								.addComponent(jLabel3)
-								.addComponent(jTxtStartDate, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnDateStart, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-								.addComponent(jLabel4)
-								.addComponent(jTxtEndDate, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnDateEnd, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-								.addComponent(labelCustomer)
-								.addComponent(jtxtCustomer, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnCustomer, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-								.addComponent(jLabel6).addComponent(jcboUser, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-								.addComponent(jLabel7)
-								.addComponent(jcboMoney, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jtxtMoney, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-						.addGap(19, 19, 19)));
+		jLabel6.setText(AppLocal.getIntString("label.user")); // NOI18N
+		GridBagConstraints gbc_lbl5 = new GridBagConstraints();
+		gbc_lbl5.anchor = GridBagConstraints.WEST;
+		gbc_lbl5.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl5.gridx = 0;
+		gbc_lbl5.gridy = 4;
+		jPanel7.add(jLabel6, gbc_lbl5);
+
+		GridBagConstraints gbc_cmb2 = new GridBagConstraints();
+		gbc_cmb2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmb2.weightx = 1.0;
+		gbc_cmb2.gridwidth = 2;
+		gbc_cmb2.insets = new Insets(5, 5, 0, 0);
+		gbc_cmb2.gridx = 1;
+		gbc_cmb2.gridy = 4;
+		jPanel7.add(jcboUser, gbc_cmb2);
+
+		jLabel7.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
+		GridBagConstraints gbc_lbl6 = new GridBagConstraints();
+		gbc_lbl6.anchor = GridBagConstraints.WEST;
+		gbc_lbl6.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl6.gridx = 0;
+		gbc_lbl6.gridy = 5;
+		jPanel7.add(jLabel7, gbc_lbl6);
+
+		GridBagConstraints gbc_cmb3 = new GridBagConstraints();
+		gbc_cmb3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmb3.weightx = 1.0;
+		gbc_cmb3.insets = new Insets(5, 5, 0, 0);
+		gbc_cmb3.gridx = 1;
+		gbc_cmb3.gridy = 5;
+		jPanel7.add(jcboMoney, gbc_cmb3);
+
+		GridBagConstraints gbc_txt5 = new GridBagConstraints();
+		gbc_txt5.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt5.weightx = 1.0;
+		gbc_txt5.insets = new Insets(5, 5, 0, 0);
+		gbc_txt5.gridx = 2;
+		gbc_txt5.gridy = 5;
+		jPanel7.add(jtxtMoney, gbc_txt5);
 
 		jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/reset.png"))); // NOI18N
+		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
 		jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
 		jButton1.setFocusPainted(false);
 		jButton1.setFocusable(false);
@@ -598,8 +607,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 		});
 		jPanel1.add(jcmdOK);
 
-		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
+		jcmdCancel.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
 		jcmdCancel.setFocusPainted(false);
 		jcmdCancel.setFocusable(false);
@@ -624,7 +633,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
-		PropertyUtil.ScaleDialog(m_App, this, 840, 650);
+		PropertyUtil.ScaleDialog(m_App, this, 840, 750);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();

@@ -259,7 +259,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 
 		jToggleFilter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png"))); // NOI18N
 		jToggleFilter.setSelected(true);
-		jToggleFilter.setMargin(new Insets(0, 0, 0, 0));
+//		jToggleFilter.setMargin(new Insets(0, 0, 0, 0));
 		jToggleFilter.setSelectedIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png"))); // NOI18N
 		jToggleFilter.addActionListener(new java.awt.event.ActionListener() {
@@ -271,7 +271,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 		jPanel1.add(jToggleFilter);
 
 		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search.png"))); // NOI18N
-		jButton1.setMargin(new Insets(0, 0, 0, 0));
+//		jButton1.setMargin(new Insets(0, 0, 0, 0));
 		jButton1.setText(AppLocal.getIntString("Button.ExecuteReport")); // NOI18N
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -313,7 +313,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 		
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight,fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jToggleFilter, menuwidth, menuheight, fontsize);
 	}
 }

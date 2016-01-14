@@ -179,38 +179,82 @@ public class PropertyUtil {
 	}
 
 	public static void ScaleButtonIcon(JToggleButton btn, int width, int height, int fontsize) {
-		int newWidth = width;
-		int newHeight = height;
 		btn.setMargin(null);
-		if (btn.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
-			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
-			double radio = icon.getIconWidth() / icon.getIconWidth();
-			Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1, radio > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setIcon(new javax.swing.ImageIcon(img));
-		}
-		if (btn.getSelectedIcon() != null
-				&& javax.swing.ImageIcon.class.isAssignableFrom(btn.getSelectedIcon().getClass())) {
-			javax.swing.ImageIcon selectionicon = javax.swing.ImageIcon.class.cast(btn.getSelectedIcon());
-			double radio2 = selectionicon.getIconWidth() / selectionicon.getIconWidth();
-			Image img2 = selectionicon.getImage().getScaledInstance(radio2 > 1 ? width : -1, radio2 > 1 ? -1 : height,
-					Image.SCALE_SMOOTH);
-			btn.setSelectedIcon(new javax.swing.ImageIcon(img2));
-		}
+
+		int iconWidth = width;
+		int iconHeigth = height;
 
 		if (btn.getText() != null && !btn.getText().isEmpty()) {
-			String text = btn.getText();
+			// String text = btn.getText();
 			Font font = btn.getFont();
 			btn.setFont(new Font(font.getName(), font.getStyle(), fontsize));
+
 			FontMetrics fm = btn.getFontMetrics(font);
 			// newWidth += fm.stringWidth(text);
 			btn.setHorizontalTextPosition(JButton.CENTER);
 			btn.setVerticalTextPosition(JButton.BOTTOM);
-			newWidth += fm.getHeight();
-			newHeight += fm.getHeight();
+			iconWidth -= fm.getHeight();
+			iconHeigth -= fm.getHeight();
 		}
 
-		btn.setSize(newWidth, newHeight);
+		if (btn.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? iconWidth : -1, radio > 1 ? -1 : iconHeigth,
+					Image.SCALE_SMOOTH);
+			btn.setIcon(new javax.swing.ImageIcon(img));
+		}
+		if (btn.getSelectedIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getSelectedIcon().getClass())) {
+			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getSelectedIcon());
+			double radio = icon.getIconWidth() / icon.getIconWidth();
+			Image img = icon.getImage().getScaledInstance(radio > 1 ? iconWidth : -1, radio > 1 ? -1 : iconHeigth,
+					Image.SCALE_SMOOTH);
+			btn.setSelectedIcon(new javax.swing.ImageIcon(img));
+		}
+
+		btn.setSize(width, height);
+
+		// int newWidth = width;
+		// int newHeight = height;
+		// btn.setMargin(null);
+		// if (btn.getIcon() != null &&
+		// javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass()))
+		// {
+		// javax.swing.ImageIcon icon =
+		// javax.swing.ImageIcon.class.cast(btn.getIcon());
+		// double radio = icon.getIconWidth() / icon.getIconWidth();
+		// Image img = icon.getImage().getScaledInstance(radio > 1 ? width : -1,
+		// radio > 1 ? -1 : height,
+		// Image.SCALE_SMOOTH);
+		// btn.setIcon(new javax.swing.ImageIcon(img));
+		// }
+		// if (btn.getSelectedIcon() != null
+		// &&
+		// javax.swing.ImageIcon.class.isAssignableFrom(btn.getSelectedIcon().getClass()))
+		// {
+		// javax.swing.ImageIcon selectionicon =
+		// javax.swing.ImageIcon.class.cast(btn.getSelectedIcon());
+		// double radio2 = selectionicon.getIconWidth() /
+		// selectionicon.getIconWidth();
+		// Image img2 = selectionicon.getImage().getScaledInstance(radio2 > 1 ?
+		// width : -1, radio2 > 1 ? -1 : height,
+		// Image.SCALE_SMOOTH);
+		// btn.setSelectedIcon(new javax.swing.ImageIcon(img2));
+		// }
+		//
+		// if (btn.getText() != null && !btn.getText().isEmpty()) {
+		// String text = btn.getText();
+		// Font font = btn.getFont();
+		// btn.setFont(new Font(font.getName(), font.getStyle(), fontsize));
+		// FontMetrics fm = btn.getFontMetrics(font);
+		// // newWidth += fm.stringWidth(text);
+		// btn.setHorizontalTextPosition(JButton.CENTER);
+		// btn.setVerticalTextPosition(JButton.BOTTOM);
+		// newWidth += fm.getHeight();
+		// newHeight += fm.getHeight();
+		// }
+		//
+		// btn.setSize(newWidth, newHeight);
 		// btn.setMinimumSize(new Dimension(newWidth, newHeight));
 		// btn.setPreferredSize(new Dimension(width, newHeight));
 	}

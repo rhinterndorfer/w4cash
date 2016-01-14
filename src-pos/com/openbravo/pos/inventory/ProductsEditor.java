@@ -71,6 +71,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 	private boolean reportlock = false;
 	private AppView m_App;
+	private JScrollPane scrollView;
 
 	/** Creates new form JEditProduct */
 	public ProductsEditor(AppView app, DataLogicSales dlSales, DirtyManager dirty) {
@@ -807,7 +808,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		txtAttributes = new javax.swing.JTextArea();
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		JScrollPane scrollView = new JScrollPane();
+		this. scrollView = new JScrollPane();
 		add(scrollView);
 		JPanel root = new JPanel();
 		scrollView.setViewportView(root);
@@ -819,7 +820,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_title = new GridBagConstraints();
 		gbc_title.anchor = GridBagConstraints.WEST;
 		gbc_title.fill = GridBagConstraints.HORIZONTAL;
-		gbc_title.insets = new Insets(0, 0, 0, 0);
+		gbc_title.insets = new Insets(5,5, 0, 0);
 		gbc_title.weightx = 1.0;
 		gbc_title.gridx = 0;
 		gbc_title.gridy = 0;
@@ -828,7 +829,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 0, 0);
+		gbc_space1.insets = new Insets(5,5, 0, 0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 4;
 		gbc_space1.gridy = 0;
@@ -837,7 +838,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel1.setText(AppLocal.getIntString("label.prodref")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl1.insets = new Insets(5,5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 1;
 		root.add(jLabel1, gbc_lbl1);
@@ -845,7 +846,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane.insets =new Insets(5,5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 1;
@@ -854,7 +855,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl2.insets = new Insets(5,5, 0, 0);
 		gbc_lbl2.gridx = 2;
 		gbc_lbl2.gridy = 1;
 		root.add(jLabel2, gbc_lbl2);
@@ -862,7 +863,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane2 = new GridBagConstraints();
 		gbc_textPane2.gridwidth = 1;
 		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane2.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane2.insets = new Insets(5,5, 0, 0);
 		gbc_textPane2.weightx = 1.0;
 		gbc_textPane2.gridx = 3;
 		gbc_textPane2.gridy = 1;
@@ -870,23 +871,20 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 0, 0);
+		gbc_space2.insets = new Insets(5,5, 0, 0);
 		gbc_space2.weightx = 1.0;
 		gbc_space2.gridx = 4;
 		gbc_space2.gridy = 1;
 		root.add(space2, gbc_space2);
 
-		// JScrollPane jScrCont = new JScrollPane();
-		// jScrCont.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		JScrollPane scrollView1 = new JScrollPane();
 		scrollView1.setViewportView(jPanel1);
 		jPanel1.setLayout(new GridBagLayout());
-		// jScrCont.setViewportView(jPanel1);
-
+		
 		jLabel6.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
 		gbc_lbl3.anchor = GridBagConstraints.WEST;
-		gbc_lbl3.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl3.insets = new Insets(5,5, 0, 0);
 		gbc_lbl3.gridx = 0;
 		gbc_lbl3.gridy = 0;
 		jPanel1.add(jLabel6, gbc_lbl3);
@@ -894,7 +892,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane3 = new GridBagConstraints();
 		gbc_textPane3.gridwidth = 2;
 		gbc_textPane3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane3.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane3.insets = new Insets(5,5, 0, 0);
 		gbc_textPane3.weightx = 2.0;
 		gbc_textPane3.gridx = 1;
 		gbc_textPane3.gridy = 0;
@@ -903,7 +901,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel3.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
 		GridBagConstraints gbc_lbl4 = new GridBagConstraints();
 		gbc_lbl4.anchor = GridBagConstraints.WEST;
-		gbc_lbl4.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl4.insets = new Insets(5,5, 0, 0);
 		gbc_lbl4.gridx = 0;
 		gbc_lbl4.gridy = 1;
 		jPanel1.add(jLabel3, gbc_lbl4);
@@ -912,7 +910,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane4 = new GridBagConstraints();
 		gbc_textPane4.gridwidth = 1;
 		gbc_textPane4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane4.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane4.insets = new Insets(5,5, 0, 0);
 		gbc_textPane4.weightx = 1.0;
 		gbc_textPane4.gridx = 1;
 		gbc_textPane4.gridy = 1;
@@ -921,7 +919,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel4.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
 		GridBagConstraints gbc_lbl5 = new GridBagConstraints();
 		gbc_lbl5.anchor = GridBagConstraints.WEST;
-		gbc_lbl5.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl5.insets = new Insets(5,5, 0, 0);
 		gbc_lbl5.gridx = 0;
 		gbc_lbl5.gridy = 2;
 		jPanel1.add(jLabel4, gbc_lbl5);
@@ -930,7 +928,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane5 = new GridBagConstraints();
 		gbc_textPane5.gridwidth = 1;
 		gbc_textPane5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane5.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane5.insets = new Insets(5,5, 0, 0);
 		gbc_textPane5.weightx = 1.0;
 		gbc_textPane5.gridx = 1;
 		gbc_textPane5.gridy = 2;
@@ -940,7 +938,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane6 = new GridBagConstraints();
 		gbc_textPane6.gridwidth = 1;
 		gbc_textPane6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane6.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane6.insets = new Insets(5,5, 0, 0);
 		gbc_textPane6.weightx = 1.0;
 		gbc_textPane6.gridx = 2;
 		gbc_textPane6.gridy = 2;
@@ -949,7 +947,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel7.setText(AppLocal.getIntString("label.taxcategory")); // NOI18N
 		GridBagConstraints gbc_lbl6 = new GridBagConstraints();
 		gbc_lbl6.anchor = GridBagConstraints.WEST;
-		gbc_lbl6.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl6.insets = new Insets(5,5, 0, 0);
 		gbc_lbl6.gridx = 0;
 		gbc_lbl6.gridy = 3;
 		jPanel1.add(jLabel7, gbc_lbl6);
@@ -957,7 +955,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane7 = new GridBagConstraints();
 		gbc_textPane7.gridwidth = 2;
 		gbc_textPane7.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane7.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane7.insets = new Insets(5,5, 0, 0);
 		gbc_textPane7.weightx = 2.0;
 		gbc_textPane7.gridx = 1;
 		gbc_textPane7.gridy = 3;
@@ -966,7 +964,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel16.setText(AppLocal.getIntString("label.prodpriceselltax")); // NOI18N
 		GridBagConstraints gbc_lbl7 = new GridBagConstraints();
 		gbc_lbl7.anchor = GridBagConstraints.WEST;
-		gbc_lbl7.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl7.insets = new Insets(5,5, 0, 0);
 		gbc_lbl7.gridx = 0;
 		gbc_lbl7.gridy = 4;
 		jPanel1.add(jLabel16, gbc_lbl7);
@@ -975,7 +973,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane8 = new GridBagConstraints();
 		gbc_textPane8.gridwidth = 1;
 		gbc_textPane8.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane8.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane8.insets = new Insets(5,5, 0, 0);
 		gbc_textPane8.weightx = 1.0;
 		gbc_textPane8.gridx = 1;
 		gbc_textPane8.gridy = 4;
@@ -984,7 +982,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
 		GridBagConstraints gbc_lbl8 = new GridBagConstraints();
 		gbc_lbl8.anchor = GridBagConstraints.WEST;
-		gbc_lbl8.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl8.insets = new Insets(5,5, 0, 0);
 		gbc_lbl8.gridx = 0;
 		gbc_lbl8.gridy = 5;
 		jPanel1.add(jLabel5, gbc_lbl8);
@@ -992,7 +990,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane9 = new GridBagConstraints();
 		gbc_textPane9.gridwidth = 2;
 		gbc_textPane9.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane9.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane9.insets = new Insets(5,5, 0, 0);
 		gbc_textPane9.weightx = 2.0;
 		gbc_textPane9.gridx = 1;
 		gbc_textPane9.gridy = 5;
@@ -1004,7 +1002,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel13.setText(AppLocal.getIntString("label.attributes")); // NOI18N
 		GridBagConstraints gbc_lbl9 = new GridBagConstraints();
 		gbc_lbl9.anchor = GridBagConstraints.WEST;
-		gbc_lbl9.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl9.insets = new Insets(5,5, 0, 0);
 		gbc_lbl9.gridx = 0;
 		gbc_lbl9.gridy = 6;
 		jPanel1.add(jLabel13, gbc_lbl9);
@@ -1013,14 +1011,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane10 = new GridBagConstraints();
 		gbc_textPane10.gridwidth = 2;
 		gbc_textPane10.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane10.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane10.insets = new Insets(5,5, 0, 0);
 		gbc_textPane10.weightx = 2.0;
 		gbc_textPane10.gridx = 1;
 		gbc_textPane10.gridy = 6;
 		jPanel1.add(m_jAtt, gbc_textPane10);
 
 		GridBagConstraints gbc_img1 = new GridBagConstraints();
-		gbc_img1.insets = new Insets(0, 0, 5, 5);
+		gbc_img1.insets = new Insets(5,5, 0, 0);
 		gbc_img1.weighty = 2.0;
 		gbc_img1.fill = GridBagConstraints.BOTH;
 		gbc_img1.gridwidth = 3;
@@ -1036,7 +1034,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel9.setText(AppLocal.getIntString("label.prodstockcost")); // NOI18N
 		GridBagConstraints gbc_lbl10 = new GridBagConstraints();
 		gbc_lbl10.anchor = GridBagConstraints.WEST;
-		gbc_lbl10.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl10.insets = new Insets(5,5, 0, 0);
 		gbc_lbl10.gridx = 0;
 		gbc_lbl10.gridy = 0;
 		jPanel2.add(jLabel9, gbc_lbl10);
@@ -1045,7 +1043,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane11 = new GridBagConstraints();
 		gbc_textPane11.gridwidth = 1;
 		gbc_textPane11.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane11.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane11.insets = new Insets(5,5, 0, 0);
 		gbc_textPane11.weightx = 1.0;
 		gbc_textPane11.gridx = 1;
 		gbc_textPane11.gridy = 0;
@@ -1054,7 +1052,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel10.setText(AppLocal.getIntString("label.prodstockvol")); // NOI18N
 		GridBagConstraints gbc_lbl11 = new GridBagConstraints();
 		gbc_lbl11.anchor = GridBagConstraints.WEST;
-		gbc_lbl11.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl11.insets = new Insets(5,5, 0, 0);
 		gbc_lbl11.gridx = 0;
 		gbc_lbl11.gridy = 1;
 		jPanel2.add(jLabel10, gbc_lbl11);
@@ -1063,7 +1061,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane12 = new GridBagConstraints();
 		gbc_textPane12.gridwidth = 1;
 		gbc_textPane12.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane12.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane12.insets = new Insets(5,5, 0, 0);
 		gbc_textPane12.weightx = 1.0;
 		gbc_textPane12.gridx = 1;
 		gbc_textPane12.gridy = 1;
@@ -1072,7 +1070,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel18.setText(AppLocal.getIntString("label.prodorder")); // NOI18N
 		GridBagConstraints gbc_lbl12 = new GridBagConstraints();
 		gbc_lbl12.anchor = GridBagConstraints.WEST;
-		gbc_lbl12.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl12.insets = new Insets(5,5, 0, 0);
 		gbc_lbl12.gridx = 0;
 		gbc_lbl12.gridy = 2;
 		jPanel2.add(jLabel18, gbc_lbl12);
@@ -1081,7 +1079,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane13 = new GridBagConstraints();
 		gbc_textPane13.gridwidth = 1;
 		gbc_textPane13.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane13.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane13.insets = new Insets(5,5, 0, 0);
 		gbc_textPane13.weightx = 1.0;
 		gbc_textPane13.gridx = 1;
 		gbc_textPane13.gridy = 2;
@@ -1090,7 +1088,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel8.setText(AppLocal.getIntString("label.prodincatalog")); // NOI18N
 		GridBagConstraints gbc_lbl13 = new GridBagConstraints();
 		gbc_lbl13.anchor = GridBagConstraints.WEST;
-		gbc_lbl13.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl13.insets = new Insets(5,5, 0, 0);
 		gbc_lbl13.gridx = 2;
 		gbc_lbl13.gridy = 2;
 		jPanel2.add(jLabel8, gbc_lbl13);
@@ -1103,7 +1101,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane14 = new GridBagConstraints();
 		gbc_textPane14.gridwidth = 1;
 		gbc_textPane14.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane14.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane14.insets = new Insets(5,5, 0, 0);
 		gbc_textPane14.weightx = 1.0;
 		gbc_textPane14.gridx = 3;
 		gbc_textPane14.gridy = 2;
@@ -1112,7 +1110,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel11.setText(AppLocal.getIntString("label.prodaux")); // NOI18N
 		GridBagConstraints gbc_lbl14 = new GridBagConstraints();
 		gbc_lbl14.anchor = GridBagConstraints.WEST;
-		gbc_lbl14.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl14.insets = new Insets(5,5, 0, 0);
 		gbc_lbl14.gridx = 0;
 		gbc_lbl14.gridy = 3;
 		jPanel2.add(jLabel11, gbc_lbl14);
@@ -1120,7 +1118,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane15 = new GridBagConstraints();
 		gbc_textPane15.gridwidth = 1;
 		gbc_textPane15.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane15.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane15.insets = new Insets(5,5, 0, 0);
 		gbc_textPane15.weightx = 1.0;
 		gbc_textPane15.gridx = 1;
 		gbc_textPane15.gridy = 3;
@@ -1129,7 +1127,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel12.setText(AppLocal.getIntString("label.prodscale")); // NOI18N
 		GridBagConstraints gbc_lbl15 = new GridBagConstraints();
 		gbc_lbl15.anchor = GridBagConstraints.WEST;
-		gbc_lbl15.insets = new Insets(0, 0, 0, 0);
+		gbc_lbl15.insets = new Insets(5,5, 0, 0);
 		gbc_lbl15.gridx = 0;
 		gbc_lbl15.gridy = 4;
 		jPanel2.add(jLabel12, gbc_lbl15);
@@ -1137,14 +1135,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane16 = new GridBagConstraints();
 		gbc_textPane16.gridwidth = 1;
 		gbc_textPane16.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane16.insets = new Insets(0, 0, 0, 0);
+		gbc_textPane16.insets = new Insets(5,5, 0, 0);
 		gbc_textPane16.weightx = 1.0;
 		gbc_textPane16.gridx = 1;
 		gbc_textPane16.gridy = 4;
 		jPanel2.add(m_jScale, gbc_textPane16);
 
 		GridBagConstraints gbc_space = new GridBagConstraints();
-		gbc_space.insets = new Insets(0, 0, 5, 5);
+		gbc_space.insets = new Insets(5,5, 0, 0);
 		gbc_space.weighty = 1.0;
 		gbc_space.fill = GridBagConstraints.BOTH;
 		gbc_space.gridwidth = 2;
@@ -1163,15 +1161,13 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
 		GridBagConstraints gbc_tab = new GridBagConstraints();
-		gbc_tab.insets = new Insets(0, 0, 0, 0);
+		gbc_tab.insets = new Insets(5,5, 0, 0);
 		gbc_tab.weighty = 1.0;
 		gbc_tab.fill = GridBagConstraints.BOTH;
 		gbc_tab.gridwidth = 4;
 		gbc_tab.gridx = 0;
 		gbc_tab.gridy = 2;
 		root.add(jTabbedPane1, gbc_tab);
-
-		// jTabbedPane1.setBounds(10, 90, 660, 460);
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
@@ -1223,6 +1219,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		PropertyUtil.ScaleTabbedPaneFontsize(m_App, jTabbedPane1, "common-small-fontsize", "32");
 
+		PropertyUtil.ScaleScrollbar(m_App, scrollView);
+		
+		
 		int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
 		int menuheight = Integer

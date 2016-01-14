@@ -473,7 +473,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel7.setText(AppLocal.getIntString("label.taxid")); // NOI18N
 		GridBagConstraints gbc_lbl_1 = new GridBagConstraints();
 		gbc_lbl_1.anchor = GridBagConstraints.WEST;
-		gbc_lbl_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl_1.gridx = 0;
 		gbc_lbl_1.gridy = 0;
 		add(jLabel7, gbc_lbl_1);
@@ -481,7 +481,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_txt_1 = new GridBagConstraints();
 		gbc_txt_1.gridwidth = 1;
 		gbc_txt_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt_1.insets = new Insets(0, 0, 5, 5);
+		gbc_txt_1.insets = new Insets(5, 5, 0, 0);
 		gbc_txt_1.weightx = 1.0;
 		gbc_txt_1.gridx = 1;
 		gbc_txt_1.gridy = 0;
@@ -489,7 +489,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space_1 = new JLabel("");
 		GridBagConstraints gbc_space_1 = new GridBagConstraints();
-		gbc_space_1.insets = new Insets(0, 0, 5, 0);
+		gbc_space_1.insets = new Insets(5, 5, 0, 0);
 		gbc_space_1.weightx = 1.0;
 		gbc_space_1.gridx = 2;
 		gbc_space_1.gridy = 0;
@@ -498,7 +498,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel8.setText(AppLocal.getIntString("label.searchkey")); // NOI18N
 		GridBagConstraints gbc_lbl_2 = new GridBagConstraints();
 		gbc_lbl_2.anchor = GridBagConstraints.WEST;
-		gbc_lbl_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_2.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl_2.gridx = 0;
 		gbc_lbl_2.gridy = 1;
 		add(jLabel8, gbc_lbl_2);
@@ -506,7 +506,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_txt_2 = new GridBagConstraints();
 		gbc_txt_2.gridwidth = 1;
 		gbc_txt_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt_2.insets = new Insets(0, 0, 5, 5);
+		gbc_txt_2.insets = new Insets(5, 5, 0, 0);
 		gbc_txt_2.weightx = 1.0;
 		gbc_txt_2.gridx = 1;
 		gbc_txt_2.gridy = 1;
@@ -514,7 +514,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space_2 = new JLabel("");
 		GridBagConstraints gbc_space_2 = new GridBagConstraints();
-		gbc_space_2.insets = new Insets(0, 0, 5, 0);
+		gbc_space_2.insets = new Insets(5, 5, 0, 0);
 		gbc_space_2.weightx = 1.0;
 		gbc_space_2.gridx = 2;
 		gbc_space_2.gridy = 1;
@@ -523,7 +523,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel3.setText(AppLocal.getIntString("label.name")); // NOI18N
 		GridBagConstraints gbc_lbl_3 = new GridBagConstraints();
 		gbc_lbl_3.anchor = GridBagConstraints.WEST;
-		gbc_lbl_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_3.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl_3.gridx = 0;
 		gbc_lbl_3.gridy = 2;
 		add(jLabel3, gbc_lbl_3);
@@ -531,7 +531,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_txt_3 = new GridBagConstraints();
 		gbc_txt_3.gridwidth = 1;
 		gbc_txt_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt_3.insets = new Insets(0, 0, 5, 5);
+		gbc_txt_3.insets = new Insets(5, 5, 0, 0);
 		gbc_txt_3.weightx = 1.0;
 		gbc_txt_3.gridx = 1;
 		gbc_txt_3.gridy = 2;
@@ -539,7 +539,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space_3 = new JLabel("");
 		GridBagConstraints gbc_space_3 = new GridBagConstraints();
-		gbc_space_3.insets = new Insets(0, 0, 5, 0);
+		gbc_space_3.insets = new Insets(5, 5, 0, 0);
 		gbc_space_3.weightx = 1.0;
 		gbc_space_3.gridx = 2;
 		gbc_space_3.gridy = 2;
@@ -548,7 +548,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel4.setText(AppLocal.getIntString("label.visible")); // NOI18N
 		GridBagConstraints gbc_lbl_4 = new GridBagConstraints();
 		gbc_lbl_4.anchor = GridBagConstraints.WEST;
-		gbc_lbl_4.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl_4.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl_4.gridx = 0;
 		gbc_lbl_4.gridy = 3;
 		add(jLabel4, gbc_lbl_4);
@@ -556,7 +556,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_txt_4 = new GridBagConstraints();
 		gbc_txt_4.gridwidth = 1;
 		gbc_txt_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txt_4.insets = new Insets(0, 0, 5, 5);
+		gbc_txt_4.insets = new Insets(5, 5, 0, 0);
 		gbc_txt_4.weightx = 1.0;
 		gbc_txt_4.gridx = 1;
 		gbc_txt_4.gridy = 3;
@@ -564,7 +564,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space_4 = new JLabel("");
 		GridBagConstraints gbc_space_4 = new GridBagConstraints();
-		gbc_space_4.insets = new Insets(0, 0, 5, 0);
+		gbc_space_4.insets = new Insets(5, 5, 0, 0);
 		gbc_space_4.weightx = 1.0;
 		gbc_space_4.gridx = 2;
 		gbc_space_4.gridy = 3;
@@ -596,7 +596,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel19.setText(AppLocal.getIntString("label.firstname")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		jPanel1.add(jLabel19, gbc_lbl1);
@@ -604,7 +604,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -612,7 +612,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5, 5, 0, 0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
@@ -621,7 +621,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel15.setText(AppLocal.getIntString("label.lastname")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl2.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl2.gridx = 0;
 		gbc_lbl2.gridy = 1;
 		jPanel1.add(jLabel15, gbc_lbl2);
@@ -629,7 +629,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane1 = new GridBagConstraints();
 		gbc_textPane1.gridwidth = 1;
 		gbc_textPane1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane1.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane1.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane1.weightx = 1.0;
 		gbc_textPane1.gridx = 1;
 		gbc_textPane1.gridy = 1;
@@ -637,7 +637,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.insets = new Insets(5, 5, 0, 0);
 		gbc_space2.weightx = 1.0;
 		gbc_space2.gridx = 2;
 		gbc_space2.gridy = 1;
@@ -646,7 +646,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel16.setText(AppLocal.getIntString("label.email")); // NOI18N
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
 		gbc_lbl3.anchor = GridBagConstraints.WEST;
-		gbc_lbl3.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl3.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl3.gridx = 0;
 		gbc_lbl3.gridy = 2;
 		jPanel1.add(jLabel16, gbc_lbl3);
@@ -654,7 +654,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane2 = new GridBagConstraints();
 		gbc_textPane2.gridwidth = 1;
 		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane2.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane2.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane2.weightx = 1.0;
 		gbc_textPane2.gridx = 1;
 		gbc_textPane2.gridy = 2;
@@ -662,7 +662,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
-		gbc_space3.insets = new Insets(0, 0, 5, 0);
+		gbc_space3.insets = new Insets(5, 5, 0, 0);
 		gbc_space3.weightx = 1.0;
 		gbc_space3.gridx = 2;
 		gbc_space3.gridy = 2;
@@ -671,7 +671,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel17.setText(AppLocal.getIntString("label.phone")); // NOI18N
 		GridBagConstraints gbc_lbl4 = new GridBagConstraints();
 		gbc_lbl4.anchor = GridBagConstraints.WEST;
-		gbc_lbl4.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl4.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl4.gridx = 0;
 		gbc_lbl4.gridy = 3;
 		jPanel1.add(jLabel17, gbc_lbl4);
@@ -679,7 +679,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane3 = new GridBagConstraints();
 		gbc_textPane3.gridwidth = 1;
 		gbc_textPane3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane3.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane3.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane3.weightx = 1.0;
 		gbc_textPane3.gridx = 1;
 		gbc_textPane3.gridy = 3;
@@ -687,7 +687,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space4 = new JLabel("");
 		GridBagConstraints gbc_space4 = new GridBagConstraints();
-		gbc_space4.insets = new Insets(0, 0, 5, 0);
+		gbc_space4.insets = new Insets(5, 5, 0, 0);
 		gbc_space4.weightx = 1.0;
 		gbc_space4.gridx = 2;
 		gbc_space4.gridy = 3;
@@ -696,7 +696,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel18.setText(AppLocal.getIntString("label.phone2")); // NOI18N
 		GridBagConstraints gbc_lbl5 = new GridBagConstraints();
 		gbc_lbl5.anchor = GridBagConstraints.WEST;
-		gbc_lbl5.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl5.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl5.gridx = 0;
 		gbc_lbl5.gridy = 4;
 		jPanel1.add(jLabel18, gbc_lbl5);
@@ -704,7 +704,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane4 = new GridBagConstraints();
 		gbc_textPane4.gridwidth = 1;
 		gbc_textPane4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane4.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane4.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane4.weightx = 1.0;
 		gbc_textPane4.gridx = 1;
 		gbc_textPane4.gridy = 4;
@@ -712,7 +712,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space5 = new JLabel("");
 		GridBagConstraints gbc_space5 = new GridBagConstraints();
-		gbc_space5.insets = new Insets(0, 0, 5, 0);
+		gbc_space5.insets = new Insets(5, 5, 0, 0);
 		gbc_space5.weightx = 1.0;
 		gbc_space5.gridx = 2;
 		gbc_space5.gridy = 4;
@@ -721,7 +721,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel14.setText(AppLocal.getIntString("label.fax")); // NOI18N
 		GridBagConstraints gbc_lbl6 = new GridBagConstraints();
 		gbc_lbl6.anchor = GridBagConstraints.WEST;
-		gbc_lbl6.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl6.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl6.gridx = 0;
 		gbc_lbl6.gridy = 5;
 		jPanel1.add(jLabel14, gbc_lbl6);
@@ -729,7 +729,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane5 = new GridBagConstraints();
 		gbc_textPane5.gridwidth = 1;
 		gbc_textPane5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane5.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane5.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane5.weightx = 1.0;
 		gbc_textPane5.gridx = 1;
 		gbc_textPane5.gridy = 5;
@@ -737,7 +737,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space6 = new JLabel("");
 		GridBagConstraints gbc_space6 = new GridBagConstraints();
-		gbc_space6.insets = new Insets(0, 0, 5, 0);
+		gbc_space6.insets = new Insets(5, 5, 0, 0);
 		gbc_space6.weightx = 1.0;
 		gbc_space6.gridx = 2;
 		gbc_space6.gridy = 5;
@@ -745,7 +745,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space7 = new JLabel("");
 		GridBagConstraints gbc_tab = new GridBagConstraints();
-		gbc_tab.insets = new Insets(0, 0, 0, 0);
+		gbc_tab.insets = new Insets(5, 5, 0, 0);
 		gbc_tab.weighty = 1.0;
 		gbc_tab.fill = GridBagConstraints.BOTH;
 		gbc_tab.gridwidth = 3;
@@ -760,7 +760,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel13.setText(AppLocal.getIntString("label.address")); // NOI18N
 		GridBagConstraints gbc_lbl7 = new GridBagConstraints();
 		gbc_lbl7.anchor = GridBagConstraints.WEST;
-		gbc_lbl7.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl7.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl7.gridx = 0;
 		gbc_lbl7.gridy = 0;
 		jPanel2.add(jLabel13, gbc_lbl7);
@@ -768,7 +768,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane6 = new GridBagConstraints();
 		gbc_textPane6.gridwidth = 1;
 		gbc_textPane6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane6.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane6.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane6.weightx = 1.0;
 		gbc_textPane6.gridx = 1;
 		gbc_textPane6.gridy = 0;
@@ -776,7 +776,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space8 = new JLabel("");
 		GridBagConstraints gbc_space8 = new GridBagConstraints();
-		gbc_space8.insets = new Insets(0, 0, 5, 0);
+		gbc_space8.insets = new Insets(5, 5, 0, 0);
 		gbc_space8.weightx = 1.0;
 		gbc_space8.gridx = 2;
 		gbc_space8.gridy = 0;
@@ -785,7 +785,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel21.setText(AppLocal.getIntString("label.address2")); // NOI18N
 		GridBagConstraints gbc_lbl8 = new GridBagConstraints();
 		gbc_lbl8.anchor = GridBagConstraints.WEST;
-		gbc_lbl8.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl8.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl8.gridx = 0;
 		gbc_lbl8.gridy = 1;
 		jPanel2.add(jLabel21, gbc_lbl8);
@@ -793,7 +793,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane7 = new GridBagConstraints();
 		gbc_textPane7.gridwidth = 1;
 		gbc_textPane7.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane7.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane7.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane7.weightx = 1.0;
 		gbc_textPane7.gridx = 1;
 		gbc_textPane7.gridy = 1;
@@ -801,7 +801,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space9 = new JLabel("");
 		GridBagConstraints gbc_space9 = new GridBagConstraints();
-		gbc_space9.insets = new Insets(0, 0, 5, 0);
+		gbc_space9.insets = new Insets(5, 5, 0, 0);
 		gbc_space9.weightx = 1.0;
 		gbc_space9.gridx = 2;
 		gbc_space9.gridy = 1;
@@ -810,7 +810,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel22.setText(AppLocal.getIntString("label.postal")); // NOI18N
 		GridBagConstraints gbc_lbl9 = new GridBagConstraints();
 		gbc_lbl9.anchor = GridBagConstraints.WEST;
-		gbc_lbl9.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl9.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl9.gridx = 0;
 		gbc_lbl9.gridy = 2;
 		jPanel2.add(jLabel22, gbc_lbl9);
@@ -818,7 +818,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane8 = new GridBagConstraints();
 		gbc_textPane8.gridwidth = 1;
 		gbc_textPane8.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane8.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane8.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane8.weightx = 1.0;
 		gbc_textPane8.gridx = 1;
 		gbc_textPane8.gridy = 2;
@@ -826,7 +826,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space10 = new JLabel("");
 		GridBagConstraints gbc_space10 = new GridBagConstraints();
-		gbc_space10.insets = new Insets(0, 0, 5, 0);
+		gbc_space10.insets = new Insets(5, 5, 0, 0);
 		gbc_space10.weightx = 1.0;
 		gbc_space10.gridx = 2;
 		gbc_space10.gridy = 2;
@@ -835,7 +835,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel23.setText(AppLocal.getIntString("label.city")); // NOI18N
 		GridBagConstraints gbc_lbl10 = new GridBagConstraints();
 		gbc_lbl10.anchor = GridBagConstraints.WEST;
-		gbc_lbl10.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl10.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl10.gridx = 0;
 		gbc_lbl10.gridy = 3;
 		jPanel2.add(jLabel23, gbc_lbl10);
@@ -843,7 +843,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane9 = new GridBagConstraints();
 		gbc_textPane9.gridwidth = 1;
 		gbc_textPane9.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane9.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane9.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane9.weightx = 1.0;
 		gbc_textPane9.gridx = 1;
 		gbc_textPane9.gridy = 3;
@@ -851,7 +851,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space11 = new JLabel("");
 		GridBagConstraints gbc_space11 = new GridBagConstraints();
-		gbc_space11.insets = new Insets(0, 0, 5, 0);
+		gbc_space11.insets = new Insets(5, 5, 0, 0);
 		gbc_space11.weightx = 1.0;
 		gbc_space11.gridx = 2;
 		gbc_space11.gridy = 3;
@@ -860,7 +860,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel24.setText(AppLocal.getIntString("label.region")); // NOI18N
 		GridBagConstraints gbc_lbl11 = new GridBagConstraints();
 		gbc_lbl11.anchor = GridBagConstraints.WEST;
-		gbc_lbl11.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl11.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl11.gridx = 0;
 		gbc_lbl11.gridy = 4;
 		jPanel2.add(jLabel24, gbc_lbl11);
@@ -868,7 +868,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane10 = new GridBagConstraints();
 		gbc_textPane10.gridwidth = 1;
 		gbc_textPane10.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane10.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane10.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane10.weightx = 1.0;
 		gbc_textPane10.gridx = 1;
 		gbc_textPane10.gridy = 4;
@@ -876,7 +876,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space12 = new JLabel("");
 		GridBagConstraints gbc_space12 = new GridBagConstraints();
-		gbc_space12.insets = new Insets(0, 0, 5, 0);
+		gbc_space12.insets = new Insets(5, 5, 0, 0);
 		gbc_space12.weightx = 1.0;
 		gbc_space12.gridx = 2;
 		gbc_space12.gridy = 4;
@@ -885,7 +885,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jLabel20.setText(AppLocal.getIntString("label.country")); // NOI18N
 		GridBagConstraints gbc_lbl12 = new GridBagConstraints();
 		gbc_lbl12.anchor = GridBagConstraints.WEST;
-		gbc_lbl12.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl12.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl12.gridx = 0;
 		gbc_lbl12.gridy = 5;
 		jPanel2.add(jLabel20, gbc_lbl12);
@@ -893,7 +893,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane11 = new GridBagConstraints();
 		gbc_textPane11.gridwidth = 1;
 		gbc_textPane11.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane11.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane11.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane11.weightx = 1.0;
 		gbc_textPane11.gridx = 1;
 		gbc_textPane11.gridy = 5;
@@ -901,7 +901,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space13 = new JLabel("");
 		GridBagConstraints gbc_space13 = new GridBagConstraints();
-		gbc_space13.insets = new Insets(0, 0, 5, 0);
+		gbc_space13.insets = new Insets(5, 5, 0, 0);
 		gbc_space13.weightx = 1.0;
 		gbc_space13.gridx = 2;
 		gbc_space13.gridy = 5;
@@ -909,7 +909,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 
 		JLabel space14 = new JLabel("");
 		GridBagConstraints gbc_tab2 = new GridBagConstraints();
-		gbc_tab2.insets = new Insets(0, 0, 0, 0);
+		gbc_tab2.insets = new Insets(5, 5, 0, 0);
 		gbc_tab2.weighty = 1.0;
 		gbc_tab2.fill = GridBagConstraints.BOTH;
 		gbc_tab2.gridwidth = 3;
@@ -934,7 +934,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		jTabbedPane1.addTab(AppLocal.getIntString("label.notes"), jPanel3); // NOI18N
 
 		GridBagConstraints gbc_tab_3 = new GridBagConstraints();
-		gbc_tab_3.insets = new Insets(0, 0, 0, 0);
+		gbc_tab_3.insets = new Insets(10, 5, 0, 0);
 		gbc_tab_3.weighty = 1.0;
 		gbc_tab_3.fill = GridBagConstraints.BOTH;
 		gbc_tab_3.gridwidth = 3;
@@ -942,137 +942,6 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_tab_3.gridy = 6;
 		add(jTabbedPane1, gbc_tab_3);
 
-		// javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		// this.setLayout(layout);
-		// layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-		// .createSequentialGroup().addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE,
-		// 688, Short.MAX_VALUE)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-		// false)
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jTaxID, javax.swing.GroupLayout.PREFERRED_SIZE, 270,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jSearchkey, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 270,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup().addComponent(jLabel3,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 270,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup().addComponent(jLabel4,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-		// javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-		// .addComponent(m_jVisible, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 140,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addGap(246, 246, 246))
-		// .addGroup(layout.createSequentialGroup()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(
-		// javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jcard, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 270, javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addGap(12, 12, 12).addComponent(m_jCategory,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 270,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jButton2)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jButton3)))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(txtMaxdebt, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(txtCurdebt, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(txtCurdate, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 130,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addContainerGap()));
-		// layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup().addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel7).addComponent(m_jTaxID,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel8)
-		// .addComponent(m_jSearchkey, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel3)
-		// .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(layout
-		// .createSequentialGroup()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel5).addComponent(jcard,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel9).addComponent(m_jCategory,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addComponent(jButton2).addComponent(jButton3))
-		// .addGap(6, 6, 6)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(jLabel4)
-		// .addComponent(m_jVisible, javax.swing.GroupLayout.PREFERRED_SIZE, 20,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel1)
-		// .addComponent(txtMaxdebt, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel2)
-		// .addComponent(txtCurdebt, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE).addComponent(jLabel6)
-		// .addComponent(txtCurdate, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGap(18, 18, 18).addComponent(jTabbedPane1,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 250,
-		// javax.swing.GroupLayout.PREFERRED_SIZE).addContainerGap()));
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton2ActionPerformed

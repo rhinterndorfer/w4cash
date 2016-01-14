@@ -144,15 +144,14 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		jLabel3.setText(AppLocal.getIntString("Label.Name")); // NOI18N
 		GridBagConstraints lbl1 = new GridBagConstraints();
 		lbl1.anchor = GridBagConstraints.WEST;
-		lbl1.insets = new Insets(0, 0, 5, 5);
+		lbl1.insets = new Insets(5,5,0,0);
 		lbl1.gridx = 0;
 		lbl1.gridy = 0;
-
 		jPanel1.add(jLabel3, lbl1);
 
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5,5,0,0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -160,7 +159,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 
 		JLabel lblSpace1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5,5,0,0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
@@ -168,14 +167,14 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		
 		JLabel lblSpace2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.insets = new Insets(5,5,0,0);
 		gbc_space2.gridx = 0;
 		gbc_space2.gridy = 1;
 		jPanel1.add(lblSpace2, gbc_space2);
 
 		add(jPanel1, java.awt.BorderLayout.NORTH);
 
-		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
+		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 0, 0));
 		jPanel3.setLayout(new java.awt.BorderLayout());
 		jPanel3.add(m_jImage, java.awt.BorderLayout.CENTER);
 

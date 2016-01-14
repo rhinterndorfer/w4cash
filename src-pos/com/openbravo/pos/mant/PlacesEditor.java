@@ -264,7 +264,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel2.setText(AppLocal.getIntString("Label.Name"));
 		GridBagConstraints lbl1 = new GridBagConstraints();
 		lbl1.anchor = GridBagConstraints.WEST;
-		lbl1.insets = new Insets(0, 0, 5, 5);
+		lbl1.insets = new Insets(5,5,0,0);
 		lbl1.gridx = 0;
 		lbl1.gridy = 0;
 		add(jLabel2, lbl1);
@@ -272,7 +272,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 2;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5,5,0,0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -280,7 +280,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		JLabel lblSpace1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5,5,0,0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 3;
 		gbc_space1.gridy = 0;
@@ -289,7 +289,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel1.setText(AppLocal.getIntString("label.placefloor"));
 		GridBagConstraints gbc_lblfloor = new GridBagConstraints();
 		gbc_lblfloor.anchor = GridBagConstraints.WEST;
-		gbc_lblfloor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblfloor.insets = new Insets(5,5,0,0);
 		gbc_lblfloor.gridx = 0;
 		gbc_lblfloor.gridy = 1;
 		add(jLabel1, gbc_lblfloor);
@@ -299,7 +299,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_cmb_floor = new GridBagConstraints();
 		gbc_cmb_floor.gridwidth = 2;
 		gbc_cmb_floor.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmb_floor.insets = new Insets(0, 0, 5, 5);
+		gbc_cmb_floor.insets = new Insets(5,5,0,0);
 		gbc_cmb_floor.weightx = 1.0;
 		gbc_cmb_floor.gridx = 1;
 		gbc_cmb_floor.gridy = 1;
@@ -307,7 +307,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		JLabel lblSpace2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.insets = new Insets(5,5,0,0);
 		gbc_space2.weightx = 1.0;
 		gbc_space2.gridx = 3;
 		gbc_space2.gridy = 1;
@@ -316,7 +316,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel3.setText(AppLocal.getIntString("label.placeposition"));
 		GridBagConstraints lbl2 = new GridBagConstraints();
 		lbl2.anchor = GridBagConstraints.WEST;
-		lbl2.insets = new Insets(0, 0, 5, 5);
+		lbl2.insets = new Insets(5,5,0,0);
 		lbl2.gridx = 0;
 		lbl2.gridy = 2;
 		add(jLabel3, lbl2);
@@ -324,7 +324,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_spinner1 = new GridBagConstraints();
 		gbc_spinner1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner1.weightx = 1.0;
-		gbc_spinner1.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner1.insets = new Insets(5,5,0,0);
 		gbc_spinner1.gridx = 1;
 		gbc_spinner1.gridy = 2;
 		add(m_jX, gbc_spinner1);
@@ -332,14 +332,14 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_spinner2 = new GridBagConstraints();
 		gbc_spinner2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner2.weightx = 1.0;
-		gbc_spinner2.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner2.insets = new Insets(5,5,0,0);
 		gbc_spinner2.gridx = 2;
 		gbc_spinner2.gridy = 2;
 		add(m_jY, gbc_spinner2);
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
-		gbc_space3.insets = new Insets(0, 0, 5, 0);
+		gbc_space3.insets = new Insets(5,5,0,0);
 		gbc_space3.weightx = 2.0;
 		gbc_space3.gridx = 3;
 		gbc_space3.gridy = 2;
@@ -348,7 +348,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel4.setText(AppLocal.getIntString("label.placesize"));
 		GridBagConstraints lbl3 = new GridBagConstraints();
 		lbl3.anchor = GridBagConstraints.WEST;
-		lbl3.insets = new Insets(0, 0, 5, 5);
+		lbl3.insets = new Insets(5,5,0,0);
 		lbl3.gridx = 0;
 		lbl3.gridy = 3;
 		add(jLabel4, lbl3);
@@ -356,7 +356,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_spinner3 = new GridBagConstraints();
 		gbc_spinner3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner3.weightx = 1.0;
-		gbc_spinner3.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner3.insets = new Insets(5,5,0,0);
 		gbc_spinner3.gridx = 1;
 		gbc_spinner3.gridy = 3;
 		add(m_jWidth, gbc_spinner3);
@@ -364,14 +364,14 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_spinner4 = new GridBagConstraints();
 		gbc_spinner4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner4.weightx = 1.0;
-		gbc_spinner4.insets = new Insets(0, 0, 5, 5);
+		gbc_spinner4.insets = new Insets(5,5,0,0);
 		gbc_spinner4.gridx = 2;
 		gbc_spinner4.gridy = 3;
 		add(m_jHeight, gbc_spinner4);
 
 		JLabel space4 = new JLabel("");
 		GridBagConstraints gbc_space4 = new GridBagConstraints();
-		gbc_space4.insets = new Insets(0, 0, 5, 0);
+		gbc_space4.insets = new Insets(5,5,0,0);
 		gbc_space4.weightx = 2.0;
 		gbc_space4.gridx = 3;
 		gbc_space4.gridy = 3;
@@ -381,7 +381,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_placesbag.weighty = 1.0;
 		gbc_placesbag.fill = GridBagConstraints.BOTH;
 		gbc_placesbag.gridwidth = 4;
-		gbc_placesbag.insets = new Insets(0, 0, 0, 5);
+		gbc_placesbag.insets = new Insets(5,5,0,0);
 		gbc_placesbag.gridx = 0;
 		gbc_placesbag.gridy = 4;
 

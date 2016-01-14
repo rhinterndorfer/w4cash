@@ -23,8 +23,12 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.Date;
 
+import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
 import com.openbravo.beans.JCalendarDialog;
@@ -93,20 +97,24 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		btnDateEnd = new javax.swing.JButton();
 		TitledBorder tb = javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.bydates"));
 		setBorder(tb); // NOI18N
-		setPreferredSize(new java.awt.Dimension(0, 100));
-		setLayout(null);
+		// setPreferredSize(new java.awt.Dimension(0, 100));
+		setLayout(new GridBagLayout());
 
 		jLabel1.setText(AppLocal.getIntString("Label.StartDate")); // NOI18N
-		add(jLabel1);
-		jLabel1.setBounds(20, 20, 120, 15);
-		add(jTxtStartDate);
-		jTxtStartDate.setBounds(140, 20, 200, 19);
+		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
+		gbc_lbl1.anchor = GridBagConstraints.WEST;
+		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.gridx = 0;
+		gbc_lbl1.gridy = 0;
+		add(jLabel1, gbc_lbl1);
 
-		jLabel2.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
-		add(jLabel2);
-		jLabel2.setBounds(20, 50, 120, 15);
-		add(jTxtEndDate);
-		jTxtEndDate.setBounds(140, 50, 200, 19);
+		GridBagConstraints gbc_txt1 = new GridBagConstraints();
+		gbc_txt1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt1.weightx = 1.0;
+		gbc_txt1.insets = new Insets(0, 0, 5, 5);
+		gbc_txt1.gridx = 1;
+		gbc_txt1.gridy = 0;
+		add(jTxtStartDate, gbc_txt1);
 
 		btnDateStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
 		btnDateStart.addActionListener(new java.awt.event.ActionListener() {
@@ -114,8 +122,37 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 				btnDateStartActionPerformed(evt);
 			}
 		});
-		add(btnDateStart);
-		btnDateStart.setBounds(350, 20, 50, 26);
+		GridBagConstraints gbc_btn1 = new GridBagConstraints();
+		gbc_btn1.anchor = GridBagConstraints.WEST;
+		gbc_btn1.insets = new Insets(0, 0, 5, 5);
+		gbc_btn1.gridx = 2;
+		gbc_btn1.gridy = 0;
+		add(btnDateStart, gbc_btn1);
+
+		JLabel space1 = new JLabel("");
+		GridBagConstraints gbc_space1 = new GridBagConstraints();
+		gbc_space1.insets = new Insets(0, 0, 0, 0);
+		gbc_space1.weightx = 1.0;
+		gbc_space1.gridx = 3;
+		gbc_space1.gridy = 0;
+		add(space1, gbc_space1);
+
+		jLabel2.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
+		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
+		gbc_lbl2.anchor = GridBagConstraints.WEST;
+		gbc_lbl2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl2.gridx = 0;
+		gbc_lbl2.gridy = 1;
+		add(jLabel2, gbc_lbl2);
+		
+		GridBagConstraints gbc_txt2 = new GridBagConstraints();
+		gbc_txt2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt2.weightx = 1.0;
+		gbc_txt2.insets = new Insets(0, 0, 5, 5);
+		gbc_txt2.gridx = 1;
+		gbc_txt2.gridy = 1;
+		add(jTxtEndDate, gbc_txt2);
+		
 
 		btnDateEnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
 		btnDateEnd.addActionListener(new java.awt.event.ActionListener() {
@@ -123,21 +160,39 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 				btnDateEndActionPerformed(evt);
 			}
 		});
-		add(btnDateEnd);
-		btnDateEnd.setBounds(350, 50, 50, 26);
+		GridBagConstraints gbc_btn2 = new GridBagConstraints();
+		gbc_btn2.anchor = GridBagConstraints.WEST;
+		gbc_btn2.insets = new Insets(0, 0, 5, 5);
+		gbc_btn2.gridx = 2;
+		gbc_btn2.gridy = 1;
+		add(btnDateEnd, gbc_btn2);
+		
+		JLabel space2 = new JLabel("");
+		GridBagConstraints gbc_space2 = new GridBagConstraints();
+		gbc_space2.insets = new Insets(0, 0, 0, 0);
+		gbc_space2.weightx = 1.0;
+		gbc_space2.gridx = 3;
+		gbc_space2.gridy = 1;
+		add(space2, gbc_space2);
+		
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
 	public void ScaleButtons() {
 
-		int btnWidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-width", "32"));
+		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) getBorder(), "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtEndDate, "common-small-fontsize", "32");
+
+		int btnWidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-width", "32"));
 		int btnHeight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "menubar-small-height", "32"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
-		
+
 		PropertyUtil.ScaleButtonIcon(btnDateEnd, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btnDateStart, btnWidth, btnHeight, fontsize);
 		//
@@ -151,7 +206,8 @@ public class JParamsDatesInterval extends javax.swing.JPanel implements ReportEd
 		// PropertyUtil.ScaleTextFieldFontsize(m_App, jTxtStartDate,
 		// "common-small-fontsize", "32");
 		//
-		// PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder)getBorder(), "common-small-fontsize", "32");
+		// PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder)getBorder(),
+		// "common-small-fontsize", "32");
 	}
 
 	private void btnDateStartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDateStartActionPerformed

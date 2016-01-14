@@ -271,6 +271,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
 		jPanel2.setLayout(new GridLayout(7, 2, 5,5));
+		
 		// GridBagConstraints layoutData = new GridBagConstraints();
 
 		jLabel1.setText(AppLocal.getIntString("label.price")); // NOI18N

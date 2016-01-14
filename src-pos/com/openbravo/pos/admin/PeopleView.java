@@ -209,7 +209,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		jLabel1.setText(AppLocal.getIntString("label.peoplename")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		root.add(jLabel1, gbc_lbl1);
@@ -217,7 +217,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -234,15 +234,15 @@ public class PeopleView extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_btnpassword = new GridBagConstraints();
 		// gbc_btnpassword.weightx = 2.0;
 		gbc_btnpassword.gridwidth = 1;
-//		 gbc_btnpassword.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnpassword.insets = new Insets(0, 0, 0, 0);
+		// gbc_btnpassword.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnpassword.insets = new Insets(5, 5, 0, 0);
 		gbc_btnpassword.gridx = 2;
 		gbc_btnpassword.gridy = 0;
 		root.add(jButton1, gbc_btnpassword);
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5, 5, 0, 0);
 		gbc_space1.weightx = 2.0;
 		gbc_space1.gridx = 4;
 		gbc_space1.gridy = 0;
@@ -251,7 +251,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		jLabel5.setText(AppLocal.getIntString("label.card")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl2.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl2.gridx = 0;
 		gbc_lbl2.gridy = 1;
 		root.add(jLabel5, gbc_lbl2);
@@ -260,7 +260,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane2 = new GridBagConstraints();
 		gbc_textPane2.gridwidth = 1;
 		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane2.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane2.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane2.weightx = 1.0;
 		gbc_textPane2.gridx = 1;
 		gbc_textPane2.gridy = 1;
@@ -292,7 +292,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_btn3 = new GridBagConstraints();
 		gbc_btn3.gridwidth = 1;
 		// gbc_btn2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btn3.insets = new Insets(0, 0, 5, 5);
+		gbc_btn3.insets = new Insets(5, 5, 0, 0);
 		// gbc_btn3.weightx = 1;
 		gbc_btn3.gridx = 2;
 		gbc_btn3.gridy = 1;
@@ -300,7 +300,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 5, 5);
+		gbc_space2.insets = new Insets(5, 5, 0, 0);
 		gbc_space2.weightx = 2.0;
 		gbc_space2.gridx = 4;
 		gbc_space2.gridy = 1;
@@ -309,7 +309,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		jLabel2.setText(AppLocal.getIntString("label.role")); // NOI18N
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
 		gbc_lbl3.anchor = GridBagConstraints.WEST;
-		gbc_lbl3.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl3.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl3.gridx = 0;
 		gbc_lbl3.gridy = 2;
 		root.add(jLabel2, gbc_lbl3);
@@ -317,7 +317,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_cmb1 = new GridBagConstraints();
 		gbc_cmb1.gridwidth = 1;
 		gbc_cmb1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cmb1.insets = new Insets(0, 0, 5, 5);
+		gbc_cmb1.insets = new Insets(5, 5, 0, 0);
 		gbc_cmb1.weightx = 1.0;
 		gbc_cmb1.gridx = 1;
 		gbc_cmb1.gridy = 2;
@@ -326,7 +326,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
 		gbc_space3.gridwidth = 2;
-		gbc_space3.insets = new Insets(0, 0, 5, 5);
+		gbc_space3.insets = new Insets(5, 5, 0, 0);
 		gbc_space3.weightx = 1.0;
 		gbc_space3.gridx = 2;
 		gbc_space3.gridy = 2;
@@ -334,7 +334,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 
 		JLabel space4 = new JLabel("");
 		GridBagConstraints gbc_space4 = new GridBagConstraints();
-		gbc_space4.insets = new Insets(0, 0, 5, 5);
+		gbc_space4.insets = new Insets(5, 5, 0, 0);
 		gbc_space4.weightx = 2.0;
 		gbc_space4.gridx = 4;
 		gbc_space4.gridy = 2;
@@ -343,7 +343,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		jLabel3.setText(AppLocal.getIntString("label.peoplevisible")); // NOI18N
 		GridBagConstraints gbc_lbl4 = new GridBagConstraints();
 		gbc_lbl4.anchor = GridBagConstraints.WEST;
-		gbc_lbl4.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl4.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl4.gridx = 0;
 		gbc_lbl4.gridy = 3;
 		root.add(jLabel3, gbc_lbl4);
@@ -351,7 +351,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_cb1 = new GridBagConstraints();
 		gbc_cb1.gridwidth = 1;
 		gbc_cb1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cb1.insets = new Insets(0, 0, 5, 5);
+		gbc_cb1.insets = new Insets(5, 5, 0, 0);
 		gbc_cb1.weightx = 1.0;
 		gbc_cb1.gridx = 1;
 		gbc_cb1.gridy = 3;
@@ -360,7 +360,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		JLabel space5 = new JLabel("");
 		GridBagConstraints gbc_space5 = new GridBagConstraints();
 		gbc_space5.gridwidth = 2;
-		gbc_space5.insets = new Insets(0, 0, 5, 5);
+		gbc_space5.insets = new Insets(5, 5, 0, 0);
 		gbc_space5.weightx = 1.0;
 		gbc_space5.gridx = 2;
 		gbc_space5.gridy = 3;
@@ -368,7 +368,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 
 		JLabel space6 = new JLabel("");
 		GridBagConstraints gbc_space6 = new GridBagConstraints();
-		gbc_space6.insets = new Insets(0, 0, 5, 5);
+		gbc_space6.insets = new Insets(5, 5, 0, 0);
 		gbc_space6.weightx = 2.0;
 		gbc_space6.gridx = 4;
 		gbc_space6.gridy = 3;
@@ -384,7 +384,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 		// root.add(jLabel4, gbc_lbl5);
 
 		GridBagConstraints gbc_img1 = new GridBagConstraints();
-		gbc_img1.insets = new Insets(0, 0, 5, 5);
+		gbc_img1.insets = new Insets(5, 5, 0, 0);
 		gbc_img1.weighty = 1.0;
 		gbc_img1.fill = GridBagConstraints.BOTH;
 		gbc_img1.gridwidth = 4;
@@ -393,84 +393,6 @@ public class PeopleView extends JPanel implements EditorRecord {
 		root.add(m_jImage, gbc_img1);
 
 		m_jImage.setMaxDimensions(new java.awt.Dimension(32, 32));
-
-		// javax.swing.GroupLayout layout = new javax.swing.GroupLayout(root);
-		// root.setLayout(layout);
-
-		// layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup().addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jButton1))
-		// .addGroup(layout.createSequentialGroup()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jcard, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jRole, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jButton2)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jButton3))
-		// .addGroup(layout.createSequentialGroup()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, 380,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(m_jVisible))))
-		// .addContainerGap(129, Short.MAX_VALUE)));
-		// layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-		// javax.swing.GroupLayout.Alignment.TRAILING,
-		// layout.createSequentialGroup().addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel1)
-		// .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(jButton1))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jButton3)
-		// .addGroup(layout.createSequentialGroup()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel5).addComponent(jcard,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel2).addComponent(m_jRole,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 20,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addComponent(jButton2))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jLabel3).addComponent(m_jVisible))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(m_jImage, javax.swing.GroupLayout.PREFERRED_SIZE, 330,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addComponent(jLabel4))
-		// .addGap(246, 246, 246)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override

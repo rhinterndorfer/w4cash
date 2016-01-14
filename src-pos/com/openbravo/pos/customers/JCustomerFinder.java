@@ -257,29 +257,35 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		jLabel6.setText(AppLocal.getIntString("label.searchkey")); // NOI18N
 
-//		jPanel77 = new JPanel();
-//		jPanel77.setBorder(BorderFactory.createLineBorder(Color.black));
-//		GridBagLayout jPanel77Layout = new GridBagLayout();
-//		jPanel77.setLayout(jPanel77Layout);
-//
-//		GridBagConstraints gbc = new GridBagConstraints();
-//		PropertyUtil.setGridBagConstraints(gbc, 0, 0, GridBagConstraints.EAST);
-//		jPanel77.add(jLabel7, gbc);
-//
-//		PropertyUtil.setGridBagConstraints(gbc, 0, 1, GridBagConstraints.HORIZONTAL);
-//		jPanel77.add(m_jtxtTaxID, gbc);
-//
-//		PropertyUtil.setGridBagConstraints(gbc, 1, 0, GridBagConstraints.EAST);
-//		jPanel77.add(jLabel5, gbc);
-//
-//		PropertyUtil.setGridBagConstraints(gbc, 1, 1, GridBagConstraints.HORIZONTAL);
-//		jPanel77.add(m_jtxtName, gbc);
-//
-//		PropertyUtil.setGridBagConstraints(gbc, 2, 0, GridBagConstraints.EAST);
-//		jPanel77.add(jLabel6, gbc);
-//
-//		PropertyUtil.setGridBagConstraints(gbc, 2, 1, GridBagConstraints.HORIZONTAL);
-//		jPanel77.add(m_jtxtSearchKey, gbc);
+		// jPanel77 = new JPanel();
+		// jPanel77.setBorder(BorderFactory.createLineBorder(Color.black));
+		// GridBagLayout jPanel77Layout = new GridBagLayout();
+		// jPanel77.setLayout(jPanel77Layout);
+		//
+		// GridBagConstraints gbc = new GridBagConstraints();
+		// PropertyUtil.setGridBagConstraints(gbc, 0, 0,
+		// GridBagConstraints.EAST);
+		// jPanel77.add(jLabel7, gbc);
+		//
+		// PropertyUtil.setGridBagConstraints(gbc, 0, 1,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel77.add(m_jtxtTaxID, gbc);
+		//
+		// PropertyUtil.setGridBagConstraints(gbc, 1, 0,
+		// GridBagConstraints.EAST);
+		// jPanel77.add(jLabel5, gbc);
+		//
+		// PropertyUtil.setGridBagConstraints(gbc, 1, 1,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel77.add(m_jtxtName, gbc);
+		//
+		// PropertyUtil.setGridBagConstraints(gbc, 2, 0,
+		// GridBagConstraints.EAST);
+		// jPanel77.add(jLabel6, gbc);
+		//
+		// PropertyUtil.setGridBagConstraints(gbc, 2, 1,
+		// GridBagConstraints.HORIZONTAL);
+		// jPanel77.add(m_jtxtSearchKey, gbc);
 
 		jLabel7.setText(AppLocal.getIntString("label.taxid")); // NOI18N
 		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -306,14 +312,11 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 								.addComponent(m_jtxtName, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addGroup(jPanel7Layout.createSequentialGroup()
-								.addComponent(jLabel6, width,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
+								.addComponent(jLabel6, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)))
-		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// Short.MAX_VALUE)
-		));
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)))));
 		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,55 +333,6 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-		// jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
-		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(jPanel7Layout.createSequentialGroup()
-		// .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 220,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(jPanel7Layout.createSequentialGroup()
-		// .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 220,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(jPanel7Layout.createSequentialGroup()
-		// .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(m_jtxtSearchKey,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// Short.MAX_VALUE)));
-		// jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
-		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jLabel7).addComponent(m_jtxtTaxID,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jLabel6).addComponent(m_jtxtSearchKey,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addComponent(jLabel5).addComponent(m_jtxtName,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE,
-		// Short.MAX_VALUE)));
-
-		// jPanel5.add(jPanel77, java.awt.BorderLayout.CENTER);
 		jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
 		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
@@ -446,8 +400,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		});
 		jPanel1.add(jcmdOK);
 
-		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
+		jcmdCancel.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
 		jcmdCancel.setFocusPainted(false);
 		jcmdCancel.setFocusable(false);
@@ -475,7 +429,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleLabels() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5,"common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
 
@@ -487,17 +441,17 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 	@Override
 	public void ScaleButtons() {
-		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "48"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height", "48"));
+		int btnWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "48"));
+		int btnHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "48"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
-		PropertyUtil.ScaleButtonIcon(jButton1, menuwidth, menuheight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jButton3, menuwidth, menuheight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jcmdOK, menuwidth, menuheight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jcmdCancel, menuwidth, menuheight, fontsize);
+
+		PropertyUtil.ScaleButtonIcon(jButton1, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButton3, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdOK, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, btnWidth, btnHeight, fontsize);
 	}
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed

@@ -128,7 +128,7 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
 		jLabel8.setText(AppLocal.getIntString("label.attributeset")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(10, 5, 10, 5);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		root.add(jLabel8, gbc_lbl1);
@@ -136,7 +136,7 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(10, 5, 10, 5);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -144,29 +144,11 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(10, 5, 10, 5);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
 		root.add(space1, gbc_space1);
-		
-		// javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		// this.setLayout(layout);
-		// layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup().addContainerGap()
-		// .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 110,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addComponent(jAttrSet,
-		// javax.swing.GroupLayout.PREFERRED_SIZE, 220,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addContainerGap()));
-		// layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup().addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel8).addComponent(jAttrSet,
-		// javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-		//	.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

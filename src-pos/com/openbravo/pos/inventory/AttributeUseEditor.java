@@ -185,7 +185,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 		jLabel3.setText(AppLocal.getIntString("label.order")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		root.add(jLabel3, gbc_lbl1);
@@ -193,7 +193,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -201,7 +201,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5, 5, 0, 0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
@@ -210,7 +210,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 		jLabel4.setText(AppLocal.getIntString("label.attribute")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl2.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl2.gridx = 0;
 		gbc_lbl2.gridy = 1;
 		root.add(jLabel4, gbc_lbl2);
@@ -218,7 +218,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 		GridBagConstraints gbc_attributeid = new GridBagConstraints();
 		gbc_attributeid.gridwidth = 1;
 		gbc_attributeid.fill = GridBagConstraints.HORIZONTAL;
-		gbc_attributeid.insets = new Insets(0, 0, 5, 5);
+		gbc_attributeid.insets = new Insets(5, 5, 0, 0);
 		gbc_attributeid.weightx = 1.0;
 		gbc_attributeid.gridx = 1;
 		gbc_attributeid.gridy = 1;
@@ -226,7 +226,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.insets = new Insets(5, 5, 0, 0);
 		// gbc_space2.fill = GridBagConstraints.BOTH;
 		gbc_space2.weightx = 1.0;
 		gbc_space2.gridx = 2;
@@ -235,51 +235,13 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.insets = new Insets(5, 5, 0, 0);
 		gbc_btnNewButton.weighty = 1.0;
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridwidth = 3;
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 2;
 		root.add(space3, gbc_btnNewButton);
-		// javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-		// this.setLayout(layout);
-		// layout.setHorizontalGroup(
-		// layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup()
-		// .addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jLineno, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addGroup(layout.createSequentialGroup()
-		// .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125,
-		// javax.swing.GroupLayout.PREFERRED_SIZE)
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addComponent(jAttribute, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-		// .addContainerGap(249, Short.MAX_VALUE))
-		// );
-		// layout.setVerticalGroup(
-		// layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-		// .addGroup(layout.createSequentialGroup()
-		// .addContainerGap()
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel3)
-		// .addComponent(jLineno, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-		// .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-		// .addComponent(jLabel4)
-		// .addComponent(jAttribute, javax.swing.GroupLayout.PREFERRED_SIZE,
-		// javax.swing.GroupLayout.DEFAULT_SIZE,
-		// javax.swing.GroupLayout.PREFERRED_SIZE))
-		// .addContainerGap(273, Short.MAX_VALUE))
-		// );
 	}// </editor-fold>//GEN-END:initComponents
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

@@ -56,7 +56,7 @@ public class AttributesEditor extends javax.swing.JPanel implements EditorRecord
 		m_jName.getDocument().addDocumentListener(dirty);
 
 		writeValueEOF();
-		
+
 		ScaleButtons();
 	}
 
@@ -132,7 +132,7 @@ public class AttributesEditor extends javax.swing.JPanel implements EditorRecord
 		jLabel2.setText(AppLocal.getIntString("Label.AttributeName")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 0;
 		root.add(jLabel2, gbc_lbl1);
@@ -140,7 +140,7 @@ public class AttributesEditor extends javax.swing.JPanel implements EditorRecord
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
@@ -148,40 +148,21 @@ public class AttributesEditor extends javax.swing.JPanel implements EditorRecord
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.insets = new Insets(5, 5, 0, 0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 2;
 		gbc_space1.gridy = 0;
 		root.add(space1, gbc_space1);
-		
+
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.insets = new Insets(5, 5, 0, 0);
 		gbc_btnNewButton.weighty = 1.0;
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridwidth = 3;
 		gbc_btnNewButton.gridx = 0;
 		gbc_btnNewButton.gridy = 1;
 		root.add(space3, gbc_btnNewButton);
-		
-//		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-//		this.setLayout(layout);
-//		layout.setHorizontalGroup(
-//				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 316, Short.MAX_VALUE)
-//						.addGroup(layout.createSequentialGroup().addContainerGap()
-//								.addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80,
-//										javax.swing.GroupLayout.PREFERRED_SIZE)
-//								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-//								.addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 200,
-//										javax.swing.GroupLayout.PREFERRED_SIZE)
-//								.addContainerGap()));
-//		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//				.addGap(0, 42, Short.MAX_VALUE)
-//				.addGroup(layout.createSequentialGroup().addContainerGap()
-//						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-//								.addComponent(jLabel2).addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE,
-//										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-//						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 	}// </editor-fold>//GEN-END:initComponents
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
