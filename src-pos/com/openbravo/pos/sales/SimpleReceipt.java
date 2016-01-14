@@ -375,7 +375,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 					}
 				});
 
-				PropertyUtil.ScaleJBomboBoxScrollbar(m_App, m_jTicketId);
+				PropertyUtil.ScaleJComboBoxScrollbar(m_App, m_jTicketId);
 			}
 		}
 

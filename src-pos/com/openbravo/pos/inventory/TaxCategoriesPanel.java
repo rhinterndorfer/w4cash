@@ -20,6 +20,8 @@
 package com.openbravo.pos.inventory;
 
 import com.openbravo.pos.panels.*;
+import com.openbravo.pos.util.PropertyUtil;
+
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
@@ -48,7 +50,7 @@ public class TaxCategoriesPanel extends JPanelTable {
 	protected void init() {
 		DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 		ttaxcategories = dlSales.getTableTaxCategories();
-		jeditor = new TaxCustCategoriesEditor(dirty);
+		jeditor = new TaxCustCategoriesEditor(app, dirty);
 	}
 
 	public ListProvider getListProvider() {
@@ -71,7 +73,8 @@ public class TaxCategoriesPanel extends JPanelTable {
 
 	@Override
 	public ListCellRenderer getListCellRenderer() {
-		return new ListCellRendererBasic(ttaxcategories.getRenderStringBasic(new int[] { 1 }));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(ttaxcategories.getRenderStringBasic(new int[] { 1 }), fontsize);
 	}
 
 	public EditorRecord getEditor() {

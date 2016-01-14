@@ -79,11 +79,13 @@ public class CategoriesPanel extends JPanelTable {
 	}
 
 	public ComparatorCreator getComparatorCreator() {
-		return tcategories.getComparatorCreator(new int[] { 1,4 });
+		return tcategories.getComparatorCreator(new int[] { 1, 4 });
 	}
 
+	@Override
 	public ListCellRenderer getListCellRenderer() {
-		return new ListCellRendererBasic(tcategories.getRenderStringBasic(new int[] { 1 }));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(tcategories.getRenderStringBasic(new int[] { 1 }), fontsize);
 	}
 
 	public EditorRecord getEditor() {

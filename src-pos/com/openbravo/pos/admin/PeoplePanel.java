@@ -25,6 +25,7 @@ import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.*;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.user.EditorRecord;
@@ -68,7 +69,8 @@ public class PeoplePanel extends JPanelTable {
     }
     
     public ListCellRenderer getListCellRenderer() {
-        return new ListCellRendererBasic(tpeople.getRenderStringBasic(new int[]{1}));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+        return new ListCellRendererBasic(tpeople.getRenderStringBasic(new int[]{1}), fontsize);
     }
     
     public EditorRecord getEditor() {

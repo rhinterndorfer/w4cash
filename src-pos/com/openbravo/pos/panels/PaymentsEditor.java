@@ -315,10 +315,6 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleLabels() {
-		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel3,
-		// "common-large-fontsize", "64");
-		// PropertyUtil.ScaleLabelFontsize(m_App, jLabel5,
-		// "common-large-fontsize", "64");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabelDesc, "common-large-fontsize", "64");
 		PropertyUtil.ScaleEditcurrencyFontsize(m_App, jTotal, "common-large-fontsize", "64");
 		PropertyUtil.ScaleComboFontsize(m_App, m_jreason, "common-large-fontsize", "64");

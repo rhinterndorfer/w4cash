@@ -22,23 +22,38 @@ package com.openbravo.data.gui;
 import javax.swing.*;
 import java.awt.*;
 import com.openbravo.data.loader.IRenderString;
+import com.openbravo.pos.util.PropertyUtil;
 
 public class ListCellRendererBasic extends DefaultListCellRenderer {
-    
+
 	private static final long serialVersionUID = 1L;
 	private IRenderString m_renderer;
-    
-    /** Creates a new instance of ListCellRendererBasic */
-    public ListCellRendererBasic(IRenderString renderer) {
-        m_renderer = renderer;
-    }
+	private Font newFont;
 
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        
-        String s = m_renderer.getRenderString(value);
-        setText((s == null || s.equals("")) ? " " : s); // Un espacio en caso de nulo para que no deja la celda chiquitita.
-        return this;
-    }        
- 
+	/** Creates a new instance of ListCellRendererBasic */
+	public ListCellRendererBasic(IRenderString renderer) {
+		m_renderer = renderer;
+	}
+
+	public ListCellRendererBasic(IRenderString renderer, int fontsize) {
+		m_renderer = renderer;
+		setFontsize(fontsize);
+	}
+
+	public void setFontsize(int fontsize) {
+		this.newFont = new Font(getFont().getName(), getFont().getStyle(), fontsize);
+	}
+
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		Component label = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+		String s = m_renderer.getRenderString(value);
+		setText((s == null || s.equals("")) ? " " : s); // Un espacio en caso de
+														// nulo para que no deja
+														// la celda chiquitita.
+		label.setFont(newFont);
+		return label;
+	}
+
 }

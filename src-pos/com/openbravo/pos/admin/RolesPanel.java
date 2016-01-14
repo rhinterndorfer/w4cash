@@ -30,6 +30,7 @@ import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.JPanelTable;
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -67,7 +68,8 @@ public class RolesPanel extends JPanelTable {
     }
     
     public ListCellRenderer getListCellRenderer() {
-        return new ListCellRendererBasic(troles.getRenderStringBasic(new int[] {1}));
+    	int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+        return new ListCellRendererBasic(troles.getRenderStringBasic(new int[] {1}), fontsize);
     }
     
     public EditorRecord getEditor() {

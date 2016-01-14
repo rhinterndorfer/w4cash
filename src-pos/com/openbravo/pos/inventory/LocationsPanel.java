@@ -31,6 +31,7 @@ import com.openbravo.data.user.SaveProvider;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.panels.JPanelTable;
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -71,7 +72,8 @@ public class LocationsPanel extends JPanelTable {
     
     @Override
     public ListCellRenderer getListCellRenderer() {
-        return new ListCellRendererBasic(tlocations.getRenderStringBasic(new int[]{1}));
+    	int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+        return new ListCellRendererBasic(tlocations.getRenderStringBasic(new int[]{1}), fontsize);
     }
     
     public EditorRecord getEditor() {

@@ -83,7 +83,8 @@ public class JPanelFloors extends JPanelTable {
 	}
 
 	public ListCellRenderer getListCellRenderer() {
-		return new ListCellRendererBasic(tfloors.getRenderStringBasic(new int[] { 1 }));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(tfloors.getRenderStringBasic(new int[] { 1 }), fontsize);
 	}
 
 	public SaveProvider getSaveProvider() {

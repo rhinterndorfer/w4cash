@@ -21,6 +21,8 @@ package com.openbravo.pos.inventory;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.panels.*;
+import com.openbravo.pos.util.PropertyUtil;
+
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
@@ -79,7 +81,8 @@ public class TaxPanel extends JPanelTable {
 
 	@Override
 	public ListCellRenderer getListCellRenderer() {
-		return new ListCellRendererBasic(ttaxes.getRenderStringBasic(new int[] { 1 }));
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(ttaxes.getRenderStringBasic(new int[] { 1 }), fontsize);
 	}
 
 	public EditorRecord getEditor() {

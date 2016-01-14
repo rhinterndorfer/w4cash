@@ -45,7 +45,7 @@ public class AttributeUsePanel extends JPanelTable2 {
 
     protected void init() {
 
-        filter = new AttributeSetFilter();
+        filter = new AttributeSetFilter(app);
         filter.init(app);
         filter.addActionListener(new ReloadActionListener());
 

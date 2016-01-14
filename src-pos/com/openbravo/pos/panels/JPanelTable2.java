@@ -57,7 +57,7 @@ public abstract class JPanelTable2 extends JPanelTable {
     }
     
     @Override
-    public final ListCellRenderer getListCellRenderer() {
+    public ListCellRenderer getListCellRenderer() {
         return row.getListCellRenderer();
     } 
     

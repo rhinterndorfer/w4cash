@@ -13,13 +13,16 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -73,6 +76,7 @@ public class PropertyUtil {
 			e.printStackTrace();
 		}
 	}
+
 	public static void fillSortOrder(BrowsableEditableData bd, int sortColumnIndex) {
 		boolean hasChanged = true;
 		ListModel model = bd.getListModel();
@@ -81,14 +85,14 @@ public class PropertyUtil {
 
 			if (element[sortColumnIndex] != null) {
 				hasChanged = false;
-//				break;
+				// break;
 			}
 			element[sortColumnIndex] = i;
 		}
 
-//		if (!hasChanged) {
-//			return;
-//		}
+		// if (!hasChanged) {
+		// return;
+		// }
 
 		try {
 			bd.saveDataSortOrder();
@@ -96,8 +100,7 @@ public class PropertyUtil {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public static void ScaleBorderFontsize(AppView app, TitledBorder border, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -116,10 +119,10 @@ public class PropertyUtil {
 
 	public static void ScaleButtonIcon(javax.swing.JButton btn, int width, int height, int fontsize) {
 		btn.setMargin(null);
-		
+
 		int iconWidth = width;
 		int iconHeigth = height;
-		
+
 		if (btn.getText() != null && !btn.getText().isEmpty()) {
 			// String text = btn.getText();
 			Font font = btn.getFont();
@@ -132,8 +135,7 @@ public class PropertyUtil {
 			iconWidth -= fm.getHeight();
 			iconHeigth -= fm.getHeight();
 		}
-		
-		
+
 		if (btn.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getIcon().getClass())) {
 			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getIcon());
 			double radio = icon.getIconWidth() / icon.getIconWidth();
@@ -141,7 +143,6 @@ public class PropertyUtil {
 					Image.SCALE_SMOOTH);
 			btn.setIcon(new javax.swing.ImageIcon(img));
 		}
-		
 
 		btn.setSize(width, height);
 		// btn.setMinimumSize(new Dimension(newWidth, newHeight));
@@ -306,7 +307,7 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleLabelIcon(AppView app, JLabel label, int width, int height){
+	public static void ScaleLabelIcon(AppView app, JLabel label, int width, int height) {
 		if (label.getIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(label.getIcon().getClass())) {
 			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(label.getIcon());
 			double radio = icon.getIconWidth() / icon.getIconWidth();
@@ -315,7 +316,7 @@ public class PropertyUtil {
 			label.setIcon(new javax.swing.ImageIcon(img));
 		}
 	}
-	
+
 	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -383,6 +384,54 @@ public class PropertyUtil {
 		}
 	}
 
+	public static void ScaleSpinnerFontsize(AppView app, JSpinner spinner, String key, String defaultValue) {
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		try {
+			int fontsize = Integer.parseInt(value);
+
+			Font fontTotalEuros = spinner.getFont();
+			spinner.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
+			spinner.setSize((int) spinner.getSize().getWidth(), fontsize);
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
+	}
+
+	public static void ScaleCheckboxSize(AppView app, JCheckBox checkbox, String key, String defaultValue) {
+		// Icon oldIcon = checkbox.getIcon();
+		// Image oldImage = oldIcon.getImage();
+		// Image newImage = oldImage.getScaledInstance(newWidth, newHeight,
+		// Image.SCALE_DEFAULT);
+		// Icon newIcon = new ImageIcon(newImage);
+		// checkbox.setIcon(newIcon);
+
+		// large
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		try {
+			int fontsize = Integer.parseInt(value);
+
+			Font fontTotalEuros = checkbox.getFont();
+			checkbox.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
+			// checkbox.setSize((int) checkbox.getSize().getWidth(), fontsize);
+			// checkbox.set(new Dimension(fontsize, fontsize));
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
+		// checkbox.setPreferredSize(new Dimension());
+	}
+
+	public static void ScaleSpinnerScrollbar(AppView m_App, JSpinner m_jX, String string, String string2) {
+
+	}
+
 	public static void ScaleTextFieldFontsize(AppView app, JTextField text, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -399,7 +448,7 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static void ScaleTextAreaFontsize(AppView app, JTextArea text, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -574,7 +623,7 @@ public class PropertyUtil {
 		} catch (IOException eIO) {
 			logger.log(Level.WARNING, LocalRes.getIntString("exception.iofile"), eIO);
 		}
-		
+
 		// dlSystem.getResourceAsProperties(sProperty);
 
 		// if (property != null && property.isEmpty()) {
@@ -743,22 +792,22 @@ public class PropertyUtil {
 		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
 
-	public static void ScaleJBomboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {
+	public static void ScaleJComboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {
 		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
 		int value = Integer.parseInt(property);
-		
+
 		Object popup = jScrollBox.getUI().getAccessibleChild(jScrollBox, 0);
-	      Component c = ((Container) popup).getComponent(0);
-	      if (c instanceof JScrollPane)
-	      {
-	         JScrollPane scrollpane = (JScrollPane) c;
-	         JScrollBar scrollBar = scrollpane.getVerticalScrollBar();
-	         Dimension scrollBarDim = new Dimension(value, scrollBar
-	               .getPreferredSize().height);
-	         scrollBar.setPreferredSize(scrollBarDim);
-	      }
-	      
-		// jScrollBox.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
+		Component c = ((Container) popup).getComponent(0);
+		if (c instanceof JScrollPane) {
+			JScrollPane scrollpane = (JScrollPane) c;
+			JScrollBar scrollBar = scrollpane.getVerticalScrollBar();
+			Dimension scrollBarDim = new Dimension(value, scrollBar.getPreferredSize().height);
+			scrollBar.setPreferredSize(scrollBarDim);
+		}
+
+		// jScrollBox.getVerticalScrollBar().setPreferredSize(new
+		// Dimension(value, value));
 		// jScrollBox.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 	}
+
 }

@@ -57,7 +57,7 @@ public class AttributesPanel extends JPanelTable2 {
         lpr = row.getListProvider(app.getSession(), table);
         spr = row.getSaveProvider(app.getSession(), table);        
         
-        editor = new AttributesEditor(dirty);    
+        editor = new AttributesEditor(app, dirty);    
     } 
     
     public EditorRecord getEditor() {

@@ -82,6 +82,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		((JSpinner.DefaultEditor) m_jHeight.getEditor()).getTextField().getDocument().addDocumentListener(dirty);
 
 		writeValueEOF();
+		
+		ScaleButtons();
 	}
 
 	public void activate() throws BasicException {
@@ -266,7 +268,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		lbl1.gridx = 0;
 		lbl1.gridy = 0;
 		add(jLabel2, lbl1);
-		
+
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 2;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
@@ -275,7 +277,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
 		add(m_jName, gbc_textPane);
-		
+
 		JLabel lblSpace1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
 		gbc_space1.insets = new Insets(0, 0, 5, 0);
@@ -291,7 +293,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_lblfloor.gridx = 0;
 		gbc_lblfloor.gridy = 1;
 		add(jLabel1, gbc_lblfloor);
-		
+
 		m_jFloor.setEditable(false);
 		m_jFloor.setEnabled(false);
 		GridBagConstraints gbc_cmb_floor = new GridBagConstraints();
@@ -318,7 +320,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		lbl2.gridx = 0;
 		lbl2.gridy = 2;
 		add(jLabel3, lbl2);
-		
+
 		GridBagConstraints gbc_spinner1 = new GridBagConstraints();
 		gbc_spinner1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner1.weightx = 1.0;
@@ -326,7 +328,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_spinner1.gridx = 1;
 		gbc_spinner1.gridy = 2;
 		add(m_jX, gbc_spinner1);
-		
+
 		GridBagConstraints gbc_spinner2 = new GridBagConstraints();
 		gbc_spinner2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner2.weightx = 1.0;
@@ -334,7 +336,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_spinner2.gridx = 2;
 		gbc_spinner2.gridy = 2;
 		add(m_jY, gbc_spinner2);
-		
+
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
 		gbc_space3.insets = new Insets(0, 0, 5, 0);
@@ -358,7 +360,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_spinner3.gridx = 1;
 		gbc_spinner3.gridy = 3;
 		add(m_jWidth, gbc_spinner3);
-		
+
 		GridBagConstraints gbc_spinner4 = new GridBagConstraints();
 		gbc_spinner4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner4.weightx = 1.0;
@@ -384,7 +386,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_placesbag.gridy = 4;
 
 		add(m_placesBag, gbc_placesbag);
-		
+
 		SpinnerNumberModel m1 = new SpinnerNumberModel();
 		m1.setStepSize(10);
 		m_jX.setModel(m1);
@@ -532,7 +534,21 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
 
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleComboFontsize(m_App, m_jFloor, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jX, "common-small-fontsize", "32");
+		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jY, "common-small-fontsize", "32");
+		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jHeight, "common-small-fontsize", "32");
+		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jWidth, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleSpinnerScrollbar(m_App, m_jX, "","");
 	}
 
 	public void activateFill() {

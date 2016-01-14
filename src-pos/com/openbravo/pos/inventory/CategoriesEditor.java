@@ -20,6 +20,11 @@
 package com.openbravo.pos.inventory;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import javax.swing.*;
 
 import com.openbravo.pos.forms.AppLocal;
@@ -82,11 +87,14 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jName.getDocument().addDocumentListener(dirty);
 		m_jCategory.addActionListener(dirty);
 		m_jPrinter.addActionListener(dirty);
-//		((JTextField) m_jPrinter.getEditor().getEditorComponent()).getDocument().addDocumentListener(dirty);
-		
+		// ((JTextField)
+		// m_jPrinter.getEditor().getEditorComponent()).getDocument().addDocumentListener(dirty);
+
 		m_jImage.addPropertyChangeListener("image", dirty);
 
 		writeValueEOF();
+		
+		ScaleButtons();
 	}
 
 	public void refresh() {
@@ -156,7 +164,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setImage((BufferedImage) cat[3]);
 		m_sortOrder = cat[4];
 		m_printerIndex = (Integer) cat[5];
-	
+
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
 		m_jPrinter.setEnabled(false);
@@ -174,7 +182,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jName.setText(Formats.STRING.formatValue(cat[1]));
 		m_CategoryModel.setSelectedKey(cat[2]);
 		m_jImage.setImage((BufferedImage) cat[3]);
-		
+
 		m_jPrinter.setSelectedIndex(m_printerIndex);
 
 		m_jName.setEnabled(true);
@@ -195,12 +203,12 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		cat[3] = m_jImage.getImage();
 		cat[4] = m_sortOrder;
 		cat[5] = m_jPrinter.getSelectedIndex();
-		
-//		if (m_jPrinter.getSelectedIndex() >= 0) {
-//			
-//		} else {
-//			cat[5] = -1;
-//		}
+
+		// if (m_jPrinter.getSelectedIndex() >= 0) {
+		//
+		// } else {
+		// cat[5] = -1;
+		// }
 
 		return cat;
 	}
@@ -227,56 +235,135 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		jLabel5 = new javax.swing.JLabel();
 		m_jCategory = new javax.swing.JComboBox();
 		jLabel7 = new javax.swing.JLabel();
-		m_jPrinter = new javax.swing.JComboBox(); 
+		m_jPrinter = new javax.swing.JComboBox();
 		m_jPrinter.addItem("Drucker 1");
 		m_jPrinter.addItem("Drucker 2");
 		m_jPrinter.addItem("Drucker 3");
-		
-		setLayout(null);
+
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		JScrollPane scrollView = new JScrollPane();
+		add(scrollView);
+		JPanel root = new JPanel();
+		scrollView.setViewportView(root);
+
+		GridBagLayout gblayout = new GridBagLayout();
+		root.setLayout(gblayout);
 
 		jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
-		add(jLabel2);
-		jLabel2.setBounds(20, 20, 80, 14);
-		add(m_jName);
-		m_jName.setBounds(100, 20, 180, 18);
+		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
+		gbc_lbl1.anchor = GridBagConstraints.WEST;
+		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.gridx = 0;
+		gbc_lbl1.gridy = 0;
+		root.add(jLabel2, gbc_lbl1);
+
+		GridBagConstraints gbc_textPane = new GridBagConstraints();
+		gbc_textPane.gridwidth = 1;
+		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.weightx = 1.0;
+		gbc_textPane.gridx = 1;
+		gbc_textPane.gridy = 0;
+		root.add(m_jName, gbc_textPane);
+
+		JLabel space1 = new JLabel("");
+		GridBagConstraints gbc_space1 = new GridBagConstraints();
+		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.weightx = 1.0;
+		gbc_space1.gridx = 3;
+		gbc_space1.gridy = 0;
+		root.add(space1, gbc_space1);
 
 		jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
-		add(jLabel5);
-		jLabel5.setBounds(20, 50, 90, 14);
+		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
+		gbc_lbl2.anchor = GridBagConstraints.WEST;
+		gbc_lbl2.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl2.gridx = 0;
+		gbc_lbl2.gridy = 1;
+		root.add(jLabel5, gbc_lbl2);
 
-		add(m_jCategory);
-		m_jCategory.setBounds(100, 50, 180, 20);
+		GridBagConstraints gbc_textPane2 = new GridBagConstraints();
+		gbc_textPane2.gridwidth = 1;
+		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane2.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane2.weightx = 1.0;
+		gbc_textPane2.gridx = 1;
+		gbc_textPane2.gridy = 1;
+		root.add(m_jCategory, gbc_textPane2);
+
+		JLabel space2 = new JLabel("");
+		GridBagConstraints gbc_space2 = new GridBagConstraints();
+		gbc_space2.insets = new Insets(0, 0, 5, 0);
+		gbc_space2.weightx = 1.0;
+		gbc_space2.gridx = 2;
+		gbc_space2.gridy = 1;
+		root.add(space2, gbc_space2);
 
 		jLabel7.setText(AppLocal.getIntString("Menu.Printer")); // NOI18N
-		add(jLabel7);
-		jLabel7.setBounds(20, 80, 90, 14);
+		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
+		gbc_lbl3.anchor = GridBagConstraints.WEST;
+		gbc_lbl3.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl3.gridx = 0;
+		gbc_lbl3.gridy = 2;
+		root.add(jLabel7, gbc_lbl3);
 
-		add(m_jPrinter);
-		m_jPrinter.setBounds(100, 80, 180, 20);
+		GridBagConstraints gbc_textPane3 = new GridBagConstraints();
+		gbc_textPane3.gridwidth = 1;
+		gbc_textPane3.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane3.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane3.weightx = 1.0;
+		gbc_textPane3.gridx = 1;
+		gbc_textPane3.gridy = 2;
+		root.add(m_jPrinter, gbc_textPane3);
 
-		jLabel3.setText(AppLocal.getIntString("label.image")); // NOI18N
-		add(jLabel3);
-		jLabel3.setBounds(20, 110, 80, 14);
-		add(m_jImage);
-		m_jImage.setBounds(100, 110, 260, 360);
+		JLabel space3 = new JLabel("");
+		GridBagConstraints gbc_space3 = new GridBagConstraints();
+		gbc_space3.insets = new Insets(0, 0, 5, 0);
+		gbc_space3.weightx = 1.0;
+		gbc_space3.gridx = 2;
+		gbc_space3.gridy = 2;
+		root.add(space3, gbc_space3);
+
+		FlowLayout fl1 = new FlowLayout();
+		fl1.setAlignment(FlowLayout.LEFT);
+		JPanel pfl1 = new JPanel();
+		pfl1.setLayout(fl1);
 
 		m_jCatalogAdd.setText(AppLocal.getIntString("button.catalogadd")); // NOI18N
+		pfl1.add(m_jCatalogAdd);
+
+		m_jCatalogDelete.setText(AppLocal.getIntString("button.catalogdel")); // NOI18N
+		pfl1.add(m_jCatalogDelete);
+
+		GridBagConstraints gbc_pane = new GridBagConstraints();
+		gbc_pane.insets = new Insets(0, 0, 5, 0);
+		gbc_pane.gridwidth = 3;
+		gbc_pane.weightx = 1.0;
+		gbc_pane.gridx = 0;
+		gbc_pane.gridy = 3;
+		root.add(pfl1, gbc_pane);
+
+		GridBagConstraints gbc_img1 = new GridBagConstraints();
+		gbc_img1.insets = new Insets(0, 0, 5, 5);
+		gbc_img1.weighty = 1.0;
+		gbc_img1.fill = GridBagConstraints.BOTH;
+		gbc_img1.gridwidth = 3;
+		gbc_img1.gridx = 0;
+		gbc_img1.gridy = 4;
+		root.add(m_jImage, gbc_img1);
+
 		m_jCatalogAdd.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jCatalogAddActionPerformed(evt);
 			}
 		});
-		add(m_jCatalogAdd);
-		m_jCatalogAdd.setBounds(370, 20, 170, 24);
 
-		m_jCatalogDelete.setText(AppLocal.getIntString("button.catalogdel")); // NOI18N
 		m_jCatalogDelete.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jCatalogDeleteActionPerformed(evt);
 			}
 		});
-		add(m_jCatalogDelete);
-		m_jCatalogDelete.setBounds(370, 50, 170, 24);
+
 	}// </editor-fold>//GEN-END:initComponents
 
 	@Override
@@ -284,6 +371,23 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-small-fontsize", "32");
+		PropertyUtil.ScaleComboFontsize(m_App, m_jPrinter, "common-small-fontsize", "32");
+		
+
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+
+		PropertyUtil.ScaleButtonIcon(m_jCatalogAdd, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jCatalogDelete, menuwidth, menuheight, fontsize);
 	}
 
 	@Override

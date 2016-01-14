@@ -25,8 +25,19 @@ import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.UUID;
+
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -38,13 +49,16 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
     private Object attid;
 
     private Object insertid;
+	private AppView m_App;
 
     /** Creates new form AttributesValuesEditor */
-    public AttributeValuesEditor(DirtyManager dirty) {
-        
+    public AttributeValuesEditor(AppView app, DirtyManager dirty) {
+        m_App = app;
         initComponents();
 
         jValue.getDocument().addDocumentListener(dirty);
+        
+        ScaleButtons();
     }
 
     public void setInsertId(String insertid) {
@@ -119,30 +133,75 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
         jLabel2 = new javax.swing.JLabel();
         jValue = new javax.swing.JTextField();
 
-        jLabel2.setText(AppLocal.getIntString("label.value")); // NOI18N
+    	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		JScrollPane scrollView = new JScrollPane();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 316, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 43, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+		JPanel root = new JPanel();
+		scrollView.setAlignmentY(Component.TOP_ALIGNMENT);
+		scrollView.setViewportView(root);
+		add(scrollView);
+
+		GridBagLayout gblayout = new GridBagLayout();
+		root.setLayout(gblayout);
+        
+        
+        jLabel2.setText(AppLocal.getIntString("label.value")); // NOI18N
+        GridBagConstraints gbc_lbl1 = new GridBagConstraints();
+		gbc_lbl1.anchor = GridBagConstraints.WEST;
+		gbc_lbl1.insets = new Insets(0, 0, 5, 5);
+		gbc_lbl1.gridx = 0;
+		gbc_lbl1.gridy = 0;
+		root.add(jLabel2, gbc_lbl1);
+        
+		GridBagConstraints gbc_textPane = new GridBagConstraints();
+		gbc_textPane.gridwidth = 1;
+		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane.insets = new Insets(0, 0, 5, 5);
+		gbc_textPane.weightx = 1.0;
+		gbc_textPane.gridx = 1;
+		gbc_textPane.gridy = 0;
+		root.add(jValue, gbc_textPane);
+
+		JLabel space1 = new JLabel("");
+		GridBagConstraints gbc_space1 = new GridBagConstraints();
+		gbc_space1.insets = new Insets(0, 0, 5, 0);
+		gbc_space1.weightx = 1.0;
+		gbc_space1.gridx = 2;
+		gbc_space1.gridy = 0;
+		root.add(space1, gbc_space1);
+		
+		JLabel space3 = new JLabel("");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.weighty = 1.0;
+		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
+		gbc_btnNewButton.gridwidth = 3;
+		gbc_btnNewButton.gridx = 0;
+		gbc_btnNewButton.gridy = 1;
+		root.add(space3, gbc_btnNewButton);
+        
+//        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+//        this.setLayout(layout);
+//        layout.setHorizontalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 316, Short.MAX_VALUE)
+//            .addGroup(layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+//                .addContainerGap())
+//        );
+//        layout.setVerticalGroup(
+//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+//            .addGap(0, 43, Short.MAX_VALUE)
+//            .addGroup(layout.createSequentialGroup()
+//                .addContainerGap()
+//                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+//                    .addComponent(jLabel2)
+//                    .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//        );
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -153,8 +212,8 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jValue, "common-small-fontsize", "32");
 	}
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {

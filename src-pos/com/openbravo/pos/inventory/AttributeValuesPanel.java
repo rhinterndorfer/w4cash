@@ -45,7 +45,7 @@ public class AttributeValuesPanel extends JPanelTable2 {
 
     protected void init() {
 
-        filter = new AttributeFilter();
+        filter = new AttributeFilter(app);
         filter.init(app);
         filter.addActionListener(new ReloadActionListener());
 
@@ -65,7 +65,7 @@ public class AttributeValuesPanel extends JPanelTable2 {
                 "SELECT ID, ATTRIBUTE_ID, VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ? ", filter);
         spr = row.getSaveProvider(app.getSession(), table);
 
-        editor = new AttributeValuesEditor(dirty);
+        editor = new AttributeValuesEditor(app,dirty);
     }
 
     @Override
