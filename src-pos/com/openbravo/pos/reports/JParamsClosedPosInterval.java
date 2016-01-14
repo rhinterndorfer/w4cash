@@ -24,8 +24,6 @@ import com.openbravo.pos.forms.ClosedCashInfo;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.util.PropertyUtil;
-import com.oracle.webservices.internal.api.message.PropertySet.Property;
-
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
