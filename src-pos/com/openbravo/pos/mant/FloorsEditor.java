@@ -87,7 +87,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = Formats.STRING.formatValue(floor[0]);
 		m_jName.setText(Formats.STRING.formatValue(floor[1]));
 		m_jImage.setImage((BufferedImage) floor[2]);
-		m_SortOrder = (int)floor[3];
+		m_SortOrder = (int)(floor[3] == null ? 0 : floor[3]);
 		m_jName.setEnabled(false);
 		m_jImage.setEnabled(false);
 	}
@@ -98,7 +98,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = Formats.STRING.formatValue(floor[0]);
 		m_jName.setText(Formats.STRING.formatValue(floor[1]));
 		m_jImage.setImage((BufferedImage) floor[2]);
-		m_SortOrder = (int)floor[3];
+		m_SortOrder = (int)(floor[3] == null ? 0 : floor[3]);
 		m_jName.setEnabled(true);
 		m_jImage.setEnabled(true);
 	}
