@@ -44,6 +44,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 	// private DirtyManager m_Dirty = new DirtyManager();
 	private String m_sID;
 	private AppView m_App;
+	private int m_SortOrder;
 
 	/** Creates new form FloorsEditor */
 	public FloorsEditor(AppView app, DirtyManager dirty) {
@@ -63,6 +64,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = null;
 		m_jName.setText(null);
 		m_jImage.setImage(null);
+		m_SortOrder = 0;
 
 		m_jName.setEnabled(false);
 		m_jImage.setEnabled(false);
@@ -73,6 +75,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = UUID.randomUUID().toString();
 		m_jName.setText(null);
 		m_jImage.setImage(null);
+		m_SortOrder = 0;
 
 		m_jName.setEnabled(true);
 		m_jImage.setEnabled(true);
@@ -84,7 +87,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = Formats.STRING.formatValue(floor[0]);
 		m_jName.setText(Formats.STRING.formatValue(floor[1]));
 		m_jImage.setImage((BufferedImage) floor[2]);
-
+		m_SortOrder = (int)floor[3];
 		m_jName.setEnabled(false);
 		m_jImage.setEnabled(false);
 	}
@@ -95,18 +98,19 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = Formats.STRING.formatValue(floor[0]);
 		m_jName.setText(Formats.STRING.formatValue(floor[1]));
 		m_jImage.setImage((BufferedImage) floor[2]);
-
+		m_SortOrder = (int)floor[3];
 		m_jName.setEnabled(true);
 		m_jImage.setEnabled(true);
 	}
 
 	public Object createValue() throws BasicException {
 
-		Object[] floor = new Object[3];
+		Object[] floor = new Object[4];
 
 		floor[0] = m_sID;
 		floor[1] = m_jName.getText();
 		floor[2] = m_jImage.getImage();
+		floor[3] = m_SortOrder;
 		return floor;
 	}
 
