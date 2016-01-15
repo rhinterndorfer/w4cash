@@ -96,7 +96,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		}
 
 		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
-		myreceiptsplit.setPreferredSize(new Dimension(750, 750));
+		myreceiptsplit.setPreferredSize(new Dimension(850, 750));
 		return myreceiptsplit;
 	}
 
@@ -276,7 +276,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialog(m_App, this, 960, 620);
+		PropertyUtil.ScaleDialog(m_App, this, 850, 750);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
