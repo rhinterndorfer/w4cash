@@ -133,7 +133,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jWidth.setValue(width);
 		m_jHeight.setValue(height);
 		
-		m_jFontsize.setValue(14);
+		m_jFontsize.setValue(12);
 
 		m_jName.setEnabled(true);
 		m_jFloor.setEnabled(false);
@@ -192,7 +192,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jWidth.setValue(place[5] == null ? 0 : place[5]);
 		m_jHeight.setValue(place[6] == null ? 0 : place[6]);
 		
-		m_jFontsize.setValue(place[7] == null ? 14 : place[7]);
+		m_jFontsize.setValue(place[7] == null ? 12 : place[7]);
 		
 	}
 
