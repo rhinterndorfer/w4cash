@@ -562,11 +562,12 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		setActivePlace(m_place, ticket);
 	}
 
-	public void deleteTicket() {
+	public void deleteTicket(boolean printdelete) {
 
 		// generate empty ticket
 		TicketInfo info = new TicketInfo();
-		newTicket(info, m_panelticket.getActiveTicket().copyTicket());
+		if(printdelete)
+			newTicket(info, m_panelticket.getActiveTicket().copyTicket());
 
 		if (m_PlaceCurrent != null) {
 

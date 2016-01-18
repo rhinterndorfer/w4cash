@@ -951,7 +951,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 					if (closeTicket(m_oTicket, m_oTicketExt)) {
 						// Ends edition of current receipt
-						m_ticketsbag.deleteTicket();
+						m_ticketsbag.deleteTicket(false);
 					} else {
 						// repaint current ticket
 						refreshTicket();

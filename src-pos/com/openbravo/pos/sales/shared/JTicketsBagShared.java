@@ -100,7 +100,7 @@ public class JTicketsBagShared extends JTicketsBag {
 		// postcondicion es que no tenemos ticket activado ni ticket en el panel
 	}
 
-	public void deleteTicket() {
+	public void deleteTicket(boolean delete) {
 		m_sCurrentTicket = null;
 		selectValidTicket();
 	}
@@ -293,7 +293,7 @@ public class JTicketsBagShared extends JTicketsBag {
 	private void m_jDelTicketActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDelTicketActionPerformed
 		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"), null);
 		if (res == JOptionPane.YES_OPTION) {
-			deleteTicket();
+			deleteTicket(true);
 		}
 
 	}// GEN-LAST:event_m_jDelTicketActionPerformed

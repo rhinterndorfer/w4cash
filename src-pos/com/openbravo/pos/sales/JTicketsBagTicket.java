@@ -137,7 +137,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		// postcondicion es que no tenemos ticket activado ni ticket en el panel
 	}
 
-	public void deleteTicket() {
+	public void deleteTicket(boolean deletTicket) {
 
 		if (m_ticketCopy != null) {
 			// Para editar borramos el ticket anterior

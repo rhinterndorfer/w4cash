@@ -54,7 +54,7 @@ public abstract class JTicketsBag extends JPanel {
 
 	public abstract boolean deactivate();
 
-	public abstract void deleteTicket();
+	public abstract void deleteTicket(boolean deleteTicket);
 
 	public abstract void ScaleButtons();
 

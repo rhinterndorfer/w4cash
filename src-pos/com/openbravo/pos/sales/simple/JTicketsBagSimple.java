@@ -61,7 +61,7 @@ public class JTicketsBagSimple extends JTicketsBag {
 		return true;
 	}
 
-	public void deleteTicket() {
+	public void deleteTicket(boolean delete) {
 		m_panelticket.setActiveTicket(new TicketInfo(), null);
 	}
 
@@ -106,7 +106,7 @@ public class JTicketsBagSimple extends JTicketsBag {
 		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"), null);
 
 		if (res == JOptionPane.YES_OPTION) {
-			deleteTicket();
+			deleteTicket(true);
 		}
 
 	}// GEN-LAST:event_m_jDelTicketActionPerformed
