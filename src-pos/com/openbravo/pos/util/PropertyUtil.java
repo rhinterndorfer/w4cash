@@ -206,7 +206,8 @@ public class PropertyUtil {
 					Image.SCALE_SMOOTH);
 			btn.setIcon(new javax.swing.ImageIcon(img));
 		}
-		if (btn.getSelectedIcon() != null && javax.swing.ImageIcon.class.isAssignableFrom(btn.getSelectedIcon().getClass())) {
+		if (btn.getSelectedIcon() != null
+				&& javax.swing.ImageIcon.class.isAssignableFrom(btn.getSelectedIcon().getClass())) {
 			javax.swing.ImageIcon icon = javax.swing.ImageIcon.class.cast(btn.getSelectedIcon());
 			double radio = icon.getIconWidth() / icon.getIconWidth();
 			Image img = icon.getImage().getScaledInstance(radio > 1 ? iconWidth : -1, radio > 1 ? -1 : iconHeigth,
@@ -654,10 +655,10 @@ public class PropertyUtil {
 			return property.getProperty(key);
 		}
 
-		if("".equals(sProperty)){
+		if ("".equals(sProperty)) {
 			return null;
 		}
-		
+
 		try {
 			String xmlProp = dlSystem.getResourceAsXML(sProperty);
 			SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -840,7 +841,7 @@ public class PropertyUtil {
 		int value = Integer.parseInt(property);
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(value, value));
 		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-	
+
 		jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(value, value));
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	}
@@ -864,11 +865,17 @@ public class PropertyUtil {
 	}
 
 	public static Map<String, Integer> getTicketLineWidths(AppView app) {
-		Map<String,Integer> widths = new HashMap<>();
-		
-		widths.put("label.item",Integer.parseInt(getProperty(app, "", "Ticket.Line.label.item", "125")));
-		widths.put("label.unit", Integer.parseInt(getProperty(app, "", "Ticket.Line.label.unit", "80")));
-		widths.put("label.value", Integer.parseInt(getProperty(app, "", "Ticket.Line.label.value", "100")));
+		Map<String, Integer> widths = new HashMap<>();
+		String v1 = getProperty(app, "", "Ticket.Line.label.item", null);
+		if (v1 != null)
+			widths.put("label.item", Integer.parseInt(v1));
+
+		String v2 = getProperty(app, "", "Ticket.Line.label.units", null);
+		if (v2 != null)
+			widths.put("label.units", Integer.parseInt(v2));
+		String v3 = getProperty(app, "", "Ticket.Line.label.value", null);
+		if (v3 != null)
+			widths.put("label.value", Integer.parseInt(v3));
 		return widths;
 	}
 
