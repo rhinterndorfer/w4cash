@@ -845,7 +845,8 @@ public class PropertyUtil {
 		jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(value, value));
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	}
-
+	
+	
 	public static void ScaleJComboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {
 		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
 		int value = Integer.parseInt(property);

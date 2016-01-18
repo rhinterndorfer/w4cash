@@ -150,8 +150,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				jScrCont.applyComponentOrientation(getComponentOrientation());
 				JPanel jPanCont = new JPanel();
 				jPanCont.applyComponentOrientation(getComponentOrientation());
-				PropertyUtil.ScaleScrollbar(m_App, jScrCont);
 				
+				PropertyUtil.ScaleScrollbar(m_App, jScrCont);
+				PropertyUtil.ScaleTabbedPaneFontsize(m_App, jTabFloors, "restaurant-room-fontsize", "16");
+
 				jTabFloors.addTab(f.getName(), f.getIcon(), jScrCont);
 				jScrCont.setViewportView(jPanCont);
 				jPanCont.add(f.getContainer());
@@ -288,7 +290,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(btn_promptTicket, smallWidth, smallHeight, fontsize);
-
 	}
 
 	public void activate() {
