@@ -34,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.accessibility.Accessible;
 import javax.swing.BorderFactory;
@@ -115,6 +116,16 @@ public class JTicketLines extends javax.swing.JPanel {
 			}
 		}
 
+		Map<String, Integer> widths = PropertyUtil.getTicketLineWidths(m_App);
+		for(ColumnTicket acolumn : acolumns){
+			Integer width = widths.get(acolumn.name);
+			if(width == null){
+				continue;
+			}
+			acolumn.width = width;
+		}
+		
+		
 		m_jTableModel = new TicketTableModel(acolumns);
 		m_jTicketTable.setModel(m_jTableModel);
 

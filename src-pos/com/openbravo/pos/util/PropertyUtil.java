@@ -9,6 +9,8 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -652,6 +654,10 @@ public class PropertyUtil {
 			return property.getProperty(key);
 		}
 
+		if("".equals(sProperty)){
+			return null;
+		}
+		
 		try {
 			String xmlProp = dlSystem.getResourceAsXML(sProperty);
 			SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -855,6 +861,15 @@ public class PropertyUtil {
 		// jScrollBox.getVerticalScrollBar().setPreferredSize(new
 		// Dimension(value, value));
 		// jScrollBox.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+	}
+
+	public static Map<String, Integer> getTicketLineWidths(AppView app) {
+		Map<String,Integer> widths = new HashMap<>();
+		
+		widths.put("label.item",Integer.parseInt(getProperty(app, "", "Ticket.Line.label.item", "125")));
+		widths.put("label.unit", Integer.parseInt(getProperty(app, "", "Ticket.Line.label.unit", "80")));
+		widths.put("label.value", Integer.parseInt(getProperty(app, "", "Ticket.Line.label.value", "100")));
+		return widths;
 	}
 
 }
