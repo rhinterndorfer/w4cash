@@ -115,14 +115,14 @@ public class JTicketLines extends javax.swing.JPanel {
 			}
 		}
 
-		m_jTableModel = new TicketTableModel(acolumns, propertyRowHeight);
+		m_jTableModel = new TicketTableModel(acolumns);
 		m_jTicketTable.setModel(m_jTableModel);
 
 		m_jTicketTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		TableColumnModel jColumns = m_jTicketTable.getColumnModel();
 		for (int i = 0; i < acolumns.length; i++) {
 			jColumns.getColumn(i).setPreferredWidth(acolumns[i].width);
-			jColumns.getColumn(i).setResizable(false);
+			jColumns.getColumn(i).setResizable(true);
 		}
 
 		PropertyUtil.ScaleScrollbar(m_App, m_jScrollTableTicket);
@@ -297,7 +297,7 @@ public class JTicketLines extends javax.swing.JPanel {
 		private ColumnTicket[] m_acolumns;
 		private ArrayList m_rows = new ArrayList();
 
-		public TicketTableModel(ColumnTicket[] acolumns, String propertyRowHeight) {
+		public TicketTableModel(ColumnTicket[] acolumns) {
 			m_acolumns = acolumns;
 		}
 
