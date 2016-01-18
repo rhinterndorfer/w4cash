@@ -108,6 +108,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jY.setValue(0);
 		m_jHeight.setValue(0);
 		m_jWidth.setValue(0);
+		m_jFontsize.setValue(0);
 
 		m_jName.setEnabled(false);
 		m_jFloor.setEnabled(false);
@@ -115,6 +116,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jY.setEnabled(false);
 		m_jWidth.setEnabled(false);
 		m_jHeight.setEnabled(false);
+		m_jFontsize.setEnabled(false);
 	}
 
 	public void writeValueInsert() {
@@ -130,6 +132,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		m_jWidth.setValue(width);
 		m_jHeight.setValue(height);
+		
+		m_jFontsize.setValue(14);
 
 		m_jName.setEnabled(true);
 		m_jFloor.setEnabled(false);
@@ -137,6 +141,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jY.setEnabled(false);
 		m_jWidth.setEnabled(false);
 		m_jHeight.setEnabled(false);
+		m_jFontsize.setEnabled(false);
 	}
 
 	public void writeValueDelete(Object value) {
@@ -177,7 +182,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jY.setEnabled(true);
 		m_jWidth.setEnabled(true);
 		m_jHeight.setEnabled(true);
-
+		m_jFontsize.setEnabled(true);
+		
 		this.m_placesBag.selectPlace(Formats.STRING.formatValue(place[0]));
 
 		m_jX.setValue(place[2]);
@@ -185,10 +191,13 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		m_jWidth.setValue(place[5] == null ? 0 : place[5]);
 		m_jHeight.setValue(place[6] == null ? 0 : place[6]);
+		
+		m_jFontsize.setValue(place[7] == null ? 14 : place[7]);
+		
 	}
 
 	public Object createValue() throws BasicException {
-		Object[] place = new Object[7];
+		Object[] place = new Object[8];
 		place[0] = m_sID;
 
 		if (m_jName.getText() != null && !m_jName.getText().isEmpty()) {
@@ -204,7 +213,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 			try {
 				// read all places for floor
 				SentenceList sent = new StaticSentence(m_App.getSession(),
-						"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT FROM PLACES ORDER BY FLOOR", null,
+						"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE FROM PLACES ORDER BY FLOOR", null,
 						new SerializerReadClass(Place.class));
 				places.addAll(sent.list());
 			} catch (BasicException eD) {
@@ -222,6 +231,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		place[5] = Formats.INT.parseValue("" + m_jWidth.getValue());
 		place[6] = Formats.INT.parseValue("" + m_jHeight.getValue());
 
+		place[7] = Formats.INT.parseValue(""+m_jFontsize.getValue());
+		
 		// this.m_placesBag.selectPlace((String) place[0]);
 
 		return place;

@@ -72,6 +72,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private PlacesEditor editor;
 	private int m_iWidth;
 	private int m_iHeight;
+	private int m_iFontsize;
 
 	/** Creates a new instance of TablePlace */
 	public Place() {
@@ -95,6 +96,14 @@ public class Place implements SerializableRead, java.io.Serializable {
 			// npe.printStackTrace();
 			m_iHeight = 60;
 		}
+
+		try {
+			m_iFontsize = dr.getInt(8);
+		} catch (NullPointerException npe) {
+			// npe.printStackTrace();
+			m_iFontsize = 12;
+		}
+
 		m_bPeople = false;
 		m_btn = new JPlaceButton(this);
 
@@ -105,6 +114,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		m_btn.setIcon(ICO_FRE);
 		m_btn.setText(m_sName);
+		m_btn.setFont(new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsize));
 		m_btn.setMargin(new java.awt.Insets(0, 0, 0, 0));
 	}
 
@@ -136,6 +146,10 @@ public class Place implements SerializableRead, java.io.Serializable {
 		return m_sfloor;
 	}
 
+	public int getFontsize() {
+		return this.m_iFontsize;
+	}
+
 	public JPlaceButton getButton() {
 		return m_btn;
 	}
@@ -148,15 +162,6 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_bPeople = bValue;
 		m_btn.setIcon(bValue ? ICO_OCU : ICO_FRE);
 	}
-
-	// public void setButtonBounds(AppView app) {
-	// int width = Integer.parseInt(PropertyUtil.getProperty(app,
-	// "Ticket.Buttons", "button-table-width", "60"));
-	// int height = Integer.parseInt(PropertyUtil.getProperty(app,
-	// "Ticket.Buttons", "button-table-height", "40"));
-	//
-	// setButtonBounds(app, width, height);
-	// }
 
 	public void setButtonBounds(AppView app, int width, int height) {
 		this.m_iWidth = width;
@@ -180,12 +185,12 @@ public class Place implements SerializableRead, java.io.Serializable {
 		this.editor.setXYCoordinates(x, y);
 	}
 
-	public void setSize(int width, int height) {
-		this.m_iWidth = width;
-		this.m_iHeight = height;
-
-		this.editor.setPlaceSize(m_iWidth, m_iHeight);
-	}
+	// public void setSize(int width, int height) {
+	// this.m_iWidth = width;
+	// this.m_iHeight = height;
+	//
+	// this.editor.setPlaceSize(m_iWidth, m_iHeight);
+	// }
 
 	public PlacesEditor getEditor() {
 		return this.editor;
@@ -203,11 +208,9 @@ public class Place implements SerializableRead, java.io.Serializable {
 	}
 
 	public void setFontsize(int fontsize) {
-		Font newFont = new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), fontsize);
+		this.m_iFontsize = fontsize;
+		Font newFont = new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsize);
 		m_btn.setFont(newFont);
-		m_btn.setText(m_btn.getText());
 		m_btn.repaint();
-		m_btn.revalidate();
-		
 	}
 }

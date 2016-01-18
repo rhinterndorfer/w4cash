@@ -483,7 +483,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			if (this.tableSelect) {
 				try {
 					SentenceList sent = new StaticSentence(m_App.getSession(),
-							"SELECT p.ID, p.NAME, p.X, p.Y, p.FLOOR, p.WIDTH, p.HEIGHT FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
+							"SELECT p.ID, p.NAME, p.X, p.Y, p.FLOOR, p.WIDTH, p.HEIGHT, p.FONTSIZE FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
 							null, new SerializerReadClass(Place.class));
 					this.m_aplaces = sent.list();
 				} catch (BasicException eD) {
