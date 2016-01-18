@@ -496,9 +496,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		setLayout(new java.awt.BorderLayout());
 
-		// m_jCategories.setMaximumSize(new java.awt.Dimension(275, 600));
-		// m_jCategories.setPreferredSize(new java.awt.Dimension(275, 600));
-
 		m_jCategories.setLayout(new java.awt.CardLayout());
 		m_jCategoryList.setLayout(new java.awt.CardLayout());
 
@@ -508,15 +505,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		m_jscrollcat.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		PropertyUtil.ScaleScrollbar(m_App, m_jscrollcat);
 
-		// m_jListCategories.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		// m_jListCategories.setFocusable(false);
-		// m_jListCategories.addListSelectionListener(new
-		// javax.swing.event.ListSelectionListener() {
-		// public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-		// m_jListCategoriesValueChanged(evt);
-		// }
-		// });
-		// m_jscrollcat.setViewportView(m_jCategoryList);
 		m_jscrollcat.setViewportView(m_jCategoryList);
 
 		m_jRootCategories.add(m_jscrollcat, java.awt.BorderLayout.CENTER);
@@ -525,38 +513,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
 		jPanel3.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
-
-		// m_jUp.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/uparrow.png")));
-		// // NOI18N
-		// m_jUp.setFocusPainted(false);
-		// m_jUp.setFocusable(false);
-		// // m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		// m_jUp.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		// m_jUp.setRequestFocusEnabled(false);
-		// m_jUp.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// m_jUpActionPerformed(evt);
-		// }
-		// });
-		// jPanel3.add(m_jUp);
-
-		// m_jDown.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png")));
-		// // NOI18N
-		// m_jDown.setFocusPainted(false);
-		// m_jDown.setFocusable(false);
-		// // m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		// m_jDown.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		// m_jDown.setRequestFocusEnabled(false);
-		// m_jDown.addActionListener(new java.awt.event.ActionListener() {
-		// public void actionPerformed(java.awt.event.ActionEvent evt) {
-		// m_jDownActionPerformed(evt);
-		// }
-		// });
-		// jPanel3.add(m_jDown);
-
-		// jPanel2.add(jPanel3, java.awt.BorderLayout.NORTH);
 
 		m_jRootCategories.add(jPanel2, java.awt.BorderLayout.LINE_END);
 

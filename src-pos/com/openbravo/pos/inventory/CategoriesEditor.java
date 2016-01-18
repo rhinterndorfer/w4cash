@@ -192,7 +192,6 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jImage.setEnabled(true);
 		m_jCatalogDelete.setEnabled(true);
 		m_jCatalogAdd.setEnabled(true);
-
 	}
 
 	public Object createValue() throws BasicException {
@@ -203,6 +202,10 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
 		cat[4] = m_sortOrder;
+		
+		
+		
+		
 		cat[5] = m_jPrinter.getSelectedIndex();
 
 		// if (m_jPrinter.getSelectedIndex() >= 0) {
@@ -237,6 +240,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCategory = new javax.swing.JComboBox();
 		jLabel7 = new javax.swing.JLabel();
 		m_jPrinter = new javax.swing.JComboBox();
+		m_jPrinter.addItem("");
 		m_jPrinter.addItem("Drucker 1");
 		m_jPrinter.addItem("Drucker 2");
 		m_jPrinter.addItem("Drucker 3");

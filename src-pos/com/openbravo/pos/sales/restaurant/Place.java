@@ -21,6 +21,8 @@ package com.openbravo.pos.sales.restaurant;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -84,13 +86,13 @@ public class Place implements SerializableRead, java.io.Serializable {
 		try {
 			m_iWidth = dr.getInt(6);
 		} catch (NullPointerException npe) {
-//			npe.printStackTrace();
+			// npe.printStackTrace();
 			m_iWidth = 100;
 		}
 		try {
 			m_iHeight = dr.getInt(7);
 		} catch (NullPointerException npe) {
-//			npe.printStackTrace();
+			// npe.printStackTrace();
 			m_iHeight = 60;
 		}
 		m_bPeople = false;
@@ -122,14 +124,14 @@ public class Place implements SerializableRead, java.io.Serializable {
 		return m_iy;
 	}
 
-	public int getWidth(){
+	public int getWidth() {
 		return m_iWidth;
 	}
 
-	public int getHeight(){
+	public int getHeight() {
 		return m_iHeight;
 	}
-	
+
 	public String getFloor() {
 		return m_sfloor;
 	}
@@ -147,12 +149,14 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setIcon(bValue ? ICO_OCU : ICO_FRE);
 	}
 
-//	public void setButtonBounds(AppView app) {
-//		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-width", "60"));
-//		int height = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-table-height", "40"));
-//
-//		setButtonBounds(app, width, height);
-//	}
+	// public void setButtonBounds(AppView app) {
+	// int width = Integer.parseInt(PropertyUtil.getProperty(app,
+	// "Ticket.Buttons", "button-table-width", "60"));
+	// int height = Integer.parseInt(PropertyUtil.getProperty(app,
+	// "Ticket.Buttons", "button-table-height", "40"));
+	//
+	// setButtonBounds(app, width, height);
+	// }
 
 	public void setButtonBounds(AppView app, int width, int height) {
 		this.m_iWidth = width;
@@ -198,4 +202,12 @@ public class Place implements SerializableRead, java.io.Serializable {
 		this.editor.selectPlace(this);
 	}
 
+	public void setFontsize(int fontsize) {
+		Font newFont = new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), fontsize);
+		m_btn.setFont(newFont);
+		m_btn.setText(m_btn.getText());
+		m_btn.repaint();
+		m_btn.revalidate();
+		
+	}
 }

@@ -70,6 +70,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 	private PlacesEditor m_Editor;
 	private JTabbedPane jTabFloors;
+	private JPanel jSingleTabFloor;
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JPlacesBagRestaurantMap(AppView app, PlacesEditor editor) {
@@ -167,10 +168,10 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			Floor f = m_afloors.get(0);
 			f.getContainer().applyComponentOrientation(getComponentOrientation());
 
-			JPanel jPlaces = new JPanel();
-			jPlaces.applyComponentOrientation(getComponentOrientation());
-			jPlaces.setLayout(new BorderLayout());
-			jPlaces.setBorder(
+			this.jSingleTabFloor = new JPanel();
+			jSingleTabFloor.applyComponentOrientation(getComponentOrientation());
+			jSingleTabFloor.setLayout(new BorderLayout());
+			jSingleTabFloor.setBorder(
 					new javax.swing.border.CompoundBorder(new javax.swing.border.EmptyBorder(new Insets(5, 5, 5, 5)),
 							new javax.swing.border.TitledBorder(f.getName())));
 
@@ -181,8 +182,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			PropertyUtil.ScaleScrollbar(m_App, jScrCont);
 
 			// jPlaces.setLayout(new FlowLayout());
-			m_jPanelMap.add(jPlaces, BorderLayout.CENTER);
-			jPlaces.add(jScrCont, BorderLayout.CENTER);
+			m_jPanelMap.add(jSingleTabFloor, BorderLayout.CENTER);
+			jSingleTabFloor.add(jScrCont, BorderLayout.CENTER);
 			jScrCont.setViewportView(jPanCont);
 			jPanCont.add(f.getContainer());
 		}
@@ -223,19 +224,22 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			m_aplaces = new ArrayList<Place>();
 		}
 		// refresh/repaint floor
-		if (jTabFloors == null) {
-			return;
-		}
-
-		// Add all the Table buttons.
 		Floor currfloor = null;
-		String title = jTabFloors.getTitleAt(jTabFloors.getSelectedIndex());
-		for (int i = 0; i < m_afloors.size(); i++) {
-			Floor floor = m_afloors.get(i);
-			if (title.equals(floor.getName())) {
-				currfloor = floor;
-				break;
+		if (jTabFloors != null) {
+
+			// Add all the Table buttons.
+
+			String title = jTabFloors.getTitleAt(jTabFloors.getSelectedIndex());
+			for (int i = 0; i < m_afloors.size(); i++) {
+				Floor floor = m_afloors.get(i);
+				if (title.equals(floor.getName())) {
+					currfloor = floor;
+					break;
+				}
 			}
+		} else if (jSingleTabFloor != null && !m_afloors.isEmpty()) {
+
+			currfloor = m_afloors.get(0);
 		}
 
 		if (currfloor != null) {
@@ -263,6 +267,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 				}
 			}
 		}
+
 	}
 
 	@Override
