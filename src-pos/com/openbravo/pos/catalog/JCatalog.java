@@ -76,7 +76,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	/** Creates new form JCatalog */
 	public JCatalog(AppView app, DataLogicSales dlSales) {
-		this(app, dlSales, false, false, 64, 54, 32, 32, 12, 12);
+		this(app, dlSales, false, false, 64, 54, 32, 32, 24, 24);
 	}
 
 	public JCatalog(AppView app, DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int widthProduct,
