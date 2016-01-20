@@ -151,7 +151,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		int res = JConfirmDialog.showConfirm(m_App, this, AppLocal.getIntString("message.wannadelete"), null);
 
 		if (res == JOptionPane.YES_OPTION) {
-			m_restaurant.deleteTicket();
+			m_restaurant.deleteTicket(true);
 		}
 
 	}// GEN-LAST:event_m_jDelTicketActionPerformed

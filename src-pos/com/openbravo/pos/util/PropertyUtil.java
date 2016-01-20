@@ -303,6 +303,11 @@ public class PropertyUtil {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		dialog.setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
 	}
+	
+	public static void ScaleDialogFullScreen(AppView app, JDialog dialog) {
+		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		dialog.setBounds(0, 0, screenSize.width, screenSize.height);
+	}
 
 	public static void ScaleEditcurrencyFontsize(AppView app, JEditorCurrency label, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -845,7 +850,8 @@ public class PropertyUtil {
 		jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(value, value));
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	}
-
+	
+	
 	public static void ScaleJComboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {
 		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
 		int value = Integer.parseInt(property);

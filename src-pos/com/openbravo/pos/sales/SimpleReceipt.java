@@ -22,6 +22,7 @@ package com.openbravo.pos.sales;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -162,7 +163,12 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			if (m_jTicketId != null)
 				m_jTicketId.setVisible(false);
 			m_jLTicketId.setVisible(true);
-			m_jLTicketId.setText(ticket.getName(tt));
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("<html><div style='width: 150px'>");
+			sb.append(ticket.getName(tt));
+			sb.append("</div></html>");
+			m_jLTicketId.setText(sb.toString());
 		}
 
 		ticketlines.clearTicketLines();
@@ -346,30 +352,32 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			if (this.tableSelect) {
 				fillpossibleTables();
 
-				// first add direct sales place
-				Place place = new Place();
-				place.setSId("direkt");
-				place.setSName("direkt");
-
-				// TicketInfo ticket = new TicketInfo();
-
-				// m_restaurantmap.setPromptTicket(true);
-				// setActivePlace(m_place, ticket);
-
-				// m_jRoomId = new JComboBox<String>();
-				// m_jRoomId.insertItemAt("Restaurant", 0);
-
 				m_jTicketId = new JComboBox<Place>(this.m_aplaces.toArray(new Place[this.m_aplaces.size()]));
-				// TODO activate next line to activate spit to direkt buchen
-				// possibility
-				// m_jTicketId.insertItemAt(place, 0);
-
+				m_jTicketId.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JComboBox<Place> cb = ((JComboBox<Place>)e.getSource());
+						cb.setPrototypeDisplayValue((Place)cb.getSelectedItem());
+						
+					}
+				});
 				((JComboBox<Place>) m_jTicketId).setRenderer(new ListCellRenderer<Place>() {
 
 					public Component getListCellRendererComponent(JList<? extends Place> list, Place value, int index,
 							boolean isSelected, boolean cellHasFocus) {
 						// TODO Auto-generated method stub
-						JLabel renderer = new JLabel(value.getName());
+						StringBuilder sb = new StringBuilder();
+						sb.append("<html><div style='width: 150px'>");
+						sb.append(value.getName());
+						sb.append("</div></html>");
+						JLabel renderer = new JLabel(sb.toString());
+						
+						renderer.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+								javax.swing.BorderFactory
+										.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
+								javax.swing.BorderFactory.createLineBorder(Color.white, 10)));
+						
 						PropertyUtil.ScaleLabelFontsize(m_App, renderer, "common-dialog-fontsize", "22");
 						return renderer;
 					}
@@ -385,17 +393,17 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		jPanel1.setLayout(new java.awt.BorderLayout());
 
 		// GroupLayout totalLayout = new GroupLayout(m_jPanTotals);
-		GridLayout layout = new GridLayout(3, 2, 5, 5);
+		GridLayout layout = new GridLayout(1, 2);
 		m_jPanTotals.setLayout(layout);
 
 		init2();
 		ScaleLabels();
 
-		m_jPanTotals.add(m_jLblTotalEuros3);
-		m_jPanTotals.add(m_jSubtotalEuros);
+		//m_jPanTotals.add(m_jLblTotalEuros3);
+		//m_jPanTotals.add(m_jSubtotalEuros);
 
-		m_jPanTotals.add(m_jLblTotalEuros2);
-		m_jPanTotals.add(m_jTaxesEuros);
+		//m_jPanTotals.add(m_jLblTotalEuros2);
+		//m_jPanTotals.add(m_jTaxesEuros);
 
 		m_jPanTotals.add(m_jLblTotalEuros1);
 		m_jPanTotals.add(m_jTotalEuros);
@@ -408,20 +416,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		if (RESTAURANT.compareTo(m_appType) == 0) {
 			if (tableSelect) {
-				// m_jRoomId.setBackground(java.awt.Color.white);
-				// //
-				// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-				//
-				// m_jRoomId.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-				// javax.swing.BorderFactory
-				// .createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-				// javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
-				// m_jRoomId.setOpaque(true);
-				// // m_jTicketId.setPreferredSize(new java.awt.Dimension(160,
-				// 25));
-				// m_jRoomId.setRequestFocusEnabled(false);
-				//
-				// m_jButtons.add(m_jRoomId);
 
 				m_jTicketId.setBackground(java.awt.Color.white);
 				// m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -451,7 +445,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		m_jLTicketId.setOpaque(true);
 		// m_jTicketId.setPreferredSize(new java.awt.Dimension(160, 25));
 		m_jLTicketId.setRequestFocusEnabled(false);
-
+		//m_jLTicketId.setMinimumSize(new Dimension(150, 15));
 		m_jButtons.add(m_jLTicketId);
 
 		btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
@@ -585,14 +579,26 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				} else {
 					m_jTicketId.setVisible(false);
 					m_jLTicketId.setVisible(true);
-					m_jLTicketId.setText(ticket.getName(ticketext));
+					StringBuilder sb = new StringBuilder();
+					sb.append("<html><div style='width: 150px'>");
+					sb.append(ticket.getName(ticketext));
+					sb.append("</div></html>");
+					m_jLTicketId.setText(sb.toString());
 				}
 
 			} else {
-				m_jLTicketId.setText(ticket.getName(ticketext));
+				StringBuilder sb = new StringBuilder();
+				sb.append("<html><div style='width: 150px'>");
+				sb.append(ticket.getName(ticketext));
+				sb.append("</div></html>");
+				m_jLTicketId.setText(sb.toString());
 			}
 		} else {
-			m_jLTicketId.setText(ticket.getName(ticketext));
+			StringBuilder sb = new StringBuilder();
+			sb.append("<html><div style='width: 150px'>");
+			sb.append(ticket.getName(ticketext));
+			sb.append("</div></html>");
+			m_jLTicketId.setText(sb.toString());
 		}
 
 		refreshTicketTaxes();

@@ -146,7 +146,7 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
 				AppLocal.getIntString("message.wannadelete"), null);
 		
 		if (res == JOptionPane.YES_OPTION) {
-			m_ticketsbagticket.deleteTicket();
+			m_ticketsbagticket.deleteTicket(true);
 		}
 
 	}// GEN-LAST:event_m_jBtnDeleteActionPerformed

@@ -76,39 +76,47 @@ public class ThumbNailBuilder {
 		BufferedImage imgtext = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = imgtext.createGraphics();
 
-		// The text
 		JLabel label = new JLabel();
+		// label.setBounds(0, 0, imgtext.getWidth(), imgtext.getHeight());
 		label.setOpaque(false);
-		label.setText(text);
-		// label.setText("<html><center>Line1<br>Line2");
-		label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		label.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		// label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		label.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-		Dimension d = label.getPreferredSize();
-		if(d.height < fontsize){
-			d.height = fontsize;
-		}
-		
-		label.setBounds(0, 0, imgtext.getWidth(), d.height);
 
 		// fontsize
 		Font font = label.getFont();
 		label.setFont(new Font(font.getName(), font.getStyle(), fontsize));
-		// The background
-		Color c1 = new Color(0xff, 0xff, 0xff, 0x40);
-		Color c2 = new Color(0xff, 0xff, 0xff, 0xd0);
 
-		// Point2D center = new Point2D.Float(imgtext.getWidth() / 2,
-		// label.getHeight());
-		// float radius = imgtext.getWidth() / 3;
-		// float[] dist = {0.1f, 1.0f};
-		// Color[] colors = {c2, c1};
-		// Paint gpaint = new RadialGradientPaint(center, radius, dist, colors);
+		// The text
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><div style='font-family:");
+		sb.append(font.getName());
+		sb.append(";font-size:");
+		sb.append(fontsize);
+		sb.append(";width:");
+		sb.append(imgtext.getWidth());
+		sb.append("px'><center>");
+		sb.append(text);
+		sb.append("</center></div></html>");
+		label.setText(sb.toString());
+
+		Dimension d = label.getPreferredSize();
+		label.setSize(d);
+
+		// The background
+		Color c1 = new Color(0xff, 0xff, 0xff, 0x80);
+		Color c2 = new Color(0xff, 0xff, 0xff, 0xf0);
+
 		Paint gpaint = new GradientPaint(new Point(0, 0), c1, new Point(label.getWidth() / 2, 0), c2, true);
 
+		double scale = (double) imgtext.getWidth() / (double) label.getWidth();
 		g2d.drawImage(img, 0, 0, null);
-		g2d.translate(0, imgtext.getHeight() - label.getHeight());
+		g2d.translate(0, imgtext.getHeight() - (double) (label.getHeight() * scale));
 		g2d.setPaint(gpaint);
-		g2d.fillRect(0, 0, imgtext.getWidth(), label.getHeight());
+		g2d.fillRect(0, 0, imgtext.getWidth(), (int) (label.getHeight() * scale));
+
+		// scale label drawing
+		g2d.scale(scale, scale);
 		label.paint(g2d);
 
 		g2d.dispose();
