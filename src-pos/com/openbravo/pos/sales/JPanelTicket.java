@@ -30,7 +30,7 @@ import java.util.Date;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.printer.*;
-
+import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.forms.JPanelView;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
@@ -53,7 +53,6 @@ import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
-import com.openbravo.pos.ticket.ProductInfoEdit;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.ticket.TicketInfo;
@@ -136,6 +135,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private TicketInfo m_oTicketClone;
 	
 	private SalesTransferModule transferModule;
+	
+	protected JTicketsBagRestaurantMap m_restaurant;
+
+	public JTicketsBagRestaurantMap getRestaurant() {
+		return m_restaurant;
+	}
+
+	public void setRestaurant(JTicketsBagRestaurantMap m_restaurant) {
+		this.m_restaurant = m_restaurant;
+	}
 
 	/** Creates new form JTicketView */
 	public JPanelTicket() {
@@ -954,8 +963,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} else if (cTrans == ' ' || cTrans == '=') {
 				if (m_oTicket.getLinesCount() > 0) {
 
+//					TicketInfo tt = m_oTicket.copyTicket();
 					if (closeTicket(m_oTicket, m_oTicketExt)) {
 						// Ends edition of current receipt
+						// verify booked products
+//						this.m_App.getAppUserView().
+						this.m_restaurant.newTicket();
 						m_ticketsbag.deleteTicket(false);
 					} else {
 						// repaint current ticket
@@ -995,7 +1008,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					//paymentdialog.setSize(800, 500);
 
 					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
-
+						
 						// assign the payments selected and calculate taxes.
 						ticket.setPayments(paymentdialog.getSelectedPayments());
 

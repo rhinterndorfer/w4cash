@@ -23,7 +23,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import com.openbravo.data.gui.JConfirmDialog;
-import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.sales.JTicketLines;

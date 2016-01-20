@@ -18,7 +18,7 @@
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
 -- Database script for ORACLE
--- V2.41.5 (set in line 30!!!)
+-- V2.41.6 (set in line 30!!!)
 
 CREATE TABLE APPLICATIONS (
     ID VARCHAR2(256) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE APPLICATIONS (
     PRIMARY KEY (ID)
 );
 INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.41.6');
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.41.7');
 
 CREATE TABLE ROLES (
     ID VARCHAR2(256) NOT NULL,
@@ -111,6 +111,7 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('39', 'Printer.TicketPr
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('40', 'Printer.Ticket.80mm', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.80mm.xml});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('41', 'Printer.Ticket.57mm', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.57mm.xml});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('42', 'Printer.Ticket.A4', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.A4.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('43', 'Printer.AdditionalPrinter', 0, $FILE{/com/openbravo/pos/templates/Printer.AdditionalPrinter.xml});
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,
