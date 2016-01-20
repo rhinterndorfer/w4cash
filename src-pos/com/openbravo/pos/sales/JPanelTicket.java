@@ -58,6 +58,7 @@ import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.transfer.SalesTransferModule;
 import com.openbravo.pos.util.JRPrinterAWT300;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
@@ -133,6 +134,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private JPaymentSelect paymentdialogreceipt;
 	private JPaymentSelect paymentdialogrefund;
 	private TicketInfo m_oTicketClone;
+	
+	private SalesTransferModule transferModule;
 
 	/** Creates new form JTicketView */
 	public JPanelTicket() {
@@ -142,6 +145,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	public void init(AppView app) throws BeanFactoryException {
 		m_App = app;
 
+		this.transferModule = new SalesTransferModule();
+		
 		initComponents();
 
 		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
