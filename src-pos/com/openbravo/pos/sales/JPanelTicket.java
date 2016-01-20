@@ -1829,13 +1829,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				Object currentTicket = splitdialog.getTicketText();
 				String currentTicketId = splitdialog.getTicketId();
 				if (splitdialog.isReceipt()) {
-
-					if (closeTicket(ticket2, currentTicket)) { // already
-																// checked
-																// that number
-																// of
-																// lines > 0
+					if (closeTicket(ticket2, currentTicket)) {
+						// Ends edition of current receipt
+						if(ticket1.getLinesCount() > 0)
+							setActiveTicket(ticket1, m_oTicketExt);
+						else
+							m_ticketsbag.deleteTicket(false);
+					} else {
+						// repaint current ticket
+						refreshTicket();
 					}
+					
 				} else {
 					// now we move lines to the selected Table
 					try {
@@ -1865,9 +1869,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 							new MessageInf(ex).show(m_App, this);
 						}
 					}
+					setActiveTicket(ticket1, m_oTicketExt);
 				}
 
-				setActiveTicket(ticket1, m_oTicketExt); // set result
+				 // set result
 				// ticket
 			}
 		}
