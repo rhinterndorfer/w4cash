@@ -1009,12 +1009,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								ticket.setDate(new Date());
 
 								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
-
+								
 								executeEvent(ticket, ticketext, "ticket.close",
 										new ScriptArg("print", paymentdialog.isPrintSelected()));
 
+								String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
+								String ticketsuffix = ".";
+								if(bonsize.length >= 2)
+									ticketsuffix += bonsize[2];
 								// Print receipt.
-								printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" : "Printer.Ticket2",
+								printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix : "Printer.Ticket2",
 										ticket, ticketext);
 								resultok = true;
 

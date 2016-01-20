@@ -18,7 +18,7 @@
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
 -- Database script for ORACLE
--- V2.41.4 (set in line 30!!!)
+-- V2.41.5 (set in line 30!!!)
 
 CREATE TABLE APPLICATIONS (
     ID VARCHAR2(256) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE APPLICATIONS (
     PRIMARY KEY (ID)
 );
 INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.41.5');
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.41.6');
 
 CREATE TABLE ROLES (
     ID VARCHAR2(256) NOT NULL,
@@ -105,6 +105,12 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('33', 'ticket.close', 0
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('34', 'Reports.Address', 0, $FILE{/com/openbravo/pos/templates/reports.address.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('35', 'Script.DiscountPercentLine', 0, $FILE{/com/openbravo/pos/templates/Script.DiscountPercentLine.txt});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('36', 'Window.Logout', 0, $FILE{/com/openbravo/pos/templates/Window.Logout.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('37', 'Printer.TicketPreview.80mm', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketPreview.80mm.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('38', 'Printer.TicketPreview.57mm', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketPreview.57mm.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('39', 'Printer.TicketPreview.A4', 0, $FILE{/com/openbravo/pos/templates/Printer.TicketPreview.A4.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('40', 'Printer.Ticket.80mm', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.80mm.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('41', 'Printer.Ticket.57mm', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.57mm.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('42', 'Printer.Ticket.A4', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.A4.xml});
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,

@@ -240,9 +240,16 @@ public class JTicketsBagTicket extends JTicketsBag {
 					}
 				}
 
+				//** get selected printer size
+				
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
-				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview");
+				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
+				String ticketsuffix = ".";
+				if(bonsize.length >= 2)
+					ticketsuffix += bonsize[2];
+				
+				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix);
 				Object o = script.eval(asxml);
 				m_TTP.printTicket(o.toString());
 			} catch (ScriptException e) {
@@ -485,7 +492,11 @@ public class JTicketsBagTicket extends JTicketsBag {
 				}
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
-				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview")).toString());
+				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
+				String ticketsuffix = ".";
+				if(bonsize.length >= 2)
+					ticketsuffix += bonsize[2];
+				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview"+ ticketsuffix)).toString());
 			} catch (ScriptException e) {
 				JMessageDialog.showMessage(m_App, this,
 						new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotprint"), e));

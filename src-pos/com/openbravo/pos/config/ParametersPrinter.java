@@ -24,6 +24,8 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.util.StringParser;
 import java.awt.Component;
 
+import javax.swing.JComboBox;
+
 /**
  *
  * @author adrian
@@ -41,6 +43,10 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
         for (String name : printernames) {
             jPrinters.addItem(name);
         }
+        
+        jBonSize.addItem("57mm");
+        jBonSize.addItem("80mm");
+        jBonSize.addItem("A4");
     }
 
     public Component getComponent() {
@@ -50,6 +56,7 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
     public void addDirtyManager(DirtyManager dirty) {
         jPrinters.addActionListener(dirty);
         jReceiptPrinter.addActionListener(dirty);
+        jBonSize.addActionListener(dirty);
     }
 
     public void setParameters(StringParser p) {
@@ -57,10 +64,14 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
         String sizename = p.nextToken(',');
         jReceiptPrinter.setSelected("receipt".equals(sizename));
         othersizename = "receipt".equals(sizename) ? "standard" : sizename;
+        
+        String bonsize = p.nextToken(',');
+        if(!bonsize.isEmpty())
+        	jBonSize.setSelectedItem(bonsize);
     }
 
     public String getParameters() {
-        return comboValue(jPrinters.getSelectedItem()) + "," + boolValue(jReceiptPrinter.isSelected());
+        return comboValue(jPrinters.getSelectedItem()) + "," + boolValue(jReceiptPrinter.isSelected()) + "," + jBonSize.getSelectedItem();
     }
 
     private static String comboValue(Object value) {
@@ -82,7 +93,8 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
 
         jPrinters = new javax.swing.JComboBox();
         jReceiptPrinter = new javax.swing.JCheckBox();
-
+        jBonSize = new javax.swing.JComboBox();
+        
         jReceiptPrinter.setSelected(true);
         jReceiptPrinter.setText(AppLocal.getIntString("label.receiptprinter")); // NOI18N
 
@@ -96,7 +108,9 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
                 .addComponent(jPrinters, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jReceiptPrinter)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBonSize, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +118,8 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPrinters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jReceiptPrinter))
+                    .addComponent(jReceiptPrinter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBonSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -113,6 +128,7 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox jPrinters;
     private javax.swing.JCheckBox jReceiptPrinter;
+    private javax.swing.JComboBox jBonSize;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -412,7 +412,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-		m_jButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+//		m_jButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+		m_jButtons.setLayout(new java.awt.BorderLayout());
 
 		if (RESTAURANT.compareTo(m_appType) == 0) {
 			if (tableSelect) {
@@ -425,12 +426,11 @@ public class SimpleReceipt extends javax.swing.JPanel {
 								.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
 						javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
 				m_jTicketId.setOpaque(true);
+				
 				// m_jTicketId.setPreferredSize(new java.awt.Dimension(160,
 				// 25));
 				m_jTicketId.setRequestFocusEnabled(false);
-
-				m_jButtons.add(m_jTicketId);
-
+				m_jButtons.add(m_jTicketId, BorderLayout.LINE_START);
 				m_jLTicketId.setVisible(false);
 			}
 		}
@@ -452,7 +452,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		btnCustomer.setFocusPainted(false);
 		btnCustomer.setFocusable(false);
 		btnCustomer.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		btnCustomer.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+		btnCustomer.setLayout(new java.awt.BorderLayout());
 		btnCustomer.setRequestFocusEnabled(false);
 		btnCustomer.addActionListener(new java.awt.event.ActionListener() {
 
@@ -461,8 +461,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			}
 
 		});
-		// m_jButtons.setBackground(Color.red);
-		m_jButtons.add(btnCustomer);
+//		m_jButtons.setBackground(Color.red);
+		m_jButtons.add(btnCustomer, java.awt.BorderLayout.AFTER_LINE_ENDS);
 
 		add(m_jButtons, java.awt.BorderLayout.NORTH);
 
