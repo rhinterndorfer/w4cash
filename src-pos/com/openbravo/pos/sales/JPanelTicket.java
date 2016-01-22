@@ -31,7 +31,7 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.printer.*;
-import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurant;
+import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.forms.JPanelView;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
@@ -137,6 +137,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private TicketInfo m_oTicketClone;
 
 	private SalesTransferModule transferModule;
+
+	protected JTicketsBagRestaurantMap m_restaurant;
+
+	public JTicketsBagRestaurantMap getRestaurant() {
+		return m_restaurant;
+	}
+
+	public void setRestaurant(JTicketsBagRestaurantMap m_restaurant) {
+		this.m_restaurant = m_restaurant;
+	}
 
 	/** Creates new form JTicketView */
 	public JPanelTicket() {
@@ -955,9 +965,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} else if (cTrans == ' ' || cTrans == '=') {
 				if (m_oTicket.getLinesCount() > 0) {
 
+					// TicketInfo tt = m_oTicket.copyTicket();
 					if (closeTicket(m_oTicket, m_oTicketExt)) {
 						// Ends edition of current receipt
-						m_ticketsbag.deleteTicket(false);
+						// verify booked products
+						// this.m_App.getAppUserView().
+						try {
+							this.m_restaurant.newTicket();
+
+							m_ticketsbag.deleteTicket(false);
+						} catch (BasicException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} else {
 						// repaint current ticket
 						refreshTicket();
@@ -1014,9 +1034,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								executeEvent(ticket, ticketext, "ticket.close",
 										new ScriptArg("print", paymentdialog.isPrintSelected()));
 
+								String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
+								String ticketsuffix = ".";
+								if (bonsize.length >= 2)
+									ticketsuffix += bonsize[2];
 								// Print receipt.
-								printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" : "Printer.Ticket2",
-										ticket, ticketext);
+								printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
+										: "Printer.Ticket2", ticket, ticketext);
 								resultok = true;
 
 							} catch (Exception eData) {
@@ -1025,7 +1049,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								// AppLocal.getIntString("message.nosaveticket"),
 								// eData);
 								// msg.show(m_App, this);
-								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"), AppLocal.getIntString("message.databaseconnectionerror"));
+								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
+										AppLocal.getIntString("message.databaseconnectionerror"));
 								resultok = false;
 							}
 						}
@@ -1076,9 +1101,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						AppLocal.getIntString("message.cannotprintticket"), e);
 				msg.show(m_App, JPanelTicket.this);
 			} catch (TicketPrinterException e) {
-				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(m_App, JPanelTicket.this);
+//				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+//						AppLocal.getIntString("message.cannotprintticket"), e);
+//				msg.show(m_App, JPanelTicket.this);
+				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+						AppLocal.getIntString("message.cannotprintticket"));
 			}
 		}
 	}
@@ -1884,7 +1911,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					// ticket
 				}
 			} catch (BasicException e1) {
-				JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"), AppLocal.getIntString("message.databaseconnectionerror"));
+				JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"),
+						AppLocal.getIntString("message.databaseconnectionerror"));
 			}
 		}
 

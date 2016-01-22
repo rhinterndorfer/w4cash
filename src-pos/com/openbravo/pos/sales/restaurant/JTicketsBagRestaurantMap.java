@@ -92,6 +92,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_TTP = new TicketParser(m_App.getDeviceTicket(), dlSystem);
 
 		m_restaurantmap = new JTicketsBagRestaurant(app, this);
+		((JPanelTicketSales) panelticket).setRestaurant(this);
 		m_PlaceCurrent = null;
 		m_PlaceClipboard = null;
 		customer = null;
@@ -405,6 +406,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		}
 
 		return -1;
+	}
+
+	public void newTicket() throws BasicException {
+		this.newTicket(m_panelticket.getActiveTicket().copyTicket(), m_panelticket.getActiveTicketClone());
 	}
 
 	public void newTicket(TicketInfo ticketinfo1, TicketInfo clone) throws BasicException {
