@@ -22,6 +22,7 @@ package com.openbravo.pos.sales.restaurant;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.pos.forms.AppLocal;
@@ -157,9 +158,14 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 	}// GEN-LAST:event_m_jDelTicketActionPerformed
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-		m_restaurant.newTicket(m_restaurant.getPanelticket().getActiveTicket().copyTicket(), m_restaurant.getPanelticket().getActiveTicketClone());
-		m_restaurant.setPlaceCurrent(null);
-		
+		try {
+			m_restaurant.newTicket(m_restaurant.getPanelticket().getActiveTicket().copyTicket(),
+					m_restaurant.getPanelticket().getActiveTicketClone());
+			m_restaurant.setPlaceCurrent(null);
+		} catch (BasicException e1) {
+			// network error message
+			JConfirmDialog.showError(m_App, JTicketsBagRestaurant.this, AppLocal.getIntString("error.network"), AppLocal.getIntString("message.databaseconnectionerror"));
+		}
 		// m_restaurant.setPlm_PlaceCurrent = null;
 	}// GEN-LAST:event_jButton1ActionPerformed
 

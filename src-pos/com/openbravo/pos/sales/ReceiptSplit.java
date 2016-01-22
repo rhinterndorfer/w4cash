@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.sales;
 
+import com.openbravo.basic.BasicException;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
@@ -63,7 +64,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	}
 
 	private void init(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
-			TaxesLogic taxeslogic) {
+			TaxesLogic taxeslogic) throws BasicException {
 
 		this.m_App = app;
 		this.m_appType = m_App.getProperties().getProperty("machine.ticketsbag");
@@ -83,7 +84,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	}
 
 	public static ReceiptSplit getDialog(AppView app, Component parent, String ticketline, DataLogicSales dlSales,
-			DataLogicCustomers dlCustomers, TaxesLogic taxeslogic) {
+			DataLogicCustomers dlCustomers, TaxesLogic taxeslogic) throws BasicException {
 
 		Window window = getWindow(parent);
 
@@ -94,7 +95,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		} else {
 			myreceiptsplit = new ReceiptSplit((Dialog) window);
 		}
-
+		
 		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();

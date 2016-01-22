@@ -29,9 +29,11 @@ import java.awt.*;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurant;
 import com.openbravo.pos.scale.Scale;
 
 /**
@@ -293,8 +295,9 @@ public class JProductFinder extends javax.swing.JDialog {
 			if (jListProducts.getModel().getSize() > 0) {
 				jListProducts.setSelectedIndex(0);
 			}
-		} catch (BasicException e) {
-			e.printStackTrace();
+		} catch (BasicException e1) {
+			JConfirmDialog.showError(m_App, JProductFinder.this, AppLocal.getIntString("error.network"),
+					AppLocal.getIntString("message.databaseconnectionerror"));
 		}
 
 	}// GEN-LAST:event_jButton3ActionPerformed

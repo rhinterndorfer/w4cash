@@ -28,9 +28,10 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 
 import com.openbravo.data.gui.ComboBoxValModel;
+import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.printer.*;
-
+import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurant;
 import com.openbravo.pos.forms.JPanelView;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
@@ -134,7 +135,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private JPaymentSelect paymentdialogreceipt;
 	private JPaymentSelect paymentdialogrefund;
 	private TicketInfo m_oTicketClone;
-	
+
 	private SalesTransferModule transferModule;
 
 	/** Creates new form JTicketView */
@@ -146,7 +147,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_App = app;
 
 		this.transferModule = new SalesTransferModule();
-		
+
 		initComponents();
 
 		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -172,7 +173,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// views and buttons
 		m_ticketsbag = getJTicketsBag();
 		JComponent bag = m_ticketsbag.getBagComponent();
-		m_jPanelBag.add(bag); //, BorderLayout.LINE_START);
+		m_jPanelBag.add(bag); // , BorderLayout.LINE_START);
 		JComponent bagNull = m_ticketsbag.getNullComponent();
 		add(bagNull, "null");
 
@@ -992,7 +993,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
 
 					paymentdialog.setTransactionID(ticket.getTransactionID());
-					//paymentdialog.setSize(800, 500);
+					// paymentdialog.setSize(800, 500);
 
 					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
@@ -1019,9 +1020,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								resultok = true;
 
 							} catch (Exception eData) {
-								MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE,
-										AppLocal.getIntString("message.nosaveticket"), eData);
-								msg.show(m_App, this);
+								// MessageInf msg = new
+								// MessageInf(MessageInf.SGN_NOTICE,
+								// AppLocal.getIntString("message.nosaveticket"),
+								// eData);
+								// msg.show(m_App, this);
+								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"), AppLocal.getIntString("message.databaseconnectionerror"));
 								resultok = false;
 							}
 						}
@@ -1064,7 +1068,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					}
 				}
 				script.put("ticket", ticket);
-				script.put("place", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
+				script.put("place",
+						ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 				m_TTP.printTicket(script.eval(sresource).toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1107,7 +1112,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			Map reportfields = new HashMap();
 			reportfields.put("TICKET", ticket);
-			reportfields.put("PLACE", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
+			reportfields.put("PLACE",
+					ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 
 			JasperPrint jp = JasperFillManager.fillReport(jr, reportparams,
 					new JRMapArrayDataSource(new Object[] { reportfields }));
@@ -1133,7 +1139,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("ticketline", oLine);
 				script.put("ticketlineOrig", oOrigLine);
 				script.put("ticketlineEdit", isEditOperation);
-				script.put("place", m_oTicketExt != null && m_oTicketExt.getClass().equals(String.class) ? m_oTicketExt.toString() : "");
+				script.put("place", m_oTicketExt != null && m_oTicketExt.getClass().equals(String.class)
+						? m_oTicketExt.toString() : "");
 				m_TTP.printTicket(script.eval(dlSystem.getResourceAsXML("Printer.TicketLine")).toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1287,7 +1294,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
 			script.put("ticket", ticket);
-			script.put("place", ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
+			script.put("place",
+					ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 			script.put("taxes", taxcollection);
 			script.put("taxeslogic", taxeslogic);
 			script.put("user", m_App.getAppUserView().getUser());
@@ -1400,8 +1408,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jPanContainer.setLayout(new java.awt.BorderLayout());
 
 		m_jOptions.setLayout(new java.awt.BorderLayout());
-
-		
 
 		// btnCustomer.setIcon(new
 		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png")));
@@ -1554,10 +1560,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		jPanel4.setLayout(new java.awt.BorderLayout());
 
-		
 		m_jPanTotals.setLayout(new java.awt.GridBagLayout());
 
-		
 		m_jTotalEuros.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 		m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 		m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(
@@ -1567,13 +1571,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jTotalEuros.setOpaque(true);
 		m_jTotalEuros.setRequestFocusEnabled(false);
 
-		
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 3;
 		gridBagConstraints.gridy = 1;
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
 		gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
-		
+
 		m_jPanTotals.add(m_jTotalEuros, gridBagConstraints);
 
 		m_jLblTotalEuros1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1584,16 +1587,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
 		gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 5);
 		// m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
-		
-		
+
 		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		m_jTicketId.setOpaque(true);
 		m_jTicketId.setFont(new Font(m_jTicketId.getFont().getName(), Font.PLAIN, 16));
 		m_jTicketId.setRequestFocusEnabled(false);
-		
-		
+
 		jPanel4.add(m_jTicketId, java.awt.BorderLayout.LINE_START);
-		
+
 		jPanel4.add(m_jPanTotals, java.awt.BorderLayout.LINE_END);
 		jPanel4.setComponentZOrder(m_jPanTotals, 0);
 		jPanel4.setComponentZOrder(m_jTicketId, 1);
@@ -1822,63 +1823,68 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private void btnSplitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSplitActionPerformed
 
 		if (m_oTicket.getLinesCount() > 0) {
-			ReceiptSplit splitdialog = ReceiptSplit.getDialog(m_App, this, dlSystem.getResourceAsXML("Ticket.Line"),
-					dlSales, dlCustomers, taxeslogic);
+			try {
+				ReceiptSplit splitdialog = ReceiptSplit.getDialog(m_App, this, dlSystem.getResourceAsXML("Ticket.Line"),
+						dlSales, dlCustomers, taxeslogic);
 
-			TicketInfo ticket1 = m_oTicket.copyTicket();
-			TicketInfo ticket2 = new TicketInfo();
-			ticket2.setCustomer(m_oTicket.getCustomer());
+				TicketInfo ticket1 = m_oTicket.copyTicket();
+				TicketInfo ticket2 = new TicketInfo();
+				ticket2.setCustomer(m_oTicket.getCustomer());
 
-//			splitdialog.
-			if (splitdialog.showDialog(ticket1, ticket2, m_oTicketExt)) {
-				Object currentTicket = splitdialog.getTicketText();
-				String currentTicketId = splitdialog.getTicketId();
-				if (splitdialog.isReceipt()) {
-					if (closeTicket(ticket2, currentTicket)) {
-						// Ends edition of current receipt
-						if(ticket1.getLinesCount() > 0)
-							setActiveTicket(ticket1, m_oTicketExt);
-						else
-							m_ticketsbag.deleteTicket(false);
+				// splitdialog.
+				if (splitdialog.showDialog(ticket1, ticket2, m_oTicketExt)) {
+					Object currentTicket = splitdialog.getTicketText();
+					String currentTicketId = splitdialog.getTicketId();
+					if (splitdialog.isReceipt()) {
+						if (closeTicket(ticket2, currentTicket)) {
+							// Ends edition of current receipt
+							if (ticket1.getLinesCount() > 0)
+								setActiveTicket(ticket1, m_oTicketExt);
+							else
+								m_ticketsbag.deleteTicket(false);
+						} else {
+							// repaint current ticket
+							refreshTicket();
+						}
+
 					} else {
-						// repaint current ticket
-						refreshTicket();
-					}
-					
-				} else {
-					// now we move lines to the selected Table
-					try {
-						dlReceipts.insertSharedTicket(currentTicketId, ticket2);
-					} catch (BasicException e) {
-						// insert was not possible, so try to perform an update
+						// now we move lines to the selected Table
 						try {
-							// first read all booked elements
-							TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
-							for (TicketLineInfo info : dummy.getLines()) {
-								// does info exists?
-								TicketLineInfo inf = null;
-								for (TicketLineInfo lni : ticket2.getLines()) {
-									if (lni.getProductID().compareTo(info.getProductID()) == 0) {
-										inf = lni;
-										break;
+							dlReceipts.insertSharedTicket(currentTicketId, ticket2);
+						} catch (BasicException e) {
+							// insert was not possible, so try to perform an
+							// update
+							try {
+								// first read all booked elements
+								TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
+								for (TicketLineInfo info : dummy.getLines()) {
+									// does info exists?
+									TicketLineInfo inf = null;
+									for (TicketLineInfo lni : ticket2.getLines()) {
+										if (lni.getProductID().compareTo(info.getProductID()) == 0) {
+											inf = lni;
+											break;
+										}
+									}
+									if (inf != null) {
+										inf.setMultiply(inf.getMultiply() + info.getMultiply());
+									} else {
+										ticket2.addLine(info);
 									}
 								}
-								if (inf != null) {
-									inf.setMultiply(inf.getMultiply() + info.getMultiply());
-								} else {
-									ticket2.addLine(info);
-								}
+								dlReceipts.updateSharedTicket(currentTicketId, ticket2);
+							} catch (BasicException ex) {
+								new MessageInf(ex).show(m_App, this);
 							}
-							dlReceipts.updateSharedTicket(currentTicketId, ticket2);
-						} catch (BasicException ex) {
-							new MessageInf(ex).show(m_App, this);
 						}
+						setActiveTicket(ticket1, m_oTicketExt);
 					}
-					setActiveTicket(ticket1, m_oTicketExt);
-				}
 
-				 // set result
-				// ticket
+					// set result
+					// ticket
+				}
+			} catch (BasicException e1) {
+				JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"), AppLocal.getIntString("message.databaseconnectionerror"));
 			}
 		}
 

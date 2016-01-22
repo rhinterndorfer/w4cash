@@ -26,6 +26,10 @@ import javax.swing.JOptionPane;
 
 public class JConfirmDialog extends JDialog {
 
+	enum DialogType {
+		Confirm, Error;
+	}
+
 	public final static int OK = JOptionPane.YES_OPTION;
 	public final static int CANCEL = JOptionPane.CANCEL_OPTION;
 	private final static String OK2CANCEL = "      ";
@@ -38,6 +42,9 @@ public class JConfirmDialog extends JDialog {
 	private int returnCode = -1;
 	private JLabel m_jIcon;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	private JConfirmDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
 	}
@@ -50,7 +57,7 @@ public class JConfirmDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	private void init(AppView app, String message) {
+	private void init(AppView app, String message, DialogType dialogType) {
 		getContentPane().setLayout(new BorderLayout());
 
 		this.contentPanel = new JPanel();
@@ -68,36 +75,17 @@ public class JConfirmDialog extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				this.okButton = new JButton(OK2CANCEL + AppLocal.getIntString("Button.OK") + OK2CANCEL);
-				this.okButton.setIcon(
-						new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png")));
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-				okButton.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						closeDialog(OK);
-					}
-				});
+			switch (dialogType) {
+			case Confirm:
+				createButtonOk(buttonPane, true);
+				createButtonCancel(buttonPane, false);
+				break;
+			case Error:
+				createButtonCancel(buttonPane, true);
+				break;
 			}
-			{
-				this.cancelButton = new JButton(AppLocal.getIntString("Button.Cancel"));
-				this.cancelButton.setIcon(new javax.swing.ImageIcon(
-						getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-				cancelButton.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						closeDialog(CANCEL);
-					}
-
-				});
-			}
 		}
 
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -107,14 +95,52 @@ public class JConfirmDialog extends JDialog {
 		setVisible(true);
 	}
 
-	private void ScaleButtons(AppView app) {
-//		int btnWidth = Integer
-//				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-width", "30"));
-//		int btnHeight = Integer
-//				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "30"));
+	private void createButtonCancel(JPanel buttonPane, boolean useDefault) {
+		this.cancelButton = new JButton(AppLocal.getIntString("Button.Cancel"));
+		this.cancelButton.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 
-		int width = Integer
-				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-width", "30"));
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+		if (useDefault) {
+			getRootPane().setDefaultButton(cancelButton);
+		}
+		cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closeDialog(CANCEL);
+			}
+
+		});
+	}
+
+	private void createButtonOk(JPanel buttonPane, boolean useDefault) {
+		this.okButton = new JButton(OK2CANCEL + AppLocal.getIntString("Button.OK") + OK2CANCEL);
+		this.okButton
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png")));
+		buttonPane.add(okButton);
+		if (useDefault) {
+			getRootPane().setDefaultButton(okButton);
+		}
+		okButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closeDialog(OK);
+			}
+		});
+	}
+
+	private void ScaleButtons(AppView app) {
+		// int btnWidth = Integer
+		// .parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons",
+		// "button-touchsmall-width", "30"));
+		// int btnHeight = Integer
+		// .parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons",
+		// "button-touchsmall-height", "30"));
+
+		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-width", "30"));
 		int height = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-height", "30"));
 
@@ -123,9 +149,12 @@ public class JConfirmDialog extends JDialog {
 		PropertyUtil.ScaleLabelFontsize(app, m_jMessage, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelIcon(app, m_jIcon, width, height);
 
-		PropertyUtil.ScaleButtonIcon(okButton, width, height, fontsize);
-		PropertyUtil.ScaleButtonIcon(cancelButton, width, height, fontsize);
-
+		if (okButton != null) {
+			PropertyUtil.ScaleButtonIcon(okButton, width, height, fontsize);
+		}
+		if (cancelButton != null) {
+			PropertyUtil.ScaleButtonIcon(cancelButton, width, height, fontsize);
+		}
 		pack();
 
 		PropertyUtil.ScaleDialog(app, this, getWidth(), getHeight() + 20);
@@ -151,7 +180,23 @@ public class JConfirmDialog extends JDialog {
 		}
 
 		myMsg.setTitle(title);
-		myMsg.init(app, message);
+		myMsg.init(app, message, DialogType.Confirm);
+
+		return myMsg.getReturnCode();
+	}
+
+	public static int showError(AppView app, Component parent, String title, String message) {
+		Window window = getWindow(parent);
+
+		JConfirmDialog myMsg;
+		if (window instanceof Frame) {
+			myMsg = new JConfirmDialog((Frame) window, true);
+		} else {
+			myMsg = new JConfirmDialog((Dialog) window, true);
+		}
+
+		myMsg.setTitle(title);
+		myMsg.init(app, message, DialogType.Error);
 
 		return myMsg.getReturnCode();
 	}
