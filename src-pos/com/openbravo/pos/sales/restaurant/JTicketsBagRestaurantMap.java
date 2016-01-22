@@ -553,9 +553,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							AppLocal.getIntString("message.cannotprintticket"), e);
 					msg.show(m_App, JTicketsBagRestaurantMap.this);
 				} catch (TicketPrinterException e) {
-					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-							AppLocal.getIntString("message.cannotprintticket"), e);
-					msg.show(m_App, JTicketsBagRestaurantMap.this);
+					JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
+							AppLocal.getIntString("message.cannotprintticket"));
+					// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+					// AppLocal.getIntString("message.cannotprintticket"), e);
+					// msg.show(m_App, JTicketsBagRestaurantMap.this);
 				}
 			}
 		}
