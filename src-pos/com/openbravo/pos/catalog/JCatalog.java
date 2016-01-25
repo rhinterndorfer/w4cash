@@ -178,27 +178,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private void fillCategories(java.util.List<CategoryInfo> categories) {
 
 		for (CategoryInfo category : categories) {
-			// try {
-			// Create products panel
-			// java.util.List<ProductInfoExt> products =
-			// m_dlSales.getProductComments(id);
-
-			// if (products.size() == 0) {
-			// // no hay productos por tanto lo anado a la de vacios y
-			// // muestro el panel principal.
-			// m_productsset.put(id, null);
-			// if (showingcategory == null) {
-			// showRootCategoriesPanel();
-			// } else {
-			// showSubcategoryPanel(showingcategory);
-			// }
-			// } else {
-
-			// Load product panel
-			// product = m_dlSales.getProductInfo(id);
-			// m_productsset.put(id, product);
-
-			// m_categoriesset.add(category.getID());
 			if (this.jcategoryTab == null) {
 				this.jcategoryTab = new JCatalogTab(m_App);
 				this.jcategoryTab.getScrollPane()
@@ -213,71 +192,53 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 			selectCategoryPanel(category);
 
-			List<ProductInfoExt> products2 = new ArrayList<>();
-			try {
-				products2 = m_dlSales.getProductCatalog(category.getID());
-			} catch (BasicException e) {
-				e.printStackTrace();
-			}
-			for (ProductInfoExt prod : products2) {
-				try {
-					// Create products panel
-					java.util.List<ProductInfoExt> products = m_dlSales.getProductComments(prod.getID());
+			fillCategoryProductComments(category);
 
-					if (products.size() == 0) {
-						// no hay productos por tanto lo anado a la de vacios y
-						// muestro el panel principal.
-						m_productsset.put(prod.getID(), null);
-					} else {
-
-						// Load product panel
-						ProductInfoExt product = m_dlSales.getProductInfo(prod.getID());
-						m_productsset.put(prod.getID(), product);
-
-						JCatalogTab jcurrTab = new JCatalogTab(m_App);
-						jcurrTab.getScrollPane().setVerticalScrollBarPolicy(
-								javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-						jcurrTab.applyComponentOrientation(getComponentOrientation());
-						m_jProducts.add(jcurrTab, "PRODUCT." + prod.getID());
-
-						// Add products
-						for (ProductInfoExt prod2 : products) {
-							jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod2.getImage(),
-									getProductLabel(prod2), productFontSize)), new SelectedAction(prod2));
-						}
-					}
-				} catch (BasicException eb) {
-					eb.printStackTrace();
-					m_productsset.put(prod.getID(), null);
-				}
-			}
-
-			// Add products
-			// for (ProductInfoExt prod : products) {
-			// jcategoryTab.addButton(
-			// new ImageIcon(tnbcat.getThumbNailText(category.getImage(),
-			// category.getName(), catFontSize)),
-			// new SelectedCategoryMain(category));
-			// }
-
-			// selectIndicatorPanel(new
-			// ImageIcon(tnbbutton.getThumbNail(product.getImage())),
-			// product.getName());
-
-			// }
-			// } catch (BasicException eb) {
-			// eb.printStackTrace();
-			// m_categoriesset.remove(category.getID());
-			// if (showingcategory == null) {
-			// showRootCategoriesPanel();
-			// } else {
-			// showSubcategoryPanel(showingcategory);
-			// }
-			// }
 		}
 
 		CardLayout cl = (CardLayout) (m_jCategoryList.getLayout());
 		cl.show(m_jCategoryList, "CATEGORY");
+	}
+
+	private void fillCategoryProductComments(CategoryInfo category) {
+		List<ProductInfoExt> products2 = new ArrayList<>();
+		try {
+			products2 = m_dlSales.getProductCatalog(category.getID());
+		} catch (BasicException e) {
+			e.printStackTrace();
+		}
+		for (ProductInfoExt prod : products2) {
+			try {
+				// Create products panel
+				java.util.List<ProductInfoExt> products = m_dlSales.getProductComments(prod.getID());
+
+				if (products.size() == 0) {
+					// no hay productos por tanto lo anado a la de vacios y
+					// muestro el panel principal.
+					m_productsset.put(prod.getID(), null);
+				} else {
+					// Load product panel
+					ProductInfoExt product = m_dlSales.getProductInfo(prod.getID());
+					m_productsset.put(prod.getID(), product);
+
+					JCatalogTab jcurrTab = new JCatalogTab(m_App);
+					jcurrTab.getScrollPane()
+							.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+					jcurrTab.applyComponentOrientation(getComponentOrientation());
+					m_jProducts.add(jcurrTab, "PRODUCT." + prod.getID());
+
+					// Add products
+					for (ProductInfoExt prod2 : products) {
+						jcurrTab.addButton(new ImageIcon(
+								tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2), productFontSize)),
+								new SelectedAction(prod2));
+					}
+				}
+			} catch (BasicException eb) {
+				eb.printStackTrace();
+				m_productsset.put(prod.getID(), null);
+			}
+		}
 	}
 
 	public void setComponentEnabled(boolean value) {
@@ -353,6 +314,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 					jcurrTab.addButton(
 							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),
 							new SelectedCategory(cat));
+					selectCategoryPanel(cat);
+					fillCategoryProductComments(cat);
 				}
 
 				// Add products

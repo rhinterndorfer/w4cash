@@ -9,6 +9,7 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.openbravo.beans.DialogType;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.PropertyUtil;
@@ -26,9 +28,9 @@ import javax.swing.JOptionPane;
 
 public class JConfirmDialog extends JDialog {
 
-	enum DialogType {
-		Confirm, Error;
-	}
+	private static final Logger logger = Logger.getLogger(JConfirmDialog.class.getName());
+
+	
 
 	public final static int OK = JOptionPane.YES_OPTION;
 	public final static int CANCEL = JOptionPane.CANCEL_OPTION;
@@ -83,6 +85,10 @@ public class JConfirmDialog extends JDialog {
 				break;
 			case Error:
 				createButtonCancel(buttonPane, true);
+				break;
+			case ConfirmError:
+				createButtonOk(buttonPane, true);
+				createButtonCancel(buttonPane, false);
 				break;
 			}
 
@@ -185,7 +191,12 @@ public class JConfirmDialog extends JDialog {
 		return myMsg.getReturnCode();
 	}
 
-	public static int showError(AppView app, Component parent, String title, String message) {
+	public static int showError(AppView app, Component parent, String title, String message, Exception e,
+			DialogType type) {
+		if (e != null) {
+			logger.info(e.getMessage());
+		}
+
 		Window window = getWindow(parent);
 
 		JConfirmDialog myMsg;
@@ -196,9 +207,17 @@ public class JConfirmDialog extends JDialog {
 		}
 
 		myMsg.setTitle(title);
-		myMsg.init(app, message, DialogType.Error);
+		myMsg.init(app, message, type);
 
 		return myMsg.getReturnCode();
+	}
+
+	public static int showError(AppView app, Component parent, String title, String message, Exception e) {
+		return showError(app, parent, title, message, e, DialogType.Error);
+	}
+
+	public static int showError(AppView app, Component parent, String title, String message) {
+		return showError(app, parent, title, message, null, DialogType.Error);
 	}
 
 	private static Window getWindow(Component parent) {

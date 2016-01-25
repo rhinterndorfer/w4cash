@@ -115,8 +115,8 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 				new SerializerReadBasic(new Datas[] { Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
 		m_activecashHost = new StaticSentence(s,
 				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE HOST = ? AND DATEEND IS NULL",
-				SerializerWriteString.INSTANCE,
-				new SerializerReadBasic(new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
+				SerializerWriteString.INSTANCE, new SerializerReadBasic(
+						new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
 
 		m_allClosedCash = new StaticSentence(s,
 				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH ORDER BY HOSTSEQUENCE DESC", null,
@@ -218,8 +218,15 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		return Formats.BYTEA.formatValue(getResource(sName));
 	}
 
+	private Map<String, String> resourceAsXML = new HashMap<>();
+
 	public final String getResourceAsXML(String sName) {
-		return Formats.BYTEA.formatValue(getResource(sName));
+		if (!resourceAsXML.containsKey(sName)) {
+			String xmlResource = Formats.BYTEA.formatValue(getResource(sName));
+			resourceAsXML.put(sName, xmlResource);
+		}
+		
+		return resourceAsXML.get(sName);
 	}
 
 	public final BufferedImage getResourceAsImage(String sName) {
@@ -265,7 +272,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 	public final Object[] findActiveCashHost(String sHost) throws BasicException {
 		return (Object[]) m_activecashHost.find(sHost);
 	}
-	
+
 	public final void execInsertCash(Object[] cash) throws BasicException {
 		m_insertcash.exec(cash);
 	}

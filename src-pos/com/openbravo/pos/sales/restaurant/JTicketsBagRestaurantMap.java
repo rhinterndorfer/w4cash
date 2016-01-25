@@ -39,6 +39,7 @@ import com.openbravo.pos.printer.TicketPrinterException;
 import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.data.loader.SerializerReadClass;
 import com.openbravo.basic.BasicException;
+import com.openbravo.beans.DialogType;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceList;
@@ -322,23 +323,32 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			m_PlaceClipboard = null;
 			customer = null;
 
-			// guardamos el ticket
-			if (m_PlaceCurrent != null) {
+			try {
+				// guardamos el ticket
+				if (m_PlaceCurrent != null) {
 
-				try {
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-				} catch (BasicException e) {
-					new MessageInf(e).show(m_App, this);
+
+					m_PlaceCurrent = null;
 				}
 
-				m_PlaceCurrent = null;
+				// desactivamos cositas.
+				printState();
+				m_panelticket.setActiveTicket(null, null);
+
+				return true;
+			} catch (BasicException e) {
+				int result = JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+						e.getMessage(), e, DialogType.ConfirmError);
+
+				if (result == JConfirmDialog.OK) {
+					m_PlaceCurrent = null;
+					m_panelticket.setActiveTicket(null, null);
+					return true;
+				}
+
+				return false;
 			}
-
-			// desactivamos cositas.
-			printState();
-			m_panelticket.setActiveTicket(null, null);
-
-			return true;
 		} else {
 			return false;
 		}
@@ -553,8 +563,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							AppLocal.getIntString("message.cannotprintticket"), e);
 					msg.show(m_App, JTicketsBagRestaurantMap.this);
 				} catch (TicketPrinterException e) {
-					JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
-							AppLocal.getIntString("message.cannotprintticket"));
+					JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
+							AppLocal.getIntString("error.network"), AppLocal.getIntString("message.cannotprintticket"));
 					// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 					// AppLocal.getIntString("message.cannotprintticket"), e);
 					// msg.show(m_App, JTicketsBagRestaurantMap.this);

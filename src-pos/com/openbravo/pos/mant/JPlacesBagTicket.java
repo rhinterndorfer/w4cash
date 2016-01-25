@@ -248,9 +248,9 @@ public class JPlacesBagTicket extends JPlacesBag {
 				script.put("ticket", m_ticket);
 				
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-				String ticketsuffix = ".";
+				String ticketsuffix = "";
 				if(bonsize.length >= 2)
-					ticketsuffix += bonsize[2];
+					ticketsuffix = "."+bonsize[2];
 				m_TTP.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix)).toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -451,9 +451,9 @@ public class JPlacesBagTicket extends JPlacesBag {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("ticket", m_ticket);
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-				String ticketsuffix = ".";
+				String ticketsuffix = "";
 				if(bonsize.length >= 2)
-					ticketsuffix += bonsize[2];
+					ticketsuffix = "."+bonsize[2];
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix)).toString());
 			} catch (ScriptException e) {
 				JMessageDialog.showMessage(m_App, this,

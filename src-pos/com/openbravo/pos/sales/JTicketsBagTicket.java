@@ -245,9 +245,9 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-				String ticketsuffix = ".";
+				String ticketsuffix = "";
 				if(bonsize.length >= 2)
-					ticketsuffix += bonsize[2];
+					ticketsuffix = "."+bonsize[2];
 				
 				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix);
 				Object o = script.eval(asxml);
@@ -493,9 +493,9 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-				String ticketsuffix = ".";
+				String ticketsuffix = "";
 				if(bonsize.length >= 2)
-					ticketsuffix += bonsize[2];
+					ticketsuffix = "."+bonsize[2];
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview"+ ticketsuffix)).toString());
 			} catch (ScriptException e) {
 				JMessageDialog.showMessage(m_App, this,

@@ -63,7 +63,7 @@ public class AppViewConnection {
 			}
 
 			try {
-				return new Session(props.getProperty("db.URL"), sDBUser, sDBPassword, 5);
+				return new Session(props, props.getProperty("db.URL"), sDBUser, sDBPassword, 5);
 			} catch (SQLException eSQL) {
 				try {
 					try {
@@ -72,7 +72,7 @@ public class AppViewConnection {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					return new Session(props.getProperty("db.URL"), sDBUser, sDBPassword, 10);
+					return new Session(props, props.getProperty("db.URL"), sDBUser, sDBPassword, 10);
 				} catch (SQLException eSQLx) {
 					try {
 						Thread.sleep(15000);
@@ -80,7 +80,7 @@ public class AppViewConnection {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					return new Session(props.getProperty("db.URL"), sDBUser, sDBPassword, 15);
+					return new Session(props, props.getProperty("db.URL"), sDBUser, sDBPassword, 15);
 				}
 			}
 

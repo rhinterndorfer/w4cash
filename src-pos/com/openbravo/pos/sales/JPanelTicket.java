@@ -207,7 +207,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// inicializamos
 		m_oTicket = null;
 		m_oTicketExt = null;
-
+		
+		dlSystem.getResourceAsXML("ticket.addline");
+		
 		ScaleButtons();
 	}
 
@@ -464,7 +466,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 													// vista...
 			}
 
-			visorTicketLine(oLine, oOrigLine, false);
+//			visorTicketLine(oLine, oOrigLine, false);
 			printPartialTotals();
 			stateToZero();
 
@@ -1035,9 +1037,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 										new ScriptArg("print", paymentdialog.isPrintSelected()));
 
 								String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-								String ticketsuffix = ".";
+								String ticketsuffix = "";
 								if (bonsize.length >= 2)
-									ticketsuffix += bonsize[2];
+									ticketsuffix = "."+bonsize[2];
 								// Print receipt.
 								printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
 										: "Printer.Ticket2", ticket, ticketext);
@@ -1222,6 +1224,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			scr.setSelectedIndex(m_ticketlines.getSelectedIndex());
 			Object result = evalScript(scr, resource, args);
 			refreshTicket();
+//			if(result == null){
+//				return null;
+//			}
+		
 			setSelectedIndex(scr.getSelectedIndex());
 			return result;
 		}
