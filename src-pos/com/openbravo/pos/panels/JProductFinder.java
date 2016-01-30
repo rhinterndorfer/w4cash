@@ -297,7 +297,8 @@ public class JProductFinder extends javax.swing.JDialog {
 			}
 		} catch (BasicException e1) {
 			JConfirmDialog.showError(m_App, JProductFinder.this, AppLocal.getIntString("error.network"),
-					AppLocal.getIntString("message.databaseconnectionerror"));
+					AppLocal.getIntString("message.databaseconnectionerror"),
+					e1);
 		}
 
 	}// GEN-LAST:event_jButton3ActionPerformed

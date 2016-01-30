@@ -375,7 +375,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				m_panelticket.setActiveTicket(null, null);
 			} catch (BasicException e1) {
 				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.databaseconnectionerror"));
+						AppLocal.getIntString("message.databaseconnectionerror"),
+						e1);
 			}
 		}
 
@@ -564,7 +565,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					msg.show(m_App, JTicketsBagRestaurantMap.this);
 				} catch (TicketPrinterException e) {
 					JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
-							AppLocal.getIntString("error.network"), AppLocal.getIntString("message.cannotprintticket"));
+							AppLocal.getIntString("error.network"), 
+							AppLocal.getIntString("message.cannotprintticket"),
+							e);
 					// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 					// AppLocal.getIntString("message.cannotprintticket"), e);
 					// msg.show(m_App, JTicketsBagRestaurantMap.this);
@@ -1023,7 +1026,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			} catch (BasicException e1) {
 				// network error message
 				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.databaseconnectionerror"));
+						AppLocal.getIntString("message.databaseconnectionerror"),
+						e1);
 			}
 		}
 

@@ -147,7 +147,9 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 				jListCustomers.setSelectedIndex(0);
 			}
 		} catch (BasicException e1) {
-			JConfirmDialog.showError(m_App, JCustomerFinder.this, AppLocal.getIntString("error.network"), AppLocal.getIntString("message.databaseconnectionerror"));
+			JConfirmDialog.showError(m_App, JCustomerFinder.this, AppLocal.getIntString("error.network"), 
+					AppLocal.getIntString("message.databaseconnectionerror"),
+					e1);
 		}
 	}
 

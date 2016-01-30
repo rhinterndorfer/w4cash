@@ -1032,18 +1032,24 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								ticket.setDate(new Date());
 
 								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
+								resultok = true;
 
-								executeEvent(ticket, ticketext, "ticket.close",
+								try {
+									executeEvent(ticket, ticketext, "ticket.close",
 										new ScriptArg("print", paymentdialog.isPrintSelected()));
 
-								String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-								String ticketsuffix = "";
-								if (bonsize.length >= 2)
-									ticketsuffix = "."+bonsize[2];
-								// Print receipt.
-								printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
+									String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
+									String ticketsuffix = "";
+									if (bonsize.length >= 2)
+										ticketsuffix = "."+bonsize[2];
+									// Print receipt.
+									printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
 										: "Printer.Ticket2", ticket, ticketext);
-								resultok = true;
+								} catch (Exception eData) {
+									JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+											AppLocal.getIntString("message.cannotprintticket"),
+											eData);
+								}
 
 							} catch (Exception eData) {
 								// MessageInf msg = new
@@ -1052,16 +1058,20 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								// eData);
 								// msg.show(m_App, this);
 								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
-										AppLocal.getIntString("message.databaseconnectionerror"));
+										AppLocal.getIntString("message.databaseconnectionerror"),
+										eData);
 								resultok = false;
 							}
 						}
 					}
 				}
 			} catch (TaxesException e) {
-				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-						AppLocal.getIntString("message.cannotcalculatetaxes"));
-				msg.show(m_App, this);
+				//MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+				//		AppLocal.getIntString("message.cannotcalculatetaxes"));
+				//msg.show(m_App, this);
+				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
+						AppLocal.getIntString("message.cannotcalculatetaxes"),
+						e);
 				resultok = false;
 			}
 
@@ -1099,15 +1109,20 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 				m_TTP.printTicket(script.eval(sresource).toString());
 			} catch (ScriptException e) {
-				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-						AppLocal.getIntString("message.cannotprintticket"), e);
-				msg.show(m_App, JPanelTicket.this);
+				//MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+				//		AppLocal.getIntString("message.cannotprintticket"), e);
+				//msg.show(m_App, JPanelTicket.this);
+				
+				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+						AppLocal.getIntString("message.cannotprintticket"),
+						e);
 			} catch (TicketPrinterException e) {
 //				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 //						AppLocal.getIntString("message.cannotprintticket"), e);
 //				msg.show(m_App, JPanelTicket.this);
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.cannotprintticket"));
+						AppLocal.getIntString("message.cannotprintticket"),
+						e);
 			}
 		}
 	}
@@ -1918,7 +1933,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				}
 			} catch (BasicException e1) {
 				JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.databaseconnectionerror"));
+						AppLocal.getIntString("message.databaseconnectionerror"),
+						e1);
 			}
 		}
 

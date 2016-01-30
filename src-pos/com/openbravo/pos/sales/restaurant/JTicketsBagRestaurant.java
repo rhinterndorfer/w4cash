@@ -163,7 +163,9 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 			m_restaurant.setPlaceCurrent(null);
 		} catch (BasicException e1) {
 			// network error message
-			JConfirmDialog.showError(m_App, JTicketsBagRestaurant.this, AppLocal.getIntString("error.network"), AppLocal.getIntString("message.databaseconnectionerror"));
+			JConfirmDialog.showError(m_App, JTicketsBagRestaurant.this, AppLocal.getIntString("error.network"), 
+					AppLocal.getIntString("message.databaseconnectionerror"),
+					e1);
 		}
 		// m_restaurant.setPlm_PlaceCurrent = null;
 	}// GEN-LAST:event_jButton1ActionPerformed
