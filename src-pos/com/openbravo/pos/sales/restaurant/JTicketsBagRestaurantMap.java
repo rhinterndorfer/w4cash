@@ -327,7 +327,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				// guardamos el ticket
 				if (m_PlaceCurrent != null) {
 
-					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+					// dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+					if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+						dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+					} else {
+						dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
+						m_jbtnRefreshActionPerformed(null);
+					}
+					
 
 					m_PlaceCurrent = null;
 				}
