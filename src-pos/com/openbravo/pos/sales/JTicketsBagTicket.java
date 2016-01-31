@@ -466,6 +466,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 	}
 
+	/*
 	private void m_jEditActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jEditActionPerformed
 
 		m_ticketCopy = m_ticket;
@@ -474,7 +475,9 @@ public class JTicketsBagTicket extends JTicketsBag {
 		m_panelticketedit.setActiveTicket(m_ticket.copyTicket(), null);
 
 	}// GEN-LAST:event_m_jEditActionPerformed
-
+	*/
+	
+	
 	private void m_jPrintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jPrintActionPerformed
 
 		if (m_ticket != null) {

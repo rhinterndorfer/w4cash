@@ -44,13 +44,16 @@ public class JPanelTicketEdits extends JPanelTicket {
 	@Override
 	public void activate() throws BasicException {
 		super.activate();
-		m_catandlines.loadCatalog();
+		// m_catandlines.loadCatalog();
 	}
 
+	
+	/*
 	public void showCatalog() {
 		m_jbtnconfig.setVisible(true);
 		m_catandlines.showCatalog();
 	}
+	*/
 
 	public void showRefundLines(List aRefundLines) {
 		// anado las lineas de refund
