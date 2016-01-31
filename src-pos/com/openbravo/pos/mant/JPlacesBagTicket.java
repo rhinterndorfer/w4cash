@@ -249,7 +249,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 				
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
-				if(bonsize.length >= 2)
+				if(bonsize.length > 2)
 					ticketsuffix = "."+bonsize[2];
 				m_TTP.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix)).toString());
 			} catch (ScriptException e) {
@@ -452,7 +452,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 				script.put("ticket", m_ticket);
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
-				if(bonsize.length >= 2)
+				if(bonsize.length > 2)
 					ticketsuffix = "."+bonsize[2];
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix)).toString());
 			} catch (ScriptException e) {

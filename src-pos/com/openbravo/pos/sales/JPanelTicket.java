@@ -1040,7 +1040,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 									String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 									String ticketsuffix = "";
-									if (bonsize.length >= 2)
+									if (bonsize.length > 2)
 										ticketsuffix = "."+bonsize[2];
 									// Print receipt.
 									printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix

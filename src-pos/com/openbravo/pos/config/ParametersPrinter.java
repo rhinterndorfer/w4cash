@@ -44,6 +44,7 @@ public class ParametersPrinter extends javax.swing.JPanel implements ParametersC
             jPrinters.addItem(name);
         }
         
+        jBonSize.addItem("");
         jBonSize.addItem("57mm");
         jBonSize.addItem("80mm");
         jBonSize.addItem("A4");

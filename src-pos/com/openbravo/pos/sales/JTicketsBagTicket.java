@@ -246,7 +246,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("place", ""); // put empty place
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
-				if(bonsize.length >= 2)
+				if(bonsize.length > 2)
 					ticketsuffix = "."+bonsize[2];
 				
 				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix);
@@ -494,7 +494,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("place", ""); // put empty place
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
-				if(bonsize.length >= 2)
+				if(bonsize.length > 2)
 					ticketsuffix = "."+bonsize[2];
 				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview"+ ticketsuffix)).toString());
 			} catch (ScriptException e) {
