@@ -94,11 +94,13 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			myreceiptsplit = new ReceiptSplit((Frame) window);
 		} else {
 			myreceiptsplit = new ReceiptSplit((Dialog) window);
+			
 		}
 		
 		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		myreceiptsplit.setAlwaysOnTop(true);
 		myreceiptsplit.setPreferredSize(new Dimension(screenSize.width, screenSize.height));
 		
 		return myreceiptsplit;

@@ -70,7 +70,14 @@ public class JConfirmDialog extends JDialog {
 			m_jIcon = new JLabel(
 					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/question.png")));
 			contentPanel.add(m_jIcon);
-			m_jMessage = new JLabel(" " + message);
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("<html><div style='width: 640px'>");
+			sb.append(message);
+			sb.append("</div></html>");
+			
+			m_jMessage = new JLabel(sb.toString());
+			
 			contentPanel.add(m_jMessage);
 		}
 		{
@@ -98,6 +105,12 @@ public class JConfirmDialog extends JDialog {
 
 		ScaleButtons(app);
 
+		java.awt.Dimension screenSize =
+				java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		setMaximumSize(screenSize);
+		
+		setModal(true);
+		setAlwaysOnTop(true);
 		setVisible(true);
 	}
 

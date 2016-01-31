@@ -346,7 +346,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				return true;
 			} catch (BasicException e) {
 				int result = JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-						e.getMessage(), e, DialogType.ConfirmError);
+						e.getMessage(), e, DialogType.Error);
 
 				if (result == JConfirmDialog.OK) {
 					m_PlaceCurrent = null;
