@@ -98,8 +98,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		PropertyUtil.ScaleScrollbar(m_App, m_jscrollcat);
 
-		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/bag.png");
-		tnbbutton = new ThumbNailBuilder(widthProduct, heightProduct, "com/openbravo/images/package.png");
+		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/empty.png");
+		tnbbutton = new ThumbNailBuilder(widthProduct, heightProduct, "com/openbravo/images/empty.png");
+		
 	}
 
 	public Component getComponent() {
