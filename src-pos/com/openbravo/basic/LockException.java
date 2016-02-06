@@ -17,39 +17,27 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.openbravo.pos.forms;
+package com.openbravo.basic;
 
-import com.openbravo.beans.LocaleResources;
-
-/**
- *
- * @author adrianromero
- */
-public class AppLocal {
+public class LockException extends java.lang.Exception {
     
-    public static final String APP_NAME = "w4cash";
-    public static final String APP_ID = "w4cash";
-    public static final String APP_VERSION = "2.41.7";
+	private static final long serialVersionUID = 2267142456615704280L;
 
-  
-    // private static List<ResourceBundle> m_messages;
-    private static LocaleResources m_resources;
-    
-    static {
-        m_resources = new LocaleResources();
-        m_resources.addBundleName("pos_messages");
-        m_resources.addBundleName("erp_messages");
+	/**
+     * Creates a new instance of <code>DataException</code> without detail message.
+     */
+    public LockException() {
+    }
+
+    public LockException(String msg) {
+        super(msg);
     }
     
-    /** Creates a new instance of AppLocal */
-    private AppLocal() {
+    public LockException(String msg, Throwable cause) {
+        super(msg, cause);
     }
     
-    public static String getIntString(String sKey) {
-        return m_resources.getString(sKey);
-    }
-    
-    public static String getIntString(String sKey, Object ... sValues) {
-        return m_resources.getString(sKey, sValues);
+    public LockException(Throwable cause) {
+        super(cause);
     }
 }

@@ -84,7 +84,7 @@ public class PaymentsModel {
               "WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND RECEIPTS.MONEY = ?"
             , SerializerWriteString.INSTANCE
             , new SerializerReadBasic(new Datas[] {Datas.INT, Datas.DOUBLE}))
-            .find(app.getActiveCashIndex());
+            .find(app.getActiveCashIndex(false));
             
         if (valtickets == null) {
             p.m_iPayments = new Integer(0);
@@ -101,7 +101,7 @@ public class PaymentsModel {
               "GROUP BY PAYMENTS.PAYMENT"
             , SerializerWriteString.INSTANCE
             , new SerializerReadClass(PaymentsModel.PaymentsLine.class)) //new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.DOUBLE}))
-            .list(app.getActiveCashIndex()); 
+            .list(app.getActiveCashIndex(false)); 
         
         if (l == null) {
             p.m_lpayments = new ArrayList();
@@ -115,7 +115,7 @@ public class PaymentsModel {
             "FROM RECEIPTS, TICKETLINES WHERE RECEIPTS.ID = TICKETLINES.TICKET AND RECEIPTS.MONEY = ?",
             SerializerWriteString.INSTANCE,
             new SerializerReadBasic(new Datas[] {Datas.INT, Datas.DOUBLE}))
-            .find(app.getActiveCashIndex());
+            .find(app.getActiveCashIndex(false));
         if (recsales == null) {
             p.m_iSales = null;
             p.m_dSalesBase = null;
@@ -130,7 +130,7 @@ public class PaymentsModel {
             "FROM RECEIPTS, TAXLINES WHERE RECEIPTS.ID = TAXLINES.RECEIPT AND RECEIPTS.MONEY = ?"
             , SerializerWriteString.INSTANCE
             , new SerializerReadBasic(new Datas[] {Datas.DOUBLE}))
-            .find(app.getActiveCashIndex());            
+            .find(app.getActiveCashIndex(false));            
         if (rectaxes == null) {
             p.m_dSalesTaxes = null;
         } else {
@@ -140,11 +140,11 @@ public class PaymentsModel {
         List<SalesLine> asales = new StaticSentence(app.getSession(),
                 "SELECT TAXCATEGORIES.NAME, SUM(TAXLINES.AMOUNT) " +
                 "FROM RECEIPTS, TAXLINES, TAXES, TAXCATEGORIES WHERE RECEIPTS.ID = TAXLINES.RECEIPT AND TAXLINES.TAXID = TAXES.ID AND TAXES.CATEGORY = TAXCATEGORIES.ID " +
-                "AND RECEIPTS.MONEY = ?" +
+                "AND RECEIPTS.MONEY = ? " +
                 "GROUP BY TAXCATEGORIES.NAME"
                 , SerializerWriteString.INSTANCE
                 , new SerializerReadClass(PaymentsModel.SalesLine.class))
-                .list(app.getActiveCashIndex());
+                .list(app.getActiveCashIndex(false));
         if (asales == null) {
             p.m_lsales = new ArrayList<SalesLine>();
         } else {

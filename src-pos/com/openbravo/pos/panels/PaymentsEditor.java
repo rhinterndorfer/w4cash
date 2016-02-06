@@ -129,7 +129,7 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	public Object createValue() throws BasicException {
 		Object[] payment = new Object[7];
 		payment[0] = m_sId == null ? UUID.randomUUID().toString() : m_sId;
-		payment[1] = m_App.getActiveCashIndex();
+		payment[1] = m_App.getActiveCashIndex(true);
 		payment[2] = datenew == null ? new Date() : datenew;
 		payment[3] = m_sPaymentId == null ? UUID.randomUUID().toString() : m_sPaymentId;
 		payment[4] = m_ReasonModel.getSelectedKey();

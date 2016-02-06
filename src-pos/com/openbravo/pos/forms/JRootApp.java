@@ -319,19 +319,27 @@ public class JRootApp extends JPanel implements AppView {
 		return m_sInventoryLocation;
 	}
 
-	private void CheckActiveCash() throws BasicException {
+	private void CheckActiveCash(Boolean openNew) throws BasicException {
 		if (m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
 			String host = this.getProperties().getHost();
 			Object[] valcash = m_dlSystem.findActiveCashHost(host);
 			if (valcash == null || !host.equals(valcash[1])) {
-				String id = UUID.randomUUID().toString();
-				Date start = new Date();
-				// open new cash session
-				m_dlSystem.execInsertCash(new Object[] { id, host, start, null });
+				if (openNew) {
+					String id = UUID.randomUUID().toString();
+					Date start = new Date();
+					// open new cash session
+					m_dlSystem.execInsertCash(new Object[] { id, host, start, null });
 
-				m_sActiveCashIndex = id;
-				m_dActiveCashDateStart = start;
-				m_dActiveCashDateEnd = null;
+					m_sActiveCashIndex = id;
+					m_dActiveCashDateStart = start;
+					m_dActiveCashDateEnd = null;
+				}
+				else
+				{
+					m_sActiveCashIndex = null;
+					m_dActiveCashDateStart = null;
+					m_dActiveCashDateEnd = null;
+				}
 
 			} else {
 				m_sActiveCashIndex = (String) valcash[0];
@@ -341,19 +349,19 @@ public class JRootApp extends JPanel implements AppView {
 		}
 	}
 
-	public String getActiveCashIndex() throws BasicException {
-		CheckActiveCash();
+	public String getActiveCashIndex(Boolean openNew) throws BasicException {
+		CheckActiveCash(openNew);
 
 		return m_sActiveCashIndex;
 	}
 
 	public Date getActiveCashDateStart() throws BasicException {
-		CheckActiveCash();
+		CheckActiveCash(false);
 		return m_dActiveCashDateStart;
 	}
 
 	public Date getActiveCashDateEnd() throws BasicException {
-		CheckActiveCash();
+		CheckActiveCash(false);
 		return m_dActiveCashDateEnd;
 	}
 

@@ -25,10 +25,12 @@ import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.PreparedSentence;
 import com.openbravo.data.loader.SerializerReadBasic;
 import com.openbravo.data.loader.SerializerReadClass;
+import com.openbravo.data.loader.SerializerReadString;
 import com.openbravo.data.loader.SerializerWriteBasicExt;
 import com.openbravo.data.loader.SerializerWriteString;
 import com.openbravo.data.loader.Session;
 import com.openbravo.data.loader.StaticSentence;
+import com.openbravo.pos.forms.AppConfig;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
 import com.openbravo.pos.ticket.TicketInfo;
 
@@ -39,6 +41,7 @@ import com.openbravo.pos.ticket.TicketInfo;
 public class DataLogicReceipts extends BeanFactoryDataSingle {
     
     private Session s;
+    private AppConfig appConfig;
     
     /** Creates a new instance of DataLogicReceipts */
     public DataLogicReceipts() {
@@ -46,8 +49,68 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
     
     public void init(Session s){
         this.s = s;
+        appConfig = new AppConfig(new String[] {}); 
+        appConfig.load();
     }
      
+    public final void checkinSharedTicket(String Id) throws BasicException {
+        
+        if (Id == null) {
+            return; 
+        } else {
+        	String hostname = appConfig.getHost();
+        	
+            Object[] values = new Object[] {Id, hostname};
+            Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};
+            int affected = new PreparedSentence(s
+                    , "UPDATE SHAREDTICKETS SET LOCKBY = null WHERE ID = ? AND LOCKBY = ?"
+                    , new SerializerWriteBasicExt(datas, new int[] {0, 1})).exec(values);
+        }
+    }
+    
+    
+    public final String checkoutSharedTicket(String Id) throws BasicException {
+        
+        if (Id == null) {
+            return ""; 
+        } else {
+        	
+        	String hostname = appConfig.getHost();
+        	
+        	
+        	Object[] values = new Object[] {Id, hostname};
+            Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};
+        	
+            try {
+        	new PreparedSentence(s
+                    , "INSERT INTO SHAREDTICKETS (ID, NAME, LOCKBY) VALUES (?, ?, ?)"
+                    , new SerializerWriteBasicExt(datas, new int[] {0, 1, 1})).exec(values);
+            } catch(Exception ex)
+            {
+            	// ignore
+            	String m = ex.getMessage();
+            }
+            
+            int affected = new PreparedSentence(s
+                    , "UPDATE SHAREDTICKETS SET LOCKBY = ? WHERE ID = ? AND (LOCKBY = ? OR LOCKBY IS NULL)"
+                    , new SerializerWriteBasicExt(datas, new int[] {1, 0, 1})).exec(values);
+
+            if(affected > 0)
+            	return null;
+            else
+            {
+            	Object[]record = (Object[]) new StaticSentence(s
+                    , "SELECT LOCKBY FROM SHAREDTICKETS WHERE ID = ?"
+                    , SerializerWriteString.INSTANCE
+                    , new SerializerReadBasic(new Datas[] {Datas.STRING})).find(Id);
+            	return record == null ? "" : record[0].toString();
+            }
+            
+            
+        }
+    }
+    
+    
     public final TicketInfo getSharedTicket(String Id) throws BasicException {
         
         if (Id == null) {

@@ -97,7 +97,7 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
 
     
     
-    public String getActiveCashIndex() {
+    public String getActiveCashIndex(Boolean openNew) {
         return null;
     }
     public Date getActiveCashDateStart() {

@@ -207,9 +207,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// inicializamos
 		m_oTicket = null;
 		m_oTicketExt = null;
-		
+
 		dlSystem.getResourceAsXML("ticket.addline");
-		
+
 		ScaleButtons();
 	}
 
@@ -308,11 +308,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		if (m_oTicket != null) {
 			// Asign preeliminary properties to the receipt
 			m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+			
+			/* set at ticket close
 			try {
 				m_oTicket.setActiveCash(m_App.getActiveCashIndex());
 			} catch (Exception ex) {
 				m_oTicket.setActiveCash(null);
 			}
+			*/
 			m_oTicket.setDate(new Date()); // Set the edition date.
 		}
 
@@ -466,7 +469,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 													// vista...
 			}
 
-//			visorTicketLine(oLine, oOrigLine, false);
+			// visorTicketLine(oLine, oOrigLine, false);
 			printPartialTotals();
 			stateToZero();
 
@@ -973,7 +976,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						// verify booked products
 						// this.m_App.getAppUserView().
 						try {
-							this.m_restaurant.newTicket();
+							if(this.m_restaurant != null)
+								this.m_restaurant.newTicket();
 
 							m_ticketsbag.deleteTicket(false);
 						} catch (BasicException e) {
@@ -1028,7 +1032,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						if (executeEvent(ticket, ticketext, "ticket.save") == null) {
 							// Save the receipt and assign a receipt number
 							try {
-								ticket.setActiveCash(m_App.getActiveCashIndex());
+								ticket.setActiveCash(m_App.getActiveCashIndex(true));
 								ticket.setDate(new Date());
 
 								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
@@ -1036,19 +1040,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 								try {
 									executeEvent(ticket, ticketext, "ticket.close",
-										new ScriptArg("print", paymentdialog.isPrintSelected()));
+											new ScriptArg("print", paymentdialog.isPrintSelected()));
 
 									String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 									String ticketsuffix = "";
 									if (bonsize.length > 2)
-										ticketsuffix = "."+bonsize[2];
+										ticketsuffix = "." + bonsize[2];
 									// Print receipt.
 									printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
-										: "Printer.Ticket2", ticket, ticketext);
+											: "Printer.Ticket2", ticket, ticketext);
 								} catch (Exception eData) {
 									JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-											AppLocal.getIntString("message.cannotprintticket"),
-											eData);
+											AppLocal.getIntString("message.cannotprintticket"), eData);
 								}
 
 							} catch (Exception eData) {
@@ -1058,20 +1061,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								// eData);
 								// msg.show(m_App, this);
 								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
-										AppLocal.getIntString("message.databaseconnectionerror"),
-										eData);
+										AppLocal.getIntString("message.databaseconnectionerror"), eData);
 								resultok = false;
 							}
 						}
 					}
 				}
 			} catch (TaxesException e) {
-				//MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-				//		AppLocal.getIntString("message.cannotcalculatetaxes"));
-				//msg.show(m_App, this);
+				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+				// AppLocal.getIntString("message.cannotcalculatetaxes"));
+				// msg.show(m_App, this);
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
-						AppLocal.getIntString("message.cannotcalculatetaxes"),
-						e);
+						AppLocal.getIntString("message.cannotcalculatetaxes"), e);
 				resultok = false;
 			}
 
@@ -1109,20 +1110,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 				m_TTP.printTicket(script.eval(sresource).toString());
 			} catch (ScriptException e) {
-				//MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-				//		AppLocal.getIntString("message.cannotprintticket"), e);
-				//msg.show(m_App, JPanelTicket.this);
-				
+				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+				// AppLocal.getIntString("message.cannotprintticket"), e);
+				// msg.show(m_App, JPanelTicket.this);
+
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.cannotprintticket"),
-						e);
+						AppLocal.getIntString("message.cannotprintticket"), e);
 			} catch (TicketPrinterException e) {
-//				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-//						AppLocal.getIntString("message.cannotprintticket"), e);
-//				msg.show(m_App, JPanelTicket.this);
+				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+				// AppLocal.getIntString("message.cannotprintticket"), e);
+				// msg.show(m_App, JPanelTicket.this);
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.cannotprintticket"),
-						e);
+						AppLocal.getIntString("message.cannotprintticket"), e);
 			}
 		}
 	}
@@ -1239,10 +1238,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			scr.setSelectedIndex(m_ticketlines.getSelectedIndex());
 			Object result = evalScript(scr, resource, args);
 			refreshTicket();
-//			if(result == null){
-//				return null;
-//			}
-		
+			// if(result == null){
+			// return null;
+			// }
+
 			setSelectedIndex(scr.getSelectedIndex());
 			return result;
 		}
@@ -1899,33 +1898,50 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						// now we move lines to the selected Table
 						try {
 							dlReceipts.insertSharedTicket(currentTicketId, ticket2);
+							setActiveTicket(ticket1, m_oTicketExt);
 						} catch (BasicException e) {
 							// insert was not possible, so try to perform an
 							// update
 							try {
 								// first read all booked elements
-								TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
-								for (TicketLineInfo info : dummy.getLines()) {
-									// does info exists?
-									TicketLineInfo inf = null;
-									for (TicketLineInfo lni : ticket2.getLines()) {
-										if (lni.getProductID().compareTo(info.getProductID()) == 0) {
-											inf = lni;
-											break;
+								String lockBy = dlReceipts.checkoutSharedTicket(currentTicketId);
+								if (lockBy == null) {
+
+									TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
+									for (TicketLineInfo info : dummy.getLines()) {
+										// does info exists?
+										TicketLineInfo inf = null;
+										for (TicketLineInfo lni : ticket2.getLines()) {
+											if (lni.getProductID().compareTo(info.getProductID()) == 0) {
+												inf = lni;
+												break;
+											}
+										}
+										if (inf != null) {
+											inf.setMultiply(inf.getMultiply() + info.getMultiply());
+										} else {
+											ticket2.addLine(info);
 										}
 									}
-									if (inf != null) {
-										inf.setMultiply(inf.getMultiply() + info.getMultiply());
-									} else {
-										ticket2.addLine(info);
-									}
+									dlReceipts.updateSharedTicket(currentTicketId, ticket2);
+									dlReceipts.checkinSharedTicket(currentTicketId);
+									setActiveTicket(ticket1, m_oTicketExt);
 								}
-								dlReceipts.updateSharedTicket(currentTicketId, ticket2);
+								else
+								{
+									JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.error"),
+											AppLocal.getIntString("message.placeLocked") + " (" + lockBy+ ")");
+									
+									refreshTicket();
+								}
 							} catch (BasicException ex) {
-								new MessageInf(ex).show(m_App, this);
+								JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"),
+										AppLocal.getIntString("message.databaseconnectionerror"), ex);
+								
+								setActiveTicket(ticket1, m_oTicketExt);
 							}
 						}
-						setActiveTicket(ticket1, m_oTicketExt);
+						
 					}
 
 					// set result
@@ -1933,8 +1949,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				}
 			} catch (BasicException e1) {
 				JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.databaseconnectionerror"),
-						e1);
+						AppLocal.getIntString("message.databaseconnectionerror"), e1);
 			}
 		}
 

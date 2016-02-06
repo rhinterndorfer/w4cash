@@ -39,6 +39,7 @@ import com.openbravo.pos.printer.TicketPrinterException;
 import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.data.loader.SerializerReadClass;
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.LockException;
 import com.openbravo.beans.DialogType;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
@@ -330,6 +331,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					// dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
 					if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 						dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+						dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
 					} else {
 						dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
 						m_jbtnRefreshActionPerformed(null);
@@ -531,6 +533,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				// }
 				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+					dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
 				} else {
 					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
 					m_jbtnRefreshActionPerformed(null);
@@ -685,10 +688,16 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		}
 	}
 
-	private TicketInfo getTicketInfo(Place place) throws BasicException {
+	private TicketInfo getTicketInfo(Place place) throws BasicException, LockException {
 
 		try {
-			return dlReceipts.getSharedTicket(place.getId());
+			String lockBy = dlReceipts.checkoutSharedTicket(place.getId()); 
+			if(lockBy == null)
+			{
+				return dlReceipts.getSharedTicket(place.getId());
+			}
+			else
+				throw new LockException(lockBy);
 		} catch (BasicException e) {
 			// new MessageInf(e).show(m_App, JTicketsBagRestaurantMap.this);
 
@@ -855,7 +864,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							// table occupied
 							ticket = new TicketInfo();
 							try {
-								dlReceipts.insertSharedTicket(m_place.getId(), ticket);
+								dlReceipts.updateSharedTicket(m_place.getId(), ticket);
 							} catch (BasicException e) {
 								
 								JConfirmDialog.showError(m_App, 
@@ -989,7 +998,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 							if (ticket == null) {
 								try {
-									dlReceipts.insertSharedTicket(m_place.getId(), ticketclip);
+									dlReceipts.updateSharedTicket(m_place.getId(), ticketclip);
 									m_place.setPeople(true);
 									dlReceipts.deleteSharedTicket(m_PlaceClipboard.getId());
 									m_PlaceClipboard.setPeople(false);
@@ -1094,6 +1103,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					}
 
 				}
+			} catch (LockException le1) {
+				// network error message
+				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.error"),
+						AppLocal.getIntString("message.placeLocked") + " (" + le1.getMessage()+ ")");
 			} catch (BasicException e1) {
 				// network error message
 				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
