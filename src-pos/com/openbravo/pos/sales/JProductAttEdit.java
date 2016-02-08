@@ -40,10 +40,13 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Window;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.swing.SwingUtilities;
+
+import org.apache.velocity.runtime.Runtime;
 
 /**
  *
@@ -52,7 +55,7 @@ import javax.swing.SwingUtilities;
 public class JProductAttEdit extends javax.swing.JDialog {
 
 	private SentenceFind attsetSent;
-	
+
 	private SentenceList attvaluesSent;
 	private SentenceList attinstSent;
 	private SentenceList attinstSent2;
@@ -63,13 +66,12 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	private SentenceExec attinstSave;
 	private SentenceExec attinstDelete;
 	private SentenceExec attinstDelete2;
-	
+
 	private List<JProductAttEditI> itemslist;
 	private String attsetid;
 	private String attsetDescription;
 	private String attInstanceId;
 	private String attInstanceDescription;
-	
 
 	private boolean ok;
 
@@ -102,8 +104,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		attinstDelete2 = new PreparedSentence(s,
 				"DELETE FROM ATTRIBUTEINSTANCE WHERE ATTRIBUTESETINSTANCE_ID = ? AND ATTRIBUTE_ID = ?",
 				new SerializerWriteBasic(Datas.STRING, Datas.STRING));
-		
-		
+
 		attsetSent = new PreparedSentence(s, "SELECT ID, NAME FROM ATTRIBUTESET WHERE ID = ?",
 				SerializerWriteString.INSTANCE, new SerializerRead() {
 					public Object readValues(DataRead dr) throws BasicException {
@@ -159,10 +160,11 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-		
+
 		PropertyUtil.ScaleButtonIcon(m_jButtonOK, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonKeyboard, btnWidth, btnHeight, fontsize);
 	}
 
 	public static JProductAttEdit getAttributesEditor(AppView app, Component parent, Session s) {
@@ -186,10 +188,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		itemslist = new ArrayList<JProductAttEditI>();
 		this.attsetid = attsetid;
 		this.attInstanceId = attsetinstid;
-		
+
 		m_jButtonOKSingle.setVisible(withAmountSelection);
 		this.ok = false;
-		
+
 		if (attsetid != null) {
 			this.attInstanceDescription = null;
 
@@ -201,7 +203,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			}
 
 			setTitle(asi.getName());
-			this.attsetDescription = asi.getName(); 
+			this.attsetDescription = asi.getName();
 			List<AttributeInstInfo> attinstinfo = attsetinstid == null ? attinstSent.list(attsetid)
 					: attinstSent2.list(attsetid, attsetinstid);
 
@@ -221,8 +223,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				itemslist.add(item);
 				jPanel2.add(item.getComponent());
 			}
-		} else
-		{
+		} else {
 			// TODO: Translations
 			setTitle(AppLocal.getIntString("title.attributesMisc"));
 			this.attsetDescription = AppLocal.getIntString("title.attributesMisc");
@@ -233,7 +234,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			List<AttributeInstInfo> attinstinfoMisc = attinstSentMisc.list(attsetinstid);
 			value = attinstinfoMisc.get(0).getValue();
 		}
-		// TODO: Translations		
+		// TODO: Translations
 		JProductAttEditI itemMisc = new JProductAttEditItem(null, AppLocal.getIntString("label.attributesMisc"), value);
 		itemslist.add(itemMisc);
 		jPanel2.add(itemMisc.getComponent());
@@ -269,16 +270,20 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			// - compHeight) / 2, compWidth, compHeight);
 
 			// TODO: UNCOMMENT IF NEEDED TO SCALE FONT AND IMAGES
-			
-//			int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() * scaleFactor);
-//			// PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
-//			PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize*3, buttonFontSize*3, buttonFontSize);
-//			// PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle,
-//			// buttonFontSize);
-//			PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize*3, buttonFontSize*3, buttonFontSize);
-//			// PropertyUtil.ScaleButtonFontsize(m_jButtonCancel,
-//			// buttonFontSize);
-//			PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize*3, buttonFontSize*3, buttonFontSize);
+
+			// int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() *
+			// scaleFactor);
+			// // PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
+			// PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize*3,
+			// buttonFontSize*3, buttonFontSize);
+			// // PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle,
+			// // buttonFontSize);
+			// PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize*3,
+			// buttonFontSize*3, buttonFontSize);
+			// // PropertyUtil.ScaleButtonFontsize(m_jButtonCancel,
+			// // buttonFontSize);
+			// PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize*3,
+			// buttonFontSize*3, buttonFontSize);
 
 		}
 	}
@@ -370,6 +375,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonOK = new javax.swing.JButton();
 		m_jButtonOKSingle = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
+		m_jButtonKeyboard = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
 		// jPanel4 = new javax.swing.JPanel();
 		// m_jKeys = new com.openbravo.editor.JEditorKeys();
@@ -382,6 +388,41 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		jPanel5.add(jPanel2, java.awt.BorderLayout.NORTH);
 
 		jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+		m_jButtonKeyboard.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_keyboard.png"))); // NOI18N
+		m_jButtonKeyboard.setText(AppLocal.getIntString("ProductAttEdit.Button.Keyboard"));
+		m_jButtonKeyboard.setFocusPainted(false);
+		m_jButtonKeyboard.setFocusable(false);
+		m_jButtonKeyboard.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		m_jButtonKeyboard.setRequestFocusEnabled(false);
+		m_jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				
+				String prgFiles = System.getenv("ProgramFiles");
+				File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
+				
+				if (touchKeyboard.exists()) {
+					try {
+						String fullPath = touchKeyboard.getAbsolutePath();
+						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c",fullPath});
+						pb.start();
+					} catch (Exception ex) {
+						// do nothing
+					}
+				}
+				else
+				{
+					try {
+						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c","osk.exe"});
+						pb.start();
+					} catch (Exception ex) {
+						// do nothing
+					}
+				}
+			}
+		});
+		jPanel1.add(m_jButtonKeyboard);
 
 		m_jButtonOKSingle
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
@@ -411,8 +452,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		});
 		jPanel1.add(m_jButtonOK);
 
-		m_jButtonCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
+		m_jButtonCancel.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
 		m_jButtonCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
 		m_jButtonCancel.setFocusPainted(false);
 		m_jButtonCancel.setFocusable(false);
@@ -479,12 +520,21 @@ public class JProductAttEdit extends javax.swing.JDialog {
 					return;
 				}
 			}
-			
+
 			try {
-				attinstDelete.exec(this.attInstanceId); //remove old entries with no attribute reference (misc entries)
+				attinstDelete.exec(this.attInstanceId); // remove old entries
+														// with no attribute
+														// reference (misc
+														// entries)
 				for (JProductAttEditI item : itemslist) {
-					attinstDelete2.exec(this.attInstanceId, item.getAttribute()); //remove old entries with attribute reference
-					attinstSave.exec(UUID.randomUUID().toString(), this.attInstanceId, item.getAttribute(), item.getValue());
+					attinstDelete2.exec(this.attInstanceId, item.getAttribute()); // remove
+																					// old
+																					// entries
+																					// with
+																					// attribute
+																					// reference
+					attinstSave.exec(UUID.randomUUID().toString(), this.attInstanceId, item.getAttribute(),
+							item.getValue());
 				}
 
 			} catch (BasicException ex) {
@@ -512,6 +562,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
 	private javax.swing.JButton m_jButtonOKSingle;
+	private javax.swing.JButton m_jButtonKeyboard;
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	// End of variables declaration//GEN-END:variables
 
