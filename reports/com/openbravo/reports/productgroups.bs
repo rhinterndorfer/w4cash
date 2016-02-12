@@ -61,8 +61,8 @@ report.setSentence("select  " +
 "	(select RECEIPT from PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free " +
 "	on r.ID=free.RECEIPT " +
 " where ?(QBF_FILTER) " +
-"group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE " +
-"order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE"
+"group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.PRICE)*-1 " +
+"order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.PRICE)*-1 "
 );
 
 report.addParameter("cc.HOSTSEQUENCE");

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-02-12T22:47:53 -->
+<!-- 2016-02-12T23:02:05 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -51,8 +51,8 @@ inner join
 left join
 	(select RECEIPT from PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free
 	on r.ID=free.RECEIPT
-group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE
-order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE]]>
+group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.PRICE)*-1
+order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.PRICE)*-1]]>
 	</queryString>
 	<field name="Free" class="java.lang.Integer"/>
 	<field name="CategoryName" class="java.lang.String"/>
