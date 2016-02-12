@@ -29,12 +29,15 @@ public abstract class BasicTicket implements PrintItem {
     protected java.util.List<PrintItem> m_aCommands;
     protected PrintItemLine pil;
     protected int m_iBodyHeight;
+    protected int m_iBodyColumns;
+
 
     /** Creates a new instance of AbstractTicket */
     public BasicTicket() {
         m_aCommands = new ArrayList<PrintItem>();
         pil = null;
         m_iBodyHeight = 0;
+        m_iBodyColumns = 0;
     }
 
     protected abstract Font getBaseFont();
@@ -47,6 +50,10 @@ public abstract class BasicTicket implements PrintItem {
         return m_iBodyHeight;
     }
 
+    public int getColumns() {
+        return m_iBodyColumns;
+    }
+    
     public void draw(Graphics2D g2d, int x, int y, int width) {
 
         int currenty = y;
@@ -66,6 +73,9 @@ public abstract class BasicTicket implements PrintItem {
         PrintItem pi = new PrintItemImage(image, getImageScale());
         m_aCommands.add(pi);
         m_iBodyHeight += pi.getHeight();
+        
+        if(m_iBodyColumns < pi.getColumns())
+        	m_iBodyColumns = pi.getColumns();
     }
 
     public void printBarCode(String type, String position, String code) {
@@ -73,6 +83,9 @@ public abstract class BasicTicket implements PrintItem {
         PrintItem pi = new PrintItemBarcode(type, position, code, getImageScale());
         m_aCommands.add(pi);
         m_iBodyHeight += pi.getHeight();
+        
+        if(m_iBodyColumns < pi.getColumns())
+        	m_iBodyColumns = pi.getColumns();
     }
 
     public void beginLine(int iTextSize) {
@@ -89,6 +102,10 @@ public abstract class BasicTicket implements PrintItem {
         if (pil != null) {
             m_aCommands.add(pil);
             m_iBodyHeight += pil.getHeight();
+            
+            if(m_iBodyColumns < pil.getColumns())
+            	m_iBodyColumns = pil.getColumns();
+            
             pil = null;
         }
     }

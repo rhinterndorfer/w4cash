@@ -27,7 +27,7 @@ class JTicket extends javax.swing.JPanel {
     
     private static final int H_GAP = 8;
     private static final int V_GAP = 8;
-    private static final int COLUMNS = 42;
+    private static final int COLUMNS = 44;
     private static final int LINEWIDTH = COLUMNS * 7;    
     
     private BasicTicket basict;
@@ -62,7 +62,7 @@ class JTicket extends javax.swing.JPanel {
       
     public Dimension getPreferredSize() {
         Insets ins = getInsets();
-        return new Dimension((int) (LINEWIDTH + 2 * H_GAP) + ins.left + ins.right
+        return new Dimension((int) (basict.getColumns() * 7 + 2 * H_GAP) + ins.left + ins.right
                            , (int) (basict.getHeight() + 2 * V_GAP) + ins.top + ins.bottom);
     }
 

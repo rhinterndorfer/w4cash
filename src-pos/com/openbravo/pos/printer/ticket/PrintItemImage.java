@@ -44,4 +44,11 @@ public class PrintItemImage implements PrintItem {
     public int getHeight() {
         return (int) (image.getHeight() * scale);
     }
+    
+    @Override
+    public int getColumns() {
+    	int columns = (int) (image.getHeight() * scale / 7); 
+        return columns;
+    }
+    
 }

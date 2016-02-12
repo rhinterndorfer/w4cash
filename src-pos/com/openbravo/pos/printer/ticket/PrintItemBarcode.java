@@ -91,4 +91,9 @@ public class PrintItemBarcode implements PrintItem {
     public int getHeight() {
         return (int) (m_iHeight * scale) + 20;
     }
+    
+    public int getColumns() {
+        int columns = (int) ((m_iWidth * scale) + 20) / 7; 
+    	return columns;
+    }
 }

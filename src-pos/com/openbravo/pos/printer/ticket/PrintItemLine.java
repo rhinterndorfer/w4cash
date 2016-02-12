@@ -30,17 +30,20 @@ public class PrintItemLine implements PrintItem {
     protected int fontheight;
     protected int textsize;
     protected List<StyledText> m_atext;
+    protected int columns;
 
     /** Creates a new instance of PrinterItemLine */
     public PrintItemLine(int textsize, Font font, int fontheight) {
         this.textsize = textsize;
         this.font = font;
         this.fontheight = fontheight;
-
+        this.columns = 0;
         m_atext = new ArrayList<StyledText>();
     }
 
     public void addText(int style, String text) {
+    	if(columns < text.length())
+    		columns = text.length();
         m_atext.add(new StyledText(style, text));
     }
 
@@ -58,6 +61,10 @@ public class PrintItemLine implements PrintItem {
 
     public int getHeight() {
         return fontheight * MyPrinterState.getLineMult(textsize);
+    }
+    
+    public int getColumns() {
+    	return columns;
     }
 
     protected static class StyledText {
