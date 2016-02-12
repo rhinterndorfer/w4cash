@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2015-11-27T10:01:03 -->
+<!-- 2016-02-12T22:47:53 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -73,8 +73,66 @@ order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAM
 	<variable name="PriceTax1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
 	</variable>
+	<variable name="UnitsGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
+		<variableExpression><![CDATA[$F{Units}]]></variableExpression>
+	</variable>
+	<variable name="PriceGrossGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceGross}]]></variableExpression>
+	</variable>
+	<variable name="PriceNetGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceNet}]]></variableExpression>
+	</variable>
+	<variable name="PriceTaxGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
+	</variable>
 	<group name="grpFree">
 		<groupExpression><![CDATA[$F{Free}]]></groupExpression>
+		<groupFooter>
+			<band height="24">
+				<textField>
+					<reportElement style="StyleDefault" x="260" y="3" width="60" height="20" uuid="49203405-fa02-4a57-afda-218a7df4c08a">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.DOUBLE.formatValue($V{UnitsGrpFree})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" x="320" y="2" width="75" height="21" uuid="5a003ee0-c1d3-4a9e-a561-f838180b52d2"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceGrossGrpFree})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" x="395" y="2" width="75" height="21" uuid="63773b15-1875-49f6-a686-e52cfc84c24d"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceNetGrpFree})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" x="470" y="3" width="75" height="20" uuid="9bdf862b-7c01-4de4-bbc2-23dc2b93b060"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceTaxGrpFree})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="210" y="0" width="345" height="1" uuid="be23d605-55e5-429e-8686-283060173fbb">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="0" y="23" width="555" height="1" uuid="b26c37fd-4953-4edc-a664-926e48a99827">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+			</band>
+		</groupFooter>
 	</group>
 	<group name="grpCategory">
 		<groupExpression><![CDATA[$F{CategoryName}]]></groupExpression>
@@ -254,12 +312,6 @@ order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAM
 	</pageFooter>
 	<summary>
 		<band height="23">
-			<line>
-				<reportElement x="260" y="2" width="295" height="1" uuid="62e4df48-2722-44f7-9983-157a4cc3d17a">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-			</line>
 			<textField>
 				<reportElement style="StyleDefault" x="260" y="3" width="60" height="20" uuid="be0b2edb-10fd-4e09-99ec-a6d5f4dd028d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
