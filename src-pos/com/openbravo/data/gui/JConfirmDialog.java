@@ -72,7 +72,7 @@ public class JConfirmDialog extends JDialog {
 			contentPanel.add(m_jIcon);
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append("<html><div style='width: 640px'>");
+			sb.append("<html><div style='width: 500px'>");
 			sb.append(message);
 			sb.append("</div></html>");
 			
