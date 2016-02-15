@@ -25,9 +25,13 @@ import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.*;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceList;
+import com.openbravo.data.loader.TableDefinition;
+import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.AppLocal;
@@ -35,6 +39,7 @@ import com.openbravo.pos.printer.*;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.ListKeyed;
+import com.openbravo.pos.admin.DataLogicAdmin;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
@@ -65,6 +70,13 @@ public class JTicketsBagTicket extends JTicketsBag {
 	private ListKeyed taxcollection;
 	private TaxesLogic taxeslogic;
 
+	private String SystemDataAddressLine1 = "";
+	private String SystemDataAddressLine2 = "";
+	private String SystemDataStreet = "";
+	private String SystemDataCity = "";
+	private String SystemDataTaxid = "";
+	private String SystemDataThanks = "";
+	
 	/** Creates new form JTicketsBagTicket */
 	public JTicketsBagTicket(AppView app, JPanelTicketEdits panelticket) {
 		super(app, panelticket);
@@ -244,6 +256,14 @@ public class JTicketsBagTicket extends JTicketsBag {
 				
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
+				
+				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
+				script.put("SystemDataAddresLine2", SystemDataAddressLine2);
+				script.put("SystemDataStreet", SystemDataStreet);
+				script.put("SystemDataCity", SystemDataCity);
+				script.put("SystemDataTaxid", SystemDataTaxid);
+				script.put("SystemDataThanks", SystemDataThanks);
+				
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
 				if(bonsize.length > 2)
@@ -264,6 +284,43 @@ public class JTicketsBagTicket extends JTicketsBag {
 		}
 	}
 
+	private void initSystemData() {
+		DataLogicAdmin dlAdmin = (DataLogicAdmin) m_App.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
+        TableDefinition tresources = dlAdmin.getTableResources();
+        
+        try {
+			List res = tresources.getListSentence().list();
+			Object o = res.get(0);
+			// try to find System.AddressLine1
+			for(int i = 0; i < res.size(); i++) {
+				if("System.AddressLine1".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataAddressLine1 = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					
+					continue;
+				} else if("System.AddressLine2".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataAddressLine2 = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.Street".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataStreet = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.City".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataCity = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.TAXID".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataTaxid = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.Thanks".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataThanks = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				}
+			}
+			//res.get(0);
+		} catch (BasicException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -272,6 +329,9 @@ public class JTicketsBagTicket extends JTicketsBag {
 	// <editor-fold defaultstate="collapsed" desc="Generated
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
+		
+		initSystemData();
+		
 		java.awt.GridBagConstraints gridBagConstraints;
 
 		buttonGroup1 = new javax.swing.ButtonGroup();
