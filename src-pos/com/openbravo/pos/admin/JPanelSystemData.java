@@ -93,32 +93,32 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
         
         try {
 			List res = tresources.getListSentence().list();
-			
+			Object o = res.get(0);
 			// try to find System.AddressLine1
 			for(int i = 0; i < res.size(); i++) {
-				if("System.AddressLine1".compareTo(res.get(i).toString())==0) {
-					txtSystemDataAddressLine1.setText(res.get(i).toString());
-					this.systemDataAddressLine1 = i +1;
+				if("System.AddressLine1".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataAddressLine1.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataAddressLine1 = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
-				} else if("System.AddressLine2".compareTo(res.get(i).toString())==0) {
-					txtSystemDataAddressLine2.setText(res.get(i).toString());
-					this.systemDataAddressLine2 = i +1;
+				} else if("System.AddressLine2".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataAddressLine2.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataAddressLine2 = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
-				} else if("System.Street".compareTo(res.get(i).toString())==0) {
-					txtSystemDataStreet.setText(res.get(i).toString());
-					this.systemDataStreet = i +1;
+				} else if("System.Street".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataStreet.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataStreet = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
-				} else if("System.City".compareTo(res.get(i).toString())==0) {
-					txtSystemDataCity.setText(res.get(i).toString());
-					this.systemDataCity = i +1;
+				} else if("System.City".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataCity.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataCity = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
-				} else if("System.TAXID".compareTo(res.get(i).toString())==0) {
-					txtSystemDataTAXID.setText(res.get(i).toString());
-					this.systemDataTAXID = i +1;
+				} else if("System.TAXID".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataTAXID.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataTAXID = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
-				} else if("System.Thanks".compareTo(res.get(i).toString())==0) {
-					txtSystemDataThanks.setText(res.get(i).toString());
-					this.systemDataThanks = i +1;
+				} else if("System.Thanks".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataThanks.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataThanks = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
 				}
 			}
@@ -147,7 +147,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
     		   upd.exec(new Object[]{systemDataStreet + "", "System.Street", 0, Formats.BYTEA.parseValue(this.txtSystemDataStreet.getText())}); 
     	   }
     	   if(systemDataCity > -1) {
-    		   upd.exec(new Object[]{systemDataAddressLine1 + "", "System.City", 0, Formats.BYTEA.parseValue(this.txtSystemDataCity.getText())}); 
+    		   upd.exec(new Object[]{systemDataCity + "", "System.City", 0, Formats.BYTEA.parseValue(this.txtSystemDataCity.getText())}); 
     	   }
     	   if(systemDataTAXID > -1) {
     		   upd.exec(new Object[]{systemDataTAXID + "", "System.TAXID", 0, Formats.BYTEA.parseValue(this.txtSystemDataTAXID.getText())}); 

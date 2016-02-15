@@ -90,4 +90,5 @@
     <class name="button.print"/>
     <class name="button.opendrawer"/>
     <class name="button.discountpercent" />
+    <class name="com.openbravo.pos.admin.SystemDataPanel"/>
 </permissions>

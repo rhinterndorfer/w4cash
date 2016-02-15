@@ -18,7 +18,7 @@
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
 -- Database script for ORACLE
--- V2.41.7 (set in line 30!!!)
+-- V2.41.8 (set in line 30!!!)
 
 CREATE TABLE APPLICATIONS (
     ID VARCHAR2(256) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE APPLICATIONS (
     PRIMARY KEY (ID)
 );
 INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES($APP_ID{}, $APP_NAME{}, $APP_VERSION{});
-INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.41.7');
+INSERT INTO APPLICATIONS(ID, NAME, VERSION) VALUES('w4cashdb', 'w4cashdb', '2.41.9');
 
 CREATE TABLE ROLES (
     ID VARCHAR2(256) NOT NULL,
@@ -112,6 +112,12 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('40', 'Printer.Ticket.8
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('41', 'Printer.Ticket.57mm', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.57mm.xml});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('42', 'Printer.Ticket.A4', 0, $FILE{/com/openbravo/pos/templates/Printer.Ticket.A4.xml});
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('43', 'Printer.AdditionalPrinter', 0, $FILE{/com/openbravo/pos/templates/Printer.AdditionalPrinter.xml});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('44', 'System.AddressLine1', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('45', 'System.AddressLine2', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('46', 'System.Street', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('47', 'System.City', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('48', 'System.TAXID', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('49', 'System.Thanks', 0, utl_raw.cast_to_raw(''));
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,
