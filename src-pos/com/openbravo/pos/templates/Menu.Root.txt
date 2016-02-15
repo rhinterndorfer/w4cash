@@ -54,6 +54,7 @@
         submenu.addPanel("/com/openbravo/images/clipart.png", "Menu.Resources", "com.openbravo.pos.admin.ResourcesPanel");
         submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.Floors", "com.openbravo.pos.mant.JPanelFloors");
         submenu.addPanel("/com/openbravo/images/bookmark.png", "Menu.Tables", "com.openbravo.pos.mant.JPanelPlaces");
+        submenu.addPanel("/com/openbravo/images/clipart.png", "Menu.Systemdata", "com.openbravo.pos.admin.SystemDataPanel");
 
     group = menu.addGroup("Menu.System");
     group.addChangePasswordAction();

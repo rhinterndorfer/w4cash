@@ -1,0 +1,7 @@
+HB - 13.02.2016
+
+ ***** einfügen von Firmeninfos für bondruck *******
+- Menü.root.txt neue Zeile für SystemDaten in maintenancepanel eingefügt
+- Klasse SystemDataPanel im package com.openbravo.pos.admin eingefügt
+- übersetzung für **Menu.Systemdata** eingefügt
+- permissions für Admin und manager für <class name="com.openbravo.pos.admin.SystemDataPanel"/> eingefügt
