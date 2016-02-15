@@ -80,14 +80,6 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	}
 
 	public void loadProperties() {
-//		txtSystemDataAddressLine1.setText("txtSystemAddressLine1");
-//		txtSystemDataAddressLine2.setText("txtSystemAddressLine2");
-//		txtSystemDataStreet.setText("txtSystemDataStreet");
-//		txtSystemDataCity.setText("txtSystemDataCity");
-//		txtSystemDataTAXID.setText("txtSystemDataTAXID");
-//		txtSystemDataThanks.setText("txtSystemDataThanks");
-		
-		// tresources.getFields();
 		DataLogicAdmin dlAdmin = (DataLogicAdmin) m_App.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
         TableDefinition tresources = dlAdmin.getTableResources();
         

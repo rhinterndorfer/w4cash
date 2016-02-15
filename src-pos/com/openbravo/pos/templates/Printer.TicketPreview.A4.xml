@@ -9,13 +9,31 @@
 <ticket printer = "1">
         	<image>Printer.Ticket.Logo</image>
        	<line></line>
-
-           	<line><text align="center" length="105">Der Wirt Schlechthin</text></line>
-       	<line><text align="center" length="105">Irgendwo 23</text></line>
-        	<line><text align="center" length="105">3204 Kirchberg/Pielach</text></line>
-        	<line><text align="center" length="105">ATU64dfggh458</text></line>
-        	<line></line>
-        	<line><text align="center" length="105">www.hw4cash.at</text></line>
+ #if ($SystemDataAddresLine1 != "")
+        <line>
+            <text align="center" length="105" bold="true">${SystemDataAddresLine1}</text>
+        </line>
+        #end
+	#if ($SystemDataAddresLine2 != "")
+	<line>
+            <text align="center" length="105" bold="true">${SystemDataAddresLine2}</text>
+        </line>
+        #end
+	#if ($SystemDataStreet != "")
+        <line>
+            <text align="center" length="105" bold="true">${SystemDataStreet}</text>
+        </line>
+	#end
+	#if ($SystemDataCity != "")
+	<line>
+            <text align="center" length="105" bold="true">${SystemDataCity}</text>
+        </line>
+	#end
+	#if ($SystemDataTaxid != "")
+	<line>
+            <text align="center" length="105" bold="true">${SystemDataTaxid}</text>
+        </line>
+	#end
 
 
 	#if (${ticket.ticketType} == 0)
@@ -139,7 +157,11 @@
 	<line></line>
 	<line size="1"><text align ="left" length="16" bold="true">Total</text><text align ="right" length="92" bold="true">${ticket.printTotal()}</text></line>
 
-
+	#if ($SystemDataThanks != "")
+        <line>
+            <text align="center" length="108" bold="true">${SystemDataThanks}</text>
+        </line>
+        #end 
 
 </ticket>
 

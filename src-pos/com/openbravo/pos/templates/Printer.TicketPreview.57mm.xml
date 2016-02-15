@@ -11,21 +11,31 @@
         </line>
     </display>
     <ticket>
+        #if ($SystemDataAddresLine1 != "")
         <line>
-            <text align="center" length="30" bold="true"></text>
+            <text align="center" length="30" bold="true">${SystemDataAddresLine1}</text>
         </line>
+        #end
+	#if ($SystemDataAddresLine2 != "")
+	<line>
+            <text align="center" length="30" bold="true">${SystemDataAddresLine2}</text>
+        </line>
+        #end
+	#if ($SystemDataStreet != "")
         <line>
-            <text align="center" length="30" bold="true">W4CASH</text>
+            <text align="center" length="30" bold="true">${SystemDataStreet}</text>
         </line>
-        <line>
-            <text align="center" length="30" bold="true">Waldviertel</text>
+	#end
+	#if ($SystemDataCity != "")
+	<line>
+            <text align="center" length="30" bold="true">${SystemDataCity}</text>
         </line>
-        <line>
-            <text align="center" length="30" bold="true">3910 Zwettl</text>
+	#end
+	#if ($SystemDataTaxid != "")
+	<line>
+            <text align="center" length="30" bold="true">${SystemDataTaxid}</text>
         </line>
-	    <line>
-            <text align="center" length="30" bold="true">ATU xxxxxxxx</text>
-        </line>
+	#end
         <line></line>
         #if ($ticket.printId() == "")
 		<line>
@@ -176,7 +186,7 @@
          #if ($paymentline.name == "cashrefund")
         <line></line>     
         <line>
-            <text bold="true">Rückzahlung</text>
+            <text bold="true">Rï¿½ckzahlung</text>
          </line>
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>
@@ -194,7 +204,7 @@
          #if ($paymentline.name == "magcardrefund")
         <line></line>     
         <line>
-            <text bold="true">Karte Rückzahlung</text>
+            <text bold="true">Karte Rï¿½ckzahlung</text>
         </line>    
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>
@@ -212,7 +222,7 @@
          #if ($paymentline.name == "chequerefund")
         <line></line>     
         <line>
-            <text bold="true">Scheck Rückerstattung</text>
+            <text bold="true">Scheck Rï¿½ckerstattung</text>
         </line>    
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>
@@ -260,6 +270,11 @@
             <text align="right" length="20">${ticket.printUser()}</text>
         </line> 
 		<line></line>
+		#if ($SystemDataThanks != "")
+        <line>
+            <text align="center" length="30" bold="true">${SystemDataThanks}</text>
+        </line>
+        #end 
 		<line>
 			<text align="center" length="30" bold="true">Powered by w4cash.at</text>
         </line> 

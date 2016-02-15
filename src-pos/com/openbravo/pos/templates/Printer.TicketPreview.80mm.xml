@@ -15,18 +15,31 @@
         <line size="3">
             <text align="center" length="28" bold="true">DEMOBETRIEB</text>
         </line>
+        #if ($SystemDataAddresLine2 != "")
         <line>
-            <text align="center" length="44" bold="true">Marktbeisl Arbesbach</text>
+            <text align="center" length="44" bold="true">${SystemDataAddresLine1}</text>
         </line>
+        #end
+	#if ($SystemDataAddresLine1 != "")
+	<line>
+            <text align="center" length="44" bold="true">${SystemDataAddresLine2}</text>
+        </line>
+        #end
+	#if ($SystemDataStreet != "")
         <line>
-            <text align="center" length="44" bold="true">Arbesbach 119</text>
+            <text align="center" length="44" bold="true">${SystemDataStreet}</text>
         </line>
-        <line>
-            <text align="center" length="44" bold="true">3925 Arbesbach</text>
+	#end
+	#if ($SystemDataCity != "")
+	<line>
+            <text align="center" length="44" bold="true">${SystemDataCity}</text>
         </line>
-	    <line>
-            <text align="center" length="44" bold="true">ATU 47310306</text>
+	#end
+	#if ($SystemDataTaxid != "")
+	<line>
+            <text align="center" length="44" bold="true">${SystemDataTaxid}</text>
         </line>
+	#end
         <line></line>
         #if ($ticket.printId() == "")
         <line>
@@ -261,7 +274,12 @@
             <text align="left" length="10">Kassier:</text>
             <text align="right" length="34">${ticket.printUser()}</text>
         </line> 
-        <line></line>            
+        <line></line>
+	#if ($SystemDataThanks != "")
+        <line>
+            <text align="center" length="44" bold="true">${SystemDataThanks}</text>
+        </line>
+        #end           
         <line>
             <text align="center" length="44">Powered by w4cash.at</text>
         </line>   
