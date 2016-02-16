@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.mant;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -27,6 +28,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -82,7 +85,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		((JSpinner.DefaultEditor) m_jWidth.getEditor()).getTextField().getDocument().addDocumentListener(dirty);
 		((JSpinner.DefaultEditor) m_jHeight.getEditor()).getTextField().getDocument().addDocumentListener(dirty);
 		((JSpinner.DefaultEditor) m_jFontsize.getEditor()).getTextField().getDocument().addDocumentListener(dirty);
-		
+		m_jFontColor.getDocument().addDocumentListener(dirty);
+
 		writeValueEOF();
 
 		ScaleButtons();
@@ -109,6 +113,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jHeight.setValue(0);
 		m_jWidth.setValue(0);
 		m_jFontsize.setValue(0);
+		m_jFontColor.setText("");
+		m_jFontColor.setBackground(Color.white);
 
 		m_jName.setEnabled(false);
 		m_jFloor.setEnabled(false);
@@ -117,6 +123,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jWidth.setEnabled(false);
 		m_jHeight.setEnabled(false);
 		m_jFontsize.setEnabled(false);
+		m_jFontColor.setEnabled(false);
 	}
 
 	public void writeValueInsert() {
@@ -132,8 +139,10 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		m_jWidth.setValue(width);
 		m_jHeight.setValue(height);
-		
+
 		m_jFontsize.setValue(12);
+		m_jFontColor.setText("");
+		m_jFontColor.setBackground(Color.white);
 
 		m_jName.setEnabled(true);
 		m_jFloor.setEnabled(false);
@@ -142,6 +151,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jWidth.setEnabled(false);
 		m_jHeight.setEnabled(false);
 		m_jFontsize.setEnabled(false);
+		m_jFontColor.setEnabled(false);
 	}
 
 	public void writeValueDelete(Object value) {
@@ -183,7 +193,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		m_jWidth.setEnabled(true);
 		m_jHeight.setEnabled(true);
 		m_jFontsize.setEnabled(true);
-		
+
 		this.m_placesBag.selectPlace(Formats.STRING.formatValue(place[0]));
 
 		m_jX.setValue(place[2]);
@@ -191,13 +201,23 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		m_jWidth.setValue(place[5] == null ? 0 : place[5]);
 		m_jHeight.setValue(place[6] == null ? 0 : place[6]);
-		
+
 		m_jFontsize.setValue(place[7] == null ? 12 : place[7]);
-		
+
+		String color[] = (place[8] == null ? new String[] { "0", "0", "0" } : place[8].toString().split(";"));
+
+		try {
+			m_jFontColor.setBackground(
+					new Color(Integer.parseInt(color[0]), Integer.parseInt(color[1]), Integer.parseInt(color[2])));
+		} catch (NumberFormatException ex) {
+			m_jFontColor.setBackground(Color.black);
+		} catch (NullPointerException ex) {
+			m_jFontColor.setBackground(Color.black);
+		}
 	}
 
 	public Object createValue() throws BasicException {
-		Object[] place = new Object[8];
+		Object[] place = new Object[9];
 		place[0] = m_sID;
 
 		if (m_jName.getText() != null && !m_jName.getText().isEmpty()) {
@@ -213,8 +233,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 			try {
 				// read all places for floor
 				SentenceList sent = new StaticSentence(m_App.getSession(),
-						"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE FROM PLACES ORDER BY FLOOR", null,
-						new SerializerReadClass(Place.class));
+						"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE, FONTCOLOR FROM PLACES ORDER BY FLOOR",
+						null, new SerializerReadClass(Place.class));
 				places.addAll(sent.list());
 			} catch (BasicException eD) {
 				places = new ArrayList<Place>();
@@ -231,8 +251,11 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		place[5] = Formats.INT.parseValue("" + m_jWidth.getValue());
 		place[6] = Formats.INT.parseValue("" + m_jHeight.getValue());
 
-		place[7] = Formats.INT.parseValue(""+m_jFontsize.getValue());
-		
+		place[7] = Formats.INT.parseValue("" + m_jFontsize.getValue());
+
+		place[8] = m_jFontColor.getBackground().getRed() + ";" + m_jFontColor.getBackground().getGreen() + ";"
+				+ m_jFontColor.getBackground().getBlue();
+
 		// this.m_placesBag.selectPlace((String) place[0]);
 
 		return place;
@@ -263,6 +286,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		jLabel1 = new javax.swing.JLabel();
 		m_jFloor = new javax.swing.JComboBox();
 		m_jFontsize = new javax.swing.JSpinner();
+		m_jFontColor = new javax.swing.JTextField();
 		// m_jPosDec = new javax.swing.jspin();
 		// m_jPosInc = new javax.swing.JButton();
 		// m_jSizeDec = new javax.swing.JButton();
@@ -408,6 +432,14 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_spinner5.gridy = 4;
 		add(m_jFontsize, gbc_spinner5);
 
+		GridBagConstraints gbc_fontcolor = new GridBagConstraints();
+		gbc_fontcolor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_fontcolor.weightx = 1.0;
+		gbc_fontcolor.insets = new Insets(5, 5, 0, 0);
+		gbc_fontcolor.gridx = 2;
+		gbc_fontcolor.gridy = 4;
+		add(m_jFontColor, gbc_fontcolor);
+
 		JLabel space5 = new JLabel("");
 		GridBagConstraints gbc_space5 = new GridBagConstraints();
 		gbc_space5.insets = new Insets(5, 5, 0, 0);
@@ -423,7 +455,6 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		gbc_placesbag.insets = new Insets(5, 5, 0, 0);
 		gbc_placesbag.gridx = 0;
 		gbc_placesbag.gridy = 5;
-
 		add(m_placesBag, gbc_placesbag);
 
 		SpinnerNumberModel m1 = new SpinnerNumberModel();
@@ -484,14 +515,37 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		});
 
+		m_jFontColor.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// JColorChooser chooser = new JColorChooser();
+				m_jFontColor.setBackground(JColorChooser.showDialog(m_jFontColor, "", m_jFontColor.getBackground()));
+				colorFont();
+			}
+		});
+
 	}// </editor-fold>//GEN-END:initComponents
 
+	private void colorFont() {
+		Color fontcolor = m_jFontColor.getBackground();
+		Place place = m_placesBag.getPlace();
+
+		if (place == null) {
+			return;
+		}
+		
+		place.setFontColor(fontcolor);
+	}
+
 	private void sizeFont() {
-		int fontsize = Integer.parseInt(""+m_jFontsize.getValue());
+		int fontsize = Integer.parseInt("" + m_jFontsize.getValue());
+
 		Place place = m_placesBag.getPlace();
 		if (place == null) {
 			return;
 		}
+
+		// place.setFontColor("Green");
 		place.setFontsize(fontsize);
 	}
 
@@ -586,6 +640,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 	private javax.swing.JSpinner m_jWidth;
 	private javax.swing.JSpinner m_jHeight;
 	private javax.swing.JSpinner m_jFontsize;
+	private javax.swing.JTextField m_jFontColor;
 
 	/**
 	 * private JButton m_jPosInc; private JButton m_jPosDec; private JButton
@@ -601,7 +656,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-small-fontsize", "32");
-		
+
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "common-small-fontsize", "32");
 
 		PropertyUtil.ScaleComboFontsize(m_App, m_jFloor, "common-small-fontsize", "32");
@@ -611,6 +666,8 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jHeight, "common-small-fontsize", "32");
 		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jWidth, "common-small-fontsize", "32");
 		PropertyUtil.ScaleSpinnerFontsize(m_App, m_jFontsize, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jFontColor, "common-small-fontsize", "32");
 
 		PropertyUtil.ScaleSpinnerScrollbar(m_App, m_jX, "", "");
 	}

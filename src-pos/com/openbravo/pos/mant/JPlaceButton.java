@@ -35,6 +35,7 @@ public class JPlaceButton extends JButton {
 		addDragListeners();
 		setOpaque(false);
 		setBackground(new Color(240, 240, 240));
+		//setForeground(m_foreground);
 		m_Place = place;
 	}
 

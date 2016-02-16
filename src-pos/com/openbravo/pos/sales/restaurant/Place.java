@@ -73,6 +73,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private int m_iWidth;
 	private int m_iHeight;
 	private int m_iFontsize;
+	private Color m_iFontColor;
 
 	/** Creates a new instance of TablePlace */
 	public Place() {
@@ -103,6 +104,21 @@ public class Place implements SerializableRead, java.io.Serializable {
 			// npe.printStackTrace();
 			m_iFontsize = 12;
 		}
+		
+		try {
+			String cc[] = dr.getString(9).split(";");
+			m_iFontColor = new Color(Integer.parseInt(cc[0]), Integer.parseInt(cc[1]), Integer.parseInt(cc[2]));
+			if(m_iFontColor == null) {
+				m_iFontColor = Color.black;
+			}
+		} catch (NullPointerException npe) {
+			// npe.printStackTrace();
+			m_iFontColor = Color.black;
+		} catch (BasicException eD) {
+			m_iFontColor = Color.black;
+		} catch(NumberFormatException ex) {
+			m_iFontColor = Color.black;
+		}
 
 		m_bPeople = false;
 		m_btn = new JPlaceButton(this);
@@ -115,6 +131,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setIcon(ICO_FRE);
 		m_btn.setText(m_sName);
 		m_btn.setFont(new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsize));
+		m_btn.setForeground(m_iFontColor);
 		m_btn.setMargin(new java.awt.Insets(0, 0, 0, 0));
 	}
 
@@ -212,5 +229,9 @@ public class Place implements SerializableRead, java.io.Serializable {
 		Font newFont = new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsize);
 		m_btn.setFont(newFont);
 		m_btn.repaint();
+	}
+
+	public void setFontColor(Color fontcolor) {
+		m_btn.setForeground(fontcolor);
 	}
 }

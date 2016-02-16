@@ -110,7 +110,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		}
 		try {
 			SentenceList sent = new StaticSentence(app.getSession(),
-					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE FROM PLACES ORDER BY FLOOR", null,
+					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE, FONTCOLOR FROM PLACES ORDER BY FLOOR", null,
 					new SerializerReadClass(Place.class));
 			m_aplaces = sent.list();
 		} catch (BasicException eD) {

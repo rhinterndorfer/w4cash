@@ -217,7 +217,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		try {
 			// read all places for floor
 			SentenceList sent = new StaticSentence(m_App.getSession(),
-					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE FROM PLACES ORDER BY FLOOR", null,
+					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE, FONTCOLOR FROM PLACES ORDER BY FLOOR", null,
 					new SerializerReadClass(Place.class));
 			m_aplaces = sent.list();
 		} catch (BasicException eD) {
@@ -288,12 +288,12 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		}
 
 		TableDefinition td = new PlacesTableDefinition(m_App.getSession(), "PLACES",
-				new String[] { "ID", "NAME", "X", "Y", "FLOOR", "WIDTH", "HEIGHT" ,"FONTSIZE"},
+				new String[] { "ID", "NAME", "X", "Y", "FLOOR", "WIDTH", "HEIGHT" ,"FONTSIZE", "FONTCOLOR"},
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "X", "Y",
-						AppLocal.getIntString("label.placefloor"), "WIDTH", "HEIGHT","FONTSIZE" },
-				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING, Datas.INT, Datas.INT,  Datas.INT },
+						AppLocal.getIntString("label.placefloor"), "WIDTH", "HEIGHT","FONTSIZE", "FONTCOLOR" },
+				new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.INT, Datas.STRING, Datas.INT, Datas.INT,  Datas.INT, Datas.STRING},
 				new Formats[] { Formats.STRING, Formats.STRING, Formats.INT, Formats.INT, Formats.NULL, Formats.INT, Formats.INT,
-						Formats.INT },
+						Formats.INT, Formats.STRING },
 				new int[] { 0 }, id);
 
 		m_Editor.getPanelPlaces().setTableDefinition(td);
