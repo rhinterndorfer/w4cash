@@ -56,11 +56,14 @@ public class TicketParser extends DefaultHandler {
     private int attribute3;
     
     private int m_iOutputType;
+    private int m_currentPosition=0;
+    private Boolean m_linebreak=false;
     private static final int OUTPUT_NONE = 0;
     private static final int OUTPUT_DISPLAY = 1;
     private static final int OUTPUT_TICKET = 2;
     private static final int OUTPUT_FISCAL = 3;
     private DevicePrinter m_oOutputPrinter;
+    protected int m_lastSize;
     
     
     /** Creates a new instance of TicketParser */
@@ -169,7 +172,9 @@ public class TicketParser extends DefaultHandler {
                 bctype = attributes.getValue("type");
                 bcposition = attributes.getValue("position");
             } else if ("line".equals(qName)) {
-                m_oOutputPrinter.beginLine(parseInt(attributes.getValue("size"), DevicePrinter.SIZE_0));
+            	m_currentPosition = 0;
+            	m_lastSize = parseInt(attributes.getValue("size"), DevicePrinter.SIZE_0);
+            	m_oOutputPrinter.beginLine(m_lastSize);
             } else if ("text".equals(qName)) {
                 text = new StringBuffer();
                 m_iTextStyle = ("true".equals(attributes.getValue("bold")) ? DevicePrinter.STYLE_BOLD : DevicePrinter.STYLE_PLAIN)
@@ -257,17 +262,60 @@ public class TicketParser extends DefaultHandler {
                 text = null;
             } else if ("text".equals(qName)) {
                 if (m_iTextLength > 0) {
-                    switch(m_iTextAlign) {
-                    case DevicePrinter.ALIGN_RIGHT:
-                        m_oOutputPrinter.printText(m_iTextStyle, DeviceTicket.alignRight(text.toString(), m_iTextLength));
-                        break;
-                    case DevicePrinter.ALIGN_CENTER:
-                        m_oOutputPrinter.printText(m_iTextStyle, DeviceTicket.alignCenter(text.toString(), m_iTextLength));
-                        break;
-                    default: // DevicePrinter.ALIGN_LEFT
-                        m_oOutputPrinter.printText(m_iTextStyle, DeviceTicket.alignLeft(text.toString(), m_iTextLength));
-                        break;
+                    
+                	String txtCut = text.toString();
+                	int cutIndex = 0;
+                    if(txtCut.length() > m_iTextLength)
+                    {
+                    	cutIndex = txtCut.lastIndexOf(' ', m_iTextLength);
+                    	if(cutIndex > 0)
+                    	{
+                    		cutIndex = cutIndex + 1;
+                    		txtCut = txtCut.substring(0, cutIndex);
+                    	}
+                    	else
+                    	{
+                    		cutIndex = m_iTextLength;
+                    		txtCut = txtCut.substring(0, cutIndex);
+                    	}
                     }
+                    
+                    String txtPrefix = "";
+                    if(m_linebreak && m_currentPosition > 0)
+                    {
+                    	txtPrefix = new String(new char[m_currentPosition]).replace('\0', ' ');
+                    }
+                    
+                	switch(m_iTextAlign) {
+		                case DevicePrinter.ALIGN_RIGHT:
+		                	m_oOutputPrinter.printText(m_iTextStyle, txtPrefix + DeviceTicket.alignRight(txtCut, m_iTextLength));
+		                    break;
+		                case DevicePrinter.ALIGN_CENTER:
+		                    m_oOutputPrinter.printText(m_iTextStyle, txtPrefix + DeviceTicket.alignCenter(txtCut, m_iTextLength));
+		                    break;
+		                default: // DevicePrinter.ALIGN_LEFT
+		                    m_oOutputPrinter.printText(m_iTextStyle, txtPrefix + DeviceTicket.alignLeft(txtCut, m_iTextLength));
+		                    break;
+                    }
+                    
+                    if(cutIndex > 0)
+                    {
+                    	// add new line
+                    	m_oOutputPrinter.endLine();
+                    	m_oOutputPrinter.beginLine(m_lastSize);
+                    	text = new StringBuffer(text.substring(cutIndex));
+                    	
+                    	m_linebreak = true;
+                    	endElement(uri, localName, qName);
+                    }
+                    else
+                    {
+                    	m_currentPosition = m_currentPosition + m_iTextLength;
+                    	m_linebreak = false;
+                    }
+                    
+                    
+                    
                 } else {
                     m_oOutputPrinter.printText(m_iTextStyle, text.toString());
                 }

@@ -31,7 +31,6 @@ public abstract class BasicTicket implements PrintItem {
     protected int m_iBodyHeight;
     protected int m_iBodyColumns;
 
-
     /** Creates a new instance of AbstractTicket */
     public BasicTicket() {
         m_aCommands = new ArrayList<PrintItem>();
@@ -88,6 +87,7 @@ public abstract class BasicTicket implements PrintItem {
         	m_iBodyColumns = pi.getColumns();
     }
 
+   
     public void beginLine(int iTextSize) {
         pil = new PrintItemLine(iTextSize, getBaseFont(), getFontHeight());
     }
