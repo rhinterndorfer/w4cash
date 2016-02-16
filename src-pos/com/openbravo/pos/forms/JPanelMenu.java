@@ -34,9 +34,11 @@ public class JPanelMenu extends JPanel implements JPanelView {
 	private MenuDefinition m_menu;
     private boolean created = false;
     
+    private AppView m_appView = null;
+    
     /** Creates new form JStockMenu */
-    public JPanelMenu(MenuDefinition menu) {
-        
+    public JPanelMenu(AppView appView, MenuDefinition menu) {
+        this.m_appView = appView;
         m_menu = menu;
         created = false;
         
@@ -112,7 +114,15 @@ public class JPanelMenu extends JPanel implements JPanelView {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    public AppView getAppView() {
+		return m_appView;
+	}
+
+	public void setAppView(AppView m_appView) {
+		this.m_appView = m_appView;
+	}
+
+	// Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel menucontainer;
     // End of variables declaration//GEN-END:variables
     

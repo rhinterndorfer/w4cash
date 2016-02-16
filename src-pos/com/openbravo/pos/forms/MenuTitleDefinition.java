@@ -20,9 +20,12 @@
 package com.openbravo.pos.forms;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
+
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -31,7 +34,7 @@ import javax.swing.border.MatteBorder;
 public class MenuTitleDefinition implements MenuElement {
     
     public String KeyText;
-    
+   
     public void addComponent(JPanelMenu menu) {
        
 //        if (p.x > 20) {
@@ -46,7 +49,8 @@ public class MenuTitleDefinition implements MenuElement {
 //        lbl.setSize(670, 20);
 //        lbl.setLocation(p);
 //        p.y += 35;
-//        comp.add(lbl);  
+//        comp.add(lbl);
+        PropertyUtil.ScaleLabelFontsize(menu.getAppView(), lbl, "menu-title-definition-font-size", "12");
         
         menu.addTitle(lbl);
     }  

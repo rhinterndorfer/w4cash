@@ -20,9 +20,13 @@
 package com.openbravo.pos.forms;
 
 import java.awt.Dimension;
+import java.awt.Font;
+
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -39,6 +43,8 @@ public class MenuItemDefinition implements MenuElement {
     public void addComponent(JPanelMenu menu) {
         
         JButton btn = new JButton(act); 
+        
+        PropertyUtil.ScaleButtonFontsize(menu.getAppView(), btn, "system-button-font-size", "12");
         
         btn.setFocusPainted(false);
         btn.setFocusable(false);

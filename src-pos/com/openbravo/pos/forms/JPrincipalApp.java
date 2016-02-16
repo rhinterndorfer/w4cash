@@ -36,7 +36,7 @@ import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
 import com.openbravo.pos.util.Hashcypher;
-
+import com.openbravo.pos.util.PropertyUtil;
 //import com.l2fprod.common.swing.JTaskPane;
 //import com.l2fprod.common.swing.JTaskPaneGroup;
 import com.openbravo.pos.util.StringUtils;
@@ -212,6 +212,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 			taskGroup.setFocusable(false);
 			taskGroup.setRequestFocusEnabled(false);
 			taskGroup.setTitle(AppLocal.getIntString(key));
+			PropertyUtil.ScaleJXTaskPaneFontSize(m_appview, taskGroup, "main-menu-font-size", "12");
 			taskGroup.setVisible(false); // Only groups with sons are visible.
 		}
 
@@ -225,7 +226,9 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
 		public ScriptSubmenu addSubmenu(String icon, String key, String classname) {
 			ScriptSubmenu submenu = new ScriptSubmenu(key);
-			m_aPreparedViews.put(classname, new JPanelMenu(submenu.getMenuDefinition()));
+			
+			JPanelMenu pm = new JPanelMenu(m_appview, submenu.getMenuDefinition());
+			m_aPreparedViews.put(classname, pm);
 			addAction(new MenuPanelAction(m_appview, icon, key, classname));
 			return submenu;
 		}
@@ -243,6 +246,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 			if (m_appuser.hasPermission((String) act.getValue(AppUserView.ACTION_TASKNAME))) {
 				// add the action
 				Component c = taskGroup.add(act);
+				PropertyUtil.ScaleComponentFontsize(m_appview, c, "main-submenu-font-size", "12");
 				c.applyComponentOrientation(getComponentOrientation());
 				c.setFocusable(false);
 				// c.setRequestFocusEnabled(false);
@@ -282,7 +286,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
 		public ScriptSubmenu addSubmenu(String icon, String key, String classname) {
 			ScriptSubmenu submenu = new ScriptSubmenu(key);
-			m_aPreparedViews.put(classname, new JPanelMenu(submenu.getMenuDefinition()));
+			m_aPreparedViews.put(classname, new JPanelMenu(m_appview, submenu.getMenuDefinition()));
 			menudef.addMenuItem(new MenuPanelAction(m_appview, icon, key, classname));
 			return submenu;
 		}
@@ -340,9 +344,15 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 	private class ExitAction extends AbstractAction {
 
 		public ExitAction(String icon, String keytext) {
-			putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
+			ImageIcon im = new ImageIcon(JPrincipalApp.class.getResource(icon));
+			PropertyUtil.ScaleIconImage(m_appview, im,"main-submenu-image-width" ,"main-submenu-image-height" , "22", "22");
+			putValue(Action.SMALL_ICON, im);
 			putValue(Action.NAME, AppLocal.getIntString(keytext));
 			putValue(AppUserView.ACTION_TASKNAME, keytext);
+			
+//			putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
+//			putValue(Action.NAME, AppLocal.getIntString(keytext));
+//			putValue(AppUserView.ACTION_TASKNAME, keytext);
 		}
 
 		public void actionPerformed(ActionEvent evt) {
@@ -353,7 +363,9 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 	// La accion de cambio de password..
 	private class ChangePasswordAction extends AbstractAction {
 		public ChangePasswordAction(String icon, String keytext) {
-			putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
+			ImageIcon im = new ImageIcon(JPrincipalApp.class.getResource(icon));
+			PropertyUtil.ScaleIconImage(m_appview, im,"main-submenu-image-width" ,"main-submenu-image-height" , "22", "22");
+			putValue(Action.SMALL_ICON, im);
 			putValue(Action.NAME, AppLocal.getIntString(keytext));
 			putValue(AppUserView.ACTION_TASKNAME, keytext);
 
