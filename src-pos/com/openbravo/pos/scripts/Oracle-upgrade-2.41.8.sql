@@ -27,10 +27,9 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('47', 'System.City', 0,
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('48', 'System.TAXID', 0, utl_raw.cast_to_raw(''));
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('49', 'System.Thanks', 0, utl_raw.cast_to_raw(''));
 
-UPDATE ROLES SET PERMISSIONS= $FILE{/com/openbravo/pos/templates/Role.Administrator.xml} WHERE ID='0';
 UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Menu.Root.txt} WHERE NAME='Menu.Root';
-UPDATE ROLES SET CONTENT= $FILE{/com/openbravo/pos/templates/Role.Administrator.xml} WHERE NAME='Administratoren';
-UPDATE ROLES SET CONTENT= $FILE{/com/openbravo/pos/templates/Role.Manager.xml} WHERE NAME='Manager';
+UPDATE ROLES SET PERMISSIONS= $FILE{/com/openbravo/pos/templates/Role.Administrator.xml} WHERE NAME='Administratoren';
+UPDATE ROLES SET PERMISSIONS= $FILE{/com/openbravo/pos/templates/Role.Manager.xml} WHERE NAME='Manager';
 
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{};
 UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.41.9' WHERE ID = 'w4cashdb';
