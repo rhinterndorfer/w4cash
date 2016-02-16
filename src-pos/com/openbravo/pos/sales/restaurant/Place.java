@@ -104,11 +104,11 @@ public class Place implements SerializableRead, java.io.Serializable {
 			// npe.printStackTrace();
 			m_iFontsize = 12;
 		}
-		
+
 		try {
 			String cc[] = dr.getString(9).split(";");
 			m_iFontColor = new Color(Integer.parseInt(cc[0]), Integer.parseInt(cc[1]), Integer.parseInt(cc[2]));
-			if(m_iFontColor == null) {
+			if (m_iFontColor == null) {
 				m_iFontColor = Color.black;
 			}
 		} catch (NullPointerException npe) {
@@ -116,7 +116,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 			m_iFontColor = Color.black;
 		} catch (BasicException eD) {
 			m_iFontColor = Color.black;
-		} catch(NumberFormatException ex) {
+		} catch (NumberFormatException ex) {
 			m_iFontColor = Color.black;
 		}
 
@@ -129,9 +129,26 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setHorizontalTextPosition(SwingConstants.CENTER);
 		m_btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		m_btn.setIcon(ICO_FRE);
-		m_btn.setText(m_sName);
-		m_btn.setFont(new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsize));
+		// m_btn.setText(m_sName);
+		// m_btn.setFont(new Font(m_btn.getFont().getName(),
+		// m_btn.getFont().getStyle(), m_iFontsize));
 		m_btn.setForeground(m_iFontColor);
+
+		// fontsize
+		Font font = m_btn.getFont();
+
+		// The text
+		StringBuilder sb = new StringBuilder();
+		sb.append("<html><div style='text-align: center; font-family:");
+		sb.append(font.getName());
+		sb.append(";font-size:");
+		sb.append(m_iFontsize);
+		sb.append(";'>");
+		sb.append(m_sName);
+		sb.append("</div></html>");
+
+		m_btn.setText(sb.toString());
+
 		m_btn.setMargin(new java.awt.Insets(0, 0, 0, 0));
 	}
 
@@ -178,6 +195,36 @@ public class Place implements SerializableRead, java.io.Serializable {
 	public void setPeople(boolean bValue) {
 		m_bPeople = bValue;
 		m_btn.setIcon(bValue ? ICO_OCU : ICO_FRE);
+
+		Font font = m_btn.getFont();
+
+		if (m_bPeople) {
+			// The text
+			StringBuilder sb = new StringBuilder();
+			sb.append("<html><div style='");
+			sb.append("vertical-align: center;");
+			sb.append("font-family:");
+			sb.append(font.getName());
+			sb.append(";font-size:");
+			sb.append(m_iFontsize);
+			sb.append(";'><center>");
+			sb.append(m_sName);
+			sb.append("</center></div></html>");
+
+			m_btn.setText(sb.toString());
+		} else {
+			// The text
+			StringBuilder sb = new StringBuilder();
+			sb.append("<html><div style='text-align: center; font-family:");
+			sb.append(font.getName());
+			sb.append(";font-size:");
+			sb.append(m_iFontsize);
+			sb.append(";'>");
+			sb.append(m_sName);
+			sb.append("</div></html>");
+
+			m_btn.setText(sb.toString());
+		}
 	}
 
 	public void setButtonBounds(AppView app, int width, int height) {
@@ -201,13 +248,6 @@ public class Place implements SerializableRead, java.io.Serializable {
 
 		this.editor.setXYCoordinates(x, y);
 	}
-
-	// public void setSize(int width, int height) {
-	// this.m_iWidth = width;
-	// this.m_iHeight = height;
-	//
-	// this.editor.setPlaceSize(m_iWidth, m_iHeight);
-	// }
 
 	public PlacesEditor getEditor() {
 		return this.editor;

@@ -349,10 +349,6 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 			putValue(Action.SMALL_ICON, im);
 			putValue(Action.NAME, AppLocal.getIntString(keytext));
 			putValue(AppUserView.ACTION_TASKNAME, keytext);
-			
-//			putValue(Action.SMALL_ICON, new ImageIcon(JPrincipalApp.class.getResource(icon)));
-//			putValue(Action.NAME, AppLocal.getIntString(keytext));
-//			putValue(AppUserView.ACTION_TASKNAME, keytext);
 		}
 
 		public void actionPerformed(ActionEvent evt) {
