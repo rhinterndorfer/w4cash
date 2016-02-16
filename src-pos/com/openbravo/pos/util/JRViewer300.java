@@ -393,14 +393,15 @@ public class JRViewer300 extends javax.swing.JPanel implements JRHyperlinkListen
 	 *
 	 */
 	protected void initSaveContributors() {
-		final String[] DEFAULT_CONTRIBUTORS = { "net.sf.jasperreports.view.save.JRPrintSaveContributor",
+		final String[] DEFAULT_CONTRIBUTORS = { 
 				"net.sf.jasperreports.view.save.JRPdfSaveContributor",
-				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
-				"net.sf.jasperreports.view.save.JROdtSaveContributor",
-				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
 				"net.sf.jasperreports.view.save.JRSingleSheetXlsSaveContributor",
 				"net.sf.jasperreports.view.save.JRMultipleSheetsXlsSaveContributor",
 				"net.sf.jasperreports.view.save.JRCsvSaveContributor",
+				"net.sf.jasperreports.view.save.JRPrintSaveContributor",
+				"net.sf.jasperreports.view.save.JRRtfSaveContributor",
+				"net.sf.jasperreports.view.save.JROdtSaveContributor",
+				"net.sf.jasperreports.view.save.JRHtmlSaveContributor",
 				"net.sf.jasperreports.view.save.JRXmlSaveContributor",
 				"net.sf.jasperreports.view.save.JREmbeddedImagesXmlSaveContributor" };
 
