@@ -23,6 +23,7 @@ import com.openbravo.data.loader.LocalRes;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
@@ -41,8 +42,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.Scrollable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -52,11 +55,14 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.swing.text.html.parser.*;
+import javax.swing.text.html.*;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
@@ -117,15 +123,14 @@ public class JTicketLines extends javax.swing.JPanel {
 		}
 
 		Map<String, Integer> widths = PropertyUtil.getTicketLineWidths(m_App);
-		for(ColumnTicket acolumn : acolumns){
+		for (ColumnTicket acolumn : acolumns) {
 			Integer width = widths.get(acolumn.name);
-			if(width == null){
+			if (width == null) {
 				continue;
 			}
 			acolumn.width = width;
 		}
-		
-		
+
 		m_jTableModel = new TicketTableModel(acolumns);
 		m_jTicketTable.setModel(m_jTableModel);
 
@@ -139,22 +144,24 @@ public class JTicketLines extends javax.swing.JPanel {
 		PropertyUtil.ScaleScrollbar(m_App, m_jScrollTableTicket);
 
 		m_jTicketTable.getTableHeader().setReorderingAllowed(false);
-		m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(app, acolumns, propertyFontsize));
+		// m_jTicketTable.setDefaultRenderer(Object.class, new
+		// TicketCellRenderer(app, acolumns, propertyFontsize));
+		m_jTicketTable.setDefaultRenderer(Object.class, new RowHeightCellRenderer(app, acolumns, propertyFontsize, propertyRowHeight));
 
 		PropertyUtil.ScaleTableColumnFontsize(m_App, m_jTicketTable, "sales-tablecolumn-fontsize", "14");
 
 		m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		m_jTicketTable.addMouseListener(new MouseAdapter() {
-		    public void mousePressed(MouseEvent me) {
-		        JTable table =(JTable) me.getSource();
-		        Point p = me.getPoint();
-		        int row = table.rowAtPoint(p);
-		        if (me.getClickCount() == 2) {
-		            // your valueChanged overridden method
-		        	listDoubleClickListener.valueChanged(new ListSelectionEvent(m_jTicketTable, row, row, false));
-		        }
-		    }
+			public void mousePressed(MouseEvent me) {
+				JTable table = (JTable) me.getSource();
+				Point p = me.getPoint();
+				int row = table.rowAtPoint(p);
+				if (me.getClickCount() == 2) {
+					// your valueChanged overridden method
+					listDoubleClickListener.valueChanged(new ListSelectionEvent(m_jTicketTable, row, row, false));
+				}
+			}
 		});
 		// reseteo la tabla...
 		m_jTableModel.clear();
@@ -163,11 +170,11 @@ public class JTicketLines extends javax.swing.JPanel {
 	public void addListDoubleClickListener(ListSelectionListener l) {
 		this.listDoubleClickListener = l;
 	}
-	
+
 	public void removeListDoubleClickListener(ListSelectionListener l) {
 		this.listDoubleClickListener = null;
 	}
-	
+
 	public void addListSelectionListener(ListSelectionListener l) {
 		m_jTicketTable.getSelectionModel().addListSelectionListener(l);
 	}
@@ -274,6 +281,74 @@ public class JTicketLines extends javax.swing.JPanel {
 
 	public int getTableModelSize() {
 		return this.getSelectedIndex();
+	}
+
+	private static class RowHeightCellRenderer extends JTextArea implements TableCellRenderer {
+		private static final long serialVersionUID = 1L;
+		private ColumnTicket[] m_acolumns;
+		private AppView m_app;
+		private String propertyFontsize;
+		private String propertyRowHeight;
+
+		public RowHeightCellRenderer(AppView app, ColumnTicket[] acolumns, String sPropertyFontSize, String sPropertyRowHeight) {
+			m_acolumns = acolumns;
+			m_app = app;
+			propertyFontsize = sPropertyFontSize;
+			propertyRowHeight = sPropertyRowHeight;
+			this.setLineWrap(true);
+			this.setWrapStyleWord(true);
+			
+			int fontsize = PropertyUtil.ScaleTextAreaFontsize(m_app, this, propertyFontsize, "25");
+			int height = PropertyUtil.GetTableRowHeight(m_app, propertyRowHeight, "35");
+			int margin = Math.abs(height - fontsize) / 2;
+			this.setMargin(new Insets(margin, 0, margin, 0));
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+
+			if (value != null)
+			{
+				
+				String textAll = value.toString().replace("<html>", "").replace("<br>", "\\n").replace("<br/>", "\\n");
+				String[] lines = textAll.split("\\\\n");
+					
+				StringBuilder sb = new StringBuilder();
+				for (String line : lines)
+				{
+					if(line != null && !line.trim().equals(""))
+					{
+						if(sb.length() > 0)
+							sb.append('\n');
+						sb.append(line.trim());
+					}
+				}
+				
+				setText(sb.toString());
+			}
+			else
+			{
+				setText("");
+			}
+
+			if (isSelected) {
+				this.setBackground(table.getSelectionBackground());
+				this.setForeground(table.getSelectionForeground());
+			} else {
+				this.setBackground(table.getBackground());
+				this.setForeground(table.getForeground());
+			}
+
+
+			
+			final int columnWidth = table.getColumnModel().getColumn(column).getWidth();
+			final int rowHeight = table.getRowHeight(row);
+			this.setSize(columnWidth, rowHeight);
+
+			this.validate();
+
+			return this;
+		}
 	}
 
 	private static class TicketCellRenderer extends DefaultTableCellRenderer {
@@ -466,17 +541,67 @@ public class JTicketLines extends javax.swing.JPanel {
 		public void tableChanged(TableModelEvent e) {
 			super.tableChanged(e);
 
-			if (m_App != null && propertyRowHeight != null && e.getLastRow() >= 0
-					&& (e.getType() == TableModelEvent.UPDATE || e.getType() == TableModelEvent.INSERT)) {
+			/*
+			 * if (m_App != null && propertyRowHeight != null && e.getLastRow()
+			 * >= 0 && (e.getType() == TableModelEvent.UPDATE || e.getType() ==
+			 * TableModelEvent.INSERT)) {
+			 * 
+			 * for (int i = 0; i < this.getModel().getRowCount(); i++) { Object
+			 * val = this.getModel().getValueAt(i, 0);
+			 * //PropertyUtil.ScaleTableRowheight(m_App, this, i,
+			 * getValueLines(val != null ? val.toString() : ""), //
+			 * propertyRowHeight, "35");
+			 * 
+			 * } }
+			 */
 
-				for (int i = 0; i < this.getModel().getRowCount(); i++) {
-					Object val = this.getModel().getValueAt(i, 0);
-					PropertyUtil.ScaleTableRowheight(m_App, this, i, getValueLines(val != null ? val.toString() : ""),
-							propertyRowHeight, "35");
-
-				}
+			final int first;
+			final int last;
+			if (e == null || e.getFirstRow() == TableModelEvent.HEADER_ROW) {
+				// assume everything changed
+				first = 0;
+				last = this.getModel().getRowCount();
+			} else {
+				first = e.getFirstRow();
+				last = e.getLastRow() + 1;
+			}
+			// GUI-Changes should be done through the EventDispatchThread which
+			// ensures all pending events were processed
+			// Also this way nobody will change the text of our
+			// RowHeightCellRenderer because a cell is to be rendered
+			if (SwingUtilities.isEventDispatchThread()) {
+				updateRowHeights(first, last);
+			} else {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						updateRowHeights(first, last);
+					}
+				});
 			}
 
+		}
+
+		private void updateRowHeights(final int first, final int last) {
+			/*
+			 * Auto adjust the height of rows in a JTable. The only way to know
+			 * the row height for sure is to render each cell to determine the
+			 * rendered height. After your table is populated with data you can
+			 * do:
+			 *
+			 */
+			for (int row = first; row < last; row++) {
+				int rowHeight = 20;
+				if (this.getRowCount() >= row + 1) {
+					for (int column = 0; column < this.getColumnCount(); column++) {
+						Component comp = this.prepareRenderer(this.getCellRenderer(row, column), row, column);
+						rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+					}
+					if (rowHeight != this.getRowHeight(row)) {
+						this.setRowHeight(row, rowHeight);
+					}
+				}
+			}
+			
 		}
 
 		private int getValueLines(String val) {

@@ -566,7 +566,9 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleTextAreaFontsize(AppView app, JTextArea text, String key, String defaultValue) {
+	
+	
+	public static int ScaleTextAreaFontsize(AppView app, JTextArea text, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -574,13 +576,15 @@ public class PropertyUtil {
 		}
 		try {
 			int fontsize = Integer.parseInt(value);
-
+			
 			Font fontTotalEuros = text.getFont();
 			text.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
 			text.setSize((int) text.getSize().getWidth(), fontsize);
+			return fontsize;
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
+		return 25;
 	}
 
 	public static void ScaleTextFieldFontsizePrefered(AppView app, JTextField text, String key, String defaultValue) {
@@ -632,6 +636,24 @@ public class PropertyUtil {
 		}
 	}
 
+	public static int GetTableRowHeight(AppView app, String key,
+			String defaultValue)
+	{
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		
+		try {
+			int size = Integer.parseInt(value);
+			return size;
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
+		return 25;
+	}
+	
 	public static void ScaleTableRowheight(AppView app, final JTable table, int row, int multiply, String key,
 			String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
