@@ -60,6 +60,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	private JTicketsBagRestaurant m_restaurantmap;
 	private JTicketsBagRestaurantRes m_jreservations;
+	
+	private List<CategoryInfo> m_categories;
 
 	private Place m_PlaceCurrent;
 
@@ -302,6 +304,13 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		m_PlaceClipboard = null;
 		customer = null;
+		try {
+			m_categories = dlSales.getCategories();
+		} catch(Exception ex)
+		{
+			m_categories = null;
+		}
+		
 		loadTickets();
 		printState();
 
@@ -327,16 +336,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			try {
 				// guardamos el ticket
 				if (m_PlaceCurrent != null) {
-
-					// dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-					if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
-						dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-						dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
-					} else {
-						dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
-						m_jbtnRefreshActionPerformed(null);
-					}
-					
+					newTicket();
 
 					m_PlaceCurrent = null;
 				}
@@ -384,8 +384,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				m_panelticket.setActiveTicket(null, null);
 			} catch (BasicException e1) {
 				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.databaseconnectionerror"),
-						e1);
+						AppLocal.getIntString("message.databaseconnectionerror"), e1);
 			}
 		}
 
@@ -427,6 +426,26 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		return -1;
 	}
+	
+	/**
+	 * find the printer id by category
+	 * 
+	 * @param categoryID
+	 * @return
+	 */
+	private CategoryInfo findCategory(List<CategoryInfo> infos, String categoryID) {
+
+		for (CategoryInfo info : infos) {
+			if (info.getID().compareTo(categoryID) == 0) {
+				// category was found
+				return info;
+			}
+		}
+
+		return null;
+	}
+
+	
 
 	public void newTicket() throws BasicException {
 		this.newTicket(m_panelticket.getActiveTicket().copyTicket(), m_panelticket.getActiveTicketClone());
@@ -441,18 +460,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				// if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 				// here we add ticket for each printer
 				HashMap<Integer, TicketInfo> printabletickets = new HashMap<Integer, TicketInfo>();
-				List<CategoryInfo> categories = dlSales.getCategories();
-				// and schank printer
-				// TicketInfo ticketinfo1 =
-				// m_panelticket.getActiveTicket().copyTicket();
-				// TicketInfo clone = m_panelticket.getActiveTicketClone();
+				
 
 				int printerId = -1;
 				TicketInfo ti = null;
 				// first check if we have something to print
 				for (TicketLineInfo line : ticketinfo1.getLines()) {
 
-					printerId = findPrinterIdByCategory(categories, line.getProperty("product.categoryid"));
+					printerId = findPrinterIdByCategory(m_categories, line.getProperty("product.categoryid"));
 					int index = 0;
 
 					if (printerId < 0) {
@@ -502,15 +517,13 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					if (!linematch) {
 						ti.addLine(line);
 					}
-					// now we put all different lines into printer ordered
-					// ticketinfo
 
 				}
 
 				// now try to find lines which were deleted from
 				// original
 				for (TicketLineInfo inf : clone.getLines()) {
-					printerId = findPrinterIdByCategory(categories, inf.getProperty("product.categoryid"));
+					printerId = findPrinterIdByCategory(m_categories, inf.getProperty("product.categoryid"));
 					if (printerId < 0)
 						continue;
 
@@ -523,14 +536,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 					inf.setMultiply(0 - inf.getMultiply());
 					ti.addLine(inf);
-					//
+
 				}
 
 				printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent.getSName());
-				// for(int key : printabletickets.keySet()) {
-				// printOrder("Printer.AdditionalPrinter",
-				// printabletickets.get(key), m_PlaceCurrent.getSName());
-				// }
+
 				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
 					dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
@@ -562,8 +572,28 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				if (tickets.get(key).getLinesCount() <= 0)
 					continue;
 				try {
+
+					TicketInfo inf = tickets.get(key);
+					if (m_categories != null)
+					{
+						inf.sortLines(new Comparator<TicketLineInfo>() {
+	
+							@Override
+							public int compare(TicketLineInfo ltl, TicketLineInfo rtl) {
+								CategoryInfo lcat = findCategory(m_categories, ltl.getProductCategoryID());
+								CategoryInfo rcat = findCategory(m_categories, rtl.getProductCategoryID());
+								if(lcat != null && rcat != null)
+								{
+									int catSort = lcat.getSortOrder().compareTo(rcat.getSortOrder()); 
+									return catSort == 0 ? ltl.getProductName().compareTo(rtl.getProductName()) : catSort;
+								}
+								return 0;
+							}
+						});
+					}
+
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
-					script.put("ticket", tickets.get(key));
+					script.put("ticket", inf);
 					script.put("place",
 							ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
 					script.put("printer", "" + key);
@@ -575,12 +605,12 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					msg.show(m_App, JTicketsBagRestaurantMap.this);
 				} catch (TicketPrinterException e) {
 					JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
-							AppLocal.getIntString("error.network"), 
-							AppLocal.getIntString("message.cannotprintticket"),
+							AppLocal.getIntString("error.network"), AppLocal.getIntString("message.cannotprintticket"),
 							e);
-					// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-					// AppLocal.getIntString("message.cannotprintticket"), e);
-					// msg.show(m_App, JTicketsBagRestaurantMap.this);
+				} catch (Exception e) {
+					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+							AppLocal.getIntString("message.cannotprintticket"), e);
+					msg.show(m_App, JTicketsBagRestaurantMap.this);
 				}
 			}
 		}
@@ -604,7 +634,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		TicketInfo info = new TicketInfo();
 		try {
 			if (printdelete) {
-				newTicket(info, m_panelticket.getActiveTicket().copyTicket());
+				newTicket(info, m_panelticket.getActiveTicketClone().copyTicket());
 			}
 			if (m_PlaceCurrent != null) {
 				String id = m_PlaceCurrent.getId();
@@ -691,12 +721,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private TicketInfo getTicketInfo(Place place) throws BasicException, LockException {
 
 		try {
-			String lockBy = dlReceipts.checkoutSharedTicket(place.getId()); 
-			if(lockBy == null)
-			{
+			String lockBy = dlReceipts.checkoutSharedTicket(place.getId());
+			if (lockBy == null) {
 				return dlReceipts.getSharedTicket(place.getId());
-			}
-			else
+			} else
 				throw new LockException(lockBy);
 		} catch (BasicException e) {
 			// new MessageInf(e).show(m_App, JTicketsBagRestaurantMap.this);
@@ -847,7 +875,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		public void actionPerformed(ActionEvent evt) {
 			m_restaurantmap.setPromptTicket(false);
-			
+
 			// try for database connection
 			try {
 				if (m_PlaceClipboard == null) {
@@ -866,14 +894,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							try {
 								dlReceipts.updateSharedTicket(m_place.getId(), ticket);
 							} catch (BasicException e) {
-								
-								JConfirmDialog.showError(m_App, 
-										JTicketsBagRestaurantMap.this, 
-										AppLocal.getIntString("error.error"),
-										e.getMessage(),
-										e
-										);
-								
+
+								JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
+										AppLocal.getIntString("error.error"), e.getMessage(), e);
+
 								// But
 								// It
 								// was
@@ -884,24 +908,20 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 						} else if (ticket == null && m_place.hasPeople()) {
 							// The table is now empty
-							
-							JConfirmDialog.showError(m_App, 
-									JTicketsBagRestaurantMap.this, 
+
+							JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 									AppLocal.getIntString("error.information"),
-									AppLocal.getIntString("message.tableempty")
-									);
-							
+									AppLocal.getIntString("message.tableempty"));
+
 							m_place.setPeople(false); // fixed
 
 						} else if (ticket != null && !m_place.hasPeople()) {
 							// The table is now full
-							
-							JConfirmDialog.showError(m_App, 
-									JTicketsBagRestaurantMap.this, 
+
+							JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 									AppLocal.getIntString("error.information"),
-									AppLocal.getIntString("message.tablefull")
-									);
-							
+									AppLocal.getIntString("message.tablefull"));
+
 							m_place.setPeople(true);
 
 						} else { // both != null
@@ -923,26 +943,20 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 								ticket.setCustomer(
 										customer.getId() == null ? null : dlSales.loadCustomerExt(customer.getId()));
 							} catch (BasicException e) {
-								
-								JConfirmDialog.showError(m_App, 
-										JTicketsBagRestaurantMap.this, 
+
+								JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 										AppLocal.getIntString("error.information"),
-										AppLocal.getIntString("message.cannotfindcustomer")
-										);
-								
+										AppLocal.getIntString("message.cannotfindcustomer"));
+
 							}
 
 							try {
 								dlReceipts.insertSharedTicket(m_place.getId(), ticket);
 							} catch (BasicException e) {
-								
-								JConfirmDialog.showError(m_App, 
-										JTicketsBagRestaurantMap.this, 
-										AppLocal.getIntString("error.error"),
-										e.getMessage(),
-										e
-										);
-								
+
+								JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
+										AppLocal.getIntString("error.error"), e.getMessage(), e);
+
 								// But
 								// It
 								// was
@@ -956,13 +970,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							setActivePlace(m_place, ticket);
 						} else {
 							// TODO: msg: The table is now full
-							
-							JConfirmDialog.showError(m_App, 
-									JTicketsBagRestaurantMap.this, 
+
+							JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 									AppLocal.getIntString("error.information"),
-									AppLocal.getIntString("message.tablefull")
-									);
-							
+									AppLocal.getIntString("message.tablefull"));
+
 							m_place.setPeople(true);
 							m_place.getButton().setEnabled(false);
 						}
@@ -972,12 +984,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					TicketInfo ticketclip = getTicketInfo(m_PlaceClipboard);
 
 					if (ticketclip == null) {
-						
-						JConfirmDialog.showError(m_App, 
-								JTicketsBagRestaurantMap.this, 
+
+						JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 								AppLocal.getIntString("error.information"),
-								AppLocal.getIntString("message.tableempty")
-								);
+								AppLocal.getIntString("message.tableempty"));
 
 						m_PlaceClipboard.setPeople(false);
 						m_PlaceClipboard = null;
@@ -1003,14 +1013,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 									dlReceipts.deleteSharedTicket(m_PlaceClipboard.getId());
 									m_PlaceClipboard.setPeople(false);
 								} catch (BasicException e) {
-									
-									JConfirmDialog.showError(m_App, 
-											JTicketsBagRestaurantMap.this, 
-											AppLocal.getIntString("error.error"),
-											e.getMessage(),
-											e
-											);
-									
+
+									JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
+											AppLocal.getIntString("error.error"), e.getMessage(), e);
+
 									// But
 									// It
 									// was
@@ -1027,13 +1033,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 								setActivePlace(m_place, ticketclip);
 							} else {
 								// Full table
-								
-								JConfirmDialog.showError(m_App, 
-										JTicketsBagRestaurantMap.this, 
+
+								JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 										AppLocal.getIntString("error.information"),
-										AppLocal.getIntString("message.tablefull")
-										);
-								
+										AppLocal.getIntString("message.tablefull"));
+
 								m_PlaceClipboard.setPeople(true);
 								printState();
 							}
@@ -1043,14 +1047,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 							if (ticket == null) {
 								// The table is now empty
-								
-								JConfirmDialog.showError(m_App, 
-										JTicketsBagRestaurantMap.this, 
-										AppLocal.getIntString("error.information"),
-										AppLocal.getIntString("message.tableempty")
-										);
 
-								
+								JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
+										AppLocal.getIntString("error.information"),
+										AppLocal.getIntString("message.tableempty"));
+
 								m_place.setPeople(false); // fixed
 							} else {
 								// asks if you want to merge tables
@@ -1071,14 +1072,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 										}
 										dlReceipts.updateSharedTicket(m_place.getId(), ticket);
 									} catch (BasicException e) {
-										
-										JConfirmDialog.showError(m_App, 
-												JTicketsBagRestaurantMap.this, 
-												AppLocal.getIntString("error.error"),
-												e.getMessage(),
-												e
-												);
-										
+
+										JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
+												AppLocal.getIntString("error.error"), e.getMessage(), e);
+
 										// But
 										// It
 										// was
@@ -1106,12 +1103,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			} catch (LockException le1) {
 				// network error message
 				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.error"),
-						AppLocal.getIntString("message.placeLocked") + " (" + le1.getMessage()+ ")");
+						AppLocal.getIntString("message.placeLocked") + " (" + le1.getMessage() + ")");
 			} catch (BasicException e1) {
 				// network error message
 				JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this, AppLocal.getIntString("error.network"),
-						AppLocal.getIntString("message.databaseconnectionerror"),
-						e1);
+						AppLocal.getIntString("message.databaseconnectionerror"), e1);
 			}
 		}
 

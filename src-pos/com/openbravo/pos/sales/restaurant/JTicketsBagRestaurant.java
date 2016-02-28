@@ -156,6 +156,8 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 
 	}// GEN-LAST:event_m_jDelTicketActionPerformed
 
+	
+	// leave table action
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 		try {
 			m_restaurant.newTicket(m_restaurant.getPanelticket().getActiveTicket().copyTicket(),

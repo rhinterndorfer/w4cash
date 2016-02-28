@@ -156,7 +156,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	public JPanelTicket() {
 
 	}
-	
+
 	private String SystemDataAddressLine1 = "";
 	private String SystemDataAddressLine2 = "";
 	private String SystemDataStreet = "";
@@ -165,47 +165,47 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private String SystemDataThanks = "";
 
 	private void initSystemData() {
-		DataLogicAdmin dlAdmin = (DataLogicAdmin) m_App.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
-        TableDefinition tresources = dlAdmin.getTableResources();
-        
-        try {
+		DataLogicAdmin dlAdmin = (DataLogicAdmin) m_App.getBean("com.openbravo.pos.admin.DataLogicAdmin");
+		TableDefinition tresources = dlAdmin.getTableResources();
+
+		try {
 			List res = tresources.getListSentence().list();
 			Object o = res.get(0);
 			// try to find System.AddressLine1
-			for(int i = 0; i < res.size(); i++) {
-				if("System.AddressLine1".compareTo(((Object [])res.get(i))[1].toString())==0) {
-					SystemDataAddressLine1 = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
-					
+			for (int i = 0; i < res.size(); i++) {
+				if ("System.AddressLine1".compareTo(((Object[]) res.get(i))[1].toString()) == 0) {
+					SystemDataAddressLine1 = ((Formats.BYTEA.formatValue(((Object[]) res.get(i))[3])));
+
 					continue;
-				} else if("System.AddressLine2".compareTo(((Object [])res.get(i))[1].toString())==0) {
-					SystemDataAddressLine2 = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+				} else if ("System.AddressLine2".compareTo(((Object[]) res.get(i))[1].toString()) == 0) {
+					SystemDataAddressLine2 = ((Formats.BYTEA.formatValue(((Object[]) res.get(i))[3])));
 					continue;
-				} else if("System.Street".compareTo(((Object [])res.get(i))[1].toString())==0) {
-					SystemDataStreet = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+				} else if ("System.Street".compareTo(((Object[]) res.get(i))[1].toString()) == 0) {
+					SystemDataStreet = ((Formats.BYTEA.formatValue(((Object[]) res.get(i))[3])));
 					continue;
-				} else if("System.City".compareTo(((Object [])res.get(i))[1].toString())==0) {
-					SystemDataCity = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+				} else if ("System.City".compareTo(((Object[]) res.get(i))[1].toString()) == 0) {
+					SystemDataCity = ((Formats.BYTEA.formatValue(((Object[]) res.get(i))[3])));
 					continue;
-				} else if("System.TAXID".compareTo(((Object [])res.get(i))[1].toString())==0) {
-					SystemDataTaxid = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+				} else if ("System.TAXID".compareTo(((Object[]) res.get(i))[1].toString()) == 0) {
+					SystemDataTaxid = ((Formats.BYTEA.formatValue(((Object[]) res.get(i))[3])));
 					continue;
-				} else if("System.Thanks".compareTo(((Object [])res.get(i))[1].toString())==0) {
-					SystemDataThanks = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+				} else if ("System.Thanks".compareTo(((Object[]) res.get(i))[1].toString()) == 0) {
+					SystemDataThanks = ((Formats.BYTEA.formatValue(((Object[]) res.get(i))[3])));
 					continue;
 				}
 			}
-			//res.get(0);
+			// res.get(0);
 		} catch (BasicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void init(AppView app) throws BeanFactoryException {
 		m_App = app;
 
 		initSystemData();
-		
+
 		this.transferModule = new SalesTransferModule();
 
 		initComponents();
@@ -321,7 +321,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	}
 
 	public boolean deactivate() {
+		/*
+		if (this.m_restaurant != null) {
+			try {
+				this.m_restaurant.newTicket();
+			} catch (Exception ex) {
 
+			}
+		}
+		*/
 		return m_ticketsbag.deactivate();
 	}
 
@@ -358,14 +366,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		if (m_oTicket != null) {
 			// Asign preeliminary properties to the receipt
 			m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
-			
-			/* set at ticket close
-			try {
-				m_oTicket.setActiveCash(m_App.getActiveCashIndex());
-			} catch (Exception ex) {
-				m_oTicket.setActiveCash(null);
-			}
-			*/
+
+			/*
+			 * set at ticket close try {
+			 * m_oTicket.setActiveCash(m_App.getActiveCashIndex()); } catch
+			 * (Exception ex) { m_oTicket.setActiveCash(null); }
+			 */
 			m_oTicket.setDate(new Date()); // Set the edition date.
 		}
 
@@ -373,6 +379,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		if (m_oTicket != null)
 			m_oTicketClone = m_oTicket.copyTicket();
+		else
+			m_oTicketClone = null;
 
 		if (oTicket != null)
 			resetSouthComponent(); // reset categories and products
@@ -1026,7 +1034,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						// verify booked products
 						// this.m_App.getAppUserView().
 						try {
-							if(this.m_restaurant != null)
+							if (this.m_restaurant != null)
 								this.m_restaurant.newTicket();
 
 							m_ticketsbag.deleteTicket(false);
@@ -1158,14 +1166,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("ticket", ticket);
 				script.put("place",
 						ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
-				
+
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
 				script.put("SystemDataAddresLine2", SystemDataAddressLine2);
 				script.put("SystemDataStreet", SystemDataStreet);
 				script.put("SystemDataCity", SystemDataCity);
 				script.put("SystemDataTaxid", SystemDataTaxid);
 				script.put("SystemDataThanks", SystemDataThanks);
-				
+
 				m_TTP.printTicket(script.eval(sresource).toString());
 			} catch (ScriptException e) {
 				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1984,22 +1992,22 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									dlReceipts.updateSharedTicket(currentTicketId, ticket2);
 									dlReceipts.checkinSharedTicket(currentTicketId);
 									setActiveTicket(ticket1, m_oTicketExt);
-								}
-								else
-								{
-									JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.error"),
-											AppLocal.getIntString("message.placeLocked") + " (" + lockBy+ ")");
-									
+								} else {
+									JConfirmDialog.showError(m_App, JPanelTicket.this,
+											AppLocal.getIntString("error.error"),
+											AppLocal.getIntString("message.placeLocked") + " (" + lockBy + ")");
+
 									refreshTicket();
 								}
 							} catch (BasicException ex) {
-								JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"),
+								JConfirmDialog.showError(m_App, JPanelTicket.this,
+										AppLocal.getIntString("error.network"),
 										AppLocal.getIntString("message.databaseconnectionerror"), ex);
-								
+
 								setActiveTicket(ticket1, m_oTicketExt);
 							}
 						}
-						
+
 					}
 
 					// set result

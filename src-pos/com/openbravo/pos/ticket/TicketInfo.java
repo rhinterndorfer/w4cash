@@ -55,6 +55,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private CustomerInfoExt m_Customer;
     private String m_sActiveCash;
     private List<TicketLineInfo> m_aLines;
+    private List<TicketLineInfo> m_aLinesSorted;
     private List<PaymentInfo> payments;
     private List<TicketTaxInfo> taxes;
     private String m_sResponse;
@@ -70,6 +71,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
         m_Customer = null;
         m_sActiveCash = null;
         m_aLines = new ArrayList<TicketLineInfo>(); // vacio de lineas
+        m_aLinesSorted = new ArrayList<TicketLineInfo>(); 
 
         payments = new ArrayList<PaymentInfo>();
         taxes = null;
@@ -356,6 +358,17 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return m_aLines;
     }
 
+    public void sortLines(Comparator<TicketLineInfo> c)
+    {
+    	m_aLinesSorted.clear();
+    	m_aLinesSorted.addAll(m_aLines);
+    	m_aLinesSorted.sort(c);
+    }
+    
+    public List<TicketLineInfo> getLinesSorted() {
+        return m_aLinesSorted;
+    }
+    
     public void setLines(List<TicketLineInfo> l) {
         m_aLines = l;
     }
