@@ -53,6 +53,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 	private AppView m_App;
 	private DataLogicSystem m_dlSystem;
+	private Date m_dateEnd;
 
 	private PaymentsModel m_PaymentsToClose = null;
 
@@ -127,6 +128,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 		m_jTicketTable.setModel(new DefaultTableModel());
 		m_jsalestable.setModel(new DefaultTableModel());
+		
+		
+		
+		
+		
 	}
 
 	private void loadData() throws BasicException {
@@ -135,6 +141,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 		// LoadData
 		m_PaymentsToClose = PaymentsModel.loadInstance(m_App);
+		m_dateEnd = new Date(); 
+		m_PaymentsToClose.setDateEnd(m_dateEnd);
 
 		// Populate Data
 		m_jMinDate.setText(m_PaymentsToClose.printDateStart());
@@ -557,28 +565,26 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				AppLocal.getIntString("message.title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (res == JOptionPane.YES_OPTION) {
 
-			Date dNow = new Date();
 
-			// print report before closing
-			// otherwise new cash session is opened
-			printPayments("Printer.CloseCash");
 			
 			try {
 				// Cerramos la caja si esta pendiente de cerrar.
 				if (m_App.getActiveCashDateEnd() == null) {
 					// set closed info
 					String activeCash = m_App.getActiveCashIndex(true);
-					m_App.setActiveCashDateEnd(dNow); // fail save: if sql
-														// command fails data
-														// will be reloaded from
-														// DB
 
+					// print report before closing
+					// otherwise new cash session is opened
+					printPayments("Printer.CloseCash");
+					
 					new StaticSentence(m_App.getSession(),
 							"UPDATE CLOSEDCASH SET DATEEND = ? WHERE HOST = ? AND MONEY = ?",
 							new SerializerWriteBasic(new Datas[] { Datas.TIMESTAMP, Datas.STRING, Datas.STRING }))
-									.exec(new Object[] { dNow, m_App.getProperties().getHost(), activeCash });
+									.exec(new Object[] { m_dateEnd, m_App.getProperties().getHost(), activeCash });
 
-				m_App.closeCashIndex();
+					m_App.closeCashIndex();
+					
+					
 				}
 			} catch (BasicException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotclosecash"),

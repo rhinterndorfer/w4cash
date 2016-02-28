@@ -21,6 +21,9 @@ package com.openbravo.pos.panels;
 
 import java.util.*;
 import javax.swing.table.AbstractTableModel;
+
+import org.joda.time.DateTime;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.*;
 import com.openbravo.format.Formats;
@@ -47,6 +50,7 @@ public class PaymentsModel {
     private Double m_dSalesTaxes;
     private java.util.List<SalesLine> m_lsales;
     private AppView m_app;
+    private Date m_cashEndDate; 
     
     private final static String[] SALEHEADERS = {"label.taxcash", "label.totalcash"};
 
@@ -175,14 +179,29 @@ public class PaymentsModel {
     		return "";
     	}
     }
+    
+    public void setDateEnd(Date dateEnd)
+    {
+    	m_cashEndDate = dateEnd;
+    }
+    
     public String printDateEnd() {
         try {
-    		return Formats.TIMESTAMP.formatValue(m_app.getActiveCashDateEnd());
+    		return Formats.TIMESTAMP.formatValue(m_cashEndDate);
     	} catch(Exception ex)
     	{
     		return "";
     	}
     }  
+    public String printSequence() {
+    	try {
+    		return Formats.INT.formatValue(m_app.getActiveCashSequence());
+    	} catch(Exception ex)
+    	{
+    		return "";
+    	}
+    }
+    
     
     public String printPayments() {
         return Formats.INT.formatValue(m_iPayments);

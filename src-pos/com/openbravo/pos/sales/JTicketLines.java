@@ -310,7 +310,7 @@ public class JTicketLines extends javax.swing.JPanel {
 			if (value != null)
 			{
 				
-				String textAll = value.toString().replace("<html>", "").replace("<br>", "\\n").replace("<br/>", "\\n");
+				String textAll = value.toString().replace("<html>", "").replace("<br>", "\\n").replace("<br/>", "\\n").replace("<i>", "").replace("</i>", "").replace("&nbsp;", " ");
 				String[] lines = textAll.split("\\\\n");
 					
 				StringBuilder sb = new StringBuilder();

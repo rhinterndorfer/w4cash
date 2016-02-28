@@ -43,6 +43,7 @@ public interface AppView {
      
     //public void setActiveCash(String value, Date dStart, Date dEnd);
     public String getActiveCashIndex(Boolean openNew) throws BasicException;
+    public int getActiveCashSequence();
     public Date getActiveCashDateStart() throws BasicException;
     public Date getActiveCashDateEnd() throws BasicException;
     public void setActiveCashDateEnd(Date dateEnd);

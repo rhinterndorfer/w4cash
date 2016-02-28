@@ -193,7 +193,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 			selectCategoryPanel(category);
 
-			fillCategoryProductComments(category);
+			// product components not used at the moment
+			// fillCategoryProductComments(category);
 
 		}
 
@@ -316,7 +317,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),
 							new SelectedCategory(cat));
 					selectCategoryPanel(cat);
-					fillCategoryProductComments(cat);
+					
+					// product components not used at the moment
+					// fillCategoryProductComments(cat);
 				}
 
 				// Add products

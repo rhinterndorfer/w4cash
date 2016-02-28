@@ -69,6 +69,7 @@ public class JRootApp extends JPanel implements AppView {
 	private Properties m_propsdb = null;
 	private Properties posprops;
 	private String m_sActiveCashIndex;
+	private int m_iActiveCashSequence;
 	private Date m_dActiveCashDateStart;
 	private Date m_dActiveCashDateEnd;
 
@@ -330,7 +331,9 @@ public class JRootApp extends JPanel implements AppView {
 					// open new cash session
 					m_dlSystem.execInsertCash(new Object[] { id, host, start, null });
 
+					valcash = m_dlSystem.findActiveCashHost(host); // necessary to get current cash sequence
 					m_sActiveCashIndex = id;
+					m_iActiveCashSequence = (int) valcash[2];
 					m_dActiveCashDateStart = start;
 					m_dActiveCashDateEnd = null;
 				}
@@ -339,15 +342,21 @@ public class JRootApp extends JPanel implements AppView {
 					m_sActiveCashIndex = null;
 					m_dActiveCashDateStart = null;
 					m_dActiveCashDateEnd = null;
+					m_iActiveCashSequence = -1;
 				}
 
 			} else {
 				m_sActiveCashIndex = (String) valcash[0];
+				m_iActiveCashSequence = (int) valcash[2];
 				m_dActiveCashDateStart = (Date) valcash[3];
 				m_dActiveCashDateEnd = null;
 			}
 		}
 	}
+
+	public int getActiveCashSequence() {
+        return m_iActiveCashSequence;
+    }
 
 	public String getActiveCashIndex(Boolean openNew) throws BasicException {
 		CheckActiveCash(openNew);
