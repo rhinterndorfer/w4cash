@@ -49,8 +49,20 @@ public class ProductInfoExt {
     protected double m_dPriceSell;
     protected BufferedImage m_Image;
     protected Properties attributes;
+    private double width = 0.0;
+    private double length = 0.0;
+    private double height = 0.0;
+    protected String m_Unit;
     
-    /** Creates new ProductInfo */
+    public String getUnit() {
+		return m_Unit;
+	}
+
+	public void setUnit(String m_Unit) {
+		this.m_Unit = m_Unit;
+	}
+
+	/** Creates new ProductInfo */
     public ProductInfoExt() {
         m_ID = null;
         m_sRef = "0000";
@@ -65,6 +77,7 @@ public class ProductInfoExt {
         m_dPriceSell = 0.0;
         m_Image = null;
         attributes = new Properties();
+        m_Unit = "";
     }
 
     public final String getID() {
@@ -202,6 +215,7 @@ public class ProductInfoExt {
             product.attributesetid = dr.getString(11);
             product.m_Image = ImageUtils.readImage(dr.getBytes(12));
             product.attributes = ImageUtils.readProperties(dr.getBytes(13));
+            product.m_Unit = dr.getString(14);
             return product;
         }};
     }
@@ -210,4 +224,28 @@ public class ProductInfoExt {
     public final String toString() {
         return m_sRef + " - " + m_sName;
     }
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public double getLength() {
+		return length;
+	}
+
+	public void setLength(double length) {
+		this.length = length;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
 }

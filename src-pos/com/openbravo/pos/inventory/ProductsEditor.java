@@ -29,6 +29,8 @@ import javax.swing.*;
 import java.awt.image.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
@@ -72,6 +74,15 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private boolean reportlock = false;
 	private AppView m_App;
 	private JScrollPane scrollView;
+	private JLabel jLabel20;
+	private JLabel jLabel21;
+	private JLabel jLabel22;
+	private JLabel jLabel23;
+	private JTextField m_jstockwidth;
+	private JTextField m_jstockheight;
+	private JTextField m_jstockLength;
+	private JTextField m_jstockCount;
+	private boolean issaege;
 
 	/** Creates new form JEditProduct */
 	public ProductsEditor(AppView app, DataLogicSales dlSales, DirtyManager dirty) {
@@ -112,6 +123,13 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceBuy.getDocument().addDocumentListener(dirty);
 		m_jPriceSell.getDocument().addDocumentListener(dirty);
 		m_jImage.addPropertyChangeListener("image", dirty);
+		m_jstockunit.getDocument().addDocumentListener(dirty);
+		if (issaege) {
+			m_jstockwidth.getDocument().addDocumentListener(dirty);
+			m_jstockheight.getDocument().addDocumentListener(dirty);
+			m_jstockLength.getDocument().addDocumentListener(dirty);
+			m_jstockCount.getDocument().addDocumentListener(dirty);
+		}
 		m_jstockcost.getDocument().addDocumentListener(dirty);
 		m_jstockvolume.getDocument().addDocumentListener(dirty);
 		m_jInCatalog.addActionListener(dirty);
@@ -167,6 +185,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceBuy.setText(null);
 		setPriceSell(null);
 		m_jImage.setImage(null);
+
+		m_jstockunit.setText(null);
+		if (issaege) {
+			m_jstockwidth.setText(null);
+			m_jstockheight.setText(null);
+			m_jstockLength.setText(null);
+			m_jstockCount.setText(null);
+		}
 		m_jstockcost.setText(null);
 		m_jstockvolume.setText(null);
 		m_jInCatalog.setSelected(false);
@@ -188,6 +214,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceSellTax.setEnabled(false);
 		m_jmargin.setEnabled(false);
 		m_jImage.setEnabled(false);
+
+		m_jstockunit.setEnabled(false);
+		if (issaege) {
+			m_jstockwidth.setEnabled(false);
+			m_jstockheight.setEnabled(false);
+			m_jstockLength.setEnabled(false);
+			m_jstockCount.setEnabled(false);
+		}
 		m_jstockcost.setEnabled(false);
 		m_jstockvolume.setEnabled(false);
 		m_jInCatalog.setEnabled(false);
@@ -215,6 +249,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceBuy.setText(null);
 		setPriceSell(null);
 		m_jImage.setImage(null);
+
+		m_jstockunit.setText(null);
+		if (issaege) {
+			m_jstockwidth.setText(null);
+			m_jstockheight.setText(null);
+			m_jstockLength.setText(null);
+			m_jstockCount.setText(null);
+		}
 		m_jstockcost.setText(null);
 		m_jstockvolume.setText(null);
 		m_jInCatalog.setSelected(true);
@@ -236,6 +278,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceSellTax.setEnabled(true);
 		m_jmargin.setEnabled(true);
 		m_jImage.setEnabled(true);
+
+		m_jstockunit.setEnabled(true);
+		if (issaege) {
+			m_jstockwidth.setEnabled(true);
+			m_jstockheight.setEnabled(true);
+			m_jstockLength.setEnabled(true);
+			m_jstockCount.setEnabled(true);
+		}
 		m_jstockcost.setEnabled(true);
 		m_jstockvolume.setEnabled(true);
 		m_jInCatalog.setEnabled(true);
@@ -264,6 +314,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		taxcatmodel.setSelectedKey(myprod[9]);
 		attmodel.setSelectedKey(myprod[10]);
 		m_jImage.setImage((BufferedImage) myprod[11]);
+
+		m_jstockunit.setText(Formats.CURRENCY.formatValue(myprod[17]));
+		if (issaege) {
+			m_jstockwidth.setText(Formats.CURRENCY.formatValue(myprod[18]));
+			m_jstockheight.setText(Formats.CURRENCY.formatValue(myprod[19]));
+			m_jstockLength.setText(Formats.CURRENCY.formatValue(myprod[20]));
+			m_jstockCount.setText(Formats.CURRENCY.formatValue(myprod[21]));
+		}
 		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[12]));
 		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[13]));
 		m_jInCatalog.setSelected(((Boolean) myprod[14]).booleanValue());
@@ -286,6 +344,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceSellTax.setEnabled(false);
 		m_jmargin.setEnabled(false);
 		m_jImage.setEnabled(false);
+
+		m_jstockunit.setEnabled(false);
+		if (issaege) {
+			m_jstockwidth.setEnabled(false);
+			m_jstockheight.setEnabled(false);
+			m_jstockLength.setEnabled(false);
+			m_jstockCount.setEnabled(false);
+		}
 		m_jstockcost.setEnabled(false);
 		m_jstockvolume.setEnabled(false);
 		m_jInCatalog.setEnabled(false);
@@ -313,6 +379,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		taxcatmodel.setSelectedKey(myprod[9]);
 		attmodel.setSelectedKey(myprod[10]);
 		m_jImage.setImage((BufferedImage) myprod[11]);
+
+		m_jstockunit.setText(Formats.STRING.formatValue(myprod[17]));
+		if (issaege) {
+			m_jstockwidth.setText(Formats.STRING.formatValue(myprod[18]));
+			m_jstockheight.setText(Formats.STRING.formatValue(myprod[19]));
+			m_jstockLength.setText(Formats.STRING.formatValue(myprod[20]));
+			m_jstockCount.setText(Formats.STRING.formatValue(myprod[21]));
+		}
 		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[12]));
 		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[13]));
 		m_jInCatalog.setSelected(((Boolean) myprod[14]).booleanValue());
@@ -335,6 +409,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceSellTax.setEnabled(true);
 		m_jmargin.setEnabled(true);
 		m_jImage.setEnabled(true);
+
+		m_jstockunit.setEnabled(true);
+		if (issaege) {
+			m_jstockheight.setEnabled(true);
+			m_jstockwidth.setEnabled(true);
+			m_jstockLength.setEnabled(true);
+			m_jstockCount.setEnabled(true);
+		}
 		m_jstockcost.setEnabled(true);
 		m_jstockvolume.setEnabled(true);
 		m_jInCatalog.setEnabled(true);
@@ -347,7 +429,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 	public Object createValue() throws BasicException {
 
-		Object[] myprod = new Object[17];
+		Object[] myprod = new Object[18];
 		myprod[0] = m_id;
 		myprod[1] = m_jRef.getText();
 		myprod[2] = m_jCode.getText();
@@ -366,6 +448,13 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		myprod[15] = Formats.INT.parseValue(m_jCatalogOrder.getText());
 		myprod[16] = Formats.BYTEA.parseValue(txtAttributes.getText());
 
+		myprod[17] = m_jstockunit.getText();
+		if (issaege) {
+			myprod[18] = m_jstockwidth.getText();
+			myprod[19] = m_jstockheight.getText();
+			myprod[20] = m_jstockLength.getText();
+			myprod[21] = m_jstockCount.getText();
+		}
 		return myprod;
 	}
 
@@ -792,6 +881,19 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jAtt = new javax.swing.JComboBox();
 		jPanel2 = new javax.swing.JPanel();
 		jLabel9 = new javax.swing.JLabel();
+		jLabel19 = new javax.swing.JLabel();
+		jLabel20 = new javax.swing.JLabel();
+		jLabel21 = new javax.swing.JLabel();
+		jLabel22 = new javax.swing.JLabel();
+		jLabel23 = new javax.swing.JLabel();
+
+		m_jstockunit = new javax.swing.JTextField();
+		if (issaege) {
+			m_jstockwidth = new javax.swing.JTextField();
+			m_jstockheight = new javax.swing.JTextField();
+			m_jstockLength = new javax.swing.JTextField();
+			m_jstockCount = new javax.swing.JTextField();
+		}
 		m_jstockcost = new javax.swing.JTextField();
 		jLabel10 = new javax.swing.JLabel();
 		m_jstockvolume = new javax.swing.JTextField();
@@ -808,7 +910,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		txtAttributes = new javax.swing.JTextArea();
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		this. scrollView = new JScrollPane();
+		this.scrollView = new JScrollPane();
 		add(scrollView);
 		JPanel root = new JPanel();
 		scrollView.setViewportView(root);
@@ -820,7 +922,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_title = new GridBagConstraints();
 		gbc_title.anchor = GridBagConstraints.WEST;
 		gbc_title.fill = GridBagConstraints.HORIZONTAL;
-		gbc_title.insets = new Insets(5,5, 0, 0);
+		gbc_title.insets = new Insets(5, 5, 0, 0);
 		gbc_title.weightx = 1.0;
 		gbc_title.gridx = 0;
 		gbc_title.gridy = 0;
@@ -829,7 +931,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
-		gbc_space1.insets = new Insets(5,5, 0, 0);
+		gbc_space1.insets = new Insets(5, 5, 0, 0);
 		gbc_space1.weightx = 1.0;
 		gbc_space1.gridx = 4;
 		gbc_space1.gridy = 0;
@@ -838,7 +940,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel1.setText(AppLocal.getIntString("label.prodref")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
 		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(5,5, 0, 0);
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl1.gridx = 0;
 		gbc_lbl1.gridy = 1;
 		root.add(jLabel1, gbc_lbl1);
@@ -846,7 +948,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets =new Insets(5,5, 0, 0);
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane.weightx = 1.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 1;
@@ -855,7 +957,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
 		GridBagConstraints gbc_lbl2 = new GridBagConstraints();
 		gbc_lbl2.anchor = GridBagConstraints.WEST;
-		gbc_lbl2.insets = new Insets(5,5, 0, 0);
+		gbc_lbl2.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl2.gridx = 2;
 		gbc_lbl2.gridy = 1;
 		root.add(jLabel2, gbc_lbl2);
@@ -863,7 +965,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane2 = new GridBagConstraints();
 		gbc_textPane2.gridwidth = 1;
 		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane2.insets = new Insets(5,5, 0, 0);
+		gbc_textPane2.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane2.weightx = 1.0;
 		gbc_textPane2.gridx = 3;
 		gbc_textPane2.gridy = 1;
@@ -871,7 +973,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
-		gbc_space2.insets = new Insets(5,5, 0, 0);
+		gbc_space2.insets = new Insets(5, 5, 0, 0);
 		gbc_space2.weightx = 1.0;
 		gbc_space2.gridx = 4;
 		gbc_space2.gridy = 1;
@@ -880,11 +982,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		JScrollPane scrollView1 = new JScrollPane();
 		scrollView1.setViewportView(jPanel1);
 		jPanel1.setLayout(new GridBagLayout());
-		
+
 		jLabel6.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 		GridBagConstraints gbc_lbl3 = new GridBagConstraints();
 		gbc_lbl3.anchor = GridBagConstraints.WEST;
-		gbc_lbl3.insets = new Insets(5,5, 0, 0);
+		gbc_lbl3.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl3.gridx = 0;
 		gbc_lbl3.gridy = 0;
 		jPanel1.add(jLabel6, gbc_lbl3);
@@ -892,7 +994,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane3 = new GridBagConstraints();
 		gbc_textPane3.gridwidth = 2;
 		gbc_textPane3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane3.insets = new Insets(5,5, 0, 0);
+		gbc_textPane3.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane3.weightx = 2.0;
 		gbc_textPane3.gridx = 1;
 		gbc_textPane3.gridy = 0;
@@ -901,7 +1003,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel3.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
 		GridBagConstraints gbc_lbl4 = new GridBagConstraints();
 		gbc_lbl4.anchor = GridBagConstraints.WEST;
-		gbc_lbl4.insets = new Insets(5,5, 0, 0);
+		gbc_lbl4.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl4.gridx = 0;
 		gbc_lbl4.gridy = 1;
 		jPanel1.add(jLabel3, gbc_lbl4);
@@ -910,7 +1012,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane4 = new GridBagConstraints();
 		gbc_textPane4.gridwidth = 1;
 		gbc_textPane4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane4.insets = new Insets(5,5, 0, 0);
+		gbc_textPane4.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane4.weightx = 1.0;
 		gbc_textPane4.gridx = 1;
 		gbc_textPane4.gridy = 1;
@@ -919,7 +1021,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel4.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
 		GridBagConstraints gbc_lbl5 = new GridBagConstraints();
 		gbc_lbl5.anchor = GridBagConstraints.WEST;
-		gbc_lbl5.insets = new Insets(5,5, 0, 0);
+		gbc_lbl5.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl5.gridx = 0;
 		gbc_lbl5.gridy = 2;
 		jPanel1.add(jLabel4, gbc_lbl5);
@@ -928,7 +1030,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane5 = new GridBagConstraints();
 		gbc_textPane5.gridwidth = 1;
 		gbc_textPane5.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane5.insets = new Insets(5,5, 0, 0);
+		gbc_textPane5.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane5.weightx = 1.0;
 		gbc_textPane5.gridx = 1;
 		gbc_textPane5.gridy = 2;
@@ -938,7 +1040,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane6 = new GridBagConstraints();
 		gbc_textPane6.gridwidth = 1;
 		gbc_textPane6.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane6.insets = new Insets(5,5, 0, 0);
+		gbc_textPane6.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane6.weightx = 1.0;
 		gbc_textPane6.gridx = 2;
 		gbc_textPane6.gridy = 2;
@@ -947,7 +1049,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel7.setText(AppLocal.getIntString("label.taxcategory")); // NOI18N
 		GridBagConstraints gbc_lbl6 = new GridBagConstraints();
 		gbc_lbl6.anchor = GridBagConstraints.WEST;
-		gbc_lbl6.insets = new Insets(5,5, 0, 0);
+		gbc_lbl6.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl6.gridx = 0;
 		gbc_lbl6.gridy = 3;
 		jPanel1.add(jLabel7, gbc_lbl6);
@@ -955,7 +1057,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane7 = new GridBagConstraints();
 		gbc_textPane7.gridwidth = 2;
 		gbc_textPane7.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane7.insets = new Insets(5,5, 0, 0);
+		gbc_textPane7.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane7.weightx = 2.0;
 		gbc_textPane7.gridx = 1;
 		gbc_textPane7.gridy = 3;
@@ -964,7 +1066,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel16.setText(AppLocal.getIntString("label.prodpriceselltax")); // NOI18N
 		GridBagConstraints gbc_lbl7 = new GridBagConstraints();
 		gbc_lbl7.anchor = GridBagConstraints.WEST;
-		gbc_lbl7.insets = new Insets(5,5, 0, 0);
+		gbc_lbl7.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl7.gridx = 0;
 		gbc_lbl7.gridy = 4;
 		jPanel1.add(jLabel16, gbc_lbl7);
@@ -973,7 +1075,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane8 = new GridBagConstraints();
 		gbc_textPane8.gridwidth = 1;
 		gbc_textPane8.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane8.insets = new Insets(5,5, 0, 0);
+		gbc_textPane8.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane8.weightx = 1.0;
 		gbc_textPane8.gridx = 1;
 		gbc_textPane8.gridy = 4;
@@ -982,7 +1084,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
 		GridBagConstraints gbc_lbl8 = new GridBagConstraints();
 		gbc_lbl8.anchor = GridBagConstraints.WEST;
-		gbc_lbl8.insets = new Insets(5,5, 0, 0);
+		gbc_lbl8.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl8.gridx = 0;
 		gbc_lbl8.gridy = 5;
 		jPanel1.add(jLabel5, gbc_lbl8);
@@ -990,7 +1092,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane9 = new GridBagConstraints();
 		gbc_textPane9.gridwidth = 2;
 		gbc_textPane9.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane9.insets = new Insets(5,5, 0, 0);
+		gbc_textPane9.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane9.weightx = 2.0;
 		gbc_textPane9.gridx = 1;
 		gbc_textPane9.gridy = 5;
@@ -1002,7 +1104,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel13.setText(AppLocal.getIntString("label.attributes")); // NOI18N
 		GridBagConstraints gbc_lbl9 = new GridBagConstraints();
 		gbc_lbl9.anchor = GridBagConstraints.WEST;
-		gbc_lbl9.insets = new Insets(5,5, 0, 0);
+		gbc_lbl9.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl9.gridx = 0;
 		gbc_lbl9.gridy = 6;
 		jPanel1.add(jLabel13, gbc_lbl9);
@@ -1011,14 +1113,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane10 = new GridBagConstraints();
 		gbc_textPane10.gridwidth = 2;
 		gbc_textPane10.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane10.insets = new Insets(5,5, 0, 0);
+		gbc_textPane10.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane10.weightx = 2.0;
 		gbc_textPane10.gridx = 1;
 		gbc_textPane10.gridy = 6;
 		jPanel1.add(m_jAtt, gbc_textPane10);
 
 		GridBagConstraints gbc_img1 = new GridBagConstraints();
-		gbc_img1.insets = new Insets(5,5, 0, 0);
+		gbc_img1.insets = new Insets(5, 5, 0, 0);
 		gbc_img1.weighty = 2.0;
 		gbc_img1.fill = GridBagConstraints.BOTH;
 		gbc_img1.gridwidth = 3;
@@ -1031,66 +1133,173 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		jPanel2.setLayout(new GridBagLayout());
 
+		int index = 0;
+		// add only if sägewerk modul is activated
+
+		jLabel19.setText(AppLocal.getIntString("label.prodstockunit")); // NOI18N
+		GridBagConstraints gbc_lbl20 = new GridBagConstraints();
+		gbc_lbl20.anchor = GridBagConstraints.WEST;
+		gbc_lbl20.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl20.gridx = 0;
+		gbc_lbl20.gridy = index;
+		jPanel2.add(jLabel19, gbc_lbl20);
+
+		m_jstockunit.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		GridBagConstraints gbc_textPane21 = new GridBagConstraints();
+		gbc_textPane21.gridwidth = 1;
+		gbc_textPane21.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane21.insets = new Insets(5, 5, 0, 0);
+		gbc_textPane21.weightx = 1.0;
+		gbc_textPane21.gridx = 1;
+		gbc_textPane21.gridy = index;
+		jPanel2.add(m_jstockunit, gbc_textPane21);
+
+		index++;
+		if (issaege) {
+
+			jLabel20.setText(AppLocal.getIntString("label.prodstockwidth")); // NOI18N
+			GridBagConstraints gbc_lbl21 = new GridBagConstraints();
+			gbc_lbl21.anchor = GridBagConstraints.WEST;
+			gbc_lbl21.insets = new Insets(5, 5, 0, 0);
+			gbc_lbl21.gridx = 0;
+			gbc_lbl21.gridy = index;
+			jPanel2.add(jLabel20, gbc_lbl21);
+
+			m_jstockwidth.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+			GridBagConstraints gbc_textPane22 = new GridBagConstraints();
+			gbc_textPane22.gridwidth = 1;
+			gbc_textPane22.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textPane22.insets = new Insets(5, 5, 0, 0);
+			gbc_textPane22.weightx = 1.0;
+			gbc_textPane22.gridx = 1;
+			gbc_textPane22.gridy = index;
+			jPanel2.add(m_jstockwidth, gbc_textPane22);
+
+			index++;
+
+			jLabel21.setText(AppLocal.getIntString("label.prodstockheight")); // NOI18N
+			GridBagConstraints gbc_lbl22 = new GridBagConstraints();
+			gbc_lbl22.anchor = GridBagConstraints.WEST;
+			gbc_lbl22.insets = new Insets(5, 5, 0, 0);
+			gbc_lbl22.gridx = 0;
+			gbc_lbl22.gridy = index;
+			jPanel2.add(jLabel21, gbc_lbl22);
+
+			m_jstockheight.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+			GridBagConstraints gbc_textPane23 = new GridBagConstraints();
+			gbc_textPane23.gridwidth = 1;
+			gbc_textPane23.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textPane23.insets = new Insets(5, 5, 0, 0);
+			gbc_textPane23.weightx = 1.0;
+			gbc_textPane23.gridx = 1;
+			gbc_textPane23.gridy = index;
+			jPanel2.add(m_jstockheight, gbc_textPane23);
+
+			index++;
+
+			jLabel22.setText(AppLocal.getIntString("label.prodstocklength")); // NOI18N
+			GridBagConstraints gbc_lbl23 = new GridBagConstraints();
+			gbc_lbl23.anchor = GridBagConstraints.WEST;
+			gbc_lbl23.insets = new Insets(5, 5, 0, 0);
+			gbc_lbl23.gridx = 0;
+			gbc_lbl23.gridy = index;
+			jPanel2.add(jLabel22, gbc_lbl23);
+
+			m_jstockLength.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+			GridBagConstraints gbc_textPane24 = new GridBagConstraints();
+			gbc_textPane24.gridwidth = 1;
+			gbc_textPane24.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textPane24.insets = new Insets(5, 5, 0, 0);
+			gbc_textPane24.weightx = 1.0;
+			gbc_textPane24.gridx = 1;
+			gbc_textPane24.gridy = index;
+			jPanel2.add(m_jstockLength, gbc_textPane24);
+
+			index++;
+
+			jLabel23.setText(AppLocal.getIntString("label.prodstockcount")); // NOI18N
+			GridBagConstraints gbc_lbl24 = new GridBagConstraints();
+			gbc_lbl24.anchor = GridBagConstraints.WEST;
+			gbc_lbl24.insets = new Insets(5, 5, 0, 0);
+			gbc_lbl24.gridx = 0;
+			gbc_lbl24.gridy = index;
+			jPanel2.add(jLabel23, gbc_lbl24);
+
+			m_jstockCount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+			GridBagConstraints gbc_textPane25 = new GridBagConstraints();
+			gbc_textPane25.gridwidth = 1;
+			gbc_textPane25.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textPane25.insets = new Insets(5, 5, 0, 0);
+			gbc_textPane25.weightx = 1.0;
+			gbc_textPane25.gridx = 1;
+			gbc_textPane25.gridy = index;
+			jPanel2.add(m_jstockCount, gbc_textPane25);
+
+			index++;
+		}
+
 		jLabel9.setText(AppLocal.getIntString("label.prodstockcost")); // NOI18N
 		GridBagConstraints gbc_lbl10 = new GridBagConstraints();
 		gbc_lbl10.anchor = GridBagConstraints.WEST;
-		gbc_lbl10.insets = new Insets(5,5, 0, 0);
+		gbc_lbl10.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl10.gridx = 0;
-		gbc_lbl10.gridy = 0;
+		gbc_lbl10.gridy = index;
 		jPanel2.add(jLabel9, gbc_lbl10);
 
 		m_jstockcost.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		GridBagConstraints gbc_textPane11 = new GridBagConstraints();
 		gbc_textPane11.gridwidth = 1;
 		gbc_textPane11.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane11.insets = new Insets(5,5, 0, 0);
+		gbc_textPane11.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane11.weightx = 1.0;
 		gbc_textPane11.gridx = 1;
-		gbc_textPane11.gridy = 0;
+		gbc_textPane11.gridy = index;
 		jPanel2.add(m_jstockcost, gbc_textPane11);
+		index++;
 
 		jLabel10.setText(AppLocal.getIntString("label.prodstockvol")); // NOI18N
 		GridBagConstraints gbc_lbl11 = new GridBagConstraints();
 		gbc_lbl11.anchor = GridBagConstraints.WEST;
-		gbc_lbl11.insets = new Insets(5,5, 0, 0);
+		gbc_lbl11.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl11.gridx = 0;
-		gbc_lbl11.gridy = 1;
+		gbc_lbl11.gridy = index;
 		jPanel2.add(jLabel10, gbc_lbl11);
 
 		m_jstockvolume.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		GridBagConstraints gbc_textPane12 = new GridBagConstraints();
 		gbc_textPane12.gridwidth = 1;
 		gbc_textPane12.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane12.insets = new Insets(5,5, 0, 0);
+		gbc_textPane12.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane12.weightx = 1.0;
 		gbc_textPane12.gridx = 1;
-		gbc_textPane12.gridy = 1;
+		gbc_textPane12.gridy = index;
 		jPanel2.add(m_jstockvolume, gbc_textPane12);
+		index++;
 
 		jLabel18.setText(AppLocal.getIntString("label.prodorder")); // NOI18N
 		GridBagConstraints gbc_lbl12 = new GridBagConstraints();
 		gbc_lbl12.anchor = GridBagConstraints.WEST;
-		gbc_lbl12.insets = new Insets(5,5, 0, 0);
+		gbc_lbl12.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl12.gridx = 0;
-		gbc_lbl12.gridy = 2;
+		gbc_lbl12.gridy = index;
 		jPanel2.add(jLabel18, gbc_lbl12);
 
 		m_jCatalogOrder.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		GridBagConstraints gbc_textPane13 = new GridBagConstraints();
 		gbc_textPane13.gridwidth = 1;
 		gbc_textPane13.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane13.insets = new Insets(5,5, 0, 0);
+		gbc_textPane13.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane13.weightx = 1.0;
 		gbc_textPane13.gridx = 1;
-		gbc_textPane13.gridy = 2;
+		gbc_textPane13.gridy = index;
 		jPanel2.add(m_jCatalogOrder, gbc_textPane13);
 
 		jLabel8.setText(AppLocal.getIntString("label.prodincatalog")); // NOI18N
 		GridBagConstraints gbc_lbl13 = new GridBagConstraints();
 		gbc_lbl13.anchor = GridBagConstraints.WEST;
-		gbc_lbl13.insets = new Insets(5,5, 0, 0);
+		gbc_lbl13.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl13.gridx = 2;
-		gbc_lbl13.gridy = 2;
+		gbc_lbl13.gridy = index;
 		jPanel2.add(jLabel8, gbc_lbl13);
 
 		m_jInCatalog.addActionListener(new java.awt.event.ActionListener() {
@@ -1101,53 +1310,56 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		GridBagConstraints gbc_textPane14 = new GridBagConstraints();
 		gbc_textPane14.gridwidth = 1;
 		gbc_textPane14.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane14.insets = new Insets(5,5, 0, 0);
+		gbc_textPane14.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane14.weightx = 1.0;
 		gbc_textPane14.gridx = 3;
-		gbc_textPane14.gridy = 2;
+		gbc_textPane14.gridy = index;
 		jPanel2.add(m_jInCatalog, gbc_textPane14);
+		index++;
 
 		jLabel11.setText(AppLocal.getIntString("label.prodaux")); // NOI18N
 		GridBagConstraints gbc_lbl14 = new GridBagConstraints();
 		gbc_lbl14.anchor = GridBagConstraints.WEST;
-		gbc_lbl14.insets = new Insets(5,5, 0, 0);
+		gbc_lbl14.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl14.gridx = 0;
-		gbc_lbl14.gridy = 3;
+		gbc_lbl14.gridy = index;
 		jPanel2.add(jLabel11, gbc_lbl14);
 
 		GridBagConstraints gbc_textPane15 = new GridBagConstraints();
 		gbc_textPane15.gridwidth = 1;
 		gbc_textPane15.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane15.insets = new Insets(5,5, 0, 0);
+		gbc_textPane15.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane15.weightx = 1.0;
 		gbc_textPane15.gridx = 1;
-		gbc_textPane15.gridy = 3;
+		gbc_textPane15.gridy = index;
 		jPanel2.add(m_jComment, gbc_textPane15);
+		index++;
 
 		jLabel12.setText(AppLocal.getIntString("label.prodscale")); // NOI18N
 		GridBagConstraints gbc_lbl15 = new GridBagConstraints();
 		gbc_lbl15.anchor = GridBagConstraints.WEST;
-		gbc_lbl15.insets = new Insets(5,5, 0, 0);
+		gbc_lbl15.insets = new Insets(5, 5, 0, 0);
 		gbc_lbl15.gridx = 0;
-		gbc_lbl15.gridy = 4;
+		gbc_lbl15.gridy = index;
 		jPanel2.add(jLabel12, gbc_lbl15);
 
 		GridBagConstraints gbc_textPane16 = new GridBagConstraints();
 		gbc_textPane16.gridwidth = 1;
 		gbc_textPane16.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane16.insets = new Insets(5,5, 0, 0);
+		gbc_textPane16.insets = new Insets(5, 5, 0, 0);
 		gbc_textPane16.weightx = 1.0;
 		gbc_textPane16.gridx = 1;
-		gbc_textPane16.gridy = 4;
+		gbc_textPane16.gridy = index;
 		jPanel2.add(m_jScale, gbc_textPane16);
+		index++;
 
 		GridBagConstraints gbc_space = new GridBagConstraints();
-		gbc_space.insets = new Insets(5,5, 0, 0);
+		gbc_space.insets = new Insets(5, 5, 0, 0);
 		gbc_space.weighty = 1.0;
 		gbc_space.fill = GridBagConstraints.BOTH;
 		gbc_space.gridwidth = 2;
 		gbc_space.gridx = 0;
-		gbc_space.gridy = 5;
+		gbc_space.gridy = index;
 		jPanel2.add(new JLabel(""), gbc_space);
 
 		jTabbedPane1.addTab(AppLocal.getIntString("label.prodstock"), jPanel2); // NOI18N
@@ -1161,7 +1373,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
 		GridBagConstraints gbc_tab = new GridBagConstraints();
-		gbc_tab.insets = new Insets(5,5, 0, 0);
+		gbc_tab.insets = new Insets(5, 5, 0, 0);
 		gbc_tab.weighty = 1.0;
 		gbc_tab.fill = GridBagConstraints.BOTH;
 		gbc_tab.gridwidth = 4;
@@ -1196,6 +1408,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel8, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel9, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel19, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel20, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel21, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel22, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabel23, "common-small-fontsize", "32");
 
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCatalogOrder, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCode, "common-small-fontsize", "32");
@@ -1205,6 +1422,14 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jPriceSellTax, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jRef, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jmargin, "common-small-fontsize", "32");
+
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockunit, "common-small-fontsize", "32");
+		if (issaege) {
+			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockwidth, "common-small-fontsize", "32");
+			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockheight, "common-small-fontsize", "32");
+			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockLength, "common-small-fontsize", "32");
+			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockCount, "common-small-fontsize", "32");
+		}
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockcost, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockvolume, "common-small-fontsize", "32");
 
@@ -1220,8 +1445,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleTabbedPaneFontsize(m_App, jTabbedPane1, "common-small-fontsize", "32");
 
 		PropertyUtil.ScaleScrollbar(m_App, scrollView);
-		
-		
+
 		int menuwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
 		int menuheight = Integer
@@ -1267,6 +1491,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private javax.swing.JLabel jLabel7;
 	private javax.swing.JLabel jLabel8;
 	private javax.swing.JLabel jLabel9;
+	private javax.swing.JLabel jLabel19;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
@@ -1290,6 +1515,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private javax.swing.JLabel m_jTitle;
 	private javax.swing.JTextField m_jmargin;
 	private javax.swing.JTextField m_jstockcost;
+	private javax.swing.JTextField m_jstockunit;
 	private javax.swing.JTextField m_jstockvolume;
 	private javax.swing.JTextArea txtAttributes;
 	// End of variables declaration//GEN-END:variables

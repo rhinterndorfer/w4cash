@@ -38,6 +38,8 @@ public class InventoryLine {
     private String attsetid;
     private String attsetinstid;
     private String attsetinstdesc;
+    
+    private String m_Unit;
  
     /** Creates a new instance of InventoryLine */
     public InventoryLine(ProductInfoExt oProduct) {
@@ -126,6 +128,10 @@ public class InventoryLine {
     
     public String printMultiply() {
         return Formats.DOUBLE.formatValue(new Double(m_dMultiply));
+    }
+    
+    public String printUnit() {
+        return m_Unit;
     }
     
     public String printSubValue() {

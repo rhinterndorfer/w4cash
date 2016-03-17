@@ -105,7 +105,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 					Formats.CURRENCY.parseValue(m_jPriceBuy.getText()), m_jCboPriceSell.getSelectedItem(),
 					Formats.CURRENCY.parseValue(m_jPriceSell.getText()),
 					m_CategoryModel.getSelectedKey() == null ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS,
-					m_CategoryModel.getSelectedKey(), QBFCompareEnum.COMP_NONE, null };
+					m_CategoryModel.getSelectedKey(), QBFCompareEnum.COMP_NONE, null, null };
 		} else {
 			// Filtro por codigo de barras.
 			return new Object[] { QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_NONE, null,

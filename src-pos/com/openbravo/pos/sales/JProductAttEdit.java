@@ -192,6 +192,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonOKSingle.setVisible(withAmountSelection);
 		this.ok = false;
 
+		int defaultTextIndex = 0;
 		if (attsetid != null) {
 			this.attInstanceDescription = null;
 
@@ -208,7 +209,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 					: attinstSent2.list(attsetid, attsetinstid);
 
 			for (AttributeInstInfo aii : attinstinfo) {
-
+				
 				JProductAttEditI item;
 
 				List<String> values = attvaluesSent.list(aii.getAttid());
@@ -216,6 +217,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 					// Does not exist a list of values then a textfield
 					item = new JProductAttEditItem(aii.getAttid(), aii.getAttname(), aii.getValue());
 				} else {
+					defaultTextIndex++;
 					// Does exist a list with the values
 					item = new JProductAttListItem(aii.getAttid(), aii.getAttname(), aii.getValue(), values);
 				}

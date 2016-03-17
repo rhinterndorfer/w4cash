@@ -38,6 +38,7 @@ public class TicketLineInfo implements Serializable {
     private String productid;
     private Properties attributes;
     private transient ProductInfo product;
+    private String unit = "x";
 
     public TicketLineInfo() {
     }
@@ -148,5 +149,21 @@ public class TicketLineInfo implements Serializable {
 
     public String printMultiply() {
         return FormatUtils.formatDouble(multiply);
+    }
+    
+    public String printUnit() {
+        return unit;
+    }
+    
+    public String printHeight() {
+        return height;
+    }
+    
+    public String printWidth() {
+        return width;
+    }
+    
+    public String printLength() {
+        return length;
     }
 }

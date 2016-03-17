@@ -59,6 +59,7 @@ public class JNumberKeys extends javax.swing.JPanel {
 		m_jKey8.addActionListener(new MyKeyNumberListener('8'));
 		m_jKey9.addActionListener(new MyKeyNumberListener('9'));
 		m_jKeyDot.addActionListener(new MyKeyNumberListener('.'));
+		m_jKeyDot.addActionListener(new MyKeyNumberListener(','));
 		m_jMultiply.addActionListener(new MyKeyNumberListener('*'));
 		m_jCE.addActionListener(new MyKeyNumberListener('\u007f'));
 		m_jPlus.addActionListener(new MyKeyNumberListener('+'));

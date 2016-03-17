@@ -33,7 +33,7 @@ import com.openbravo.pos.util.PropertyUtil;
 public class JEditorKeys extends javax.swing.JPanel implements EditorKeys {
 
 	private static final long serialVersionUID = -4815968060295419959L;
-	private final static char[] SET_DOUBLE = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '-' };
+	private final static char[] SET_DOUBLE = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ',', '-' };
 	private final static char[] SET_DOUBLE_POSITIVE = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			'.' };
 	private final static char[] SET_INTEGER = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-' };
@@ -65,6 +65,7 @@ public class JEditorKeys extends javax.swing.JPanel implements EditorKeys {
 		m_jKey8.addActionListener(new MyKeyNumberListener('8'));
 		m_jKey9.addActionListener(new MyKeyNumberListener('9'));
 		m_jKeyDot.addActionListener(new MyKeyNumberListener('.'));
+		m_jKeyDot.addActionListener(new MyKeyNumberListener(','));
 		m_jCE.addActionListener(new MyKeyNumberListener('\u007f'));
 		m_jMinus.addActionListener(new MyKeyNumberListener('-'));
 		// m_jBack.addActionListener(new MyKeyNumberListener('\u0008'));

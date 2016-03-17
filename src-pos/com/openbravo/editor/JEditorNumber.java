@@ -177,7 +177,7 @@ public abstract class JEditorNumber extends JEditorAbstract {
         && (m_iNumberStatus == NUMBER_INT)) {
             //m_iNumberStatus = NUMBER_INT;
             m_sNumber += cTrans;
-        } else if (cTrans == '.' &&  m_iNumberStatus == NUMBER_INT) {
+        } else if (cTrans == '.' &&  m_iNumberStatus == NUMBER_INT || cTrans == ',' &&  m_iNumberStatus == NUMBER_INT) {
             m_iNumberStatus = NUMBER_DEC;
             m_sNumber += '.';
             
