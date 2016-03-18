@@ -74,6 +74,11 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 	}
 
 	@Override
+	public ComparatorCreator getComparatorCreator() {
+		return null;
+	}
+
+	@Override
 	public ListCellRenderer getListCellRenderer() {
 		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
 		ListCellRendererBasic lcrb = (ListCellRendererBasic) super.getListCellRenderer();
@@ -131,6 +136,15 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public int getSortColumnIndex() {
+		return -1;
+	}
+
+	@Override
+	public int getMoveColumnIndex() {
+		return 15;
 	}
 }

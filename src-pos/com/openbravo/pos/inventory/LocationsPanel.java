@@ -94,4 +94,8 @@ public class LocationsPanel extends JPanelTable {
 		return -1;
 	}
 	
+	@Override
+	public int getMoveColumnIndex() {
+		return -1;
+	}
 }

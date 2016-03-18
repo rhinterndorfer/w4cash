@@ -103,5 +103,9 @@ public class TaxPanel extends JPanelTable {
 	public int getSortColumnIndex() {
 		return -1;
 	}
-
+	
+	@Override
+	public int getMoveColumnIndex() {
+		return -1;
+	}
 }

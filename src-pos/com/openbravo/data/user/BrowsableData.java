@@ -73,6 +73,10 @@ public class BrowsableData implements ListModel {
 	public final Object getElementAt(int index) {
 		return m_aData.get(index);
 	}
+	
+	public final int findElementIndex(Object value){
+		return this.m_aData.indexOf(value);
+	}
 
 	public final int getSize() {
 		return m_aData.size();
@@ -282,6 +286,13 @@ public class BrowsableData implements ListModel {
 				removed[sortColumnIndex] = targetindex;
 				removed2[sortColumnIndex] = sourceindex;
 			}
+			
+//			if(moveColumnIndex >= 0){
+//				Object value = removed[moveColumnIndex];
+//				removed[moveColumnIndex] = removed2[moveColumnIndex];
+//				removed2[moveColumnIndex] = value;
+//			}
+			
 			values2sort.add(removed);
 			values2sort.add(removed2);
 
@@ -290,10 +301,18 @@ public class BrowsableData implements ListModel {
 		} else {
 			Object[] moved = (Object[]) m_aData.get(sourceindex);
 			Object[] removed2 = (Object[]) m_aData.remove(targetindex);
+			
 			if (sortColumnIndex >= 0) {
 				moved[sortColumnIndex] = targetindex;
 				removed2[sortColumnIndex] = sourceindex;
 			}
+			
+//			if(moveColumnIndex >= 0){
+//				Object value = moved[moveColumnIndex];
+//				moved[moveColumnIndex] = removed2[moveColumnIndex];
+//				removed2[moveColumnIndex] = value;
+//			}
+			
 			values2sort.add(moved);
 			values2sort.add(removed2);
 

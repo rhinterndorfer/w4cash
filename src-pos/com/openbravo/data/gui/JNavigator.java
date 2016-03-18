@@ -50,13 +50,15 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 	private javax.swing.JButton jbtnMoveDown = null;
 	private javax.swing.JButton jbtnReload = null;
 	private AppView m_App;
-	private int columnSortIndex;
+	private int columnSortIndex = -1;
+	private int moveColumnIndex = -1;
 
 	/** Creates new form JNavigator */
 	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int iButtons,
-			int columnSortIndex) {
+			int columnSortIndex, int moveColumnIndex) {
 		this.m_App = app;
 		this.columnSortIndex = columnSortIndex;
+		this.moveColumnIndex  = moveColumnIndex;
 		
 		initComponents();
 
@@ -226,12 +228,13 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		ScaleButtons();
 	}
 
-	public JNavigator(AppView app, BrowsableEditableData bd, int columnSortIndex) {
-		this(app, bd, null, null, BUTTONS_ALL, columnSortIndex);
+	public JNavigator(AppView app, BrowsableEditableData bd, int columnSortIndex, int moveColumnIndex) {
+		this(app, bd, null, null, BUTTONS_ALL, columnSortIndex, moveColumnIndex);
 	}
 
-	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int columnSortIndex) {
-		this(app, bd, vec, cc, BUTTONS_ALL, columnSortIndex);
+	public JNavigator(AppView app, BrowsableEditableData bd, Vectorer vec, ComparatorCreator cc, int columnSortIndex,
+			int moveColumnIndex) {
+		this(app, bd, vec, cc, BUTTONS_ALL, columnSortIndex, moveColumnIndex);
 	}
 
 	public void updateState(int iState) {
@@ -327,12 +330,12 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 
 	private void jbtnMoveUpActionPerformed(java.awt.event.ActionEvent evt) {
 
-		m_bd.actionMoveUpCurrent(this.columnSortIndex, this);
+		m_bd.actionMoveUpCurrent(this.columnSortIndex,this.moveColumnIndex, this);
 	}
 
 	private void jbtnMoveDownActionPerformed(java.awt.event.ActionEvent evt) {
 
-		m_bd.actionMoveDownCurrent(this.columnSortIndex, this);
+		m_bd.actionMoveDownCurrent(this.columnSortIndex,this.moveColumnIndex, this);
 	}
 
 	private void jbtnReloadActionPerformed(java.awt.event.ActionEvent evt) {

@@ -52,7 +52,7 @@ public abstract class JPanelTable2 extends JPanelTable {
     }
     
     @Override
-    public final ComparatorCreator getComparatorCreator() {
+    public ComparatorCreator getComparatorCreator() {
         return row.getComparatorCreator();
     }
     
@@ -63,6 +63,11 @@ public abstract class JPanelTable2 extends JPanelTable {
     
     @Override
 	public int getSortColumnIndex() {
+		return -1;
+	}
+    
+    @Override
+	public int getMoveColumnIndex() {
 		return -1;
 	}
 }

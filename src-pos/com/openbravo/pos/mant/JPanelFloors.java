@@ -108,5 +108,9 @@ public class JPanelFloors extends JPanelTable {
 	public int getSortColumnIndex() {
 		return 3;
 	}
-
+	
+	@Override
+	public int getMoveColumnIndex() {
+		return -1;
+	}
 }

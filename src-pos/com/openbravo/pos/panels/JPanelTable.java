@@ -115,7 +115,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			c = new JCounter(bd);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
-			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(), getSortColumnIndex());
+			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(), getSortColumnIndex(), getMoveColumnIndex());
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
 			c = new JSaver(this.app, bd);
@@ -159,21 +159,19 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	public void activate() throws BasicException {
 		startNavigation();
 		bd.actionLoad();
-		
+
 		// initial sort by first column in sort index
-		if(getComparatorCreator() != null)
-		{
+		if (getComparatorCreator() != null) {
 			try {
-				bd.sort(getComparatorCreator().createComparator(new int[]{0}));
+				bd.sort(getComparatorCreator().createComparator(new int[] { 0 }));
 			} catch (BasicException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		bd.moveLast();
 	}
 
-	
 	public boolean deactivate() {
 
 		try {
@@ -212,5 +210,10 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	// End of variables declaration//GEN-END:variables
 
 	public abstract void ScaleButtons();
+
+	/** SORTORDER column index */
 	public abstract int getSortColumnIndex();
+	
+	/** When moving items in a panel, swap database columns between items */
+	public abstract int getMoveColumnIndex();
 }

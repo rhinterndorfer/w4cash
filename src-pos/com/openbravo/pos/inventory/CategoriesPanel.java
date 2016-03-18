@@ -106,5 +106,9 @@ public class CategoriesPanel extends JPanelTable {
 	public int getSortColumnIndex() {
 		return 4;
 	}
-
+	
+	@Override
+	public int getMoveColumnIndex() {
+		return -1;
+	}
 }

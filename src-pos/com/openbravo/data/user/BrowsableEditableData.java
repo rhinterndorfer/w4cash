@@ -202,45 +202,72 @@ public class BrowsableEditableData {
 		baseMoveTo(0);
 	}
 
-	public void actionMoveUpCurrent(int sortIndex, Component jNavigator) {
+	public void actionMoveUpCurrent(int sortIndex, int moveColumnIndex, Component jNavigator) {
 		int index = getIndex();
 
 		try {
-			moveData(sortIndex, index, index - 1);
+			moveData(sortIndex, moveColumnIndex, index, index - 1);
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void actionMoveDownCurrent(int sortIndex, Component jNavigator) {
+	public void actionMoveDownCurrent(int sortIndex, int moveColumnIndex, Component jNavigator) {
 		int index = getIndex();
 		try {
-			moveData(sortIndex, index, index + 1);
+			moveData(sortIndex, moveColumnIndex, index, index + 1);
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void moveData(int sortColumnIndex, int sourceindex, int targetindex) throws BasicException {
+	private void moveData(int sortColumnIndex, int moveColumnIndex, int sourceindex, int targetindex)
+			throws BasicException {
 		List<Object[]> changes = m_bd.moveItem(sortColumnIndex, sourceindex, targetindex);
+		// boolean validMove = checkValidMove(sortColumnIndex);
 		baseMoveTo(targetindex);
 		// m_Dirty.setDirty(true);
-		saveSortedData(sortColumnIndex, changes);
+		saveSortedData(sortColumnIndex, moveColumnIndex, changes);
 		baseMoveTo(targetindex);
 		// m_bd.refreshData();
 	}
 
-	private void saveSortedData(int sortColumnIndex, List<Object[]> changes) throws BasicException {
+	private void saveSortedData(int sortColumnIndex, int moveColumnIndex, List<Object[]> changes)
+			throws BasicException {
 		// if (m_Dirty.isDirty()) {
 		// if (m_iState == ST_UPDATE) {
-		for (Object[] change : changes) {
-			if (sortColumnIndex < 0) {
-				continue;
+
+		// Sortorder column
+		if (sortColumnIndex >= 0) {
+			for (Object[] change : changes) {
+				m_bd.updateRecord((Integer) change[sortColumnIndex], change);
+				m_editorrecord.refresh();
 			}
-			m_bd.updateRecord((Integer) change[sortColumnIndex], change);
-			m_editorrecord.refresh();
 		}
 
+		/** move */
+//		if (moveColumnIndex >= 0) {
+//			if (changes.size() > 0) {
+//				Object value1 = changes.get(0)[moveColumnIndex];
+//				Object value2 = changes.get(1)[moveColumnIndex];
+//
+//				if (value1 != null && value2 != null) {
+//					changes.get(0)[moveColumnIndex] = changes.get(1)[moveColumnIndex];
+//					changes.get(1)[moveColumnIndex] = value1;
+//
+//					for (Object[] change : changes) {
+//						int index1 = m_bd.findElementIndex(change);
+//						m_bd.updateRecord(index1, change);
+//						m_editorrecord.refresh();
+//					}
+//				}
+//			}
+//		}
+		
+		
+		
+		
+		
 		// } else if (m_iState == ST_INSERT) {
 		// int i = m_bd.insertRecord(m_editorrecord.createValue());
 		// m_editorrecord.refresh();
@@ -369,7 +396,7 @@ public class BrowsableEditableData {
 
 		if (canInsertData()) {
 			// Y nos ponemos en estado de insert
-						m_iState = ST_INSERT;
+			m_iState = ST_INSERT;
 			m_editorrecord.writeValueInsert();
 			m_Dirty.setDirty(false);
 			fireStateUpdate(); // ?

@@ -75,7 +75,6 @@ public class JPanelPayments extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -84,6 +83,11 @@ public class JPanelPayments extends JPanelTable {
 		return -1;
 	}
 
+	@Override
+	public int getMoveColumnIndex() {
+		return -1;
+	}
+	
 	class PaymentListProvider extends ListProviderCreator {
 
 		public PaymentListProvider(SentenceList sent) {
@@ -97,5 +101,4 @@ public class JPanelPayments extends JPanelTable {
 		}
 
 	}
-
 }
