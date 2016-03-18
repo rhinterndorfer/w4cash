@@ -41,6 +41,7 @@ import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.util.PropertyUtil;
 
@@ -81,7 +82,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private JTextField m_jstockwidth;
 	private JTextField m_jstockheight;
 	private JTextField m_jstockLength;
-	private JTextField m_jstockCount;
+//	private JTextField m_jstockCount;
 	private boolean issaege;
 
 	/** Creates new form JEditProduct */
@@ -128,7 +129,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.getDocument().addDocumentListener(dirty);
 			m_jstockheight.getDocument().addDocumentListener(dirty);
 			m_jstockLength.getDocument().addDocumentListener(dirty);
-			m_jstockCount.getDocument().addDocumentListener(dirty);
+//			m_jstockCount.getDocument().addDocumentListener(dirty);
 		}
 		m_jstockcost.getDocument().addDocumentListener(dirty);
 		m_jstockvolume.getDocument().addDocumentListener(dirty);
@@ -191,7 +192,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setText(null);
 			m_jstockheight.setText(null);
 			m_jstockLength.setText(null);
-			m_jstockCount.setText(null);
+//			m_jstockCount.setText(null);
 		}
 		m_jstockcost.setText(null);
 		m_jstockvolume.setText(null);
@@ -220,7 +221,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setEnabled(false);
 			m_jstockheight.setEnabled(false);
 			m_jstockLength.setEnabled(false);
-			m_jstockCount.setEnabled(false);
+//			m_jstockCount.setEnabled(false);
 		}
 		m_jstockcost.setEnabled(false);
 		m_jstockvolume.setEnabled(false);
@@ -255,7 +256,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setText(null);
 			m_jstockheight.setText(null);
 			m_jstockLength.setText(null);
-			m_jstockCount.setText(null);
+//			m_jstockCount.setText(null);
 		}
 		m_jstockcost.setText(null);
 		m_jstockvolume.setText(null);
@@ -284,7 +285,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setEnabled(true);
 			m_jstockheight.setEnabled(true);
 			m_jstockLength.setEnabled(true);
-			m_jstockCount.setEnabled(true);
+//			m_jstockCount.setEnabled(true);
 		}
 		m_jstockcost.setEnabled(true);
 		m_jstockvolume.setEnabled(true);
@@ -320,7 +321,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setText(Formats.CURRENCY.formatValue(myprod[18]));
 			m_jstockheight.setText(Formats.CURRENCY.formatValue(myprod[19]));
 			m_jstockLength.setText(Formats.CURRENCY.formatValue(myprod[20]));
-			m_jstockCount.setText(Formats.CURRENCY.formatValue(myprod[21]));
+//			m_jstockCount.setText(Formats.CURRENCY.formatValue(myprod[21]));
 		}
 		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[12]));
 		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[13]));
@@ -350,7 +351,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setEnabled(false);
 			m_jstockheight.setEnabled(false);
 			m_jstockLength.setEnabled(false);
-			m_jstockCount.setEnabled(false);
+//			m_jstockCount.setEnabled(false);
 		}
 		m_jstockcost.setEnabled(false);
 		m_jstockvolume.setEnabled(false);
@@ -385,7 +386,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth.setText(Formats.STRING.formatValue(myprod[18]));
 			m_jstockheight.setText(Formats.STRING.formatValue(myprod[19]));
 			m_jstockLength.setText(Formats.STRING.formatValue(myprod[20]));
-			m_jstockCount.setText(Formats.STRING.formatValue(myprod[21]));
+//			m_jstockCount.setText(Formats.STRING.formatValue(myprod[21]));
 		}
 		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[12]));
 		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[13]));
@@ -415,7 +416,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockheight.setEnabled(true);
 			m_jstockwidth.setEnabled(true);
 			m_jstockLength.setEnabled(true);
-			m_jstockCount.setEnabled(true);
+//			m_jstockCount.setEnabled(true);
 		}
 		m_jstockcost.setEnabled(true);
 		m_jstockvolume.setEnabled(true);
@@ -453,7 +454,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			myprod[18] = m_jstockwidth.getText();
 			myprod[19] = m_jstockheight.getText();
 			myprod[20] = m_jstockLength.getText();
-			myprod[21] = m_jstockCount.getText();
+//			myprod[21] = m_jstockCount.getText();
 		}
 		return myprod;
 	}
@@ -854,7 +855,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	// }// </editor-fold>//GEN-END:initComponents
 
 	private void initComponents() {
-
+		this.issaege = Boolean.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
+		
 		jLabel1 = new javax.swing.JLabel();
 		jLabel2 = new javax.swing.JLabel();
 		m_jRef = new javax.swing.JTextField();
@@ -892,7 +894,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jstockwidth = new javax.swing.JTextField();
 			m_jstockheight = new javax.swing.JTextField();
 			m_jstockLength = new javax.swing.JTextField();
-			m_jstockCount = new javax.swing.JTextField();
+//			m_jstockCount = new javax.swing.JTextField();
 		}
 		m_jstockcost = new javax.swing.JTextField();
 		jLabel10 = new javax.swing.JLabel();
@@ -1217,23 +1219,23 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 			index++;
 
-			jLabel23.setText(AppLocal.getIntString("label.prodstockcount")); // NOI18N
-			GridBagConstraints gbc_lbl24 = new GridBagConstraints();
-			gbc_lbl24.anchor = GridBagConstraints.WEST;
-			gbc_lbl24.insets = new Insets(5, 5, 0, 0);
-			gbc_lbl24.gridx = 0;
-			gbc_lbl24.gridy = index;
-			jPanel2.add(jLabel23, gbc_lbl24);
-
-			m_jstockCount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-			GridBagConstraints gbc_textPane25 = new GridBagConstraints();
-			gbc_textPane25.gridwidth = 1;
-			gbc_textPane25.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textPane25.insets = new Insets(5, 5, 0, 0);
-			gbc_textPane25.weightx = 1.0;
-			gbc_textPane25.gridx = 1;
-			gbc_textPane25.gridy = index;
-			jPanel2.add(m_jstockCount, gbc_textPane25);
+//			jLabel23.setText(AppLocal.getIntString("label.prodstockcount")); // NOI18N
+//			GridBagConstraints gbc_lbl24 = new GridBagConstraints();
+//			gbc_lbl24.anchor = GridBagConstraints.WEST;
+//			gbc_lbl24.insets = new Insets(5, 5, 0, 0);
+//			gbc_lbl24.gridx = 0;
+//			gbc_lbl24.gridy = index;
+//			jPanel2.add(jLabel23, gbc_lbl24);
+//
+//			m_jstockCount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+//			GridBagConstraints gbc_textPane25 = new GridBagConstraints();
+//			gbc_textPane25.gridwidth = 1;
+//			gbc_textPane25.fill = GridBagConstraints.HORIZONTAL;
+//			gbc_textPane25.insets = new Insets(5, 5, 0, 0);
+//			gbc_textPane25.weightx = 1.0;
+//			gbc_textPane25.gridx = 1;
+//			gbc_textPane25.gridy = index;
+//			jPanel2.add(m_jstockCount, gbc_textPane25);
 
 			index++;
 		}
@@ -1382,6 +1384,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		root.add(jTabbedPane1, gbc_tab);
 	}// </editor-fold>//GEN-END:initComponents
 
+
 	@Override
 	public void ScaleButtons() {
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTitle, "common-small-fontsize", "32");
@@ -1428,7 +1431,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockwidth, "common-small-fontsize", "32");
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockheight, "common-small-fontsize", "32");
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockLength, "common-small-fontsize", "32");
-			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockCount, "common-small-fontsize", "32");
+//			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockCount, "common-small-fontsize", "32");
 		}
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockcost, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockvolume, "common-small-fontsize", "32");
