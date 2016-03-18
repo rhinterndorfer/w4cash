@@ -555,6 +555,14 @@ public class JTicketsBagTicket extends JTicketsBag {
 				}
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
+				
+				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
+				script.put("SystemDataAddresLine2", SystemDataAddressLine2);
+				script.put("SystemDataStreet", SystemDataStreet);
+				script.put("SystemDataCity", SystemDataCity);
+				script.put("SystemDataTaxid", SystemDataTaxid);
+				script.put("SystemDataThanks", SystemDataThanks);
+				
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
 				if(bonsize.length > 2)
