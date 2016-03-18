@@ -35,7 +35,8 @@ public abstract class QBFCompareEnum {
         public String getExpression(String sField, String sSQLValue) { return sField + " IS NOT NULL"; }
     };
     public final static QBFCompareEnum COMP_RE = new QBFCompareEnum(3, "qbf.re") {
-        public String getExpression(String sField, String sSQLValue) { return sField + " LIKE " + sSQLValue; }
+//        public String getExpression(String sField, String sSQLValue) { return sField + " LIKE " + sSQLValue; }
+        public String getExpression(String sField, String sSQLValue) { return "LOWER(" + sField + ") LIKE LOWER(" + sSQLValue + ")"; }
     };
     public final static QBFCompareEnum COMP_EQUALS = new QBFCompareEnum(3, "qbf.equals") {
         public String getExpression(String sField, String sSQLValue) { return sField + " = " + sSQLValue; }
