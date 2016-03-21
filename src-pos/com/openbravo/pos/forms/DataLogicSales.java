@@ -94,7 +94,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				new Field("STOCKVOLUME", Datas.DOUBLE, Formats.DOUBLE),
 				new Field("ISCATALOG", Datas.BOOLEAN, Formats.BOOLEAN), new Field("CATORDER", Datas.INT, Formats.INT),
 				new Field("PROPERTIES", Datas.BYTES, Formats.NULL),
-				new Field("UNIT", Datas.STRING, Formats.STRING));
+				new Field("UNIT", Datas.STRING, Formats.STRING),
+				new Field("ATTR1", Datas.STRING, Formats.STRING),
+				new Field("ATTR2", Datas.STRING, Formats.STRING),
+				new Field("ATTR3", Datas.STRING, Formats.STRING));
 	}
 
 	public void init(Session s) {
@@ -108,21 +111,21 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// Utilidades de productos
 	public final ProductInfoExt getProductInfo(String id) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT"
+				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
 						+ "FROM PRODUCTS WHERE ID = ?",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(id);
 	}
 
 	public final ProductInfoExt getProductInfoByCode(String sCode) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT "
+				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
 						+ "FROM PRODUCTS WHERE CODE = ?",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(sCode);
 	}
 
 	public final ProductInfoExt getProductInfoByReference(String sReference) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT "
+				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
 						+ "FROM PRODUCTS WHERE REFERENCE = ?",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(sReference);
 	}
@@ -159,7 +162,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 	public List<ProductInfoExt> getProductCatalog(String category) throws BasicException {
 		return new PreparedSentence(s,
-				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.ATTRIBUTES, P.UNIT "
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3 "
 						+ "FROM PRODUCTS P, PRODUCTS_CAT O WHERE P.ID = O.PRODUCT AND P.CATEGORY = ? "
 						+ "ORDER BY O.CATORDER, P.NAME",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
@@ -167,7 +170,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 	public List<ProductInfoExt> getProductComments(String id) throws BasicException {
 		return new PreparedSentence(s,
-				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.ATTRIBUTES, P.UNIT "
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3 "
 						+ "FROM PRODUCTS P, PRODUCTS_CAT O, PRODUCTS_COM M WHERE P.ID = O.PRODUCT AND P.ID = M.PRODUCT2 AND M.PRODUCT = ? "
 						+ "AND P.ISCOM = " + s.DB.TRUE() + " " + "ORDER BY O.CATORDER, P.NAME",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(id);
@@ -177,7 +180,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	public final SentenceList getProductList() {
 		return new StaticSentence(s,
 				new QBFBuilder(
-						"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT "
+						"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
 								+ "FROM PRODUCTS WHERE ?(QBF_FILTER) ORDER BY REFERENCE",
 						new String[] { "NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
@@ -188,7 +191,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// Products list
 	public SentenceList getProductListNormal() {
 		return new StaticSentence(s, new QBFBuilder(
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT "
+				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
 						+ "FROM PRODUCTS WHERE ISCOM = " + s.DB.FALSE() + " AND ?(QBF_FILTER) ORDER BY REFERENCE",
 				new String[] { "NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
@@ -199,7 +202,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// Auxiliar list for a filter
 	public SentenceList getProductListAuxiliar() {
 		return new StaticSentence(s, new QBFBuilder(
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT "
+				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
 						+ "FROM PRODUCTS WHERE ISCOM = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY REFERENCE",
 				new String[] { "NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
@@ -559,10 +562,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	public final SentenceList getProductCatQBF() {
 		return new StaticSentence(s,
 				new QBFBuilder(
-						"SELECT PID, PREFERENCE,PCODE, PNAME, PCOM, PSCALE, PPRICEBUY, PPRICESELL, PCATEGORY, PTAXCAT, PATTRIBUTESET_ID, PIMAGE, PSTOCKCOST,PSTOCKVOLUME,PNULL, PSORTORDER, PATTRIBUTES, PUNIT FROM "+
+						"SELECT PID, PREFERENCE,PCODE, PNAME, PCOM, PSCALE, PPRICEBUY, PPRICESELL, PCATEGORY, PTAXCAT, PATTRIBUTESET_ID, PIMAGE, PSTOCKCOST,PSTOCKVOLUME,PNULL, PSORTORDER, PATTRIBUTES, PUNIT, PATTR1, PATTR2, PATTR3 FROM "+
 								"(SELECT P.ID AS PID, P.REFERENCE AS PREFERENCE, P.CODE AS PCODE, P.NAME AS PNAME, P.ISCOM AS PCOM, P.ISSCALE AS PSCALE, P.PRICEBUY AS PPRICEBUY, P.PRICESELL AS PPRICESELL, P.CATEGORY AS PCATEGORY, P.TAXCAT AS PTAXCAT, P.ATTRIBUTESET_ID AS PATTRIBUTESET_ID, P.IMAGE AS PIMAGE, P.STOCKCOST AS PSTOCKCOST, P.STOCKVOLUME AS PSTOCKVOLUME,"+ 
 								"( CASE WHEN C.PRODUCT IS NULL THEN " + s.DB.FALSE() + " ELSE " + s.DB.TRUE() + " END) AS PNULL,"+ 
-								"C.CATORDER AS PSORTORDER,P.ATTRIBUTES AS PATTRIBUTES, P.UNIT AS PUNIT FROM PRODUCTS P LEFT OUTER JOIN PRODUCTS_CAT C ON P.ID = C.PRODUCT)"+ 
+								"C.CATORDER AS PSORTORDER,P.ATTRIBUTES AS PATTRIBUTES, P.UNIT AS PUNIT, P.ATTR1 AS PATTR1, P.ATTR2 AS PATTR2, P.ATTR3 AS PATTR3 FROM PRODUCTS P LEFT OUTER JOIN PRODUCTS_CAT C ON P.ID = C.PRODUCT)"+ 
 								"LEFT JOIN"+ 
 								"(SELECT ID AS CATID, NAME AS CATNAME, SORTORDER AS CATSORTORDER FROM CATEGORIES) "+
 								"ON PCATEGORY = CATID "+
@@ -579,9 +582,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			public int execInTransaction(Object params) throws BasicException {
 				Object[] values = (Object[]) params;
 				int i = new PreparedSentence(s,
-						"INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ATTRIBUTES, UNIT) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+						"INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 						new SerializerWriteBasicExt(productsRow.getDatas(),
-								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17 })).exec(params);
+								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20 })).exec(params);
 				if (i > 0 && ((Boolean) values[14]).booleanValue()) {
 					return new PreparedSentence(s, "INSERT INTO PRODUCTS_CAT (PRODUCT, CATORDER) VALUES (?, ?)",
 							new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0, 15 })).exec(params);
@@ -597,9 +600,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			public int execInTransaction(Object params) throws BasicException {
 				Object[] values = (Object[]) params;
 				int i = new PreparedSentence(s,
-						"UPDATE PRODUCTS SET ID = ?, REFERENCE = ?, CODE = ?, NAME = ?, ISCOM = ?, ISSCALE = ?, PRICEBUY = ?, PRICESELL = ?, CATEGORY = ?, TAXCAT = ?, ATTRIBUTESET_ID = ?, IMAGE = ?, STOCKCOST = ?, STOCKVOLUME = ?, ATTRIBUTES = ?, UNIT=? WHERE ID = ?",
+						"UPDATE PRODUCTS SET ID = ?, REFERENCE = ?, CODE = ?, NAME = ?, ISCOM = ?, ISSCALE = ?, PRICEBUY = ?, PRICESELL = ?, CATEGORY = ?, TAXCAT = ?, ATTRIBUTESET_ID = ?, IMAGE = ?, STOCKCOST = ?, STOCKVOLUME = ?, ATTRIBUTES = ?, UNIT=?, ATTR1=?, ATTR2=?, ATTR3=? WHERE ID = ?",
 						new SerializerWriteBasicExt(productsRow.getDatas(),
-								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 0 })).exec(params);
+								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 0 })).exec(params);
 				if (i > 0) {
 					if (((Boolean) values[14]).booleanValue()) {
 						if (new PreparedSentence(s, "UPDATE PRODUCTS_CAT SET CATORDER = ? WHERE PRODUCT = ?",

@@ -163,6 +163,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private String SystemDataCity = "";
 	private String SystemDataTaxid = "";
 	private String SystemDataThanks = "";
+	private boolean issaege;
 
 	private void initSystemData() {
 		DataLogicAdmin dlAdmin = (DataLogicAdmin) m_App.getBean("com.openbravo.pos.admin.DataLogicAdmin");
@@ -484,12 +485,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
-	private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice) {
+	private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice, String count) {
 
 		TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
 
 		addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax,
-				(java.util.Properties) (oProduct.getProperties().clone())));
+				(java.util.Properties) (oProduct.getProperties().clone()), issaege));
 	}
 
 	protected void addTicketLine(TicketLineInfo oLine) {
@@ -652,7 +653,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
-	private void incProductByCodePrice(String sCode, double dPriceSell) {
+	private void incProductByCodePrice(String sCode, double dPriceSell, String count) {
 		// precondicion: sCode != null
 
 		try {
@@ -668,9 +669,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					// iva incluido...
 					TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getDate(),
 							m_oTicket.getCustomer());
-					addTicketLine(oProduct, 1.0, dPriceSell / (1.0 + tax.getRate()));
+					addTicketLine(oProduct, 1.0, dPriceSell / (1.0 + tax.getRate()), count);
 				} else {
-					addTicketLine(oProduct, 1.0, dPriceSell);
+					addTicketLine(oProduct, 1.0, dPriceSell, count);
 				}
 			}
 		} catch (BasicException eData) {
@@ -700,29 +701,33 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private void incProduct(double dPor, ProductInfoExt prod) {
 		double price = 0.0;
+String count = "";
 
-		if (prod.getPriceSell() > 0.0) {
+		this.issaege = Boolean.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
+		if (prod.getPriceSell() > 0.0 && !issaege) {
 			price = prod.getPriceSell();
 		} else {
 			// open edit dialog to input price
 			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
 			TicketLineInfo ticketLine = new TicketLineInfo(prod, prod.getPriceSell(), tax,
-					(java.util.Properties) (prod.getProperties().clone()));
+					(java.util.Properties) (prod.getProperties().clone()), issaege);
 
 			try {
 				TicketLineInfo newTL = JProductLineEdit.showMessage(this, m_App, ticketLine);
 				price = newTL.getPrice();
 				dPor = newTL.getMultiply();
+				count = newTL.getCount();
 			} catch (BasicException e) {
 				e.printStackTrace();
 				price = 0.0;
 				dPor = 1.0;
+				count = "";
 			}
 
 		}
 
 		// precondicion: prod != null
-		addTicketLine(prod, dPor, price);
+		addTicketLine(prod, dPor, price, count);
 	}
 
 	protected void buttonTransition(ProductInfoExt prod) {

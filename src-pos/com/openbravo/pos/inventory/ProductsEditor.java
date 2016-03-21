@@ -79,8 +79,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private JLabel jLabel21;
 	private JLabel jLabel22;
 	private JLabel jLabel23;
-	private JTextField m_jstockwidth;
 	private JTextField m_jstockheight;
+	private JTextField m_jstockwidth;
 	private JTextField m_jstockLength;
 //	private JTextField m_jstockCount;
 	private boolean issaege;
@@ -126,8 +126,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jImage.addPropertyChangeListener("image", dirty);
 		m_jstockunit.getDocument().addDocumentListener(dirty);
 		if (issaege) {
-			m_jstockwidth.getDocument().addDocumentListener(dirty);
 			m_jstockheight.getDocument().addDocumentListener(dirty);
+			m_jstockwidth.getDocument().addDocumentListener(dirty);
 			m_jstockLength.getDocument().addDocumentListener(dirty);
 //			m_jstockCount.getDocument().addDocumentListener(dirty);
 		}
@@ -189,8 +189,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setText(null);
 		if (issaege) {
-			m_jstockwidth.setText(null);
 			m_jstockheight.setText(null);
+			m_jstockwidth.setText(null);
 			m_jstockLength.setText(null);
 //			m_jstockCount.setText(null);
 		}
@@ -218,8 +218,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setEnabled(false);
 		if (issaege) {
-			m_jstockwidth.setEnabled(false);
 			m_jstockheight.setEnabled(false);
+			m_jstockwidth.setEnabled(false);
 			m_jstockLength.setEnabled(false);
 //			m_jstockCount.setEnabled(false);
 		}
@@ -253,8 +253,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setText(null);
 		if (issaege) {
-			m_jstockwidth.setText(null);
 			m_jstockheight.setText(null);
+			m_jstockwidth.setText(null);
 			m_jstockLength.setText(null);
 //			m_jstockCount.setText(null);
 		}
@@ -282,8 +282,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setEnabled(true);
 		if (issaege) {
-			m_jstockwidth.setEnabled(true);
 			m_jstockheight.setEnabled(true);
+			m_jstockwidth.setEnabled(true);
 			m_jstockLength.setEnabled(true);
 //			m_jstockCount.setEnabled(true);
 		}
@@ -318,8 +318,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setText(Formats.CURRENCY.formatValue(myprod[17]));
 		if (issaege) {
-			m_jstockwidth.setText(Formats.CURRENCY.formatValue(myprod[18]));
 			m_jstockheight.setText(Formats.CURRENCY.formatValue(myprod[19]));
+			m_jstockwidth.setText(Formats.CURRENCY.formatValue(myprod[18]));
 			m_jstockLength.setText(Formats.CURRENCY.formatValue(myprod[20]));
 //			m_jstockCount.setText(Formats.CURRENCY.formatValue(myprod[21]));
 		}
@@ -348,8 +348,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setEnabled(false);
 		if (issaege) {
-			m_jstockwidth.setEnabled(false);
 			m_jstockheight.setEnabled(false);
+			m_jstockwidth.setEnabled(false);
 			m_jstockLength.setEnabled(false);
 //			m_jstockCount.setEnabled(false);
 		}
@@ -383,8 +383,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit.setText(Formats.STRING.formatValue(myprod[17]));
 		if (issaege) {
-			m_jstockwidth.setText(Formats.STRING.formatValue(myprod[18]));
-			m_jstockheight.setText(Formats.STRING.formatValue(myprod[19]));
+			m_jstockheight.setText(Formats.STRING.formatValue(myprod[18]));
+			m_jstockwidth.setText(Formats.STRING.formatValue(myprod[19]));
 			m_jstockLength.setText(Formats.STRING.formatValue(myprod[20]));
 //			m_jstockCount.setText(Formats.STRING.formatValue(myprod[21]));
 		}
@@ -430,7 +430,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 	public Object createValue() throws BasicException {
 
-		Object[] myprod = new Object[18];
+		Object[] myprod = new Object[21];
+//		if(issaege)
+//			myprod = new Object[21];
 		myprod[0] = m_id;
 		myprod[1] = m_jRef.getText();
 		myprod[2] = m_jCode.getText();
@@ -451,8 +453,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		myprod[17] = m_jstockunit.getText();
 		if (issaege) {
-			myprod[18] = m_jstockwidth.getText();
-			myprod[19] = m_jstockheight.getText();
+			myprod[18] = m_jstockheight.getText();
+			myprod[19] = m_jstockwidth.getText();
 			myprod[20] = m_jstockLength.getText();
 //			myprod[21] = m_jstockCount.getText();
 		}
@@ -891,8 +893,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jstockunit = new javax.swing.JTextField();
 		if (issaege) {
-			m_jstockwidth = new javax.swing.JTextField();
 			m_jstockheight = new javax.swing.JTextField();
+			m_jstockwidth = new javax.swing.JTextField();
 			m_jstockLength = new javax.swing.JTextField();
 //			m_jstockCount = new javax.swing.JTextField();
 		}
@@ -1159,26 +1161,6 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		index++;
 		if (issaege) {
 
-			jLabel20.setText(AppLocal.getIntString("label.prodstockwidth")); // NOI18N
-			GridBagConstraints gbc_lbl21 = new GridBagConstraints();
-			gbc_lbl21.anchor = GridBagConstraints.WEST;
-			gbc_lbl21.insets = new Insets(5, 5, 0, 0);
-			gbc_lbl21.gridx = 0;
-			gbc_lbl21.gridy = index;
-			jPanel2.add(jLabel20, gbc_lbl21);
-
-			m_jstockwidth.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-			GridBagConstraints gbc_textPane22 = new GridBagConstraints();
-			gbc_textPane22.gridwidth = 1;
-			gbc_textPane22.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textPane22.insets = new Insets(5, 5, 0, 0);
-			gbc_textPane22.weightx = 1.0;
-			gbc_textPane22.gridx = 1;
-			gbc_textPane22.gridy = index;
-			jPanel2.add(m_jstockwidth, gbc_textPane22);
-
-			index++;
-
 			jLabel21.setText(AppLocal.getIntString("label.prodstockheight")); // NOI18N
 			GridBagConstraints gbc_lbl22 = new GridBagConstraints();
 			gbc_lbl22.anchor = GridBagConstraints.WEST;
@@ -1199,6 +1181,26 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 			index++;
 
+			jLabel20.setText(AppLocal.getIntString("label.prodstockwidth")); // NOI18N
+			GridBagConstraints gbc_lbl21 = new GridBagConstraints();
+			gbc_lbl21.anchor = GridBagConstraints.WEST;
+			gbc_lbl21.insets = new Insets(5, 5, 0, 0);
+			gbc_lbl21.gridx = 0;
+			gbc_lbl21.gridy = index;
+			jPanel2.add(jLabel20, gbc_lbl21);
+
+			m_jstockwidth.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+			GridBagConstraints gbc_textPane22 = new GridBagConstraints();
+			gbc_textPane22.gridwidth = 1;
+			gbc_textPane22.fill = GridBagConstraints.HORIZONTAL;
+			gbc_textPane22.insets = new Insets(5, 5, 0, 0);
+			gbc_textPane22.weightx = 1.0;
+			gbc_textPane22.gridx = 1;
+			gbc_textPane22.gridy = index;
+			jPanel2.add(m_jstockwidth, gbc_textPane22);
+
+			index++;
+			
 			jLabel22.setText(AppLocal.getIntString("label.prodstocklength")); // NOI18N
 			GridBagConstraints gbc_lbl23 = new GridBagConstraints();
 			gbc_lbl23.anchor = GridBagConstraints.WEST;
@@ -1428,8 +1430,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockunit, "common-small-fontsize", "32");
 		if (issaege) {
-			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockwidth, "common-small-fontsize", "32");
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockheight, "common-small-fontsize", "32");
+			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockwidth, "common-small-fontsize", "32");
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockLength, "common-small-fontsize", "32");
 //			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockCount, "common-small-fontsize", "32");
 		}

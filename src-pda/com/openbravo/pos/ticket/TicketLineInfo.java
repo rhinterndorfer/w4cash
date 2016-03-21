@@ -166,4 +166,8 @@ public class TicketLineInfo implements Serializable {
     public String printLength() {
         return length;
     }
+    
+    public String printCount() {
+        return count;
+    }
 }

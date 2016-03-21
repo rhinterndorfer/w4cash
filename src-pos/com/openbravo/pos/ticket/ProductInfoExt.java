@@ -49,10 +49,13 @@ public class ProductInfoExt {
     protected double m_dPriceSell;
     protected BufferedImage m_Image;
     protected Properties attributes;
-    private double width = 0.0;
-    private double length = 0.0;
-    private double height = 0.0;
+//    private double width = 0.0;
+//    private double length = 0.0;
+//    private double height = 0.0;
     protected String m_Unit;
+    protected String m_Height;
+    protected String m_Width;
+    protected String m_Length;
     
     public String getUnit() {
 		return m_Unit;
@@ -60,6 +63,30 @@ public class ProductInfoExt {
 
 	public void setUnit(String m_Unit) {
 		this.m_Unit = m_Unit;
+	}
+	
+	public String getWidth() {
+		return m_Width;
+	}
+
+	public void setWidth(String width) {
+		this.m_Width = width;
+	}
+	
+	public String getHeight() {
+		return m_Height;
+	}
+
+	public void setHeight(String height) {
+		this.m_Height = height;
+	}
+	
+	public String getLength() {
+		return m_Length;
+	}
+
+	public void setLength(String length) {
+		this.m_Length = length;
 	}
 
 	/** Creates new ProductInfo */
@@ -78,6 +105,9 @@ public class ProductInfoExt {
         m_Image = null;
         attributes = new Properties();
         m_Unit = "";
+        m_Width = "";
+        m_Height = "";
+        m_Length = "";
     }
 
     public final String getID() {
@@ -216,6 +246,9 @@ public class ProductInfoExt {
             product.m_Image = ImageUtils.readImage(dr.getBytes(12));
             product.attributes = ImageUtils.readProperties(dr.getBytes(13));
             product.m_Unit = dr.getString(14);
+            product.m_Width = dr.getString(15);
+            product.m_Height = dr.getString(16);
+            product.m_Length = dr.getString(17);
             return product;
         }};
     }
@@ -225,27 +258,27 @@ public class ProductInfoExt {
         return m_sRef + " - " + m_sName;
     }
 
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getLength() {
-		return length;
-	}
-
-	public void setLength(double length) {
-		this.length = length;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
+//	public double getWidth() {
+//		return width;
+//	}
+//
+//	public void setWidth(double width) {
+//		this.width = width;
+//	}
+//
+//	public double getLength() {
+//		return length;
+//	}
+//
+//	public void setLength(double length) {
+//		this.length = length;
+//	}
+//
+//	public double getHeight() {
+//		return height;
+//	}
+//
+//	public void setHeight(double height) {
+//		this.height = height;
+//	}
 }
