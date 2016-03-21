@@ -20,6 +20,8 @@
 package com.openbravo.pos.panels;
 
 import java.awt.*;
+import java.util.List;
+
 import javax.swing.*;
 import com.openbravo.pos.forms.JPanelView;
 import com.openbravo.pos.forms.AppView;
@@ -33,6 +35,7 @@ import com.openbravo.data.gui.JLabelDirty;
 import com.openbravo.data.gui.JListNavigator;
 import com.openbravo.data.gui.JNavigator;
 import com.openbravo.data.loader.ComparatorCreator;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
@@ -115,7 +118,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			c = new JCounter(bd);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
-			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(), getSortColumnIndex(), getMoveColumnIndex());
+			c = new JNavigator(app, bd, getVectorer(), getComparatorCreator(), getSortColumnIndex(), this);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
 			c = new JSaver(this.app, bd);
@@ -214,6 +217,13 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	/** SORTORDER column index */
 	public abstract int getSortColumnIndex();
 	
-	/** When moving items in a panel, swap database columns between items */
-	public abstract int getMoveColumnIndex();
+	/** When moving items in a panel, swap database columns between items 
+	 * @param m_editorrecord 
+	 * @param m_bd */
+//	public abstract int getMoveColumnIndex();
+	public abstract void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values);
+	
+	public boolean isMoveAllowed(List<Object[]> values){
+		return true;
+	}
 }

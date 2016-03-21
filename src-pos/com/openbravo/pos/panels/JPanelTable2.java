@@ -22,8 +22,13 @@ package com.openbravo.pos.panels;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.model.Row;
+import com.openbravo.data.user.BrowsableData;
+import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.SaveProvider;
+
+import java.util.List;
+
 import javax.swing.ListCellRenderer;
 
 /**
@@ -31,43 +36,43 @@ import javax.swing.ListCellRenderer;
  * @author adrianromero
  */
 public abstract class JPanelTable2 extends JPanelTable {
-   
-    protected Row row;
-    protected ListProvider lpr;
-    protected SaveProvider spr;   
-    
-    @Override
-    public final ListProvider getListProvider() {
-        return lpr;
-    }
 
-    @Override
-    public final SaveProvider getSaveProvider() {
-        return spr;
-    }
-    
-    @Override
-    public final Vectorer getVectorer() {
-        return row.getVectorer();
-    }
-    
-    @Override
-    public ComparatorCreator getComparatorCreator() {
-        return row.getComparatorCreator();
-    }
-    
-    @Override
-    public ListCellRenderer getListCellRenderer() {
-        return row.getListCellRenderer();
-    } 
-    
-    @Override
+	protected Row row;
+	protected ListProvider lpr;
+	protected SaveProvider spr;
+
+	@Override
+	public final ListProvider getListProvider() {
+		return lpr;
+	}
+
+	@Override
+	public final SaveProvider getSaveProvider() {
+		return spr;
+	}
+
+	@Override
+	public final Vectorer getVectorer() {
+		return row.getVectorer();
+	}
+
+	@Override
+	public ComparatorCreator getComparatorCreator() {
+		return row.getComparatorCreator();
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		return row.getListCellRenderer();
+	}
+
+	@Override
 	public int getSortColumnIndex() {
 		return -1;
 	}
-    
-    @Override
-	public int getMoveColumnIndex() {
-		return -1;
+
+	@Override
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+
 	}
 }

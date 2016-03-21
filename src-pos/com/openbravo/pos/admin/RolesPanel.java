@@ -19,11 +19,14 @@
 
 package com.openbravo.pos.admin;
 
+import java.util.List;
+
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
@@ -37,61 +40,63 @@ import com.openbravo.pos.util.PropertyUtil;
  * @author adrianromero
  */
 public class RolesPanel extends JPanelTable {
-    
-    private TableDefinition troles;
-    private RolesView jeditor;
-    
-    /** Creates a new instance of RolesPanel */
-    public RolesPanel() {
-     }
-    
-    protected void init() {
-        DataLogicAdmin dlAdmin  = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin");        
-        troles = dlAdmin.getTableRoles();                 
-        jeditor = new RolesView(dirty);
-    }
-    
-    public ListProvider getListProvider() {
-        return new ListProviderCreator(troles);
-    }
-    
-    public SaveProvider getSaveProvider() {
-        return new SaveProvider(troles);        
-    }
-    
-    public Vectorer getVectorer() {
-        return troles.getVectorerBasic(new int[] {1});
-    }
-    
-    public ComparatorCreator getComparatorCreator() {
-        return troles.getComparatorCreator(new int[] {1});
-    }
-    
-    public ListCellRenderer getListCellRenderer() {
-    	int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
-        return new ListCellRendererBasic(troles.getRenderStringBasic(new int[] {1}), fontsize);
-    }
-    
-    public EditorRecord getEditor() {
-        return jeditor;
-    }
-    
-    public String getTitle() {
-        return AppLocal.getIntString("Menu.Roles");
-    }
+
+	private TableDefinition troles;
+	private RolesView jeditor;
+
+	/** Creates a new instance of RolesPanel */
+	public RolesPanel() {
+	}
+
+	protected void init() {
+		DataLogicAdmin dlAdmin = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin");
+		troles = dlAdmin.getTableRoles();
+		jeditor = new RolesView(dirty);
+	}
+
+	public ListProvider getListProvider() {
+		return new ListProviderCreator(troles);
+	}
+
+	public SaveProvider getSaveProvider() {
+		return new SaveProvider(troles);
+	}
+
+	public Vectorer getVectorer() {
+		return troles.getVectorerBasic(new int[] { 1 });
+	}
+
+	public ComparatorCreator getComparatorCreator() {
+		return troles.getComparatorCreator(new int[] { 1 });
+	}
+
+	public ListCellRenderer getListCellRenderer() {
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(troles.getRenderStringBasic(new int[] { 1 }), fontsize);
+	}
+
+	public EditorRecord getEditor() {
+		return jeditor;
+	}
+
+	public String getTitle() {
+		return AppLocal.getIntString("Menu.Roles");
+	}
 
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
-		
-	}        
+
+	}
+
 	@Override
 	public int getSortColumnIndex() {
 		return -1;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+
 	}
+
 }

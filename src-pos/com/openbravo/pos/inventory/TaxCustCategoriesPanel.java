@@ -22,12 +22,15 @@ package com.openbravo.pos.inventory;
 import com.openbravo.pos.panels.*;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.util.List;
+
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.data.user.ListProvider;
@@ -95,9 +98,10 @@ public class TaxCustCategoriesPanel extends JPanelTable {
 	public int getSortColumnIndex() {
 		return -1;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+		// TODO Auto-generated method stub
+		
 	}
 }

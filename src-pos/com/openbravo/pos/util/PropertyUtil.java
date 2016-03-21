@@ -265,7 +265,7 @@ public class PropertyUtil {
 		// btn.setMinimumSize(new Dimension(newWidth, newHeight));
 		// btn.setPreferredSize(new Dimension(width, newHeight));
 	}
-	
+
 	public static void ScaleComponentFontsize(AppView app, Component compo, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -324,7 +324,7 @@ public class PropertyUtil {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		dialog.setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
 	}
-	
+
 	public static void ScaleDialogFullScreen(AppView app, JDialog dialog) {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		dialog.setBounds(0, 0, screenSize.width, screenSize.height);
@@ -408,7 +408,7 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -524,31 +524,32 @@ public class PropertyUtil {
 
 	}
 
-	public static void ScaleIconImage(AppView app, ImageIcon image, String widthKey, String heightKey, String defaultWidth, String defaultHeight) {
-		//new ImageIcon().getImage().getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+	public static void ScaleIconImage(AppView app, ImageIcon image, String widthKey, String heightKey,
+			String defaultWidth, String defaultHeight) {
+		// new ImageIcon().getImage().getScaledInstance(120, 120,
+		// java.awt.Image.SCALE_SMOOTH);
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
-		
+
 		int width = Integer.parseInt(defaultWidth);
 		int height = Integer.parseInt(defaultHeight);
 		try {
 			width = Integer.parseInt(getProperty(app, dlSystem, "Ticket.Buttons", widthKey));
-		}
-		catch(IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			width = 22;
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			width = 22;
 		}
 		try {
 			height = Integer.parseInt(getProperty(app, dlSystem, "Ticket.Buttons", heightKey));
-		} catch(IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			height = 22;
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			height = 22;
 		}
-		
+
 		image.setImage(image.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_DEFAULT));
 	}
-	
+
 	public static void ScaleTextFieldFontsize(AppView app, JTextField text, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -566,8 +567,6 @@ public class PropertyUtil {
 		}
 	}
 
-	
-	
 	public static int ScaleTextAreaFontsize(AppView app, JTextArea text, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -576,7 +575,7 @@ public class PropertyUtil {
 		}
 		try {
 			int fontsize = Integer.parseInt(value);
-			
+
 			Font fontTotalEuros = text.getFont();
 			text.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
 			text.setSize((int) text.getSize().getWidth(), fontsize);
@@ -636,15 +635,13 @@ public class PropertyUtil {
 		}
 	}
 
-	public static int GetTableRowHeight(AppView app, String key,
-			String defaultValue)
-	{
+	public static int GetTableRowHeight(AppView app, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
 			value = defaultValue;
 		}
-		
+
 		try {
 			int size = Integer.parseInt(value);
 			return size;
@@ -653,7 +650,7 @@ public class PropertyUtil {
 		}
 		return 25;
 	}
-	
+
 	public static void ScaleTableRowheight(AppView app, final JTable table, int row, int multiply, String key,
 			String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
@@ -701,7 +698,7 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static double ScaleButtonFontsize(JButton button, int fontSize) {
 		Font fontLabel = button.getFont();
 
@@ -956,8 +953,7 @@ public class PropertyUtil {
 		jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(value, value));
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	}
-	
-	
+
 	public static void ScaleJComboBoxScrollbar(AppView app, JComboBox<?> jScrollBox) {
 		String property = getProperty(app, "Ticket.Buttons", "scrollbar-vertical-size", "35");
 		int value = Integer.parseInt(property);
@@ -979,15 +975,17 @@ public class PropertyUtil {
 	public static Map<String, Integer> getTicketLineWidths(AppView app) {
 		Map<String, Integer> widths = new HashMap<>();
 		String v1 = getProperty(app, "", "Ticket.Line.label.item", null);
-		if (v1 != null)
+		if (v1 != null) {
 			widths.put("label.item", Integer.parseInt(v1));
-
+		}
 		String v2 = getProperty(app, "", "Ticket.Line.label.units", null);
-		if (v2 != null)
+		if (v2 != null) {
 			widths.put("label.units", Integer.parseInt(v2));
+		}
 		String v3 = getProperty(app, "", "Ticket.Line.label.value", null);
-		if (v3 != null)
+		if (v3 != null) {
 			widths.put("label.value", Integer.parseInt(v3));
+		}
 		return widths;
 	}
 

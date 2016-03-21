@@ -119,7 +119,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		// La Toolbar
 		m_jToolbar.add(new JLabelDirty(m_Dirty));
 		m_jToolbar.add(new JCounter(m_bd));
-		m_jToolbar.add(new JNavigator(m_App, m_bd,-1,-1));
+		m_jToolbar.add(new JNavigator(m_App, m_bd,-1,null));
 		m_jToolbar.add(new JSaver(m_App, m_bd));
 
 		m_jKeys.ScaleButtons();

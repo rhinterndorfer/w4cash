@@ -20,13 +20,17 @@
 package com.openbravo.pos.inventory;
 
 import java.awt.Component;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.ListCellRenderer;
 
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.IRenderString;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorListener;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProviderCreator;
@@ -144,7 +148,57 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 	}
 
 	@Override
-	public int getMoveColumnIndex() {
-		return 15;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+		int moveColumnIndex = 15;
+
+		Object value1 = values.get(0)[moveColumnIndex];
+		Object value2 = values.get(1)[moveColumnIndex];
+
+		if (value1 != null && value2 != null) {
+			values.get(0)[moveColumnIndex] = values.get(1)[moveColumnIndex];
+			values.get(1)[moveColumnIndex] = value1;
+
+			for (Object[] change : values) {
+				int index1 = browseableData.findElementIndex(change);
+				try {
+					browseableData.updateRecord(index1, change);
+					editorRecord.refresh();
+				} catch (BasicException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
+
+	@Override
+	public boolean isMoveAllowed(List<Object[]> values) {
+		// move only in same category
+		Object lastValue = null;
+		for (Object[] value : values) {
+			Object newValue = value[8];
+			if (lastValue == null) {
+				lastValue = newValue;
+				continue;
+			}
+
+			if (!lastValue.equals(newValue)) {
+				JConfirmDialog.showError(this.app, this, AppLocal.getIntString("error.information"),
+						AppLocal.getIntString("message.productcategory"));
+				return false;
+			}
+		}
+
+		// move only when sortorder property is set
+		for (Object[] value : values) {
+			Object newValue = value[15];
+			if (newValue == null) {
+				JConfirmDialog.showError(this.app, this, AppLocal.getIntString("error.information"),
+						AppLocal.getIntString("message.sortorder"));
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

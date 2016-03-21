@@ -19,6 +19,8 @@
 
 package com.openbravo.pos.admin;
 
+import java.util.List;
+
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
@@ -35,76 +37,76 @@ import com.openbravo.data.user.*;
  */
 public class ResourcesPanel extends JPanelTable {
 
-    private TableDefinition tresources;
-    private ResourcesView jeditor;
-    
-    /** Creates a new instance of JPanelResources */
-    public ResourcesPanel() {
-  
-    }
-    
-    protected void init() {
-    	DataLogicAdmin dlAdmin = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
-        tresources = dlAdmin.getTableResources();         
-        jeditor = new ResourcesView(app, dirty);           
-    }    
-    
-    @Override
-    public boolean deactivate() {
-        if (super.deactivate()) {
-            DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");            
-            dlSystem.resetResourcesCache();
-            return true;
-        } else {
-            return false;
-        }    
-    }
-    
-    public ListProvider getListProvider() {
-        return new ListProviderCreator(tresources);
-    }
-    
-    public SaveProvider getSaveProvider() {
-        return new SaveProvider(tresources);        
-    }
-    
-    @Override
-    public Vectorer getVectorer() {
-        return tresources.getVectorerBasic(new int[] {1});
-    }
-    
-    @Override
-    public ComparatorCreator getComparatorCreator() {
-        return tresources.getComparatorCreator(new int[] {1, 2});
-    }
-    
-    @Override
-    public ListCellRenderer getListCellRenderer() {
-    	int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
-    	return new ListCellRendererBasic(tresources.getRenderStringBasic(new int[] {1}), fontsize);
-    }
-    
-    public EditorRecord getEditor() {
-        return jeditor;
-    }
-    
-    public String getTitle() {
-        return AppLocal.getIntString("Menu.Resources");
-    }
+	private TableDefinition tresources;
+	private ResourcesView jeditor;
+
+	/** Creates a new instance of JPanelResources */
+	public ResourcesPanel() {
+
+	}
+
+	protected void init() {
+		DataLogicAdmin dlAdmin = (DataLogicAdmin) app.getBean("com.openbravo.pos.admin.DataLogicAdmin");
+		tresources = dlAdmin.getTableResources();
+		jeditor = new ResourcesView(app, dirty);
+	}
+
+	@Override
+	public boolean deactivate() {
+		if (super.deactivate()) {
+			DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+			dlSystem.resetResourcesCache();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public ListProvider getListProvider() {
+		return new ListProviderCreator(tresources);
+	}
+
+	public SaveProvider getSaveProvider() {
+		return new SaveProvider(tresources);
+	}
+
+	@Override
+	public Vectorer getVectorer() {
+		return tresources.getVectorerBasic(new int[] { 1 });
+	}
+
+	@Override
+	public ComparatorCreator getComparatorCreator() {
+		return tresources.getComparatorCreator(new int[] { 1, 2 });
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(tresources.getRenderStringBasic(new int[] { 1 }), fontsize);
+	}
+
+	public EditorRecord getEditor() {
+		return jeditor;
+	}
+
+	public String getTitle() {
+		return AppLocal.getIntString("Menu.Resources");
+	}
 
 	@Override
 	public void ScaleButtons() {
 		// TODO Auto-generated method stub
-		
-	}        
-	
+
+	}
+
 	@Override
 	public int getSortColumnIndex() {
 		return -1;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+
 	}
 }

@@ -19,7 +19,10 @@
 
 package com.openbravo.pos.inventory;
 
+import java.util.List;
+
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.SaveProvider;
@@ -79,9 +82,11 @@ public class StockDiaryPanel extends JPanelTable {
 	public int getSortColumnIndex() {
 		return -1;
 	}
-	
+
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -19,11 +19,14 @@
 
 package com.openbravo.pos.inventory;
 
+import java.util.List;
+
 import javax.swing.ListCellRenderer;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
@@ -38,64 +41,65 @@ import com.openbravo.pos.util.PropertyUtil;
  * @author adrianromero
  */
 public class LocationsPanel extends JPanelTable {
-    
-    private TableDefinition tlocations;
-    private LocationsView jeditor;
-    
-    /** Creates a new instance of LocationsPanel */
-    public LocationsPanel() {
-    }
-    
-    protected void init() {   
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");          
-        tlocations = dlSales.getTableLocations();
-        jeditor = new LocationsView(dirty);
-    }
-    
-    public ListProvider getListProvider() {
-        return new ListProviderCreator(tlocations);
-    }
-    
-    public SaveProvider getSaveProvider() {
-        return new SaveProvider(tlocations);        
-    }
-    
-    @Override
-    public Vectorer getVectorer() {
-        return tlocations.getVectorerBasic(new int[]{1, 2});
-    }
-    
-    @Override
-    public ComparatorCreator getComparatorCreator() {
-        return tlocations.getComparatorCreator(new int[] {1, 2});
-    }
-    
-    @Override
-    public ListCellRenderer getListCellRenderer() {
-    	int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
-        return new ListCellRendererBasic(tlocations.getRenderStringBasic(new int[]{1}), fontsize);
-    }
-    
-    public EditorRecord getEditor() {
-        return jeditor;
-    }
-    
-    public String getTitle() {
-        return AppLocal.getIntString("Menu.Locations");
-    }
+
+	private TableDefinition tlocations;
+	private LocationsView jeditor;
+
+	/** Creates a new instance of LocationsPanel */
+	public LocationsPanel() {
+	}
+
+	protected void init() {
+		DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+		tlocations = dlSales.getTableLocations();
+		jeditor = new LocationsView(dirty);
+	}
+
+	public ListProvider getListProvider() {
+		return new ListProviderCreator(tlocations);
+	}
+
+	public SaveProvider getSaveProvider() {
+		return new SaveProvider(tlocations);
+	}
+
+	@Override
+	public Vectorer getVectorer() {
+		return tlocations.getVectorerBasic(new int[] { 1, 2 });
+	}
+
+	@Override
+	public ComparatorCreator getComparatorCreator() {
+		return tlocations.getComparatorCreator(new int[] { 1, 2 });
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(tlocations.getRenderStringBasic(new int[] { 1 }), fontsize);
+	}
+
+	public EditorRecord getEditor() {
+		return jeditor;
+	}
+
+	public String getTitle() {
+		return AppLocal.getIntString("Menu.Locations");
+	}
 
 	@Override
 	public void ScaleButtons() {
-		
-	}      
-	
+
+	}
+
 	@Override
 	public int getSortColumnIndex() {
 		return -1;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+
 	}
+
 }

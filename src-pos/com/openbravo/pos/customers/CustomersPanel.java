@@ -24,6 +24,7 @@ import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
@@ -32,6 +33,8 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.JPanelTable;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.util.List;
+
 import javax.swing.ListCellRenderer;
 
 /**
@@ -39,71 +42,73 @@ import javax.swing.ListCellRenderer;
  * @author adrianromero
  */
 public class CustomersPanel extends JPanelTable {
-    
+
 	private static final long serialVersionUID = -6252967383983749840L;
 	private TableDefinition tcustomers;
-    private CustomersView jeditor;
-    
-    /** Creates a new instance of CustomersPanel */
-    public CustomersPanel() {    
-    }
-    
-    protected void init() {        
-        DataLogicCustomers dlCustomers  = (DataLogicCustomers) app.getBean("com.openbravo.pos.customers.DataLogicCustomers");
-        tcustomers = dlCustomers.getTableCustomers();        
-        jeditor = new CustomersView(app, dirty);    
-    }
-    
-    @Override
-    public void activate() throws BasicException { 
-        
-        jeditor.activate();         
-        super.activate();
-    }
-    
-    public ListProvider getListProvider() {
-        return new ListProviderCreator(tcustomers);
-    }
-    
-    public SaveProvider getSaveProvider() {
-        return new SaveProvider(tcustomers, new int[] {0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22});      
-    }
-    
-    @Override
-    public Vectorer getVectorer() {
-        return tcustomers.getVectorerBasic(new int[]{1, 2, 3, 4});
-    }
-    
-    @Override
-    public ComparatorCreator getComparatorCreator() {
-        return tcustomers.getComparatorCreator(new int[] {1, 2, 3, 4});
-    }
-    
-    @Override
-    public ListCellRenderer getListCellRenderer() {
-    	int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
-        return new ListCellRendererBasic(tcustomers.getRenderStringBasic(new int[]{3}), fontsize);
-    }
-    
-    public EditorRecord getEditor() {
-        return jeditor;
-    }       
-    
-    public String getTitle() {
-        return AppLocal.getIntString("Menu.CustomersManagement");
-    }
+	private CustomersView jeditor;
+
+	/** Creates a new instance of CustomersPanel */
+	public CustomersPanel() {
+	}
+
+	protected void init() {
+		DataLogicCustomers dlCustomers = (DataLogicCustomers) app
+				.getBean("com.openbravo.pos.customers.DataLogicCustomers");
+		tcustomers = dlCustomers.getTableCustomers();
+		jeditor = new CustomersView(app, dirty);
+	}
+
+	@Override
+	public void activate() throws BasicException {
+
+		jeditor.activate();
+		super.activate();
+	}
+
+	public ListProvider getListProvider() {
+		return new ListProviderCreator(tcustomers);
+	}
+
+	public SaveProvider getSaveProvider() {
+		return new SaveProvider(tcustomers,
+				new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 });
+	}
+
+	@Override
+	public Vectorer getVectorer() {
+		return tcustomers.getVectorerBasic(new int[] { 1, 2, 3, 4 });
+	}
+
+	@Override
+	public ComparatorCreator getComparatorCreator() {
+		return tcustomers.getComparatorCreator(new int[] { 1, 2, 3, 4 });
+	}
+
+	@Override
+	public ListCellRenderer getListCellRenderer() {
+		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
+		return new ListCellRendererBasic(tcustomers.getRenderStringBasic(new int[] { 3 }), fontsize);
+	}
+
+	public EditorRecord getEditor() {
+		return jeditor;
+	}
+
+	public String getTitle() {
+		return AppLocal.getIntString("Menu.CustomersManagement");
+	}
 
 	@Override
 	public void ScaleButtons() {
-	}   
-	
+	}
+
 	@Override
 	public int getSortColumnIndex() {
 		return -1;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+
 	}
 }

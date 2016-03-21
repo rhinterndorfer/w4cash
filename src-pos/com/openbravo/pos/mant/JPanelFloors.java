@@ -20,6 +20,7 @@
 package com.openbravo.pos.mant;
 
 import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.ListCellRenderer;
 
@@ -32,6 +33,7 @@ import com.openbravo.format.Formats;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.Vectorer;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.data.user.ListProvider;
@@ -108,9 +110,11 @@ public class JPanelFloors extends JPanelTable {
 	public int getSortColumnIndex() {
 		return 3;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+		
 	}
+	
+	
 }

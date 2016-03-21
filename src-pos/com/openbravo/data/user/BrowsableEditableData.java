@@ -25,6 +25,7 @@ import java.awt.Component;
 import javax.swing.event.EventListenerList;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.LocalRes;
+import com.openbravo.pos.panels.JPanelTable;
 
 public class BrowsableEditableData {
 
@@ -202,17 +203,17 @@ public class BrowsableEditableData {
 		baseMoveTo(0);
 	}
 
-	public void actionMoveUpCurrent(int sortIndex, int moveColumnIndex, Component jNavigator) {
+	public void actionMoveUpCurrent(int sortIndex, JPanelTable move, Component jNavigator) {
 		int index = getIndex();
 
 		try {
-			moveData(sortIndex, moveColumnIndex, index, index - 1);
+			moveData(sortIndex, move, index, index - 1);
 		} catch (BasicException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void actionMoveDownCurrent(int sortIndex, int moveColumnIndex, Component jNavigator) {
+	public void actionMoveDownCurrent(int sortIndex, JPanelTable moveColumnIndex, Component jNavigator) {
 		int index = getIndex();
 		try {
 			moveData(sortIndex, moveColumnIndex, index, index + 1);
@@ -221,18 +222,30 @@ public class BrowsableEditableData {
 		}
 	}
 
-	private void moveData(int sortColumnIndex, int moveColumnIndex, int sourceindex, int targetindex)
+	private void moveData(int sortColumnIndex, JPanelTable move, int sourceindex, int targetindex)
 			throws BasicException {
+
+		List<Object[]> values = new ArrayList<>();
+
+		values.add((Object[]) m_bd.getElementAt(sourceindex));
+		values.add((Object[]) m_bd.getElementAt(targetindex));
+
+		// check for valid move
+		boolean validMove = move.isMoveAllowed(values);
+		if (!validMove) {
+			return;
+		}
+
 		List<Object[]> changes = m_bd.moveItem(sortColumnIndex, sourceindex, targetindex);
-		// boolean validMove = checkValidMove(sortColumnIndex);
+
 		baseMoveTo(targetindex);
 		// m_Dirty.setDirty(true);
-		saveSortedData(sortColumnIndex, moveColumnIndex, changes);
+		saveSortedData(sortColumnIndex, move, changes);
 		baseMoveTo(targetindex);
 		// m_bd.refreshData();
 	}
 
-	private void saveSortedData(int sortColumnIndex, int moveColumnIndex, List<Object[]> changes)
+	private void saveSortedData(int sortColumnIndex, JPanelTable move, List<Object[]> changes)
 			throws BasicException {
 		// if (m_Dirty.isDirty()) {
 		// if (m_iState == ST_UPDATE) {
@@ -244,30 +257,28 @@ public class BrowsableEditableData {
 				m_editorrecord.refresh();
 			}
 		}
+		
+		move.onMove(m_bd, m_editorrecord, changes);
 
 		/** move */
-//		if (moveColumnIndex >= 0) {
-//			if (changes.size() > 0) {
-//				Object value1 = changes.get(0)[moveColumnIndex];
-//				Object value2 = changes.get(1)[moveColumnIndex];
-//
-//				if (value1 != null && value2 != null) {
-//					changes.get(0)[moveColumnIndex] = changes.get(1)[moveColumnIndex];
-//					changes.get(1)[moveColumnIndex] = value1;
-//
-//					for (Object[] change : changes) {
-//						int index1 = m_bd.findElementIndex(change);
-//						m_bd.updateRecord(index1, change);
-//						m_editorrecord.refresh();
-//					}
-//				}
-//			}
-//		}
-		
-		
-		
-		
-		
+		// if (moveColumnIndex >= 0) {
+		// if (changes.size() > 0) {
+		// Object value1 = changes.get(0)[moveColumnIndex];
+		// Object value2 = changes.get(1)[moveColumnIndex];
+		//
+		// if (value1 != null && value2 != null) {
+		// changes.get(0)[moveColumnIndex] = changes.get(1)[moveColumnIndex];
+		// changes.get(1)[moveColumnIndex] = value1;
+		//
+		// for (Object[] change : changes) {
+		// int index1 = m_bd.findElementIndex(change);
+		// m_bd.updateRecord(index1, change);
+		// m_editorrecord.refresh();
+		// }
+		// }
+		// }
+		// }
+
 		// } else if (m_iState == ST_INSERT) {
 		// int i = m_bd.insertRecord(m_editorrecord.createValue());
 		// m_editorrecord.refresh();

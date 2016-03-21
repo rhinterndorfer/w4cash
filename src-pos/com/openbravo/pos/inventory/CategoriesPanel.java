@@ -20,6 +20,7 @@
 package com.openbravo.pos.inventory;
 
 import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
@@ -32,6 +33,7 @@ import com.openbravo.pos.panels.*;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
+import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.data.user.ListProvider;
@@ -79,7 +81,7 @@ public class CategoriesPanel extends JPanelTable {
 	}
 
 	public ComparatorCreator getComparatorCreator() {
-		return tcategories.getComparatorCreator(new int[] { 4,1 });
+		return tcategories.getComparatorCreator(new int[] { 4, 1 });
 	}
 
 	@Override
@@ -106,9 +108,10 @@ public class CategoriesPanel extends JPanelTable {
 	public int getSortColumnIndex() {
 		return 4;
 	}
-	
+
 	@Override
-	public int getMoveColumnIndex() {
-		return -1;
+	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
+
 	}
+
 }
