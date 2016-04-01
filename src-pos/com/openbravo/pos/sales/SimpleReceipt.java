@@ -77,6 +77,14 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private boolean tableSelect = false;
 	private Place selectedTable;
 
+	public Place getSelectedTable() {
+		return selectedTable;
+	}
+
+	public void setSelectedTable(Place selectedTable) {
+		this.selectedTable = selectedTable;
+	}
+
 	private ReceiptSplit parent = null;
 
 	private boolean isRestaurant;
@@ -137,7 +145,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		// The ticket name
 		if (this.tableSelect && tt != null) {
-			// find selected talbe
+			// find selected talble
 			for (Place place : this.m_aplaces) {
 				if (place.getName().compareTo(tt.toString()) == 0) {
 					this.selectedTable = place;

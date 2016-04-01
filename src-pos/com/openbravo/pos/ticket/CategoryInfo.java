@@ -20,6 +20,8 @@ package com.openbravo.pos.ticket;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.DataRead;
+
+import java.awt.Color;
 import java.awt.image.*;
 import com.openbravo.data.loader.IKeyed;
 import com.openbravo.data.loader.ImageUtils;
@@ -36,16 +38,18 @@ public class CategoryInfo implements IKeyed {
 	private String m_sID;
 	private String m_sName;
 	private BufferedImage m_Image;
+	private Color bgColor;
 	private Integer m_SortOrder;
 	private int m_printerId = -1;
 
 	/** Creates new CategoryInfo */
-	public CategoryInfo(String id, String name, BufferedImage image, Integer sortOrder, int printerId) {
+	public CategoryInfo(String id, String name, BufferedImage image, String color, Integer sortOrder, int printerId) {
 		m_sID = id;
 		m_sName = name;
 		m_Image = image;
 		m_SortOrder = sortOrder;
 		m_printerId = printerId;
+		this.setBgColor(color);
 	}
 
 	public Object getKey() {
@@ -92,8 +96,8 @@ public class CategoryInfo implements IKeyed {
 	public static SerializerRead getSerializerRead() {
 		return new SerializerRead() {
 			public Object readValues(DataRead dr) throws BasicException {
-				return new CategoryInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)),
-						dr.getInt(4), dr.getInt(5));
+				return new CategoryInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)), dr.getString(4),
+						dr.getInt(5), dr.getInt(6));
 			}
 		};
 	}
@@ -104,5 +108,28 @@ public class CategoryInfo implements IKeyed {
 	
 	public void setPrinterId(int id) {
 		this.m_printerId = id;
+	}
+
+	public Color getBgColor() {
+		return bgColor;
+	}
+
+	public void setBgColor(String color) {
+    	String col[] = (color == null ? null : color.toString().split(";"));
+
+    	if(col == null)
+    		this.bgColor = null;
+		try {
+			this.bgColor =
+					new Color(Integer.parseInt(col[0]), Integer.parseInt(col[1]), Integer.parseInt(col[2]));
+		} catch (NumberFormatException ex) {
+			bgColor = null;
+		} catch (NullPointerException ex) {
+			bgColor = null;
+		}
+    }
+	
+	public void setBgColor(Color bgColor) {
+		this.bgColor = bgColor;
 	}
 }

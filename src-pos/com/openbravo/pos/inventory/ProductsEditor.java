@@ -124,6 +124,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceBuy.getDocument().addDocumentListener(dirty);
 		m_jPriceSell.getDocument().addDocumentListener(dirty);
 		m_jImage.addPropertyChangeListener("image", dirty);
+		m_jImage.addPropertyChangeListener("background", dirty);
 		m_jstockunit.getDocument().addDocumentListener(dirty);
 		if (issaege) {
 			m_jstockheight.getDocument().addDocumentListener(dirty);
@@ -250,6 +251,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jPriceBuy.setText(null);
 		setPriceSell(null);
 		m_jImage.setImage(null);
+		m_jImage.setSelecteBGColor(null);
 
 		m_jstockunit.setText(null);
 		if (issaege) {
@@ -316,18 +318,18 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		attmodel.setSelectedKey(myprod[10]);
 		m_jImage.setImage((BufferedImage) myprod[11]);
 
-		m_jstockunit.setText(Formats.CURRENCY.formatValue(myprod[17]));
+		m_jstockunit.setText(Formats.CURRENCY.formatValue(myprod[18]));
 		if (issaege) {
 			m_jstockheight.setText(Formats.CURRENCY.formatValue(myprod[19]));
-			m_jstockwidth.setText(Formats.CURRENCY.formatValue(myprod[18]));
-			m_jstockLength.setText(Formats.CURRENCY.formatValue(myprod[20]));
+			m_jstockwidth.setText(Formats.CURRENCY.formatValue(myprod[20]));
+			m_jstockLength.setText(Formats.CURRENCY.formatValue(myprod[21]));
 //			m_jstockCount.setText(Formats.CURRENCY.formatValue(myprod[21]));
 		}
-		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[12]));
-		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[13]));
-		m_jInCatalog.setSelected(((Boolean) myprod[14]).booleanValue());
-		m_jCatalogOrder.setText(Formats.INT.formatValue(myprod[15]));
-		txtAttributes.setText(Formats.BYTEA.formatValue(myprod[16]));
+		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[13]));
+		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[14]));
+		m_jInCatalog.setSelected(((Boolean) myprod[15]).booleanValue());
+		m_jCatalogOrder.setText(Formats.INT.formatValue(myprod[16]));
+		txtAttributes.setText(Formats.BYTEA.formatValue(myprod[17]));
 		txtAttributes.setCaretPosition(0);
 		reportlock = false;
 
@@ -380,19 +382,19 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		taxcatmodel.setSelectedKey(myprod[9]);
 		attmodel.setSelectedKey(myprod[10]);
 		m_jImage.setImage((BufferedImage) myprod[11]);
-
-		m_jstockunit.setText(Formats.STRING.formatValue(myprod[17]));
+		m_jImage.setSelecteBGColor(Formats.STRING.formatValue(myprod[12]));
+		m_jstockunit.setText(Formats.STRING.formatValue(myprod[18]));
 		if (issaege) {
-			m_jstockheight.setText(Formats.STRING.formatValue(myprod[18]));
-			m_jstockwidth.setText(Formats.STRING.formatValue(myprod[19]));
-			m_jstockLength.setText(Formats.STRING.formatValue(myprod[20]));
+			m_jstockheight.setText(Formats.STRING.formatValue(myprod[19]));
+			m_jstockwidth.setText(Formats.STRING.formatValue(myprod[20]));
+			m_jstockLength.setText(Formats.STRING.formatValue(myprod[21]));
 //			m_jstockCount.setText(Formats.STRING.formatValue(myprod[21]));
 		}
-		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[12]));
-		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[13]));
-		m_jInCatalog.setSelected(((Boolean) myprod[14]).booleanValue());
-		m_jCatalogOrder.setText(Formats.INT.formatValue(myprod[15]));
-		txtAttributes.setText(Formats.BYTEA.formatValue(myprod[16]));
+		m_jstockcost.setText(Formats.CURRENCY.formatValue(myprod[13]));
+		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[14]));
+		m_jInCatalog.setSelected(((Boolean) myprod[15]).booleanValue());
+		m_jCatalogOrder.setText(Formats.INT.formatValue(myprod[16]));
+		txtAttributes.setText(Formats.BYTEA.formatValue(myprod[17]));
 		txtAttributes.setCaretPosition(0);
 		reportlock = false;
 
@@ -430,7 +432,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 	public Object createValue() throws BasicException {
 
-		Object[] myprod = new Object[21];
+		Object[] myprod = new Object[22];
 //		if(issaege)
 //			myprod = new Object[21];
 		myprod[0] = m_id;
@@ -445,17 +447,18 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		myprod[9] = taxcatmodel.getSelectedKey();
 		myprod[10] = attmodel.getSelectedKey();
 		myprod[11] = m_jImage.getImage();
-		myprod[12] = Formats.CURRENCY.parseValue(m_jstockcost.getText());
-		myprod[13] = Formats.DOUBLE.parseValue(m_jstockvolume.getText());
-		myprod[14] = Boolean.valueOf(m_jInCatalog.isSelected());
-		myprod[15] = Formats.INT.parseValue(m_jCatalogOrder.getText());
-		myprod[16] = Formats.BYTEA.parseValue(txtAttributes.getText());
+		myprod[12] = m_jImage.getSelecteBGColor();
+		myprod[13] = Formats.CURRENCY.parseValue(m_jstockcost.getText());
+		myprod[14] = Formats.DOUBLE.parseValue(m_jstockvolume.getText());
+		myprod[15] = Boolean.valueOf(m_jInCatalog.isSelected());
+		myprod[16] = Formats.INT.parseValue(m_jCatalogOrder.getText());
+		myprod[17] = Formats.BYTEA.parseValue(txtAttributes.getText());
 
-		myprod[17] = m_jstockunit.getText();
+		myprod[18] = m_jstockunit.getText();
 		if (issaege) {
-			myprod[18] = m_jstockheight.getText();
-			myprod[19] = m_jstockwidth.getText();
-			myprod[20] = m_jstockLength.getText();
+			myprod[19] = m_jstockheight.getText();
+			myprod[20] = m_jstockwidth.getText();
+			myprod[21] = m_jstockLength.getText();
 //			myprod[21] = m_jstockCount.getText();
 		}
 		return myprod;
@@ -1138,7 +1141,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jPanel2.setLayout(new GridBagLayout());
 
 		int index = 0;
-		// add only if sägewerk modul is activated
+		// add only if saegewerk modul is activated
 
 		jLabel19.setText(AppLocal.getIntString("label.prodstockunit")); // NOI18N
 		GridBagConstraints gbc_lbl20 = new GridBagConstraints();
@@ -1475,7 +1478,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			m_jCatalogOrder.setEnabled(true);
 		} else {
 			m_jCatalogOrder.setEnabled(false);
-			m_jCatalogOrder.setText(null);
+//			m_jCatalogOrder.setText(null);
 		}
 
 	}// GEN-LAST:event_m_jInCatalogActionPerformed

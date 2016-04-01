@@ -33,11 +33,11 @@ import com.openbravo.pos.util.PropertyUtil;
 public class JEditorKeys extends javax.swing.JPanel implements EditorKeys {
 
 	private static final long serialVersionUID = -4815968060295419959L;
-	private final static char[] SET_DOUBLE = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ',', '-' };
-	private final static char[] SET_DOUBLE_POSITIVE = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+	private final static char[] SET_DOUBLE = { '\u0008', '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ',', '-' };
+	private final static char[] SET_DOUBLE_POSITIVE = {'\u0008', '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			'.' };
-	private final static char[] SET_INTEGER = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-' };
-	private final static char[] SET_INTEGER_POSITIVE = { '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+	private final static char[] SET_INTEGER = {'\u0008', '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-' };
+	private final static char[] SET_INTEGER_POSITIVE = {'\u0008', '\u007f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 	protected EventListenerList listeners = new EventListenerList();
 

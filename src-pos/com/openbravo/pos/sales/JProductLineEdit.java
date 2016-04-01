@@ -99,7 +99,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 			}
 
 			try {
-				m_jLength.setDoubleValue(Double.parseDouble(oLine.getLength()));
+				m_jLength.setDoubleValue(Double.parseDouble(oLine.getLength().replace(",", ".")));
 			} catch (NumberFormatException ex) {
 				m_jLength.setDoubleValue(null);
 			}

@@ -96,7 +96,7 @@ public class ProductsSync implements ProcessAction {
 					dlintegration.syncTax(t);
 
 					// Synchonization of categories
-					CategoryInfo c = new CategoryInfo(product.getCategory().getId(), product.getCategory().getName(),
+					CategoryInfo c = new CategoryInfo(product.getCategory().getId(), product.getCategory().getName(), null,
 							null, null, -1);
 					dlintegration.syncCategory(c);
 

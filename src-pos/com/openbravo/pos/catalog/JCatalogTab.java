@@ -57,7 +57,7 @@ public class JCatalogTab extends javax.swing.JPanel {
 		super.setEnabled(value);
 	}
 
-	public void addButton(Icon ico, ActionListener al) {
+	public void addButton(Icon ico, Color color, ActionListener al) {
 		JButton btn = new JButton();
 		btn.applyComponentOrientation(getComponentOrientation());
 		btn.setIcon(ico);
@@ -68,7 +68,7 @@ public class JCatalogTab extends javax.swing.JPanel {
 		btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btn.setMargin(new Insets(2, 2, 2, 2));
 		btn.addActionListener(al);
-
+		btn.setBackground(color);
 		flowpanel.add(btn);
 	}
 

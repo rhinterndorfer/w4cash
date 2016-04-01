@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.ticket;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.basic.BasicException;
@@ -48,7 +49,33 @@ public class ProductInfoExt {
     protected double m_dPriceBuy;
     protected double m_dPriceSell;
     protected BufferedImage m_Image;
-    protected Properties attributes;
+    protected Color bgColor;
+    public Color getBgColor() {
+		return bgColor;
+	}
+
+    public void setBgColor(String color) {
+    	String col[] = (color == null ? null : color.toString().split(";"));
+
+    	if(col == null) {
+    		this.bgColor = null;
+    		return;
+    	}
+		try {
+			this.bgColor =
+					new Color(Integer.parseInt(col[0]), Integer.parseInt(col[1]), Integer.parseInt(col[2]));
+		} catch (NumberFormatException ex) {
+			bgColor = null;
+		} catch (NullPointerException ex) {
+			bgColor = null;
+		}
+    }
+    
+	public void setBgColor(Color bgColor) {
+		this.bgColor = bgColor;
+	}
+
+	protected Properties attributes;
 //    private double width = 0.0;
 //    private double length = 0.0;
 //    private double height = 0.0;
@@ -244,11 +271,12 @@ public class ProductInfoExt {
             product.categoryid = dr.getString(10);
             product.attributesetid = dr.getString(11);
             product.m_Image = ImageUtils.readImage(dr.getBytes(12));
-            product.attributes = ImageUtils.readProperties(dr.getBytes(13));
-            product.m_Unit = dr.getString(14);
-            product.m_Width = dr.getString(15);
+            product.setBgColor(dr.getString(13));
+            product.attributes = ImageUtils.readProperties(dr.getBytes(14));
+            product.m_Unit = dr.getString(15);
             product.m_Height = dr.getString(16);
-            product.m_Length = dr.getString(17);
+            product.m_Width = dr.getString(17);
+            product.m_Length = dr.getString(18);
             return product;
         }};
     }
@@ -257,28 +285,4 @@ public class ProductInfoExt {
     public final String toString() {
         return m_sRef + " - " + m_sName;
     }
-
-//	public double getWidth() {
-//		return width;
-//	}
-//
-//	public void setWidth(double width) {
-//		this.width = width;
-//	}
-//
-//	public double getLength() {
-//		return length;
-//	}
-//
-//	public void setLength(double length) {
-//		this.length = length;
-//	}
-//
-//	public double getHeight() {
-//		return height;
-//	}
-//
-//	public void setHeight(double height) {
-//		this.height = height;
-//	}
 }

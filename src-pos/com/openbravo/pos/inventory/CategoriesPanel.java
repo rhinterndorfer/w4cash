@@ -56,7 +56,7 @@ public class CategoriesPanel extends JPanelTable {
 	@Override
 	public void activate() throws BasicException {
 		super.activate();
-		PropertyUtil.fillSortOrderIfNeeded(bd, 4);
+		PropertyUtil.fillSortOrderIfNeeded(bd, 5);
 		ComparatorCreator ccreator = getComparatorCreator();
 		Comparator c = ccreator.createComparator(new int[] { 0 });
 		bd.sort(c);
@@ -81,7 +81,7 @@ public class CategoriesPanel extends JPanelTable {
 	}
 
 	public ComparatorCreator getComparatorCreator() {
-		return tcategories.getComparatorCreator(new int[] { 4, 1 });
+		return tcategories.getComparatorCreator(new int[] { 5, 1 });
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class CategoriesPanel extends JPanelTable {
 
 	@Override
 	public int getSortColumnIndex() {
-		return 4;
+		return 5;
 	}
 
 	@Override

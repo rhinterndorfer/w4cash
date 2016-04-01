@@ -411,7 +411,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	 * @return
 	 */
 	public Object getTicketText() {
-		return this.receipttwo.getTicket();
+		return this.receipttwo.getTicketText();
+//		return this.receipttwo.getSelectedTable().getName();
 	}
 
 	/**

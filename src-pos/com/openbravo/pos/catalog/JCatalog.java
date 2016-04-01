@@ -188,7 +188,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				m_jCategoryList.add(jcategoryTab, "CATEGORY");
 			}
 			jcategoryTab.addButton(
-					new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)),
+					new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)), category.getBgColor(),
 					new SelectedCategoryMain(category));
 
 			selectCategoryPanel(category);
@@ -232,7 +232,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 					// Add products
 					for (ProductInfoExt prod2 : products) {
 						jcurrTab.addButton(new ImageIcon(
-								tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2), productFontSize)),
+								tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2), productFontSize)), prod2.getBgColor(),
 								new SelectedAction(prod2));
 					}
 				}
@@ -314,7 +314,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID());
 				for (CategoryInfo cat : categories) {
 					jcurrTab.addButton(
-							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),
+							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),  cat.getBgColor(),
 							new SelectedCategory(cat));
 					selectCategoryPanel(cat);
 					
@@ -326,7 +326,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				java.util.List<ProductInfoExt> products = m_dlSales.getProductCatalog(catid.getID());
 				for (ProductInfoExt prod : products) {
 					jcurrTab.addButton(new ImageIcon(
-							tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod), productFontSize)),
+							tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod), productFontSize)), prod.getBgColor(),
 							new SelectedAction(prod));
 				}
 			}
@@ -461,7 +461,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						// Add products
 						for (ProductInfoExt prod : products) {
 							jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(),
-									getProductLabel(prod), productFontSize)), new SelectedAction(prod));
+									getProductLabel(prod), productFontSize)), prod.getBgColor(), new SelectedAction(prod));
 						}
 
 						selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(product.getImage())),

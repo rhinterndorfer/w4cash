@@ -92,6 +92,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		// m_jPrinter.getEditor().getEditorComponent()).getDocument().addDocumentListener(dirty);
 
 		m_jImage.addPropertyChangeListener("image", dirty);
+		m_jImage.addPropertyChangeListener("background", dirty);
 
 		writeValueEOF();
 
@@ -132,6 +133,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_CategoryModel.setSelectedKey(null);
 		m_jPrinter.setSelectedIndex(-1);
 		m_jImage.setImage(null);
+		m_jImage.setSelecteBGColor(null);
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
 		m_jPrinter.setEnabled(false);
@@ -146,6 +148,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_CategoryModel.setSelectedKey(null);
 		m_jPrinter.setSelectedIndex(-1);
 		m_jImage.setImage(null);
+		m_jImage.setSelecteBGColor(null);
 		m_jName.setEnabled(true);
 		m_jCategory.setEnabled(true);
 		m_jPrinter.setEnabled(true);
@@ -163,8 +166,9 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jName.setText(Formats.STRING.formatValue(cat[1]));
 		m_CategoryModel.setSelectedKey(cat[2]);
 		m_jImage.setImage((BufferedImage) cat[3]);
-		m_sortOrder = cat[4];
-		m_printerIndex = (Integer) cat[5];
+		m_jImage.setSelecteBGColor(Formats.STRING.formatValue(cat[4]));
+		m_sortOrder = cat[5];
+		m_printerIndex = (Integer) cat[6];
 
 		m_jName.setEnabled(false);
 		m_jCategory.setEnabled(false);
@@ -177,13 +181,13 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	public void writeValueEdit(Object value) {
 		Object[] cat = (Object[]) value;
 		m_id = cat[0];
-		m_sortOrder = cat[4];
-		m_printerIndex = (Integer) cat[5];
+		m_sortOrder = cat[5];
+		m_printerIndex = (Integer) cat[6];
 
 		m_jName.setText(Formats.STRING.formatValue(cat[1]));
 		m_CategoryModel.setSelectedKey(cat[2]);
 		m_jImage.setImage((BufferedImage) cat[3]);
-
+		m_jImage.setSelecteBGColor(Formats.STRING.formatValue(cat[4]));
 		m_jPrinter.setSelectedIndex(m_printerIndex);
 
 		m_jName.setEnabled(true);
@@ -196,17 +200,14 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 	public Object createValue() throws BasicException {
 
-		Object[] cat = new Object[6];
+		Object[] cat = new Object[7];
 		cat[0] = m_id;
 		cat[1] = m_jName.getText();
 		cat[2] = m_CategoryModel.getSelectedKey();
 		cat[3] = m_jImage.getImage();
-		cat[4] = m_sortOrder;
-		
-		
-		
-		
-		cat[5] = m_jPrinter.getSelectedIndex();
+		cat[4] = m_jImage.getSelecteBGColor();
+		cat[5] = m_sortOrder;
+		cat[6] = m_jPrinter.getSelectedIndex();
 
 		// if (m_jPrinter.getSelectedIndex() >= 0) {
 		//
@@ -398,7 +399,7 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {
-		PropertyUtil.fillSortOrder(bd, 4);
+		PropertyUtil.fillSortOrder(bd, 5);
 	}
 
 	private void m_jCatalogDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCatalogDeleteActionPerformed

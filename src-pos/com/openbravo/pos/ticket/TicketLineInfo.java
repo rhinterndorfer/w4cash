@@ -87,7 +87,8 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 		init(null, null, 0.0, 0.0, null, new Properties());
 	}
 
-	public TicketLineInfo(ProductInfoExt product, double dMultiply, double dPrice, TaxInfo tax, Properties attributes, boolean issaege) {
+	public TicketLineInfo(ProductInfoExt product, double dMultiply, double dPrice, TaxInfo tax, Properties attributes,
+			boolean issaege, String height, String width, String length, String count) {
 
 		String pid;
 
@@ -109,29 +110,37 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 			} else {
 				attributes.setProperty("product.unit", "x");
 			}
-			if(issaege) {
-			if (product.getWidth() != null) {
-				attributes.setProperty("product.width", product.getWidth());
-			} else {
-				attributes.setProperty("product.width", "");
+			if (issaege) {
+
+				if (height != null) {
+					attributes.setProperty("product.height", height);
+				} else {
+					attributes.setProperty("product.height", "");
+				}
+				if (width != null) {
+					attributes.setProperty("product.width", width);
+				} else {
+					attributes.setProperty("product.width", "");
+				}
+				if (length != null) {
+					attributes.setProperty("product.length", length);
+				} else {
+					attributes.setProperty("product.length", "");
+				}
+				if (count != null) {
+					attributes.setProperty("product.count", count);
+				} else {
+					attributes.setProperty("product.count", "");
+				}
 			}
-			if (product.getHeight() != null) {
-				attributes.setProperty("product.height", product.getHeight());
-			} else {
-				attributes.setProperty("product.height", "");
-			}
-			if (product.getLength() != null) {
-				attributes.setProperty("product.length", product.getLength());
-			} else {
-				attributes.setProperty("product.length", "");
-			}
-			}
+
 		}
 		init(pid, null, dMultiply, dPrice, tax, attributes);
 	}
 
-	public TicketLineInfo(ProductInfoExt oProduct, double dPrice, TaxInfo tax, Properties attributes, boolean issaege) {
-		this(oProduct, 1.0, dPrice, tax, attributes, issaege);
+	public TicketLineInfo(ProductInfoExt oProduct, double dPrice, TaxInfo tax, Properties attributes, boolean issaege,
+			String height, String width, String length, String count) {
+		this(oProduct, 1.0, dPrice, tax, attributes, issaege, height, width, length, count);
 	}
 
 	public TicketLineInfo(TicketLineInfo line) {
@@ -166,6 +175,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 		} catch (NullPointerException e) {
 			this.length = "";
 		}
+		try {
+			this.count = attributes.getProperty("product.count");
+		} catch (NullPointerException e) {
+			this.count = "";
+		}
 	}
 
 	void setTicket(String ticket, int line) {
@@ -190,6 +204,12 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 		} catch (IOException e) {
 			dp.setBytes(8, null);
 		}
+		
+		dp.setString(9, attributes.getProperty("product.unit"));
+		dp.setString(10, attributes.getProperty("product.height"));
+		dp.setString(11, attributes.getProperty("product.width"));
+		dp.setString(12, attributes.getProperty("product.length"));
+		dp.setString(13, attributes.getProperty("product.count"));
 	}
 
 	public void readValues(DataRead dr) throws BasicException {
@@ -211,6 +231,25 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 			}
 		} catch (IOException e) {
 		}
+		this.unit = dr.getString(17);
+		if(this.unit == null)
+			this.unit = "";
+		
+		this.height = dr.getString(18);
+		if(this.height == null)
+			this.height = "";
+		
+		this.width = dr.getString(19);
+		if(this.width == null)
+			this.width = "";
+		
+		this.length = dr.getString(20);
+		if(this.length == null)
+			this.length = "";
+		
+		this.count = dr.getString(21);
+		if(this.count == null)
+			this.count = "";
 	}
 
 	public TicketLineInfo copyTicketLine() {
@@ -273,7 +312,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	public String getProductCategoryID() {
 		return (attributes.getProperty("product.categoryid"));
 	}
-	
+
 	public String getHeight() {
 		return height;
 	}
@@ -281,7 +320,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	public void setHeight(String dValue) {
 		height = dValue;
 	}
-	
+
 	public String getWidth() {
 		return width;
 	}
@@ -289,7 +328,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	public void setWidth(String dValue) {
 		width = dValue;
 	}
-	
+
 	public String getLength() {
 		return length;
 	}
@@ -297,7 +336,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	public void setLength(String dValue) {
 		length = dValue;
 	}
-	
+
 	public String getCount() {
 		return count;
 	}
@@ -387,19 +426,43 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public String printHeight() {
-		return height;
+		try {
+			return Formats.DOUBLE.formatValue(Double.parseDouble(height.replace(",", ".")));
+		} catch(NumberFormatException ex) {
+			return "";
+		} catch(NullPointerException ex) {
+			return "";
+		}
 	}
 
 	public String printCount() {
-		return count;
+		try {
+			return Formats.DOUBLE.formatValue(Double.parseDouble(count.replace(",", ".")));
+		} catch(NumberFormatException ex) {
+			return "";
+		} catch(NullPointerException ex) {
+			return "";
+		}
 	}
-	
+
 	public String printWidth() {
-		return width;
+		try {
+			return Formats.DOUBLE.formatValue(Double.parseDouble(width.replace(",", ".")));
+		} catch(NumberFormatException ex) {
+			return "";
+		} catch(NullPointerException ex) {
+			return "";
+		}
 	}
 
 	public String printLength() {
-		return length;
+		try {
+			return Formats.DOUBLE.formatValue(Double.parseDouble(length.replace(",", ".")));
+		} catch(NumberFormatException ex) {
+			return "";
+		} catch(NullPointerException ex) {
+			return "";
+		}
 	}
 
 	public String printPrice() {

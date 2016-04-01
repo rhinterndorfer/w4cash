@@ -323,14 +323,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	public boolean deactivate() {
 		/*
-		if (this.m_restaurant != null) {
-			try {
-				this.m_restaurant.newTicket();
-			} catch (Exception ex) {
-
-			}
-		}
-		*/
+		 * if (this.m_restaurant != null) { try { this.m_restaurant.newTicket();
+		 * } catch (Exception ex) {
+		 * 
+		 * } }
+		 */
 		return m_ticketsbag.deactivate();
 	}
 
@@ -485,12 +482,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
-	private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice, String count) {
+	private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice, String count, String height, String width, String length) {
 
 		TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
 
 		addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax,
-				(java.util.Properties) (oProduct.getProperties().clone()), issaege));
+				(java.util.Properties) (oProduct.getProperties().clone()), issaege, height, width, length, count));
 	}
 
 	protected void addTicketLine(TicketLineInfo oLine) {
@@ -669,9 +666,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					// iva incluido...
 					TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getDate(),
 							m_oTicket.getCustomer());
-					addTicketLine(oProduct, 1.0, dPriceSell / (1.0 + tax.getRate()), count);
+					addTicketLine(oProduct, 1.0, dPriceSell / (1.0 + tax.getRate()), count, oProduct.getHeight(), oProduct.getWidth(), oProduct.getLength());
 				} else {
-					addTicketLine(oProduct, 1.0, dPriceSell, count);
+					addTicketLine(oProduct, 1.0, dPriceSell, count, oProduct.getHeight(), oProduct.getWidth(), oProduct.getLength());
 				}
 			}
 		} catch (BasicException eData) {
@@ -701,22 +698,35 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private void incProduct(double dPor, ProductInfoExt prod) {
 		double price = 0.0;
-String count = "";
+		String count = "";
+		String height = "";
+		String width = "";
+		String length = "";
 
-		this.issaege = Boolean.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
+		this.issaege = Boolean
+				.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
 		if (prod.getPriceSell() > 0.0 && !issaege) {
 			price = prod.getPriceSell();
+			addTicketLine(prod, dPor, price, count, prod.getHeight(), prod.getWidth(), prod.getLength());
 		} else {
 			// open edit dialog to input price
 			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
 			TicketLineInfo ticketLine = new TicketLineInfo(prod, prod.getPriceSell(), tax,
-					(java.util.Properties) (prod.getProperties().clone()), issaege);
+					(java.util.Properties) (prod.getProperties().clone()), issaege, prod.getHeight(), prod.getWidth(), prod.getLength(), null);
 
 			try {
 				TicketLineInfo newTL = JProductLineEdit.showMessage(this, m_App, ticketLine);
-				price = newTL.getPrice();
-				dPor = newTL.getMultiply();
-				count = newTL.getCount();
+				if (newTL != null) {
+					height = newTL.getHeight();
+					width = newTL.getWidth();
+					length = newTL.getLength();
+					
+					price = newTL.getPrice();
+					dPor = newTL.getMultiply();
+					count = newTL.getCount();
+					
+					addTicketLine(prod, dPor, price, count, height, width, length);
+				}
 			} catch (BasicException e) {
 				e.printStackTrace();
 				price = 0.0;
@@ -727,7 +737,7 @@ String count = "";
 		}
 
 		// precondicion: prod != null
-		addTicketLine(prod, dPor, price, count);
+//		addTicketLine(prod, dPor, price, count);
 	}
 
 	protected void buttonTransition(ProductInfoExt prod) {
