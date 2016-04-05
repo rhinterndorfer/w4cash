@@ -586,8 +586,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				int i = new PreparedSentence(s,
 						"INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, BGCOLOR, STOCKCOST, STOCKVOLUME, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 						new SerializerWriteBasicExt(productsRow.getDatas(),
-								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21 })).exec(params);
-				if (i > 0 && ((Boolean) values[14]).booleanValue()) {
+								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21 })).exec(params);
+				if (i > 0 && ((Boolean) values[15]).booleanValue()) {
 					return new PreparedSentence(s, "INSERT INTO PRODUCTS_CAT (PRODUCT, CATORDER) VALUES (?, ?)",
 							new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0, 16 })).exec(params);
 				} else {
@@ -602,9 +602,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			public int execInTransaction(Object params) throws BasicException {
 				Object[] values = (Object[]) params;
 				int i = new PreparedSentence(s,
-						"UPDATE PRODUCTS SET ID = ?, REFERENCE = ?, CODE = ?, NAME = ?, ISCOM = ?, ISSCALE = ?, PRICEBUY = ?, PRICESELL = ?, CATEGORY = ?, TAXCAT = ?, ATTRIBUTESET_ID = ?, IMAGE = ?, BGCOLOR = ?, STOCKCOST = ?, STOCKVOLUME = ?, ATTRIBUTES = ?, UNIT=?, ATTR1=?, ATTR2=?, ATTR3=? WHERE ID = ?",
+						"UPDATE PRODUCTS SET ID = ?, REFERENCE = ?, CODE = ?, NAME = ?, ISCOM = ?, ISSCALE = ?, "
+						+ "		PRICEBUY = ?, PRICESELL = ?, CATEGORY = ?, TAXCAT = ?, ATTRIBUTESET_ID = ?, IMAGE = ?, BGCOLOR = ?, "
+						+ "		STOCKCOST = ?, STOCKVOLUME = ?, ATTRIBUTES = ?, UNIT=?, ATTR1=?, ATTR2=?, ATTR3=? WHERE ID = ?",
 						new SerializerWriteBasicExt(productsRow.getDatas(),
-								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 0 })).exec(params);
+								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 0 })).exec(params);
 				if (i > 0) {
 					if (((Boolean) values[15]).booleanValue()) {
 						if (new PreparedSentence(s, "UPDATE PRODUCTS_CAT SET CATORDER = ? WHERE PRODUCT = ?",

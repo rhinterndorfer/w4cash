@@ -149,7 +149,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 
 	@Override
 	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
-		int moveColumnIndex = 15;
+		int moveColumnIndex = 16;
 
 		Object value1 = values.get(0)[moveColumnIndex];
 		Object value2 = values.get(1)[moveColumnIndex];
@@ -190,7 +190,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 
 		// move only when sortorder property is set
 		for (Object[] value : values) {
-			Object newValue = value[15];
+			Object newValue = value[16];
 			if (newValue == null) {
 				JConfirmDialog.showError(this.app, this, AppLocal.getIntString("error.information"),
 						AppLocal.getIntString("message.sortorder"));

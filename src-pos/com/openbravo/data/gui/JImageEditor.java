@@ -189,13 +189,21 @@ public class JImageEditor extends javax.swing.JPanel {
 	}
 
 	public void setSelecteBGColor(String color) {
-		String col[] = (color == null ? null : color.toString().split(";"));
+		String col[] = (color == null || color == "" ? new String[] {"0","0","0","0"} : color.toString().split(";"));
 
 		if (col != null) {
 
 			try {
-				this.m_jbtncolor.setBackground(
-						new Color(Integer.parseInt(col[0]), Integer.parseInt(col[1]), Integer.parseInt(col[2])));
+				if(col.length == 1)
+					this.m_jbtncolor.setBackground(null);
+				
+				if(col.length == 3)
+					this.m_jbtncolor.setBackground(
+							new Color(Integer.parseInt(col[0]), Integer.parseInt(col[1]), Integer.parseInt(col[2])));
+				
+				if(col.length == 4)
+					this.m_jbtncolor.setBackground(
+						new Color(Integer.parseInt(col[0]), Integer.parseInt(col[1]), Integer.parseInt(col[2]), Integer.parseInt(col[3])));
 			} catch (NumberFormatException ex) {
 				this.m_jbtncolor.setBackground(null);
 			} catch (NullPointerException ex) {
@@ -207,10 +215,10 @@ public class JImageEditor extends javax.swing.JPanel {
 
 	public String getSelecteBGColor() {
 		Color col = this.m_jbtncolor.getBackground();
-		if (col == null)
+		if (col == null || col.getAlpha() == 0)
 			return null;
-
-		return col.getRed() + ";" + col.getGreen() + ";" + col.getBlue();
+		
+		return col.getRed() + ";" + col.getGreen() + ";" + col.getBlue() + ";" + col.getAlpha();
 	}
 
 	private BufferedImage resizeImage(BufferedImage img) {
