@@ -23,6 +23,7 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -100,7 +101,10 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
         jValues = new javax.swing.JComboBox();
 
         jLabel1.setText("jLabel1");
-
+        jLabel1.setPreferredSize(new Dimension(200, jLabel1.getFont().getSize()+5));
+        
+        
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(

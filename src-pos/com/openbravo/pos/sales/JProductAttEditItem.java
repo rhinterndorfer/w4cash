@@ -84,9 +84,11 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
         jLabel1 = new javax.swing.JLabel();
         jValue = new javax.swing.JTextField();
 
+        
         jLabel1.setText("jLabel1");
+        jLabel1.setPreferredSize(new Dimension(200, jLabel1.getFont().getSize()+5));
         jValue.setFont(jLabel1.getFont());
-        jValue.setPreferredSize(new Dimension(200, jLabel1.getFont().getSize()+5));
+        jValue.setPreferredSize(new Dimension(220, jLabel1.getFont().getSize()+5));
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

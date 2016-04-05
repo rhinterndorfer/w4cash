@@ -137,7 +137,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				});
 
 		attinstSentMisc = new PreparedSentence(s,
-				"SELECT AI.ID, AI.VALUE " + "FROM ATTRIBUTEINSTANCE AI " + "WHERE AI.ATTRIBUTESETINSTANCE_ID = ?",
+				"SELECT AI.ID, AI.VALUE " + "FROM ATTRIBUTEINSTANCE AI " + "WHERE AI.ATTRIBUTE_ID IS NULL AND AI.ATTRIBUTESETINSTANCE_ID = ?",
 				SerializerWriteString.INSTANCE, new SerializerRead() {
 					public Object readValues(DataRead dr) throws BasicException {
 						return new AttributeInstInfo("", "", dr.getString(1), dr.getString(2));
@@ -248,7 +248,6 @@ public class JProductAttEdit extends javax.swing.JDialog {
 	}
 
 	public void scaleFont(int fontSize) {
-
 		if (itemslist != null && itemslist.size() > 0) {
 			double scaleFactor = 1;
 
@@ -258,8 +257,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			}
 
 			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-			int compWidth = (int) ((fontSize + 80) * scaleFactor) + 450;
-			int compHeight = (int) (fontSize * scaleFactor) * itemslist.size() + (int) (fontSize * scaleFactor) + 200;
+			int compWidth = (int) ((fontSize + 110) * scaleFactor) + 450;
+			int compHeight = (int) (fontSize + 15) * itemslist.size() + 250;
 
 			if (compWidth > screenSize.getWidth())
 				compWidth = (int) screenSize.getWidth();
