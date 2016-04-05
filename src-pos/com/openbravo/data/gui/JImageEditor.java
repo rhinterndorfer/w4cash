@@ -211,6 +211,8 @@ public class JImageEditor extends javax.swing.JPanel {
 			}
 		} else
 			this.m_jbtncolor.setBackground(null);
+		
+		
 	}
 
 	public String getSelecteBGColor() {
@@ -379,8 +381,9 @@ public class JImageEditor extends javax.swing.JPanel {
 		});
 		jPanel2.add(m_jbtnopen);
 
-		// m_jbtncolor.setIcon(new
-		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileopen.png")));
+		m_jbtncolor.setIcon(new
+			javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/colorize25.png")));
+		
 		// // NOI18N
 		m_jbtncolor.setBackground(null);
 		m_jbtncolor.addActionListener(new java.awt.event.ActionListener() {
