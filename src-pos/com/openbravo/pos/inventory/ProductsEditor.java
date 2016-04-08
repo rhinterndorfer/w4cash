@@ -292,7 +292,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jstockcost.setEnabled(true);
 		m_jstockvolume.setEnabled(true);
 		m_jInCatalog.setEnabled(true);
-		m_jCatalogOrder.setEnabled(false);
+		m_jCatalogOrder.setEnabled(true);
 		txtAttributes.setEnabled(true);
 
 		calculateMargin();
