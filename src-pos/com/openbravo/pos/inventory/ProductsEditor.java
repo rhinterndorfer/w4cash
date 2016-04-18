@@ -1358,6 +1358,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		gbc_textPane16.gridx = 1;
 		gbc_textPane16.gridy = index;
 		jPanel2.add(m_jScale, gbc_textPane16);
+		jLabel12.setVisible(false); // hide scale label and checkbox
+		m_jScale.setVisible(false);
 		index++;
 
 		GridBagConstraints gbc_space = new GridBagConstraints();
