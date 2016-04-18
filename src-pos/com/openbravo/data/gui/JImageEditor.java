@@ -155,10 +155,11 @@ public class JImageEditor extends javax.swing.JPanel {
 	}
 
 	private void doColor() {
+		String oldColor = getSelecteBGColor();
 		m_jbtncolor
 				.setBackground(JColorChooser.showDialog(m_jbtncolor, "Farbe auswaehlen", m_jbtncolor.getBackground()));
 		this.setBackground(m_jbtncolor.getBackground());
-
+		firePropertyChange("background", oldColor, getSelecteBGColor());
 	}
 
 	public void doLoad() {
@@ -191,6 +192,7 @@ public class JImageEditor extends javax.swing.JPanel {
 	public void setSelecteBGColor(String color) {
 		String col[] = (color == null || color == "" ? new String[] {"0","0","0","0"} : color.toString().split(";"));
 
+		String oldColor = getSelecteBGColor();
 		if (col != null) {
 
 			try {

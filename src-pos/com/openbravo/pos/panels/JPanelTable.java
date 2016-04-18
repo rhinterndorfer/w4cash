@@ -162,7 +162,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	public void activate() throws BasicException {
 		startNavigation();
 		bd.actionLoad();
-
+		
 		// initial sort by first column in sort index
 		if (getComparatorCreator() != null) {
 			try {

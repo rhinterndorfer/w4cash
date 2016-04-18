@@ -20,6 +20,8 @@
 package com.openbravo.pos.inventory;
 
 import java.awt.Component;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -65,6 +67,69 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 		// el panel del filtro
 		jproductfilter = new ProductFilter(app);
 		jproductfilter.init(app);
+		jproductfilter.addPropertyChangeListener("barcode", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (bd != null) {
+					try {
+						bd.actionLoad();
+					} catch (Exception ex) {
+					}
+				}
+			}
+		});
+		jproductfilter.addPropertyChangeListener("name", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (bd != null) {
+					try {
+						bd.actionLoad();
+					} catch (Exception ex) {
+					}
+				}
+			}
+		});
+		jproductfilter.addPropertyChangeListener("category", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (bd != null) {
+					try {
+						bd.actionLoad();
+					} catch (Exception ex) {
+					}
+				}
+			}
+		});
+		jproductfilter.addPropertyChangeListener("pricesell", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (bd != null) {
+					try {
+						bd.actionLoad();
+					} catch (Exception ex) {
+					}
+				}
+			}
+		});
+		jproductfilter.addPropertyChangeListener("pricebuy", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (bd != null) {
+					try {
+						bd.actionLoad();
+					} catch (Exception ex) {
+					}
+				}
+			}
+		});
+
+
+
 
 		row = m_dlSales.getProductsRow();
 
@@ -75,6 +140,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 
 		// el panel del editor
 		jeditor = new ProductsEditor(app, m_dlSales, dirty);
+
 	}
 
 	@Override

@@ -255,6 +255,15 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return new StaticSentence(s, "SELECT ID, NAME, IMAGE, BGCOLOR, SORTORDER, PRINTER FROM CATEGORIES ORDER BY SORTORDER",
 				null, CategoryInfo.getSerializerRead());
 	}
+	
+	
+	public final SentenceList getCategoriesListSortedByName() {
+		// return new StaticSentence(s, "SELECT ID, NAME, IMAGE, SORTORDER FROM
+		// CATEGORIES ORDER BY NAME", null,
+		// CategoryInfo.getSerializerRead());
+		return new StaticSentence(s, "SELECT ID, NAME, IMAGE, BGCOLOR, SORTORDER, PRINTER FROM CATEGORIES ORDER BY NAME",
+				null, CategoryInfo.getSerializerRead());
+	}
 
 	public final SentenceList getTaxCustCategoriesList() {
 		return new StaticSentence(s, "SELECT ID, NAME FROM TAXCUSTCATEGORIES ORDER BY NAME", null,

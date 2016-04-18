@@ -95,7 +95,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		taxsent = dlSales.getTaxList();
 
 		// The categories model
-		m_sentcat = dlSales.getCategoriesList();
+		m_sentcat = dlSales.getCategoriesListSortedByName();
 		m_CategoryModel = new ComboBoxValModel();
 
 		// The taxes model

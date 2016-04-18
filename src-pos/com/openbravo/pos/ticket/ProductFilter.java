@@ -31,6 +31,10 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -47,6 +51,8 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.SerializerWriteBasic;
+import com.openbravo.data.user.BrowsableData;
+import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.reports.ReportEditorCreator;
 import com.openbravo.pos.util.PropertyUtil;
@@ -56,6 +62,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 	private SentenceList m_sentcat;
 	private ComboBoxValModel m_CategoryModel;
 	private AppView m_App;
+	private BrowsableEditableData m_bd;
 
 	/** Creates new form JQBFProduct */
 	public ProductFilter(AppView app) {
@@ -65,12 +72,17 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		ScaleButtons();
 	}
 
+	public void setBrowsableData(BrowsableEditableData bd)
+	{
+		m_bd = bd;
+	}
+	
 	public void init(AppView app) {
 
 		DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 
 		// El modelo de categorias
-		m_sentcat = dlSales.getCategoriesList();
+		m_sentcat = dlSales.getCategoriesListSortedByName();
 		m_CategoryModel = new ComboBoxValModel();
 
 		m_jCboName.setModel(ListQBFModelNumber.getMandatoryString());
@@ -84,6 +96,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		List catlist = m_sentcat.list();
 		catlist.add(0, null);
+		
 		m_CategoryModel = new ComboBoxValModel(catlist);
 		m_jCategory.setModel(m_CategoryModel);
 	}
@@ -108,9 +121,15 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 					m_CategoryModel.getSelectedKey(), QBFCompareEnum.COMP_NONE, null, null };
 		} else {
 			// Filtro por codigo de barras.
+			String barcode =  m_jBarcode.getText().trim();
+			if(barcode.startsWith("*"))
+			{
+				barcode = barcode.substring(1);
+			}
+			
 			return new Object[] { QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_NONE, null,
 					QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_RE,
-					"%" + m_jBarcode.getText() + "%" };
+					barcode };
 		}
 	}
 
@@ -144,9 +163,7 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jPanelFilter.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		
-		jPanel2.setLayout(new GridBagLayout());
-		jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.bybarcode"))); // NOI18N
-
+		
 		jToggleFilter.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -170,7 +187,11 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		});
 		jPanelFilter.add(jToggleFilter, BorderLayout.CENTER);
 		
-		
+
+		jPanel2.setLayout(new GridBagLayout());
+		//jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+				// javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.bybarcode"))); // NOI18N
+
 		
 		jLabel5.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
 		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
@@ -188,6 +209,28 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
 		jPanel2.add(m_jBarcode, gbc_textPane);
+		m_jBarcode.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					firePropertyChange("barcode", null, m_jBarcode.getText());
+					m_jBarcode.selectAll();
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});;
 
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
@@ -198,7 +241,8 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		jPanel2.add(space1, gbc_space1);
 
 		jPanel1.setLayout(new GridBagLayout());
-		jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.byform"))); // NOI18N
+		//jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		//jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.byform"))); // NOI18N
 
 		jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
 		GridBagConstraints gbc_lbl5 = new GridBagConstraints();
@@ -225,7 +269,28 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		gbc_txt1.gridx = 2;
 		gbc_txt1.gridy = 0;
 		jPanel1.add(m_jName, gbc_txt1);
-
+		m_jName.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					firePropertyChange("name", null, m_jName.getText());
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		JLabel space2 = new JLabel("");
 		GridBagConstraints gbc_space2 = new GridBagConstraints();
 		gbc_space2.insets = new Insets(10, 5, 0, 0);
@@ -259,6 +324,30 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		gbc_txt2.gridx = 2;
 		gbc_txt2.gridy = 1;
 		jPanel1.add(m_jPriceBuy, gbc_txt2);
+		m_jPriceBuy.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					firePropertyChange("pricebuy", null, m_jPriceBuy.getText());
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		
 
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_space3 = new GridBagConstraints();
@@ -284,7 +373,9 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		gbc_cmb3.gridx = 1;
 		gbc_cmb3.gridy = 2;
 		jPanel1.add(m_jCboPriceSell, gbc_cmb3);
-
+		
+		
+		
 		GridBagConstraints gbc_txt3 = new GridBagConstraints();
 		gbc_txt3.gridwidth = 1;
 		gbc_txt3.fill = GridBagConstraints.HORIZONTAL;
@@ -293,7 +384,29 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		gbc_txt3.gridx = 2;
 		gbc_txt3.gridy = 2;
 		jPanel1.add(m_jPriceSell, gbc_txt3);
-
+		m_jPriceSell.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+				{
+					firePropertyChange("pricesell", null, m_jPriceSell.getText());
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 		JLabel space4 = new JLabel("");
 		GridBagConstraints gbc_space4 = new GridBagConstraints();
 		gbc_space4.insets = new Insets(5, 5, 0, 0);
@@ -318,7 +431,16 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		gbc_txt5.gridx = 1;
 		gbc_txt5.gridy = 3;
 		jPanel1.add(m_jCategory, gbc_txt5);
-
+		m_jCategory.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				firePropertyChange("category", null, m_jCategory.getSelectedItem());
+			}
+		});
+		
+		
 		JLabel space6 = new JLabel("");
 		GridBagConstraints gbc_space6 = new GridBagConstraints();
 		gbc_space6.insets = new Insets(5, 5, 10, 0);
@@ -357,8 +479,8 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 	@Override
 	public void ScaleButtons() {
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel2.getBorder(), "common-filter-fontsize", "24");
-		PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel1.getBorder(), "common-filter-fontsize", "24");
+		//PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel2.getBorder(), "common-filter-fontsize", "24");
+		//PropertyUtil.ScaleBorderFontsize(m_App, (TitledBorder) jPanel1.getBorder(), "common-filter-fontsize", "24");
 
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-filter-fontsize", "24");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-filter-fontsize", "24");

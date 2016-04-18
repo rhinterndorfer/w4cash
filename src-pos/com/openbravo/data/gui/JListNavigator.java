@@ -110,7 +110,7 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
 
 		setLayout(new java.awt.BorderLayout());
 
-		setPreferredSize(new java.awt.Dimension(200, 2));
+		setPreferredSize(new java.awt.Dimension(300, 2));
 		m_jlist.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		m_jlist.setFocusable(false);
 		m_jlist.setRequestFocusEnabled(false);
