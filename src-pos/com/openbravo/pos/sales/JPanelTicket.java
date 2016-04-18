@@ -1737,7 +1737,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				m_jNumberKeysKeyPerformed(evt);
 			}
 		});
-		m_jPanEntries.add(m_jNumberKeys);
+		
 
 		jPanel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		jPanel9.setLayout(new java.awt.GridBagLayout());
@@ -1835,6 +1835,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// jPanel9.add(m_jaddtax, gridBagConstraints);
 
 		m_jPanEntries.add(jPanel9);
+		m_jPanEntries.add(m_jNumberKeys);
 
 		m_jKeyFactory.setBackground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
 		m_jKeyFactory.setForeground(javax.swing.UIManager.getDefaults().getColor("Panel.background"));
