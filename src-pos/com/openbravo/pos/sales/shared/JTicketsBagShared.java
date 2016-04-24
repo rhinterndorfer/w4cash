@@ -143,7 +143,7 @@ public class JTicketsBagShared extends JTicketsBag {
 	private void selectValidTicket() {
 
 		try {
-			List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
+			List<SharedTicketInfo> l = dlReceipts.getSharedTicketListNoPlace();
 			if (l.size() == 0) {
 				newTicket();
 			} else {
@@ -272,7 +272,7 @@ public class JTicketsBagShared extends JTicketsBag {
 			public void run() {
 
 				try {
-					List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
+					List<SharedTicketInfo> l = dlReceipts.getSharedTicketListNoPlace();
 
 					JTicketsBagSharedList listDialog = JTicketsBagSharedList.newJDialog(m_App, JTicketsBagShared.this);
 					String id = listDialog.showTicketsList(l);
