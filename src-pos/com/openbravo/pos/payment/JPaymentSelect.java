@@ -140,7 +140,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	}
 
 	protected void setAddEnabled(boolean value) {
-		m_jButtonAdd.setEnabled(value);
+		// m_jButtonAdd.setEnabled(value);
 	}
 
 	protected void addTabPayment(JPaymentCreator jpay) {
@@ -355,7 +355,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	private void printState() {
 
 		m_jRemaininglEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal - m_aPaymentInfo.getTotal())));
-		m_jButtonRemove.setEnabled(!m_aPaymentInfo.isEmpty());
+		//m_jButtonRemove.setEnabled(!m_aPaymentInfo.isEmpty());
 		m_jTabPayment.setSelectedIndex(0); // selecciono el primero
 		((JPaymentInterface) m_jTabPayment.getSelectedComponent()).activate(customerext,
 				m_dTotal - m_aPaymentInfo.getTotal(), m_sTransactionID);
@@ -395,8 +395,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		jPanel6 = new javax.swing.JPanel();
 		m_jLblRemainingEuros = new javax.swing.JLabel();
 		m_jRemaininglEuros = new javax.swing.JLabel();
-		m_jButtonAdd = new javax.swing.JButton();
-		m_jButtonRemove = new javax.swing.JButton();
+		// m_jButtonAdd = new javax.swing.JButton();
+		// m_jButtonRemove = new javax.swing.JButton();
 		jPanel3 = new javax.swing.JPanel();
 		m_jTabPayment = new javax.swing.JTabbedPane();
 		jPanel5 = new javax.swing.JPanel();
@@ -443,6 +443,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		m_jRemaininglEuros.setRequestFocusEnabled(false);
 		jPanel6.add(m_jRemaininglEuros);
 
+		/*
 		m_jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnplus.png"))); // NOI18N
 		m_jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -450,7 +451,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 			}
 		});
 		jPanel6.add(m_jButtonAdd);
-
+		*/
+		/*
 		m_jButtonRemove
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnminus.png"))); // NOI18N
 		m_jButtonRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -459,6 +461,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 			}
 		});
 		jPanel6.add(m_jButtonRemove);
+		*/
 
 		jPanel4.add(jPanel6);
 
@@ -580,11 +583,11 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
 	private javax.swing.JPanel jPanel6;
-	private javax.swing.JButton m_jButtonAdd;
+	//private javax.swing.JButton m_jButtonAdd;
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
 	private javax.swing.JToggleButton m_jButtonPrint;
-	private javax.swing.JButton m_jButtonRemove;
+	//private javax.swing.JButton m_jButtonRemove;
 	private javax.swing.JLabel m_jLblRemainingEuros;
 	private javax.swing.JLabel m_jLblTotalEuros1;
 	private javax.swing.JLabel m_jRemaininglEuros;
@@ -607,8 +610,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 		
-		PropertyUtil.ScaleButtonIcon(m_jButtonAdd, blwidth, blheight, fontsize);
-		PropertyUtil.ScaleButtonIcon(m_jButtonRemove, blwidth, blheight, fontsize);
+		//PropertyUtil.ScaleButtonIcon(m_jButtonAdd, blwidth, blheight, fontsize);
+		//PropertyUtil.ScaleButtonIcon(m_jButtonRemove, blwidth, blheight, fontsize);
 		
 		int btnWidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));

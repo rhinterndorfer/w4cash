@@ -57,6 +57,7 @@ import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
+import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.ticket.ProductInfoEdit;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
@@ -1120,8 +1121,21 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									if (bonsize.length > 2)
 										ticketsuffix = "." + bonsize[2];
 									// Print receipt.
-									printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
+									
+									int printMultiplier = 1;
+									for(PaymentInfo pi : ticket.getPayments())
+									{
+										if(pi.getName().equals("paperin") || pi.getName().equals("paperout"))
+										{
+											printMultiplier = 2;
+										}
+									}
+									
+									for(int i=1; i <= printMultiplier; i++)
+									{
+										printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
 											: "Printer.Ticket2", ticket, ticketext);
+									}
 								} catch (Exception eData) {
 									JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 											AppLocal.getIntString("message.cannotprintticket"), eData);
