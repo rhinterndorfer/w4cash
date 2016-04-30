@@ -34,6 +34,7 @@ public class PreparedSentence extends JDBCSentence {
     private String m_sentence;
     protected SerializerWrite m_SerWrite = null;
     protected SerializerRead m_SerRead = null;
+    public Boolean noExceptionLogging = false;
     
     // Estado
     private PreparedStatement m_Stmt;
@@ -124,6 +125,7 @@ public class PreparedSentence extends JDBCSentence {
         }
     } 
     
+    
     public DataResultSet openExec(Object params) throws BasicException {
         // true -> un resultset
         // false -> un updatecount (si -1 entonces se acabo)
@@ -153,8 +155,11 @@ public class PreparedSentence extends JDBCSentence {
                 }
             }
         } catch (SQLException eSQL) {
-        	logger.severe("Error executing prepared SQL: " + m_sentence);
-        	logger.severe(eSQL.getMessage());
+        	if(!noExceptionLogging)
+        	{
+        		logger.severe("Error executing prepared SQL: " + m_sentence);
+        		logger.severe(eSQL.getMessage());
+        	}
             throw new BasicException(eSQL);
         }
     }

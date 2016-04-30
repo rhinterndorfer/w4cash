@@ -24,4 +24,5 @@
     <class name="Menu.ChangePassword"/>
     <class name="button.print"/>
     <class name="button.discountpercent" />
+    <class name="button.note" />
 </permissions>

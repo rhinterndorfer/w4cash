@@ -328,8 +328,10 @@ public class JRootApp extends JPanel implements AppView {
 				if (openNew) {
 					String id = UUID.randomUUID().toString();
 					Date start = new Date();
+					String location = m_propsdb.getProperty("location");
+					
 					// open new cash session
-					m_dlSystem.execInsertCash(new Object[] { id, host, start, null });
+					m_dlSystem.execInsertCash(new Object[] { id, host, start, null, location });
 
 					valcash = m_dlSystem.findActiveCashHost(host); // necessary to get current cash sequence
 					m_sActiveCashIndex = id;

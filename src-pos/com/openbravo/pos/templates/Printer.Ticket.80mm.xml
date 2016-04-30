@@ -11,10 +11,8 @@
         </line>
     </display>
     <ticket>
+		<image>Printer.Ticket.Logo</image>
         <line></line>
-        <line size="3">
-            <text align="center" length="28" bold="true">DEMOBETRIEB</text>
-        </line>
         #if ($SystemDataAddresLine1 != "")
         <line>
             <text align="center" length="44" bold="true">${SystemDataAddresLine1}</text>
@@ -56,6 +54,12 @@
             <text align="left" length="22">Datum:</text>
             <text align="left" length="22">${ticket.printDate()}</text>
         </line>  
+        #if ($place != "")
+        <line>
+            <text align="left" length="22">Tisch:</text>
+            <text align="left" length="22">${place}</text>
+        </line>  
+        #end
          #if ($ticket.getCustomer())
         <line>
             <text align="left" length="44">Kunde:</text>
@@ -70,23 +74,29 @@
         </line>  
         #end
         #end
+        #if ($ticket.getCustomer().getAddress())
         <line>
             <text align="left" length="44">${ticket.getCustomer().getAddress()}</text>
         </line>  
+        #end
 	#if ($ticket.getCustomer().getAddress2())
         <line>
             <text align="left" length="44">${ticket.getCustomer().getAddress2()}</text>
         </line>  
         #end
+        #if ($ticket.getCustomer().getPostal())
+        #if ($ticket.getCustomer().getCity())
         <line>
             <text align="left" length="44">${ticket.getCustomer().getPostal()} ${ticket.getCustomer().getCity()}</text>
         </line>  
+        #end
+        #end
         <line></line>
         #end
-        #if ($place != "")
+        #if ($ticket.getProperty("notes","") != "")
         <line>
-            <text align="left" length="22">Tisch:</text>
-            <text align="left" length="22">${place}</text>
+            <text align="left" length="7">Notiz:</text>
+            <text align="left" length="37">${ticket.getProperty("notes")}</text>
         </line>  
         #end
         <line></line>    
@@ -135,9 +145,8 @@
             <text align ="right" length="24">${ticket.printArticlesCount()}</text>
         </line> 
         <line></line> 
-	#foreach ($taxinfo in $taxes)  
-	#set( $taxline = $ticket.getTaxLine($taxinfo))
-	#if($taxline.getTax() != 0)
+	#if ($ticket.getTaxes())
+	#foreach ($taxline in $ticket.getTaxes())  
 	<line>  
             #if (${taxline.getTaxInfo()} == "0%")
                <text align ="left" length="2">A</text>
@@ -169,12 +178,11 @@
         <line></line> 
         <line size="1">
             <text align ="left" length="19" bold="true">Gesamt</text>
-            <text align ="right" length="18" bold="true">${ticket.printTotal()}</text>
+            <text align ="right" length="15" bold="true">${ticket.printTotal()}</text>
         </line>    
         #foreach ($paymentline in $ticket.payments)      
 		 #if ($paymentline.getClass().getSimpleName() == "PaymentInfoCash")
          #if ($paymentline.name == "cash")
-        <line></line>     
         <line>
             <text bold="true">Bar</text>
         </line>  
@@ -191,7 +199,7 @@
          #if ($paymentline.name == "cashrefund")
         <line></line>     
         <line>
-            <text bold="true">Rückzahlung</text>
+            <text bold="true">Gutschrift</text>
          </line>
         <line>
             <text align ="right" length="44">${paymentline.printTotal()}</text>
@@ -209,7 +217,7 @@
          #if ($paymentline.name == "magcardrefund")
         <line></line>     
         <line>
-            <text bold="true">Karte Rückzahlung</text>
+            <text bold="true">Karte Gutschrift</text>
         </line>    
         <line>
             <text align ="right" length="44">${paymentline.printTotal()}</text>
@@ -227,7 +235,7 @@
          #if ($paymentline.name == "chequerefund")
         <line></line>     
         <line>
-            <text bold="true">Scheck Rückerstattung</text>
+            <text bold="true">Scheck Gutschrift</text>
         </line>    
         <line>
             <text align ="right" length="44">${paymentline.printTotal()}</text>
@@ -245,7 +253,7 @@
          #if ($paymentline.name == "paperout")
         <line></line>     
         <line>
-            <text bold="true">Gutschrift</text>
+            <text bold="true">Rechnung Gutschrift</text>
         </line>    
         <line>
             <text align ="right" length="44">${paymentline.printTotal()}</text>

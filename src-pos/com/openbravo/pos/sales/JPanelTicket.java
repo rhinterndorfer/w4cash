@@ -708,6 +708,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
 		if (prod.getPriceSell() > 0.0 && !issaege) {
 			price = prod.getPriceSell();
+			
+			String amountEqualsPrice = prod.getProperty("AmountEqualsPrice", "False");
+			if("True".equals(amountEqualsPrice))
+			{
+				TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
+				double pricetax = prod.getPriceSellTax(tax);
+				dPor = dPor / pricetax;
+			}
 			addTicketLine(prod, dPor, price, count, prod.getHeight(), prod.getWidth(), prod.getLength());
 		} else {
 			// open edit dialog to input price

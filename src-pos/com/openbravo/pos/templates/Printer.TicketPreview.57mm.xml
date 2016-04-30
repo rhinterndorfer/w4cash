@@ -11,31 +11,33 @@
         </line>
     </display>
     <ticket>
+		<image>Printer.Ticket.Logo</image>
+    	<line></line>
         #if ($SystemDataAddresLine1 != "")
         <line>
             <text align="center" length="30" bold="true">${SystemDataAddresLine1}</text>
         </line>
         #end
-	#if ($SystemDataAddresLine2 != "")
-	<line>
+        #if ($SystemDataAddresLine2 != "")
+        <line>
             <text align="center" length="30" bold="true">${SystemDataAddresLine2}</text>
         </line>
         #end
-	#if ($SystemDataStreet != "")
+        #if ($SystemDataStreet != "")
         <line>
             <text align="center" length="30" bold="true">${SystemDataStreet}</text>
         </line>
-	#end
-	#if ($SystemDataCity != "")
-	<line>
+        #end
+        #if ($SystemDataCity != "")
+        <line>
             <text align="center" length="30" bold="true">${SystemDataCity}</text>
         </line>
-	#end
-	#if ($SystemDataTaxid != "")
-	<line>
+        #end
+        #if ($SystemDataTaxid != "")
+        <line>
             <text align="center" length="30" bold="true">${SystemDataTaxid}</text>
         </line>
-	#end
+        #end
         <line></line>
         #if ($ticket.printId() == "")
 		<line>
@@ -51,39 +53,51 @@
         <line>
             <text align="left" length="10">Datum:</text>
             <text align="left" length="20">${ticket.printDate()}</text>
+        </line>
+        #if ($place != "")
+        <line>
+            <text align="left" length="10">Tisch:</text>
+            <text align="left" length="20">${place}</text>
         </line>  
-         #if ($ticket.getCustomer())
+        #end
+        #if ($ticket.getCustomer())
         <line>
             <text align="left" length="30">Kunde:</text>
         </line>      
         <line>
             <text align="left" length="30">${ticket.getCustomer().printName()}</text>
         </line>  
-	#if ($ticket.getCustomer().getLastname())
-	#if ($ticket.getCustomer().getFirstname())
+        #if ($ticket.getCustomer().getLastname())
+        #if ($ticket.getCustomer().getFirstname())
         <line>
             <text align="left" length="30">${ticket.getCustomer().getLastname()} ${ticket.getCustomer().getFirstname()}</text>
         </line>  
         #end
         #end
+        #if ($ticket.getCustomer().getAddress())
         <line>
             <text align="left" length="30">${ticket.getCustomer().getAddress()}</text>
         </line>  
-	#if ($ticket.getCustomer().getAddress2())
+        #end
+		#if ($ticket.getCustomer().getAddress2())
         <line>
             <text align="left" length="30">${ticket.getCustomer().getAddress2()}</text>
         </line>  
         #end
+        #if ($ticket.getCustomer().getPostal())
+        #if ($ticket.getCustomer().getCity())
         <line>
             <text align="left" length="30">${ticket.getCustomer().getPostal()} ${ticket.getCustomer().getCity()}</text>
         </line>  
+        #end
+        #end
         <line></line>
         #end
-        #if ($place != "")
+        #if ($ticket.getProperty("notes","") != "")
         <line>
-            <text align="left" length="10">Tisch:</text>
-            <text align="left" length="20">${place}</text>
-        </line>  
+            <text align="left" length="7">Notiz:</text>
+            <text align="left" length="23">${ticket.getProperty("notes")}</text>
+        </line>
         #end
         <line></line>    
         <line>
@@ -131,9 +145,8 @@
             <text align ="right" length="9">${ticket.printArticlesCount()}</text>
         </line> 
         <line></line> 
-	#foreach ($taxinfo in $taxes)  
-	#set( $taxline = $ticket.getTaxLine($taxinfo))
-	#if($taxline.getTax() != 0)
+	#if ($ticket.getTaxes())
+	#foreach ($taxline in $ticket.getTaxes())  
 	<line>  
             #if (${taxline.getTaxInfo()} == "0%")
                <text align ="left" length="2">A</text>
@@ -147,12 +160,12 @@
             #if (${taxline.getTaxInfo()} == "20%")
                <text align ="left" length="2">D</text>
             #end
-	<text align ="left" length="8">${taxline.getTaxInfo()}</text>  
-	<text align ="right" length="10">${taxline.printSubTotal()}</text> 
-	<text align ="right" length="10">${taxline.printTax()}</text> 
+            <text align ="left" length="8">${taxline.getTaxInfo()}</text>  
+            <text align ="right" length="10">${taxline.printSubTotal()}</text> 
+            <text align ="right" length="10">${taxline.printTax()}</text> 
 	</line>  
-	#end
-	#end 
+    #end 
+    #end
 	<line></line> 
         <line>
             <text align ="left" length="10">Netto</text>
@@ -186,7 +199,7 @@
          #if ($paymentline.name == "cashrefund")
         <line></line>     
         <line>
-            <text bold="true">R�ckzahlung</text>
+            <text bold="true">Gutschrift</text>
          </line>
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>
@@ -204,7 +217,7 @@
          #if ($paymentline.name == "magcardrefund")
         <line></line>     
         <line>
-            <text bold="true">Karte R�ckzahlung</text>
+            <text bold="true">Karte Gutschrift</text>
         </line>    
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>
@@ -222,7 +235,7 @@
          #if ($paymentline.name == "chequerefund")
         <line></line>     
         <line>
-            <text bold="true">Scheck R�ckerstattung</text>
+            <text bold="true">Scheck Gutschrift</text>
         </line>    
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>
@@ -240,7 +253,7 @@
          #if ($paymentline.name == "paperout")
         <line></line>     
         <line>
-            <text bold="true">Gutschrift</text>
+            <text bold="true">Rechnung Gutschrift</text>
         </line>    
         <line>
             <text align ="right" length="30">${paymentline.printTotal()}</text>

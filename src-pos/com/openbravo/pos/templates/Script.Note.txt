@@ -1,0 +1,11 @@
+import com.openbravo.format.Formats;
+import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.ticket.TicketProductInfo;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+value = javax.swing.JOptionPane.showInputDialog("Notiz", ticket.getProperty("notes")); 
+if(value != null)
+{
+	ticket.setProperty("notes", value);
+} 

@@ -76,6 +76,9 @@ import javafx.scene.layout.BorderStrokeStyle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -320,7 +323,8 @@ public class JTicketLines extends javax.swing.JPanel {
 					{
 						if(sb.length() > 0)
 							sb.append('\n');
-						sb.append(line.trim());
+						
+						sb.append(StringEscapeUtils.unescapeXml(line.trim()));
 					}
 				}
 				
