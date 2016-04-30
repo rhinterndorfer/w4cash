@@ -47,7 +47,7 @@
         #else
         <line>
             <text align="left" length="22">Bon:</text>
-            <text align="left" length="22">DEMOBETRIEB</text>
+            <text align="left" length="22">${ticket.printId()}</text>
         </line>
         #end
         <line>
