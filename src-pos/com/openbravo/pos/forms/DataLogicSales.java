@@ -322,6 +322,14 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(id);
 	}
 
+	public CustomerInfoExt loadCustomerExtBySearchKey(String searchkey) throws BasicException {
+		return (CustomerInfoExt) new PreparedSentence(s,
+				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
+						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY" + " FROM CUSTOMERS WHERE SEARCHKEY = ?",
+				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(searchkey);
+	}
+	
 	public final boolean isCashActive(String id) throws BasicException {
 
 		return new PreparedSentence(s, "SELECT MONEY FROM CLOSEDCASH WHERE DATEEND IS NULL AND MONEY = ?",

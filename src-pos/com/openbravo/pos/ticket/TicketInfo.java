@@ -449,6 +449,10 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printUser() {
         return m_User == null ? "" : m_User.getName();
     }
+    
+    public Boolean hideUser() {
+        return m_User == null ? true : m_User.getName().endsWith("$");
+    }
 
     public String printCustomer() {
         return m_Customer == null ? "" : m_Customer.getName();

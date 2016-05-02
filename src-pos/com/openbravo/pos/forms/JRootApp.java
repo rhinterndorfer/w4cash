@@ -502,6 +502,7 @@ public class JRootApp extends JPanel implements AppView {
 			jScrollPane1.getViewport().setView(null);
 
 			JFlowPanel jPeople = new JFlowPanel();
+			//jPeople.setMinimumSize(new Dimension(510,118));
 			jPeople.applyComponentOrientation(getComponentOrientation());
 
 			java.util.List people = m_dlSystem.listPeopleVisible();
@@ -737,7 +738,7 @@ public class JRootApp extends JPanel implements AppView {
 
 		jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		jScrollPane1.setPreferredSize(new java.awt.Dimension(510, 118));
+		jScrollPane1.setPreferredSize(new java.awt.Dimension(510, 236));
 		m_jLogonName.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
 		jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));

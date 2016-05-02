@@ -91,7 +91,6 @@
         </line>  
         #end
         #end
-        <line></line>
         #end
         #if ($ticket.getProperty("notes","") != "")
         <line>
@@ -140,11 +139,6 @@
         <line>
              <text>------------------------------</text>
         </line>   
-        <line>
-            <text align ="left" length="10">Menge: </text>
-            <text align ="right" length="9">${ticket.printArticlesCount()}</text>
-        </line> 
-        <line></line> 
 	#if ($ticket.getTaxes())
 	#foreach ($taxline in $ticket.getTaxes())  
 	<line>  
@@ -166,7 +160,6 @@
 	</line>  
     #end 
     #end
-	<line></line> 
         <line>
             <text align ="left" length="10">Netto</text>
             <text align ="right" length="20">${ticket.printSubTotal()}</text>
@@ -278,10 +271,12 @@
         </line>    
          #end 
          #end 
+        #if(!$ticket.hideUser())
         <line>
             <text align="left" length="10">Kassier:</text>
             <text align="right" length="20">${ticket.printUser()}</text>
         </line> 
+        #end
 		<line></line>
 		#if ($SystemDataThanks != "")
         <line>

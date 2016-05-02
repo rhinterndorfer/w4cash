@@ -45,6 +45,7 @@ import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.pos.customers.CustomerInfo;
+import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
@@ -595,7 +596,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("ticket", inf);
 					script.put("place",
-							ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
+							ticketext != null && ticketext.getClass().equals(String.class) && !ticketext.toString().endsWith("$") 
+							? ticketext.toString() : "");
 					script.put("printer", "" + key);
 					script.put("printername", "Drucker " + key);
 					m_TTP.printTicket(script.eval(sresource).toString());
@@ -903,6 +905,16 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 								// was
 								// empty.
 							}
+							
+							// try get customer by name
+							try {
+								CustomerInfoExt c = dlSales.loadCustomerExtBySearchKey(m_place.getSName()); 
+								if(c != null)
+									ticket.setCustomer(c);
+							} catch (BasicException e) {
+							}
+
+							
 							m_place.setPeople(true);
 							setActivePlace(m_place, ticket);
 
