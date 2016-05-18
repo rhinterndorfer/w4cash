@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2015-12-20T16:32:26 -->
+<!-- 2016-05-18T21:56:23 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="journal" pageWidth="1340" pageHeight="705" orientation="Landscape" columnWidth="1320" leftMargin="10" rightMargin="10" topMargin="0" bottomMargin="0" resourceBundle="journal_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -75,7 +75,7 @@ select
 		cc.HOSTSEQUENCE as ClosedCashSequence, 
 		cc.DATESTART as ClosedCashStart, 
 		cc.DATEEND as ClosedCashEnd,
-		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' when PAYMENT='paperin' then 'Rechnung' else PAYMENT end as Payment,
+		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' when PAYMENT='magcard' then 'Karte' when PAYMENT='magcardrefund' then 'Karte' when PAYMENT='paperin' then 'Rechnung' when PAYMENT='paperout' then 'Rechnung' else PAYMENT end as Payment,
 		Total
 	from 
 	CLOSEDCASH cc

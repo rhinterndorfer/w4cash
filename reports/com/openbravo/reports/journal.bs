@@ -77,7 +77,7 @@ report.setSentence("select " +
 "		cc.HOSTSEQUENCE as ClosedCashSequence, " +
 "		cc.DATESTART as ClosedCashStart, " +
 "		cc.DATEEND as ClosedCashEnd, " +
-"		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' when PAYMENT='paperin' then 'Rechnung' else PAYMENT end as Payment, " +
+"		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' when PAYMENT='magcard' then 'Karte' when PAYMENT='magcardrefund' then 'Karte' when PAYMENT='paperin' then 'Rechnung' when PAYMENT='paperout' then 'Rechnung' else PAYMENT end as Payment, " +
 "		Total " +
 "	from " +
 "	CLOSEDCASH cc " +

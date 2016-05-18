@@ -34,6 +34,9 @@
     <class name="payment.free"/>
     <class name="payment.paper"/>
     <class name="refund.cash"/>
+    <class name="refund.magcard"/>
+    <class name="refund.paper"/>
+    <class name="refund.free"/>
     <class name="Menu.ChangePassword"/>
     <class name="button.print"/>
     <class name="button.discountpercent" />

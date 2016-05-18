@@ -70,6 +70,11 @@
         </line>  
         #end
         #end
+        #if ($ticket.getCustomer().getTaxid())
+        <line>
+            <text align="left" length="105">${ticket.getCustomer().getTaxid()}</text>
+        </line>
+        #end
         <line></line>
         <line></line>
         #end

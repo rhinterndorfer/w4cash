@@ -91,6 +91,11 @@
         </line>  
         #end
         #end
+        #if ($ticket.getCustomer().getTaxid())
+        <line>
+            <text align="left" length="44">${ticket.getCustomer().getTaxid()}</text>
+        </line>
+        #end
         #end
         #if ($ticket.getProperty("notes","") != "")
         <line>

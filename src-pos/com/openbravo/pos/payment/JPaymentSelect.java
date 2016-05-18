@@ -314,7 +314,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public class JPaymentPaperRefundCreator implements JPaymentCreator {
 		public JPaymentInterface createJPayment() {
-			return new JPaymentRefund(m_App, JPaymentSelect.this, "paperout");
+			return new JPaymentPaper(m_App, JPaymentSelect.this, "paperout");
 		}
 
 		public String getKey() {
