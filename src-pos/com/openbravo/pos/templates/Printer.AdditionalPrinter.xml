@@ -4,62 +4,35 @@
         <line>
             <text align="center" length="32" bold="true"></text>
         </line>
-        <line>
-            <text align="center" length="32" bold="true">${printername}</text>
+        <line size="1">
+            <text align="left" length="10">Datum:</text>
+            <text align="left" length="22" bold="true">${ticket.printDate()}</text>
         </line>
-        <line></line>
-        #if ($ticket.printId() == "")
-            <line>
-              <text align="left" length="16">Bon:</text>
-              <text align="left" length="16">Bestellung</text>
-            </line>
-        #else
-        <line>
-            <text align="left" length="16">Bon:</text>
-            <text align="left" length="16">${ticket.printId()}</text>
-        </line>
-        #end
-        <line>
-            <text align="left" length="16">Datum:</text>
-            <text align="left" length="25">${ticket.printDate()}</text>
-        </line>
+ 	<line size="1">
+            <text align="left" length="10">Kellner:</text>
+            <text align="left" length="22" bold="true">${ticket.printUser()}</text>
+        </line> 
         #if ($place != "")
-        <line>
-            <text align="left" length="16">Tisch:</text>
-            <text align="left" length="16">${place}</text>
+        <line size="1">
+            <text align="left" length="10">Tisch:</text>
+            <text align="left" length="22" bold="true">${place}</text>
         </line>  
         #end
-        <line></line>    
-        <line>
-            <text align ="left" length="18">Speise</text>
-            <text align ="right" length="5"></text>
-        </line>
         <line>
              <text>-------------------------------------------</text>
         </line>
-        #foreach ($ticketline in $ticket.getLines())
-            <line>
-                <text align ="left" length="18">${ticketline.printName()}</text>
-                #if ($ticketline.getMultiply() < 0)
-                   <text align ="right" length="12">Storno</text>
-                   <text align ="right" length="5">${ticketline.getMultiply()}</text>
-                #else
-                   <text align ="right" length="12"/>
-                   <text align ="right" length="5">${ticketline.getMultiply()}</text>
-                #end
+		<line></line>
+        #foreach ($ticketline in $ticket.getLinesSorted())
+            <line size="3">
+				<text align ="left" length="7" bold="true">${ticketline.printMultiply()} X</text>
+                <text align ="left" length="20" bold="true">${ticketline.printName()}</text>
             </line>
-        #if ($ticketline.productAttSetInstId)
-        <line>
-	        <text align ="left" length="32">    ${ticketline.productAttSetInstDesc}</text>
-        </line>
+			#if ($ticketline.productAttSetInstId)
+			<line size="3">
+				<text align ="left" length="7" bold="true"></text>
+				<text align ="left" length="20" bold="true">${ticketline.productAttSetInstDesc}</text>
+			</line>
+			#end
         #end
-        #end
-        <line>
-            <text align="left" length="15">Kellner:</text>
-            <text>${ticket.printUser()}</text>
-        </line> 
-        <line>
-             <text>-------------------------------------------</text>
-        </line>
     </ticket>
 </output>
