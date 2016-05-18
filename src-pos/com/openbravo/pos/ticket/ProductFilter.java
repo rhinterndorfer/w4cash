@@ -114,11 +114,11 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 
 		if (m_jBarcode.getText() == null || m_jBarcode.getText().equals("")) {
 			// Filtro por formulario
-			return new Object[] { m_jCboName.getSelectedItem(), m_jName.getText(), m_jCboPriceBuy.getSelectedItem(),
-					Formats.CURRENCY.parseValue(m_jPriceBuy.getText()), m_jCboPriceSell.getSelectedItem(),
-					Formats.CURRENCY.parseValue(m_jPriceSell.getText()),
-					m_CategoryModel.getSelectedKey() == null ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS,
-					m_CategoryModel.getSelectedKey(), QBFCompareEnum.COMP_NONE, null, null };
+			return new Object[] { m_jCboName.getSelectedItem(), m_jName.getText(), 
+					m_jCboPriceBuy.getSelectedItem(), Formats.CURRENCY.parseValue(m_jPriceBuy.getText()), 
+					m_jCboPriceSell.getSelectedItem(), Formats.CURRENCY.parseValue(m_jPriceSell.getText()),
+					m_CategoryModel.getSelectedKey() == null ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS, m_CategoryModel.getSelectedKey(), 
+					QBFCompareEnum.COMP_NONE, null };
 		} else {
 			// Filtro por codigo de barras.
 			String barcode =  m_jBarcode.getText().trim();
@@ -127,9 +127,11 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 				barcode = barcode.substring(1);
 			}
 			
-			return new Object[] { QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_NONE, null,
-					QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_NONE, null, QBFCompareEnum.COMP_RE,
-					barcode };
+			return new Object[] { QBFCompareEnum.COMP_NONE, null, 
+					QBFCompareEnum.COMP_NONE, null,
+					QBFCompareEnum.COMP_NONE, null, 
+					QBFCompareEnum.COMP_NONE, null, 
+					QBFCompareEnum.COMP_RE, "%," + barcode + ",%" };
 		}
 	}
 

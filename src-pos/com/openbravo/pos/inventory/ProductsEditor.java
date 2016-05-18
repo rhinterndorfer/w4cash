@@ -25,6 +25,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.*;
 import java.awt.image.*;
 import javax.swing.event.DocumentEvent;
@@ -49,6 +52,7 @@ import sun.misc.Regexp;
 
 import java.util.Date;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -117,6 +121,30 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		m_jRef.getDocument().addDocumentListener(dirty);
 		m_jCode.getDocument().addDocumentListener(dirty);
+		m_jCode.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// for code only numeric and "," characters are allowed
+				String pattern = "[^0-9,]+";
+				
+				if(Pattern.matches(".*" + pattern + ".*", m_jCode.getText()))
+				{
+					m_jCode.setText(m_jCode.getText().replaceAll(pattern, ""));
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+			}
+		});
 		m_jName.getDocument().addDocumentListener(dirty);
 		m_jComment.addActionListener(dirty);
 		m_jScale.addActionListener(dirty);

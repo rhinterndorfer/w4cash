@@ -126,8 +126,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
         taxes = null;
     }
 
-    public TicketInfo copyTicket() {
-        TicketInfo t = new TicketInfo();
+    public TicketInfo copyTicketHeader() {
+    	TicketInfo t = new TicketInfo();
 
         t.tickettype = tickettype;
         t.m_iTicketId = m_iTicketId;
@@ -138,12 +138,20 @@ public class TicketInfo implements SerializableRead, Externalizable {
         t.m_Customer = m_Customer;
 
         t.m_aLines = new ArrayList<TicketLineInfo>();
-        for (TicketLineInfo l : m_aLines) {
+
+        t.payments = new LinkedList<PaymentInfo>();
+
+        return t;
+    }
+    
+    public TicketInfo copyTicket() {
+    	TicketInfo t = copyTicketHeader();
+        
+    	for (TicketLineInfo l : m_aLines) {
             t.m_aLines.add(l.copyTicketLine());
         }
         t.refreshLines();
 
-        t.payments = new LinkedList<PaymentInfo>();
         for (PaymentInfo p : payments) {
             t.payments.add(p.copyPayment());
         }

@@ -45,6 +45,7 @@ import com.openbravo.pos.mant.FloorsInfo;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.payment.PaymentInfoTicket;
 import com.openbravo.pos.ticket.FindTicketsInfo;
+import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -112,22 +113,22 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// Utilidades de productos
 	public final ProductInfoExt getProductInfo(String id) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, BGCOLOR, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
-						+ "FROM PRODUCTS WHERE ID = ?",
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
+						+ "FROM PRODUCTS P LEFT JOIN PRODUCTS_CAT O ON P.ID = O.PRODUCT WHERE P.ID = ?",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(id);
 	}
 
 	public final ProductInfoExt getProductInfoByCode(String sCode) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, BGCOLOR, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
-						+ "FROM PRODUCTS WHERE CODE = ?",
-				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(sCode);
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
+						+ "FROM PRODUCTS P LEFT JOIN PRODUCTS_CAT O ON P.ID = O.PRODUCT WHERE P.CODE = ? OR P.ID = (SELECT PRODUCT FROM PRODUCTS_CODES WHERE CODE = ?)",
+						new SerializerWriteBasic(new Datas[] { Datas.STRING, Datas.STRING }), ProductInfoExt.getSerializerRead()).find(sCode, sCode);
 	}
 
 	public final ProductInfoExt getProductInfoByReference(String sReference) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, BGCOLOR, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
-						+ "FROM PRODUCTS WHERE REFERENCE = ?",
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
+						+ "FROM PRODUCTS P LEFT JOIN PRODUCTS_CAT O ON P.ID = O.PRODUCT WHERE P.REFERENCE = ?",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(sReference);
 	}
 
@@ -163,7 +164,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 	public List<ProductInfoExt> getProductCatalog(String category) throws BasicException {
 		return new PreparedSentence(s,
-				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3 "
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
 						+ "FROM PRODUCTS P, PRODUCTS_CAT O WHERE P.ID = O.PRODUCT AND P.CATEGORY = ? "
 						+ "ORDER BY O.CATORDER, P.NAME",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
@@ -171,7 +172,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 	public List<ProductInfoExt> getProductComments(String id) throws BasicException {
 		return new PreparedSentence(s,
-				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3 "
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
 						+ "FROM PRODUCTS P, PRODUCTS_CAT O, PRODUCTS_COM M WHERE P.ID = O.PRODUCT AND P.ID = M.PRODUCT2 AND M.PRODUCT = ? "
 						+ "AND P.ISCOM = " + s.DB.TRUE() + " " + "ORDER BY O.CATORDER, P.NAME",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(id);
@@ -181,8 +182,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	public final SentenceList getProductList() {
 		return new StaticSentence(s,
 				new QBFBuilder(
-						"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, BGCOLOR, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
-								+ "FROM PRODUCTS WHERE ?(QBF_FILTER) ORDER BY REFERENCE",
+						"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
+								+ "FROM PRODUCTS P LEFT JOIN PRODUCTS_CAT O ON P.ID = O.PRODUCT WHERE ?(QBF_FILTER) ORDER BY P.REFERENCE",
 						new String[] { "NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
 						Datas.OBJECT, Datas.DOUBLE, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING }),
@@ -192,8 +193,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// Products list
 	public SentenceList getProductListNormal() {
 		return new StaticSentence(s, new QBFBuilder(
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, BGCOLOR, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
-						+ "FROM PRODUCTS WHERE ISCOM = " + s.DB.FALSE() + " AND ?(QBF_FILTER) ORDER BY REFERENCE",
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
+						+ "FROM PRODUCTS P LEFT JOIN PRODUCTS_CAT O ON P.ID = O.PRODUCT WHERE P.ISCOM = " + s.DB.FALSE() + " AND ?(QBF_FILTER) ORDER BY P.REFERENCE",
 				new String[] { "NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
 						Datas.OBJECT, Datas.DOUBLE, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING }),
@@ -203,8 +204,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// Auxiliar list for a filter
 	public SentenceList getProductListAuxiliar() {
 		return new StaticSentence(s, new QBFBuilder(
-				"SELECT ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, TAXCAT, CATEGORY, ATTRIBUTESET_ID, IMAGE, BGCOLOR, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3 "
-						+ "FROM PRODUCTS WHERE ISCOM = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY REFERENCE",
+				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
+						+ "FROM PRODUCTS P LEFT JOIN PRODUCTS_CAT O ON P.ID = O.PRODUCT WHERE P.ISCOM = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY P.REFERENCE",
 				new String[] { "NAME", "PRICEBUY", "PRICESELL", "CATEGORY", "CODE" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
 						Datas.OBJECT, Datas.DOUBLE, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING }),
@@ -244,6 +245,22 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						return new TaxInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getTimestamp(4),
 								dr.getString(5), dr.getString(6), dr.getDouble(7).doubleValue(),
 								dr.getBoolean(8).booleanValue(), dr.getInt(9));
+					}
+				});
+	}
+	
+	
+	
+	public final SentenceList getPriceZonesProductList() {
+		return new StaticSentence(s,
+				"SELECT ID, NAME, ISACTIV, ISCUSTOMER, DATEFROM, DATETILL, LOCATION, PRODUCT, PRICESELL"
+				+ " FROM PRICEZONES pz INNER JOIN PRICEZONES_PRICES pzp ON pz.ID = pzp.PRICEZONE"
+				+ " WHERE pz.ISACTIV = 1 ",
+				null, new SerializerRead() {
+					public Object readValues(DataRead dr) throws BasicException {
+						return new PriceZoneProductInfo(dr.getString(1), dr.getString(2), dr.getInt(3), dr.getInt(4),
+								dr.getTimestamp(5), dr.getTimestamp(6), dr.getString(7), dr.getString(8),
+								dr.getDouble(9).doubleValue());
 					}
 				});
 	}
@@ -309,7 +326,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return (CustomerInfoExt) new PreparedSentence(s,
 				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
 						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
-						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY"
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE"
 						+ " FROM CUSTOMERS WHERE CARD = ? AND VISIBLE = " + s.DB.TRUE(),
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(card);
 	}
@@ -318,7 +335,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return (CustomerInfoExt) new PreparedSentence(s,
 				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
 						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
-						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY" + " FROM CUSTOMERS WHERE ID = ?",
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE" + " FROM CUSTOMERS WHERE ID = ?",
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(id);
 	}
 
@@ -326,7 +343,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return (CustomerInfoExt) new PreparedSentence(s,
 				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
 						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
-						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY" + " FROM CUSTOMERS WHERE SEARCHKEY = ?",
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE" + " FROM CUSTOMERS WHERE SEARCHKEY = ?",
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(searchkey);
 	}
 	
@@ -584,13 +601,17 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						"SELECT PID, PREFERENCE,PCODE, PNAME, PCOM, PSCALE, PPRICEBUY, PPRICESELL, PCATEGORY, PTAXCAT, PATTRIBUTESET_ID, PIMAGE, PBGCOLOR, PSTOCKCOST,PSTOCKVOLUME,PNULL, PSORTORDER, PATTRIBUTES, PUNIT, PATTR1, PATTR2, PATTR3 FROM "+
 								"(SELECT P.ID AS PID, P.REFERENCE AS PREFERENCE, P.CODE AS PCODE, P.NAME AS PNAME, P.ISCOM AS PCOM, P.ISSCALE AS PSCALE, P.PRICEBUY AS PPRICEBUY, P.PRICESELL AS PPRICESELL, P.CATEGORY AS PCATEGORY, P.TAXCAT AS PTAXCAT, P.ATTRIBUTESET_ID AS PATTRIBUTESET_ID, P.IMAGE AS PIMAGE, P.BGCOLOR AS PBGCOLOR, P.STOCKCOST AS PSTOCKCOST, P.STOCKVOLUME AS PSTOCKVOLUME,"+ 
 								"( CASE WHEN C.PRODUCT IS NULL THEN " + s.DB.FALSE() + " ELSE " + s.DB.TRUE() + " END) AS PNULL,"+ 
-								"C.CATORDER AS PSORTORDER,P.ATTRIBUTES AS PATTRIBUTES, P.UNIT AS PUNIT, P.ATTR1 AS PATTR1, P.ATTR2 AS PATTR2, P.ATTR3 AS PATTR3 FROM PRODUCTS P LEFT OUTER JOIN PRODUCTS_CAT C ON P.ID = C.PRODUCT)"+ 
-								"LEFT JOIN"+ 
+								"C.CATORDER AS PSORTORDER,P.ATTRIBUTES AS PATTRIBUTES, P.UNIT AS PUNIT, P.ATTR1 AS PATTR1, P.ATTR2 AS PATTR2, P.ATTR3 AS PATTR3, PC.PCODE2 "+
+								"FROM PRODUCTS P "+
+								"LEFT OUTER JOIN PRODUCTS_CAT C ON P.ID = C.PRODUCT "+
+								"LEFT OUTER JOIN (SELECT PRODUCT, ',' || LISTAGG(CODE, ',') WITHIN GROUP (ORDER BY PRODUCT) || ',' AS PCODE2 FROM ( SELECT ID AS PRODUCT, CODE FROM PRODUCTS UNION ALL SELECT PRODUCT, CODE FROM PRODUCTS_CODES ) GROUP BY PRODUCT) PC ON P.ID = PC.PRODUCT "+
+								") "+ 
+								"LEFT JOIN "+ 
 								"(SELECT ID AS CATID, NAME AS CATNAME, SORTORDER AS CATSORTORDER FROM CATEGORIES) "+
 								"ON PCATEGORY = CATID "+
 								"WHERE ?(QBF_FILTER) " +
-								"ORDER BY CATSORTORDER,PSORTORDER, PNAME",
-						new String[] { "PNAME", "PPRICEBUY", "PPRICESELL", "PCATEGORY", "PCODE" }),
+								"ORDER BY CATSORTORDER, PSORTORDER, PNAME",
+						new String[] { "PNAME", "PPRICEBUY", "PPRICESELL", "PCATEGORY", "PCODE2" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.DOUBLE,
 						Datas.OBJECT, Datas.DOUBLE, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING }),
 				productsRow.getSerializerRead());
@@ -604,6 +625,23 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						"INSERT INTO PRODUCTS (ID, REFERENCE, CODE, NAME, ISCOM, ISSCALE, PRICEBUY, PRICESELL, CATEGORY, TAXCAT, ATTRIBUTESET_ID, IMAGE, BGCOLOR, STOCKCOST, STOCKVOLUME, ATTRIBUTES, UNIT, ATTR1, ATTR2, ATTR3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 						new SerializerWriteBasicExt(productsRow.getDatas(),
 								new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21 })).exec(params);
+				
+				// refresh codes
+				new PreparedSentence(s, "DELETE FROM PRODUCTS_CODES WHERE PRODUCT = ?",
+						new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0 }))
+								.exec(params);
+				
+				for(String code : values[2].toString().split(","))
+				{
+					Object[] valuesCode = new Object[] {values[0], code};
+			        Datas[] datasCode = new Datas[] {Datas.STRING, Datas.STRING};
+			        
+					new PreparedSentence(s, "INSERT INTO PRODUCTS_CODES (PRODUCT, CODE) VALUES (?,?)",
+							new SerializerWriteBasicExt(datasCode, new int[] { 0, 1 }))
+									.exec(valuesCode);
+				}
+				
+				
 				if (i > 0 && ((Boolean) values[15]).booleanValue()) {
 					return new PreparedSentence(s, "INSERT INTO PRODUCTS_CAT (PRODUCT, CATORDER) VALUES (?, ?)",
 							new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0, 16 })).exec(params);
@@ -638,6 +676,23 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 								new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0 })).exec(params);
 					}
 				}
+				
+				
+				// refresh codes
+				new PreparedSentence(s, "DELETE FROM PRODUCTS_CODES WHERE PRODUCT = ?",
+						new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0 }))
+								.exec(params);
+				
+				for(String code : values[2].toString().split(","))
+				{
+					Object[] valuesCode = new Object[] {values[0], code};
+			        Datas[] datasCode = new Datas[] {Datas.STRING, Datas.STRING};
+			        
+					new PreparedSentence(s, "INSERT INTO PRODUCTS_CODES (PRODUCT, CODE) VALUES (?,?)",
+							new SerializerWriteBasicExt(datasCode, new int[] { 0, 1 }))
+									.exec(valuesCode);
+				}
+				
 				return i;
 			}
 		};
@@ -648,8 +703,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			public int execInTransaction(Object params) throws BasicException {
 				new PreparedSentence(s, "DELETE FROM PRODUCTS_CAT WHERE PRODUCT = ?",
 						new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0 })).exec(params);
+				new PreparedSentence(s, "DELETE FROM PRODUCTS_CODES WHERE PRODUCT = ?",
+						new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0 }))
+								.exec(params);
 				return new PreparedSentence(s, "DELETE FROM PRODUCTS WHERE ID = ?",
 						new SerializerWriteBasicExt(productsRow.getDatas(), new int[] { 0 })).exec(params);
+				
 			}
 		};
 	}
@@ -869,7 +928,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			c.setCity(dr.getString(21));
 			c.setRegion(dr.getString(22));
 			c.setCountry(dr.getString(23));
-
+			c.setPrices_Zone(dr.getString(24));
 			return c;
 		}
 	}

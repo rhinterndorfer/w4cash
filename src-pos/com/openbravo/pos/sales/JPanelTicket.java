@@ -58,6 +58,7 @@ import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
 import com.openbravo.pos.payment.PaymentInfo;
+import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.ProductInfoEdit;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
@@ -120,6 +121,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private JTicketsBag m_ticketsbag;
 
 	private SentenceList senttax;
+	private SentenceList sentpriceZoneProducts;
 	private ListKeyed taxcollection;
 	// private ComboBoxValModel m_TaxModel;
 
@@ -128,6 +130,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private ComboBoxValModel taxcategoriesmodel;
 
 	private TaxesLogic taxeslogic;
+	private PriceZonesLogic priceZonesLogic;
 
 	// private ScriptObject scriptobjinst;
 	protected JPanelButtons m_jbtnconfig;
@@ -253,6 +256,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		taxcategoriesmodel = new ComboBoxValModel();
 
+		sentpriceZoneProducts = dlSales.getPriceZonesProductList();
+		
 		// ponemos a cero el estado
 		stateToZero();
 
@@ -280,9 +285,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		paymentdialogrefund = JPaymentSelectRefund.getDialog(this);
 		paymentdialogrefund.init(m_App);
 
+		
+		
 		// impuestos incluidos seleccionado ?
 		m_jaddtax.setSelected("true".equals(m_jbtnconfig.getProperty("taxesincluded")));
 
+	
 		// Inicializamos el combo de los impuestos.
 		java.util.List<TaxInfo> taxlist = senttax.list();
 		taxcollection = new ListKeyed<TaxInfo>(taxlist);
@@ -302,7 +310,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 
 		taxeslogic = new TaxesLogic(taxlist);
-
+		
+		java.util.List<PriceZoneProductInfo> priceZoneProductList = sentpriceZoneProducts.list();
+		priceZonesLogic = new PriceZonesLogic(priceZoneProductList);
+		
 		// Show taxes options
 		if (m_App.getAppUserView().getUser().hasPermission("sales.ChangeTaxOptions")) {
 			m_jTax.setVisible(true);
@@ -387,6 +398,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		refreshTicket();
 
 		ticketListChanged();
+	}
+	
+	public void SyncTicketClone()
+	{
+		m_oTicketClone = m_oTicket.copyTicket();
 	}
 
 	public TicketInfo getActiveTicket() {
@@ -708,6 +724,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
 		if (prod.getPriceSell() > 0.0 && !issaege) {
 			price = prod.getPriceSell();
+
+			// PRICEZONE 
+			Double priceZonePrice = priceZonesLogic.getPrice(prod.getID(), m_oTicket.getCustomer(), m_App.getInventoryLocation());
+			if(priceZonePrice < price)
+				price = priceZonePrice;
 			
 			String amountEqualsPrice = prod.getProperty("AmountEqualsPrice", "False");
 			if("True".equals(amountEqualsPrice))
@@ -1052,6 +1073,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} else if (cTrans == ' ' || cTrans == '=') {
 				if (m_oTicket.getLinesCount() > 0) {
 
+					try {
+						if (this.m_restaurant != null)
+							this.m_restaurant.generateOrder();
+					} catch (BasicException e) {
+						JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+								AppLocal.getIntString("message.cannotprintticket"), e);
+					}
+					
 					// TicketInfo tt = m_oTicket.copyTicket();
 					if (closeTicket(m_oTicket, m_oTicketExt)) {
 						// Ends edition of current receipt
@@ -1063,8 +1092,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 							m_ticketsbag.deleteTicket(false);
 						} catch (BasicException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+									AppLocal.getIntString("message.cannotprintticket"), e);
 						}
 					} else {
 						// repaint current ticket
@@ -1976,6 +2005,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private void btnSplitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSplitActionPerformed
 
+		if (this.m_restaurant != null)
+		{
+			try {
+				this.m_restaurant.generateOrder();
+			} catch(Exception ex) {
+				JConfirmDialog.showError(m_App, JPanelTicket.this,
+						AppLocal.getIntString("error.network"),
+						AppLocal.getIntString("message.databaseconnectionerror"), ex);
+			}
+		}
+		
 		if (m_oTicket.getLinesCount() > 0) {
 			try {
 				ReceiptSplit splitdialog = ReceiptSplit.getDialog(m_App, this, dlSystem.getResourceAsXML("Ticket.Line"),
@@ -2019,7 +2059,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 										// does info exists?
 										TicketLineInfo inf = null;
 										for (TicketLineInfo lni : ticket2.getLines()) {
-											if (lni.getProductID().compareTo(info.getProductID()) == 0) {
+											if (lni.getProductID().compareTo(info.getProductID()) == 0 
+													&& lni.getPrice() == info.getPrice()
+													&& (lni.getProductAttSetInstDesc() == null ? "" : lni.getProductAttSetInstDesc()).equals(info.getProductAttSetInstDesc() == null ? "" : info.getProductAttSetInstDesc())
+											) {
+											//if (lni.getProductID().compareTo(info.getProductID()) == 0) {
 												inf = lni;
 												break;
 											}

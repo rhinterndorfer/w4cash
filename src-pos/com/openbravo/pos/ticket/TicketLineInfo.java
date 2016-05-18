@@ -110,6 +110,13 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 			} else {
 				attributes.setProperty("product.unit", "x");
 			}
+			
+			if (product.getSort() > 0) {
+				attributes.setProperty("product.sort", String.format("%010d", product.getSort()));
+			} else {
+				attributes.setProperty("product.sort", "0000000000");
+			}
+			
 			if (issaege) {
 
 				if (height != null) {
