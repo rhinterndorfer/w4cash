@@ -29,7 +29,9 @@ import java.util.Date;
  */
 public class CustomerInfoExt extends CustomerInfo {
     
-    protected String taxcustomerid;
+
+	private static final long serialVersionUID = -2863742716849470908L;
+	protected String taxcustomerid;
     protected String notes;
     protected boolean visible;
     protected String card;
@@ -231,6 +233,7 @@ public class CustomerInfoExt extends CustomerInfo {
     public void setCountry(String country) {
         this.country = country;
     }
+    
     
     public String getPrices_Zone()
     {
