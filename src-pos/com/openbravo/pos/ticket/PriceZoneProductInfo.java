@@ -23,6 +23,8 @@ import java.io.Serializable;
 import com.openbravo.data.loader.IKeyed;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+
 /**
  *
  * @author adrianromero
@@ -34,15 +36,15 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
     private String name;
     private int isActiv;
     private int isCustomer;
-    private Date dateFrom;
-    private Date dateTill;
+    private java.util.Date dateFrom;
+    private java.util.Date dateTill;
     private String location;
     private String product;
     private double priceSellGross;
     
     
     public PriceZoneProductInfo(String id, String name, int isActiv, int isCustomer, 
-    		Date dateFrom, Date dateTill, 
+    		java.util.Date dateFrom, java.util.Date dateTill, 
     		String location, String product, double priceSellGross) {
         this.id = id;
         this.name = name;
@@ -75,11 +77,11 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
         return isCustomer;
     }
 
-    public Date getDateFrom() {
+    public java.util.Date getDateFrom() {
         return dateFrom;
     }
     
-    public Date getDateTill() {
+    public java.util.Date getDateTill() {
         return dateTill;
     }
     

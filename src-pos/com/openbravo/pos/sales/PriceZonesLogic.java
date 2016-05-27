@@ -71,6 +71,7 @@ public class PriceZonesLogic {
     
     public Double getPrice(String product, CustomerInfoExt customer, String location, double taxRate)
     {
+    	
     	Double price = Double.MAX_VALUE;
     	List<PriceZoneProductInfo> productList = getByProduct(product);
     	if(productList != null)
@@ -79,8 +80,8 @@ public class PriceZonesLogic {
     		{
     			if(
     					(pz.getIsCustomer() == 0 || (customer != null && customer.getPrices_Zone() != null && customer.getPrices_Zone().equals(pz.getId())))
-    					&& (pz.getDateFrom() == null || pz.getDateFrom().compareTo(DateTime.now().toDate()) < 0)
-    					&& (pz.getDateTill() == null || pz.getDateTill().compareTo(DateTime.now().toDate()) > 0)
+    					&& (pz.getDateFrom() == null || pz.getDateFrom().compareTo(new java.util.Date()) < 0)
+    					&& (pz.getDateTill() == null || pz.getDateTill().compareTo(new java.util.Date()) > 0)
     					&& (pz.getLocation() == null || pz.getLocation().equals(location))
     					&& pz.getPriceSellGross() < price * (1+taxRate)
 					)
