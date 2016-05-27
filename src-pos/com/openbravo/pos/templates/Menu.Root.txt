@@ -22,7 +22,7 @@
     group.addPanel("/com/openbravo/images/contents.png", "Menu.TicketEdit", "com.openbravo.pos.sales.JPanelTicketEdits");
     group.addPanel("/com/openbravo/images/cash22.png", "Menu.Payments", "com.openbravo.pos.panels.JPanelPayments");
     group.addPanel("/com/openbravo/images/button_cancel.png", "Menu.CloseTPV", "com.openbravo.pos.panels.JPanelCloseMoney");
-    group.addPanel("/com/openbravo/images/appointment.png", "Menu.Closing", "/com/openbravo/reports/closedpos.bs");
+    
 
     group = menu.addGroup("Menu.Backoffice");
     submenu = group.addSubmenu("/com/openbravo/images/edit_group.png", "Menu.Customers", "com.openbravo.pos.forms.MenuCustomers");
@@ -42,10 +42,11 @@
 
     submenu = group.addSubmenu("/com/openbravo/images/contents.png", "Menu.SalesManagement", "com.openbravo.pos.forms.MenuSalesManagement");
         submenu.addTitle("Menu.SalesManagement.Reports");
-        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.UserSells", "/com/openbravo/reports/usersales.bs");
-        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.MeansOfPayment", "/com/openbravo/reports/meansofpayment.bs");
-        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.ProductGroups", "/com/openbravo/reports/productgroups.bs");
-        submenu.addPanel("/com/openbravo/images/appointment.png", "Menu.Sales.Reports.Journal", "/com/openbravo/reports/journal.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.UserSells", "/com/openbravo/reports/usersales.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Closing", "/com/openbravo/reports/closedpos.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.MeansOfPayment", "/com/openbravo/reports/meansofpayment.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroups", "/com/openbravo/reports/productgroups.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Journal", "/com/openbravo/reports/journal.bs");
 
     submenu = group.addSubmenu("/com/openbravo/images/package_settings.png", "Menu.Maintenance", "com.openbravo.pos.forms.MenuMaintenance");
         submenu.addTitle("Menu.Maintenance.POS");        
