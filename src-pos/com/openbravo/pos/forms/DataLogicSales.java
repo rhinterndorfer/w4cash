@@ -153,12 +153,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	}
 
 	public final List<CategoryInfo> getSubcategories(String category) throws BasicException {
-		// return new PreparedSentence(s, "SELECT ID, NAME, IMAGE FROM
-		// CATEGORIES WHERE PARENTID = ? ORDER BY NAME",
-		// SerializerWriteString.INSTANCE,
-		// CategoryInfo.getSerializerRead()).list(category);
+		// only return categories that contain other cateegories or products
 		return new PreparedSentence(s,
-				"SELECT ID, NAME, IMAGE, BGCOLOR, SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID = ? ORDER BY SORTORDER",
+				"SELECT ID, NAME, IMAGE, BGCOLOR, SORTORDER, PRINTER "
+				+ "FROM CATEGORIES "
+				+ "WHERE (EXISTS(SELECT p.ID FROM PRODUCTS p, PRODUCTS_CAT pc WHERE p.ID=pc.PRODUCT and CATEGORY = CATEGORIES.ID) OR EXISTS(SELECT c.ID FROM CATEGORIES c WHERE c.PARENTID = CATEGORIES.ID))"
+				+ "AND PARENTID = ? ORDER BY SORTORDER",
 				SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
 	}
 
@@ -253,7 +253,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	
 	public final SentenceList getPriceZonesProductList() {
 		return new StaticSentence(s,
-				"SELECT ID, NAME, ISACTIV, ISCUSTOMER, DATEFROM, DATETILL, LOCATION, PRODUCT, PRICESELL"
+				"SELECT pz.ID, NAME, ISACTIV, ISCUSTOMER, DATEFROM, DATETILL, LOCATION, PRODUCT, PRICESELLGROSS"
 				+ " FROM PRICEZONES pz INNER JOIN PRICEZONES_PRICES pzp ON pz.ID = pzp.PRICEZONE"
 				+ " WHERE pz.ISACTIV = 1 ",
 				null, new SerializerRead() {

@@ -97,6 +97,9 @@ public class JConfirmDialog extends JDialog {
 				createButtonOk(buttonPane, true);
 				createButtonCancel(buttonPane, false);
 				break;
+			case Information:
+				createButtonOk(buttonPane, true);
+				break;
 			}
 
 		}
@@ -200,6 +203,22 @@ public class JConfirmDialog extends JDialog {
 
 		myMsg.setTitle(title);
 		myMsg.init(app, message, DialogType.Confirm);
+
+		return myMsg.getReturnCode();
+	}
+	
+	public static int showInformation(AppView app, Component parent, String message, String title) {
+		Window window = getWindow(parent);
+
+		JConfirmDialog myMsg;
+		if (window instanceof Frame) {
+			myMsg = new JConfirmDialog((Frame) window, true);
+		} else {
+			myMsg = new JConfirmDialog((Dialog) window, true);
+		}
+
+		myMsg.setTitle(title);
+		myMsg.init(app, message, DialogType.Information);
 
 		return myMsg.getReturnCode();
 	}

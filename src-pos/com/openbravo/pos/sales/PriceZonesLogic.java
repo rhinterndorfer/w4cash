@@ -69,7 +69,7 @@ public class PriceZonesLogic {
     	return priceZonePricesByProduct.get(product);
     }
     
-    public Double getPrice(String product, CustomerInfoExt customer, String location)
+    public Double getPrice(String product, CustomerInfoExt customer, String location, double taxRate)
     {
     	Double price = Double.MAX_VALUE;
     	List<PriceZoneProductInfo> productList = getByProduct(product);
@@ -82,10 +82,10 @@ public class PriceZonesLogic {
     					&& (pz.getDateFrom() == null || pz.getDateFrom().compareTo(DateTime.now().toDate()) < 0)
     					&& (pz.getDateTill() == null || pz.getDateTill().compareTo(DateTime.now().toDate()) > 0)
     					&& (pz.getLocation() == null || pz.getLocation().equals(location))
-    					&& pz.getPriceSell() < price
+    					&& pz.getPriceSellGross() < price * (1+taxRate)
 					)
     			{
-    				price = pz.getPriceSell();
+    				price = pz.getPriceSellGross() / (1+taxRate);
     			}
     		
     		}

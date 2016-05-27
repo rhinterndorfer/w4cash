@@ -38,12 +38,12 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
     private Date dateTill;
     private String location;
     private String product;
-    private double priceSell;
+    private double priceSellGross;
     
     
     public PriceZoneProductInfo(String id, String name, int isActiv, int isCustomer, 
     		Date dateFrom, Date dateTill, 
-    		String location, String product, double priceSell) {
+    		String location, String product, double priceSellGross) {
         this.id = id;
         this.name = name;
         this.isActiv = isActiv;
@@ -52,7 +52,7 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
         this.dateTill = dateTill;
         this.location = location;
         this.product = product;
-        this.priceSell = priceSell;
+        this.priceSellGross = priceSellGross;
     }
     
     public Object getKey() {
@@ -91,8 +91,8 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
         return product;
     }
     
-    public Double getPriceSell() {
-        return priceSell;
+    public Double getPriceSellGross() {
+        return priceSellGross;
     }
     
     @Override

@@ -929,8 +929,15 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 						TicketInfo ticket = getTicketInfo(m_place);
 
 						// check
-						if (ticket == null && !m_place.hasPeople()) {
+						if (ticket == null) {
 							// Empty table and checked
+							if(m_place.hasPeople()) 
+							{
+								
+								JConfirmDialog.showInformation(m_App, JTicketsBagRestaurantMap.this,
+										AppLocal.getIntString("message.tableempty"),
+										AppLocal.getIntString("error.information"));
+							}
 
 							// table occupied
 							ticket = new TicketInfo();
@@ -940,11 +947,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 								JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 										AppLocal.getIntString("error.error"), e.getMessage(), e);
-
-								// But
-								// It
-								// was
-								// empty.
 							}
 							
 							// try get customer by name
@@ -959,27 +961,18 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							m_place.setPeople(true);
 							setActivePlace(m_place, ticket);
 
-						} else if (ticket == null && m_place.hasPeople()) {
-							// The table is now empty
-
-							JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
-									AppLocal.getIntString("error.information"),
-									AppLocal.getIntString("message.tableempty"));
-
-							m_place.setPeople(false); // fixed
-
-						} else if (ticket != null && !m_place.hasPeople()) {
-							// The table is now full
-
-							JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
-									AppLocal.getIntString("error.information"),
-									AppLocal.getIntString("message.tablefull"));
-
-							m_place.setPeople(true);
-
-						} else { // both != null
+						} else { 
+							if(!m_place.hasPeople()) 
+							{
+								JConfirmDialog.showInformation(m_App, JTicketsBagRestaurantMap.this,
+										AppLocal.getIntString("message.tablefull"),
+										AppLocal.getIntString("error.information"));
+							}
+							
 							// Full table
-							// m_place.setPeople(true); // already true
+							if(!m_place.hasPeople())
+								m_place.setPeople(true); // set people icon
+							
 							setActivePlace(m_place, ticket);
 						}
 					} else {
@@ -1108,10 +1101,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 								m_place.setPeople(false); // fixed
 							} else {
 								// asks if you want to merge tables
-								if (JOptionPane.showConfirmDialog(JTicketsBagRestaurantMap.this,
-										AppLocal.getIntString("message.mergetablequestion"),
-										AppLocal.getIntString("message.mergetable"),
-										JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								if(JConfirmDialog.showConfirm(m_App, 
+										JTicketsBagRestaurantMap.this, 
+										AppLocal.getIntString("message.mergetablequestion"), 
+												AppLocal.getIntString("message.mergetable")) == JOptionPane.YES_OPTION)
+								{
 									// merge lines ticket
 
 									try {

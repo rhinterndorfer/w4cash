@@ -1,5 +1,5 @@
 package com.openbravo.beans;
 
 public enum DialogType {
-	Confirm, Error, ConfirmError;
+	Confirm, Error, ConfirmError, Information;
 }
