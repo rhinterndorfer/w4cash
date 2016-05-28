@@ -1,0 +1,89 @@
+//    Openbravo POS is a point of sales application designed for touch screens.
+//    Copyright (C) 2007-2009 Openbravo, S.L.
+//    http://www.openbravo.com/product/pos
+//
+//    This file is part of Openbravo POS.
+//
+//    Openbravo POS is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    Openbravo POS is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
+
+report = new com.openbravo.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.Sales.Reports.ProductGroups2");
+report.setReport("/com/openbravo/reports/productgroups2");
+report.setResourceBundle("com/openbravo/reports/productgroups2_messages");
+
+report.setSentence("select  " +
+" 	case when free.RECEIPT is null then 0 else 1 end as Free, " +
+"   l.Name as Location, " +
+"   cc.Host as POS, " +
+"	coalesce(cpp.NAME, cp.NAME, c.NAME) as CategoryName, " +
+"	ta.RATE*100 as Tax, " +
+"	SUM(tl.UNITS) as Units, " +
+"	SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2)) as PriceGross, " +
+"	SUM(Round(tl.UNITS * tl.PRICE,2)) as PriceNet, " +
+"	SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2) - Round(tl.UNITS * tl.PRICE,2)) as PriceTax " +
+"from  " +
+"CLOSEDCASH cc " +
+"inner join  " +
+"	LOCATIONS l " +
+"	on NVL(cc.LOCATION,0)=l.ID " +
+"inner join  " +
+"	RECEIPTS r " +
+"	on cc.MONEY=r.MONEY " +
+"inner join " +
+"	Tickets t " +
+"	on r.ID=t.ID " +
+"inner join " +
+"	Ticketlines tl " +
+"	on t.id=tl.TICKET " +
+"inner join " +
+"	Products p " +
+"	on tl.PRODUCT=p.ID " +
+"inner join " +
+"	Categories c " +
+"	on p.CATEGORY=c.ID " +
+"left join " +
+"	Categories cp " +
+"	on c.PARENTID=cp.ID " +
+"left join " +
+"	Categories cpp " +
+"	on cp.PARENTID=cpp.ID " +
+"inner join " +
+"	Taxes ta " +
+"	on ta.id=tl.TAXID " +
+"left join " +
+"	(select RECEIPT from PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free " +
+"	on r.ID=free.RECEIPT " +
+" where ?(QBF_FILTER) " +
+"group by case when free.RECEIPT is null then 0 else 1 end, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 " +
+"order by case when free.RECEIPT is null then 0 else 1 end desc, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 "
+);
+
+report.addParameter("cc.HOSTSEQUENCE");
+report.addParameter("cc.HOSTSEQUENCE");
+com.openbravo.pos.reports.JParamsClosedPosInterval filter = new com.openbravo.pos.reports.JParamsClosedPosInterval();
+report.addQBFFilter(filter);
+
+report.addField("Free", com.openbravo.data.loader.Datas.INT);
+report.addField("Location", com.openbravo.data.loader.Datas.STRING);
+report.addField("POS", com.openbravo.data.loader.Datas.STRING);
+report.addField("CategoryName", com.openbravo.data.loader.Datas.STRING);
+report.addField("Tax", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("Units", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceGross", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceNet", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceTax", com.openbravo.data.loader.Datas.DOUBLE);
+
+report;
+

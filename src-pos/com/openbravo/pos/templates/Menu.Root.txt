@@ -46,8 +46,9 @@
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Closing", "/com/openbravo/reports/closedpos.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.MeansOfPayment", "/com/openbravo/reports/meansofpayment.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroups", "/com/openbravo/reports/productgroups.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroupsLocations", "/com/openbravo/reports/productgroups2.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroupsPayments", "/com/openbravo/reports/productgroupspayments.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Journal", "/com/openbravo/reports/journal.bs");
-
     submenu = group.addSubmenu("/com/openbravo/images/package_settings.png", "Menu.Maintenance", "com.openbravo.pos.forms.MenuMaintenance");
         submenu.addTitle("Menu.Maintenance.POS");        
         submenu.addPanel("/com/openbravo/images/kdmconfig.png", "Menu.Users", "com.openbravo.pos.admin.PeoplePanel");

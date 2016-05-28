@@ -25,7 +25,6 @@
     <class name="com.openbravo.pos.customers.CustomersPayment"/>
     <class name="com.openbravo.pos.panels.JPanelPayments"/>
     <class name="com.openbravo.pos.panels.JPanelCloseMoney"/>
-    <class name="/com/openbravo/reports/closedpos.bs"/>
     <class name="sales.EditTicket"/>
     <class name="sales.EditLines"/>
     <class name="sales.RefundTicket"/>
@@ -42,9 +41,6 @@
     <class name="refund.free"/>
     <class name="com.openbravo.pos.forms.MenuCustomers"/>
     <class name="com.openbravo.pos.customers.CustomersPanel"/>
-    <class name="/com/openbravo/reports/customers.bs"/>
-    <class name="/com/openbravo/reports/customersb.bs"/>
-    <class name="/com/openbravo/reports/customersdiary.bs"/>
     <class name="com.openbravo.pos.inventory.TaxCustCategoriesPanel"/>
     <class name="com.openbravo.pos.forms.MenuStockManagement"/>
     <class name="com.openbravo.pos.inventory.ProductsPanel"/>
@@ -77,6 +73,11 @@
     <class name="/com/openbravo/reports/meansofpayment.bs"/>
     <class name="/com/openbravo/reports/journal.bs"/>
     <class name="/com/openbravo/reports/productgroups.bs"/>
+    <class name="/com/openbravo/reports/productgroups2.bs"/>
+    <class name="/com/openbravo/reports/customers.bs"/>
+    <class name="/com/openbravo/reports/customersb.bs"/>
+    <class name="/com/openbravo/reports/customersdiary.bs"/>
+    <class name="/com/openbravo/reports/closedpos.bs"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
     <class name="com.openbravo.pos.admin.RolesPanel"/>
