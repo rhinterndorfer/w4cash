@@ -86,7 +86,9 @@
         #else
         <line>
             <text align="left" length="10">Bon:</text>
-            <text align="left" length="22">DEMOBETRIEB</text>
+            <text align="left" length="12">${ticket.printId()}</text>
+            <text align="right" length="1">/</text>
+            <text align="right" length="9">${host}</text>
         </line>
         #end
         <line>

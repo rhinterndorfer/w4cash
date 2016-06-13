@@ -75,7 +75,7 @@ public class PrintableBasicTicket implements Printable {
                 currentpagey += itemheight;
             } else {
                 currentpage ++;
-                currentpagey = itemheight;
+                currentpagey = imageable_y + itemheight; // add top margin
             }
 
             if (currentpage < pageIndex) {

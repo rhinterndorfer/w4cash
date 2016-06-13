@@ -1233,7 +1233,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("place",
 						ticketext != null && ticketext.getClass().equals(String.class) && !ticketext.toString().endsWith("$") 
 						? ticketext.toString() : "");
-
+				script.put("host", m_App.getHost());
+				
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
 				script.put("SystemDataAddresLine2", SystemDataAddressLine2);
 				script.put("SystemDataStreet", SystemDataStreet);
@@ -1318,6 +1319,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("place", 
 						m_oTicketExt != null && m_oTicketExt.getClass().equals(String.class) // && !m_oTicketExt.toString().endsWith("$") 
 						? m_oTicketExt.toString() : "");
+				script.put("host", m_App.getHost());
+				
 				m_TTP.printTicket(script.eval(dlSystem.getResourceAsXML("Printer.TicketLine")).toString());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1478,6 +1481,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			script.put("place",
 					ticketext != null && ticketext.getClass().equals(String.class) // && !ticketext.toString().endsWith("$") 
 					? ticketext.toString() : "");
+			script.put("host", m_App.getHost());
+			
 			script.put("taxes", taxcollection);
 			script.put("taxeslogic", taxeslogic);
 			script.put("user", m_App.getAppUserView().getUser());

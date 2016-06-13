@@ -49,6 +49,7 @@ public interface AppView {
     public void setActiveCashDateEnd(Date dateEnd);
     
     public String getInventoryLocation();
+    public String getHost();
     
     public void waitCursorBegin();
     public void waitCursorEnd();

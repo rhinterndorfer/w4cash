@@ -260,6 +260,8 @@ public class JPlacesBagTicket extends JPlacesBag {
 				
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
+				script.put("host", m_App.getHost());
+
 				
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
 				script.put("SystemDataAddresLine2", SystemDataAddressLine2);
@@ -514,6 +516,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 				
 				script.put("ticket", m_ticket);
 				script.put("place", ""); // put empty place
+				script.put("host", m_App.getHost());
 				
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
 				script.put("SystemDataAddresLine2", SystemDataAddressLine2);

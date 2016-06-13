@@ -319,7 +319,11 @@ public class JRootApp extends JPanel implements AppView {
 	public String getInventoryLocation() {
 		return m_sInventoryLocation;
 	}
-
+	
+	public String getHost() {
+		return this.getProperties().getHost();
+	}
+	
 	private void CheckActiveCash(Boolean openNew) throws BasicException {
 		if (m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
 			String host = this.getProperties().getHost();

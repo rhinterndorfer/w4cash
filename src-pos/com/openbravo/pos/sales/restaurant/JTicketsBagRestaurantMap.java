@@ -638,6 +638,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					script.put("place",
 							ticketext != null && ticketext.getClass().equals(String.class) && !ticketext.toString().endsWith("$") 
 							? ticketext.toString() : "");
+					script.put("host", m_App.getHost());
+					
 					script.put("printer", "" + key);
 					script.put("printername", "Drucker " + key);
 					m_TTP.printTicket(script.eval(sresource).toString());
