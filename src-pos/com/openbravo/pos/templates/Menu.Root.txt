@@ -45,6 +45,7 @@
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.UserSells", "/com/openbravo/reports/usersales.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Closing", "/com/openbravo/reports/closedpos.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.MeansOfPayment", "/com/openbravo/reports/meansofpayment.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductSales", "/com/openbravo/reports/productsales.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroups", "/com/openbravo/reports/productgroups.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroupsLocations", "/com/openbravo/reports/productgroups2.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroupsPayments", "/com/openbravo/reports/productgroupspayments.bs");

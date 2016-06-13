@@ -72,8 +72,10 @@
     <class name="/com/openbravo/reports/productsales.bs"/> 
     <class name="/com/openbravo/reports/meansofpayment.bs"/>
     <class name="/com/openbravo/reports/journal.bs"/>
+    <class name="/com/openbravo/reports/productsales.bs"/>
     <class name="/com/openbravo/reports/productgroups.bs"/>
     <class name="/com/openbravo/reports/productgroups2.bs"/>
+    <class name="/com/openbravo/reports/productgroupspayments.bs"/>
     <class name="/com/openbravo/reports/customers.bs"/>
     <class name="/com/openbravo/reports/customersb.bs"/>
     <class name="/com/openbravo/reports/customersdiary.bs"/>
