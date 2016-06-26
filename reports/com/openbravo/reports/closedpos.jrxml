@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-05-27T08:55:41 -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-26T23:46:57 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="closedpos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="c71f18bf-ec58-42f7-a66f-b57a84588486">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -11,23 +13,26 @@
 	<queryString>
 		<![CDATA[SELECT 
 CLOSEDCASH.HOST,
+CLOSEDCASH.HOSTSEQUENCE,
 CLOSEDCASH.MONEY,
 CLOSEDCASH.DATESTART, 
 CLOSEDCASH.DATEEND, 
+CLOSEDCASH.BRANCH_HOSTSEQUENCE,
 PAYMENTS.PAYMENT, 
 SUM(PAYMENTS.TOTAL) AS TOTAL
-FROM CLOSEDCASH, PAYMENTS 
-WHERE CLOSEDCASH.MONEY = PAYMENTS.MONEY 
-GROUP BY CLOSEDCASH.HOST, CLOSEDCASH.MONEY, CLOSEDCASH.DATESTART, CLOSEDCASH.DATEEND, PAYMENTS.PAYMENT 
-ORDER BY CLOSEDCASH.DATESTART]]>
+FROM CLOSEDCASH, (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS, (select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) RECEIPTS
+WHERE CLOSEDCASH.MONEY = RECEIPTS.MONEY AND PAYMENTS.RECEIPT = RECEIPTS.ID
+GROUP BY CLOSEDCASH.HOST, CLOSEDCASH.HOSTSEQUENCE, CLOSEDCASH.MONEY, CLOSEDCASH.DATESTART, CLOSEDCASH.DATEEND, PAYMENTS.PAYMENT, CLOSEDCASH.BRANCH_HOSTSEQUENCE
+ORDER BY CLOSEDCASH.HOSTSEQUENCE]]>
 	</queryString>
-	<field name="TOTAL" class="java.lang.Double"/>
 	<field name="HOST" class="java.lang.String"/>
+	<field name="HOSTSEQUENCE" class="java.lang.Integer"/>
 	<field name="MONEY" class="java.lang.String"/>
 	<field name="DATESTART" class="java.util.Date"/>
 	<field name="DATEEND" class="java.util.Date"/>
+	<field name="BRANCH_HOSTSEQUENCE" class="java.lang.Integer"/>
 	<field name="PAYMENT" class="java.lang.String"/>
-	<field name="SEQUENCE" class="java.lang.Integer"/>
+	<field name="TOTAL" class="java.lang.Double"/>
 	<variable name="BIGTOTAL" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
 		<initialValueExpression><![CDATA[new Double(0.0)]]></initialValueExpression>
@@ -90,7 +95,7 @@ ORDER BY CLOSEDCASH.DATESTART]]>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
 						<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{SEQUENCE})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{HOSTSEQUENCE})]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement key="staticText-6" mode="Transparent" x="191" y="1" width="10" height="20" uuid="c5fa3967-6895-42bf-b18d-d2cf0b29c62b"/>

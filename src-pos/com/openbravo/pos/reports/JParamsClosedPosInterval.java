@@ -51,12 +51,18 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 	private ComboBoxValModel m_endClosedPosModel;
 	private ComboBoxValModel m_startClosedPosModel;
 	private AppView m_App;
+	private Boolean _filterBranch = false;
 
 	/** Creates new form JParamsClosedPos */
 	public JParamsClosedPosInterval() {
 		initComponents();
 	}
 
+	public JParamsClosedPosInterval(Boolean filterBranch) {
+		_filterBranch = filterBranch;
+		initComponents();
+	}
+	
 	public void init(AppView app) {
 		m_App = app;
 		
@@ -68,6 +74,11 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 		try {
 			List<ClosedCashInfo> closedCashList = dlSys.getAllClosedCashList();
 
+			if(_filterBranch)
+			{
+				closedCashList.removeIf(cc -> cc.getBranchSequence() != null);
+			}
+			
 			m_endClosedPosModel = new ComboBoxValModel(closedCashList);
 			m_endClosedPosModel.setSelectedFirst();
 			jcbEndClosedPos.setModel(m_endClosedPosModel);

@@ -30,16 +30,16 @@ report.setSentence("select  " +
 "from  " +
 "CLOSEDCASH cc " +
 "inner join  " +
-"	RECEIPTS r " +
+"	(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r " +
 "	on cc.MONEY=r.MONEY " +
 "inner join " +
-"	Tickets t " +
+"	(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t " +
 "	on r.ID=t.ID " +
 "inner join " +
-"	Ticketlines tl " +
+"	(select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) tl " +
 "	on t.id=tl.TICKET " +
 "left join " +
-"	Payments pay " +
+"	(select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) pay " +
 "	on r.ID = pay.RECEIPT " +
 "inner join " +
 "	Products p " +

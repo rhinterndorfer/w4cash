@@ -40,6 +40,7 @@ public class ClosedCashInfo implements SerializableRead, SerializableWrite, IKey
     private Integer sequence;
     private Date datestart;
     private Date dateend;
+    private Integer branch_sequence;
     
     /** Creates a new instance of SharedTicketInfo */
     public ClosedCashInfo() {
@@ -51,6 +52,7 @@ public class ClosedCashInfo implements SerializableRead, SerializableWrite, IKey
         sequence = dr.getInt(3);
         datestart = dr.getTimestamp(4);
         dateend = dr.getTimestamp(5);
+        branch_sequence = dr.getInt(6);
     }   
     public void writeValues(DataWrite dp) throws BasicException {
         dp.setString(1, id);
@@ -70,6 +72,10 @@ public class ClosedCashInfo implements SerializableRead, SerializableWrite, IKey
     
     public Integer getSequence() {
         return sequence;
+    }
+    
+    public Integer getBranchSequence() {
+        return branch_sequence;
     }
     
     public Date getDateStart() {
@@ -102,8 +108,13 @@ public class ClosedCashInfo implements SerializableRead, SerializableWrite, IKey
         else
         	sb.append("                ");
         
-		sb.append(" - ");        
+		sb.append(" - ");
 		sb.append(host);
+		if(branch_sequence != null)
+		{
+			sb.append(" - ");
+			sb.append(branch_sequence.toString());
+		}
 		return sb.toString();
     }
     

@@ -32,10 +32,10 @@ report.setSentence("select " +
 "from " + 
 "	CLOSEDCASH cc " +
 "	inner join  " +
-"		RECEIPTS r " +
+"		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r " +
 "	on cc.MONEY=r.MONEY " + 
 "	inner join " +
-"		PAYMENTS p " +
+"		(select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) p " +
 "	on r.ID=p.RECEIPT " +
 "where ?(QBF_FILTER) " +
 "order by p.PAYMENT");

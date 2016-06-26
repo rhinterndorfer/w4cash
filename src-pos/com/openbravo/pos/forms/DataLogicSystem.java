@@ -119,7 +119,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 						new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
 
 		m_allClosedCash = new StaticSentence(s,
-				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH ORDER BY HOSTSEQUENCE DESC", null,
+				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND, BRANCH_HOSTSEQUENCE FROM CLOSEDCASH ORDER BY HOSTSEQUENCE DESC", null,
 				new SerializerReadClass(ClosedCashInfo.class));
 		m_insertcash = new StaticSentence(s,
 				"INSERT INTO CLOSEDCASH(MONEY, HOST, DATESTART, DATEEND, HOSTSEQUENCE, LOCATION) "

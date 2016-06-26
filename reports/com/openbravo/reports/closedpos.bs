@@ -29,11 +29,12 @@ report.setSentence("SELECT " +
                     "CLOSEDCASH.MONEY, " +
                     "CLOSEDCASH.DATESTART, " +
                     "CLOSEDCASH.DATEEND, " +
+                    "CLOSEDCASH.BRANCH_HOSTSEQUENCE, " +
                     "PAYMENTS.PAYMENT, " +
                     "SUM(PAYMENTS.TOTAL) AS TOTAL " +
-                    "FROM CLOSEDCASH, PAYMENTS, RECEIPTS " +
+                    "FROM CLOSEDCASH, (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS, (select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) RECEIPTS " +
                     "WHERE CLOSEDCASH.MONEY = RECEIPTS.MONEY AND PAYMENTS.RECEIPT = RECEIPTS.ID AND ?(QBF_FILTER) " +
-                    "GROUP BY CLOSEDCASH.HOST, CLOSEDCASH.HOSTSEQUENCE, CLOSEDCASH.MONEY, CLOSEDCASH.DATESTART, CLOSEDCASH.DATEEND, PAYMENTS.PAYMENT " +
+                    "GROUP BY CLOSEDCASH.HOST, CLOSEDCASH.HOSTSEQUENCE, CLOSEDCASH.MONEY, CLOSEDCASH.DATESTART, CLOSEDCASH.DATEEND, PAYMENTS.PAYMENT, CLOSEDCASH.BRANCH_HOSTSEQUENCE " +
                     "ORDER BY CLOSEDCASH.HOSTSEQUENCE");
 report.addParameter("CLOSEDCASH.HOSTSEQUENCE");
 report.addParameter("CLOSEDCASH.HOSTSEQUENCE");
@@ -43,10 +44,11 @@ report.addQBFFilter(filter);
 
 
 report.addField("HOST", com.openbravo.data.loader.Datas.STRING);
-report.addField("SEQUENCE", com.openbravo.data.loader.Datas.INT);
+report.addField("HOSTSEQUENCE", com.openbravo.data.loader.Datas.INT);
 report.addField("MONEY", com.openbravo.data.loader.Datas.STRING);
 report.addField("DATESTART", com.openbravo.data.loader.Datas.TIMESTAMP);
 report.addField("DATEEND", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("BRANCH_HOSTSEQUENCE", com.openbravo.data.loader.Datas.INT);
 report.addField("PAYMENT", com.openbravo.data.loader.Datas.STRING);
 report.addField("TOTAL", com.openbravo.data.loader.Datas.DOUBLE);
 

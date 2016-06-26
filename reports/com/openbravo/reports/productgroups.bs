@@ -34,13 +34,13 @@ report.setSentence("select  " +
 "from  " +
 "CLOSEDCASH cc " +
 "inner join  " +
-"	RECEIPTS r " +
+"	(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r " +
 "	on cc.MONEY=r.MONEY " +
 "inner join " +
-"	Tickets t " +
+"	(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t " +
 "	on r.ID=t.ID " +
 "inner join " +
-"	Ticketlines tl " +
+"	(select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) tl " +
 "	on t.id=tl.TICKET " +
 "inner join " +
 "	Products p " +
@@ -58,7 +58,7 @@ report.setSentence("select  " +
 "	Taxes ta " +
 "	on ta.id=tl.TAXID " +
 "left join " +
-"	(select RECEIPT from PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free " +
+"	(select RECEIPT from (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free " +
 "	on r.ID=free.RECEIPT " +
 " where ?(QBF_FILTER) " +
 "group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 " +

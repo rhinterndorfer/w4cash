@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-05-18T21:57:22 -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-26T23:54:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="meansofpayment" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="meansofpayment_messages_de" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -19,10 +19,10 @@
 from 
 	CLOSEDCASH cc
 	inner join 
-		RECEIPTS r
+		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
 	on cc.MONEY=r.MONEY 
 	inner join
-		PAYMENTS p
+		(select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) p
 	on r.ID=p.RECEIPT
 order by p.PAYMENT]]>
 	</queryString>

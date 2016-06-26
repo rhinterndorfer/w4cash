@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2016-05-18T21:56:23 -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-26T23:51:12 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="journal" pageWidth="1340" pageHeight="705" orientation="Landscape" columnWidth="1320" leftMargin="10" rightMargin="10" topMargin="0" bottomMargin="0" resourceBundle="journal_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -45,13 +45,13 @@ select
 from 
 	CLOSEDCASH cc
 	inner join 
-		RECEIPTS r
+		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
 		on cc.MONEY=r.MONEY
 	inner join
-		Tickets t
+		(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t
 		on r.ID=t.ID
 	inner join
-		Ticketlines tl
+		(select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) tl
 		on t.id=tl.TICKET
 	inner join
 		Products p
@@ -80,13 +80,13 @@ select
 	from 
 	CLOSEDCASH cc
 	inner join 
-		RECEIPTS r
+		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
 		on cc.MONEY=r.MONEY
 	inner join
-		Tickets t
+		(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t
 		on r.ID=t.ID
 	inner join
-		Payments p
+		(select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) p
 		on r.id=p.RECEIPT
 )
 order by ReceiptNo, LineType, Line]]>

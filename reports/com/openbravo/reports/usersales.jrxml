@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
-<!-- 2015-11-20T20:24:28 -->
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-06-27T00:11:49 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usersales" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="b411cbf7-9418-4ab1-b329-e05dd2c091ce">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -11,12 +11,13 @@
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<parameter name="ARG" class="java.lang.Object" isForPrompting="false"/>
 	<queryString>
-		<![CDATA[SELECT PEOPLE.NAME, MIN(RECEIPTS.DATENEW) AS STARTDATE, MAX(RECEIPTS.DATENEW) AS ENDDATE, SUM(TICKETLINES.UNITS * TICKETLINES.PRICE) AS TOTAL, CLOSEDCASH.HOSTSEQUENCE, MIN(CLOSEDCASH.DATESTART) AS CASHDATESTART, MAX(CLOSEDCASH.DATEEND) AS CASHDATEEND
-FROM PEOPLE, RECEIPTS, TICKETS, TICKETLINES, CLOSEDCASH 
+		<![CDATA[SELECT PEOPLE.NAME, MIN(RECEIPTS.DATENEW) AS STARTDATE, MAX(RECEIPTS.DATENEW) AS ENDDATE, SUM(TICKETLINES.UNITS * TICKETLINES.PRICE * (1+TAXES.RATE)) AS TOTAL, CLOSEDCASH.HOSTSEQUENCE, MIN(CLOSEDCASH.DATESTART) AS CASHDATESTART, MAX(CLOSEDCASH.DATEEND) AS CASHDATEEND
+FROM PEOPLE, (select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) RECEIPTS, (select * from TICKETS UNION ALL select * from BRANCH_TICKETS) TICKETS, (select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) TICKETLINES, CLOSEDCASH, TAXES 
 WHERE PEOPLE.ID = TICKETS.PERSON 
     AND RECEIPTS.ID = TICKETS.ID 
     AND TICKETS.ID = TICKETLINES.TICKET 
     AND RECEIPTS.MONEY=CLOSEDCASH.MONEY
+    AND TAXES.ID=TICKETLINES.TAXID
 GROUP BY PEOPLE.NAME, CLOSEDCASH.HOSTSEQUENCE
 ORDER BY PEOPLE.NAME, CLOSEDCASH.HOSTSEQUENCE]]>
 	</queryString>

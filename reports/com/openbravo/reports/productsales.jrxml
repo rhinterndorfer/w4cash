@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-13T17:12:01 -->
+<!-- 2016-06-27T00:05:53 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -26,13 +26,13 @@
 from 
 CLOSEDCASH cc
 inner join 
-	RECEIPTS r
+	(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
 	on cc.MONEY=r.MONEY
 inner join
-	Tickets t
+	(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t
 	on r.ID=t.ID
 inner join
-	Ticketlines tl
+	(select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) tl
 	on t.id=tl.TICKET
 inner join
 	Products p
@@ -50,7 +50,7 @@ inner join
 	Taxes ta
 	on ta.id=tl.TAXID
 left join
-	(select RECEIPT from PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free
+	(select RECEIPT from (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free
 	on r.ID=free.RECEIPT
 group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), p.Id, ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1
 order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), MAX(p.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1]]>
