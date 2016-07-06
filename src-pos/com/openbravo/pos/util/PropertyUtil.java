@@ -427,6 +427,22 @@ public class PropertyUtil {
 			nfe.printStackTrace();
 		}
 	}
+	
+	public static Font ScaleFont(AppView app, Font font, String key, String defaultValue) {
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		try {
+			int fontsize = Integer.parseInt(value);
+			return new Font(font.getName(), font.getStyle(), fontsize);
+			
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
+		return font;
+	}
 
 	public static void ScaleLabelFontsizePrefered(AppView app, JLabel label, String key, String defaultValue,
 			int preferedWidth) {

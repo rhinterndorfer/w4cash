@@ -48,10 +48,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+
+import org.joda.time.DateTime;
 
 /**
  *
@@ -231,7 +234,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		jtxtMoney.reset();
 
-		jTxtStartDate.setText(null);
+		jTxtStartDate.setText(Formats.DATE.formatValue(new Date()));
+		//jTxtStartDate.setText(null);
 		jTxtEndDate.setText(null);
 
 		jtxtCustomer.setText(null);

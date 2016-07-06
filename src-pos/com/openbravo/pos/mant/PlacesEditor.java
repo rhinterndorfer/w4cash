@@ -142,7 +142,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 
 		m_jFontsize.setValue(12);
 		m_jFontColor.setText("");
-		m_jFontColor.setBackground(Color.white);
+		m_jFontColor.setBackground(Color.BLACK);
 
 		m_jName.setEnabled(true);
 		m_jFloor.setEnabled(false);
@@ -546,7 +546,7 @@ public class PlacesEditor extends JPanel implements EditorRecord {
 		}
 
 		// place.setFontColor("Green");
-		place.setFontsize(fontsize);
+		place.setFontsizeCurrent(fontsize);
 	}
 
 	private void sizePlace() {

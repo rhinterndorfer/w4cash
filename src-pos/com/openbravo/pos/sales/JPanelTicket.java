@@ -528,6 +528,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				}
 
 				if (i >= 0) {
+					// get previous line and copy sort number and category id
+					
+					TicketLineInfo previousLine = m_oTicket.getLine(i-1);
+					oLine.setProperty("product.sort", previousLine.getProperty("product.sort", previousLine.getProductID()));
+					
+					if(previousLine.getProperty("product.categoryid") != null)
+						oLine.setProperty("product.categoryid", previousLine.getProperty("product.categoryid"));
+
 					m_oTicket.insertLine(i, oLine);
 					m_ticketlines.insertTicketLine(i, oLine); // Pintamos la
 																// linea en la
@@ -2108,7 +2116,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						AppLocal.getIntString("message.databaseconnectionerror"), e1);
 			}
 		}
-
 	}// GEN-LAST:event_btnSplitActionPerformed
 
 	private void jEditAttributesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jEditAttributesActionPerformed

@@ -23,10 +23,18 @@
         </line>
 		<line></line>
         #foreach ($ticketline in $ticket.getLinesSorted())
+            #if ($ticketline.isProductCom())
             <line size="3">
-				<text align ="left" length="7" bold="true">${ticketline.printMultiply()} X</text>
-                <text align ="left" length="20" bold="true">${ticketline.printName()}</text>
+				<text align ="left" length="7" bold="false"></text>
+				<text align ="left" length="7" bold="false">${ticketline.printMultiply()} X</text>
+                <text align ="left" length="13" bold="false">${ticketline.printName()}</text>
             </line>
+            #else
+            <line size="3">
+            	<text align ="left" length="7" bold="true">${ticketline.printMultiply()} X</text>
+            	<text align ="left" length="20" bold="true">${ticketline.printName()}</text>
+            </line>
+            #end
 			#if ($ticketline.productAttSetInstId)
 			<line size="3">
 				<text align ="left" length="7" bold="true"></text>

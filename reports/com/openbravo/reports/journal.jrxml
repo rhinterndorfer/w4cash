@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-26T23:51:12 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="journal" pageWidth="1340" pageHeight="705" orientation="Landscape" columnWidth="1320" leftMargin="10" rightMargin="10" topMargin="0" bottomMargin="0" resourceBundle="journal_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
+<!-- 2016-07-06T14:53:12 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="journal" pageWidth="1540" pageHeight="705" orientation="Landscape" columnWidth="1540" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" resourceBundle="journal_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
@@ -38,12 +38,17 @@ select
 		ta.RATE * 100 as Tax,
 		tl.UNITS * tl.PRICE * (1+ta.RATE) as PriceGross,
 		cc.HOSTSEQUENCE as ClosedCashSequence, 
+		l.Name as Location,
+		cc.HOST as ClosedCashHost,
 		cc.DATESTART as ClosedCashStart, 
 		cc.DATEEND as ClosedCashEnd,
 		null as Payment,
 		null as Total
 from 
 	CLOSEDCASH cc
+	left join
+		LOCATIONS l
+		on cc.LOCATION = l.ID
 	inner join 
 		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
 		on cc.MONEY=r.MONEY
@@ -73,12 +78,17 @@ select
 		null as Tax,
 		null as PriceGross,
 		cc.HOSTSEQUENCE as ClosedCashSequence, 
+		l.Name as Location,		
+		cc.HOST as ClosedCashHost,
 		cc.DATESTART as ClosedCashStart, 
 		cc.DATEEND as ClosedCashEnd,
 		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' when PAYMENT='magcard' then 'Karte' when PAYMENT='magcardrefund' then 'Karte' when PAYMENT='paperin' then 'Rechnung' when PAYMENT='paperout' then 'Rechnung' else PAYMENT end as Payment,
 		Total
 	from 
 	CLOSEDCASH cc
+	left join
+		LOCATIONS l
+		on cc.LOCATION = l.ID
 	inner join 
 		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
 		on cc.MONEY=r.MONEY
@@ -93,6 +103,8 @@ order by ReceiptNo, LineType, Line]]>
 	</queryString>
 	<field name="ClosedCashSequence" class="java.lang.Integer"/>
 	<field name="ClosedCashStart" class="java.util.Date"/>
+	<field name="ClosedCashHost" class="java.lang.String"/>
+	<field name="Location" class="java.lang.String"/>
 	<field name="ClosedCashEnd" class="java.util.Date"/>
 	<field name="ReceiptType" class="java.lang.String"/>
 	<field name="LineType" class="java.lang.Integer"/>
@@ -150,83 +162,93 @@ order by ReceiptNo, LineType, Line]]>
 	</title>
 	<columnHeader>
 		<band height="30">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<printWhenExpression><![CDATA[$V{PAGE_NUMBER}==1]]></printWhenExpression>
 			<staticText>
 				<reportElement x="0" y="0" width="70" height="30" uuid="2452a824-4b73-45fe-8e15-052c54be36b2"/>
 				<text><![CDATA[Tagesabr. Nr.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="70" y="0" width="140" height="30" uuid="61877133-6bc9-4daa-a3bd-69bd4c6f9d62">
+				<reportElement x="287" y="0" width="140" height="30" uuid="61877133-6bc9-4daa-a3bd-69bd4c6f9d62">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Tag Start]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="210" y="0" width="140" height="30" uuid="d2473782-b2ca-445d-ad9a-91574d52e24a"/>
+				<reportElement x="427" y="0" width="140" height="30" uuid="d2473782-b2ca-445d-ad9a-91574d52e24a"/>
 				<text><![CDATA[Tag Ende]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="350" y="0" width="90" height="30" uuid="217e6535-a555-47a9-9cd7-2609bbc9d195"/>
+				<reportElement x="567" y="0" width="90" height="30" uuid="217e6535-a555-47a9-9cd7-2609bbc9d195"/>
 				<text><![CDATA[Belegart]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="440" y="0" width="82" height="30" uuid="9d1a8f4e-247b-49d5-9cae-b6b677a7d3ba">
+				<reportElement x="657" y="0" width="82" height="30" uuid="9d1a8f4e-247b-49d5-9cae-b6b677a7d3ba">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Zeilenart Nr.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="522" y="0" width="90" height="30" uuid="cf0c1823-4a31-4761-951e-8a5f11c0745f"/>
+				<reportElement x="739" y="0" width="90" height="30" uuid="cf0c1823-4a31-4761-951e-8a5f11c0745f"/>
 				<text><![CDATA[Zeilenart]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="612" y="0" width="76" height="30" uuid="dc45a713-13cc-4af7-9fc9-2d4ed489686c">
+				<reportElement x="829" y="0" width="76" height="30" uuid="dc45a713-13cc-4af7-9fc9-2d4ed489686c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Bon Nr.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="689" y="0" width="140" height="30" uuid="c6610b59-7f18-4f0e-b012-ac57b5b7088f"/>
+				<reportElement x="906" y="0" width="140" height="30" uuid="c6610b59-7f18-4f0e-b012-ac57b5b7088f"/>
 				<text><![CDATA[Bondatum]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="829" y="0" width="150" height="30" uuid="54cc9037-9eb9-476b-a46c-9cb5cf0619f5">
+				<reportElement x="1046" y="0" width="150" height="30" uuid="54cc9037-9eb9-476b-a46c-9cb5cf0619f5">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Artikel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="979" y="0" width="60" height="30" uuid="26337efb-7cb6-4e66-9080-6e63f899e0c1">
+				<reportElement x="1196" y="0" width="60" height="30" uuid="26337efb-7cb6-4e66-9080-6e63f899e0c1">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Menge]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1039" y="0" width="60" height="30" uuid="faab4c30-e31b-4739-a676-a246ce01ffc2">
+				<reportElement x="1256" y="0" width="60" height="30" uuid="faab4c30-e31b-4739-a676-a246ce01ffc2">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Steuer]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1099" y="0" width="60" height="30" uuid="16a13b78-69af-402a-8006-b6325e839d5a">
+				<reportElement x="1316" y="0" width="60" height="30" uuid="16a13b78-69af-402a-8006-b6325e839d5a">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Preis]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1159" y="0" width="100" height="30" uuid="c4d788ce-ad8d-4761-9582-dd39a38b99bc">
+				<reportElement x="1376" y="0" width="100" height="30" uuid="c4d788ce-ad8d-4761-9582-dd39a38b99bc">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<text><![CDATA[Zahlungsmittel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1259" y="0" width="60" height="30" uuid="00968f2f-46ee-4c5b-8180-68e0f8578e70"/>
+				<reportElement x="1476" y="0" width="64" height="30" uuid="00968f2f-46ee-4c5b-8180-68e0f8578e70"/>
 				<text><![CDATA[Gesamt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="0" width="112" height="30" uuid="ca57f23f-f84b-443d-b9f8-cffb98a92160"/>
+				<text><![CDATA[Verkaufsplatz]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="0" width="104" height="30" uuid="27894f0f-9b92-48ee-b579-2481ec865e71"/>
+				<text><![CDATA[Bereich]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="15">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
 				<reportElement x="0" y="0" width="70" height="15" uuid="a37e2d12-b5f0-4919-af18-61ad50548c43">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
@@ -235,61 +257,69 @@ order by ReceiptNo, LineType, Line]]>
 				<textFieldExpression><![CDATA[$F{ClosedCashSequence}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="0" width="140" height="15" uuid="5feffe24-2ab0-46b9-82e1-4ce7c2489292">
+				<reportElement x="287" y="0" width="140" height="15" uuid="5feffe24-2ab0-46b9-82e1-4ce7c2489292">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue($F{ClosedCashStart})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="210" y="0" width="140" height="15" uuid="10f1c2d4-57cf-4545-99db-b013b71bae78"/>
+				<reportElement x="427" y="0" width="140" height="15" uuid="10f1c2d4-57cf-4545-99db-b013b71bae78"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue($F{ClosedCashEnd})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="350" y="0" width="90" height="15" uuid="771f56d2-d4ad-4a39-b11d-909e8681f770"/>
+				<reportElement x="567" y="0" width="90" height="15" uuid="771f56d2-d4ad-4a39-b11d-909e8681f770"/>
 				<textFieldExpression><![CDATA[$F{ReceiptType}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="440" y="0" width="82" height="15" uuid="ef7374ec-4391-42d4-907b-b4c9ef21f0f7"/>
+				<reportElement x="657" y="0" width="82" height="15" uuid="ef7374ec-4391-42d4-907b-b4c9ef21f0f7"/>
 				<textFieldExpression><![CDATA[$F{LineType}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="522" y="0" width="90" height="15" uuid="c7299878-d49e-454e-8913-ea039ebfc169"/>
+				<reportElement x="739" y="0" width="90" height="15" uuid="c7299878-d49e-454e-8913-ea039ebfc169"/>
 				<textFieldExpression><![CDATA[$F{LineTypeDesc}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="612" y="0" width="76" height="15" uuid="074887ed-c9d4-4bed-9066-1e09327ba034"/>
+				<reportElement x="829" y="0" width="76" height="15" uuid="074887ed-c9d4-4bed-9066-1e09327ba034"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{ReceiptNo})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="689" y="0" width="140" height="15" uuid="415f63d2-e0d0-409f-a857-e58f9af998e7"/>
+				<reportElement x="906" y="0" width="140" height="15" uuid="415f63d2-e0d0-409f-a857-e58f9af998e7"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue($F{ReceiptDate})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="829" y="0" width="150" height="15" uuid="378acfba-9a11-4ebc-b833-a4f32c58f9d8">
+				<reportElement x="1046" y="0" width="150" height="15" uuid="378acfba-9a11-4ebc-b833-a4f32c58f9d8">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{Product}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="979" y="0" width="60" height="15" uuid="7f7dd246-a5ec-4ee1-982b-69bbe2f384b3"/>
+				<reportElement x="1196" y="0" width="60" height="15" uuid="7f7dd246-a5ec-4ee1-982b-69bbe2f384b3"/>
 				<textFieldExpression><![CDATA[$F{Amount}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1039" y="0" width="60" height="15" uuid="2b709e3d-da3b-494d-8ca6-1fa489d08737"/>
+				<reportElement x="1256" y="0" width="60" height="15" uuid="2b709e3d-da3b-494d-8ca6-1fa489d08737"/>
 				<textFieldExpression><![CDATA[$F{Tax}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#0.00" isBlankWhenNull="true">
-				<reportElement x="1099" y="0" width="60" height="15" uuid="986eaa1e-ab93-4962-b74a-35e9b6d1d8a2"/>
+				<reportElement x="1316" y="0" width="60" height="15" uuid="986eaa1e-ab93-4962-b74a-35e9b6d1d8a2"/>
 				<textFieldExpression><![CDATA[$F{PriceGross}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1159" y="0" width="100" height="15" uuid="4a6c1c2f-9cb4-4e13-8c97-174b8d732ba9"/>
+				<reportElement x="1376" y="0" width="100" height="15" uuid="4a6c1c2f-9cb4-4e13-8c97-174b8d732ba9"/>
 				<textFieldExpression><![CDATA[$F{Payment}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#0.00" isBlankWhenNull="true">
-				<reportElement x="1259" y="0" width="60" height="15" uuid="7417eaa5-be14-471a-8174-d4b2c00a2d3d"/>
+				<reportElement x="1476" y="0" width="64" height="15" uuid="7417eaa5-be14-471a-8174-d4b2c00a2d3d"/>
 				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="0" width="112" height="15" uuid="8b77f08b-1df3-4fbb-803c-2c1b0e5156eb"/>
+				<textFieldExpression><![CDATA[$F{ClosedCashHost}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="0" width="104" height="14" uuid="f2fd21b7-5e67-4325-81fe-c2040a17fe2d"/>
+				<textFieldExpression><![CDATA[$F{Location}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -291,9 +291,54 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	 * Method that is responsible for opening a drawer
 	 */
 	@Override
-	public void openDrawer() {
-		// Una simulacion
-		Toolkit.getDefaultToolkit().beep();
+	public void openDrawer(String byteCode) {
+		try {
+
+			PrintService ps;
+
+			if (printservice == null) {
+				String[] printers = ReportUtils.getPrintNames();
+				if (printers.length == 0) {
+					logger.warning(AppLocal.getIntString("message.noprinters"));
+					ps = null;
+				} else {
+					SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers, m_App);
+					selectprinter.setVisible(true);
+					if (selectprinter.isOK()) {
+						ps = ReportUtils.getPrintService(selectprinter.getPrintService());
+					} else {
+						ps = null;
+					}
+				}
+			} else {
+				ps = printservice;
+			}
+
+			if (ps != null) {
+
+				DocPrintJob printjob = ps.createPrintJob();
+				
+				// final byte[] openCD={27,42,114,68,3,0};
+				byte[] openCD={};
+				if(byteCode != null)
+				{
+					String[] codes = byteCode.split(",");
+					openCD = new byte[codes.length];
+					for(int i=0;i<codes.length;i++)
+					{
+						openCD[i] = (byte)Integer.parseInt(codes[i]);
+					}
+				}
+
+				Doc doc = new SimpleDoc(openCD, DocFlavor.BYTE_ARRAY.AUTOSENSE, null);
+				printjob.print(doc, null);
+			}
+
+		} catch (PrintException ex) {
+			logger.log(Level.WARNING, AppLocal.getIntString("message.printererror"), ex);
+			JMessageDialog.showMessage(m_App,parent,
+					new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.printererror"), ex));
+		}
 	}
 
 	private static MediaSizeName getMedia(String mediasizename) {

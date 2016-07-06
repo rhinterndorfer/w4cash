@@ -85,7 +85,7 @@ public class DevicePrinterPanel extends javax.swing.JPanel implements DevicePrin
         m_ticketcurrent = null;
     }
     
-    public void openDrawer() {
+    public void openDrawer(String byteCode) {
         // Una simulacion
         Toolkit.getDefaultToolkit().beep();
     }   

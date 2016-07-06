@@ -63,6 +63,6 @@ public class DevicePrinterNull implements DevicePrinter {
     }
     public void endReceipt() {
     }
-    public void openDrawer() {
+    public void openDrawer(String byteCode) {
     }
 }

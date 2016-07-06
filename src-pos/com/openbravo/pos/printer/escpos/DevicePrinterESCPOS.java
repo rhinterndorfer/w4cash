@@ -132,7 +132,7 @@ public class DevicePrinterESCPOS implements DevicePrinter  {
         m_CommOutputPrinter.flush();
     }
     
-    public void openDrawer() {
+    public void openDrawer(String byteCode) {
 
         m_CommOutputPrinter.write(ESCPOS.SELECT_PRINTER);   
         m_CommOutputPrinter.write(m_codes.getOpenDrawer());

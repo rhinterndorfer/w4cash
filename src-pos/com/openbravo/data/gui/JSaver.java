@@ -58,6 +58,8 @@ public class JSaver extends JPanel implements StateListener {
 			PropertyUtil.ScaleButtonIcon(jbtnNew, width, height, fontsize);
 		if (jbtnSave != null)
 			PropertyUtil.ScaleButtonIcon(jbtnSave, width, height, fontsize);
+		if(jbtnCancel != null)
+			PropertyUtil.ScaleButtonIcon(jbtnCancel, width, height, fontsize);
 	}
 
 	public void updateState(int iState) {
@@ -66,21 +68,25 @@ public class JSaver extends JPanel implements StateListener {
 			jbtnNew.setEnabled(m_bd.canInsertData());
 			jbtnDelete.setEnabled(false);
 			jbtnSave.setEnabled(m_bd.canInsertData());
+			jbtnCancel.setEnabled(true);
 			break;
 		case BrowsableEditableData.ST_DELETE:
 			jbtnNew.setEnabled(m_bd.canInsertData());
 			jbtnDelete.setEnabled(false);
 			jbtnSave.setEnabled(m_bd.canDeleteData());
+			jbtnCancel.setEnabled(true);
 			break;
 		case BrowsableEditableData.ST_NORECORD:
 			jbtnNew.setEnabled(m_bd.canInsertData());
 			jbtnDelete.setEnabled(false);
 			jbtnSave.setEnabled(false);
+			jbtnCancel.setEnabled(false);
 			break;
 		case BrowsableEditableData.ST_UPDATE:
 			jbtnNew.setEnabled(m_bd.canInsertData());
 			jbtnDelete.setEnabled(m_bd.canDeleteData());
 			jbtnSave.setEnabled(m_bd.canUpdateData());
+			jbtnCancel.setEnabled(true);
 			break;
 		}
 	}
@@ -97,6 +103,7 @@ public class JSaver extends JPanel implements StateListener {
 		jbtnDelete = new javax.swing.JButton();
 		jSeparator1 = new javax.swing.JSeparator();
 		jbtnSave = new javax.swing.JButton();
+		jbtnCancel = new javax.swing.JButton();
 
 		setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -140,6 +147,21 @@ public class JSaver extends JPanel implements StateListener {
 		});
 
 		add(jbtnSave);
+		
+		add(jSeparator1);
+
+		jbtnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/undo.png")));
+		jbtnCancel.setFocusPainted(false);
+		jbtnCancel.setFocusable(false);
+		jbtnCancel.setMargin(new java.awt.Insets(2, 8, 2, 8));
+		jbtnCancel.setRequestFocusEnabled(false);
+		jbtnCancel.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jbtnCancelActionPerformed(evt);
+			}
+		});
+		jbtnCancel.setEnabled(false);
+		add(jbtnCancel);
 
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -152,6 +174,10 @@ public class JSaver extends JPanel implements StateListener {
 			msg.show(m_App,this);
 		}
 	}// GEN-LAST:event_jbtnSaveActionPerformed
+	
+	private void jbtnCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jbtnSaveActionPerformed
+			m_bd.refreshCurrent();
+	}
 
 	private void jbtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jbtnDeleteActionPerformed
 		// Add your handling code here:
@@ -178,6 +204,7 @@ public class JSaver extends JPanel implements StateListener {
 	private javax.swing.JButton jbtnDelete;
 	private javax.swing.JButton jbtnNew;
 	private javax.swing.JButton jbtnSave;
+	private javax.swing.JButton jbtnCancel;
 	// End of variables declaration//GEN-END:variables
 
 }

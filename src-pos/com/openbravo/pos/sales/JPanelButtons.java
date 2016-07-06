@@ -86,7 +86,7 @@ public class JPanelButtons extends javax.swing.JPanel {
                     m_sp = spf.newSAXParser();
                 }
                 m_sp.parse(new InputSource(new StringReader(sConfigRes)), new ConfigurationHandler());
-
+                
             } catch (ParserConfigurationException ePC) {
                 logger.log(Level.WARNING, LocalRes.getIntString("exception.parserconfig"), ePC);
             } catch (SAXException eSAX) {

@@ -59,5 +59,5 @@ public interface DevicePrinter {
     public void endReceipt();   
     
     // INTERFAZ VARIOUS
-    public void openDrawer();    
+    public void openDrawer(String byteCode);    
 }

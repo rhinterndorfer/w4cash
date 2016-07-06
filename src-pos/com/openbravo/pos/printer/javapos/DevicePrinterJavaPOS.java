@@ -176,7 +176,7 @@ public class DevicePrinterJavaPOS  implements DevicePrinter {
         }
     }     
     
-    public void openDrawer() {
+    public void openDrawer(String byteCode) {
         
         if (m_drawer != null) {
             try {

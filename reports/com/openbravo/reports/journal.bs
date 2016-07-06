@@ -40,12 +40,17 @@ report.setSentence("select " +
 "		ta.RATE * 100 as Tax, " +
 "		tl.UNITS * tl.PRICE * (1+ta.RATE) as PriceGross, "+
 "		cc.HOSTSEQUENCE as ClosedCashSequence, " +
+"		l.Name as Location, " +
+"		cc.HOST as ClosedCashHost, " +
 "		cc.DATESTART as ClosedCashStart, " +
 "		cc.DATEEND as ClosedCashEnd, " +
 "		null as Payment, " +
 "		null as Total " +
 "	from " +
 "	CLOSEDCASH cc" +
+"	left join " +
+"		LOCATIONS l " +
+"		on cc.LOCATION = l.ID " +
 "	inner join " +
 "		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r" +
 "		on cc.MONEY=r.MONEY" +
@@ -75,12 +80,17 @@ report.setSentence("select " +
 "		null as Tax, " +
 "		null as PriceGross, " +
 "		cc.HOSTSEQUENCE as ClosedCashSequence, " +
+"		l.Name as Location, " +
+"		cc.HOST as ClosedCashHost, " +
 "		cc.DATESTART as ClosedCashStart, " +
 "		cc.DATEEND as ClosedCashEnd, " +
 "		case when PAYMENT='cash' then 'Bar' when PAYMENT='free' then 'Frei/Gratis' when PAYMENT='cashrefund' then 'Bar' when PAYMENT='magcard' then 'Karte' when PAYMENT='magcardrefund' then 'Karte' when PAYMENT='paperin' then 'Rechnung' when PAYMENT='paperout' then 'Rechnung' else PAYMENT end as Payment, " +
 "		Total " +
 "	from " +
 "	CLOSEDCASH cc " +
+"	left join " +
+"		LOCATIONS l " +
+"		on cc.LOCATION = l.ID " +
 "	inner join " +
 "		(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r " +
 "		on cc.MONEY=r.MONEY " +
@@ -111,6 +121,8 @@ report.addField("Product", com.openbravo.data.loader.Datas.STRING);
 report.addField("Tax", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("PriceGross", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("ClosedCashSequence", com.openbravo.data.loader.Datas.INT);
+report.addField("Location", com.openbravo.data.loader.Datas.STRING);
+report.addField("ClosedCashHost", com.openbravo.data.loader.Datas.STRING);
 report.addField("ClosedCashStart", com.openbravo.data.loader.Datas.TIMESTAMP);
 report.addField("ClosedCashEnd", com.openbravo.data.loader.Datas.TIMESTAMP);
 report.addField("Payment", com.openbravo.data.loader.Datas.STRING);

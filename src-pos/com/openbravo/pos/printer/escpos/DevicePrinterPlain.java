@@ -83,7 +83,7 @@ public class DevicePrinterPlain implements DevicePrinter  {
         out.flush();
     }
     
-    public void openDrawer() {
+    public void openDrawer(String byteCode) {
     }
 }
 

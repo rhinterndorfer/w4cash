@@ -73,6 +73,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private int m_iWidth;
 	private int m_iHeight;
 	private int m_iFontsize;
+	private int m_iFontsizeCurrent;
 	private Color m_iFontColor;
 
 	/** Creates a new instance of TablePlace */
@@ -104,7 +105,8 @@ public class Place implements SerializableRead, java.io.Serializable {
 			// npe.printStackTrace();
 			m_iFontsize = 12;
 		}
-
+		m_iFontsizeCurrent = m_iFontsize; 
+				
 		try {
 			String cc[] = dr.getString(9).split(";");
 			m_iFontColor = new Color(Integer.parseInt(cc[0]), Integer.parseInt(cc[1]), Integer.parseInt(cc[2]));
@@ -184,6 +186,11 @@ public class Place implements SerializableRead, java.io.Serializable {
 		return this.m_iFontsize;
 	}
 
+	public int getFontsizeCurrent() {
+		return this.m_iFontsizeCurrent;
+	}
+
+	
 	public JPlaceButton getButton() {
 		return m_btn;
 	}
@@ -206,7 +213,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 			sb.append("font-family:");
 			sb.append(font.getName());
 			sb.append(";font-size:");
-			sb.append(m_iFontsize);
+			sb.append(m_iFontsizeCurrent);
 			sb.append(";'><center>");
 			sb.append(m_sName);
 			sb.append("</center></div></html>");
@@ -218,7 +225,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 			sb.append("<html><div style='text-align: center; font-family:");
 			sb.append(font.getName());
 			sb.append(";font-size:");
-			sb.append(m_iFontsize);
+			sb.append(m_iFontsizeCurrent);
 			sb.append(";'>");
 			sb.append(m_sName);
 			sb.append("</div></html>");
@@ -264,10 +271,11 @@ public class Place implements SerializableRead, java.io.Serializable {
 		this.editor.selectPlace(this);
 	}
 
-	public void setFontsize(int fontsize) {
-		this.m_iFontsize = fontsize;
-		Font newFont = new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsize);
+	public void setFontsizeCurrent(int fontsize) {
+		this.m_iFontsizeCurrent = fontsize;
+		Font newFont = new Font(m_btn.getFont().getName(), m_btn.getFont().getStyle(), m_iFontsizeCurrent);
 		m_btn.setFont(newFont);
+		setPeople(hasPeople());
 		m_btn.repaint();
 	}
 

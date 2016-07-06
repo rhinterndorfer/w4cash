@@ -47,7 +47,7 @@ import com.openbravo.pos.customers.JCustomerFinder;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
-import com.openbravo.pos.sales.restaurant.Place;
+import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
@@ -75,13 +75,13 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private String ticketId;
 	private AppView m_App;
 	private boolean tableSelect = false;
-	private Place selectedTable;
+	private PlaceSplit selectedTable;
 
-	public Place getSelectedTable() {
+	public PlaceSplit getSelectedTable() {
 		return selectedTable;
 	}
 
-	public void setSelectedTable(Place selectedTable) {
+	public void setSelectedTable(PlaceSplit selectedTable) {
 		this.selectedTable = selectedTable;
 	}
 
@@ -146,7 +146,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		// The ticket name
 		if (this.tableSelect && tt != null) {
 			// find selected talble
-			for (Place place : this.m_aplaces) {
+			for (PlaceSplit place : this.m_aplaces) {
 				if (place.getName().compareTo(tt.toString()) == 0) {
 					this.selectedTable = place;
 					break;
@@ -163,7 +163,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				@SuppressWarnings("unchecked")
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					selectedTable = (Place) ((JComboBox<Place>) e.getSource()).getSelectedItem();
+					selectedTable = (PlaceSplit) ((JComboBox<PlaceSplit>) e.getSource()).getSelectedItem();
 					ticketext = selectedTable.getName();
 					ticketId = selectedTable.getId();
 				}
@@ -362,19 +362,19 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			if (this.tableSelect) {
 				fillpossibleTables();
 
-				m_jTicketId = new JComboBox<Place>(this.m_aplaces.toArray(new Place[this.m_aplaces.size()]));
+				m_jTicketId = new JComboBox<PlaceSplit>(this.m_aplaces.toArray(new PlaceSplit[this.m_aplaces.size()]));
 				m_jTicketId.addActionListener(new ActionListener() {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JComboBox<Place> cb = ((JComboBox<Place>)e.getSource());
-						cb.setPrototypeDisplayValue((Place)cb.getSelectedItem());
+						JComboBox<PlaceSplit> cb = ((JComboBox<PlaceSplit>)e.getSource());
+						cb.setPrototypeDisplayValue((PlaceSplit)cb.getSelectedItem());
 						
 					}
 				});
-				((JComboBox<Place>) m_jTicketId).setRenderer(new ListCellRenderer<Place>() {
+				((JComboBox<PlaceSplit>) m_jTicketId).setRenderer(new ListCellRenderer<PlaceSplit>() {
 
-					public Component getListCellRendererComponent(JList<? extends Place> list, Place value, int index,
+					public Component getListCellRendererComponent(JList<? extends PlaceSplit> list, PlaceSplit value, int index,
 							boolean isSelected, boolean cellHasFocus) {
 						// TODO Auto-generated method stub
 						StringBuilder sb = new StringBuilder();
@@ -382,6 +382,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 						sb.append(value.getName());
 						sb.append("</div></html>");
 						JLabel renderer = new JLabel(sb.toString());
+						renderer.setMinimumSize(new Dimension(150, 16));
 						
 						renderer.setBorder(javax.swing.BorderFactory.createCompoundBorder(
 								javax.swing.BorderFactory
@@ -487,8 +488,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 			if (this.tableSelect) {
 				try {
 					SentenceList sent = new StaticSentence(m_App.getSession(),
-							"SELECT p.ID, p.NAME, p.X, p.Y, p.FLOOR, p.WIDTH, p.HEIGHT, p.FONTSIZE FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
-							null, new SerializerReadClass(Place.class));
+							"SELECT p.ID, p.NAME FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
+							null, new SerializerReadClass(PlaceSplit.class));
 					this.m_aplaces = sent.list();
 				} catch (BasicException eD) {
 					throw eD;
@@ -517,7 +518,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jTaxesEuros, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jSubtotalEuros, "common-dialog-fontsize", "22");
 		if (this.m_jTicketId != null) {
-			PropertyUtil.ScaleComboFontsize(m_App, ((JComboBox<Place>) m_jTicketId), "common-dialog-fontsize", "22");
+			PropertyUtil.ScaleComboFontsize(m_App, ((JComboBox<PlaceSplit>) m_jTicketId), "common-dialog-fontsize", "22");
 		}
 		// } else {
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLTicketId, "common-dialog-fontsize", "22");
@@ -631,10 +632,10 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private javax.swing.JLabel m_jSubtotalEuros;
 	private javax.swing.JLabel m_jTaxesEuros;
 
-	private javax.swing.JComboBox<Place> m_jTicketId;
+	private javax.swing.JComboBox<PlaceSplit> m_jTicketId;
 	private javax.swing.JLabel m_jLTicketId;
 	private javax.swing.JLabel m_jTotalEuros;
-	private List<Place> m_aplaces;
+	private List<PlaceSplit> m_aplaces;
 
 	public Object getTicketText() {
 		return this.ticketext;

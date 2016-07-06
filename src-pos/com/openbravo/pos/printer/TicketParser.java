@@ -119,7 +119,8 @@ public class TicketParser extends DefaultHandler {
         switch (m_iOutputType) {
         case OUTPUT_NONE:
             if ("opendrawer".equals(qName)) {
-                m_printer.getDevicePrinter(readString(attributes.getValue("printer"), "1")).openDrawer();
+            	String byteCode = attributes.getValue("byteCode");
+            	m_printer.getDevicePrinter(readString(attributes.getValue("printer"), "1")).openDrawer(byteCode);
             } else if ("play".equals(qName)) {
                  text = new StringBuffer();    
             } else if ("ticket".equals(qName)) {

@@ -392,7 +392,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
 		m_jButtonKeyboard.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_keyboard.png"))); // NOI18N
-		m_jButtonKeyboard.setText(AppLocal.getIntString("ProductAttEdit.Button.Keyboard"));
+		m_jButtonKeyboard.setText(AppLocal.getIntString("Button.Keyboard"));
 		m_jButtonKeyboard.setFocusPainted(false);
 		m_jButtonKeyboard.setFocusable(false);
 		m_jButtonKeyboard.setMargin(new java.awt.Insets(8, 16, 8, 16));
@@ -400,10 +400,11 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				
-				String prgFiles = System.getenv("ProgramFiles");
-				File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
+				//String prgFiles = System.getenv("ProgramFiles");
+				//File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
 				
-				if (touchKeyboard.exists()) {
+				//if (touchKeyboard.exists()) {
+				/*
 					try {
 						String fullPath = touchKeyboard.getAbsolutePath();
 						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c",fullPath});
@@ -411,16 +412,17 @@ public class JProductAttEdit extends javax.swing.JDialog {
 					} catch (Exception ex) {
 						// do nothing
 					}
-				}
-				else
-				{
+				*/
+				//}
+				//else
+				//{
 					try {
 						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c","osk.exe"});
 						pb.start();
 					} catch (Exception ex) {
 						// do nothing
 					}
-				}
+				//}
 			}
 		});
 		jPanel1.add(m_jButtonKeyboard);

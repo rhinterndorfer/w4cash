@@ -41,25 +41,25 @@
         <line></line>
         #if ($ticket.printId() == "")
 		<line>
-            <text align="left" length="10">Bon:</text>
-            <text align="left" length="20">Vorschau</text>
+            <text align="left" length="7">Bon:</text>
+            <text align="left" length="23">Vorschau</text>
         </line>
         #else
         <line>
-            <text align="left" length="10">Bon:</text>
+            <text align="left" length="7">Bon:</text>
             <text align="left" length="10">${ticket.printId()}</text>
-            <text align="right" length="1">/</text>
-            <text align="right" length="9">${host}</text>
+            <text align="left" length="1">/</text>
+            <text align="left" length="12"> ${host}</text>
         </line>
         #end
         <line>
-            <text align="left" length="10">Datum:</text>
-            <text align="left" length="20">${ticket.printDate()}</text>
+            <text align="left" length="7">Datum:</text>
+            <text align="left" length="23">${ticket.printDate()}</text>
         </line>
         #if ($place != "")
         <line>
-            <text align="left" length="10">Tisch:</text>
-            <text align="left" length="20">${place}</text>
+            <text align="left" length="7">Tisch:</text>
+            <text align="left" length="23">${place}</text>
         </line>  
         #end
         #if ($ticket.getCustomer())

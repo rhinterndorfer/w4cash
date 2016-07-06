@@ -207,6 +207,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		jPanel4.setLayout(new java.awt.GridBagLayout());
 
+		
 		// // NOI18N
 		jBtnToRightAll
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22rightarrow.png"))); // NOI18N
@@ -222,7 +223,28 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		});
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridy = 0;
+		gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
 		jPanel4.add(jBtnToRightAll, gridBagConstraints);
+		
+		
+		// // NOI18N
+		jBtnToLeftAll
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22leftarrow.png")));
+		jBtnToLeftAll.setFocusPainted(false);
+		jBtnToLeftAll.setFocusable(false);
+		// jBtnToLeftAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		jBtnToLeftAll.setMargin(new java.awt.Insets(00, 0, 00, 0));
+		jBtnToLeftAll.setRequestFocusEnabled(false);
+		jBtnToLeftAll.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jBtnToLeftAllActionPerformed(evt);
+			}
+		});
+		gridBagConstraints = new java.awt.GridBagConstraints();
+		gridBagConstraints.gridy = 1;
+		gridBagConstraints.insets = new java.awt.Insets(10, 0, 20, 0);
+		jPanel4.add(jBtnToLeftAll, gridBagConstraints);
+		
 
 		// // NOI18N
 		jBtnToRightOne
@@ -238,8 +260,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			}
 		});
 		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridy = 1;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
+		gridBagConstraints.gridy = 2;
+		gridBagConstraints.insets = new java.awt.Insets(20, 0, 10, 0);
 		jPanel4.add(jBtnToRightOne, gridBagConstraints);
 
 		// // NOI18N
@@ -255,27 +277,11 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			}
 		});
 		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridy = 2;
-		gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
+		gridBagConstraints.gridy = 3;
+		gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
 		jPanel4.add(jBtnToLeftOne, gridBagConstraints);
 
-		// // NOI18N
-		jBtnToLeftAll
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22leftarrow.png")));
-		jBtnToLeftAll.setFocusPainted(false);
-		jBtnToLeftAll.setFocusable(false);
-		// jBtnToLeftAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		jBtnToLeftAll.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		jBtnToLeftAll.setRequestFocusEnabled(false);
-		jBtnToLeftAll.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jBtnToLeftAllActionPerformed(evt);
-			}
-		});
-		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridy = 3;
-		gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 0);
-		jPanel4.add(jBtnToLeftAll, gridBagConstraints);
+		
 
 		jPanel1.add(jPanel4);
 

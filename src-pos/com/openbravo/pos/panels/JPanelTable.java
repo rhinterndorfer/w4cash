@@ -20,6 +20,7 @@
 package com.openbravo.pos.panels;
 
 import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.*;
@@ -78,7 +79,11 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		if (bd == null) {
 
 			// init browsable editable data
-			bd = new BrowsableEditableData(getListProvider(), getSaveProvider(), getEditor(), dirty);
+			Comparator comp = null;
+			if(getComparatorCreator() != null)
+				comp = getComparatorCreator().createComparator(new int[] {0});
+			
+			bd = new BrowsableEditableData(getListProvider(), getSaveProvider(), comp, getEditor(), dirty);
 
 			// Add the filter panel
 			Component c = getFilter();

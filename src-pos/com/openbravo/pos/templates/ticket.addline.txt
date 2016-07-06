@@ -5,38 +5,41 @@ import com.openbravo.pos.ticket.TicketProductInfo;
 import java.util.Properties;
 
 int numlines = ticket.getLinesCount();
-
 current_unit  = line.getMultiply();
-if ( current_unit != 0){
+
+if (current_unit != 0 && !line.isProductCom()){
 	for (int j = 0 ; j < numlines ; j++) {
 		loop_ticketline = ticket.getLine(j);
 		loop_unit  = loop_ticketline.getMultiply();  
 
 		String current_productid = line.getProductID();
 		String current_AttSetDesc = line.getProductAttSetInstDesc();
-
 		String loop_productid    = loop_ticketline.getProductID();
-
 		String loop_AttSetDesc   = loop_ticketline.getProductAttSetInstDesc();
 
-		if ( current_AttSetDesc == "" && loop_AttSetDesc == "" && loop_productid != null && loop_productid.equals(current_productid) && (loop_ticketline.getPrice() == line.getPrice()) && (loop_unit != 0) ){
-			current_unit = current_unit + loop_unit;
-			loop_ticketline.setMultiply(0);	
+		// if equal add quantity and return
+		if (current_AttSetDesc == "" && loop_AttSetDesc == "" 
+			&& loop_productid != null && loop_productid.equals(current_productid) 
+			&& (loop_ticketline.getPrice() == line.getPrice()) && (loop_unit != 0) ){
+			loop_ticketline.setMultiply(loop_ticketline.getMultiply() + line.getMultiply());	
+			
+			// move to end of ticket
+			// include extra products
+			if(j < numlines - 1)
+			{
+				ticket.removeLine(j);
+				ticket.addLine(loop_ticketline);
+			
+				while(ticket.getLine(j).isProductCom())
+				{
+					extra_ticketline = ticket.getLine(j);
+					ticket.removeLine(j);
+					ticket.addLine(extra_ticketline);
+				}
+			}
+			
+			return loop_ticketline;
 		}	
-	}
-
-line.setMultiply(current_unit);
-}
-
-// now remove the ticket lines where the unit = 0
-// start deleteing in reverse order
-
-for (int i = numlines - 1 ; i >= 0 ; i--) { 
-	loop_ticketline = ticket.getLine(i);
-	loop_unit  = loop_ticketline.getMultiply();
-	if (loop_unit == 0){
-		ticket.removeLine(i);
-		
 	}
 }
 

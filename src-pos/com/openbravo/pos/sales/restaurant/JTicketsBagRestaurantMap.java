@@ -259,6 +259,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							rect.setBounds((int) (rect.x * scale), (int) (rect.y * scale), (int) (rect.width * scale),
 									(int) (rect.height * scale));
 							p.getButton().setBounds(rect);
+							p.setFontsizeCurrent((int)(p.getFontsize() * scale));
 						}
 					}
 
@@ -498,7 +499,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountOriginal = 0;
 			for (TicketLineInfo inf : ticketinfo1.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0 
-						&& line.getPrice() == inf.getPrice()
+						&& line.getProperty("product.sort","") == inf.getProperty("product.sort","")
+						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc()).equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())
 				) {
 					amountOriginal += inf.getMultiply();
@@ -509,7 +511,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountClone = 0;
 			for (TicketLineInfo inf : clone.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0 
-						&& line.getPrice() == inf.getPrice()
+						&& line.getProperty("product.sort","") == inf.getProperty("product.sort","")
+						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc()).equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())
 				) {
 					amountClone += inf.getMultiply();
@@ -544,7 +547,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountOriginal = 0;
 			for (TicketLineInfo line : ticketinfo1.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0 
-						&& line.getPrice() == inf.getPrice()
+						&& line.getProperty("product.sort","") == inf.getProperty("product.sort","")
+						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc()).equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())
 				) {
 					amountOriginal += line.getMultiply();
@@ -554,7 +558,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountClone = 0;
 			for (TicketLineInfo line : clone.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0 
-						&& line.getPrice() == inf.getPrice()
+						&& line.getProperty("product.sort","") == inf.getProperty("product.sort","")
+						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc()).equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())
 				) {
 					amountClone += inf.getMultiply();
@@ -584,8 +589,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
 				} else {
 					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
-					m_jbtnRefreshActionPerformed(null);
 				}
+				m_jbtnRefreshActionPerformed(null);
 			} catch (BasicException e) {
 				// new MessageInf(e).show(m_App, this); // maybe other guy
 				// deleted
