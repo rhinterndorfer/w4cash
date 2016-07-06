@@ -281,6 +281,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		return (String) m_locationfind.find(iLocation);
 	}
 
+	@SuppressWarnings("unchecked")
 	public final List<ClosedCashInfo> getAllClosedCashList() throws BasicException {
 		return (List<ClosedCashInfo>) m_allClosedCash.list();
 	}

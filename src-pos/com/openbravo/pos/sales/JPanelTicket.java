@@ -1287,7 +1287,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 
 			// Construyo el mapa de los parametros.
-			Map reportparams = new HashMap();
+			Map<String,Object> reportparams = new HashMap<String,Object>();
 			// reportparams.put("ARG", params);
 			try {
 				reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(resourcefile + ".properties"));
@@ -1295,7 +1295,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 			reportparams.put("TAXESLOGIC", taxeslogic);
 
-			Map reportfields = new HashMap();
+			Map<String, Object> reportfields = new HashMap<String, Object>();
 			reportfields.put("TICKET", ticket);
 			reportfields.put("PLACE",
 					ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");

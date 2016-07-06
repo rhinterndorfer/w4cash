@@ -43,11 +43,11 @@ public class NormalBuilder implements ISQLBuilderStatic {
     private static class NormalParameter implements DataWrite {
     
         private String m_sSentence;
-        private ArrayList m_aParams; // of String
+        private ArrayList<String> m_aParams; // of String
         
         public NormalParameter(String sSentence) {
             m_sSentence = sSentence;
-            m_aParams = new ArrayList();
+            m_aParams = new ArrayList<String>();
         }
         
         public void setDouble(int paramIndex, Double dValue) throws BasicException {

@@ -195,7 +195,7 @@ public class PaymentGatewayAuthorizeNet implements PaymentGateway {
     private class AuthorizeNetParser extends DefaultHandler {
     
     private SAXParser m_sp = null;
-    private Map props = new HashMap();
+    private Map<String, String> props = new HashMap<String, String>();
     private String text;
     private InputStream is;
     private String result;
@@ -206,7 +206,7 @@ public class PaymentGatewayAuthorizeNet implements PaymentGateway {
         is = new ByteArrayInputStream(input.getBytes());
     }
     
-    public Map splitXML(){
+    public Map<String, String> splitXML(){
         try {
             if (m_sp == null) {
                 SAXParserFactory spf = SAXParserFactory.newInstance();

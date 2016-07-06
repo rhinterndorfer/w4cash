@@ -126,7 +126,8 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
         }
     } 
     
-    public final List<SharedTicketInfo> getSharedTicketList() throws BasicException {
+    @SuppressWarnings("unchecked")
+	public final List<SharedTicketInfo> getSharedTicketList() throws BasicException {
         
         return (List<SharedTicketInfo>) new StaticSentence(s
                 , "SELECT ID, NAME FROM SHAREDTICKETS ORDER BY ID"
@@ -134,7 +135,8 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
                 , new SerializerReadClass(SharedTicketInfo.class)).list();
     }
     
-    public final List<SharedTicketInfo> getSharedTicketListNoPlace() throws BasicException {
+    @SuppressWarnings("unchecked")
+	public final List<SharedTicketInfo> getSharedTicketListNoPlace() throws BasicException {
         
         return (List<SharedTicketInfo>) new StaticSentence(s
                 , "SELECT SHAREDTICKETS.ID, SHAREDTICKETS.NAME FROM SHAREDTICKETS LEFT JOIN PLACES ON SHAREDTICKETS.ID = PLACES.ID WHERE PLACES.ID IS NULL ORDER BY SHAREDTICKETS.ID"

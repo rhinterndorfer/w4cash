@@ -89,7 +89,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
         out.writeObject(m_aLines);
     }
 
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+    @SuppressWarnings("unchecked")
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         // esto es solo para serializar tickets que no estan en la bolsa de tickets pendientes
         m_sId = (String) in.readObject();
         tickettype = in.readInt();

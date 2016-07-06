@@ -39,11 +39,11 @@ public abstract class VectorerBuilder implements Vectorer {
     
     private static class SerializableToArray implements DataWrite {
 
-        private ArrayList m_aParams;
+        private ArrayList<Object> m_aParams;
 
         /** Creates a new instance of MetaParameter */
         public SerializableToArray() {
-            m_aParams = new ArrayList();
+            m_aParams = new ArrayList<Object>();
         }
         
         public void setDouble(int paramIndex, Double dValue) throws BasicException {

@@ -143,10 +143,9 @@ public class BrowsableData implements ListModel {
 		putNewData(l);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void sort(Comparator c) throws BasicException {
-
 		Collections.sort(m_aData, c);
-		
 		putNewData(m_aData);
 	}
 

@@ -1,28 +1,11 @@
 package com.openbravo.license;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.hbsoft.w4cash.license.LicenseTool;
 import com.openbravo.basic.BasicException;
@@ -33,10 +16,7 @@ import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.JRootGUI;
-import com.openbravo.pos.forms.W4CashSha1;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 public class LicenseManager {
 

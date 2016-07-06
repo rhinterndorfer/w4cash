@@ -368,6 +368,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						@SuppressWarnings("unchecked")
 						JComboBox<PlaceSplit> cb = ((JComboBox<PlaceSplit>)e.getSource());
 						cb.setPrototypeDisplayValue((PlaceSplit)cb.getSelectedItem());
 						
@@ -483,7 +484,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		add(jPanel2, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 
-	@SuppressWarnings("unchecked")
 	private void fillpossibleTables() throws BasicException {
 		if (RESTAURANT.compareTo(m_appType) == 0) {
 			if (this.tableSelect) {

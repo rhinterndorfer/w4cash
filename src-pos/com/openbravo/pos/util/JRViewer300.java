@@ -187,7 +187,7 @@ public class JRViewer300 extends javax.swing.JPanel implements JRHyperlinkListen
 		}
 	};
 
-	protected List saveContributors = new ArrayList();
+	protected List<JRSaveContributor> saveContributors = new ArrayList<JRSaveContributor>();
 	protected File lastFolder = null;
 	protected JRSaveContributor lastSaveContributor = null;
 

@@ -48,8 +48,6 @@ import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.util.PropertyUtil;
 
-import sun.misc.Regexp;
-
 import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -60,6 +58,7 @@ import java.util.regex.Pattern;
  */
 public class ProductsEditor extends JPanel implements EditorRecord {
 
+	private static final long serialVersionUID = 1L;
 	private SentenceList m_sentcat;
 	private ComboBoxValModel m_CategoryModel;
 

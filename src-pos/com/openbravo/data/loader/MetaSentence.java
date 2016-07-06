@@ -21,11 +21,9 @@ package com.openbravo.data.loader;
 
 import java.sql.*;
 import java.util.*; 
-import javax.sql.DataSource;
 import com.openbravo.basic.BasicException;
-import com.openbravo.data.loader.JDBCSentence.JDBCDataResultSet;
 
-public class MetaSentence extends JDBCSentence {
+public class MetaSentence<T> extends JDBCSentence {
     
     private String m_sSentence;
     protected SerializerRead m_SerRead = null;
@@ -44,11 +42,11 @@ public class MetaSentence extends JDBCSentence {
     
     private static class MetaParameter implements DataWrite {
 
-        private ArrayList m_aParams;
+        private ArrayList<String> m_aParams;
 
         /** Creates a new instance of MetaParameter */
         public MetaParameter() {
-            m_aParams = new ArrayList();
+            m_aParams = new ArrayList<String>();
         }
         
         public void setDouble(int paramIndex, Double dValue) throws BasicException {

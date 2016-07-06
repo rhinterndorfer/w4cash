@@ -31,7 +31,7 @@ import java.beans.*;
 public class DirtyManager implements DocumentListener, ChangeListener, ActionListener, PropertyChangeListener {
     
     private boolean m_bDirty;    
-    protected Vector listeners = new Vector();
+    protected Vector<DirtyListener> listeners = new Vector<DirtyListener>();
     
     /** Creates a new instance of DirtyManager */
     public DirtyManager() {

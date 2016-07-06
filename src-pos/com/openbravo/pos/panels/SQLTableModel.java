@@ -116,7 +116,8 @@ public class SQLTableModel extends AbstractTableModel {
         return s.toString();
     }
     
-    public Class getColumnClass(int columnIndex) {
+    @SuppressWarnings("unchecked")
+	public Class getColumnClass(int columnIndex) {
         return m_classes[columnIndex].getClassValue();
     }
     public String getColumnName(int columnIndex) {
