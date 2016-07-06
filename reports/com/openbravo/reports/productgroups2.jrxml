@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-27T00:03:26 -->
+<!-- 2016-07-01T11:39:50 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -15,7 +15,7 @@
 	<parameter name="ARG_ADDRESS" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[select 
- 	case when free.RECEIPT is null then 0 else 1 end as Free,
+    PAYMENTS.PAYMENT as PAYMENT,
  	l.Name as Location,
  	cc.Host as POS,
 	coalesce(cpp.NAME, cp.NAME, c.NAME) as CategoryName,
@@ -54,12 +54,12 @@ inner join
 	Taxes ta
 	on ta.id=tl.TAXID
 left join
-	(select RECEIPT from (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free
-	on r.ID=free.RECEIPT
-group by case when free.RECEIPT is null then 0 else 1 end, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1
-order by case when free.RECEIPT is null then 0 else 1 end desc, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1]]>
+	(select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from PAYMENTS  UNION ALL select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from BRANCH_PAYMENTS) PAYMENTS
+	on r.ID=PAYMENTS.RECEIPT
+group by PAYMENTS.PAYMENT, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1
+order by PAYMENTS.PAYMENT, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1]]>
 	</queryString>
-	<field name="Free" class="java.lang.Integer"/>
+	<field name="Payment" class="java.lang.String"/>
 	<field name="Location" class="java.lang.String"/>
 	<field name="POS" class="java.lang.String"/>
 	<field name="CategoryName" class="java.lang.String"/>
@@ -105,7 +105,7 @@ order by case when free.RECEIPT is null then 0 else 1 end desc, l.Name, cc.Host,
 		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
 	</variable>
 	<group name="grpFree">
-		<groupExpression><![CDATA[$F{Free}]]></groupExpression>
+		<groupExpression><![CDATA[$F{Payment}]]></groupExpression>
 		<groupFooter>
 			<band height="24">
 				<textField>
@@ -291,7 +291,7 @@ order by case when free.RECEIPT is null then 0 else 1 end desc, l.Name, cc.Host,
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Verbrauch]]></text>
+				<text><![CDATA[Zahlung]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="StyleDefault" x="170" y="0" width="90" height="20" uuid="11dfb006-5462-4506-8d18-d08593207e1b"/>
@@ -370,7 +370,7 @@ order by case when free.RECEIPT is null then 0 else 1 end desc, l.Name, cc.Host,
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[IF($F{Free}==0, "Kunden", "Eigen")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Payment}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="StyleDefault" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="170" y="0" width="90" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpLocation" uuid="762aa9c3-5ce9-4da6-945d-581f41ff2a2f">

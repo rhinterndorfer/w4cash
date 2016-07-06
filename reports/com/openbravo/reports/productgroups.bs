@@ -24,7 +24,7 @@ report.setReport("/com/openbravo/reports/productgroups");
 report.setResourceBundle("com/openbravo/reports/productgroups_messages");
 
 report.setSentence("select  " +
-" 	case when free.RECEIPT is null then 0 else 1 end as Free, " +
+" 	PAYMENTS.PAYMENT as PAYMENT, " +
 "	coalesce(cpp.NAME, cp.NAME, c.NAME) as CategoryName, " +
 "	ta.RATE*100 as Tax, " +
 "	SUM(tl.UNITS) as Units, " +
@@ -58,11 +58,11 @@ report.setSentence("select  " +
 "	Taxes ta " +
 "	on ta.id=tl.TAXID " +
 "left join " +
-"	(select RECEIPT from (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free " +
-"	on r.ID=free.RECEIPT " +
+"	(select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from PAYMENTS  UNION ALL select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from BRANCH_PAYMENTS) PAYMENTS " +
+"	on r.ID=PAYMENTS.RECEIPT " +
 " where ?(QBF_FILTER) " +
-"group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 " +
-"order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 "
+"group by PAYMENTS.PAYMENT, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 " +
+"order by PAYMENTS.PAYMENT, coalesce(cpp.NAME, cp.NAME, c.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1 "
 );
 
 report.addParameter("cc.HOSTSEQUENCE");
@@ -70,7 +70,7 @@ report.addParameter("cc.HOSTSEQUENCE");
 com.openbravo.pos.reports.JParamsClosedPosInterval filter = new com.openbravo.pos.reports.JParamsClosedPosInterval();
 report.addQBFFilter(filter);
 
-report.addField("Free", com.openbravo.data.loader.Datas.INT);
+report.addField("Payment", com.openbravo.data.loader.Datas.STRING);
 report.addField("CategoryName", com.openbravo.data.loader.Datas.STRING);
 report.addField("Tax", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("Units", com.openbravo.data.loader.Datas.DOUBLE);
