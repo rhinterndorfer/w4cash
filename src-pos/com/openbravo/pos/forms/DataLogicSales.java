@@ -44,6 +44,7 @@ import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.mant.FloorsInfo;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.payment.PaymentInfoTicket;
+import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
@@ -63,6 +64,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	// protected Datas[] productcatDatas;
 	protected Datas[] paymenttabledatas;
 	protected Datas[] stockdatas;
+	protected List<PlaceSplit> placesSplit;
 
 	protected Row productsRow;
 
@@ -102,6 +104,24 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 	public void init(Session s) {
 		this.s = s;
+		// init places for split dialog
+		try {
+			getPlacesSplit();
+		}catch(Exception ex) {
+			// do nothing
+		}
+	}
+	
+	public List<PlaceSplit> getPlacesSplit() throws BasicException
+	{
+		if(placesSplit == null)
+		{
+			SentenceList sent = new StaticSentence(s,
+					"SELECT p.ID, p.NAME FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
+					null, new SerializerReadClass(PlaceSplit.class));
+			placesSplit = sent.list();
+		}
+		return placesSplit;
 	}
 
 	public final Row getProductsRow() {

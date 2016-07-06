@@ -96,6 +96,10 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	public SimpleReceipt(AppView app, String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers,
 			TaxesLogic taxeslogic, boolean tableSelect, ReceiptSplit parent) throws BasicException {
 		this.m_App = app;
+		this.dlCustomers = dlCustomers;
+		this.dlSales = dlSales;
+		this.taxeslogic = taxeslogic;
+
 		this.tableSelect = tableSelect;
 		this.parent = parent;
 		this.m_appType = m_App.getProperties().getProperty("machine.ticketsbag");
@@ -111,10 +115,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				dblClickProduct(e.getFirstIndex());
 			}
 		});
-		this.dlCustomers = dlCustomers;
-		this.dlSales = dlSales;
-		this.taxeslogic = taxeslogic;
-
+		
 		jPanel2.add(ticketlines, BorderLayout.CENTER);
 
 		ScaleButtons();
@@ -486,15 +487,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private void fillpossibleTables() throws BasicException {
 		if (RESTAURANT.compareTo(m_appType) == 0) {
 			if (this.tableSelect) {
-				try {
-					SentenceList sent = new StaticSentence(m_App.getSession(),
-							"SELECT p.ID, p.NAME FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
-							null, new SerializerReadClass(PlaceSplit.class));
-					this.m_aplaces = sent.list();
-				} catch (BasicException eD) {
-					throw eD;
-//					this.m_aplaces = new ArrayList<Place>();
-				}
+				
+				this.m_aplaces = this.dlSales.getPlacesSplit();
 			}
 		}
 	}
