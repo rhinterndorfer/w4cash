@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-07-01T11:39:50 -->
+<!-- 2016-07-10T08:48:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -334,27 +334,26 @@ order by PAYMENTS.PAYMENT, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME),
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		<band height="20">
 			<textField>
 				<reportElement style="StyleDefault" x="300" y="0" width="50" height="20" uuid="d560ab0a-a4e3-4040-b978-352353687487">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.DOUBLE.formatValue($F{Units})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="StyleDefault" x="350" y="0" width="65" height="20" uuid="a6d7ec70-a175-419b-bb3f-1a954c39e555">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceGross})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement style="StyleDefault" x="480" y="0" width="65" height="20" uuid="45bd0f68-f17e-4bc7-8d82-e1db00080462">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceTax})]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -362,7 +361,7 @@ order by PAYMENTS.PAYMENT, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME),
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceNet})]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -370,13 +369,15 @@ order by PAYMENTS.PAYMENT, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME),
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Payment}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="StyleDefault" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="170" y="0" width="90" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpLocation" uuid="762aa9c3-5ce9-4da6-945d-581f41ff2a2f">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{CategoryName}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -384,15 +385,17 @@ order by PAYMENTS.PAYMENT, l.Name, cc.Host, coalesce(cpp.NAME, cp.NAME, c.NAME),
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{Tax})]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="StyleDefault" isPrintRepeatedValues="false" x="55" y="0" width="65" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpFree" uuid="2bd16e57-076b-4914-824a-7546a045f251"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{Location}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="StyleDefault" isPrintRepeatedValues="false" x="120" y="0" width="50" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpLocation" uuid="e2e53ec0-676b-4784-bcf9-4d596f9b58fa"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{POS}]]></textFieldExpression>
 			</textField>
 		</band>

@@ -469,6 +469,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 			new MessageInf(e).show(m_App, this);
 		}
 
+		
 		for (Place table : m_aplaces) {
 			table.setPeople(atickets.contains(table.getId()));
 		}

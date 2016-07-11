@@ -309,6 +309,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public int getLinesCount() {
+    	if(m_aLines == null)
+    		return 0;
         return m_aLines.size();
     }
     
@@ -399,7 +401,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public boolean hasTaxesCalculated() {
-        return taxes != null;
+        return taxes != null && !taxes.isEmpty();
     }
 
     public void setTaxes(List<TicketTaxInfo> l) {
@@ -408,6 +410,76 @@ public class TicketInfo implements SerializableRead, Externalizable {
 
     public void resetTaxes() {
         taxes = null;
+    }
+    
+    public void mergeDuplicateLines()
+    {
+    	if(getLinesCount() > 1)
+    	{
+    		for(int i=0;i < getLinesCount();i++)
+    		{
+    			TicketLineInfo current_ticketline = getLine(i);
+    			double current_amount = current_ticketline.getMultiply();
+    			
+    			String current_productid = current_ticketline.getProductID();
+         		String current_AttSetDesc = current_ticketline.getProductAttSetInstDesc();
+         		
+    			if(current_amount != 0 && !current_ticketline.isProductCom())
+    			{
+    				for (int j = i + 1 ; j < getLinesCount() ; j++) {
+    					TicketLineInfo loop_ticketline = getLine(j);
+    					double loop_amount  = loop_ticketline.getMultiply();
+		         		
+    					String loop_productid    = loop_ticketline.getProductID();
+		         		String loop_AttSetDesc   = loop_ticketline.getProductAttSetInstDesc();
+		         		
+		         		if (!loop_ticketline.isProductCom()
+		         				&& loop_amount != 0
+		         				&& current_AttSetDesc == "" 
+		         				&& loop_AttSetDesc == "" 
+		         				&& loop_productid != null 
+		         				&& loop_productid.equals(current_productid) 
+		         				&& loop_ticketline.getPrice() == current_ticketline.getPrice() 
+		         			){
+		         			current_amount = current_amount + loop_amount;
+							loop_ticketline.setMultiply(0);
+							
+							// TODO move com products to i+1
+							// check follower lines
+							for(int k=j+1; k < getLinesCount(); k++)
+							{
+								TicketLineInfo comProductLine = getLine(k);
+								if(comProductLine.isProductCom())
+								{
+									removeLine(k);
+									insertLine(i+1, comProductLine);
+									j++;
+								}
+								else
+									break; // break when first not com product is found
+							}
+						}	
+		         		
+		         		
+		         		
+		         		
+    				}
+    				
+    				current_ticketline.setMultiply(current_amount);
+    			}
+    		}
+    	}
+    	
+    	// now remove the ticket lines where the unit = 0
+		// start deleteing in reverse order
+		for (int i = getLinesCount() - 1 ; i > 0 ; i--) { 
+			TicketLineInfo loop_ticketline = getLine(i);
+			double loop_amount  = loop_ticketline.getMultiply();
+			if (loop_amount == 0){
+				removeLine(i);
+			}
+		}
+    	
     }
 
     public TicketTaxInfo getTaxLine(TaxInfo tax) {

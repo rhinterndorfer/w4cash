@@ -22,6 +22,8 @@ package com.openbravo.pos.sales.restaurant;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -39,8 +41,11 @@ import com.openbravo.basic.BasicException;
 public class Place implements SerializableRead, java.io.Serializable {
 
 	private static final long serialVersionUID = 8652254694281L;
-	private static final Icon ICO_OCU = new ImageIcon(Place.class.getResource("/com/openbravo/images/edit_group.png"));
+	//private static final Icon ICO_OCU = new ImageIcon(Place.class.getResource("/com/openbravo/images/edit_group.png"));
+	private Color placeOccupiedColor = new Color(255, 255, 0, 192);
+	private Icon ICO_OCU = new ColorIcon(22, 22, placeOccupiedColor);
 	private static final Icon ICO_FRE = new NullIcon(22, 22);
+	
 
 	private String m_sId;
 
@@ -129,8 +134,9 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setFocusable(false);
 		m_btn.setRequestFocusEnabled(false);
 		m_btn.setHorizontalTextPosition(SwingConstants.CENTER);
-		m_btn.setVerticalTextPosition(SwingConstants.BOTTOM);
+		m_btn.setVerticalTextPosition(SwingConstants.CENTER);
 		m_btn.setIcon(ICO_FRE);
+		ICO_OCU = new ColorIcon(m_iWidth, m_iHeight, placeOccupiedColor);
 		// m_btn.setText(m_sName);
 		// m_btn.setFont(new Font(m_btn.getFont().getName(),
 		// m_btn.getFont().getStyle(), m_iFontsize));
@@ -201,28 +207,31 @@ public class Place implements SerializableRead, java.io.Serializable {
 
 	public void setPeople(boolean bValue) {
 		m_bPeople = bValue;
-		m_btn.setIcon(bValue ? ICO_OCU : ICO_FRE);
-
+		
+		Icon ocu = ICO_OCU;
+		m_btn.setIcon(bValue ? ocu : ICO_FRE);
 		Font font = m_btn.getFont();
-
+		
 		if (m_bPeople) {
 			// The text
 			StringBuilder sb = new StringBuilder();
 			sb.append("<html><div style='");
-			sb.append("vertical-align: center;");
+			sb.append("text-align: center;font-weight: bold;");
 			sb.append("font-family:");
 			sb.append(font.getName());
 			sb.append(";font-size:");
 			sb.append(m_iFontsizeCurrent);
-			sb.append(";'><center>");
+			sb.append(";'>");
 			sb.append(m_sName);
-			sb.append("</center></div></html>");
+			sb.append("</div></html>");
 
 			m_btn.setText(sb.toString());
 		} else {
 			// The text
 			StringBuilder sb = new StringBuilder();
-			sb.append("<html><div style='text-align: center; font-family:");
+			sb.append("<html><div style='");
+			sb.append("text-align: center;font-weight: bold;");
+			sb.append("font-family:");
 			sb.append(font.getName());
 			sb.append(";font-size:");
 			sb.append(m_iFontsizeCurrent);

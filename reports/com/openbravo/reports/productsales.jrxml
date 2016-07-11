@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-06-27T00:05:53 -->
+<!-- 2016-07-10T08:49:01 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -299,7 +299,7 @@ order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAM
 				</reportElement>
 				<textFieldExpression><![CDATA[IF($F{Free}==0, "Kunden", "Eigen")]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement style="StyleDefault" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="65" y="0" width="80" height="16" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpFree" uuid="762aa9c3-5ce9-4da6-945d-581f41ff2a2f">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>

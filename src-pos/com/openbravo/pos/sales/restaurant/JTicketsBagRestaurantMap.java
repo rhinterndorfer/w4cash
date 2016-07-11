@@ -585,6 +585,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 			try {
 				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+					m_panelticket.DoSaveTicketEvent();
 					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
 					dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
 				} else {

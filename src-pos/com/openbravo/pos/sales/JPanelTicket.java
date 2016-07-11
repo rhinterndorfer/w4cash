@@ -368,8 +368,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
+	
+	
 	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt) {
-
 		m_oTicket = oTicket;
 		m_oTicketExt = oTicketExt;
 
@@ -405,6 +406,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_oTicketClone = m_oTicket.copyTicket();
 	}
 
+	public void DoSaveTicketEvent(){
+		if(m_oTicket != null)
+			executeEvent(m_oTicket, m_oTicketExt, "ticket.save");
+	}
+	
+	
 	public TicketInfo getActiveTicket() {
 		return m_oTicket;
 	}
@@ -473,7 +480,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		if (m_oTicket.getLinesCount() == 0) {
 			// m_jSubtotalEuros.setText(null);
 			// m_jTaxesEuros.setText(null);
-			m_jTotalEuros.setText("");
+			// m_jTotalEuros.setText(""); // do not clear last total
 		} else {
 			// m_jSubtotalEuros.setText(m_oTicket.printSubTotal());
 			// m_jTaxesEuros.setText(m_oTicket.printTax());

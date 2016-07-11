@@ -262,7 +262,8 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		// never returns an empty array, or null, or an array with at least one
 		// element.
 
-		int i = findFirstNonAuxiliarLine();
+		//int i = findFirstNonAuxiliarLine();
+		int i = ticketlines.getSelectedIndex();
 
 		if (i >= 0) {
 
@@ -283,14 +284,15 @@ public class SimpleReceipt extends javax.swing.JPanel {
 					l.add(line);
 					ticket.removeLine(i);
 					ticketlines.removeTicketLine(i);
+					
+					// add also auxiliars if last item
+					while (i < ticket.getLinesCount() && ticket.getLine(i).isProductCom()) {
+						l.add(ticket.getLine(i));
+						ticket.removeLine(i);
+						ticketlines.removeTicketLine(i);
+					}
 				}
-
-				// add also auxiliars
-				while (i < ticket.getLinesCount() && ticket.getLine(i).isProductCom()) {
-					l.add(ticket.getLine(i));
-					ticket.removeLine(i);
-					ticketlines.removeTicketLine(i);
-				}
+				
 				printTotals();
 				return l.toArray(new TicketLineInfo[l.size()]);
 			} else { // < 1.0

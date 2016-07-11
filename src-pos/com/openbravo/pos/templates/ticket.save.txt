@@ -1,0 +1,10 @@
+import com.openbravo.format.Formats;
+import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.ticket.TicketProductInfo; 
+import java.util.Properties;
+
+ticket.mergeDuplicateLines();
+
+return null;
+

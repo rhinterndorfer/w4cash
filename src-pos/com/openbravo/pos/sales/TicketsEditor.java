@@ -27,4 +27,5 @@ public interface TicketsEditor {
     public TicketInfo getActiveTicket();
 	public TicketInfo getActiveTicketClone();
 	public void SyncTicketClone();
+	public void DoSaveTicketEvent();
 }

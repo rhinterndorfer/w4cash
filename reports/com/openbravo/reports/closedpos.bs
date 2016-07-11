@@ -29,7 +29,7 @@ report.setSentence("SELECT " +
                     "CLOSEDCASH.MONEY, " +
                     "CLOSEDCASH.DATESTART, " +
                     "CLOSEDCASH.DATEEND, " +
-                    "CLOSEDCASH.BRANCH_HOSTSEQUENCE, " +
+                    "NVL(CLOSEDCASH.BRANCH_HOSTSEQUENCE, CLOSEDCASH.HOSTSEQUENCE) AS BRANCH_HOSTSEQUENCE, " +
                     "PAYMENTS.PAYMENT, " +
                     "SUM(PAYMENTS.TOTAL) AS TOTAL " +
                     "FROM CLOSEDCASH, (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS, (select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) RECEIPTS " +
