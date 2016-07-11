@@ -337,14 +337,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public double getTax() {
 
         double sum = 0.0;
-        if (hasTaxesCalculated()) {
-            for (TicketTaxInfo tax : taxes) {
-                sum += tax.getTax(); // Taxes are already rounded...
-            }
-        } else {
-            for (TicketLineInfo line : m_aLines) {
-                sum += line.getTax();
-            }
+        for (TicketLineInfo line : m_aLines) {
+            sum += line.getTax();
         }
         return sum;
     }
