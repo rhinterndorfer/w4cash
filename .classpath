@@ -32,6 +32,9 @@
 	<classpathentry kind="lib" path="lib/commons-digester-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/iText-2.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/velocity-1.7.jar"/>
+	<classpathentry kind="lib" path="lib/velocity-tools-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/velocity-tools-generic-2.0.jar"/>
+	<classpathentry kind="lib" path="lib/velocity-tools-view-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>

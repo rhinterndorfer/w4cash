@@ -22,10 +22,14 @@ package com.openbravo.pos.scripting;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Locale;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.tools.generic.MathTool;
+import org.apache.velocity.tools.generic.NumberTool;
 
 /**
  *
@@ -36,7 +40,6 @@ import org.apache.velocity.exception.ParseErrorException;
 class ScriptEngineVelocity implements ScriptEngine {
     
     private static VelocityEngine m_ve = null;
-
     private VelocityContext c = null;
     
     /** Creates a new instance of ScriptEngineVelocity */
@@ -63,7 +66,11 @@ class ScriptEngineVelocity implements ScriptEngine {
                 throw new ScriptException("Cannot initialize Velocity Engine", e);
             } 
         }
-         c = new VelocityContext();
+        
+        c = new VelocityContext();
+        c.put("mathTool", new MathTool());
+        c.put("numberTool", new NumberTool());
+        c.put("locale", Locale.getDefault());
     }
     
     public void put(String key, Object value) {
