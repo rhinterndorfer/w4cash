@@ -627,13 +627,15 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 								CategoryInfo lcat = findCategory(m_categories, ltl.getProductCategoryID());
 								CategoryInfo rcat = findCategory(m_categories, rtl.getProductCategoryID());
 								String lprodsort = ltl.getProperty("product.sort", "0000000000");
-								String rprodsort = rtl.getProperty("product.sort", "0000000000"); 
+								String rprodsort = rtl.getProperty("product.sort", "0000000000");
+								String llinesort = ltl.getProperty("lineIndex", "0000000000");
+								String rlinesort = rtl.getProperty("lineIndex", "0000000000");
 								
 								if(lcat != null && rcat != null)
 								{
 									int catSort = lcat.getSortOrder().compareTo(rcat.getSortOrder()); 
 									int sortProt = catSort == 0 ? lprodsort.compareTo(rprodsort) : catSort;
-									int sort = sortProt == 0 ? ((ltl.isProductCom() ? "1" : "0").compareTo(rtl.isProductCom() ? "1" : "0")) : sortProt;
+									int sort = sortProt == 0 ? llinesort.compareTo(rlinesort) : sortProt;
 									return sort == 0 ? ltl.getProductName().compareTo(rtl.getProductName()) : sort;
 								}
 								return 0;

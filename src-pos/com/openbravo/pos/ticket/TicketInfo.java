@@ -367,6 +367,10 @@ public class TicketInfo implements SerializableRead, Externalizable {
     {
     	m_aLinesSorted.clear();
     	m_aLinesSorted.addAll(m_aLines);
+    	for(TicketLineInfo li : m_aLinesSorted)
+    	{
+    		li.setProperty("lineIndex", String.format("%010d", m_aLines.indexOf(li)));
+    	}
     	m_aLinesSorted.sort(c);
     }
     
