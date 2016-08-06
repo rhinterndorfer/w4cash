@@ -25,6 +25,8 @@ import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Window;
 
+import com.openbravo.pos.util.PropertyUtil;
+
 /**
  *
  * @author adrianromero
@@ -57,7 +59,7 @@ public class JPaymentSelectReceipt extends JPaymentSelect {
         addTabPayment(new JPaymentSelect.JPaymentPaperCreator()); // only when customer is selected          
         addTabPayment(new JPaymentSelect.JPaymentMagcardCreator());                
         addTabPayment(new JPaymentSelect.JPaymentFreeCreator());                
-        addTabPayment(new JPaymentSelect.JPaymentDebtCreator());                
+        addTabPayment(new JPaymentSelect.JPaymentDebtCreator());
         setHeaderVisible(true);
     }
     

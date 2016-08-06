@@ -32,6 +32,12 @@ import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.loader.PreparedSentence;
+import com.openbravo.data.loader.SentenceFind;
+import com.openbravo.data.loader.SerializerReadInteger;
+import com.openbravo.data.loader.SerializerReadString;
+import com.openbravo.data.loader.Session;
+import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 
@@ -44,11 +50,18 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 	// private DirtyManager m_Dirty = new DirtyManager();
 	private String m_sID;
 	private AppView m_App;
+	private Session m_session;
 	private int m_SortOrder;
-
+	private SentenceFind m_sentmaxsortorder;
+	
 	/** Creates new form FloorsEditor */
-	public FloorsEditor(AppView app, DirtyManager dirty) {
+	public FloorsEditor(AppView app, DirtyManager dirty, Session session) {
 		m_App = app;
+		m_session = session;
+		
+		m_sentmaxsortorder = new StaticSentence(m_session, "select MAX(SORTORDER) as maxSortOrder from FLOORS",
+				null, SerializerReadInteger.INSTANCE);
+		
 		initComponents();
 
 		m_jName.getDocument().addDocumentListener(dirty);
@@ -59,6 +72,17 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		ScaleButtons();
 	}
 
+	private int getMaxSortOrder()
+	{
+		try {
+			Object result = m_sentmaxsortorder.find();
+			if (result != null)
+				return (int)result;
+		} catch (BasicException e) {
+		}
+		return 0;
+	}
+	
 	public void writeValueEOF() {
 
 		m_sID = null;
@@ -75,7 +99,7 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 		m_sID = UUID.randomUUID().toString();
 		m_jName.setText(null);
 		m_jImage.setImage(null);
-		m_SortOrder = 0;
+		m_SortOrder = getMaxSortOrder() + 1;
 
 		m_jName.setEnabled(true);
 		m_jImage.setEnabled(true);
@@ -202,6 +226,6 @@ public class FloorsEditor extends JPanel implements EditorRecord {
 
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {
-
+		
 	}
 }

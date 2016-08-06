@@ -571,7 +571,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				// Cerramos la caja si esta pendiente de cerrar.
 				if (m_App.getActiveCashDateEnd() == null) {
 					// set closed info
-					String activeCash = m_App.getActiveCashIndex(true);
+					String activeCash = m_App.getActiveCashIndex(true, false);
 
 					// print report before closing
 					// otherwise new cash session is opened

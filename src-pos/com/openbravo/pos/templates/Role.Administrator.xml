@@ -80,6 +80,7 @@
     <class name="/com/openbravo/reports/customersb.bs"/>
     <class name="/com/openbravo/reports/customersdiary.bs"/>
     <class name="/com/openbravo/reports/closedpos.bs"/>
+    <class name="/com/openbravo/reports/paper.bs"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
     <class name="com.openbravo.pos.admin.RolesPanel"/>
@@ -96,6 +97,8 @@
     <class name="button.print"/>
     <class name="button.opendrawer"/>
     <class name="button.discountpercent" />
+    <class name="button.discount" />
     <class name="button.note" />
+    <class name="button.tools" />
     <class name="com.openbravo.pos.admin.SystemDataPanel"/>
 </permissions>

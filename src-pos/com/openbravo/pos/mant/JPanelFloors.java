@@ -68,7 +68,7 @@ public class JPanelFloors extends JPanelTable {
 				new String[] { "ID", AppLocal.getIntString("Label.Name"), "IMAGE", "SORTORDER" },
 				new Datas[] { Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT },
 				new Formats[] { Formats.NULL, Formats.STRING }, new int[] { 0 });
-		jeditor = new FloorsEditor(app, dirty);
+		jeditor = new FloorsEditor(app, dirty, app.getSession());
 	}
 
 	public ListProvider getListProvider() {
@@ -81,7 +81,7 @@ public class JPanelFloors extends JPanelTable {
 
 	@Override
 	public ComparatorCreator getComparatorCreator() {
-		return tfloors.getComparatorCreator(new int[] { 1, 3 });
+		return tfloors.getComparatorCreator(new int[] { 3, 1 });
 	}
 
 	public ListCellRenderer getListCellRenderer() {
@@ -115,6 +115,8 @@ public class JPanelFloors extends JPanelTable {
 	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
 		
 	}
+	
+	
 	
 	
 }

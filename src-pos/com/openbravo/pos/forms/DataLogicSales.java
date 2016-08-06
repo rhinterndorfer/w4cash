@@ -813,10 +813,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 		return new StaticSentence(s,
 				new QBFBuilder(
-						"SELECT R.ID, R.MONEY, R.DATENEW, P.ID, P.PAYMENT, P.TOTAL,P.DESCRIPTION "
+						"SELECT R.ID, R.MONEY, R.DATENEW, P.ID, P.PAYMENT, P.TOTAL, P.DESCRIPTION "
 								+ "FROM RECEIPTS R, PAYMENTS P, CLOSEDCASH C WHERE R.MONEY = '"
-								+ (app.getActiveCashIndex(false) == null ? "" : app.getActiveCashIndex(false)) + "' " + "AND R.ID = P.RECEIPT " + "AND C.MONEY = '"
-								+ (app.getActiveCashIndex(false) == null ? "" : app.getActiveCashIndex(false)) + "' AND P.TRANSID IS NULL",
+								+ (app.getActiveCashIndex(false, true) == null ? "" : app.getActiveCashIndex(false, false)) + "' " + "AND R.ID = P.RECEIPT " + "AND C.MONEY = '"
+								+ (app.getActiveCashIndex(false, true) == null ? "" : app.getActiveCashIndex(false, false)) + "' AND P.TRANSID IS NULL",
 						new String[] { "ID", "MONEY", "DATENEW", "ID2", "PAYMENT", "TOTAL", "DESCRIPTION" }),
 				new SerializerWriteBasic(new Datas[] { Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.STRING,
 						Datas.STRING, Datas.DOUBLE, Datas.STRING }),

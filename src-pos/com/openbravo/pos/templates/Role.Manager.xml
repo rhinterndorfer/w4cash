@@ -78,7 +78,8 @@
     <class name="/com/openbravo/reports/journal.bs"/>
     <class name="/com/openbravo/reports/customers.bs"/>
     <class name="/com/openbravo/reports/customersb.bs"/>
-    <class name="/com/openbravo/reports/customersdiary.bs"/>    
+    <class name="/com/openbravo/reports/customersdiary.bs"/>
+    <class name="/com/openbravo/reports/paper.bs"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
     <class name="com.openbravo.pos.mant.JPanelFloors"/>
@@ -88,5 +89,8 @@
     <class name="button.print"/>
     <class name="button.opendrawer"/>
     <class name="button.discountpercent" />
+    <class name="button.discount" />
+    <class name="button.tools" />
     <class name="button.note" />
+    <class name="button.opendrawer"/>
 </permissions>

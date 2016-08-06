@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.TabbedPaneUI;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -909,26 +911,6 @@ public class PropertyUtil {
 		@Override
 		public void characters(char[] ch, int start, int length) throws SAXException {
 		}
-	}
-
-	public static void StyleTabbedPane(JTabbedPane tabbedPane) {
-		// tabbedPane.setUI(new javax.swing.plaf.basic.BasicTabbedPaneUI() {
-		// @Override
-		// protected int calculateTabHeight(int tabPlacement, int tabIndex, int
-		// fontHeight) {
-		// return 32;
-		// }
-		//
-		// @Override
-		// protected void paintTab(Graphics g, int tabPlacement, Rectangle[]
-		// rects, int tabIndex, Rectangle iconRect,
-		// Rectangle textRect) {
-		//
-		// rects[tabIndex].height += 20;
-		//
-		// super.paintTab(g, tabPlacement, rects, tabIndex, iconRect, textRect);
-		// }
-		// });
 	}
 
 	public static int findMaxLabelWidth(JLabel... jLabels) {

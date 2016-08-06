@@ -37,6 +37,7 @@ import com.openbravo.pos.instance.InstanceQuery;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Window;
 import javax.swing.*;
 
@@ -107,6 +108,7 @@ public class StartPOS {
 
 					if (laf instanceof LookAndFeel) {
 						UIManager.setLookAndFeel((LookAndFeel) laf);
+
 					} else if (laf instanceof SubstanceSkin) {
 						SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
 					}

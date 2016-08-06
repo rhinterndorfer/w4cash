@@ -91,6 +91,7 @@ public abstract class Datas {
             return ((Integer) o1).compareTo((Integer) o2);
         }        
     }
+    
     private static final class DatasSTRING extends Datas {
         public Object getValue(DataRead dr, int i) throws BasicException {
             return dr.getString(i);

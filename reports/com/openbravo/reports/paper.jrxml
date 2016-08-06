@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
+<!-- 2016-08-06T14:07:43 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<import value="java.lang.*"/>
+	<style name="StyleDefault" isDefault="true" vTextAlign="Top" fontName="Arial" fontSize="12">
+		<paragraph lineSpacing="Single"/>
+	</style>
+	<parameter name="ARG_START" class="com.openbravo.pos.forms.ClosedCashInfo" isForPrompting="false"/>
+	<parameter name="ARG_END" class="com.openbravo.pos.forms.ClosedCashInfo" isForPrompting="false"/>
+	<parameter name="ARG" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="ARG_ADDRESS" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select 
+  t.ticketid as TicketId,
+  MAX(r.datenew) as TicketDate,
+  PAYMENTS.PAYMENT as PAYMENT,
+  MAX(c.Name) as CustomerName,
+  MAX(c.FIRSTNAME) as CustomerFirstName,
+  MAX(c.LASTNAME) as CustomerLastName,
+  MAX(c.ADDRESS) as CustomerAddress,
+  MAX(c.ADDRESS2) as CustomerAddress2,
+  MAX(c.POSTAL) as CustomerPostal,
+  MAX(c.CITY) as CustomerCity,
+  MAX(c.TAXID) as CustomerTaxId,
+  ta.RATE*100 as Tax,
+  SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2)) as PriceGross,
+  SUM(Round(tl.UNITS * tl.PRICE,2)) as PriceNet,
+  SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2) - Round(tl.UNITS * tl.PRICE,2)) as PriceTax
+from 
+CLOSEDCASH cc
+inner join 
+	(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r
+	on cc.MONEY=r.MONEY
+inner join
+	(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t
+	on r.ID=t.ID
+inner join
+	(select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) tl
+	on t.id=tl.TICKET
+inner join
+	Products p
+	on tl.PRODUCT=p.ID
+inner join
+	Taxes ta
+	on ta.id=tl.TAXID
+inner join
+	( select RECEIPT, case when PAYMENT in ('paperin') then 'Rechnung' else 'Gutschrift' end as PAYMENT from PAYMENTS where PAYMENT in ('paperin','paperout')
+    UNION ALL 
+    select RECEIPT, case when PAYMENT in ('paperin') then 'Rechnung' else 'Gutschrift' end as PAYMENT from BRANCH_PAYMENTS where PAYMENT in ('paperin','paperout')
+  ) PAYMENTS
+	on r.ID=PAYMENTS.RECEIPT
+left join
+  CUSTOMERS c
+  on c.ID = t.CUSTOMER
+group by t.ticketid, PAYMENTS.PAYMENT, ta.RATE
+order by t.ticketid, ta.RATE]]>
+	</queryString>
+	<field name="TicketId" class="java.lang.Integer"/>
+	<field name="TicketDate" class="java.util.Date"/>
+	<field name="Payment" class="java.lang.String"/>
+	<field name="CustomerName" class="java.lang.String"/>
+	<field name="CustomerFirstName" class="java.lang.String"/>
+	<field name="CustomerLastName" class="java.lang.String"/>
+	<field name="CustomerAddress" class="java.lang.String"/>
+	<field name="CustomerAddress2" class="java.lang.String"/>
+	<field name="CustomerPostal" class="java.lang.String"/>
+	<field name="CustomerCity" class="java.lang.String"/>
+	<field name="CustomerTaxId" class="java.lang.String"/>
+	<field name="Tax" class="java.lang.Double"/>
+	<field name="PriceGross" class="java.lang.Double"/>
+	<field name="PriceNet" class="java.lang.Double"/>
+	<field name="PriceTax" class="java.lang.Double"/>
+	<variable name="PriceGross1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceGross}]]></variableExpression>
+	</variable>
+	<variable name="PriceNet1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceNet}]]></variableExpression>
+	</variable>
+	<variable name="PriceTax1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
+	</variable>
+	<variable name="PriceGrossGrpTicketID" class="java.lang.Double" resetType="Group" resetGroup="grpTickedId" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceGross}]]></variableExpression>
+	</variable>
+	<variable name="PriceNetGrpTicketId" class="java.lang.Double" resetType="Group" resetGroup="grpTickedId" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceNet}]]></variableExpression>
+	</variable>
+	<variable name="PriceTaxGrpTicketId" class="java.lang.Double" resetType="Group" resetGroup="grpTickedId" calculation="Sum">
+		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
+	</variable>
+	<variable name="Customer" class="java.lang.String" resetType="Group" resetGroup="grpTickedId">
+		<initialValueExpression><![CDATA[$F{Payment} + " an:"
++ "\n" + $F{CustomerName} 
++ ($F{CustomerFirstName} == null ? "" : "\n" + $F{CustomerFirstName})
++ ($F{CustomerLastName} == null ? "" : " " + $F{CustomerLastName})
++ ($F{CustomerAddress} == null ? "" : "\n" + $F{CustomerAddress})
++ ($F{CustomerAddress2} == null ? "" : "\n" + $F{CustomerAddress2})
++ ($F{CustomerPostal} == null ? "" : "\n" + $F{CustomerPostal})
++ ($F{CustomerCity} == null ? "" : " " + $F{CustomerCity})
++ ($F{CustomerTaxId} == null ? "" : " " + $F{CustomerTaxId})]]></initialValueExpression>
+	</variable>
+	<group name="grpTickedId">
+		<groupExpression><![CDATA[$F{TicketId}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField isStretchWithOverflow="true">
+					<reportElement key="" style="StyleDefault" isPrintRepeatedValues="false" x="130" y="0" width="159" height="20" printWhenGroupChanges="grpTickedId" uuid="d371d702-8c4e-4d1b-8870-5925fa884b68"/>
+					<textFieldExpression><![CDATA[$V{Customer}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" isPrintRepeatedValues="false" x="0" y="0" width="60" height="20" uuid="3167bc46-e325-4175-a6f3-aa0902cadc97"/>
+					<textFieldExpression><![CDATA[$F{TicketId}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" isPrintRepeatedValues="false" x="60" y="0" width="70" height="20" printWhenGroupChanges="grpTickedId" uuid="7a2d4af1-3d7f-4831-84de-4a2a32de70aa"/>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.DATE.formatValue($F{TicketDate})]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24">
+				<textField>
+					<reportElement style="StyleDefault" x="329" y="2" width="75" height="21" uuid="5a003ee0-c1d3-4a9e-a561-f838180b52d2"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceGrossGrpTicketID})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" x="404" y="2" width="75" height="21" uuid="63773b15-1875-49f6-a686-e52cfc84c24d"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceNetGrpTicketId})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="StyleDefault" x="479" y="3" width="75" height="20" uuid="9bdf862b-7c01-4de4-bbc2-23dc2b93b060"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceTaxGrpTicketId})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="210" y="0" width="345" height="1" uuid="be23d605-55e5-429e-8686-283060173fbb">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="0" y="23" width="555" height="1" uuid="b26c37fd-4953-4edc-a664-926e48a99827">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="grpPayment">
+		<groupExpression><![CDATA[$F{Payment}]]></groupExpression>
+	</group>
+	<group name="grpTax">
+		<groupExpression><![CDATA[$F{Tax}]]></groupExpression>
+	</group>
+	<title>
+		<band height="155" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-18" mode="Transparent" x="0" y="100" width="549" height="28" forecolor="#000000" backcolor="#FFFFFF" uuid="890b7afd-dac5-49ff-ad1b-9b7d7b65042d">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font size="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{label.title}+" (" + ((com.openbravo.pos.forms.ClosedCashInfo)$P{ARG_START}).getSequence().toString() + " - " + ((com.openbravo.pos.forms.ClosedCashInfo)$P{ARG_END}).getSequence().toString() + ")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-18" mode="Transparent" x="0" y="128" width="549" height="18" forecolor="#000000" backcolor="#FFFFFF" uuid="8f360af5-bb3c-44c4-9b85-718542fd13af">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue(((com.openbravo.pos.forms.ClosedCashInfo)$P{ARG_START}).getDateStart()) + " - " + com.openbravo.format.Formats.TIMESTAMP.formatValue(((com.openbravo.pos.forms.ClosedCashInfo)$P{ARG_END}).getDateEnd())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="270" height="100" uuid="36c1febf-4cb2-4228-afd6-d11fd7fd0e7d"/>
+				<textElement markup="html">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ARG_ADDRESS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement style="StyleDefault" x="329" y="0" width="75" height="20" uuid="054467cf-a957-4a7e-aeb4-c5edd2a71d35"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Brutto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="StyleDefault" x="479" y="0" width="75" height="20" uuid="fe8edc90-84b7-44b0-9463-82d9dadaadcc">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Steuer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="StyleDefault" x="404" y="0" width="75" height="20" uuid="03d35912-a11c-46e7-8579-a4c3eaabe5f9"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Netto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="StyleDefault" x="289" y="0" width="40" height="20" uuid="4f2df711-7331-4e02-9f83-e4e8d16ef756"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[UST]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="43f2654c-9dea-43a3-98fe-ae78e6f0e8d6">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement style="StyleDefault" x="0" y="0" width="60" height="20" uuid="2457a281-09e2-49eb-b277-9c048a8d9b4f">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nummer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="StyleDefault" x="130" y="0" width="159" height="20" uuid="82ce63a4-0554-4a1f-88a2-6a8764c2b469">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kunde]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="StyleDefault" x="60" y="0" width="70" height="20" uuid="9bfe764b-c4b6-48ba-adb5-9e9e947cdc34">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Datum]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement style="StyleDefault" x="329" y="0" width="75" height="20" uuid="a6d7ec70-a175-419b-bb3f-1a954c39e555">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceGross})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="StyleDefault" x="479" y="0" width="75" height="20" uuid="45bd0f68-f17e-4bc7-8d82-e1db00080462">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceTax})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="StyleDefault" x="404" y="0" width="75" height="20" uuid="c262f50e-d249-4ae4-89cb-5842457b280e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceNet})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="StyleDefault" x="289" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="c28be771-805a-4e35-820d-c7477bf5cf3c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{Tax})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="554" height="20" uuid="31b74ae0-969c-44fc-94bc-34923e6200fd"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.TIMESTAMP.formatValue(NOW( ))]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="23">
+			<textField>
+				<reportElement style="StyleDefault" x="329" y="2" width="75" height="21" uuid="ce98c277-6cde-4707-af2b-ccf033ead158"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceGross1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="StyleDefault" x="404" y="2" width="75" height="21" uuid="e81cd696-31c6-4932-b0bc-da601cecc0bf"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceNet1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="StyleDefault" x="479" y="3" width="75" height="20" uuid="ab2b2a94-f5b6-46d1-9b70-28c499bf1bfb"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceTax1})]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

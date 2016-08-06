@@ -59,6 +59,11 @@ public class TableDefinition {
         this(s, tablename, fieldname, fieldname, fielddata, fieldformat, idinx);
     }    
     
+    public Session getSession()
+    {
+    	return m_s;
+    }
+    
     public String getTableName() {
         return tablename;
     }

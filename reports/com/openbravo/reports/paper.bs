@@ -1,0 +1,95 @@
+//    Openbravo POS is a point of sales application designed for touch screens.
+//    Copyright (C) 2007-2009 Openbravo, S.L.
+//    http://www.openbravo.com/product/pos
+//
+//    This file is part of Openbravo POS.
+//
+//    Openbravo POS is free software: you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation, either version 3 of the License, or
+//    (at your option) any later version.
+//
+//    Openbravo POS is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
+
+report = new com.openbravo.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.Sales.Reports.Paper");
+report.setReport("/com/openbravo/reports/paper");
+report.setResourceBundle("com/openbravo/reports/paper_messages");
+
+report.setSentence("select  " + 
+"  t.ticketid as TicketId, " + 
+"  MAX(r.datenew) as TicketDate, " + 
+"  PAYMENTS.PAYMENT as PAYMENT, " + 
+"  MAX(c.Name) as CustomerName, " + 
+"  MAX(c.FIRSTNAME) as CustomerFirstName, " + 
+"  MAX(c.LASTNAME) as CustomerLastName, " + 
+"  MAX(c.ADDRESS) as CustomerAddress, " + 
+"  MAX(c.ADDRESS2) as CustomerAddress2, " + 
+"  MAX(c.POSTAL) as CustomerPostal, " + 
+"  MAX(c.CITY) as CustomerCity, " + 
+"  MAX(c.TAXID) as CustomerTaxId, " + 
+"  ta.RATE*100 as Tax, " + 
+"  SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2)) as PriceGross, " + 
+"  SUM(Round(tl.UNITS * tl.PRICE,2)) as PriceNet, " + 
+"  SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2) - Round(tl.UNITS * tl.PRICE,2)) as PriceTax " + 
+"from  " + 
+"CLOSEDCASH cc " + 
+"inner join  " + 
+"	(select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) r " + 
+"	on cc.MONEY=r.MONEY " + 
+"inner join " + 
+"	(select * from TICKETS UNION ALL select * from BRANCH_TICKETS) t " + 
+"	on r.ID=t.ID " + 
+"inner join " + 
+"	(select * from TICKETLINES UNION ALL select * from BRANCH_TICKETLINES) tl " + 
+"	on t.id=tl.TICKET " + 
+"inner join " + 
+"	Products p " + 
+"	on tl.PRODUCT=p.ID " + 
+"inner join " + 
+"	Taxes ta " + 
+"	on ta.id=tl.TAXID " + 
+"inner join " + 
+"	( select RECEIPT, case when PAYMENT in ('paperin') then 'Rechnung' else 'Gutschrift' end as PAYMENT from PAYMENTS where PAYMENT in ('paperin','paperout') " + 
+"    UNION ALL  " + 
+"    select RECEIPT, case when PAYMENT in ('paperin') then 'Rechnung' else 'Gutschrift' end as PAYMENT from BRANCH_PAYMENTS where PAYMENT in ('paperin','paperout') " + 
+"  ) PAYMENTS " + 
+"	on r.ID=PAYMENTS.RECEIPT " + 
+"left join " + 
+"  CUSTOMERS c " + 
+"  on c.ID = t.CUSTOMER " + 
+"where ?(QBF_FILTER) " +
+"group by t.ticketid, PAYMENTS.PAYMENT, ta.RATE " + 
+"order by t.ticketid, ta.RATE "
+);
+
+report.addParameter("cc.HOSTSEQUENCE");
+report.addParameter("cc.HOSTSEQUENCE");
+com.openbravo.pos.reports.JParamsClosedPosInterval filter = new com.openbravo.pos.reports.JParamsClosedPosInterval();
+report.addQBFFilter(filter);
+
+report.addField("TicketId", com.openbravo.data.loader.Datas.INT);
+report.addField("TicketDate", com.openbravo.data.loader.Datas.TIMESTAMP);
+report.addField("Payment", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerName", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerFirstName", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerLastName", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerAddress", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerAddress2", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerPostal", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerCity", com.openbravo.data.loader.Datas.STRING);
+report.addField("CustomerTaxId", com.openbravo.data.loader.Datas.STRING);
+report.addField("Tax", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceGross", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceNet", com.openbravo.data.loader.Datas.DOUBLE);
+report.addField("PriceTax", com.openbravo.data.loader.Datas.DOUBLE);
+
+report;
+

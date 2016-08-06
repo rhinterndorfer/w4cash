@@ -299,6 +299,18 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 			attributes.setProperty("product.attsetdesc", value);
 		}
 	}
+	
+	public String getLineGroup() {
+		return attributes.getProperty("line.group", "");
+	}
+
+	public void setLineGroup(String value) {
+		if (value == null) {
+			attributes.remove("line.group");
+		} else {
+			attributes.setProperty("line.group", value);
+		}
+	}
 
 	public String getProductAttSetInstId() {
 		return attsetinstid;

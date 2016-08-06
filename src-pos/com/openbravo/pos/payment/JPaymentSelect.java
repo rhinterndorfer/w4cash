@@ -19,12 +19,19 @@
 
 package com.openbravo.pos.payment;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Insets;
 import java.awt.Window;
 import javax.swing.JFrame;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
+
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.format.Formats;
@@ -153,8 +160,14 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 			}
 
 			jpayinterface.getComponent().applyComponentOrientation(getComponentOrientation());
-			m_jTabPayment.addTab(AppLocal.getIntString(jpay.getLabelKey()),
-					new javax.swing.ImageIcon(getClass().getResource(jpay.getIconKey())), jpayinterface.getComponent());
+			javax.swing.ImageIcon ico = new javax.swing.ImageIcon(getClass().getResource(jpay.getIconKey()));
+			
+			m_jTabPayment.addTab(
+					AppLocal.getIntString(jpay.getLabelKey()),
+					ico, 
+					jpayinterface.getComponent()
+				);
+			
 		}
 	}
 
@@ -411,6 +424,19 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		PropertyUtil.ScaleTabbedPaneFontsize(m_App, m_jTabPayment, "common-dialog-fontsize", "22");
 		
+		m_jTabPayment.setUI(new BasicTabbedPaneUI() {
+			   @Override
+			   protected void installDefaults() {
+			       super.installDefaults();
+			       tabInsets = new Insets(0,4,40,4);
+			       lightHighlight = Color.gray;
+			       shadow = Color.gray;
+			       darkShadow = Color.gray;
+			   }
+			});
+		// reset color
+		m_jTabPayment.setBackground(null);
+		
 		m_jLblTotalEuros1.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
 		jPanel4.add(m_jLblTotalEuros1);
 
@@ -600,8 +626,6 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jRemaininglEuros,"common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblRemainingEuros, "common-dialog-fontsize", "22");
-		
-		PropertyUtil.StyleTabbedPane(m_jTabPayment);
 		
 		int blwidth = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width", "32"));

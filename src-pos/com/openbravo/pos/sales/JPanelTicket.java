@@ -1158,7 +1158,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						if (executeEvent(ticket, ticketext, "ticket.save") == null) {
 							// Save the receipt and assign a receipt number
 							try {
-								ticket.setActiveCash(m_App.getActiveCashIndex(true));
+								ticket.setActiveCash(m_App.getActiveCashIndex(true, true));
 								ticket.setDate(new Date());
 
 								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
@@ -1382,21 +1382,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private Object executeEventAndRefresh(String eventkey, ScriptArg... args) {
 
-		String resource = m_jbtnconfig.getEvent(eventkey);
-		if (resource == null) {
-			return null;
-		} else {
-			ScriptObject scr = new ScriptObject(m_oTicket, m_oTicketExt);
-			scr.setSelectedIndex(m_ticketlines.getSelectedIndex());
-			Object result = evalScript(scr, resource, args);
-			refreshTicket();
-			// if(result == null){
-			// return null;
-			// }
-
-			setSelectedIndex(scr.getSelectedIndex());
-			return result;
+		Object result = null;
+		for(int i=-1; i<=1; i++)
+		{	
+			String s = "";
+			if(i!=0)
+				s = String.format(".%d", i);
+			String resource = m_jbtnconfig.getEvent(eventkey + s);
+			if (resource != null) {
+				ScriptObject scr = new ScriptObject(m_oTicket, m_oTicketExt);
+				scr.setSelectedIndex(m_ticketlines.getSelectedIndex());
+				result = evalScript(scr, resource, args);
+				refreshTicket();
+				
+				setSelectedIndex(scr.getSelectedIndex());
+			}
 		}
+		return result;
 	}
 
 	private Object executeEvent(TicketInfo ticket, Object ticketext, String eventkey, ScriptArg... args) {

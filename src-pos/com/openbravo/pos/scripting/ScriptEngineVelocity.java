@@ -28,6 +28,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.tools.generic.DateTool;
 import org.apache.velocity.tools.generic.MathTool;
 import org.apache.velocity.tools.generic.NumberTool;
 
@@ -70,6 +71,7 @@ class ScriptEngineVelocity implements ScriptEngine {
         c = new VelocityContext();
         c.put("mathTool", new MathTool());
         c.put("numberTool", new NumberTool());
+        c.put("dateTool", new DateTool());
         c.put("locale", Locale.getDefault());
     }
     

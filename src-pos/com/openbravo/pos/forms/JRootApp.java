@@ -324,9 +324,17 @@ public class JRootApp extends JPanel implements AppView {
 		return this.getProperties().getHost();
 	}
 	
-	private void CheckActiveCash(Boolean openNew) throws BasicException {
-		if (m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
+	private void CheckActiveCash(Boolean openNew, Boolean ignoreCache) throws BasicException {
+		if (ignoreCache || m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
 			String host = this.getProperties().getHost();
+
+			// split if contains "\"
+			// support POS with same name in front of "\" character sharing a cash shift
+			if(host.contains("\\"))
+			{
+				host = host.substring(0, host.indexOf('\\'));
+			}
+			
 			Object[] valcash = m_dlSystem.findActiveCashHost(host);
 			if (valcash == null || !host.equals(valcash[1])) {
 				if (openNew) {
@@ -364,19 +372,19 @@ public class JRootApp extends JPanel implements AppView {
         return m_iActiveCashSequence;
     }
 
-	public String getActiveCashIndex(Boolean openNew) throws BasicException {
-		CheckActiveCash(openNew);
+	public String getActiveCashIndex(Boolean openNew, Boolean ignoreCache) throws BasicException {
+		CheckActiveCash(openNew, ignoreCache);
 
 		return m_sActiveCashIndex;
 	}
 
 	public Date getActiveCashDateStart() throws BasicException {
-		CheckActiveCash(false);
+		CheckActiveCash(false, false);
 		return m_dActiveCashDateStart;
 	}
 
 	public Date getActiveCashDateEnd() throws BasicException {
-		CheckActiveCash(false);
+		CheckActiveCash(false, false);
 		return m_dActiveCashDateEnd;
 	}
 

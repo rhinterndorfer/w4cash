@@ -421,6 +421,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     			
     			String current_productid = current_ticketline.getProductID();
          		String current_AttSetDesc = current_ticketline.getProductAttSetInstDesc();
+         		String current_lineGroup = current_ticketline.getLineGroup();
          		
     			if(current_amount != 0 && !current_ticketline.isProductCom())
     			{
@@ -430,19 +431,21 @@ public class TicketInfo implements SerializableRead, Externalizable {
 		         		
     					String loop_productid    = loop_ticketline.getProductID();
 		         		String loop_AttSetDesc   = loop_ticketline.getProductAttSetInstDesc();
+		         		String loop_lineGroup	 = loop_ticketline.getLineGroup();
 		         		
 		         		if (!loop_ticketline.isProductCom()
 		         				&& loop_amount != 0
 		         				&& current_AttSetDesc == "" 
 		         				&& loop_AttSetDesc == "" 
 		         				&& loop_productid != null 
-		         				&& loop_productid.equals(current_productid) 
+		         				&& loop_productid.equals(current_productid)
+		         				&& current_lineGroup.equals(loop_lineGroup)
 		         				&& loop_ticketline.getPrice() == current_ticketline.getPrice() 
 		         			){
 		         			current_amount = current_amount + loop_amount;
 							loop_ticketline.setMultiply(0);
 							
-							// TODO move com products to i+1
+							// move com products to i+1
 							// check follower lines
 							for(int k=j+1; k < getLinesCount(); k++)
 							{

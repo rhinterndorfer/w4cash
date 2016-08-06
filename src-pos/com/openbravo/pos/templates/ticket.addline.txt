@@ -14,12 +14,16 @@ if (current_unit != 0 && !line.isProductCom()){
 
 		String current_productid = line.getProductID();
 		String current_AttSetDesc = line.getProductAttSetInstDesc();
+		String current_lineGroup = line.getLineGroup();
+		
 		String loop_productid    = loop_ticketline.getProductID();
 		String loop_AttSetDesc   = loop_ticketline.getProductAttSetInstDesc();
+		String loop_lineGroup	 = loop_ticketline.getLineGroup();
 
 		// if equal add quantity and return
 		if (current_AttSetDesc == "" && loop_AttSetDesc == "" 
-			&& loop_productid != null && loop_productid.equals(current_productid) 
+			&& loop_productid != null && loop_productid.equals(current_productid)
+			&& current_lineGroup.equals(loop_lineGroup) 
 			&& (loop_ticketline.getPrice() == line.getPrice()) && (loop_unit != 0) ){
 			loop_ticketline.setMultiply(loop_ticketline.getMultiply() + line.getMultiply());	
 			
