@@ -21,7 +21,12 @@
         <line>
             <text align ="left" length="20">${line.printType()}</text>
             <text align ="right" length="10">${line.printValue()}</text>
+        </line>
+        #if ($line.printDescription() != "")
+	<line>
+	     <text length="2"/><text align ="left" length="20">${line.printDescription()}</text>
         </line> 
+#end
         #end
         <line>
             <text>--------------------------------</text>
@@ -40,15 +45,18 @@
             <text bold="true">Steuer</text>
         </line>
         <line>
-            <text align ="right" length="30">Total</text>
+            <text align ="right" length="15">Netto</text>
+            <text align ="right" length="15">Total</text>
         </line>
         <line>
             <text>--------------------------------</text>
         </line>
         #foreach ($line in $payments.getSaleLines())
         <line>
-            <text align ="left" length="20">${line.printTaxName()}</text>
+            <text align ="left" length="10">${line.printTaxName()}</text>
+	    	<text align ="right" length="10">${line.printNet()}</text>
             <text align ="right" length="10">${line.printTaxes()}</text>
+
         </line> 
         #end        
         <line>
