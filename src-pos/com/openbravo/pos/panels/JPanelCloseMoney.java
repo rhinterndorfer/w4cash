@@ -73,7 +73,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_TTP = new TicketParser(m_App.getDeviceTicket(), m_dlSystem);
 
 		m_jTicketTable.setDefaultRenderer(Object.class,
-				new TableRendererBasic(new Formats[] { new FormatsPayment(), Formats.CURRENCY }));
+				new TableRendererBasic(new Formats[] { new FormatsPayment(), Formats.STRING, Formats.CURRENCY }));
 		m_jTicketTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(25, 25));
 		m_jTicketTable.getTableHeader().setReorderingAllowed(false);
@@ -165,9 +165,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jTicketTable.setModel(m_PaymentsToClose.getPaymentsModel());
 
 		TableColumnModel jColumns = m_jTicketTable.getColumnModel();
-		jColumns.getColumn(0).setPreferredWidth(200);
+		jColumns.getColumn(0).setPreferredWidth(90);
 		jColumns.getColumn(0).setResizable(false);
-		jColumns.getColumn(1).setPreferredWidth(100);
+		jColumns.getColumn(1).setPreferredWidth(150);
 		jColumns.getColumn(1).setResizable(false);
 
 		m_jsalestable.setModel(m_PaymentsToClose.getSalesModel());
