@@ -291,8 +291,14 @@ public class PaymentsModel {
         public Double getSalesNet() {
             return m_SalesNet;
         }
+        public Double getSales() {
+            return m_SalesNet + m_SalesTaxes;
+        }
         public String printNet() {
             return Formats.CURRENCY.formatValue(m_SalesNet);
+        }
+        public String printSales() {
+            return Formats.CURRENCY.formatValue(m_SalesNet + m_SalesTaxes);
         }
     }
 
