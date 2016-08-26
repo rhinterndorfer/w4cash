@@ -132,7 +132,7 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 		jLabel2 = new javax.swing.JLabel();
 		jcbEndClosedPos = new javax.swing.JComboBox<>();
 		jcbStartClosedPos = new javax.swing.JComboBox<>();
-
+		
 		setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.byclosedpos"))); // NOI18N
 		setLayout(new GridBagLayout());
 

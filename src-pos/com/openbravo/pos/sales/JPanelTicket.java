@@ -1194,14 +1194,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								}
 
 							} catch (Exception eData) {
-								// MessageInf msg = new
-								// MessageInf(MessageInf.SGN_NOTICE,
-								// AppLocal.getIntString("message.nosaveticket"),
-								// eData);
-								// msg.show(m_App, this);
 								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
 										AppLocal.getIntString("message.databaseconnectionerror"), eData);
-								resultok = false;
 							}
 						}
 					}
@@ -1212,7 +1206,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				// msg.show(m_App, this);
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
 						AppLocal.getIntString("message.cannotcalculatetaxes"), e);
-				resultok = false;
 			}
 
 			// reset the payment info

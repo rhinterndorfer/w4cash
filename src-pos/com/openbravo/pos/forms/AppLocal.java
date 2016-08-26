@@ -29,7 +29,7 @@ public class AppLocal {
     
     public static final String APP_NAME = "w4cash";
     public static final String APP_ID = "w4cash";
-    public static final String APP_VERSION = "2.44.0";
+    public static final String APP_VERSION = "2.44.1";
 
   
     // private static List<ResourceBundle> m_messages;
