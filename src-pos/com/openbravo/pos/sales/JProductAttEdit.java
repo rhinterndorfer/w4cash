@@ -137,7 +137,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				});
 
 		attinstSentMisc = new PreparedSentence(s,
-				"SELECT AI.ID, AI.VALUE " + "FROM ATTRIBUTEINSTANCE AI " + "WHERE AI.ATTRIBUTE_ID IS NULL AND AI.ATTRIBUTESETINSTANCE_ID = ?",
+				"SELECT AI.ID, AI.VALUE " + "FROM ATTRIBUTEINSTANCE AI "
+						+ "WHERE AI.ATTRIBUTE_ID IS NULL AND AI.ATTRIBUTESETINSTANCE_ID = ?",
 				SerializerWriteString.INSTANCE, new SerializerRead() {
 					public Object readValues(DataRead dr) throws BasicException {
 						return new AttributeInstInfo("", "", dr.getString(1), dr.getString(2));
@@ -209,7 +210,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 					: attinstSent2.list(attsetid, attsetinstid);
 
 			for (AttributeInstInfo aii : attinstinfo) {
-				
+
 				JProductAttEditI item;
 
 				List<String> values = attvaluesSent.list(aii.getAttid());
@@ -398,30 +399,39 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonKeyboard.setRequestFocusEnabled(false);
 		m_jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				
-				//String prgFiles = System.getenv("ProgramFiles");
-				//File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
-				
-				//if (touchKeyboard.exists()) {
-				/*
+
+				if (Boolean
+						.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "tabtip_aktivated", "false"))) {
+					String prgFiles = System.getenv("ProgramFiles");
+					File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
+
+					if (touchKeyboard.exists()) {
+
+						try {
+							String fullPath = touchKeyboard.getAbsolutePath();
+							ProcessBuilder pb = new java.lang.ProcessBuilder(
+									new String[] { "cmd.exe", "/c", fullPath });
+							pb.start();
+						} catch (Exception ex) {
+							// do nothing
+						}
+
+					} else {
+						try {
+							ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
+							pb.start();
+						} catch (Exception ex) {
+							// do nothing
+						}
+					}
+				} else {
 					try {
-						String fullPath = touchKeyboard.getAbsolutePath();
-						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c",fullPath});
+						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
 						pb.start();
 					} catch (Exception ex) {
 						// do nothing
 					}
-				*/
-				//}
-				//else
-				//{
-					try {
-						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c","osk.exe"});
-						pb.start();
-					} catch (Exception ex) {
-						// do nothing
-					}
-				//}
+				}
 			}
 		});
 		jPanel1.add(m_jButtonKeyboard);
