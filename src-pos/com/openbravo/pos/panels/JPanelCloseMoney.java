@@ -87,6 +87,14 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jsalestable.getTableHeader().setReorderingAllowed(false);
 		m_jsalestable.setRowHeight(25);
 		m_jsalestable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		m_jsalestableFree.setDefaultRenderer(Object.class, new TableRendererBasic(
+				new Formats[] { Formats.STRING, Formats.CURRENCY, Formats.CURRENCY, Formats.CURRENCY }));
+		m_jsalestableFree.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		m_jScrollSalesFree.getVerticalScrollBar().setPreferredSize(new Dimension(25, 25));
+		m_jsalestableFree.getTableHeader().setReorderingAllowed(false);
+		m_jsalestableFree.setRowHeight(25);
+		m_jsalestableFree.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		ScaleButtons();
 	}
@@ -125,13 +133,14 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jSalesSubtotal.setText(null);
 		m_jSalesTaxes.setText(null);
 		m_jSalesTotal.setText(null);
-
 		m_jTicketTable.setModel(new DefaultTableModel());
 		m_jsalestable.setModel(new DefaultTableModel());
 		
-		
-		
-		
+		m_jSalesFree.setText(null);
+		m_jSalesSubtotalFree.setText(null);
+		m_jSalesTaxesFree.setText(null);
+		m_jSalesTotalFree.setText(null);
+		m_jsalestableFree.setModel(new DefaultTableModel());
 		
 	}
 
@@ -160,6 +169,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 			m_jSalesSubtotal.setText(m_PaymentsToClose.printSalesBase());
 			m_jSalesTaxes.setText(m_PaymentsToClose.printSalesTaxes());
 			m_jSalesTotal.setText(m_PaymentsToClose.printSalesTotal());
+			
+			m_jSalesFree.setText(m_PaymentsToClose.printSalesFree());
+			m_jSalesSubtotalFree.setText(m_PaymentsToClose.printSalesBaseFree());
+			m_jSalesTaxesFree.setText(m_PaymentsToClose.printSalesTaxesFree());
+			m_jSalesTotalFree.setText(m_PaymentsToClose.printSalesTotalFree());
 		}
 
 		m_jTicketTable.setModel(m_PaymentsToClose.getPaymentsModel());
@@ -173,6 +187,14 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jsalestable.setModel(m_PaymentsToClose.getSalesModel());
 
 		jColumns = m_jsalestable.getColumnModel();
+		jColumns.getColumn(0).setPreferredWidth(200);
+		jColumns.getColumn(0).setResizable(false);
+		jColumns.getColumn(1).setPreferredWidth(100);
+		jColumns.getColumn(1).setResizable(false);
+		
+		m_jsalestableFree.setModel(m_PaymentsToClose.getSalesModelFree());
+
+		jColumns = m_jsalestableFree.getColumnModel();
 		jColumns.getColumn(0).setPreferredWidth(200);
 		jColumns.getColumn(0).setResizable(false);
 		jColumns.getColumn(1).setPreferredWidth(100);
@@ -239,6 +261,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		jLabel4 = new javax.swing.JLabel();
 		m_jCash = new javax.swing.JTextField();
 		jPanel6 = new javax.swing.JPanel();
+		jPanel6Free = new javax.swing.JPanel();
 		m_jSalesTotal = new javax.swing.JTextField();
 		m_jScrollSales = new javax.swing.JScrollPane();
 		m_jsalestable = new javax.swing.JTable();
@@ -252,6 +275,17 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jCloseCash = new javax.swing.JButton();
 		m_jPrintCash = new javax.swing.JButton();
 
+		jLabel5Free = new javax.swing.JLabel();
+		jLabel6Free = new javax.swing.JLabel();
+		jLabel12Free = new javax.swing.JLabel();
+		jLabel7Free = new javax.swing.JLabel();
+		m_jSalesTotalFree = new javax.swing.JTextField();
+		m_jScrollSalesFree = new javax.swing.JScrollPane();
+		m_jsalestableFree = new javax.swing.JTable();
+		m_jSalesTaxesFree = new javax.swing.JTextField();
+		m_jSalesSubtotalFree = new javax.swing.JTextField();
+		m_jSalesFree = new javax.swing.JTextField();
+		
 		setLayout(new java.awt.BorderLayout());
 
 		jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("label.datestitle"))); // NOI18N
@@ -361,7 +395,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 		m_jSalesTotal.setEditable(false);
 		m_jSalesTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
+		
 		m_jsalestable.setFocusable(false);
 		m_jsalestable.setIntercellSpacing(new java.awt.Dimension(0, 1));
 		m_jsalestable.setRequestFocusEnabled(false);
@@ -449,6 +483,101 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												javax.swing.GroupLayout.PREFERRED_SIZE))))
 						.addContainerGap(16, Short.MAX_VALUE)));
 
+		/**
+		 *  add free panel
+		 */
+		jPanel6Free.setBorder(javax.swing.BorderFactory.createTitledBorder(AppLocal.getIntString("message.paymentfree"))); // NOI18N
+
+		m_jSalesTotalFree.setEditable(false);
+		m_jSalesTotalFree.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		
+		m_jsalestableFree.setFocusable(false);
+		m_jsalestableFree.setIntercellSpacing(new java.awt.Dimension(0, 1));
+		m_jsalestableFree.setRequestFocusEnabled(false);
+		m_jsalestableFree.setShowVerticalLines(false);
+		m_jScrollSalesFree.setViewportView(m_jsalestableFree);
+
+		m_jSalesTaxesFree.setEditable(false);
+		m_jSalesTaxesFree.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+		m_jSalesSubtotalFree.setEditable(false);
+		m_jSalesSubtotalFree.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+		m_jSalesFree.setEditable(false);
+		m_jSalesFree.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+		jLabel5Free.setText(AppLocal.getIntString("label.sales")); // NOI18N
+
+		jLabel6Free.setText(AppLocal.getIntString("label.subtotalcash")); // NOI18N
+
+		jLabel12Free.setText(AppLocal.getIntString("label.taxcash")); // NOI18N
+
+		jLabel7Free.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
+
+		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel6Free);
+		jPanel6Free.setLayout(jPanel7Layout);
+		jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
+						.addComponent(m_jScrollSalesFree, javax.swing.GroupLayout.PREFERRED_SIZE, 350,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addGroup(jPanel7Layout.createSequentialGroup()
+										.addComponent(jLabel5Free, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jSalesFree, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel7Layout.createSequentialGroup()
+										.addComponent(jLabel6Free, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jSalesSubtotalFree, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel7Layout.createSequentialGroup()
+										.addComponent(jLabel12Free, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jSalesTaxesFree, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel7Layout.createSequentialGroup()
+										.addComponent(jLabel7Free, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jSalesTotalFree, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(67, Short.MAX_VALUE)));
+		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(jPanel7Layout.createSequentialGroup()
+						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(m_jScrollSalesFree, javax.swing.GroupLayout.PREFERRED_SIZE, 140,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGroup(jPanel7Layout.createSequentialGroup()
+								.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabel5Free).addComponent(m_jSalesFree,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabel6Free).addComponent(m_jSalesSubtotalFree,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabel12Free).addComponent(m_jSalesTaxesFree,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabel7Free).addComponent(m_jSalesTotalFree,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))))
+						.addContainerGap(16, Short.MAX_VALUE)));
+		
 		m_jCloseCash.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png")));
 		m_jCloseCash.setText(AppLocal.getIntString("Button.CloseCash")); // NOI18N
@@ -480,6 +609,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												.addComponent(m_jCloseCash))
 						.addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(jPanel6Free, javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPanel5,
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -494,6 +625,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(jPanel6Free, javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -611,16 +745,21 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel12;
+	private javax.swing.JLabel jLabel12Free;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
 	private javax.swing.JLabel jLabel7;
+	private javax.swing.JLabel jLabel5Free;
+	private javax.swing.JLabel jLabel6Free;
+	private javax.swing.JLabel jLabel7Free;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
 	private javax.swing.JPanel jPanel6;
+	private javax.swing.JPanel jPanel6Free;
 	private javax.swing.JTextField m_jCash;
 	private javax.swing.JButton m_jCloseCash;
 	private javax.swing.JTextField m_jCount;
@@ -628,13 +767,19 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private javax.swing.JTextField m_jMinDate;
 	private javax.swing.JButton m_jPrintCash;
 	private javax.swing.JTextField m_jSales;
+	private javax.swing.JTextField m_jSalesFree;
 	private javax.swing.JTextField m_jSalesSubtotal;
+	private javax.swing.JTextField m_jSalesSubtotalFree;
 	private javax.swing.JTextField m_jSalesTaxes;
+	private javax.swing.JTextField m_jSalesTaxesFree;
 	private javax.swing.JTextField m_jSalesTotal;
+	private javax.swing.JTextField m_jSalesTotalFree;
 	private javax.swing.JScrollPane m_jScrollSales;
+	private javax.swing.JScrollPane m_jScrollSalesFree;
 	private javax.swing.JScrollPane m_jScrollTableTicket;
 	private javax.swing.JTable m_jTicketTable;
 	private javax.swing.JTable m_jsalestable;
+	private javax.swing.JTable m_jsalestableFree;
 	// End of variables declaration//GEN-END:variables
 
 }
