@@ -299,11 +299,13 @@ order by ReceiptNo, LineType, Line]]>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1256" y="0" width="60" height="15" uuid="2b709e3d-da3b-494d-8ca6-1fa489d08737"/>
-				<textFieldExpression><![CDATA[$F{Tax}]]></textFieldExpression>
+				<!-- <textFieldExpression><![CDATA[$F{Tax}]]></textFieldExpression> -->
+				<textFieldExpression><![CDATA[ !("Frei/Gratis").equals($F{Payment}) ? $F{Tax} : null]]></textFieldExpression>
 			</textField>
 			<textField pattern="#0.00" isBlankWhenNull="true">
 				<reportElement x="1316" y="0" width="60" height="15" uuid="986eaa1e-ab93-4962-b74a-35e9b6d1d8a2"/>
-				<textFieldExpression><![CDATA[$F{PriceGross}]]></textFieldExpression>
+				<!-- <textFieldExpression><![CDATA[$F{PriceGross}]]></textFieldExpression> -->
+				<textFieldExpression><![CDATA[ !("Frei/Gratis").equals($F{Payment}) ? $F{PriceGross} : null]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1376" y="0" width="100" height="15" uuid="4a6c1c2f-9cb4-4e13-8c97-174b8d732ba9"/>
@@ -311,7 +313,7 @@ order by ReceiptNo, LineType, Line]]>
 			</textField>
 			<textField pattern="#0.00" isBlankWhenNull="true">
 				<reportElement x="1476" y="0" width="64" height="15" uuid="7417eaa5-be14-471a-8174-d4b2c00a2d3d"/>
-				<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[ !$F{Payment}.equals("Frei/Gratis") ? $F{Total} : 0]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="174" y="0" width="112" height="15" uuid="8b77f08b-1df3-4fbb-803c-2c1b0e5156eb"/>
