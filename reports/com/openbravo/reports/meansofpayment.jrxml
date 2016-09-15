@@ -37,6 +37,11 @@ order by p.PAYMENT]]>
 	<variable name="SUM_TOTAL" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
 	</variable>
+	
+	<variable name="SUM_TOTAL_NOFREE" class="java.lang.Double"  calculation="Sum">
+		<variableExpression> <![CDATA[ !$F{PAYMENT}.equals("Frei/Gratis") ? $F{TOTAL} : 0.0]]> </variableExpression>
+	</variable>
+	
 	<group name="PAYMENT" keepTogether="true">
 		<groupExpression><![CDATA[$F{PAYMENT}]]></groupExpression>
 		<groupFooter>
@@ -130,7 +135,7 @@ order by p.PAYMENT]]>
 				<textElement textAlignment="Right">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{SUM_TOTAL})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{SUM_TOTAL_NOFREE})]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="180" y="0" width="120" height="1" uuid="9615c5fe-43d8-4dd9-8701-c403e360557d">
