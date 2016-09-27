@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-26T10:06:17 -->
+<!-- 2016-09-01T20:12:24 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -13,6 +13,16 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="title"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.keep.first.band.1" value="columnHeader"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.collapse.row.span" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.font.size.fix.enabled" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.names.sheet1" value="Productsales"/>
 	<import value="java.lang.*"/>
 	<style name="StyleDefault" isDefault="true" vTextAlign="Top" fontName="Arial" fontSize="12">
 		<paragraph lineSpacing="Single"/>
@@ -90,79 +100,6 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 	<variable name="PriceTax1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
 	</variable>
-	<variable name="UnitsGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
-		<variableExpression><![CDATA[$F{Units}]]></variableExpression>
-	</variable>
-	<variable name="PriceGrossGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
-		<variableExpression><![CDATA[$F{PriceGross}]]></variableExpression>
-	</variable>
-	<variable name="PriceNetGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
-		<variableExpression><![CDATA[$F{PriceNet}]]></variableExpression>
-	</variable>
-	<variable name="PriceTaxGrpFree" class="java.lang.Double" resetType="Group" resetGroup="grpFree" calculation="Sum">
-		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
-	</variable>
-	<group name="grpLocation">
-		<groupExpression><![CDATA[$F{Location}]]></groupExpression>
-	</group>
-	<group name="grpPOS">
-		<groupExpression><![CDATA[$F{POS}]]></groupExpression>
-	</group>
-	<group name="grpFree">
-		<groupExpression><![CDATA[$F{Free}]]></groupExpression>
-		<groupFooter>
-			<band height="24">
-				<textField>
-					<reportElement style="StyleDefault" x="315" y="2" width="45" height="21" uuid="49203405-fa02-4a57-afda-218a7df4c08a">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					</reportElement>
-					<textElement textAlignment="Right">
-						<font size="10" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[com.openbravo.format.Formats.DOUBLE.formatValue($V{UnitsGrpFree})]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="StyleDefault" x="360" y="2" width="65" height="21" uuid="5a003ee0-c1d3-4a9e-a561-f838180b52d2"/>
-					<textElement textAlignment="Right">
-						<font size="10" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceGrossGrpFree})]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="StyleDefault" x="425" y="2" width="65" height="21" uuid="63773b15-1875-49f6-a686-e52cfc84c24d"/>
-					<textElement textAlignment="Right">
-						<font size="10" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceNetGrpFree})]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="StyleDefault" x="490" y="3" width="65" height="20" uuid="9bdf862b-7c01-4de4-bbc2-23dc2b93b060"/>
-					<textElement textAlignment="Right">
-						<font size="10" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceTaxGrpFree})]]></textFieldExpression>
-				</textField>
-				<line>
-					<reportElement x="315" y="0" width="240" height="1" uuid="be23d605-55e5-429e-8686-283060173fbb">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					</reportElement>
-				</line>
-				<line>
-					<reportElement x="0" y="23" width="555" height="1" uuid="b26c37fd-4953-4edc-a664-926e48a99827">
-						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					</reportElement>
-				</line>
-			</band>
-		</groupFooter>
-	</group>
-	<group name="grpCategory">
-		<groupExpression><![CDATA[$F{CategoryName}]]></groupExpression>
-	</group>
-	<group name="grpTax">
-		<groupExpression><![CDATA[$F{Tax}]]></groupExpression>
-	</group>
 	<title>
 		<band height="155" splitType="Stretch">
 			<textField pattern="" isBlankWhenNull="false">
@@ -248,6 +185,7 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
 				</reportElement>
 				<textElement>
 					<font size="10" isBold="true"/>
@@ -257,6 +195,8 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 			<staticText>
 				<reportElement style="StyleDefault" x="115" y="0" width="80" height="30" uuid="11dfb006-5462-4506-8d18-d08593207e1b">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.row" value="true"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
 				</reportElement>
 				<textElement>
 					<font size="10" isBold="true"/>
@@ -280,14 +220,23 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement style="StyleDefault" x="195" y="0" width="85" height="29" uuid="b90f8505-1b3f-4e68-a79c-e497636937e4"/>
+				<reportElement style="StyleDefault" x="195" y="0" width="85" height="29" uuid="b90f8505-1b3f-4e68-a79c-e497636937e4">
+					<property name="net.sf.jasperreports.export.xls.auto.filter" value="End"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.row" value="true"/>
+				</reportElement>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Produkt]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="StyleDefault" x="0" y="0" width="60" height="30" uuid="e90ff018-0967-4911-a43d-a4279b3e2a17"/>
+				<reportElement style="StyleDefault" x="0" y="0" width="60" height="30" uuid="e90ff018-0967-4911-a43d-a4279b3e2a17">
+					<property name="net.sf.jasperreports.export.xls.auto.filter" value="Start"/>
+					<property name="net.sf.jasperreports.export.xls.freeze.row.edge" value="Top"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.row" value="true"/>
+					<property name="net.sf.jasperreports.export.xls.auto.fit.column" value="true"/>
+				</reportElement>
 				<textElement>
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -334,7 +283,7 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceNet})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="" style="StyleDefault" isPrintRepeatedValues="false" x="60" y="0" width="55" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="ba84eb4c-41cf-4017-8f6f-cd010dc6abee">
+				<reportElement key="" style="StyleDefault" x="60" y="0" width="55" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="ba84eb4c-41cf-4017-8f6f-cd010dc6abee">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -344,7 +293,7 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 				<textFieldExpression><![CDATA[IF($F{Free}==0, "Kunden", "Frei")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="StyleDefault" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="115" y="0" width="80" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpFree" uuid="762aa9c3-5ce9-4da6-945d-581f41ff2a2f">
+				<reportElement style="StyleDefault" stretchType="RelativeToTallestObject" x="115" y="0" width="80" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="762aa9c3-5ce9-4da6-945d-581f41ff2a2f">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -371,7 +320,7 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 				<textFieldExpression><![CDATA[$F{Product}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement style="StyleDefault" isPrintRepeatedValues="false" x="0" y="0" width="60" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="grpFree" uuid="c41a1dc9-4836-41a8-bddc-c66108b4c674"/>
+				<reportElement style="StyleDefault" x="0" y="0" width="60" height="16" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="c41a1dc9-4836-41a8-bddc-c66108b4c674"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -388,38 +337,4 @@ order by l.Name, cc.Host, case when free.RECEIPT is null then 0 else 1 end desc,
 			</textField>
 		</band>
 	</pageFooter>
-	<summary>
-		<band height="23">
-			<textField>
-				<reportElement style="StyleDefault" x="315" y="2" width="45" height="21" uuid="be0b2edb-10fd-4e09-99ec-a6d5f4dd028d">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[com.openbravo.format.Formats.DOUBLE.formatValue($V{Units1})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="StyleDefault" x="360" y="2" width="65" height="21" uuid="ce98c277-6cde-4707-af2b-ccf033ead158"/>
-				<textElement textAlignment="Right">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceGross1})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="StyleDefault" x="425" y="2" width="65" height="21" uuid="e81cd696-31c6-4932-b0bc-da601cecc0bf"/>
-				<textElement textAlignment="Right">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceNet1})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="StyleDefault" x="490" y="2" width="65" height="21" uuid="ab2b2a94-f5b6-46d1-9b70-28c499bf1bfb"/>
-				<textElement textAlignment="Right">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceTax1})]]></textFieldExpression>
-			</textField>
-		</band>
-	</summary>
 </jasperReport>
