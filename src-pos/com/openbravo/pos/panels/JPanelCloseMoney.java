@@ -599,40 +599,55 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
 		jPanel1Layout
-				.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
+				.setHorizontalGroup(
+						jPanel1Layout
+						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+							.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
 								.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 										.addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-												jPanel1Layout.createSequentialGroup().addComponent(m_jPrintCash)
-														.addPreferredGap(
+												jPanel1Layout.createSequentialGroup()
+													.addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE,
+														javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addPreferredGap(
+															javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+													.addComponent(m_jPrintCash)
+													.addPreferredGap(
 																javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(m_jCloseCash))
-						.addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(jPanel6Free, javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(jPanel5,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-								.addContainerGap()));
-		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap()
-						.addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
+													.addComponent(m_jCloseCash)
+												)
+								.addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(jPanel6Free, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(jPanel5,
+												javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+								)
+							.addContainerGap()
+						));
+		jPanel1Layout.setVerticalGroup(
+				jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+					.addGroup(
+						jPanel1Layout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(jPanel1Layout
+								.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+									.addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
+											javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+									.addComponent(m_jCloseCash)
+									.addComponent(m_jPrintCash)
+							)
+							.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE,
+							.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE,
+							.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+							.addComponent(jPanel6Free, javax.swing.GroupLayout.PREFERRED_SIZE,
 								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(jPanel6Free, javax.swing.GroupLayout.PREFERRED_SIZE,
-								javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-								.addComponent(m_jCloseCash).addComponent(m_jPrintCash))
-						.addContainerGap()));
+						.addContainerGap()
+					));
 
 		add(jPanel1, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
