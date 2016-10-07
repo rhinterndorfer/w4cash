@@ -203,12 +203,17 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 	private void printPayments(String report) {
 
+		
+		
 		String sresource = m_dlSystem.getResourceAsXML(report);
 		if (sresource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
 			msg.show(m_App, this);
 		} else {
 			try {
+				// reload data
+				loadData();
+				
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("payments", m_PaymentsToClose);
 				m_TTP.printTicket(script.eval(sresource).toString());
@@ -220,7 +225,13 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
 				msg.show(m_App, this);
+			} catch (Exception e)
+			{
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+						AppLocal.getIntString("message.cannotprintticket"), e);
+				msg.show(m_App, this);
 			}
+			
 		}
 	}
 
@@ -709,6 +720,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	}
 
 	private void m_jCloseCashActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseCashActionPerformed
+		
 		// TODO add your handling code here:
 		int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannaclosecash"),
 				AppLocal.getIntString("message.title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -717,6 +729,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 			
 			try {
+				// reload data
+				loadData();
+				
 				// Cerramos la caja si esta pendiente de cerrar.
 				if (m_App.getActiveCashDateEnd() == null) {
 					// set closed info
