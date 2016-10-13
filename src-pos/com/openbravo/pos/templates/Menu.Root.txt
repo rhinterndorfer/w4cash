@@ -51,6 +51,7 @@
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroupsLocations", "/com/openbravo/reports/productgroups2.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.ProductGroupsPayments", "/com/openbravo/reports/productgroupspayments.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Paper", "/com/openbravo/reports/paper.bs");
+        submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Tax", "/com/openbravo/reports/tax.bs");
         submenu.addPanel("/com/openbravo/images/mime2.png", "Menu.Sales.Reports.Journal", "/com/openbravo/reports/journal.bs");
     submenu = group.addSubmenu("/com/openbravo/images/package_settings.png", "Menu.Maintenance", "com.openbravo.pos.forms.MenuMaintenance");
         submenu.addTitle("Menu.Maintenance.POS");        
