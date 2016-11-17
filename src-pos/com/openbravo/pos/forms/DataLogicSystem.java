@@ -84,7 +84,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		};
 
 		m_peoplevisible = new StaticSentence(s,
-				"SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE FROM PEOPLE WHERE VISIBLE = " + s.DB.TRUE(), null,
+				"SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE FROM PEOPLE WHERE VISIBLE = " + s.DB.TRUE() + " ORDER BY NAME", null,
 				peopleread);
 
 		m_peoplebycard = new PreparedSentence(s,

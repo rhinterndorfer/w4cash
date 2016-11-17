@@ -76,6 +76,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 	private String SystemDataCity = "";
 	private String SystemDataTaxid = "";
 	private String SystemDataThanks = "";
+	private String SystemDataAccountBank = "";
+	private String SystemDataAccountOwner = "";
+	private String SystemDataAccountBIC = "";
+	private String SystemDataAccountIBAN = "";
 	
 	/** Creates new form JTicketsBagTicket */
 	public JTicketsBagTicket(AppView app, JPanelTicketEdits panelticket) {
@@ -264,6 +268,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("SystemDataCity", SystemDataCity);
 				script.put("SystemDataTaxid", SystemDataTaxid);
 				script.put("SystemDataThanks", SystemDataThanks);
+				script.put("SystemDataAccountBank", SystemDataAccountBank);
+				script.put("SystemDataAccountOwner", SystemDataAccountOwner);
+				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
+				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 				
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";
@@ -312,6 +320,18 @@ public class JTicketsBagTicket extends JTicketsBag {
 					continue;
 				} else if("System.Thanks".compareTo(((Object [])res.get(i))[1].toString())==0) {
 					SystemDataThanks = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.AccountBank".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataAccountBank = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.AccountOwner".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataAccountOwner = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.AccountBIC".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataAccountBIC = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.AccountIBAN".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataAccountIBAN = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
 					continue;
 				}
 			}
@@ -564,6 +584,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("SystemDataCity", SystemDataCity);
 				script.put("SystemDataTaxid", SystemDataTaxid);
 				script.put("SystemDataThanks", SystemDataThanks);
+				script.put("SystemDataAccountBank", SystemDataAccountBank);
+				script.put("SystemDataAccountOwner", SystemDataAccountOwner);
+				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
+				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 				
 				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
 				String ticketsuffix = "";

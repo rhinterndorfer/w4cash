@@ -45,6 +45,8 @@ import com.openbravo.pos.util.PropertyUtil;
  */
 public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig {
 
+	private static final long serialVersionUID = 1055100919119422081L;
+	
 	private DirtyManager dirty = new DirtyManager();
 	private AppView m_App;
 	
@@ -54,6 +56,10 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	private int systemDataCity = -1;
 	private int systemDataTAXID = -1;
 	private int systemDataThanks = -1;
+	private int systemDataAccountBank = -1;
+	private int systemDataAccountOwner = -1;
+	private int systemDataAccountBIC = -1;
+	private int systemDataAccountIBAN = -1;
 	
 	/** Creates new form JPanelConfigDatabase */
 	public JPanelSystemData(AppView oApp) {
@@ -67,7 +73,10 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 		txtSystemDataTAXID.getDocument().addDocumentListener(dirty);
 		txtSystemDataCity.getDocument().addDocumentListener(dirty);
 		txtSystemDataThanks.getDocument().addDocumentListener(dirty);
-		
+		txtSystemDataAccountBank.getDocument().addDocumentListener(dirty);
+		txtSystemDataAccountOwner.getDocument().addDocumentListener(dirty);
+		txtSystemDataAccountBIC.getDocument().addDocumentListener(dirty);
+		txtSystemDataAccountIBAN.getDocument().addDocumentListener(dirty);
 //		jbtnDbDriverLib.addActionListener(new DirectoryEvent(jtxtDbDriverLib));
 	}
 
@@ -112,6 +121,22 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 					txtSystemDataThanks.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
 					this.systemDataThanks = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
+				} else if("System.AccountBank".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataAccountBank.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataAccountBank = Integer.parseInt(((Object [])res.get(i))[0].toString());
+					continue;
+				} else if("System.AccountOwner".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataAccountOwner.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataAccountOwner = Integer.parseInt(((Object [])res.get(i))[0].toString());
+					continue;
+				} else if("System.AccountBIC".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataAccountBIC.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataAccountBIC = Integer.parseInt(((Object [])res.get(i))[0].toString());
+					continue;
+				} else if("System.AccountIBAN".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataAccountIBAN.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataAccountIBAN = Integer.parseInt(((Object [])res.get(i))[0].toString());
+					continue;
 				}
 			}
 			//res.get(0);
@@ -147,18 +172,23 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
     	   if(systemDataThanks > -1) {
     		   upd.exec(new Object[]{systemDataThanks + "", "System.Thanks", 0, Formats.BYTEA.parseValue(this.txtSystemDataThanks.getText())}); 
     	   }
+    	   if(systemDataAccountBank > -1) {
+    		   upd.exec(new Object[]{systemDataAccountBank + "", "System.AccountBank", 0, Formats.BYTEA.parseValue(this.txtSystemDataAccountBank.getText())}); 
+    	   }
+    	   if(systemDataAccountOwner > -1) {
+    		   upd.exec(new Object[]{systemDataAccountOwner + "", "System.AccountOwner", 0, Formats.BYTEA.parseValue(this.txtSystemDataAccountOwner.getText())}); 
+    	   }
+    	   if(systemDataAccountBIC > -1) {
+    		   upd.exec(new Object[]{systemDataAccountBIC + "", "System.AccountBIC", 0, Formats.BYTEA.parseValue(this.txtSystemDataAccountBIC.getText())}); 
+    	   }
+    	   if(systemDataAccountIBAN > -1) {
+    		   upd.exec(new Object[]{systemDataAccountIBAN + "", "System.AccountIBAN", 0, Formats.BYTEA.parseValue(this.txtSystemDataAccountIBAN.getText())}); 
+    	   }
 	} catch (BasicException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
         
-//		config.setProperty("db.driverlib", txtSystemDataAddressLine1.getText());
-//		config.setProperty("db.driver", txtSystemDataAddressLine2.getText());
-//		config.setProperty("db.URL", txtSystemDataStreet.getText());
-//		config.setProperty("db.user", txtSystemDataCity.getText());
-//		config.setProperty("db.timeout", txtSystemDataThanks.getText());
-//		AltEncrypter cypher = new AltEncrypter("cypherkey" + txtSystemDataCity.getText());
-//		config.setProperty("db.password", "crypt:" + cypher.encrypt(new String(txtSystemDataTAXID.getPassword())));
 
 		dirty.setDirty(false);
 	}
@@ -186,8 +216,14 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 		txtSystemDataTAXID = new javax.swing.JTextField();
 		jLabel6 = new javax.swing.JLabel();
 		txtSystemDataThanks = new javax.swing.JTextField();
-//		jLabel7 = new javax.swing.JLabel();
-//		cbDemomode = new JCheckBox("");
+		jLabel7 = new javax.swing.JLabel();
+		txtSystemDataAccountBank = new javax.swing.JTextField();
+		jLabel8 = new javax.swing.JLabel();
+		txtSystemDataAccountOwner = new javax.swing.JTextField();
+		jLabel9 = new javax.swing.JLabel();
+		txtSystemDataAccountBIC = new javax.swing.JTextField();
+		jLabel10 = new javax.swing.JLabel();
+		txtSystemDataAccountIBAN = new javax.swing.JTextField();
 
 		jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder()); //TitledBorder(AppLocal.getIntString("Label.Database"))); // NOI18N
 
@@ -206,7 +242,13 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 
 		jLabel6.setText(AppLocal.getIntString("System.Thanks"));
 		
-		// jLabel7.setText(AppLocal.getIntString("System.Demo"));
+		jLabel7.setText(AppLocal.getIntString("System.AccountBank"));
+		
+		jLabel8.setText(AppLocal.getIntString("System.AccountOwner"));
+		
+		jLabel9.setText(AppLocal.getIntString("System.AccountBIC"));
+		
+		jLabel10.setText(AppLocal.getIntString("System.AccountIBAN"));
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
@@ -215,8 +257,16 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 								.addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addComponent(jLabel2).addComponent(jLabel3).addComponent(jLabel4).addComponent(jLabel5)
-								.addComponent(jLabel6)) //.addComponent(jLabel7))
+								.addComponent(jLabel2)
+								.addComponent(jLabel3)
+								.addComponent(jLabel4)
+								.addComponent(jLabel5)
+								.addComponent(jLabel6)
+								.addComponent(jLabel7)
+								.addComponent(jLabel8)
+								.addComponent(jLabel9)
+								.addComponent(jLabel10)
+						) 
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 								.addGroup(jPanel1Layout.createSequentialGroup()
@@ -229,16 +279,22 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 														javax.swing.GroupLayout.PREFERRED_SIZE, 328,
 														javax.swing.GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-//										.addComponent(jbtnDbDriverLib)
 										)
 								.addComponent(txtSystemDataTAXID, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSystemDataCity, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSystemDataThanks, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
-										javax.swing.GroupLayout.PREFERRED_SIZE))
-//								.addComponent(cbDemomode, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
-//										javax.swing.GroupLayout.PREFERRED_SIZE))
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtSystemDataAccountBank, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtSystemDataAccountOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtSystemDataAccountBIC, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtSystemDataAccountIBAN, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								)
 						.addContainerGap(131, Short.MAX_VALUE)));
 		jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel1Layout.createSequentialGroup().addContainerGap().addGroup(jPanel1Layout
@@ -255,7 +311,6 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 												javax.swing.GroupLayout.PREFERRED_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE)))
-//						.addComponent(jbtnDbDriverLib)
 						)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -273,6 +328,26 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 								.addComponent(jLabel6).addComponent(txtSystemDataThanks,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jLabel7).addComponent(txtSystemDataAccountBank,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jLabel8).addComponent(txtSystemDataAccountOwner,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jLabel9).addComponent(txtSystemDataAccountBIC,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jLabel10).addComponent(txtSystemDataAccountIBAN,
 										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -309,6 +384,10 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
+	private javax.swing.JLabel jLabel7;
+	private javax.swing.JLabel jLabel8;
+	private javax.swing.JLabel jLabel9;
+	private javax.swing.JLabel jLabel10;
 	// private javax.swing.JLabel jLabel7;
 	
 	private javax.swing.JPanel jPanel1;
@@ -319,6 +398,10 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	private javax.swing.JTextField txtSystemDataStreet;
 	private javax.swing.JTextField txtSystemDataCity;
 	private javax.swing.JTextField txtSystemDataThanks;
+	private javax.swing.JTextField txtSystemDataAccountBank;
+	private javax.swing.JTextField txtSystemDataAccountOwner;
+	private javax.swing.JTextField txtSystemDataAccountBIC;
+	private javax.swing.JTextField txtSystemDataAccountIBAN;
 	// private javax.swing.JCheckBox cbDemomode;
 	// End of variables declaration//GEN-END:variables
 

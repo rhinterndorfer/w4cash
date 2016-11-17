@@ -75,6 +75,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private JCatalogTab jcategoryTab;
 	private int productFontSize;
 	private int catFontSize;
+	private String categoriesFilter;
 
 	/** Creates new form JCatalog */
 	public JCatalog(AppView app, DataLogicSales dlSales) {
@@ -86,6 +87,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		m_App = app;
 		m_dlSales = dlSales;
+		this.categoriesFilter = PropertyUtil.GetCategoriesFilter(app);
 		this.pricevisible = pricevisible;
 		this.taxesincluded = taxesincluded;
 
@@ -149,7 +151,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
 
 		// Load all categories.
-		java.util.List<CategoryInfo> categories = m_dlSales.getRootCategories();
+		java.util.List<CategoryInfo> categories = m_dlSales.getRootCategories(categoriesFilter);
 
 		// Select the first category
 
@@ -311,7 +313,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				m_categoriesset.add(catid.getID());
 
 				// Add subcategories
-				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID());
+				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID(), categoriesFilter);
 				for (CategoryInfo cat : categories) {
 					jcurrTab.addButton(
 							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),  cat.getBgColor(),

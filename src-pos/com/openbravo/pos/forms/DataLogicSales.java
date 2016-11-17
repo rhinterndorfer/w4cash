@@ -48,6 +48,8 @@ import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
+import com.openbravo.pos.util.PropertyUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -151,32 +153,36 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	}
 
 	// Catalogo de productos
-	public final List<CategoryInfo> getCategories() throws BasicException {
-		// return new PreparedSentence(s, "SELECT ID, NAME, IMAGE FROM
-		// CATEGORIES WHERE PARENTID IS NULL ORDER BY NAME",
-		// null, CategoryInfo.getSerializerRead()).list();
+	public final List<CategoryInfo> getCategories(String filter) throws BasicException {
+		
+		if(filter == null)
+			filter = "";
+			
 		return new PreparedSentence(s,
-				"SELECT ID, NAME, IMAGE , BGCOLOR,  SORTORDER, PRINTER FROM CATEGORIES ORDER BY SORTORDER",
+				"SELECT ID, NAME, IMAGE, BGCOLOR, SORTORDER, PRINTER FROM CATEGORIES WHERE 1=1 " + filter + " ORDER BY SORTORDER",
 				null, CategoryInfo.getSerializerRead()).list();
 	}
 
 	// Catalogo de productos
-	public final List<CategoryInfo> getRootCategories() throws BasicException {
-		// return new PreparedSentence(s, "SELECT ID, NAME, IMAGE FROM
-		// CATEGORIES WHERE PARENTID IS NULL ORDER BY NAME",
-		// null, CategoryInfo.getSerializerRead()).list();
+	public final List<CategoryInfo> getRootCategories(String filter) throws BasicException {
+		if(filter == null)
+			filter = "";
+		
 		return new PreparedSentence(s,
-				"SELECT ID, NAME, IMAGE , BGCOLOR, SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID IS NULL ORDER BY SORTORDER",
+				"SELECT ID, NAME, IMAGE , BGCOLOR, SORTORDER, PRINTER FROM CATEGORIES WHERE PARENTID IS NULL " + filter + " ORDER BY SORTORDER",
 				null, CategoryInfo.getSerializerRead()).list();
 	}
 
-	public final List<CategoryInfo> getSubcategories(String category) throws BasicException {
-		// only return categories that contain other cateegories or products
+	public final List<CategoryInfo> getSubcategories(String category, String filter) throws BasicException {
+		if(filter == null)
+			filter = "";
+		
+		// only return categories that contain other categories or products
 		return new PreparedSentence(s,
 				"SELECT ID, NAME, IMAGE, BGCOLOR, SORTORDER, PRINTER "
 				+ "FROM CATEGORIES "
 				+ "WHERE (EXISTS(SELECT p.ID FROM PRODUCTS p, PRODUCTS_CAT pc WHERE p.ID=pc.PRODUCT and CATEGORY = CATEGORIES.ID) OR EXISTS(SELECT c.ID FROM CATEGORIES c WHERE c.PARENTID = CATEGORIES.ID))"
-				+ "AND PARENTID = ? ORDER BY SORTORDER",
+				+ "AND PARENTID = ? " + filter + " ORDER BY SORTORDER",
 				SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
 	}
 
@@ -344,7 +350,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return (CustomerInfoExt) new PreparedSentence(s,
 				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
 						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
-						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE"
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE, DISCOUNT"
 						+ " FROM CUSTOMERS WHERE CARD = ? AND VISIBLE = " + s.DB.TRUE(),
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(card);
 	}
@@ -353,7 +359,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return (CustomerInfoExt) new PreparedSentence(s,
 				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
 						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
-						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE" + " FROM CUSTOMERS WHERE ID = ?",
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE, DISCOUNT" + " FROM CUSTOMERS WHERE ID = ?",
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(id);
 	}
 
@@ -361,7 +367,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return (CustomerInfoExt) new PreparedSentence(s,
 				"SELECT ID, TAXID, SEARCHKEY, NAME, CARD, TAXCATEGORY, NOTES, MAXDEBT, VISIBLE, CURDATE, CURDEBT"
 						+ ", FIRSTNAME, LASTNAME, EMAIL, PHONE, PHONE2, FAX"
-						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE" + " FROM CUSTOMERS WHERE SEARCHKEY = ?",
+						+ ", ADDRESS, ADDRESS2, POSTAL, CITY, REGION, COUNTRY, PRICES_ZONE, DISCOUNT" + " FROM CUSTOMERS WHERE SEARCHKEY = ?",
 				SerializerWriteString.INSTANCE, new CustomerExtRead()).find(searchkey);
 	}
 	
@@ -947,6 +953,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			c.setRegion(dr.getString(22));
 			c.setCountry(dr.getString(23));
 			c.setPrices_Zone(dr.getString(24));
+			c.setDiscount(dr.getDouble(25));
 			return c;
 		}
 	}

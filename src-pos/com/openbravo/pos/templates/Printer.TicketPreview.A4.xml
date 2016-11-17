@@ -256,7 +256,36 @@
         </line>    
         <line>
             <text align ="right" length="20">${paymentline.printTotal()}</text>
-        </line>    
+        </line> 
+        #if ($SystemDataAccountIBAN != "")
+        <line>
+        	<text align="left" length="105">Bankverbindung:</text>
+        </line>
+        #end
+        #if ($SystemDataAccountBank != "")
+        <line>
+        	<text align="left" length="10">Bank:</text>
+            <text length="85">${SystemDataAccountBank}</text>
+        </line>
+        #end
+        #if ($SystemDataAccountOwner != "")
+        <line>
+        	<text align="left" length="10">Inhaber:</text>
+            <text length="85">${SystemDataAccountOwner}</text>
+        </line>
+        #end
+        #if ($SystemDataAccountBIC != "")
+        <line>
+        	<text align="left" length="10">BIC:</text>
+            <text length="85">${SystemDataAccountBIC}</text>
+        </line>
+        #end
+        #if ($SystemDataAccountIBAN != "")
+        <line>
+        	<text align="left" length="10">IBAN:</text>
+            <text length="85">${SystemDataAccountIBAN}</text>
+        </line>
+        #end   
          #end
          #if ($paymentline.name == "paperout")
         <line></line>     

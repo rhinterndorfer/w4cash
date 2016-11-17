@@ -86,6 +86,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private TicketParser m_TTP;
 	private JPanel jPanel3;
 
+	private String categoriesFilter = null;
+	
+	
 	/** Creates new form JTicketsBagRestaurant */
 	public JTicketsBagRestaurantMap(AppView app, TicketsEditor panelticket) {
 		super(app, panelticket);
@@ -93,6 +96,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		dlSystem = (DataLogicSystem) m_App.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		dlReceipts = (DataLogicReceipts) app.getBean("com.openbravo.pos.sales.DataLogicReceipts");
 		dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
+		
+		categoriesFilter = PropertyUtil.GetCategoriesFilter(app);
 
 		m_TTP = new TicketParser(m_App.getDeviceTicket(), dlSystem);
 
@@ -307,7 +312,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_PlaceClipboard = null;
 		customer = null;
 		try {
-			m_categories = dlSales.getCategories();
+			m_categories = dlSales.getCategories(categoriesFilter);
 		} catch(Exception ex)
 		{
 			m_categories = null;

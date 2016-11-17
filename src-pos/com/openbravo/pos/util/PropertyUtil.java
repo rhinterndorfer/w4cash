@@ -109,6 +109,14 @@ public class PropertyUtil {
 		}
 	}
 
+	
+	public static String GetCategoriesFilter(AppView app)
+	{
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", "Categories.Filter");
+		return value;
+	}
+	
 	public static void ScaleBorderFontsize(AppView app, TitledBorder border, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);

@@ -81,6 +81,7 @@
     <class name="/com/openbravo/reports/customersdiary.bs"/>
     <class name="/com/openbravo/reports/paper.bs"/>
     <class name="/com/openbravo/reports/tax.bs"/>
+    <class name="/com/openbravo/reports/tax2.bs"/>
     <class name="com.openbravo.pos.forms.MenuMaintenance"/>
     <class name="com.openbravo.pos.admin.PeoplePanel"/>
     <class name="com.openbravo.pos.mant.JPanelFloors"/>

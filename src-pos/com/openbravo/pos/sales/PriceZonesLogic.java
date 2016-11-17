@@ -69,10 +69,16 @@ public class PriceZonesLogic {
     	return priceZonePricesByProduct.get(product);
     }
     
-    public Double getPrice(String product, CustomerInfoExt customer, String location, double taxRate)
+    public Double getPrice(String product, CustomerInfoExt customer, String location, double currentPrice, double taxRate)
     {
-    	
     	Double price = Double.MAX_VALUE;
+    	
+    	if(customer != null && customer.getDiscount() != null && (customer.getDiscount() > 0.0001 || customer.getDiscount() < -0.0001))
+    	{
+    		price = currentPrice * (1 - (customer.getDiscount() / 100));
+    		return price;
+    	}
+    	
     	List<PriceZoneProductInfo> productList = getByProduct(product);
     	if(productList != null)
     	{
@@ -92,6 +98,6 @@ public class PriceZonesLogic {
     		}
     	}
     	
-    	return price;
+    	return price < currentPrice ? price : currentPrice;
     }
 }
