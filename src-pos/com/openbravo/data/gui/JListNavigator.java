@@ -21,6 +21,8 @@ package com.openbravo.data.gui;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
+
 import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -110,7 +112,21 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
 
 		setLayout(new java.awt.BorderLayout());
 
-		setPreferredSize(new java.awt.Dimension(300, 2));
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		if(d.getWidth() > 900)
+		{
+			setPreferredSize(new java.awt.Dimension(300, 2));
+		}
+		else if(d.getWidth() > 800)
+		{
+			setPreferredSize(new java.awt.Dimension(200, 2));
+		}
+		else
+		{
+			setPreferredSize(new java.awt.Dimension(150, 2));
+		}
+		
 		m_jlist.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		m_jlist.setFocusable(false);
 		m_jlist.setRequestFocusEnabled(false);

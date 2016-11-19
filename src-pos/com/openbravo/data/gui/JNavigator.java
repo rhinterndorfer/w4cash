@@ -93,7 +93,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			});
 			add(jbtnPrev);
 		}
-		if (iButtons == BUTTONS_ALL) {
+		//if (iButtons == BUTTONS_ALL) {
 			jbtnMoveUp = new javax.swing.JButton();
 			jbtnMoveUp
 					.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22uparrow.png")));
@@ -107,10 +107,11 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				}
 			});
 			add(jbtnMoveUp);
-		}
+		//}
 
+		
 		jbtnRefresh = new javax.swing.JButton();
-		jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/downarrow.png")));
+		jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refreshOne.png")));
 		jbtnRefresh.setMargin(new java.awt.Insets(2, 8, 2, 8));
 		jbtnRefresh.setFocusPainted(false);
 		jbtnRefresh.setFocusable(false);
@@ -121,8 +122,9 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			}
 		});
 		add(jbtnRefresh);
+		
 
-		if (iButtons == BUTTONS_ALL) {
+		//if (iButtons == BUTTONS_ALL) {
 			jbtnMoveDown = new javax.swing.JButton();
 			jbtnMoveDown.setIcon(
 					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22downarrow.png")));
@@ -136,7 +138,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				}
 			});
 			add(jbtnMoveDown);
-		}
+		//}
 
 		if (iButtons == BUTTONS_ALL) {
 			jbtnNext = new javax.swing.JButton();

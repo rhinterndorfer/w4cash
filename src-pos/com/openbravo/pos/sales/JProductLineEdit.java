@@ -22,10 +22,12 @@ package com.openbravo.pos.sales;
 import com.openbravo.basic.BasicException;
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -541,10 +543,18 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
+		
+		int width = 860;
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		if(d.getWidth() < 860)
+		{
+			width = (int)d.getWidth(); 
+		}
+		
 		if (issaege)
-			PropertyUtil.ScaleDialog(m_App, this, 860, 550);
+			PropertyUtil.ScaleDialog(m_App, this, width, 550);
 		else
-			PropertyUtil.ScaleDialog(m_App, this, 860, 410);
+			PropertyUtil.ScaleDialog(m_App, this, width, 410);
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		// setBounds((screenSize.width - 580) / 2, (screenSize.height - 362) /

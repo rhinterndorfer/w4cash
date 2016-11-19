@@ -240,7 +240,14 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialog(m_App, this, 800, 660);
+		int width = 800;
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		if(d.getWidth() < 800)
+		{
+			width = (int)d.getWidth(); 
+		}
+		PropertyUtil.ScaleDialog(m_App, this, width, 660);
+		
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		// setBounds((screenSize.width - 665) / 2, (screenSize.height - 565) /

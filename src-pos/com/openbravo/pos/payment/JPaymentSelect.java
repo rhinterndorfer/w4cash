@@ -26,10 +26,8 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Insets;
 import java.awt.Window;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import com.openbravo.pos.forms.AppView;
@@ -551,7 +549,13 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-		PropertyUtil.ScaleDialog(m_App, this, 860, 700);
+		int width = 860;
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		if(d.getWidth() < 860)
+		{
+			width = (int)d.getWidth(); 
+		}
+		PropertyUtil.ScaleDialog(m_App, this, width, 700);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
