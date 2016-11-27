@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-11-16T13:12:27 -->
+<!-- 2016-11-27T19:17:43 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -16,6 +16,7 @@
 	<queryString>
 		<![CDATA[select 
  	l.Name as Location,
+ 	cc.Host as POS,
  	PAYMENTS.PAYMENT as PAYMENT,
 	ta.RATE*100 as Tax,
 	SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2)) as PriceGross,
@@ -44,10 +45,11 @@ inner join
 left join
 	(select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from PAYMENTS  UNION ALL select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from BRANCH_PAYMENTS) PAYMENTS
 	on r.ID=PAYMENTS.RECEIPT
-group by l.Name, PAYMENTS.PAYMENT, ta.RATE
-order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
+group by l.Name, cc.Host, PAYMENTS.PAYMENT, ta.RATE
+order by l.Name, cc.Host, PAYMENTS.PAYMENT, ta.RATE]]>
 	</queryString>
 	<field name="Location" class="java.lang.String"/>
+	<field name="POS" class="java.lang.String"/>
 	<field name="Payment" class="java.lang.String"/>
 	<field name="Tax" class="java.lang.Double"/>
 	<field name="PriceGross" class="java.lang.Double"/>
@@ -72,7 +74,7 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 		<variableExpression><![CDATA[$F{PriceTax}]]></variableExpression>
 	</variable>
 	<group name="grpFree">
-		<groupExpression><![CDATA[$F{Location} + "_" + $F{Payment}]]></groupExpression>
+		<groupExpression><![CDATA[$F{Location} + "_" + $F{POS} + "_" + $F{Payment}]]></groupExpression>
 		<groupFooter>
 			<band height="24">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -98,7 +100,7 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 					<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($V{PriceTaxGrpFree})]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement x="210" y="0" width="345" height="1" uuid="be23d605-55e5-429e-8686-283060173fbb">
+					<reportElement x="280" y="0" width="275" height="1" uuid="be23d605-55e5-429e-8686-283060173fbb">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
@@ -157,7 +159,8 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="24">
+		<band height="21">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
 				<reportElement style="StyleDefault" x="320" y="0" width="75" height="20" uuid="054467cf-a957-4a7e-aeb4-c5edd2a71d35"/>
 				<textElement textAlignment="Right">
@@ -182,7 +185,7 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 				<text><![CDATA[Netto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="StyleDefault" x="140" y="0" width="69" height="20" uuid="f2e9c658-20d6-4253-8004-d0b8f8261f57">
+				<reportElement style="StyleDefault" x="211" y="0" width="69" height="20" uuid="f2e9c658-20d6-4253-8004-d0b8f8261f57">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -192,7 +195,7 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 				<text><![CDATA[Zahlung]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="StyleDefault" x="209" y="0" width="50" height="20" uuid="4f2df711-7331-4e02-9f83-e4e8d16ef756"/>
+				<reportElement style="StyleDefault" x="280" y="0" width="40" height="20" uuid="4f2df711-7331-4e02-9f83-e4e8d16ef756"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
@@ -206,17 +209,23 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement style="StyleDefault" x="0" y="0" width="140" height="20" uuid="e3e59745-7c3e-4359-8fce-44489fe41b6b"/>
+				<reportElement style="StyleDefault" x="0" y="0" width="120" height="20" uuid="e3e59745-7c3e-4359-8fce-44489fe41b6b"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bereich]]></text>
 			</staticText>
+			<staticText>
+				<reportElement key="" style="StyleDefault" x="110" y="0" width="101" height="21" uuid="a61a8d7f-b312-4da7-8756-94178dda5622"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[POS]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20">
-			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
 				<reportElement style="StyleDefault" x="320" y="0" width="75" height="20" uuid="a6d7ec70-a175-419b-bb3f-1a954c39e555">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -239,25 +248,29 @@ order by l.Name, PAYMENTS.PAYMENT, ta.RATE]]>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{PriceNet})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement key="" style="StyleDefault" x="140" y="0" width="69" height="20" isPrintWhenDetailOverflows="true" uuid="ba84eb4c-41cf-4017-8f6f-cd010dc6abee">
+				<reportElement key="" style="StyleDefault" x="211" y="0" width="69" height="20" isPrintWhenDetailOverflows="true" uuid="ba84eb4c-41cf-4017-8f6f-cd010dc6abee">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{Payment}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement style="StyleDefault" x="209" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="c28be771-805a-4e35-820d-c7477bf5cf3c">
+				<reportElement style="StyleDefault" x="280" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="c28be771-805a-4e35-820d-c7477bf5cf3c">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.INT.formatValue($F{Tax})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement key="" style="StyleDefault" x="0" y="0" width="140" height="20" uuid="80364d26-2426-42da-91db-79feb444a02b">
+				<reportElement key="" style="StyleDefault" x="0" y="0" width="110" height="20" uuid="80364d26-2426-42da-91db-79feb444a02b">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="net.sf.jasperreports.export.xls.column.name" value="Location"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{Location}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="110" y="0" width="101" height="20" uuid="30887d90-b8ac-4ffa-a9f2-c2edb3e365c3"/>
+				<textFieldExpression><![CDATA[$F{POS}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

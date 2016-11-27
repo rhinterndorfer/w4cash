@@ -25,6 +25,7 @@ report.setResourceBundle("com/openbravo/reports/tax2_messages");
 
 report.setSentence("select  " +
 " 	l.Name as Location, " +
+"   cc.Host as POS, " +
 " 	PAYMENTS.PAYMENT as PAYMENT, " +
 "	ta.RATE*100 as Tax, " +
 "	SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2)) as PriceGross, " +
@@ -54,8 +55,8 @@ report.setSentence("select  " +
 "	(select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from PAYMENTS  UNION ALL select RECEIPT, case when PAYMENT in ('cash','cashrefund') then 'Bar' else case when PAYMENT in ('magcard','magcardrefund') then 'Karte' else case when PAYMENT in ('paperin','paperout') then 'Rechnung' else case when PAYMENT in ('free') then 'Frei' else PAYMENT end end end end as PAYMENT from BRANCH_PAYMENTS) PAYMENTS " +
 "	on r.ID=PAYMENTS.RECEIPT " +
 " where ?(QBF_FILTER) " +
-"group by l.Name, PAYMENTS.PAYMENT, ta.RATE " +
-"order by l.Name, PAYMENTS.PAYMENT, ta.RATE "
+"group by l.Name, cc.Host, PAYMENTS.PAYMENT, ta.RATE " +
+"order by l.Name, cc.Host, PAYMENTS.PAYMENT, ta.RATE "
 );
 
 report.addParameter("cc.HOSTSEQUENCE");
@@ -64,6 +65,7 @@ com.openbravo.pos.reports.JParamsClosedPosInterval filter = new com.openbravo.po
 report.addQBFFilter(filter);
 
 report.addField("Location", com.openbravo.data.loader.Datas.STRING);
+report.addField("POS", com.openbravo.data.loader.Datas.STRING);
 report.addField("Payment", com.openbravo.data.loader.Datas.STRING);
 report.addField("Tax", com.openbravo.data.loader.Datas.DOUBLE);
 report.addField("PriceGross", com.openbravo.data.loader.Datas.DOUBLE);
