@@ -1164,6 +1164,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
+						// reset MultiplyClone
+						ticket.SetTicketLinesMultiplyCloneInvalid();
+						
 						// assign the payments selected and calculate taxes.
 						ticket.setPayments(paymentdialog.getSelectedPayments());
 
@@ -1389,6 +1392,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	}
 
 	public void printTicket(String resource) {
+		m_oTicket.SetTicketLinesMultiplyCloneInvalid();
 		printTicket(resource, m_oTicket, m_oTicketExt);
 	}
 

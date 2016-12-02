@@ -536,4 +536,9 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 		multiplyClone = multiply;
 		multiplyCloneValid = true;
 	}
+	
+	public void InvalidateMultiply()
+	{
+		multiplyCloneValid = false;
+	}
 }
