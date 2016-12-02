@@ -2067,7 +2067,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						if (closeTicket(ticket2, currentTicket)) {
 							// Ends edition of current receipt
 							if (ticket1.getLinesCount() > 0)
+							{
+								if (this.m_restaurant != null)
+									ticket1.SetTicketLinesMultiplyClone();
+									
 								setActiveTicket(ticket1, m_oTicketExt);
+							}
 							else
 								m_ticketsbag.deleteTicket(false);
 						} else {
@@ -2079,6 +2084,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						// now we move lines to the selected Table
 						try {
 							dlReceipts.insertSharedTicket(currentTicketId, ticket2);
+							
+							if (this.m_restaurant != null)
+								ticket1.SetTicketLinesMultiplyClone();
+							
 							setActiveTicket(ticket1, m_oTicketExt);
 						} catch (BasicException e) {
 							// insert was not possible, so try to perform an
@@ -2110,6 +2119,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									}
 									dlReceipts.updateSharedTicket(currentTicketId, ticket2);
 									dlReceipts.checkinSharedTicket(currentTicketId);
+									
+									if (this.m_restaurant != null)
+										ticket1.SetTicketLinesMultiplyClone();
+									
 									setActiveTicket(ticket1, m_oTicketExt);
 								} else {
 									JConfirmDialog.showError(m_App, JPanelTicket.this,

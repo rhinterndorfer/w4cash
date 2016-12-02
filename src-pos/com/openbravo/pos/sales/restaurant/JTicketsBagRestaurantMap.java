@@ -495,7 +495,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			// we couldn't find a ticketinfo for the configured
 			// printer, so we add a new one
 			if (ti == null) {
-				ti = ticketinfo1.copyTicketHeader();
+				if(ticketinfo1.getLinesCount() > 0)
+					ti = ticketinfo1.copyTicketHeader();
+				else
+					ti = clone.copyTicketHeader();
 				printabletickets.put(printerId, ti);
 			}
 
@@ -544,7 +547,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 			ti = printabletickets.get(printerId);
 			if (ti == null) {
-				ti = ticketinfo1.copyTicketHeader();
+				if(ticketinfo1.getLinesCount() > 0)
+					ti = ticketinfo1.copyTicketHeader();
+				else
+					ti = clone.copyTicketHeader();
+				
 				printabletickets.put(printerId, ti);
 			}
 
@@ -651,7 +658,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("ticket", inf);
 					script.put("place",
-							ticketext != null && ticketext.getClass().equals(String.class) && !ticketext.toString().endsWith("$") 
+							ticketext != null && ticketext.getClass().equals(String.class) // show place on order && !ticketext.toString().endsWith("$") 
 							? ticketext.toString() : "");
 					script.put("host", m_App.getHost());
 					
@@ -797,6 +804,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	private void setActivePlace(Place place, TicketInfo ticket) {
 		m_PlaceCurrent = place;
+		ticket.SetTicketLinesMultiplyClone();
 		m_panelticket.setActiveTicket(ticket, m_PlaceCurrent.getName());
 	}
 

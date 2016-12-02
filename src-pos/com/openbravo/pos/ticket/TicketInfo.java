@@ -162,6 +162,13 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return t;
     }
 
+    public void SetTicketLinesMultiplyClone()
+    {
+    	for (TicketLineInfo l : m_aLines) {
+    		l.CloneMultiply();
+    	}
+    }
+    
     public String getId() {
         return m_sId;
     }

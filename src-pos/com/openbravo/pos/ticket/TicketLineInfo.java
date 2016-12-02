@@ -47,6 +47,8 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	private String m_sTicket;
 	private int m_iLine;
 	private double multiply;
+	private double multiplyClone;
+	private boolean multiplyCloneValid;
 	private double price;
 	private TaxInfo tax;
 	private Properties attributes;
@@ -151,16 +153,33 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public TicketLineInfo(TicketLineInfo line) {
-		init(line.productid, line.attsetinstid, line.multiply, line.price, line.tax,
+		init(line.productid, line.attsetinstid, 
+				line.multiply, line.multiplyClone, line.multiplyCloneValid, 
+				line.price, line.tax,
 				(Properties) line.attributes.clone());
 	}
 
-	private void init(String productid, String attsetinstid, double dMultiply, double dPrice, TaxInfo tax,
+	private void init(String productid, String attsetinstid, 
+			double dMultiply,  
+			double dPrice, TaxInfo tax,
+			Properties attributes)
+	{
+		init(productid, attsetinstid,
+				dMultiply, 0.0, false,
+				dPrice, tax,
+				attributes);
+	}
+	
+	private void init(String productid, String attsetinstid, 
+			double dMultiply, double dMultiplyClone, boolean bMultiplyCloneValid,  
+			double dPrice, TaxInfo tax,
 			Properties attributes) {
 
 		this.productid = productid;
 		this.attsetinstid = attsetinstid;
 		multiply = dMultiply;
+		multiplyClone = dMultiplyClone;
+		multiplyCloneValid = bMultiplyCloneValid;
 		price = dPrice;
 		this.tax = tax;
 		this.attributes = attributes;
@@ -437,7 +456,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public String printMultiply() {
-		return Formats.DOUBLE.formatValue(multiply);
+		// display difference since last clone
+		if(multiplyCloneValid)
+			return String.format("%1$s (%2$s)", Formats.DOUBLE.formatValue(multiply), Formats.DOUBLE.formatValue(multiply - multiplyClone));
+		else
+			return Formats.DOUBLE.formatValue(multiply);
 	}
 
 	public String printUnit() {
@@ -506,5 +529,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
 	public String printValue() {
 		return Formats.CURRENCY.formatValue(getValue());
+	}
+	
+	public void CloneMultiply()
+	{
+		multiplyClone = multiply;
+		multiplyCloneValid = true;
 	}
 }
