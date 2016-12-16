@@ -45,7 +45,10 @@ public class LicenseManager {
 				NetworkInterface adapter = interfaces.nextElement();
 
 				if (!adapter.isPointToPoint() && !adapter.isVirtual() && !adapter.isLoopback()
-						&& adapter.getHardwareAddress() != null) {
+						&& adapter.getHardwareAddress() != null
+						&& adapter.getDisplayName() != null
+						&& !adapter.getDisplayName().contains("TeamViewer") // exclude TeamViewer virtual network adapters
+						) {
 					byte[] mac = adapter.getHardwareAddress();
 					macs.add(mac);
 				}
