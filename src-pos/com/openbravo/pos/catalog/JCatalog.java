@@ -64,7 +64,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private ThumbNailBuilder tnbbutton;
 	private ThumbNailBuilder tnbcat;
 
-	private CategoryInfo showingcategory = null;
+	// private CategoryInfo showingcategory = null;
 	private CategoryInfo selectedCategory = null;
 	private CategoryInfo mainCategory = null;
 	private CategoryInfo mainCategoryFirst = null;
@@ -145,7 +145,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		m_productsset.clear();
 		m_categoriesset.clear();
 
-		showingcategory = null;
+		// showingcategory = null;
 
 		// Load the taxes logic
 		taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
@@ -396,7 +396,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				selectCategoryPanel(cat);
 			}
 
-			showingcategory = null;
+			// showingcategory = null;
 		} else {
 			selectIndicatorCategories();
 			showRootCategoriesPanel();
@@ -412,14 +412,16 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		if (cat != null) {
 			selectCategoryPanel(cat);
 		}
-		showingcategory = null;
+		// showingcategory = null;
 	}
 
 	private void showSubcategoryPanel(CategoryInfo category) {
+		// always show root category
 		// selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(category.getImage())), category.getName());
+		
 		previousCategory = this.selectedCategory;
 		selectCategoryPanel(category);
-		showingcategory = category;
+		// showingcategory = category;
 	}
 
 	private void showProductPanel(String id) {
@@ -429,11 +431,14 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		if (product == null) {
 			if (m_productsset.containsKey(id)) {
 				// It is an empty panel
+				/*
 				if (showingcategory == null) {
 					showRootCategoriesPanel();
 				} else {
 					showSubcategoryPanel(showingcategory);
 				}
+				*/
+				showRootCategoriesPanel();
 			} else {
 				try {
 					// Create products panel
@@ -443,11 +448,16 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						// no hay productos por tanto lo anado a la de vacios y
 						// muestro el panel principal.
 						m_productsset.put(id, null);
+						
+						/*
 						if (showingcategory == null) {
+						 
 							showRootCategoriesPanel();
 						} else {
 							showSubcategoryPanel(showingcategory);
 						}
+						*/
+						showRootCategoriesPanel();
 					} else {
 
 						// Load product panel
@@ -475,11 +485,16 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				} catch (BasicException eb) {
 					eb.printStackTrace();
 					m_productsset.put(id, null);
+					
+					/*
 					if (showingcategory == null) {
 						showRootCategoriesPanel();
 					} else {
 						showSubcategoryPanel(showingcategory);
 					}
+					*/
+					
+					showRootCategoriesPanel();
 				}
 			}
 		} else {
