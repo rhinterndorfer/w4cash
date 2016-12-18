@@ -416,7 +416,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	}
 
 	private void showSubcategoryPanel(CategoryInfo category) {
-		selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(category.getImage())), category.getName());
+		// selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(category.getImage())), category.getName());
 		previousCategory = this.selectedCategory;
 		selectCategoryPanel(category);
 		showingcategory = category;
