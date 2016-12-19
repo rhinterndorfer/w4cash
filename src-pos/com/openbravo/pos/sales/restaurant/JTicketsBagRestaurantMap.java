@@ -908,6 +908,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		});
 
+		JPanel restaurantButtons = new JRestaurantButtons("Restaurant.Buttons", m_App);
+		jPanel3.add(restaurantButtons);
 		jPanel3.add(m_jbtnLogout);
 	}
 

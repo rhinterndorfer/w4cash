@@ -72,7 +72,8 @@ public class JPanelButtons extends javax.swing.JPanel {
         tnbmacro = new ThumbNailBuilder(100, 100, "com/openbravo/images/greenled.png");
         
         this.panelticket = panelticket;
-        posprops = panelticket.dlSystem.getResourceAsProperties(panelticket.m_App.getProperties().getHost() + "/properties");
+        String host = panelticket.m_App.getProperties().getHost();
+        posprops = panelticket.dlSystem.getResourceAsProperties(host + "/properties");
         
         props = new Properties();
         events = new HashMap<String, String>();
@@ -85,7 +86,7 @@ public class JPanelButtons extends javax.swing.JPanel {
                     SAXParserFactory spf = SAXParserFactory.newInstance();
                     m_sp = spf.newSAXParser();
                 }
-                m_sp.parse(new InputSource(new StringReader(sConfigRes)), new ConfigurationHandler());
+                m_sp.parse(new InputSource(new StringReader(sConfigRes)), new ConfigurationHandler(host));
                 
             } catch (ParserConfigurationException ePC) {
                 logger.log(Level.WARNING, LocalRes.getIntString("exception.parserconfig"), ePC);
@@ -144,61 +145,68 @@ public class JPanelButtons extends javax.swing.JPanel {
     }
     
     private class ConfigurationHandler extends DefaultHandler {     
-        @Override
+        
+    	private String _host = null;
+    	public ConfigurationHandler(String host) {
+    		_host = host;
+		}
+    	
+    	@Override
         public void startDocument() throws SAXException {}
         @Override
         public void endDocument() throws SAXException {}    
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException{
-        	if ("button".equals(qName)){
-                
-                
-                // The button title text
-                String titlekey = attributes.getValue("titlekey");
-                if (titlekey == null) {
-                    titlekey = attributes.getValue("name");
-                }
-                String title = titlekey == null
-                        ? attributes.getValue("title")
-                        : AppLocal.getIntString(titlekey);
-                
-                // adding the button to the panel
-                JButton btn = new JButtonFunc(attributes.getValue("key"), 
-                        attributes.getValue("image"), 
-                        title);
-                
-               
-                 // The template resource or the code resource
-                final String template = attributes.getValue("template");
-                if (template == null) {
-                    final String code = attributes.getValue("code");
-                    btn.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            panelticket.evalScriptAndRefresh(code);
-                        }
-                    });
-                } else {
-                    btn.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent evt) {
-                            panelticket.printTicket(template);
-                        }
-                    });     
-                }
-                add(btn);
-                
-            } else if ("event".equals(qName)) {
-                events.put(attributes.getValue("key"), attributes.getValue("code"));
-            } else {
-                String value = attributes.getValue("value");
-                
-                // check if property has been overwritten for current POS
-                String valuePOS = panelticket.m_App.getProperties().getProperty(qName);
-                
-                if (value != null || valuePOS != null) {                  
-                    props.setProperty(qName, valuePOS != null ? valuePOS : value);
-                }
-            }
-            
+        	String elementHost = attributes.getValue("host");
+        	if(elementHost == null || _host== null || _host.equals(elementHost))
+        	{
+	        	if ("button".equals(qName)){
+	                // The button title text
+	                String titlekey = attributes.getValue("titlekey");
+	                if (titlekey == null) {
+	                    titlekey = attributes.getValue("name");
+	                }
+	                String title = titlekey == null
+	                        ? attributes.getValue("title")
+	                        : AppLocal.getIntString(titlekey);
+	                
+	                // adding the button to the panel
+	                JButton btn = new JButtonFunc(attributes.getValue("key"), 
+	                        attributes.getValue("image"), 
+	                        title);
+	                
+	               
+	                 // The template resource or the code resource
+	                final String template = attributes.getValue("template");
+	                if (template == null) {
+	                    final String code = attributes.getValue("code");
+	                    btn.addActionListener(new ActionListener() {
+	                        public void actionPerformed(ActionEvent evt) {
+	                            panelticket.evalScriptAndRefresh(code);
+	                        }
+	                    });
+	                } else {
+	                    btn.addActionListener(new ActionListener() {
+	                        public void actionPerformed(ActionEvent evt) {
+	                            panelticket.printTicket(template);
+	                        }
+	                    });     
+	                }
+	                add(btn);
+	                
+	            } else if ("event".equals(qName)) {
+	                events.put(attributes.getValue("key"), attributes.getValue("code"));
+	            } else {
+	                String value = attributes.getValue("value");
+	                
+	                // check if property has been overwritten for current POS
+	                String valuePOS = panelticket.m_App.getProperties().getProperty(qName);
+	                
+	                if (value != null || valuePOS != null) {                  
+	                    props.setProperty(qName, valuePOS != null ? valuePOS : value);
+	                }
+	            }
+        	}
 
         }      
         @Override

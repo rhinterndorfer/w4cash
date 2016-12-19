@@ -215,6 +215,8 @@ public class JRootApp extends JPanel implements AppView {
 		m_sInventoryLocation = m_propsdb.getProperty("location");
 		if (m_sInventoryLocation == null) {
 			m_sInventoryLocation = "0";
+			// do not set properties
+			// use default location 0
 			m_propsdb.setProperty("location", m_sInventoryLocation);
 			m_dlSystem.setResourceAsProperties(m_props.getHost() + "/properties", m_propsdb);
 		}

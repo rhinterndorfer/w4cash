@@ -39,6 +39,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Window;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -375,12 +376,38 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		jButtonKeyboard.setRequestFocusEnabled(false);
 		jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				if (Boolean
+						.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "tabtip_aktivated", "false"))) {
+					String prgFiles = System.getenv("ProgramFiles");
+					File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
+
+					if (touchKeyboard.exists()) {
+
+						try {
+							String fullPath = touchKeyboard.getAbsolutePath();
+							ProcessBuilder pb = new java.lang.ProcessBuilder(
+									new String[] { "cmd.exe", "/c", fullPath });
+							pb.start();
+						} catch (Exception ex) {
+							// do nothing
+						}
+
+					} else {
+						try {
+							ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
+							pb.start();
+						} catch (Exception ex) {
+							// do nothing
+						}
+					}
+				} else {
 					try {
-						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] {"cmd.exe","/c","osk.exe"});
+						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
 						pb.start();
 					} catch (Exception ex) {
 						// do nothing
 					}
+				}
 			}
 		});
 		jPanel6.add(jButtonKeyboard);

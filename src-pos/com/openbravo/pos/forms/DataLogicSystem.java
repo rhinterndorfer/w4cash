@@ -183,12 +183,18 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
 		if (resource == null) {
 			// Primero trato de obtenerlo de la tabla de recursos
-			try {
-				resource = (byte[]) m_resourcebytes.find(name);
-				resourcescache.put(name, resource);
-			} catch (BasicException e) {
-				resource = null;
+			int retry = 3;
+			do
+			{
+				try {
+					resource = (byte[]) m_resourcebytes.find(name);
+					resourcescache.put(name, resource);
+				} catch (BasicException e) {
+					resource = null;
+				}
+				retry--;
 			}
+			while(retry > 0 && resource == null);
 		}
 
 		return resource;
