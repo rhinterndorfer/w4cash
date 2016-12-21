@@ -34,6 +34,7 @@ import com.openbravo.data.loader.Session;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.inventory.AttributeSetInfo;
+import com.openbravo.pos.util.OnScreenKeyboardUtil;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.Component;
@@ -399,39 +400,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		m_jButtonKeyboard.setRequestFocusEnabled(false);
 		m_jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-				if (Boolean
-						.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "tabtip_aktivated", "false"))) {
-					String prgFiles = System.getenv("ProgramFiles");
-					File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
-
-					if (touchKeyboard.exists()) {
-
-						try {
-							String fullPath = touchKeyboard.getAbsolutePath();
-							ProcessBuilder pb = new java.lang.ProcessBuilder(
-									new String[] { "cmd.exe", "/c", fullPath });
-							pb.start();
-						} catch (Exception ex) {
-							// do nothing
-						}
-
-					} else {
-						try {
-							ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
-							pb.start();
-						} catch (Exception ex) {
-							// do nothing
-						}
-					}
-				} else {
-					try {
-						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
-						pb.start();
-					} catch (Exception ex) {
-						// do nothing
-					}
-				}
+				OnScreenKeyboardUtil.StartOSK();
 			}
 		});
 		jPanel1.add(m_jButtonKeyboard);
