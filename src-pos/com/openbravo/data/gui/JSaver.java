@@ -26,6 +26,7 @@ import com.openbravo.data.loader.LocalRes;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.StateListener;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.OnScreenKeyboardUtil;
 import com.openbravo.pos.util.PropertyUtil;
 
 public class JSaver extends JPanel implements StateListener {
@@ -60,9 +61,13 @@ public class JSaver extends JPanel implements StateListener {
 			PropertyUtil.ScaleButtonIcon(jbtnSave, width, height, fontsize);
 		if(jbtnCancel != null)
 			PropertyUtil.ScaleButtonIcon(jbtnCancel, width, height, fontsize);
+		if(jbtnOsk != null)
+			PropertyUtil.ScaleButtonIcon(jbtnOsk, width, height, fontsize);
 	}
 
 	public void updateState(int iState) {
+		jbtnOsk.setEnabled(true);
+		
 		switch (iState) {
 		case BrowsableEditableData.ST_INSERT:
 			jbtnNew.setEnabled(m_bd.canInsertData());
@@ -104,13 +109,14 @@ public class JSaver extends JPanel implements StateListener {
 		jSeparator1 = new javax.swing.JSeparator();
 		jbtnSave = new javax.swing.JButton();
 		jbtnCancel = new javax.swing.JButton();
+		jbtnOsk = new javax.swing.JButton();
 
 		setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
 		jbtnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editnew.png")));
 		jbtnNew.setFocusPainted(false);
 		jbtnNew.setFocusable(false);
-		jbtnNew.setMargin(new java.awt.Insets(2, 8, 2, 8));
+		jbtnNew.setMargin(new java.awt.Insets(2, 2, 2, 2));
 		jbtnNew.setRequestFocusEnabled(false);
 		jbtnNew.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +129,7 @@ public class JSaver extends JPanel implements StateListener {
 		jbtnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/editdelete1.png")));
 		jbtnDelete.setFocusPainted(false);
 		jbtnDelete.setFocusable(false);
-		jbtnDelete.setMargin(new java.awt.Insets(2, 8, 2, 8));
+		jbtnDelete.setMargin(new java.awt.Insets(2, 2, 2, 2));
 		jbtnDelete.setRequestFocusEnabled(false);
 		jbtnDelete.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +144,7 @@ public class JSaver extends JPanel implements StateListener {
 		jbtnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/filesave.png")));
 		jbtnSave.setFocusPainted(false);
 		jbtnSave.setFocusable(false);
-		jbtnSave.setMargin(new java.awt.Insets(2, 8, 2, 8));
+		jbtnSave.setMargin(new java.awt.Insets(2, 2, 2, 2));
 		jbtnSave.setRequestFocusEnabled(false);
 		jbtnSave.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,7 +159,7 @@ public class JSaver extends JPanel implements StateListener {
 		jbtnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/undo.png")));
 		jbtnCancel.setFocusPainted(false);
 		jbtnCancel.setFocusable(false);
-		jbtnCancel.setMargin(new java.awt.Insets(2, 8, 2, 8));
+		jbtnCancel.setMargin(new java.awt.Insets(2, 2, 2, 2));
 		jbtnCancel.setRequestFocusEnabled(false);
 		jbtnCancel.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,6 +168,22 @@ public class JSaver extends JPanel implements StateListener {
 		});
 		jbtnCancel.setEnabled(false);
 		add(jbtnCancel);
+		
+		
+		add(jSeparator1);
+
+		jbtnOsk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_keyboard_small.png")));
+		jbtnOsk.setFocusPainted(false);
+		jbtnOsk.setFocusable(false);
+		jbtnOsk.setMargin(new java.awt.Insets(2, 2, 2, 2));
+		jbtnOsk.setRequestFocusEnabled(false);
+		jbtnOsk.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				OnScreenKeyboardUtil.StartOSK();
+			}
+		});
+		jbtnOsk.setEnabled(false);
+		add(jbtnOsk);
 
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -205,6 +227,7 @@ public class JSaver extends JPanel implements StateListener {
 	private javax.swing.JButton jbtnNew;
 	private javax.swing.JButton jbtnSave;
 	private javax.swing.JButton jbtnCancel;
+	private javax.swing.JButton jbtnOsk;
 	// End of variables declaration//GEN-END:variables
 
 }

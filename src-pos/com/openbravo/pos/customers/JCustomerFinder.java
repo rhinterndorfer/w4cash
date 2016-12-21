@@ -27,6 +27,7 @@ import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurant;
+import com.openbravo.pos.util.OnScreenKeyboardUtil;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.Color;
@@ -376,38 +377,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		jButtonKeyboard.setRequestFocusEnabled(false);
 		jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				if (Boolean
-						.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "tabtip_aktivated", "false"))) {
-					String prgFiles = System.getenv("ProgramFiles");
-					File touchKeyboard = new File(prgFiles + "\\Common Files\\microsoft shared\\ink\\TabTip.exe");
-
-					if (touchKeyboard.exists()) {
-
-						try {
-							String fullPath = touchKeyboard.getAbsolutePath();
-							ProcessBuilder pb = new java.lang.ProcessBuilder(
-									new String[] { "cmd.exe", "/c", fullPath });
-							pb.start();
-						} catch (Exception ex) {
-							// do nothing
-						}
-
-					} else {
-						try {
-							ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
-							pb.start();
-						} catch (Exception ex) {
-							// do nothing
-						}
-					}
-				} else {
-					try {
-						ProcessBuilder pb = new java.lang.ProcessBuilder(new String[] { "cmd.exe", "/c", "osk.exe" });
-						pb.start();
-					} catch (Exception ex) {
-						// do nothing
-					}
-				}
+				OnScreenKeyboardUtil.StartOSK();
 			}
 		});
 		jPanel6.add(jButtonKeyboard);

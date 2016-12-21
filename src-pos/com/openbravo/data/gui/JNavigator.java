@@ -46,7 +46,6 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 	private javax.swing.JButton jbtnLast = null;
 	private javax.swing.JButton jbtnNext = null;
 	private javax.swing.JButton jbtnPrev = null;
-	private javax.swing.JButton jbtnRefresh = null;
 	private javax.swing.JButton jbtnMoveUp = null;
 	private javax.swing.JButton jbtnMoveDown = null;
 	private javax.swing.JButton jbtnReload = null;
@@ -67,7 +66,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			jbtnFirst = new javax.swing.JButton();
 			jbtnFirst.setIcon(
 					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22leftarrow.png")));
-			jbtnFirst.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnFirst.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnFirst.setFocusPainted(false);
 			jbtnFirst.setFocusable(false);
 			jbtnFirst.setRequestFocusEnabled(false);
@@ -82,7 +81,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		if (iButtons == BUTTONS_ALL) {
 			jbtnPrev = new javax.swing.JButton();
 			jbtnPrev.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/leftarrow.png")));
-			jbtnPrev.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnPrev.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnPrev.setFocusPainted(false);
 			jbtnPrev.setFocusable(false);
 			jbtnPrev.setRequestFocusEnabled(false);
@@ -97,7 +96,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			jbtnMoveUp = new javax.swing.JButton();
 			jbtnMoveUp
 					.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22uparrow.png")));
-			jbtnMoveUp.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnMoveUp.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnMoveUp.setFocusPainted(false);
 			jbtnMoveUp.setFocusable(false);
 			jbtnMoveUp.setRequestFocusEnabled(false);
@@ -110,25 +109,11 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		//}
 
 		
-		jbtnRefresh = new javax.swing.JButton();
-		jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refreshOne.png")));
-		jbtnRefresh.setMargin(new java.awt.Insets(2, 8, 2, 8));
-		jbtnRefresh.setFocusPainted(false);
-		jbtnRefresh.setFocusable(false);
-		jbtnRefresh.setRequestFocusEnabled(false);
-		jbtnRefresh.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jbtnRefreshActionPerformed(evt);
-			}
-		});
-		add(jbtnRefresh);
-		
-
 		//if (iButtons == BUTTONS_ALL) {
 			jbtnMoveDown = new javax.swing.JButton();
 			jbtnMoveDown.setIcon(
 					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22downarrow.png")));
-			jbtnMoveDown.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnMoveDown.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnMoveDown.setFocusPainted(false);
 			jbtnMoveDown.setFocusable(false);
 			jbtnMoveDown.setRequestFocusEnabled(false);
@@ -143,7 +128,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		if (iButtons == BUTTONS_ALL) {
 			jbtnNext = new javax.swing.JButton();
 			jbtnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/rightarrow.png")));
-			jbtnNext.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnNext.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnNext.setFocusPainted(false);
 			jbtnNext.setFocusable(false);
 			jbtnNext.setRequestFocusEnabled(false);
@@ -159,7 +144,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			jbtnLast = new javax.swing.JButton();
 			jbtnLast.setIcon(
 					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/22rightarrow.png")));
-			jbtnLast.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnLast.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnLast.setFocusPainted(false);
 			jbtnLast.setFocusable(false);
 			jbtnLast.setRequestFocusEnabled(false);
@@ -176,7 +161,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		if (bd.canLoadData()) {
 			jbtnReload = new javax.swing.JButton();
 			jbtnReload.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png")));
-			jbtnReload.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnReload.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnReload.setFocusPainted(false);
 			jbtnReload.setFocusable(false);
 			jbtnReload.setRequestFocusEnabled(false);
@@ -196,7 +181,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			m_LastFindInfo = new FindInfo(vec);
 			jbtnFind = new javax.swing.JButton();
 			jbtnFind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/search.png")));
-			jbtnFind.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnFind.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnFind.setFocusPainted(false);
 			jbtnFind.setFocusable(false);
 			jbtnFind.setRequestFocusEnabled(false);
@@ -212,7 +197,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 		if (m_cc != null) {
 			jbtnSort = new javax.swing.JButton();
 			jbtnSort.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/sort_incr.png")));
-			jbtnSort.setMargin(new java.awt.Insets(2, 8, 2, 8));
+			jbtnSort.setMargin(new java.awt.Insets(2, 2, 2, 2));
 			jbtnSort.setFocusPainted(false);
 			jbtnSort.setFocusable(false);
 			jbtnSort.setRequestFocusEnabled(false);
@@ -251,8 +236,6 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnNext.setEnabled(false);
 			if (jbtnLast != null)
 				jbtnLast.setEnabled(false);
-			if (jbtnRefresh != null)
-				jbtnRefresh.setEnabled(true);
 		}
 	}
 
@@ -268,8 +251,6 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnNext.setEnabled(iIndex < iCounter - 1);
 			if (jbtnLast != null)
 				jbtnLast.setEnabled(iIndex < iCounter - 1);
-			if (jbtnRefresh != null)
-				jbtnRefresh.setEnabled(true);
 			if (jbtnMoveUp != null)
 				jbtnMoveUp.setEnabled(iIndex > 0);
 			if (jbtnMoveDown != null)
@@ -284,8 +265,6 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 				jbtnNext.setEnabled(false);
 			if (jbtnLast != null)
 				jbtnLast.setEnabled(false);
-			if (jbtnRefresh != null)
-				jbtnRefresh.setEnabled(false);
 			if (jbtnMoveUp != null)
 				jbtnMoveUp.setEnabled(false);
 			if (jbtnMoveDown != null)
@@ -324,11 +303,6 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.nolistdata"), eD);
 			msg.show(m_App, this);
 		}
-	}
-
-	private void jbtnRefreshActionPerformed(java.awt.event.ActionEvent evt) {
-
-		m_bd.actionReloadCurrent(this);
 	}
 
 	private void jbtnMoveUpActionPerformed(java.awt.event.ActionEvent evt) {
@@ -414,8 +388,6 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
 			PropertyUtil.ScaleButtonIcon(jbtnNext, menuwidth, menuheight, fontsize);
 		if (jbtnPrev != null)
 			PropertyUtil.ScaleButtonIcon(jbtnPrev, menuwidth, menuheight, fontsize);
-		if (jbtnRefresh != null)
-			PropertyUtil.ScaleButtonIcon(jbtnRefresh, menuwidth, menuheight, fontsize);
 		if (jbtnReload != null)
 			PropertyUtil.ScaleButtonIcon(jbtnReload, menuwidth, menuheight, fontsize);
 		if (jbtnMoveUp != null)
