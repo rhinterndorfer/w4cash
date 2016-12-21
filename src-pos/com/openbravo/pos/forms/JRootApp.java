@@ -247,13 +247,9 @@ public class JRootApp extends JPanel implements AppView {
 		}
 
 		// Show Hostname, Warehouse and URL in taskbar
-		String url = "";
-		/*
-		 * try { // url = session.getURL(); } catch (SQLException e) { url = "";
-		 * }
-		 */
-		m_jHost.setText("<html>" + m_props.getHost() + " - " + sWareHouse + "<br>" + url);
-
+		String configName = m_props.getConfigName();
+		m_jHost.setText("<html>" + m_props.getHost() + " - " + sWareHouse + " - " + configName);
+		
 		// load properties for login button size
 		posprops = m_dlSystem.getResourceAsProperties("Window.Login");
 

@@ -68,24 +68,6 @@ public class StartPOS {
 		}
 	}
 
-	// static BasicService basicService = null;
-	//
-	// public static boolean javaWebStart() {
-	// try {
-	// basicService = (BasicService)
-	// ServiceManager.lookup("javax.jnlp.BasicService");
-	//
-	// URL url = new URL("http://www.hb-softsolution.com");
-	// basicService.showDocument(url);
-	// } catch (UnavailableServiceException e) {
-	// System.err.println("Lookup failed: " + e);
-	// return false;
-	// } catch (MalformedURLException e) {
-	// e.printStackTrace();
-	// return false;
-	// }
-	// return true;
-	// }
 
 	public static void main(final String args[]) {
 
@@ -154,28 +136,6 @@ public class StartPOS {
 				Formats.setDatePattern(config.getProperty("format.date"));
 				Formats.setTimePattern(config.getProperty("format.time"));
 				Formats.setDateTimePattern(config.getProperty("format.datetime"));
-
-				// Set the look and feel.
-				// try {
-				//
-				// Object laf =
-				// Class.forName(config.getProperty("swing.defaultlaf")).newInstance();
-				//
-				// if (laf instanceof LookAndFeel) {
-				// UIManager.setLookAndFeel((LookAndFeel) laf);
-				// } else if (laf instanceof SubstanceSkin) {
-				// SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
-				// }
-				// } catch (Exception e) {
-				// logger.log(Level.WARNING, "Cannot set look and feel", e);
-				// }
-
-				// boolean started = javaWebStart();
-				// if (!started) {
-				// return;
-				// }
-
-				// doLicense( root);
 
 				Boolean result;
 				if ("fullscreen".equals(screenmode)) {

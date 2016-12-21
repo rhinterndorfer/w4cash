@@ -28,7 +28,8 @@ import java.io.File;
 public interface AppProperties {
 
     public File getConfigFile(); 
-    public String getHost();    
+    public String getHost();
+    public String getConfigName();    
     public String getProperty(String sKey); // Config property.
     public void setProperty(String sKey, String sValue); // Config property.
 }

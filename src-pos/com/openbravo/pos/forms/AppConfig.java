@@ -82,6 +82,18 @@ public class AppConfig implements AppProperties {
 		return configfile;
 	}
 
+	public String getConfigName(){
+		if(configfile != null)
+		{
+			return configfile.getName().replace("w4cash", "").replace("properties", "").replace(".", "");
+		}
+		else
+		{
+			return "";
+		}
+				
+	}
+	
 	public void setProperty(String sKey, String sValue) {
 		if (sValue == null) {
 			m_propsconfig.remove(sKey);
