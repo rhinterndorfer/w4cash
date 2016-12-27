@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-07-09T09:15:28 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2016-12-27T13:52:07 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="closedpos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="c71f18bf-ec58-42f7-a66f-b57a84588486">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
@@ -19,11 +19,12 @@ CLOSEDCASH.DATESTART,
 CLOSEDCASH.DATEEND, 
 NVL(CLOSEDCASH.BRANCH_HOSTSEQUENCE, CLOSEDCASH.HOSTSEQUENCE) AS BRANCH_HOSTSEQUENCE,
 PAYMENTS.PAYMENT, 
+PAYMENTS.DESCRIPTION, 
 SUM(PAYMENTS.TOTAL) AS TOTAL
 FROM CLOSEDCASH, (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS, (select * from RECEIPTS UNION ALL select * from BRANCH_RECEIPTS) RECEIPTS
 WHERE CLOSEDCASH.MONEY = RECEIPTS.MONEY AND PAYMENTS.RECEIPT = RECEIPTS.ID
-GROUP BY CLOSEDCASH.HOST, CLOSEDCASH.HOSTSEQUENCE, CLOSEDCASH.MONEY, CLOSEDCASH.DATESTART, CLOSEDCASH.DATEEND, PAYMENTS.PAYMENT, CLOSEDCASH.BRANCH_HOSTSEQUENCE
-ORDER BY CLOSEDCASH.HOSTSEQUENCE]]>
+GROUP BY CLOSEDCASH.HOST, CLOSEDCASH.HOSTSEQUENCE, CLOSEDCASH.MONEY, CLOSEDCASH.DATESTART, CLOSEDCASH.DATEEND, PAYMENTS.PAYMENT, PAYMENTS.DESCRIPTION, CLOSEDCASH.BRANCH_HOSTSEQUENCE
+ORDER BY CLOSEDCASH.HOSTSEQUENCE, PAYMENTS.PAYMENT]]>
 	</queryString>
 	<field name="HOST" class="java.lang.String"/>
 	<field name="HOSTSEQUENCE" class="java.lang.Integer"/>
@@ -32,6 +33,7 @@ ORDER BY CLOSEDCASH.HOSTSEQUENCE]]>
 	<field name="DATEEND" class="java.util.Date"/>
 	<field name="BRANCH_HOSTSEQUENCE" class="java.lang.Integer"/>
 	<field name="PAYMENT" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String"/>
 	<field name="TOTAL" class="java.lang.Double"/>
 	<variable name="BIGTOTAL" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
@@ -243,6 +245,20 @@ ORDER BY CLOSEDCASH.HOSTSEQUENCE]]>
 					<font fontName="Dialog" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[com.openbravo.format.Formats.CURRENCY.formatValue($F{TOTAL})]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$F{DESCRIPTION} != null]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="273" y="0" width="261" height="20" uuid="1aac30bb-c619-48c5-bc76-1f22d94345ee">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPTION}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
