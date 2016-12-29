@@ -119,7 +119,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		if(placesSplit == null)
 		{
 			SentenceList sent = new StaticSentence(s,
-					"SELECT p.ID, p.NAME FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
+					"SELECT p.ID, p.NAME, f.Name as FloorName FROM PLACES p, FLOORS f WHERE p.FLOOR=f.ID ORDER BY f.Name, Name",
 					null, new SerializerReadClass(PlaceSplit.class));
 			placesSplit = sent.list();
 		}

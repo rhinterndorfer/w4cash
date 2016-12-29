@@ -42,6 +42,7 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 
 	private String m_sId;
 	private String m_sName;
+	private String m_sFloorName;
 
 	public PlaceSplit() {
 	}
@@ -49,6 +50,7 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 	public void readValues(DataRead dr) throws BasicException {
 		m_sId = dr.getString(1);
 		m_sName = dr.getString(2);
+		m_sFloorName = dr.getString(3);
 	}
 
 	public String getId() {
@@ -59,6 +61,10 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 		return m_sName;
 	}
 
+	public String getFloorName() {
+		return m_sFloorName;
+	}
+	
 	@Override
 	public int compareTo(PlaceSplit o) {
 		if(m_sId == null)
