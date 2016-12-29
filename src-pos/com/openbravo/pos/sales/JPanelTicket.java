@@ -763,7 +763,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		this.issaege = Boolean
 				.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
-		if (prod.getPriceSell() > 0.0 && !issaege) {
+		if ((prod.getPriceSell() > 0.0 
+				|| (prod.isCom() && prod.getPriceSell() <= -0.01))
+				&& !issaege) {
 			price = prod.getPriceSell();
 			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
 			
@@ -781,7 +783,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		} else {
 			// open edit dialog to input price
 			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
-			TicketLineInfo ticketLine = new TicketLineInfo(prod, prod.getPriceSell(), tax,
+			TicketLineInfo ticketLine = new TicketLineInfo(prod, dPor, prod.getPriceSell(), tax,
 					(java.util.Properties) (prod.getProperties().clone()), issaege, prod.getHeight(), prod.getWidth(), prod.getLength(), null);
 
 			try {
@@ -2001,12 +2003,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	}// GEN-LAST:event_m_jKeyFactoryKeyTyped
 
 	private void m_jDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jDeleteActionPerformed
-
+		
+		
 		int i = m_ticketlines.getSelectedIndex();
 		if (i < 0) {
 			Toolkit.getDefaultToolkit().beep(); // No hay ninguna seleccionada
 		} else {
-			removeTicketLine(i); // elimino la linea
+			TicketLineInfo line = m_oTicket.getLine(i);
+			int res = JOptionPane.YES_OPTION;
+			
+			if(line.getMultiply() != 0)
+				res = JConfirmDialog.showConfirm(m_App, this, 
+						String.format(AppLocal.getIntString("message.wannadeleteline"),line.getMultiply(), line.getProductName()), 
+						null);
+			
+			if (res == JOptionPane.YES_OPTION) {
+				removeTicketLine(i); // elimino la linea
+			}
 		}
 
 	}// GEN-LAST:event_m_jDeleteActionPerformed
