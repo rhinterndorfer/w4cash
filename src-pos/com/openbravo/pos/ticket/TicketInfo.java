@@ -19,8 +19,11 @@
 package com.openbravo.pos.ticket;
 
 import java.util.*;
+import java.util.function.DoubleFunction;
 import java.io.*;
 import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.data.loader.DataRead;
@@ -559,18 +562,51 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public String printSubTotal() {
-        return Formats.CURRENCY.formatValue(new Double(getSubTotal()));
+    	// use format per line !!
+    	double sum = 0.0;
+    	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
+        for (TicketLineInfo line : m_aLines) {
+        	sum += round(line.getSubValue(), digits);
+        }
+
+        return Formats.CURRENCY.formatValue(sum);
     }
 
     public String printTax() {
-        return Formats.CURRENCY.formatValue(new Double(getTax()));
+    	// use format per line !!
+    	double sum = 0.0;
+    	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
+        for (TicketLineInfo line : m_aLines) {
+        	sum += round(line.getTax(), digits);
+        }
+
+        return Formats.CURRENCY.formatValue(sum);
     }
 
     public String printTotal() {
-        return Formats.CURRENCY.formatValue(new Double(getTotal()));
+    	// use format per line !!
+    	double sum = 0.0;
+    	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
+        for (TicketLineInfo line : m_aLines) {
+        	sum += round(line.getPriceTax() * line.getMultiply(), digits);
+        }
+
+        return Formats.CURRENCY.formatValue(sum);
     }
 
     public String printTotalPaid() {
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid()));
     }
+    
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
+    
 }
+

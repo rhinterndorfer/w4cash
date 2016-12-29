@@ -341,7 +341,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		// Authorization for buttons
 		btnSplit.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
-		m_jDelete.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));
+		if(!m_App.getAppUserView().getUser().hasPermission("sales.Not.DeleteLines"))
+			m_jDelete.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));
+		else
+			m_jDelete.setEnabled(false);
+		
 		m_jNumberKeys.setMinusEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));
 		m_jNumberKeys.setEqualsEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
 		m_jbtnconfig.setPermissions(m_App.getAppUserView().getUser());
@@ -372,9 +376,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		if (i >= 0) {
 
 			// side buttons
-			btnSplit.setEnabled(true);
+			btnSplit.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.Total"));
+			
 			m_jEditLine.setEnabled(true);
-			m_jDelete.setEnabled(true);
+			
+			if(!m_App.getAppUserView().getUser().hasPermission("sales.Not.DeleteLines"))
+				m_jDelete.setEnabled(m_App.getAppUserView().getUser().hasPermission("sales.EditLines"));
+			else
+				m_jDelete.setEnabled(false);
+			
 			jEditAttributes.setEnabled(true);
 		} else {
 			btnSplit.setEnabled(false);
