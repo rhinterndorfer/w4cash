@@ -445,6 +445,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 				new MessageInf(e).show(m_App, this);
 			}
 
+			m_PlaceCurrent.setTempName(null);
 			m_PlaceCurrent.setPeople(false);
 
 			m_PlaceCurrent = null;
@@ -471,6 +472,7 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		
 		for (Place table : m_aplaces) {
+			table.setTempName(null);
 			table.setPeople(atickets.contains(table.getId()));
 		}
 	}

@@ -62,6 +62,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private List<PaymentInfo> payments;
     private List<TicketTaxInfo> taxes;
     private String m_sResponse;
+    private String m_sTempComment;
+    private Object m_info;
 
     /** Creates new TicketModel */
     public TicketInfo() {
@@ -79,6 +81,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
         payments = new ArrayList<PaymentInfo>();
         taxes = null;
         m_sResponse = null;
+        m_sTempComment = null;
+        m_info = null;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -90,6 +94,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
         out.writeObject(m_dDate);
         out.writeObject(attributes);
         out.writeObject(m_aLines);
+        out.writeObject(m_sTempComment);
+        out.writeObject(m_info);
     }
 
     @SuppressWarnings("unchecked")
@@ -102,6 +108,14 @@ public class TicketInfo implements SerializableRead, Externalizable {
         m_dDate = (Date) in.readObject();
         attributes = (Properties) in.readObject();
         m_aLines = (List<TicketLineInfo>) in.readObject();
+        try {
+        	m_sTempComment = (String) in.readObject();
+        	m_info = in.readObject();
+        } catch(Exception ex) {
+        	// do nothing
+        	// optional additional data
+        	// possible not filled
+        }
         m_User = null;
         m_sActiveCash = null;
 
@@ -200,11 +214,16 @@ public class TicketInfo implements SerializableRead, Externalizable {
     // refreshLines();
     }
 
-    public String getName(Object info) {
-
+    public String getNameWithExt()
+    {
+    	return getName(m_info, false);
+    }
+    
+    public String getName(Object info, Boolean withCustomer) {
+    	m_info = info;
         StringBuffer name = new StringBuffer();
 
-        if (getCustomerId() != null) {
+        if (withCustomer && getCustomerId() != null) {
             name.append(m_Customer.toString());
             name.append(" - ");
         }
@@ -219,9 +238,29 @@ public class TicketInfo implements SerializableRead, Externalizable {
             name.append(info.toString());
         }
         
+        if(getTempComment() != null && getTempComment() != "")
+        {
+        	name.append(" - ");
+        	name.append(getTempComment());
+        }
         return name.toString();
     }
+    
+    public String getName(Object info) {
 
+    	return getName(info, true);
+    }
+
+    public String getTempComment()
+    {
+    	return m_sTempComment;
+    }
+    
+    public void setTempComment(String comment)
+    {
+    	m_sTempComment = comment;
+    }
+    
     public String getName() {
         return getName(null);
     }

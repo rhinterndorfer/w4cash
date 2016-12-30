@@ -43,6 +43,7 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 	private String m_sId;
 	private String m_sName;
 	private String m_sFloorName;
+	private Integer m_occupied;
 
 	public PlaceSplit() {
 	}
@@ -51,6 +52,7 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 		m_sId = dr.getString(1);
 		m_sName = dr.getString(2);
 		m_sFloorName = dr.getString(3);
+		m_occupied = dr.getInt(4);
 	}
 
 	public String getId() {
@@ -63,6 +65,10 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 
 	public String getFloorName() {
 		return m_sFloorName;
+	}
+	
+	public Boolean getOccupied() {
+		return m_occupied > 0 ? true : false;
 	}
 	
 	@Override

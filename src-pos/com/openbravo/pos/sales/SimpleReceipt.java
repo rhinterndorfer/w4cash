@@ -20,9 +20,6 @@
 package com.openbravo.pos.sales;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,18 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.MessageInf;
-import com.openbravo.data.loader.SentenceList;
-import com.openbravo.data.loader.SerializerReadClass;
-import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.customers.JCustomerFinder;
@@ -87,8 +77,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	}
 
 	private ReceiptSplit parent = null;
-
-	private boolean isRestaurant;
 
 	private String m_appType;
 
@@ -150,20 +138,12 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		// The ticket name
 		if (this.tableSelect && tt != null) {
-			// find selected talble
-			for (PlaceSplit place : this.m_aplaces) {
-				if (place.getName().compareTo(tt.toString()) == 0) {
-					this.selectedTable = place;
-					break;
-				}
-			}
 
 			m_jPlaceId.setVisible(true);
 			if (m_jLTicketId != null)
 				m_jLTicketId.setVisible(false);
 
-			//m_jPlaceId.setSelectedItem(selectedTable);
-			m_jPlaceId.setText(selectedTable.getName());
+			m_jPlaceId.setText(tt.toString());
 			
 			m_jPlaceId.addActionListener(new ActionListener() {
 
@@ -172,7 +152,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				public void actionPerformed(ActionEvent e) {
 					
 					// selectedTable = (PlaceSplit) ((JComboBox<PlaceSplit>) e.getSource()).getSelectedItem();
-					PlaceSplit selectedPlace = JPlacesListDialog.newJDialog(m_App, (JButton)e.getSource()).showPlacesList(m_aplaces); 
+					PlaceSplit selectedPlace = JPlacesListDialog.newJDialog(m_App, (JButton)e.getSource()).showPlacesList(getPossibleTables()); 
 					if(selectedPlace != null)
 					{
 						selectedTable = selectedPlace;
@@ -376,48 +356,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		// m_jTicketId = new javax.swing.JLabel();
 		if (RESTAURANT.compareTo(m_appType) == 0) {
 			if (this.tableSelect) {
-				fillpossibleTables();
-
 				m_jPlaceId = new JButton();
-				
-				/*
-				m_jPlaceId = new JComboBox<PlaceSplit>(this.m_aplaces.toArray(new PlaceSplit[this.m_aplaces.size()]));
-				m_jPlaceId.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						@SuppressWarnings("unchecked")
-						JComboBox<PlaceSplit> cb = ((JComboBox<PlaceSplit>)e.getSource());
-						cb.setPrototypeDisplayValue((PlaceSplit)cb.getSelectedItem());
-						
-					}
-				});
-				*/
-				/*
-				((JComboBox<PlaceSplit>) m_jPlaceId).setRenderer(new ListCellRenderer<PlaceSplit>() {
-
-					public Component getListCellRendererComponent(JList<? extends PlaceSplit> list, PlaceSplit value, int index,
-							boolean isSelected, boolean cellHasFocus) {
-						// TODO Auto-generated method stub
-						StringBuilder sb = new StringBuilder();
-						sb.append("<html><div style='width: 150px'>");
-						sb.append(value.getName());
-						sb.append("</div></html>");
-						JLabel renderer = new JLabel(sb.toString());
-						renderer.setMinimumSize(new Dimension(150, 16));
-						
-						renderer.setBorder(javax.swing.BorderFactory.createCompoundBorder(
-								javax.swing.BorderFactory
-										.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")),
-								javax.swing.BorderFactory.createLineBorder(Color.white, 10)));
-						
-						PropertyUtil.ScaleLabelFontsize(m_App, renderer, "common-dialog-fontsize", "22");
-						return renderer;
-					}
-				});
-				*/
-
-				// PropertyUtil.ScaleJComboBoxScrollbar(m_App, m_jPlaceId);
 			}
 		}
 
@@ -433,12 +372,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		init2();
 		ScaleLabels();
 
-		//m_jPanTotals.add(m_jLblTotalEuros3);
-		//m_jPanTotals.add(m_jSubtotalEuros);
-
-		//m_jPanTotals.add(m_jLblTotalEuros2);
-		//m_jPanTotals.add(m_jTaxesEuros);
-
 		m_jPanTotals.add(m_jLblTotalEuros1);
 		m_jPanTotals.add(m_jTotalEuros);
 
@@ -446,7 +379,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 
 		add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-//		m_jButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 		m_jButtons.setLayout(new java.awt.BorderLayout());
 
 		if (RESTAURANT.compareTo(m_appType) == 0) {
@@ -506,13 +438,18 @@ public class SimpleReceipt extends javax.swing.JPanel {
 		add(jPanel2, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void fillpossibleTables() throws BasicException {
+	private List<PlaceSplit> getPossibleTables()
+	{
 		if (RESTAURANT.compareTo(m_appType) == 0) {
 			if (this.tableSelect) {
-				
-				this.m_aplaces = this.dlSales.getPlacesSplit();
+				try {
+					return this.dlSales.getPlacesSplit();
+				} catch (BasicException e) {
+					// TODO: Logging
+				}
 			}
 		}
+		return null;
 	}
 
 	private void dblClickProduct(int i) {
@@ -652,7 +589,6 @@ public class SimpleReceipt extends javax.swing.JPanel {
 	private javax.swing.JButton m_jPlaceId;
 	private javax.swing.JLabel m_jLTicketId;
 	private javax.swing.JLabel m_jTotalEuros;
-	private List<PlaceSplit> m_aplaces;
 
 	public Object getTicketText() {
 		return this.ticketext;

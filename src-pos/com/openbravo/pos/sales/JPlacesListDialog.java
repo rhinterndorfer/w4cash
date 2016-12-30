@@ -81,6 +81,9 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 	}
 
 	public PlaceSplit showPlacesList(java.util.List<PlaceSplit> places) {
+		if(places == null)
+			return null;
+		
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		String prevFloor = null;
 		Color currentColor = null;
@@ -158,6 +161,10 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 			});
 
 			setText(place.getName());
+			if(place.getOccupied())
+			{
+				setBackground(Color.YELLOW);
+			}
 			
 			PropertyUtil.ScaleButtonFontsize(m_App, this, "common-dialog-fontsize", "22");
 		}

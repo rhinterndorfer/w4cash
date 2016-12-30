@@ -708,7 +708,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				dlReceipts.deleteSharedTicket(id);
 
 				if (!m_restaurantmap.isPromptTicket())
+				{
+					m_PlaceCurrent.setTempName(null);
 					m_PlaceCurrent.setPeople(false);
+				}
 
 				m_PlaceCurrent = null;
 			}
@@ -724,19 +727,28 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	public void loadTickets() {
 
-		Set<String> atickets = new HashSet<String>();
-
+		Map<String, SharedTicketInfo> atickets = new HashMap<String, SharedTicketInfo>();
 		try {
 			java.util.List<SharedTicketInfo> l = dlReceipts.getSharedTicketList();
 			for (SharedTicketInfo ticket : l) {
-				atickets.add(ticket.getId());
+				atickets.put(ticket.getId(), ticket);
 			}
 		} catch (BasicException e) {
 			new MessageInf(e).show(m_App, this);
 		}
 
 		for (Place table : m_aplaces) {
-			table.setPeople(atickets.contains(table.getId()));
+			SharedTicketInfo ticket = atickets.get(table.getId());
+			if(ticket != null)
+			{
+				table.setTempName(ticket.getName());
+				table.setPeople(true);
+			}
+			else
+			{
+				table.setTempName(null);
+				table.setPeople(false);
+			}
 		}
 	}
 
@@ -985,6 +997,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							}
 
 							
+							m_place.setTempName(null);
 							m_place.setPeople(true);
 							setActivePlace(m_place, ticket);
 

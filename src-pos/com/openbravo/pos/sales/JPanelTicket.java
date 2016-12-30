@@ -24,6 +24,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 
@@ -66,6 +68,7 @@ import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.transfer.SalesTransferModule;
 import com.openbravo.pos.util.JRPrinterAWT300;
+import com.openbravo.pos.util.OnScreenKeyboardUtil;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
 import java.io.InputStream;
@@ -1549,7 +1552,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblTotalEuros1, "common-large-fontsize", "64");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPrice, "sales-amountprice-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, m_jPor, "sales-amountprice-fontsize", "32");
-		PropertyUtil.ScaleLabelFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");
+		PropertyUtil.ScaleButtonFontsize(m_App, m_jTicketId, "sales-ticketid-fontsize", "32");
 
 		int fontsizeSmall = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
@@ -1601,7 +1604,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jPanContainer = new javax.swing.JPanel();
 		m_jOptions = new javax.swing.JPanel();
 		m_jButtons = new javax.swing.JPanel();
-		m_jTicketId = new javax.swing.JLabel();
+		m_jTicketId = new javax.swing.JButton();
 		btnCustomer = new javax.swing.JButton();
 		btnSplit = new javax.swing.JButton();
 		m_jPanelScripts = new javax.swing.JPanel();
@@ -1821,9 +1824,25 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// m_jPanTotals.add(m_jLblTotalEuros1, gridBagConstraints);
 
 		m_jTicketId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		m_jTicketId.setOpaque(true);
+		m_jTicketId.setOpaque(false);
+		m_jTicketId.setContentAreaFilled(false);
 		m_jTicketId.setFont(new Font(m_jTicketId.getFont().getName(), Font.PLAIN, 16));
 		m_jTicketId.setRequestFocusEnabled(false);
+		m_jTicketId.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(m_oTicket != null)
+				{	
+					OnScreenKeyboardUtil.StartOSK();
+					String value = javax.swing.JOptionPane.showInputDialog(AppLocal.getIntString("ticket.comment"), m_oTicket.getTempComment());
+					m_oTicket.setTempComment(value);
+					refreshTicket();
+				}
+				
+			}
+		});
 
 		jPanel4.add(m_jTicketId, java.awt.BorderLayout.LINE_START);
 
@@ -2109,68 +2128,72 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 					} else {
 						// now we move lines to the selected Table
-						try {
-							dlReceipts.insertSharedTicket(currentTicketId, ticket2);
-							
-							if (this.m_restaurant != null)
-								ticket1.SetTicketLinesMultiplyClone();
-							
-							setActiveTicket(ticket1, m_oTicketExt);
-						} catch (BasicException e) {
-							// insert was not possible, so try to perform an
-							// update
+						// check if different place is selected
+						if(currentTicketId != null) 
+						{
 							try {
-								// first read all booked elements
-								String lockBy = dlReceipts.checkoutSharedTicket(currentTicketId);
-								if (lockBy == null) {
-
-									TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
-									for (TicketLineInfo info : dummy.getLines()) {
-										// does info exists?
-										TicketLineInfo inf = null;
-										for (TicketLineInfo lni : ticket2.getLines()) {
-											if (lni.getProductID().compareTo(info.getProductID()) == 0 
-													&& lni.getPrice() == info.getPrice()
-													&& (lni.getProductAttSetInstDesc() == null ? "" : lni.getProductAttSetInstDesc()).equals(info.getProductAttSetInstDesc() == null ? "" : info.getProductAttSetInstDesc())
-											) {
-											//if (lni.getProductID().compareTo(info.getProductID()) == 0) {
-												inf = lni;
-												break;
+								dlReceipts.insertSharedTicket(currentTicketId, ticket2);
+								
+								if (this.m_restaurant != null)
+									ticket1.SetTicketLinesMultiplyClone();
+								
+								setActiveTicket(ticket1, m_oTicketExt);
+							} catch (BasicException e) {
+								// insert was not possible, so try to perform an
+								// update
+								try {
+									// first read all booked elements
+									String lockBy = dlReceipts.checkoutSharedTicket(currentTicketId);
+									if (lockBy == null) {
+	
+										TicketInfo dummy = dlReceipts.getSharedTicket(currentTicketId);
+										for (TicketLineInfo info : dummy.getLines()) {
+											// does info exists?
+											TicketLineInfo inf = null;
+											for (TicketLineInfo lni : ticket2.getLines()) {
+												if (lni.getProductID().compareTo(info.getProductID()) == 0 
+														&& lni.getPrice() == info.getPrice()
+														&& (lni.getProductAttSetInstDesc() == null ? "" : lni.getProductAttSetInstDesc()).equals(info.getProductAttSetInstDesc() == null ? "" : info.getProductAttSetInstDesc())
+												) {
+												//if (lni.getProductID().compareTo(info.getProductID()) == 0) {
+													inf = lni;
+													break;
+												}
+											}
+											if (inf != null) {
+												inf.setMultiply(inf.getMultiply() + info.getMultiply());
+											} else {
+												ticket2.addLine(info);
 											}
 										}
-										if (inf != null) {
-											inf.setMultiply(inf.getMultiply() + info.getMultiply());
-										} else {
-											ticket2.addLine(info);
-										}
+										dlReceipts.updateSharedTicket(currentTicketId, ticket2);
+										dlReceipts.checkinSharedTicket(currentTicketId);
+										
+										if (this.m_restaurant != null)
+											ticket1.SetTicketLinesMultiplyClone();
+										
+										setActiveTicket(ticket1, m_oTicketExt);
+									} else {
+										JConfirmDialog.showError(m_App, JPanelTicket.this,
+												AppLocal.getIntString("error.error"),
+												AppLocal.getIntString("message.placeLocked") + " (" + lockBy + ")");
+	
+										refreshTicket();
 									}
-									dlReceipts.updateSharedTicket(currentTicketId, ticket2);
-									dlReceipts.checkinSharedTicket(currentTicketId);
-									
-									if (this.m_restaurant != null)
-										ticket1.SetTicketLinesMultiplyClone();
-									
-									setActiveTicket(ticket1, m_oTicketExt);
-								} else {
+								} catch (BasicException ex) {
 									JConfirmDialog.showError(m_App, JPanelTicket.this,
-											AppLocal.getIntString("error.error"),
-											AppLocal.getIntString("message.placeLocked") + " (" + lockBy + ")");
-
-									refreshTicket();
+											AppLocal.getIntString("error.network"),
+											AppLocal.getIntString("message.databaseconnectionerror"), ex);
+	
+									setActiveTicket(ticket1, m_oTicketExt);
 								}
-							} catch (BasicException ex) {
-								JConfirmDialog.showError(m_App, JPanelTicket.this,
-										AppLocal.getIntString("error.network"),
-										AppLocal.getIntString("message.databaseconnectionerror"), ex);
-
-								setActiveTicket(ticket1, m_oTicketExt);
 							}
 						}
-
+						else
+						{
+							refreshTicket();
+						}
 					}
-
-					// set result
-					// ticket
 				}
 			} catch (BasicException e1) {
 				JConfirmDialog.showError(m_App, JPanelTicket.this, AppLocal.getIntString("error.network"),
@@ -2253,7 +2276,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private javax.swing.JLabel m_jPor;
 	private javax.swing.JLabel m_jPrice;
 	private javax.swing.JComboBox m_jTax;
-	private javax.swing.JLabel m_jTicketId;
+	private javax.swing.JButton m_jTicketId;
 	private javax.swing.JLabel m_jTotalEuros;
 	// private javax.swing.JButton m_jUp;
 	private javax.swing.JToggleButton m_jaddtax;

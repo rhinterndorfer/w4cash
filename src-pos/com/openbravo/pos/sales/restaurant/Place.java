@@ -66,6 +66,17 @@ public class Place implements SerializableRead, java.io.Serializable {
 	public void setSName(String m_sName) {
 		this.m_sName = m_sName;
 	}
+	
+	
+	private String m_sTempName;
+
+	public String getTempName() {
+		return m_sTempName == null ? m_sName : m_sTempName;
+	}
+
+	public void setTempName(String m_sName) {
+		this.m_sTempName = m_sName;
+	}
 
 	private int m_ix;
 	private int m_iy;
@@ -152,7 +163,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		sb.append(";font-size:");
 		sb.append(m_iFontsize);
 		sb.append(";'>");
-		sb.append(m_sName);
+		sb.append(getTempName());
 		sb.append("</div></html>");
 
 		m_btn.setText(sb.toString());
@@ -165,7 +176,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	}
 
 	public String getName() {
-		return m_sName;
+		return getSName();
 	}
 
 	public int getX() {
@@ -222,7 +233,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 			sb.append(";font-size:");
 			sb.append(m_iFontsizeCurrent);
 			sb.append(";'>");
-			sb.append(m_sName);
+			sb.append(getTempName());
 			sb.append("</div></html>");
 
 			m_btn.setText(sb.toString());
@@ -236,7 +247,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 			sb.append(";font-size:");
 			sb.append(m_iFontsizeCurrent);
 			sb.append(";'>");
-			sb.append(m_sName);
+			sb.append(getTempName());
 			sb.append("</div></html>");
 
 			m_btn.setText(sb.toString());
