@@ -2132,6 +2132,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						if(currentTicketId != null) 
 						{
 							try {
+								ticket2.getName(currentTicket);
+								ticket2.setTempComment(ticket1.getTempComment());
 								dlReceipts.insertSharedTicket(currentTicketId, ticket2);
 								
 								if (this.m_restaurant != null)

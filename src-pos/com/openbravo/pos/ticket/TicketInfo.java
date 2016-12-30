@@ -154,6 +154,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
         t.attributes = (Properties) attributes.clone();
         t.m_User = m_User;
         t.m_Customer = m_Customer;
+        t.m_sTempComment = m_sTempComment;
+        
 
         t.m_aLines = new ArrayList<TicketLineInfo>();
 
