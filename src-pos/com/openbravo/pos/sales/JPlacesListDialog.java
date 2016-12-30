@@ -189,7 +189,7 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setAlwaysOnTop(true);
 		setTitle(AppLocal.getIntString("caption.places")); // NOI18N
-		setResizable(true);
+		setResizable(false);
 		setLayout(new java.awt.BorderLayout());
 	
 		

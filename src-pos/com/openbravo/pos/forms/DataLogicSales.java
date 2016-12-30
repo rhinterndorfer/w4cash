@@ -124,7 +124,24 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				+ "ON p.FLOOR=f.ID "
 				+ "LEFT JOIN SHAREDTICKETS st "
 				+ "ON st.Id = p.Id "
-				+ "ORDER BY f.Name, Name ",
+				+ "ORDER BY f.Name, p.Name ",
+				null, new SerializerReadClass(PlaceSplit.class));
+		placesSplit = sent.list();
+		return placesSplit;
+	}
+	
+	
+	public List<PlaceSplit> getOccupied() throws BasicException
+	{
+		SentenceList sent = new StaticSentence(s,
+				"SELECT p.ID, st.NAME, f.Name as FloorName, 1 as Occupied "
+				+ "FROM "
+				+ "PLACES p "
+				+ "INNER JOIN FLOORS f "
+				+ "ON p.FLOOR=f.ID "
+				+ "INNER JOIN SHAREDTICKETS st "
+				+ "ON st.Id = p.Id "
+				+ "ORDER BY f.Name, p.Name",
 				null, new SerializerReadClass(PlaceSplit.class));
 		placesSplit = sent.list();
 		return placesSplit;

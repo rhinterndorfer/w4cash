@@ -295,6 +295,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
 		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnOccupied, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
 
 		// m_restaurantmap.ScaleButtons();
@@ -840,6 +841,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel3 = new javax.swing.JPanel();
 		m_jbtnReservations = new javax.swing.JButton();
 		m_jbtnRefresh = new javax.swing.JButton();
+		m_jbtnOccupied = new javax.swing.JButton();
 		m_jbtnLogout = new javax.swing.JButton();
 		m_jText = new javax.swing.JLabel();
 		btn_promptTicket = new JButton();
@@ -853,22 +855,21 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
 		/*
-		 * m_jbtnReservations.setIcon(new
-		 * javax.swing.ImageIcon(getClass().getResource(
-		 * "/com/openbravo/images/date.png"))); // NOI18N
-		 * m_jbtnReservations.setText(AppLocal.getIntString(
-		 * "button.reservations")); // NOI18N
-		 * m_jbtnReservations.setFocusPainted(false);
-		 * m_jbtnReservations.setFocusable(false);
-		 * m_jbtnReservations.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		 * m_jbtnReservations.setRequestFocusEnabled(false);
-		 * m_jbtnReservations.addActionListener(new
-		 * java.awt.event.ActionListener() { public void
-		 * actionPerformed(java.awt.event.ActionEvent evt) {
-		 * m_jbtnReservationsActionPerformed(evt); } });
+		 m_jbtnReservations.setIcon(new
+				 javax.swing.ImageIcon(getClass().getResource(
+						 "/com/openbravo/images/date.png"))); // NOI18N
+		 m_jbtnReservations.setText(AppLocal.getIntString("button.reservations")); // NOI18N
+		 m_jbtnReservations.setFocusPainted(false);
+		 m_jbtnReservations.setFocusable(false);
+		 m_jbtnReservations.setMargin(new java.awt.Insets(8, 14, 8, 14));
+		 m_jbtnReservations.setRequestFocusEnabled(false);
+		 m_jbtnReservations.addActionListener(new java.awt.event.ActionListener() { public void
+			 actionPerformed(java.awt.event.ActionEvent evt) {
+		 m_jbtnReservationsActionPerformed(evt); } });
+		 
+		jPanel2.add(m_jbtnReservations);
 		 */
-		// jPanel2.add(m_jbtnReservations);
-
+		
 		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
 		m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket"));
 		m_jbtnRefresh.setFocusPainted(false);
@@ -881,6 +882,42 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 		});
 		jPanel2.add(m_jbtnRefresh);
+		
+		
+		m_jbtnOccupied.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/table.png"))); // NOI18N
+		m_jbtnOccupied.setText(AppLocal.getIntString("button.occupied"));
+		m_jbtnOccupied.setFocusPainted(false);
+		m_jbtnOccupied.setFocusable(false);
+		// m_jbtnRefresh.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		m_jbtnOccupied.setRequestFocusEnabled(false);
+		m_jbtnOccupied.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				try {
+					List<PlaceSplit> placesOccupied = m_dlSales.getOccupied();
+					JPlacesListDialog dlg = JPlacesListDialog.newJDialog(m_App, (JButton)evt.getSource());
+					PlaceSplit selectedPlace = dlg.showPlacesList(placesOccupied);
+					
+					if(selectedPlace != null)
+					{
+						for(Place place : m_aplaces)
+						{
+							if(place.getId().equals(selectedPlace.getId()))
+							{
+								MyActionListener action = new MyActionListener(place);
+								action.actionPerformed(evt);
+								break;
+							}
+						}
+					}
+					
+					
+				} catch (BasicException e) {
+					// TODO logging
+				}
+			}
+		});
+		jPanel2.add(m_jbtnOccupied);
+		
 
 		// add direct bonieren button
 		// TODO make a check if a direct bon table is available
@@ -1211,6 +1248,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private javax.swing.JLabel m_jText;
 	private javax.swing.JButton m_jbtnRefresh;
 	private javax.swing.JButton m_jbtnReservations;
+	private javax.swing.JButton m_jbtnOccupied;
 	private javax.swing.JButton btn_promptTicket;
 	// End of variables declaration//GEN-END:variables
 
