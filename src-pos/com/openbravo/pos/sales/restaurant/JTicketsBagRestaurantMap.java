@@ -854,21 +854,24 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-		/*
-		 m_jbtnReservations.setIcon(new
-				 javax.swing.ImageIcon(getClass().getResource(
-						 "/com/openbravo/images/date.png"))); // NOI18N
-		 m_jbtnReservations.setText(AppLocal.getIntString("button.reservations")); // NOI18N
-		 m_jbtnReservations.setFocusPainted(false);
-		 m_jbtnReservations.setFocusable(false);
-		 m_jbtnReservations.setMargin(new java.awt.Insets(8, 14, 8, 14));
-		 m_jbtnReservations.setRequestFocusEnabled(false);
-		 m_jbtnReservations.addActionListener(new java.awt.event.ActionListener() { public void
-			 actionPerformed(java.awt.event.ActionEvent evt) {
-		 m_jbtnReservationsActionPerformed(evt); } });
-		 
-		jPanel2.add(m_jbtnReservations);
-		 */
+		if(m_App.getHost().equals("Wartung"))
+		{
+			m_jbtnReservations.setIcon(new
+					 javax.swing.ImageIcon(getClass().getResource(
+							 "/com/openbravo/images/date.png"))); // NOI18N
+			m_jbtnReservations.setText(AppLocal.getIntString("button.reservations")); // NOI18N
+			m_jbtnReservations.setFocusPainted(false);
+			m_jbtnReservations.setFocusable(false);
+			m_jbtnReservations.setMargin(new java.awt.Insets(8, 14, 8, 14));
+			m_jbtnReservations.setRequestFocusEnabled(false);
+			m_jbtnReservations.addActionListener(new java.awt.event.ActionListener() { public void
+				 actionPerformed(java.awt.event.ActionEvent evt) {
+			m_jbtnReservationsActionPerformed(evt); } });
+			 
+			jPanel2.add(m_jbtnReservations);
+		}
+
+
 		
 		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
 		m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket"));
