@@ -152,7 +152,11 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				public void actionPerformed(ActionEvent e) {
 					
 					// selectedTable = (PlaceSplit) ((JComboBox<PlaceSplit>) e.getSource()).getSelectedItem();
-					PlaceSplit selectedPlace = JPlacesListDialog.newJDialog(m_App, (JButton)e.getSource()).showPlacesList(getPossibleTables()); 
+					PlaceSplit selectedPlace = JPlacesListDialog.newJDialog(m_App, (JButton)e.getSource()).showPlacesList(getPossibleTables());
+					
+					if(parent != null)
+						parent.toFront();
+					
 					if(selectedPlace != null)
 					{
 						selectedTable = selectedPlace;

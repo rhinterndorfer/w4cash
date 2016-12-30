@@ -21,24 +21,19 @@ package com.openbravo.pos.sales;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
-import com.openbravo.pos.sales.SharedTicketInfo;
 import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.util.ModifiedFlowLayout;
 import com.openbravo.pos.util.PropertyUtil;
-import com.sun.corba.se.impl.activation.ServerTableEntry;
 
-import javafx.scene.control.Separator;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
