@@ -24,6 +24,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.beans.*;
 import java.util.*;
 
@@ -66,12 +67,6 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	// private JTimePanel m_timereservation;
 	private boolean m_bReceived;
 	private BrowsableEditableData m_bd;
-	private Boolean m_isLoading = false;
-	// private Date m_dcurrentday;
-
-	//private JCalendarPanel m_datepanel;
-	//private JTimePanel m_timepanel;
-	private boolean m_bpaintlock = false;
 
 	private AppView m_App;
 
@@ -121,11 +116,11 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		// La Toolbar
 		m_jToolbar.add(new JLabelDirty(m_Dirty));
-		m_jToolbar.add(new JCounter(m_bd));
+		//m_jToolbar.add(new JCounter(m_bd));
 		m_jToolbar.add(new JNavigator(m_App, m_bd,-1,null));
 		m_jToolbar.add(new JSaver(m_App, m_bd));
 
-		m_jKeys.ScaleButtons();
+		// m_jKeys.ScaleButtons();
 		ScaleButtons();
 	}
 	
@@ -459,22 +454,19 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	private void reload(Date dDate) {
 
 		try {
-			m_isLoading = true;
 			m_bd.actionLoad();
 		} catch (BasicException eD) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
 			msg.show(m_App, this);
 		}
-		m_isLoading = false;
+		
 		paintDate();
 	}
 
 	private void paintDate() {
 
-		m_bpaintlock = true;
-		// m_datepanel.setDate(m_dcurrentday);
-		// m_timepanel.setDate(m_dcurrentday);
-		m_bpaintlock = false;
+		
+		
 	}
 
 	private void assignCustomer(CustomerInfo c) {
@@ -569,8 +561,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		
 		double size[][] =
-            {{TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.PREFERRED},  // Columns
-             {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL}}; // Rows
+            {{TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED},  // Columns
+             {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL}}; // Rows
 
 
 		jPanel1.setLayout(new TableLayout(size));
@@ -585,7 +577,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				btnDateStartActionPerformed(evt);
 			}
 		});
-		jPanel1.add(m_jFromDateButton, new TableLayoutConstraints(2,0,3,0,TableLayout.LEFT,TableLayout.TOP));
+		jPanel1.add(m_jFromDateButton, new TableLayoutConstraints(2,0,2,0,TableLayout.CENTER,TableLayout.TOP));
 
 		
 		jLabelDateTill.setText(AppLocal.getIntString("rest.label.dateTill")); // NOI18N
@@ -597,7 +589,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				btnDateEndActionPerformed(evt);
 			}
 		});
-		jPanel1.add(m_jTillDateButton, new TableLayoutConstraints(2,1,3,1,TableLayout.LEFT,TableLayout.TOP));
+		jPanel1.add(m_jTillDateButton, new TableLayoutConstraints(2,1,2,1,TableLayout.CENTER,TableLayout.TOP));
 		
 		
 
@@ -617,7 +609,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				jButtonCustomerActionPerformed(evt);
 			}
 		});
-		jPanel1.add(jCustomerButton, new TableLayoutConstraints(2,2,3,2,TableLayout.LEFT,TableLayout.TOP));
+		jPanel1.add(jCustomerButton, new TableLayoutConstraints(2,2,2,2,TableLayout.CENTER,TableLayout.TOP));
 		
 		
 
@@ -630,7 +622,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		jPanel1.add(jLabelPlaces, "0, 4");
 		m_jPlaces.setWrapStyleWord(true);
 		m_jPlaces.setLineWrap(true);
-		jPanel1.add(m_jPlaces, "1, 4");
+		jPanel1.add(m_jPlaces, "1, 4, 1, 5");
 		
 		
 		m_jPlacesAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnplus.png")));
@@ -643,7 +635,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				jButtonPlacesAddActionPerformed(evt);
 			}
 		});
-		jPanel1.add(m_jPlacesAddButton, new TableLayoutConstraints(2,4,2,4,TableLayout.LEFT,TableLayout.TOP));
+		jPanel1.add(m_jPlacesAddButton, new TableLayoutConstraints(2,4,2,4,TableLayout.CENTER,TableLayout.TOP));
 		
 		
 		
@@ -652,28 +644,30 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jPlacesRemoveButton.setFocusPainted(false);
 		m_jPlacesRemoveButton.setFocusable(false);
 		m_jPlacesRemoveButton.setRequestFocusEnabled(false);
+		m_jPlacesRemoveButton.setMargin(new Insets(10, 0, 0, 0));
 		m_jPlacesRemoveButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButtonPlacesRemoveActionPerformed(evt);
 			}
 		});
-		jPanel1.add(m_jPlacesRemoveButton, new TableLayoutConstraints(3,4,3,4,TableLayout.LEFT,TableLayout.TOP));
+		jPanel1.add(m_jPlacesRemoveButton, new TableLayoutConstraints(2,5,2,5,TableLayout.CENTER,TableLayout.TOP));
 		
 		
 		
 		
 		jLabelNotes.setText(AppLocal.getIntString("rest.label.notes")); // NOI18N
-		jPanel1.add(jLabelNotes, "0, 5");
+		jPanel1.add(jLabelNotes, "0, 6");
 		
-		jPanel1.add(m_jtxtDescription, "1, 5");
+		jPanel1.add(m_jtxtDescription, "1, 6");
 		
 
 		jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
+		m_jKeys.setPreferredSize(new Dimension(0, 0));
 		jPanel5.add(m_jKeys, java.awt.BorderLayout.NORTH);
-
-		jPanel2.add(jPanel5, java.awt.BorderLayout.LINE_END);
+		
+		jPanel2.add(jPanel5, java.awt.BorderLayout.SOUTH);
 
 		add(jPanel2, java.awt.BorderLayout.CENTER);
 	}// </editor-fold>//GEN-END:initComponents
