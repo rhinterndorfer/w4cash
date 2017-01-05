@@ -20,9 +20,18 @@
 package com.openbravo.pos.sales.restaurant;
 
 import java.awt.BorderLayout;
+
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.beans.*;
 import java.util.*;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.plaf.OptionPaneUI;
+
+import org.apache.commons.collections.iterators.EnumerationIterator;
 
 import com.openbravo.beans.*;
 import com.openbravo.data.gui.*;
@@ -31,7 +40,12 @@ import com.openbravo.data.user.*;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.sales.JPlacesListDialog;
 import com.openbravo.pos.util.PropertyUtil;
+
+import layout.TableLayout;
+import layout.TableLayoutConstraints;
+
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.customers.DataLogicCustomers;
@@ -46,22 +60,21 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 	private DirtyManager m_Dirty;
 	private Object m_sID;
+	private List<PlaceSplit> placesReservation;
 	private CustomerInfo customer;
 	private Date m_dCreated;
-	private JTimePanel m_timereservation;
+	// private JTimePanel m_timereservation;
 	private boolean m_bReceived;
 	private BrowsableEditableData m_bd;
+	private Boolean m_isLoading = false;
+	// private Date m_dcurrentday;
 
-	private Date m_dcurrentday;
-
-	private JCalendarPanel m_datepanel;
-	private JTimePanel m_timepanel;
+	//private JCalendarPanel m_datepanel;
+	//private JTimePanel m_timepanel;
 	private boolean m_bpaintlock = false;
 
 	private AppView m_App;
 
-	// private Date dinitdate = new GregorianCalendar(1900, 0, 0, 12,
-	// 0).getTime();
 
 	/** Creates new form JPanelReservations */
 	public JTicketsBagRestaurantRes(AppView oApp, JTicketsBagRestaurantMap restaurantmap) {
@@ -70,28 +83,16 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		dlCustomers = (DataLogicCustomers) oApp.getBean("com.openbravo.pos.customers.DataLogicCustomers");
 
-		m_dcurrentday = null;
-
 		initComponents();
 
-		m_datepanel = new JCalendarPanel(m_App);
-		jPanelDate.add(m_datepanel, BorderLayout.CENTER);
-		m_datepanel.addPropertyChangeListener("Date", new DateChangeCalendarListener());
-
-		m_timepanel = new JTimePanel(m_App, null, JTimePanel.BUTTONS_HOUR);
-		m_timepanel.setPeriod(3600000L); // Los milisegundos que tiene una hora.
-		jPanelTime.add(m_timepanel, BorderLayout.CENTER);
-		m_timepanel.addPropertyChangeListener("Date", new DateChangeTimeListener());
-
-		m_timereservation = new JTimePanel(m_App, null, JTimePanel.BUTTONS_MINUTE);
-		m_jPanelTime.add(m_timereservation, BorderLayout.CENTER);
-
+		//m_timereservation = new JTimePanel(m_App, null, JTimePanel.BUTTONS_MINUTE);
+		//m_jPanelTime.add(m_timereservation, BorderLayout.CENTER);
+		
 		txtCustomer.addEditorKeys(m_jKeys);
 		m_jtxtChairs.addEditorKeys(m_jKeys);
 		m_jtxtDescription.addEditorKeys(m_jKeys);
 
 		m_Dirty = new DirtyManager();
-		m_timereservation.addPropertyChangeListener("Date", m_Dirty);
 		txtCustomer.addPropertyChangeListener("Text", m_Dirty);
 		txtCustomer.addPropertyChangeListener("Text", new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -103,7 +104,9 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		});
 		m_jtxtChairs.addPropertyChangeListener("Text", m_Dirty);
 		m_jtxtDescription.addPropertyChangeListener("Text", m_Dirty);
-
+		m_jFromDate.getDocument().addDocumentListener(m_Dirty);
+		m_jTillDate.getDocument().addDocumentListener(m_Dirty);
+		
 		writeValueEOF();
 
 		ListProvider lpr = new ListProviderCreator(dlCustomers.getReservationsList(), new MyDateFilter());
@@ -111,9 +114,9 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				dlCustomers.getReservationsDelete());
 
 		m_bd = new BrowsableEditableData(lpr, spr, new CompareReservations(), this, m_Dirty);
-
+	
 		JListNavigator nl = new JListNavigator(m_App, m_bd, true);
-		nl.setCellRenderer(new JCalendarItemRenderer());
+		nl.setCellRenderer(new JCalendarItemRenderer(m_App));
 		m_jPanelList.add(nl, BorderLayout.CENTER);
 
 		// La Toolbar
@@ -123,12 +126,47 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jToolbar.add(new JSaver(m_App, m_bd));
 
 		m_jKeys.ScaleButtons();
+		ScaleButtons();
+	}
+	
+	@Override
+	public void ScaleButtons() {
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelChairs, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelDateFrom, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelDateTill, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelCustomer, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelNotes, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelPlaces, "common-small-fontsize", "32");
+		
+		
+		int menuwidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
+		int menuheight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
+		PropertyUtil.ScaleButtonIcon(m_jbtnReceive, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnTables, menuwidth, menuheight, fontsize);
+		
+		Font font = PropertyUtil.ScaleFont(m_App, m_jtxtDescription.getFont(), "common-small-fontsize", "32");
+		m_jtxtChairs.setBFont(font);
+		m_jtxtDescription.setBFont(font);
+		txtCustomer.setBFont(font);
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jFromDate, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jTillDate, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextAreaFontsize(m_App, m_jPlaces, "common-small-fontsize", "32");
+		
+		PropertyUtil.ScaleButtonIcon(m_jFromDateButton, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jTillDateButton, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jPlacesAddButton, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jPlacesRemoveButton, menuwidth, menuheight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jCustomerButton, menuwidth, menuheight, fontsize);
 	}
 
 	private class MyDateFilter implements EditorCreator {
 		public Object createValue() throws BasicException {
-			return new Object[] { m_dcurrentday, new Date(m_dcurrentday.getTime() + 3600000L) }; // m_dcurrentday
+			return new Object[] { new Date(), new Date() }; // m_dcurrentday
 		}
 
 		@Override
@@ -154,18 +192,29 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		}
 	}
 
+	private void RefreshPlaces()
+	{
+		m_jPlaces.setText(getPlacesString());
+	}
+	
 	public void writeValueEOF() {
 		m_sID = null;
+		placesReservation = null;
+		RefreshPlaces();
 		m_dCreated = null;
-		m_timereservation.setDate(null);
+		m_jFromDate.setText("");
+		m_jTillDate.setText("");
 		assignCustomer(new CustomerInfo(null));
 		m_jtxtChairs.reset();
 		m_bReceived = false;
 		m_jtxtDescription.reset();
-		m_timereservation.setEnabled(false);
+		m_jFromDate.setEnabled(false);
+		m_jTillDate.setEnabled(false);
+		m_jPlaces.setEnabled(false);
 		txtCustomer.setEnabled(false);
 		m_jtxtChairs.setEnabled(false);
 		m_jtxtDescription.setEnabled(false);
+		m_jPlaces.setText("");
 		m_jKeys.setEnabled(false);
 
 		m_jbtnReceive.setEnabled(false);
@@ -173,14 +222,33 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 	public void writeValueInsert() {
 		m_sID = null;
+		placesReservation = new ArrayList<PlaceSplit>();
+		RefreshPlaces();
+		
 		m_dCreated = null;
-		m_timereservation.setCheckDates(m_dcurrentday, new Date(m_dcurrentday.getTime() + 3600000L));
-		m_timereservation.setDate(m_dcurrentday);
+		
+		Calendar c = Calendar.getInstance();
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		if(hour < 12)
+			hour = 12;
+		else 
+			hour = 18;
+		
+		int hourEnd = hour + 5;
+		
+		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), hour, 0, 0);
+		m_jFromDate.setText(Formats.TIMESTAMP.formatValue(c.getTime()));
+		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), hourEnd, 0, 0);
+		m_jTillDate.setText(Formats.TIMESTAMP.formatValue(c.getTime()));
+		
 		assignCustomer(new CustomerInfo(null));
+		m_jPlaces.setText("");
 		m_jtxtChairs.setValueInteger(2);
 		m_bReceived = false;
 		m_jtxtDescription.reset();
-		m_timereservation.setEnabled(true);
+		m_jFromDate.setEnabled(true);
+		m_jTillDate.setEnabled(true);
+		m_jPlaces.setEnabled(false);
 		txtCustomer.setEnabled(true);
 		m_jtxtChairs.setEnabled(true);
 		m_jtxtDescription.setEnabled(true);
@@ -195,8 +263,11 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		Object[] res = (Object[]) value;
 		m_sID = res[0];
 		m_dCreated = (Date) res[1];
-		m_timereservation.setCheckDates(m_dcurrentday, new Date(m_dcurrentday.getTime() + 3600000L));
-		m_timereservation.setDate((Date) res[2]);
+		
+		m_jFromDate.setText(Formats.TIMESTAMP.formatValue((Date) res[2]));
+		m_jTillDate.setText(Formats.TIMESTAMP.formatValue((Date) res[10]));
+
+		
 		CustomerInfo c = new CustomerInfo((String) res[3]);
 		c.setTaxid((String) res[4]);
 		c.setSearchkey((String) res[5]);
@@ -205,7 +276,17 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jtxtChairs.setValueInteger(((Integer) res[7]).intValue());
 		m_bReceived = ((Boolean) res[8]).booleanValue();
 		m_jtxtDescription.setText(Formats.STRING.formatValue(res[9]));
-		m_timereservation.setEnabled(false);
+		
+		
+		placesReservation = getPlacesListByString(Formats.STRING.formatValue(res[11]));
+		RefreshPlaces();
+		
+		
+		
+		m_jFromDate.setEnabled(true);
+		m_jTillDate.setEnabled(true);
+		m_jPlaces.setEnabled(true);
+		
 		txtCustomer.setEnabled(false);
 		m_jtxtChairs.setEnabled(false);
 		m_jtxtDescription.setEnabled(false);
@@ -213,22 +294,84 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		m_jbtnReceive.setEnabled(false);
 	}
+	
+	
+	private String getPlacesString()
+	{
+		StringBuilder sb = new StringBuilder();
+		if(placesReservation != null)
+		{
+			for(PlaceSplit place : placesReservation)
+			{
+				if(sb.length() > 0)
+					sb.append(", ");
+				sb.append(place.getName());
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	private String getPlacesSaveString()
+	{
+		StringBuilder sb = new StringBuilder();
+		if(placesReservation != null)
+		{
+			for(PlaceSplit place : placesReservation)
+			{
+				if(sb.length() > 0)
+					sb.append(";");
+				sb.append(place.getId());
+				sb.append(",");
+				sb.append(place.getName());
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	private List<PlaceSplit> getPlacesListByString(String placesString)
+	{
+		List<PlaceSplit> list = new ArrayList<PlaceSplit>();
+		String[] places = placesString.split(";");
+		for(String place : places)
+		{
+			if(place != null && !"".equals(place))
+			{
+				PlaceSplit p = new PlaceSplit();
+				p.setId(place.split(",")[0]);
+				p.setName(place.split(",")[1]);
+				list.add(p);
+			}
+		}
+		return list;
+	}
 
 	public void writeValueEdit(Object value) {
 		Object[] res = (Object[]) value;
 		m_sID = res[0];
 		m_dCreated = (Date) res[1];
-		m_timereservation.setCheckDates(m_dcurrentday, new Date(m_dcurrentday.getTime() + 3600000L));
-		m_timereservation.setDate((Date) res[2]);
+		
+		m_jFromDate.setText(Formats.TIMESTAMP.formatValue((Date) res[2]));
+		m_jTillDate.setText(Formats.TIMESTAMP.formatValue((Date) res[10]));
+		
 		CustomerInfo c = new CustomerInfo((String) res[3]);
 		c.setTaxid((String) res[4]);
 		c.setSearchkey((String) res[5]);
 		c.setName((String) res[6]);
 		assignCustomer(c);
+		
+		placesReservation = getPlacesListByString(Formats.STRING.formatValue(res[11]));
+		RefreshPlaces();
+		
 		m_jtxtChairs.setValueInteger(((Integer) res[7]).intValue());
 		m_bReceived = ((Boolean) res[8]).booleanValue();
 		m_jtxtDescription.setText(Formats.STRING.formatValue(res[9]));
-		m_timereservation.setEnabled(true);
+
+		m_jFromDate.setEnabled(true);
+		m_jTillDate.setEnabled(true);
+		m_jPlaces.setEnabled(false);
+
 		txtCustomer.setEnabled(true);
 		m_jtxtChairs.setEnabled(true);
 		m_jtxtDescription.setEnabled(true);
@@ -242,11 +385,19 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 	public Object createValue() throws BasicException {
 
-		Object[] res = new Object[10];
+		Object[] res = new Object[13];
 
 		res[0] = m_sID == null ? UUID.randomUUID().toString() : m_sID;
 		res[1] = m_dCreated == null ? new Date() : m_dCreated;
-		res[2] = m_timereservation.getDate();
+		
+		try {
+			res[2] = (Date) Formats.TIMESTAMP.parseValue(m_jFromDate.getText());
+			if(res[2] == null)
+				res[2] = new Date();
+		} catch (BasicException e) {
+			res[2] = new Date();
+		}
+		
 		res[3] = customer.getId();
 		res[4] = customer.getTaxid();
 		res[5] = customer.getSearchkey();
@@ -254,6 +405,21 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		res[7] = new Integer(m_jtxtChairs.getValueInteger());
 		res[8] = new Boolean(m_bReceived);
 		res[9] = m_jtxtDescription.getText();
+		
+		try {
+			res[10] = (Date) Formats.TIMESTAMP.parseValue(m_jTillDate.getText());
+		} catch (BasicException e) {
+			res[10] = new Date();
+		}
+		
+		if(res[10] == null 
+				|| ((Date)res[2]).compareTo((Date)res[10]) > 0)
+		{
+			res[10] = res[2];
+		}
+		
+		res[11] = getPlacesSaveString();
+		res[12] = 0;
 
 		return res;
 	}
@@ -270,9 +436,20 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 			Date d2 = (Date) a2[2];
 			int c = d1.compareTo(d2);
 			if (c == 0) {
-				d1 = (Date) a1[1];
-				d2 = (Date) a2[1];
-				return d1.compareTo(d2);
+				d1 = (Date) a1[10];
+				d2 = (Date) a2[10];
+				c = d1.compareTo(d2);
+				if(c == 0)
+				{
+					d1 = (Date) a1[1];
+					d2 = (Date) a2[1];
+					return d1.compareTo(d2);
+				}
+				else
+				{
+					return c;
+				}
+				
 			} else {
 				return c;
 			}
@@ -281,28 +458,22 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 	private void reload(Date dDate) {
 
-		if (!dDate.equals(m_dcurrentday)) {
-
-			Date doldcurrentday = m_dcurrentday;
-			m_dcurrentday = dDate;
-			try {
-				m_bd.actionLoad();
-			} catch (BasicException eD) {
-				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
-				msg.show(m_App, this);
-				m_dcurrentday = doldcurrentday; // nos retractamos...
-			}
+		try {
+			m_isLoading = true;
+			m_bd.actionLoad();
+		} catch (BasicException eD) {
+			MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, LocalRes.getIntString("message.noreload"), eD);
+			msg.show(m_App, this);
 		}
-
-		// pinto la fecha del filtro...
+		m_isLoading = false;
 		paintDate();
 	}
 
 	private void paintDate() {
 
 		m_bpaintlock = true;
-		m_datepanel.setDate(m_dcurrentday);
-		m_timepanel.setDate(m_dcurrentday);
+		// m_datepanel.setDate(m_dcurrentday);
+		// m_timepanel.setDate(m_dcurrentday);
 		m_bpaintlock = false;
 	}
 
@@ -312,21 +483,6 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		customer = c;
 	}
 
-	private class DateChangeCalendarListener implements PropertyChangeListener {
-		public void propertyChange(PropertyChangeEvent evt) {
-			if (!m_bpaintlock) {
-				reload(DateUtils.getTodayHours(DateUtils.getDate(m_datepanel.getDate(), m_timepanel.getDate())));
-			}
-		}
-	}
-
-	private class DateChangeTimeListener implements PropertyChangeListener {
-		public void propertyChange(PropertyChangeEvent evt) {
-			if (!m_bpaintlock) {
-				reload(DateUtils.getTodayHours(DateUtils.getDate(m_datepanel.getDate(), m_timepanel.getDate())));
-			}
-		}
-	}
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -337,9 +493,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
 
-		jPanel3 = new javax.swing.JPanel();
-		jPanelDate = new javax.swing.JPanel();
-		jPanelTime = new javax.swing.JPanel();
+		//jPanel3 = new javax.swing.JPanel();
+		//jPanelDate = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
 		m_jToolbarContainer = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
@@ -348,31 +503,30 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jToolbar = new javax.swing.JPanel();
 		m_jPanelList = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
-		m_jPanelTime = new javax.swing.JPanel();
-		jLabel1 = new javax.swing.JLabel();
-		jLabel2 = new javax.swing.JLabel();
-		jLabel3 = new javax.swing.JLabel();
-		jLabel4 = new javax.swing.JLabel();
+		// m_jPanelTime = new javax.swing.JPanel();
+		m_jFromDate = new javax.swing.JTextField();
+		m_jFromDateButton = new javax.swing.JButton();
+		m_jTillDate = new javax.swing.JTextField();
+		m_jTillDateButton = new javax.swing.JButton();
+		m_jPlacesAddButton = new javax.swing.JButton();
+		m_jPlacesRemoveButton = new javax.swing.JButton();
+		jLabelDateFrom = new javax.swing.JLabel();
+		jLabelDateTill = new javax.swing.JLabel();
+		jLabelCustomer = new javax.swing.JLabel();
+		jLabelChairs = new javax.swing.JLabel();
+		jLabelNotes = new javax.swing.JLabel();
+		jLabelPlaces = new javax.swing.JLabel();
 		m_jtxtDescription = new com.openbravo.editor.JEditorString();
 		m_jtxtChairs = new com.openbravo.editor.JEditorIntegerPositive();
 		txtCustomer = new com.openbravo.editor.JEditorString();
-		jButton1 = new javax.swing.JButton();
+		jCustomerButton = new javax.swing.JButton();
 		jPanel5 = new javax.swing.JPanel();
+		m_jPlaces = new javax.swing.JTextArea();
 		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 
+		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		
 		setLayout(new java.awt.BorderLayout());
-
-		jPanel3.setPreferredSize(new java.awt.Dimension(10, 210));
-
-		jPanelDate.setPreferredSize(new java.awt.Dimension(410, 190));
-		jPanelDate.setLayout(new java.awt.BorderLayout());
-		jPanel3.add(jPanelDate);
-
-		jPanelTime.setPreferredSize(new java.awt.Dimension(310, 190));
-		jPanelTime.setLayout(new java.awt.BorderLayout());
-		jPanel3.add(jPanelTime);
-
-		add(jPanel3, java.awt.BorderLayout.NORTH);
 
 		jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -410,48 +564,109 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		m_jPanelList.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		m_jPanelList.setLayout(new java.awt.BorderLayout());
+		m_jPanelList.setPreferredSize(new Dimension(screenSize.width / 2, screenSize.height));
 		jPanel2.add(m_jPanelList, java.awt.BorderLayout.LINE_START);
 
-		jPanel1.setLayout(null);
+		
+		double size[][] =
+            {{TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.PREFERRED},  // Columns
+             {TableLayout.PREFERRED, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.PREFERRED, TableLayout.FILL, TableLayout.FILL}}; // Rows
 
-		m_jPanelTime.setLayout(new java.awt.BorderLayout());
-		jPanel1.add(m_jPanelTime);
-		m_jPanelTime.setBounds(90, 10, 240, 130);
 
-		jLabel1.setText(AppLocal.getIntString("rest.label.date")); // NOI18N
-		jPanel1.add(jLabel1);
-		jLabel1.setBounds(10, 10, 80, 15);
-
-		jLabel2.setText(AppLocal.getIntString("rest.label.customer")); // NOI18N
-		jPanel1.add(jLabel2);
-		jLabel2.setBounds(10, 150, 80, 15);
-
-		jLabel3.setText(AppLocal.getIntString("rest.label.chairs")); // NOI18N
-		jPanel1.add(jLabel3);
-		jLabel3.setBounds(10, 180, 80, 15);
-
-		jLabel4.setText(AppLocal.getIntString("rest.label.notes")); // NOI18N
-		jPanel1.add(jLabel4);
-		jLabel4.setBounds(10, 210, 80, 15);
-		jPanel1.add(m_jtxtDescription);
-		m_jtxtDescription.setBounds(90, 210, 220, 50);
-		jPanel1.add(m_jtxtChairs);
-		m_jtxtChairs.setBounds(90, 180, 140, 20);
-		jPanel1.add(txtCustomer);
-		txtCustomer.setBounds(90, 150, 220, 20);
-
-		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
-		jButton1.setText(AppLocal.getIntString("Menu.Customers"));
-		jButton1.setFocusPainted(false);
-		jButton1.setFocusable(false);
-		jButton1.setRequestFocusEnabled(false);
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		jPanel1.setLayout(new TableLayout(size));
+		
+		jLabelDateFrom.setText(AppLocal.getIntString("rest.label.dateFrom")); // NOI18N
+		jPanel1.add(jLabelDateFrom, "0, 0");
+		jPanel1.add(m_jFromDate, "1, 0");
+		
+		m_jFromDateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png")));
+		m_jFromDateButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton1ActionPerformed(evt);
+				btnDateStartActionPerformed(evt);
 			}
 		});
-		jPanel1.add(jButton1);
-		jButton1.setBounds(310, 150, 50, 26);
+		jPanel1.add(m_jFromDateButton, new TableLayoutConstraints(2,0,3,0,TableLayout.LEFT,TableLayout.TOP));
+
+		
+		jLabelDateTill.setText(AppLocal.getIntString("rest.label.dateTill")); // NOI18N
+		jPanel1.add(jLabelDateTill, "0, 1");
+		jPanel1.add(m_jTillDate, "1, 1");
+		m_jTillDateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png")));
+		m_jTillDateButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnDateEndActionPerformed(evt);
+			}
+		});
+		jPanel1.add(m_jTillDateButton, new TableLayoutConstraints(2,1,3,1,TableLayout.LEFT,TableLayout.TOP));
+		
+		
+
+		
+		jLabelCustomer.setText(AppLocal.getIntString("rest.label.customer")); // NOI18N
+		jPanel1.add(jLabelCustomer, "0, 2");
+		
+		jPanel1.add(txtCustomer, "1, 2");
+		
+		jCustomerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
+		jCustomerButton.setText(AppLocal.getIntString("Menu.Customers"));
+		jCustomerButton.setFocusPainted(false);
+		jCustomerButton.setFocusable(false);
+		jCustomerButton.setRequestFocusEnabled(false);
+		jCustomerButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButtonCustomerActionPerformed(evt);
+			}
+		});
+		jPanel1.add(jCustomerButton, new TableLayoutConstraints(2,2,3,2,TableLayout.LEFT,TableLayout.TOP));
+		
+		
+
+		jLabelChairs.setText(AppLocal.getIntString("rest.label.chairs")); // NOI18N
+		jPanel1.add(jLabelChairs, "0, 3");
+		
+		jPanel1.add(m_jtxtChairs, "1, 3");
+		
+		jLabelPlaces.setText(AppLocal.getIntString("rest.label.places")); // NOI18N
+		jPanel1.add(jLabelPlaces, "0, 4");
+		m_jPlaces.setWrapStyleWord(true);
+		m_jPlaces.setLineWrap(true);
+		jPanel1.add(m_jPlaces, "1, 4");
+		
+		
+		m_jPlacesAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnplus.png")));
+		m_jPlacesAddButton.setText(AppLocal.getIntString("rest.btn.tablesAdd"));
+		m_jPlacesAddButton.setFocusPainted(false);
+		m_jPlacesAddButton.setFocusable(false);
+		m_jPlacesAddButton.setRequestFocusEnabled(false);
+		m_jPlacesAddButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButtonPlacesAddActionPerformed(evt);
+			}
+		});
+		jPanel1.add(m_jPlacesAddButton, new TableLayoutConstraints(2,4,2,4,TableLayout.LEFT,TableLayout.TOP));
+		
+		
+		
+		m_jPlacesRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnminus.png")));
+		m_jPlacesRemoveButton.setText(AppLocal.getIntString("rest.btn.tablesRemove"));
+		m_jPlacesRemoveButton.setFocusPainted(false);
+		m_jPlacesRemoveButton.setFocusable(false);
+		m_jPlacesRemoveButton.setRequestFocusEnabled(false);
+		m_jPlacesRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButtonPlacesRemoveActionPerformed(evt);
+			}
+		});
+		jPanel1.add(m_jPlacesRemoveButton, new TableLayoutConstraints(3,4,3,4,TableLayout.LEFT,TableLayout.TOP));
+		
+		
+		
+		
+		jLabelNotes.setText(AppLocal.getIntString("rest.label.notes")); // NOI18N
+		jPanel1.add(jLabelNotes, "0, 5");
+		
+		jPanel1.add(m_jtxtDescription, "1, 5");
+		
 
 		jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -481,11 +696,36 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 	private void m_jbtnTablesActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnTablesActionPerformed
 
+		try {
+			List l = dlCustomers.getReservationsList()
+					.list(new Date(), new Date());
+			for(Object val : l)
+			{
+				Object[] e = (Object[])val;
+				if((int)e[12] > 0)
+				{
+					// stay and check errors!!!
+					if(JConfirmDialog.showConfirm(m_App, this, 
+							AppLocal.getIntString("message.reservationconflicts"), 
+							null) == JOptionPane.CANCEL_OPTION)
+					{
+						m_bd.refreshData();
+						return;
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		} catch (BasicException e) {
+		}
+		
 		m_restaurantmap.viewTables();
 
 	}// GEN-LAST:event_m_jbtnTablesActionPerformed
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+	private void jButtonCustomerActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 
 		JCustomerFinder finder = JCustomerFinder.getCustomerFinder(m_App, this, dlCustomers);
 		finder.search(customer);
@@ -501,22 +741,101 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 	}// GEN-LAST:event_jButton1ActionPerformed
 
+	private void jButtonPlacesAddActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+
+		try {
+			Date start = (Date) Formats.TIMESTAMP.parseValue(m_jFromDate.getText());
+			Date end = (Date) Formats.TIMESTAMP.parseValue(m_jTillDate.getText());
+			List<PlaceSplit> placesAvailable;
+			placesAvailable = dlCustomers.getAvailablePlaces(start, end);
+			placesAvailable.removeAll(placesReservation);
+			
+			JPlacesListDialog dialog = JPlacesListDialog.newJDialog(m_App, (JButton)evt.getSource());
+			PlaceSplit place2Add = dialog.showPlacesList(placesAvailable);
+			
+			if(place2Add != null && !placesReservation.contains(place2Add))
+			{
+				placesReservation.add(place2Add);
+				RefreshPlaces();
+				m_Dirty.setDirty(true);
+			}
+			
+		} catch (BasicException e) {
+			JConfirmDialog.showInformation(m_App, JTicketsBagRestaurantRes.this,
+					AppLocal.getIntString("message.checkinput"),
+					AppLocal.getIntString("error.information"));
+		}
+		
+		
+	}// GEN-LAST:event_jButton1ActionPerformed
+
+	private void jButtonPlacesRemoveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+
+		JPlacesListDialog dialog = JPlacesListDialog.newJDialog(m_App, (JButton)evt.getSource());
+		PlaceSplit place2Remove = dialog.showPlacesList(placesReservation);
+		if(place2Remove != null)
+		{
+			placesReservation.remove(place2Remove);
+			RefreshPlaces();
+			m_Dirty.setDirty(true);
+		}	
+		
+	}// GEN-LAST:event_jButton1ActionPerformed
+
+	
+	
+	private void btnDateStartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDateStartActionPerformed
+		Date date;
+		try {
+			date = (Date) Formats.TIMESTAMP.parseValue(m_jFromDate.getText());
+		} catch (BasicException e) {
+			date = null;
+		}
+		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
+		if (date != null) {
+			m_jFromDate.setText(Formats.TIMESTAMP.formatValue(date));
+		}
+	}// GEN-LAST:event_btnDateStartActionPerformed
+
+	private void btnDateEndActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDateEndActionPerformed
+		Date date;
+		try {
+			date = (Date) Formats.TIMESTAMP.parseValue(m_jTillDate.getText());
+		} catch (BasicException e) {
+			date = null;
+		}
+		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
+		if (date != null) {
+			m_jTillDate.setText(Formats.TIMESTAMP.formatValue(date));
+		}
+	}// GEN-LAST:event_btnDateEndActionPerformed
+	
+	
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButton1;
-	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
+	private javax.swing.JButton jCustomerButton;
+	private javax.swing.JLabel jLabelDateFrom;
+	private javax.swing.JLabel jLabelDateTill;
+	private javax.swing.JLabel jLabelCustomer;
+	private javax.swing.JLabel jLabelChairs;
+	private javax.swing.JLabel jLabelPlaces;
+	private javax.swing.JLabel jLabelNotes;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
-	private javax.swing.JPanel jPanel3;
+	//private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
-	private javax.swing.JPanel jPanelDate;
-	private javax.swing.JPanel jPanelTime;
+	//private javax.swing.JPanel jPanelDate;
 	private com.openbravo.editor.JEditorKeys m_jKeys;
 	private javax.swing.JPanel m_jPanelList;
-	private javax.swing.JPanel m_jPanelTime;
+	//private javax.swing.JPanel m_jPanelTime;
+	private javax.swing.JTextField m_jFromDate;
+	private javax.swing.JButton m_jFromDateButton;
+	private javax.swing.JTextField m_jTillDate;
+	private javax.swing.JButton m_jTillDateButton;
+	private javax.swing.JTextArea m_jPlaces;
+	private javax.swing.JButton m_jPlacesAddButton;
+	private javax.swing.JButton m_jPlacesRemoveButton;
 	private javax.swing.JPanel m_jToolbar;
 	private javax.swing.JPanel m_jToolbarContainer;
 	private javax.swing.JButton m_jbtnReceive;
@@ -526,11 +845,6 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	private com.openbravo.editor.JEditorString txtCustomer;
 	// End of variables declaration//GEN-END:variables
 
-	@Override
-	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-
-	}
 	@Override
 	public void sortEditor(BrowsableEditableData bd) {
 		

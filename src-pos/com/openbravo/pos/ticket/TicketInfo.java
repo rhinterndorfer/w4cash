@@ -64,6 +64,11 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private String m_sResponse;
     private String m_sTempComment;
     private Object m_info;
+    
+    public void SetInfo(Object info)
+    {
+    	m_info = info;
+    }
 
     /** Creates new TicketModel */
     public TicketInfo() {

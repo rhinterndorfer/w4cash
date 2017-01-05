@@ -367,6 +367,8 @@ public class JCalendarPanel extends javax.swing.JPanel {
 		PropertyUtil.ScaleButtonIcon(m_jBtnMonthDec, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jBtnYearDec, menuwidth, menuheight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jBtnToday, menuwidth, menuheight, fontsize);
+		
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jLblMonth, "common-small-fontsize", "32");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -19,6 +19,10 @@
 
 package com.openbravo.pos.customers;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.DataParams;
 import com.openbravo.data.loader.DataRead;
@@ -30,6 +34,7 @@ import com.openbravo.data.loader.SentenceExecTransaction;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.SerializerRead;
 import com.openbravo.data.loader.SerializerReadBasic;
+import com.openbravo.data.loader.SerializerReadClass;
 import com.openbravo.data.loader.SerializerWriteBasic;
 import com.openbravo.data.loader.SerializerWriteBasicExt;
 import com.openbravo.data.loader.SerializerWriteParams;
@@ -39,6 +44,7 @@ import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
+import com.openbravo.pos.sales.restaurant.PlaceSplit;
 
 /**
  *
@@ -48,7 +54,7 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
     
     protected Session s;
     private TableDefinition tcustomers;
-    private static Datas[] customerdatas = new Datas[] {Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.INT, Datas.BOOLEAN, Datas.STRING};
+    private static Datas[] customerdatas = new Datas[] {Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.INT, Datas.BOOLEAN, Datas.STRING, Datas.TIMESTAMP, Datas.STRING, Datas.INT};
     
     public void init(Session s){
         
@@ -105,9 +111,28 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
     
     public final SentenceList getReservationsList() {
         return new PreparedSentence(s
-            , "SELECT R.ID, R.CREATED, R.DATENEW, C.CUSTOMER, CUSTOMERS.TAXID, CUSTOMERS.SEARCHKEY, COALESCE(CUSTOMERS.NAME, R.TITLE),  R.CHAIRS, R.ISDONE, R.DESCRIPTION " +
-              "FROM RESERVATIONS R LEFT OUTER JOIN RESERVATION_CUSTOMERS C ON R.ID = C.ID LEFT OUTER JOIN CUSTOMERS ON C.CUSTOMER = CUSTOMERS.ID " +
-              "WHERE R.DATENEW >= ? AND R.DATENEW < ?"
+            , "SELECT R.ID, R.CREATED, R.DATENEW, C.CUSTOMER, CUSTOMERS.TAXID, CUSTOMERS.SEARCHKEY, "
+            		+ "COALESCE(CUSTOMERS.NAME, R.TITLE),  R.CHAIRS, "
+            		+ "R.ISDONE, R.DESCRIPTION, R.DATETILL, "
+            		+ "(SELECT LISTAGG(p.ID || ',' || p.Name, ';') WITHIN GROUP (ORDER BY p.Name) " 
+            		+ " FROM RESERVATION_PLACES rp inner join PLACES p on rp.PLACE = p.ID "
+            		+ " WHERE rp.ID = R.ID) as PLACES, "
+            		+ "(SELECT COUNT(*) from "
+            		+ " Reservations r1 "
+            		+ " INNER JOIN "
+            		+ " Reservations r2 "
+            		+ " on ((r1.DATENEW >= r2.DATENEW AND r1.DATENEW < r2.DATETILL) OR (r1.DATETILL > r2.DATENEW AND r1.DATETILL <= r2.DATETILL)) "
+              		+ "     AND r1.ID != r2.ID "
+            		+ " INNER JOIN RESERVATION_PLACES rp1 "
+            		+ " on r1.ID = rp1.ID "
+            		+ " INNER JOIN RESERVATION_PLACES rp2 "
+            		+ " on r2.ID = rp2.ID "
+            		+ " where rp1.PLACE = rp2.PLACE and rp1.ID=R.ID) as Conflicts "
+              + "FROM RESERVATIONS R "
+              + "LEFT OUTER JOIN RESERVATION_CUSTOMERS C ON R.ID = C.ID "
+              + "LEFT OUTER JOIN CUSTOMERS ON C.CUSTOMER = CUSTOMERS.ID "
+              + "WHERE R.DATENEW >= ? OR R.DATETILL > ? OR R.ISDONE = 0 "
+              + "ORDER BY R.DATENEW, R.DATETILL"
             , new SerializerWriteBasic(new Datas[] {Datas.TIMESTAMP, Datas.TIMESTAMP})
             , new SerializerReadBasic(customerdatas));             
     }
@@ -124,9 +149,27 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
                         , "INSERT INTO RESERVATION_CUSTOMERS (ID, CUSTOMER) VALUES (?, ?)"
                         , new SerializerWriteBasicExt(customerdatas, new int[]{0, 3})).exec(params);                
                 }
+                
+                new PreparedSentence(s
+                        , "DELETE FROM RESERVATION_PLACES WHERE ID = ?"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
+                if (((Object[]) params)[11] != null) {
+                    
+                	List<String> placeIds = getPlaceIds(((Object[])params)[11]);
+                	for(String placeId : placeIds)
+                	{
+                		Object[] paramPlace = new Object[] {((Object[])params)[0], placeId};
+	                	
+	                	new PreparedSentence(s
+	                		, "INSERT INTO RESERVATION_PLACES (ID, PLACE) VALUES (?, ?)"
+	                        , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING})).exec(paramPlace);
+                	}
+                }
+                
+                
                 return new PreparedSentence(s
-                    , "UPDATE RESERVATIONS SET ID = ?, CREATED = ?, DATENEW = ?, TITLE = ?, CHAIRS = ?, ISDONE = ?, DESCRIPTION = ? WHERE ID = ?"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9, 0})).exec(params);
+                    , "UPDATE RESERVATIONS SET ID = ?, CREATED = ?, DATENEW = ?, TITLE = ?, CHAIRS = ?, ISDONE = ?, DESCRIPTION = ?, DATETILL = ? WHERE ID = ?"
+                    , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9, 10, 0})).exec(params);
             }
         };
     }
@@ -138,6 +181,9 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
                 new PreparedSentence(s
                     , "DELETE FROM RESERVATION_CUSTOMERS WHERE ID = ?"
                     , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
+                new PreparedSentence(s
+                        , "DELETE FROM RESERVATION_PLACES WHERE ID = ?"
+                        , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
                 return new PreparedSentence(s
                     , "DELETE FROM RESERVATIONS WHERE ID = ?"
                     , new SerializerWriteBasicExt(customerdatas, new int[]{0})).exec(params);
@@ -150,18 +196,94 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
             public int execInTransaction(Object params) throws BasicException {  
     
                 int i = new PreparedSentence(s
-                    , "INSERT INTO RESERVATIONS (ID, CREATED, DATENEW, TITLE, CHAIRS, ISDONE, DESCRIPTION) VALUES (?, ?, ?, ?, ?, ?, ?)"
-                    , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9})).exec(params);
+                    , "INSERT INTO RESERVATIONS (ID, CREATED, DATENEW, TITLE, CHAIRS, ISDONE, DESCRIPTION, DATETILL) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                    , new SerializerWriteBasicExt(customerdatas, new int[]{0, 1, 2, 6, 7, 8, 9, 10})).exec(params);
 
                 if (((Object[]) params)[3] != null) {
                     new PreparedSentence(s
                         , "INSERT INTO RESERVATION_CUSTOMERS (ID, CUSTOMER) VALUES (?, ?)"
                         , new SerializerWriteBasicExt(customerdatas, new int[]{0, 3})).exec(params);                
                 }
+                
+                if (((Object[]) params)[11] != null) {
+                    
+                	List<String> placeIds = getPlaceIds(((Object[])params)[11]);
+                	for(String placeId : placeIds)
+                	{
+                		Object[] paramPlace = new Object[] {((Object[])params)[0], placeId};
+	                	
+	                	new PreparedSentence(s
+	                		, "INSERT INTO RESERVATION_PLACES (ID, PLACE) VALUES (?, ?)"
+	                        , new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING})).exec(paramPlace);
+                	}
+                }
+                
                 return i;
             }
         };
     }
+    
+    private List<String> getPlaceIds(Object param)
+    {
+    	List<String> list = new ArrayList<String>();
+    	String placeString = param.toString();
+    	for(String place : placeString.split(";"))
+    	{
+    		if(place != null && !"".equals(place))
+    		{
+    			list.add(place.split(",")[0]);
+    		}
+    	}
+    	return list;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public List<PlaceSplit> getAvailablePlaces(Date start, Date end) throws BasicException
+	{
+		SentenceList sent = new StaticSentence(s,
+				"SELECT p.ID, p.NAME, f.Name as FloorName, 0 as Occupied "
+				+ "FROM "
+				+ "PLACES p "
+				+ "INNER JOIN FLOORS f "
+				+ "ON p.FLOOR=f.ID "
+				+ "LEFT JOIN SHAREDTICKETS st "
+				+ "ON st.Id = p.Id "
+				+ "LEFT JOIN RESERVATION_PLACES rp "
+				+ "ON p.ID = rp.PLACE "
+				+ "LEFT JOIN RESERVATIONS r "
+				+ "ON r.ID = rp.ID "
+				+ "  AND ((r.DATENEW >= ? AND r.DATENEW < ?) OR (r.DATETILL > ? AND r.DATETILL <= ?)) "
+				+ "WHERE r.ID is null "
+				+ "ORDER BY f.SORTORDER, f.Name, p.Name",
+				new SerializerWriteBasic(new Datas[] {Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP}),
+				new SerializerReadClass(PlaceSplit.class));
+		List<PlaceSplit> placesSplit = sent.list(new Object[] {start, end, start, end});
+		return placesSplit;
+	}
+    
+    @SuppressWarnings("unchecked")
+	public List<PlaceSplit> getReservationPlaces(String ReservationID) throws BasicException
+	{
+		SentenceList sent = new StaticSentence(s,
+				"SELECT p.ID, p.NAME, f.Name as FloorName, 0 as Occupied "
+				+ "FROM "
+				+ "PLACES p "
+				+ "INNER JOIN FLOORS f "
+				+ "ON p.FLOOR=f.ID "
+				+ "LEFT JOIN SHAREDTICKETS st "
+				+ "ON st.Id = p.Id "
+				+ "INNER JOIN RESERVATION_PLACES rp "
+				+ "ON p.ID = rp.PLACE "
+				+ "INNER JOIN RESERVATIONS r "
+				+ "ON r.ID = rp.ID "
+				+ "WHERE r.ID = ? "
+				+ "ORDER BY f.SORTORDER, f.Name, p.Name",
+				new SerializerWriteBasic(new Datas[] {Datas.STRING}),
+				new SerializerReadClass(PlaceSplit.class));
+		List<PlaceSplit> placesSplit = sent.list(new Object[] {ReservationID});
+		return placesSplit;
+	}
+    
     
     public final TableDefinition getTableCustomers() {
         return tcustomers;

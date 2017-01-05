@@ -1193,6 +1193,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 							try {
 								ticket.setActiveCash(m_App.getActiveCashIndex(true, true));
 								ticket.setDate(new Date());
+								
+								// set place
+								if(ticketext != null 
+										&& ticketext.getClass().equals(String.class)
+										&& ticket.getLinesCount() > 0)
+								{
+									String place = ticketext.toString();
+									for(TicketLineInfo line : ticket.getLines())
+									{
+										line.setProperty("Place", place);
+									}
+								}
 
 								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
 								resultok = true;

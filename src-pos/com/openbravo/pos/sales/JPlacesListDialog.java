@@ -95,6 +95,7 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 					m_jplaces.add(sep);
 					
 				}
+				
 				JButton floor = new JButton(place.getFloorName());
 				floor.setBackground(Color.LIGHT_GRAY);
 				floor.setMargin(new Insets(8, 8, 8, 8));
@@ -155,13 +156,17 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 				}
 			});
 
-			setText(place.getName());
+			
+			String name = place.getName(); 
+			setText(name);
 			if(place.getOccupied())
 			{
 				setBackground(Color.YELLOW);
 			}
-			
+
 			PropertyUtil.ScaleButtonFontsize(m_App, this, "common-dialog-fontsize", "22");
+			
+			
 		}
 	}
 

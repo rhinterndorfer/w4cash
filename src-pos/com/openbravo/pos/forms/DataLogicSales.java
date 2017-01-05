@@ -114,6 +114,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<PlaceSplit> getPlacesSplit() throws BasicException
 	{
 		SentenceList sent = new StaticSentence(s,
@@ -124,13 +125,14 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				+ "ON p.FLOOR=f.ID "
 				+ "LEFT JOIN SHAREDTICKETS st "
 				+ "ON st.Id = p.Id "
-				+ "ORDER BY f.Name, p.Name ",
+				+ "ORDER BY f.SORTORDER, p.Name ",
 				null, new SerializerReadClass(PlaceSplit.class));
 		placesSplit = sent.list();
 		return placesSplit;
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public List<PlaceSplit> getOccupied() throws BasicException
 	{
 		SentenceList sent = new StaticSentence(s,
@@ -141,7 +143,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				+ "ON p.FLOOR=f.ID "
 				+ "INNER JOIN SHAREDTICKETS st "
 				+ "ON st.Id = p.Id "
-				+ "ORDER BY f.Name, p.Name",
+				+ "ORDER BY f.SORTORDER, p.Name",
 				null, new SerializerReadClass(PlaceSplit.class));
 		placesSplit = sent.list();
 		return placesSplit;

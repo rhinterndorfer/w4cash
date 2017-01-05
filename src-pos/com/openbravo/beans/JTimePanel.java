@@ -363,6 +363,10 @@ public class JTimePanel extends javax.swing.JPanel {
 			PropertyUtil.ScaleButtonIcon(m_jbtnplusminute, menuwidth, menuheight, JButton.RIGHT, fontsize);
 		if (m_jbtnminusminute != null)
 			PropertyUtil.ScaleButtonIcon(m_jbtnminusminute, menuwidth, menuheight, JButton.RIGHT, fontsize);
+		
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jlblTime2, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, m_jlblTime, "common-small-fontsize", "32");
+		
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

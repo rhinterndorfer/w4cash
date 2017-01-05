@@ -43,7 +43,9 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private static final long serialVersionUID = 8652254694281L;
 	//private static final Icon ICO_OCU = new ImageIcon(Place.class.getResource("/com/openbravo/images/edit_group.png"));
 	private Color placeOccupiedColor = new Color(255, 255, 0, 192);
+	private Color placeReservedColor = new Color(255, 106, 0, 192);
 	private Icon ICO_OCU = new ColorIcon(22, 22, placeOccupiedColor);
+	private Icon ICO_Reserved = new ColorIcon(22, 22, placeReservedColor);
 	private static final Icon ICO_FRE = new NullIcon(22, 22);
 	
 
@@ -83,6 +85,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private String m_sfloor;
 
 	private boolean m_bPeople;
+	private boolean m_bReserved;
 	private JPlaceButton m_btn;
 
 	private PlacesEditor editor;
@@ -148,6 +151,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setVerticalTextPosition(SwingConstants.CENTER);
 		m_btn.setIcon(ICO_FRE);
 		ICO_OCU = new ColorIcon(m_iWidth, m_iHeight, placeOccupiedColor);
+		ICO_Reserved = new ColorIcon(m_iWidth, m_iHeight, placeReservedColor);
 		// m_btn.setText(m_sName);
 		// m_btn.setFont(new Font(m_btn.getFont().getName(),
 		// m_btn.getFont().getStyle(), m_iFontsize));
@@ -215,12 +219,34 @@ public class Place implements SerializableRead, java.io.Serializable {
 	public boolean hasPeople() {
 		return m_bPeople;
 	}
+	
+	private void SetIcon()
+	{
+		if(m_bPeople)
+		{
+			m_btn.setIcon(ICO_OCU);
+		}
+		else if(m_bReserved)
+		{
+			m_btn.setIcon(ICO_Reserved);
+		}
+		else
+		{
+			m_btn.setIcon(ICO_FRE);
+		}
+		
+	}
+	
+	public void setReserved(boolean bValue)
+	{
+		m_bReserved = bValue;
+		SetIcon();
+	}
 
 	public void setPeople(boolean bValue) {
 		m_bPeople = bValue;
+		SetIcon();
 		
-		Icon ocu = ICO_OCU;
-		m_btn.setIcon(bValue ? ocu : ICO_FRE);
 		Font font = m_btn.getFont();
 		
 		if (m_bPeople) {
@@ -302,4 +328,22 @@ public class Place implements SerializableRead, java.io.Serializable {
 	public void setFontColor(Color fontcolor) {
 		m_btn.setForeground(fontcolor);
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return this.m_sId == null ? -1 : this.m_sId.hashCode();
+	}
+	
+	
+	@Override
+	public boolean equals(Object c)
+	{
+		if(m_sId == null && c == null)
+			return true;
+		if(c == null || !c.getClass().equals(Place.class))
+			return false;
+		return this.m_sId.compareTo(((Place)c).m_sId) == 0 ? true : false;
+	}
+	
 }

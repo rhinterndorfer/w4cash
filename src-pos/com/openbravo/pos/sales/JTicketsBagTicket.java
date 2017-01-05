@@ -258,8 +258,21 @@ public class JTicketsBagTicket extends JTicketsBag {
 
 				//** get selected printer size
 				
+				
+				
+				
 				script.put("ticket", m_ticket);
-				script.put("place", ""); // put empty place
+				
+				if(m_ticket.getLinesCount() > 0)
+				{
+					String place = m_ticket.getLine(0).getProperty("Place");
+					script.put("place", place == null ? "" : place);
+				}
+				else
+				{
+					script.put("place", ""); // put empty place
+				}
+				
 				script.put("host", m_App.getHost());
 				
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
@@ -575,7 +588,17 @@ public class JTicketsBagTicket extends JTicketsBag {
 					}
 				}
 				script.put("ticket", m_ticket);
-				script.put("place", ""); // put empty place
+				
+				if(m_ticket.getLinesCount() > 0)
+				{
+					String place = m_ticket.getLine(0).getProperty("Place");
+					script.put("place", place == null ? "" : place);
+				}
+				else
+				{
+					script.put("place", ""); // put empty place
+				}
+				
 				script.put("host", m_App.getHost());
 				
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);

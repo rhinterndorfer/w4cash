@@ -419,7 +419,12 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue) {
+	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue)
+	{
+		ScaleLabelFontsize(app, label, key, defaultValue, 1.0);
+	}
+	
+	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue, Double scaleFactor) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -429,10 +434,9 @@ public class PropertyUtil {
 			int fontsize = Integer.parseInt(value);
 
 			Font fontTotalEuros = label.getFont();
-			label.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
-			label.setSize((int) label.getSize().getWidth(), fontsize);
-			// label.setPreferredSize(new Dimension((int)
-			// label.getSize().getWidth(), fontsize));
+			int newfontsize = (int)(fontsize * scaleFactor);
+			label.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), newfontsize));
+			label.setSize((int) label.getSize().getWidth(), newfontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -718,8 +722,6 @@ public class PropertyUtil {
 			Font fontTotalEuros = button.getFont();
 			button.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), fontsize));
 			button.setSize((int) button.getSize().getWidth(), fontsize);
-			// label.setMaximumSize(new java.awt.Dimension((int) 100,
-			// fontsize));
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
