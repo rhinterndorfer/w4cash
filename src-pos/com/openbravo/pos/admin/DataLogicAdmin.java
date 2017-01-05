@@ -27,6 +27,7 @@ import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
 
 /**
@@ -44,8 +45,8 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
     public DataLogicAdmin() {
     }
     
-    public void init(Session s){
-        this.s = s;
+    public void init(AppView app){
+        this.s = app.getSession();
         
         m_tpeople = new TableDefinition(s,
             "PEOPLE"

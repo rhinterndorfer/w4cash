@@ -31,11 +31,12 @@ public abstract class BeanFactoryDataSingle implements BeanFactoryApp {
     public BeanFactoryDataSingle() {
     }
     
-    public abstract void init(Session s);
+    public abstract void init(AppView app) throws BeanFactoryException;   
+    //{
+    //	init(app.getSession());
+    //};
 
-    public void init(AppView app) throws BeanFactoryException {        
-        init(app.getSession());                     
-    }   
+    //public abstract void init(Session s) throws BeanFactoryException;       
     
     public Object getBean() {
         return this;

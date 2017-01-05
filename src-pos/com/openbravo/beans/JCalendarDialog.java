@@ -125,10 +125,9 @@ public class JCalendarDialog extends javax.swing.JDialog {
 		int menuheight = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchsmall-height", "48"));
 		
-		PropertyUtil.ScaleDialog(app, myMsg, dialogwidth, menuheight * 6 + 400);
-
-		// Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		// myMsg.setBounds((screenSize.width - dialogwidth) / 2, (screenSize.height - 359) / 2, dialogwidth, 359);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int height = menuheight * 6 + 400;
+		PropertyUtil.ScaleDialog(app, myMsg, dialogwidth, screenSize.height < height ? screenSize.height : height);
 
 		// myMsg.show();
 		myMsg.m_date = null;

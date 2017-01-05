@@ -21,6 +21,8 @@ package com.openbravo.format;
 
 import java.text.*;
 import java.util.Date;
+import java.util.Locale;
+
 import com.openbravo.basic.BasicException;
 
 public abstract class Formats {
@@ -33,6 +35,7 @@ public abstract class Formats {
     public final static Formats PERCENT = new FormatsPERCENT();
     public final static Formats BOOLEAN = new FormatsBOOLEAN();
     public final static Formats TIMESTAMP = new FormatsTIMESTAMP();
+    public final static Formats TIMESTAMPSHORT = new FormatsTIMESTAMPSHORT();
     public final static Formats DATE = new FormatsDATE();
     public final static Formats TIME = new FormatsTIME();
     public final static Formats BYTEA = new FormatsBYTEA();
@@ -45,6 +48,7 @@ public abstract class Formats {
     private static DateFormat m_dateformat = DateFormat.getDateInstance();
     private static DateFormat m_timeformat = DateFormat.getTimeInstance();
     private static DateFormat m_datetimeformat = DateFormat.getDateTimeInstance();
+    private static DateFormat m_datetimeformatshort = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
    
     
     /** Creates a new instance of Formats */
@@ -234,6 +238,22 @@ public abstract class Formats {
         protected Object parseValueInt(String value) throws ParseException {
             try {
                 return m_datetimeformat.parse(value);
+            } catch (ParseException e) {
+                // segunda oportunidad como fecha normalita
+                return m_dateformat.parse(value);
+            }
+        }
+        public int getAlignment() {
+            return javax.swing.SwingConstants.CENTER;
+        }
+    }
+    private static final class FormatsTIMESTAMPSHORT extends Formats {       
+        protected String formatValueInt(Object value) {
+            return m_datetimeformatshort.format((Date) value);
+        }   
+        protected Object parseValueInt(String value) throws ParseException {
+            try {
+                return m_datetimeformatshort.parse(value);
             } catch (ParseException e) {
                 // segunda oportunidad como fecha normalita
                 return m_dateformat.parse(value);

@@ -43,6 +43,7 @@ import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
 import com.openbravo.pos.sales.restaurant.PlaceSplit;
 
@@ -56,9 +57,9 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
     private TableDefinition tcustomers;
     private static Datas[] customerdatas = new Datas[] {Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.STRING, Datas.STRING, Datas.STRING, Datas.STRING, Datas.INT, Datas.BOOLEAN, Datas.STRING, Datas.TIMESTAMP, Datas.STRING, Datas.INT};
     
-    public void init(Session s){
+    public void init(AppView app){
         
-        this.s = s;
+        this.s = app.getSession();
         tcustomers = new TableDefinition(s
             , "CUSTOMERS"
             , new String[] { "ID", "TAXID", "SEARCHKEY", "NAME", "NOTES", "VISIBLE", "CARD", "MAXDEBT", "CURDATE", "CURDEBT"

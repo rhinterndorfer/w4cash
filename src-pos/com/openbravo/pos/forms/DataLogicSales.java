@@ -104,8 +104,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				new Field("ATTR3", Datas.STRING, Formats.STRING));
 	}
 
-	public void init(Session s) {
-		this.s = s;
+	public void init(AppView app){
+		this.s = app.getSession();
 		// init places for split dialog
 		try {
 			getPlacesSplit();

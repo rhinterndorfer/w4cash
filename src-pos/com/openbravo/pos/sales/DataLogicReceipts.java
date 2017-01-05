@@ -20,6 +20,9 @@
 package com.openbravo.pos.sales;
 
 import java.util.List;
+
+import org.apache.commons.lang.NotImplementedException;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.PreparedSentence;
@@ -31,7 +34,9 @@ import com.openbravo.data.loader.SerializerWriteString;
 import com.openbravo.data.loader.Session;
 import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.pos.forms.AppConfig;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
+import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.ticket.TicketInfo;
 
 /**
@@ -41,16 +46,19 @@ import com.openbravo.pos.ticket.TicketInfo;
 public class DataLogicReceipts extends BeanFactoryDataSingle {
     
     private Session s;
-    private AppConfig appConfig;
+    private AppView m_app;
     
     /** Creates a new instance of DataLogicReceipts */
     public DataLogicReceipts() {
     }
     
-    public void init(Session s){
-        this.s = s;
-        appConfig = new AppConfig(new String[] {}); 
-        appConfig.load();
+    public void init(AppView app){
+        this.s = app.getSession();
+        this.m_app = app;
+    }
+    
+    public void init(Session s) throws BeanFactoryException {
+    	throw new NotImplementedException();
     }
      
     public final void checkinSharedTicket(String Id) throws BasicException {
@@ -58,7 +66,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
         if (Id == null) {
             return; 
         } else {
-        	String hostname = appConfig.getHost();
+        	String hostname = m_app.getHost();
         	
             Object[] values = new Object[] {Id, hostname};
             Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};
@@ -75,7 +83,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
             return ""; 
         } else {
         	
-        	String hostname = appConfig.getHost();
+        	String hostname = m_app.getHost();
         	
         	
         	Object[] values = new Object[] {Id, hostname};

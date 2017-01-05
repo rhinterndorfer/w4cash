@@ -67,8 +67,9 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 	public DataLogicSystem() {
 	}
 
-	public void init(Session s) {
-
+	public void init(AppView app){
+		Session s = app.getSession();
+		
 		m_sInitScript = "/com/openbravo/pos/scripts/" + s.DB.getName();
 
 		m_version = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS WHERE ID = 'w4cashdb'", null,

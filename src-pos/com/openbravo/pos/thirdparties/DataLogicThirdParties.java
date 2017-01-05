@@ -23,6 +23,7 @@ import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.Session;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
+import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
 
 public class DataLogicThirdParties extends BeanFactoryDataSingle {
@@ -33,8 +34,9 @@ public class DataLogicThirdParties extends BeanFactoryDataSingle {
     public DataLogicThirdParties() {
     }
     
-    public void init(Session s){
-
+    public void init(AppView app){
+    	Session s = app.getSession();
+    	
         m_tthirdparties = new TableDefinition(s,
             "THIRDPARTIES"
             , new String[] {"ID", "CIF", "NAME", "ADDRESS", "CONTACTCOMM", "CONTACTFACT", "PAYRULE", "FAXNUMBER", "PHONENUMBER", "MOBILENUMBER", "EMAIL", "WEBPAGE", "NOTES"}

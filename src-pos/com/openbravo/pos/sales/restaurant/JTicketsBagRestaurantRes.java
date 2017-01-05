@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.beans.*;
+import java.text.DateFormat;
 import java.util.*;
 
 import javax.swing.JButton;
@@ -232,9 +233,9 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		int hourEnd = hour + 5;
 		
 		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), hour, 0, 0);
-		m_jFromDate.setText(Formats.TIMESTAMP.formatValue(c.getTime()));
+		m_jFromDate.setText(Formats.TIMESTAMPSHORT.formatValue(c.getTime()));
 		c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), hourEnd, 0, 0);
-		m_jTillDate.setText(Formats.TIMESTAMP.formatValue(c.getTime()));
+		m_jTillDate.setText(Formats.TIMESTAMPSHORT.formatValue(c.getTime()));
 		
 		assignCustomer(new CustomerInfo(null));
 		m_jPlaces.setText("");
@@ -259,8 +260,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_sID = res[0];
 		m_dCreated = (Date) res[1];
 		
-		m_jFromDate.setText(Formats.TIMESTAMP.formatValue((Date) res[2]));
-		m_jTillDate.setText(Formats.TIMESTAMP.formatValue((Date) res[10]));
+		m_jFromDate.setText(Formats.TIMESTAMPSHORT.formatValue((Date) res[2]));
+		m_jTillDate.setText(Formats.TIMESTAMPSHORT.formatValue((Date) res[10]));
 
 		
 		CustomerInfo c = new CustomerInfo((String) res[3]);
@@ -347,8 +348,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_sID = res[0];
 		m_dCreated = (Date) res[1];
 		
-		m_jFromDate.setText(Formats.TIMESTAMP.formatValue((Date) res[2]));
-		m_jTillDate.setText(Formats.TIMESTAMP.formatValue((Date) res[10]));
+		m_jFromDate.setText(Formats.TIMESTAMPSHORT.formatValue((Date) res[2]));
+		m_jTillDate.setText(Formats.TIMESTAMPSHORT.formatValue((Date) res[10]));
 		
 		CustomerInfo c = new CustomerInfo((String) res[3]);
 		c.setTaxid((String) res[4]);
@@ -386,7 +387,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		res[1] = m_dCreated == null ? new Date() : m_dCreated;
 		
 		try {
-			res[2] = (Date) Formats.TIMESTAMP.parseValue(m_jFromDate.getText());
+			res[2] = (Date) Formats.TIMESTAMPSHORT.parseValue(m_jFromDate.getText());
 			if(res[2] == null)
 				res[2] = new Date();
 		} catch (BasicException e) {
@@ -402,7 +403,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		res[9] = m_jtxtDescription.getText();
 		
 		try {
-			res[10] = (Date) Formats.TIMESTAMP.parseValue(m_jTillDate.getText());
+			res[10] = (Date) Formats.TIMESTAMPSHORT.parseValue(m_jTillDate.getText());
 		} catch (BasicException e) {
 			res[10] = new Date();
 		}
@@ -738,8 +739,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	private void jButtonPlacesAddActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 
 		try {
-			Date start = (Date) Formats.TIMESTAMP.parseValue(m_jFromDate.getText());
-			Date end = (Date) Formats.TIMESTAMP.parseValue(m_jTillDate.getText());
+			Date start = (Date) Formats.TIMESTAMPSHORT.parseValue(m_jFromDate.getText());
+			Date end = (Date) Formats.TIMESTAMPSHORT.parseValue(m_jTillDate.getText());
 			List<PlaceSplit> placesAvailable;
 			placesAvailable = dlCustomers.getAvailablePlaces(start, end);
 			placesAvailable.removeAll(placesReservation);
@@ -781,26 +782,27 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 	private void btnDateStartActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDateStartActionPerformed
 		Date date;
 		try {
-			date = (Date) Formats.TIMESTAMP.parseValue(m_jFromDate.getText());
+			date = (Date) Formats.TIMESTAMPSHORT.parseValue(m_jFromDate.getText());
 		} catch (BasicException e) {
 			date = null;
 		}
 		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
 		if (date != null) {
-			m_jFromDate.setText(Formats.TIMESTAMP.formatValue(date));
+			
+			m_jFromDate.setText(Formats.TIMESTAMPSHORT.formatValue(date));
 		}
 	}// GEN-LAST:event_btnDateStartActionPerformed
 
 	private void btnDateEndActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDateEndActionPerformed
 		Date date;
 		try {
-			date = (Date) Formats.TIMESTAMP.parseValue(m_jTillDate.getText());
+			date = (Date) Formats.TIMESTAMPSHORT.parseValue(m_jTillDate.getText());
 		} catch (BasicException e) {
 			date = null;
 		}
 		date = JCalendarDialog.showCalendarTimeHours(m_App, this, date);
 		if (date != null) {
-			m_jTillDate.setText(Formats.TIMESTAMP.formatValue(date));
+			m_jTillDate.setText(Formats.TIMESTAMPSHORT.formatValue(date));
 		}
 	}// GEN-LAST:event_btnDateEndActionPerformed
 	
