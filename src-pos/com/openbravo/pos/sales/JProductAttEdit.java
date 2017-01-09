@@ -262,7 +262,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			
 			
 			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-			int compWidth = (int) (280 * scaleFactor);
+			int compWidth = (int) (280 * scaleFactor) + 220;
 			int compHeight = (int) (fontHeight2D + 40) * itemslist.size() + m_jButtonOK.getHeight() + 100;
 
 			if (compWidth > screenSize.getWidth())
@@ -446,7 +446,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((screenSize.width - 350) / 2, (screenSize.height - 200) / 2, 350, 200);
+		setBounds((screenSize.width - 500) / 2, (screenSize.height - 200) / 2, 500, 400);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
