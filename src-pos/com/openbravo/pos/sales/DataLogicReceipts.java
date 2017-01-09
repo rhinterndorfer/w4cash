@@ -33,6 +33,7 @@ import com.openbravo.data.loader.SerializerWriteBasicExt;
 import com.openbravo.data.loader.SerializerWriteString;
 import com.openbravo.data.loader.Session;
 import com.openbravo.data.loader.StaticSentence;
+import com.openbravo.license.LicenseManager;
 import com.openbravo.pos.forms.AppConfig;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.BeanFactoryDataSingle;
@@ -66,7 +67,10 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
         if (Id == null) {
             return; 
         } else {
-        	String hostname = m_app.getHost();
+        	String host = m_app.getHost();
+        	String windowsHostName = m_app.getWindowsHost();
+        	String hostname = String.format("%s (%s)", host, windowsHostName);
+        	
         	
             Object[] values = new Object[] {Id, hostname};
             Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};
@@ -83,8 +87,9 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
             return ""; 
         } else {
         	
-        	String hostname = m_app.getHost();
-        	
+        	String host = m_app.getHost();
+        	String windowsHostName = m_app.getWindowsHost();
+        	String hostname = String.format("%s (%s)", host, windowsHostName);
         	
         	Object[] values = new Object[] {Id, hostname};
             Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};

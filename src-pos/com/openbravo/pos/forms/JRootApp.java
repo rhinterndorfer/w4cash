@@ -322,6 +322,10 @@ public class JRootApp extends JPanel implements AppView {
 		return this.getProperties().getHost();
 	}
 	
+	public String getWindowsHost() {
+		return System.getenv("COMPUTERNAME");
+	}
+	
 	private void CheckActiveCash(Boolean openNew, Boolean ignoreCache) throws BasicException {
 		if (ignoreCache || m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
 			String host = this.getProperties().getHost();

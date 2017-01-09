@@ -50,6 +50,7 @@ public interface AppView {
     
     public String getInventoryLocation();
     public String getHost();
+    public String getWindowsHost();
     
     public void waitCursorBegin();
     public void waitCursorEnd();
