@@ -22,6 +22,7 @@ package com.openbravo.pos.sales;
 import com.openbravo.editor.JEditorKeys;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -41,17 +42,16 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
         initComponents();
 
         jLabel1.setText(label);
-
-        //jValue.addEditorKeys(keys);
         jValue.setText(value);
     }
     
     public double scaleFont(int fontSize)
     {
-    	double scaleFactor = PropertyUtil.ScaleLabelFontsize(jLabel1, fontSize);
-    	PropertyUtil.ScaleLabelFontsize(jValue, fontSize);
+    	double scaleFactor = PropertyUtil.ScaleLabelFontsizeAndDimension(jLabel1, fontSize);
+    	PropertyUtil.ScaleTextFieldFontsize(jValue, fontSize);
     	
     	return scaleFactor;
+    	
     }
     
     public void assignSelection() {
@@ -81,33 +81,21 @@ public class JProductAttEditItem extends javax.swing.JPanel implements JProductA
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jValue = new javax.swing.JTextField();
+        jValue = new javax.swing.JTextField(10);
 
         
         jLabel1.setText("jLabel1");
-        jLabel1.setPreferredSize(new Dimension(200, jLabel1.getFont().getSize()+5));
+        jLabel1.setPreferredSize(new Dimension(80, jLabel1.getFont().getSize()+5));
         jValue.setFont(jLabel1.getFont());
-        jValue.setPreferredSize(new Dimension(220, jLabel1.getFont().getSize()+5));
+        jValue.setText("Test Text");
+        // jValue.setPreferredSize(new Dimension(220, jLabel1.getFont().getSize()+5));
         
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jValue, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
+        this.setLayout(new BorderLayout());
+        this.add(jLabel1, BorderLayout.WEST);
+        this.add(jValue, BorderLayout.CENTER);
+        this.setBorder(new javax.swing.border.EmptyBorder(new java.awt.Insets(5, 5, 5, 5)));
+        
+       
     }// </editor-fold>//GEN-END:initComponents
 
 

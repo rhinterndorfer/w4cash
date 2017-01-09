@@ -228,7 +228,6 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				jPanel2.add(item.getComponent());
 			}
 		} else {
-			// TODO: Translations
 			setTitle(AppLocal.getIntString("title.attributesMisc"));
 			this.attsetDescription = AppLocal.getIntString("title.attributesMisc");
 		}
@@ -238,7 +237,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 			List<AttributeInstInfo> attinstinfoMisc = attinstSentMisc.list(attsetinstid);
 			value = attinstinfoMisc.get(0).getValue();
 		}
-		// TODO: Translations
+
 		JProductAttEditI itemMisc = new JProductAttEditItem(null, AppLocal.getIntString("label.attributesMisc"), value);
 		itemslist.add(itemMisc);
 		jPanel2.add(itemMisc.getComponent());
@@ -257,10 +256,14 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				JProductAttEditI item = itemslist.get(i);
 				scaleFactor = item.scaleFont(fontSize);
 			}
-
+			java.awt.Font f = m_jButtonOK.getFont();
+			java.awt.Font newFont = new java.awt.Font(f.getName(), f.getStyle(), fontSize);
+			int fontHeight2D = PropertyUtil.getGraphicsFontHeight(newFont);
+			
+			
 			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-			int compWidth = (int) ((fontSize + 110) * scaleFactor) + 450;
-			int compHeight = (int) (fontSize + 15) * itemslist.size() + 250;
+			int compWidth = (int) (280 * scaleFactor);
+			int compHeight = (int) (fontHeight2D + 40) * itemslist.size() + m_jButtonOK.getHeight() + 100;
 
 			if (compWidth > screenSize.getWidth())
 				compWidth = (int) screenSize.getWidth();
@@ -268,25 +271,6 @@ public class JProductAttEdit extends javax.swing.JDialog {
 				compHeight = (int) screenSize.getHeight();
 
 			PropertyUtil.ScaleDialog(m_App, this, compWidth, compHeight);
-
-			// setBounds((screenSize.width - compWidth) / 2, (screenSize.height
-			// - compHeight) / 2, compWidth, compHeight);
-
-			// TODO: UNCOMMENT IF NEEDED TO SCALE FONT AND IMAGES
-
-			// int buttonFontSize = (int) (m_jButtonOK.getFont().getSize() *
-			// scaleFactor);
-			// // PropertyUtil.ScaleButtonFontsize(m_jButtonOK, buttonFontSize);
-			// PropertyUtil.ScaleButtonIcon(m_jButtonOK, buttonFontSize*3,
-			// buttonFontSize*3, buttonFontSize);
-			// // PropertyUtil.ScaleButtonFontsize(m_jButtonOKSingle,
-			// // buttonFontSize);
-			// PropertyUtil.ScaleButtonIcon(m_jButtonOKSingle, buttonFontSize*3,
-			// buttonFontSize*3, buttonFontSize);
-			// // PropertyUtil.ScaleButtonFontsize(m_jButtonCancel,
-			// // buttonFontSize);
-			// PropertyUtil.ScaleButtonIcon(m_jButtonCancel, buttonFontSize*3,
-			// buttonFontSize*3, buttonFontSize);
 
 		}
 	}

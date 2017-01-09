@@ -34,6 +34,7 @@ import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.util.Base64Encoder;
+import com.openbravo.pos.util.PropertyUtil;
 
 /**
  *
@@ -61,6 +62,12 @@ public class ResourcesView extends JPanel implements EditorRecord {
         m_jType.addActionListener(dirty);
         m_jText.getDocument().addDocumentListener(dirty);
         m_jImage.addPropertyChangeListener("image", dirty);
+        
+        
+        PropertyUtil.ScaleTextAreaFontsize(m_App, m_jText, "common-small-fontsize", "22");
+        PropertyUtil.ScaleTextFieldFontsize(m_App, m_jName, "button-small-fontsize", "16");
+        PropertyUtil.ScaleComboboxFontSize(m_App, m_jType, "button-small-fontsize", "16");
+        PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "button-small-fontsize", "16");
         
         writeValueEOF();        
     }
@@ -233,11 +240,11 @@ public class ResourcesView extends JPanel implements EditorRecord {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jType, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(m_jType, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

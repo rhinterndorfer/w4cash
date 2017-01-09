@@ -5,9 +5,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.font.FontRenderContext;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -61,6 +64,36 @@ public class PropertyUtil {
 
 	private static Logger logger = Logger.getLogger("com.openbravo.pos.util.PropertyUtil");
 
+	private static Graphics2D m_TempGraphics;
+	private static Graphics2D getTempGraphics()
+	{
+		if(m_TempGraphics == null)
+		{
+			BufferedImage imgtext = new BufferedImage(100, 50,  BufferedImage.TYPE_INT_RGB);
+			m_TempGraphics = imgtext.createGraphics();
+		}
+		return m_TempGraphics;
+	}
+	
+	public static int getGraphicsFontHeight(Font f)
+	{
+		return getTempGraphics().getFontMetrics(f).getHeight();
+	}
+	
+	public static int getGraphicsFontStringWidth(Font f, String str)
+	{
+		return getTempGraphics().getFontMetrics(f).stringWidth(str);
+	}
+	
+	public static double getGraphicsFontWidthAvg(Font f)
+	{
+		int[] widths = getTempGraphics().getFontMetrics(f).getWidths(); 
+		int sum = 0;
+		for (int d : widths) sum += d;
+		
+		return 1.0d * sum / widths.length;
+	}
+	
 	public static void fillSortOrderIfNeeded(BrowsableEditableData bd, int sortColumnIndex) {
 		boolean hasChanged = true;
 		ListModel model = bd.getListModel();
@@ -744,22 +777,45 @@ public class PropertyUtil {
 		double scaleFactor = fontSize / fontLabel.getSize();
 
 		label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
-		label.setSize((int) (label.getSize().getWidth() * scaleFactor), fontSize);
-
+		if(label.getSize().getWidth() > 0)
+			label.setSize((int) (label.getSize().getWidth()), fontSize);
+		else
+			label.setPreferredSize(new Dimension((int) (label.getPreferredSize().getWidth()), fontSize));
+		
 		return scaleFactor;
 	}
+	
+	public static double ScaleLabelFontsizeAndDimension(JLabel label, int fontSize) {
+		Font fontLabel = label.getFont();
+		Font newFont = new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize);
+		
+		double scaleFactor = fontSize / fontLabel.getSize();
+		double scaleFactorWidth = getGraphicsFontWidthAvg(newFont) / getGraphicsFontWidthAvg(fontLabel);
+		
+		label.setFont(newFont);
+		if(label.getSize().getWidth() > 0)
+			label.setSize((int) (label.getSize().getWidth() * scaleFactorWidth), fontSize);
+		else
+			label.setPreferredSize(new Dimension((int) (label.getPreferredSize().getWidth() * scaleFactorWidth), fontSize));
+		return scaleFactor;
+	}
+	
 
-	public static double ScaleLabelFontsize(JTextField textfield, int fontSize) {
+	public static double ScaleTextFieldFontsize(JTextField textfield, int fontSize) {
 		Font fontLabel = textfield.getFont();
 
 		double scaleFactor = fontSize / fontLabel.getSize();
+		Font newFont = new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize);
+		
+		textfield.setFont(newFont);
 
-		textfield.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+		int height = getTempGraphics().getFontMetrics(newFont).getHeight();
+
 		if (textfield.getSize().getWidth() > 0)
-			textfield.setSize((int) (textfield.getSize().getWidth() * scaleFactor), fontSize);
+			textfield.setSize((int) (textfield.getSize().getWidth() * scaleFactor), height + 4);
 		if (textfield.getPreferredSize().getWidth() > 0)
 			textfield.setPreferredSize(
-					new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), fontSize));
+					new Dimension((int) (textfield.getPreferredSize().getWidth() * scaleFactor), height + 4));
 
 		return scaleFactor;
 	}
@@ -772,6 +828,23 @@ public class PropertyUtil {
 		combobox.setSize((int) (combobox.getSize().getWidth() * scaleFactor), fontSize);
 
 		return scaleFactor;
+	}
+	
+	public static void ScaleComboboxFontSize(AppView app, JComboBox combobox, String key, String defaultValue) {
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		try {
+			int fontSize = Integer.parseInt(value);
+			Font fontLabel = combobox.getFont();
+			double scaleFactor = fontSize / fontLabel.getSize();
+			combobox.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
+			combobox.setSize((int) (combobox.getSize().getWidth() * scaleFactor), fontSize);
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
 	}
 
 	public static String getProperty(AppView app, String sProperty, String key, String defaultValue) {

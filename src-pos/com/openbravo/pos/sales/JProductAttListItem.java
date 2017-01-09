@@ -22,6 +22,7 @@ package com.openbravo.pos.sales;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
@@ -55,7 +56,7 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
     
     public double scaleFont(int fontSize)
     {
-    	PropertyUtil.ScaleLabelFontsize(jLabel1, fontSize);
+    	PropertyUtil.ScaleLabelFontsizeAndDimension(jLabel1, fontSize);
     	return PropertyUtil.ScaleComboboxFontSize(jValues, fontSize);
     }
     
@@ -100,29 +101,12 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
         jValues = new javax.swing.JComboBox();
 
         jLabel1.setText("jLabel1");
-        jLabel1.setPreferredSize(new Dimension(200, jLabel1.getFont().getSize()+5));
+        jLabel1.setPreferredSize(new Dimension(80, jLabel1.getFont().getSize()+5));
         
-        
-        
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+        this.setLayout(new BorderLayout());
+        this.add(jLabel1, BorderLayout.WEST);
+        this.add(jValues, BorderLayout.CENTER);
+        this.setBorder(new javax.swing.border.EmptyBorder(new java.awt.Insets(5, 5, 5, 5)));
     }// </editor-fold>//GEN-END:initComponents
 
 

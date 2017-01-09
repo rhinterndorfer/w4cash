@@ -23,6 +23,7 @@ import com.openbravo.basic.BasicException;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -380,7 +381,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 			jPanel2.setLayout(new GridLayout(11, 2, 5, 5));
 		else
 			jPanel2.setLayout(new GridLayout(7, 2, 5, 5));
-		// GridBagConstraints layoutData = new GridBagConstraints();
+		
 
 		jLabel1.setText(AppLocal.getIntString("label.price")); // NOI18N
 		jLabel11.setText(AppLocal.getIntString("label.prodstockheight")); // NOI18N
@@ -427,6 +428,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		// m_jSubtotal.setPreferredSize(new java.awt.Dimension(150, 25));
 		m_jSubtotal.setRequestFocusEnabled(false);
 
+		Font fontOld = m_jTotal.getFont();
 		ScaleLabels();
 
 		jPanel2.add(jLabel4);
@@ -455,49 +457,6 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		jPanel2.add(m_jSubtotal);
 		jPanel2.add(jLabel6);
 		jPanel2.add(m_jTotal);
-
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 2,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel1, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 1,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel2, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 3,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel3, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 0,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel4, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 0,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jName, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 1,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jUnits, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 2,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jPrice, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 3,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jPriceTax, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 4,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jTaxrate, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 4,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel5, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 6,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel6, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 6,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jTotal, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 0, 5,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(jLabel7, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 1, 5,
-		// GridBagConstraints.HORIZONTAL);
-		// jPanel2.add(m_jSubtotal, layoutData);
 
 		jPanel5.add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -544,21 +503,33 @@ public class JProductLineEdit extends javax.swing.JDialog {
 		getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
 		
-		int width = 860;
+		// calculate size
+		int height = 550;
+		Font fontNew = m_jTotal.getFont();
+		int fontHeight = PropertyUtil.getGraphicsFontHeight(fontNew);
+				
+		double widthfactor = 1.0d * fontNew.getSize() / fontOld.getSize(); 
+		int width = (int)(860.0 * widthfactor / 1.8); // 1.8 factor original font size to 22px font default
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		if(d.getWidth() < 860)
+		if(width > d.getWidth())
 		{
 			width = (int)d.getWidth(); 
 		}
 		
+		
 		if (issaege)
-			PropertyUtil.ScaleDialog(m_App, this, width, 550);
+		{
+			height = 11 * (fontHeight + 8 + 5) + m_jButtonOK.getHeight() + 100;
+		}
 		else
-			PropertyUtil.ScaleDialog(m_App, this, width, 410);
-		// java.awt.Dimension screenSize =
-		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// setBounds((screenSize.width - 580) / 2, (screenSize.height - 362) /
-		// 2, 580, 362);
+		{
+			height = 7 * (fontHeight + 8 + 5) + m_jButtonOK.getHeight() + 100;
+		}
+
+		if(height > d.getHeight())
+			height = (int) d.getHeight();
+		
+		PropertyUtil.ScaleDialog(m_App, this, width, height);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed
