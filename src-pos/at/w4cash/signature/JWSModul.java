@@ -8,6 +8,7 @@ import java.security.PublicKey;
 import java.security.cert.*;
 import java.util.stream.Stream;
 
+import org.apache.axis.transport.http.HTTPConstants;
 import org.tempuri.*;
 
 import com.openbravo.pos.util.Base64Encoder;

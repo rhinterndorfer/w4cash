@@ -376,6 +376,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			sig.CheckSignatureExpiration(this);
 			sig.CheckSignatureOutage(this);
 			sig.CheckStartTicket(this);
+			sig.CheckMonthTicket(this);
 			sig.CheckOpenTicketValidations(this);
 		}
 	}

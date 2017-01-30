@@ -461,7 +461,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     	sb.append(getCashSumCounterEnc());
     	sb.append("_");
     	// certificate serial id
-    	sb.append(sig.GetSignatureSerialNumber(getSignatureId()));
+    	sb.append(sig.GetSignatureSerialNumberHex(getSignatureId()));
     	sb.append("_");
     	String chainValue = getChainValue();
     	sb.append(chainValue);
@@ -678,7 +678,6 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
     
     public double getTotal2() {
-        
         return round(getTotal(),2);
     }
 

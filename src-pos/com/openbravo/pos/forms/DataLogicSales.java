@@ -527,6 +527,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 					double sum = getLastCashTicketSum();
 					sum = TicketInfo.round(sum, 2);
 					sum = sum + ticket.getTotal2();
+					sum = TicketInfo.round(sum, 2);
 					
 					String signatureId = sig.GetSignatureId();
 					ticket.setCashTicketId(cashTicketId);

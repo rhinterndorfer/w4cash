@@ -4,8 +4,8 @@ package at.w4cash.signature;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
@@ -40,8 +40,9 @@ import javax.json.JsonObjectBuilder;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+
+import org.apache.axis.types.PositiveInteger;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.poi.hssf.model.ConvertAnchor;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.basic.SignatureUnitException;
@@ -69,6 +70,31 @@ import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.util.Log;
 
+import at.gv.bmf.finanzonline.fon.ws.session.LoginRequest;
+import at.gv.bmf.finanzonline.fon.ws.session.LoginResponse;
+import at.gv.bmf.finanzonline.fon.ws.session.SessionService;
+import at.gv.bmf.finanzonline.fon.ws.session.SessionServiceLocator;
+import at.gv.bmf.finanzonline.fon.ws.session.SessionServicePortProxy;
+import at.gv.bmf.finanzonline.rkdb.Art_se;
+import at.gv.bmf.finanzonline.rkdb.Art_uebermittlung;
+import at.gv.bmf.finanzonline.rkdb.Ausfall;
+import at.gv.bmf.finanzonline.rkdb.Ausfall_se;
+import at.gv.bmf.finanzonline.rkdb.Belegpruefung;
+import at.gv.bmf.finanzonline.rkdb.Registrierung_kasse;
+import at.gv.bmf.finanzonline.rkdb.Registrierung_se;
+import at.gv.bmf.finanzonline.rkdb.Result;
+import at.gv.bmf.finanzonline.rkdb.Rkdb;
+import at.gv.bmf.finanzonline.rkdb.RkdbMessage;
+import at.gv.bmf.finanzonline.rkdb.RkdbRequest;
+import at.gv.bmf.finanzonline.rkdb.RkdbResponse;
+import at.gv.bmf.finanzonline.rkdb.RkdbServicePortProxy;
+import at.gv.bmf.finanzonline.rkdb.Status_ggs;
+import at.gv.bmf.finanzonline.rkdb.Status_kasse;
+import at.gv.bmf.finanzonline.rkdb.Status_see;
+import at.gv.bmf.finanzonline.rkdb.VerificationResult;
+import at.gv.bmf.finanzonline.rkdb.Wiederinbetriebnahme_se;
+import at.gv.bmf.finanzonline.rkdb.Zertifikatsseriennummer;
+
 public class SignatureModul {
 	private static SignatureModul m_instance;
 	private Session m_session;
@@ -93,9 +119,14 @@ public class SignatureModul {
 	private DataLogicSales m_dlSales;
 	private JPanelTicket m_panelticket;
 	
+	private String m_wssessionid;
+	private String m_wstid;
+	private String m_wsbenid;
+	private String m_wspin;
+	
 	
 	private HashMap<String, String> m_zdamap = new HashMap<String, String>();
-	private HashMap<String, String> m_signatureserialmap = new HashMap<String, String>();
+	private HashMap<String, String> m_signatureserialhexmap = new HashMap<String, String>();
 	private HashMap<String, String> m_signaturedermap = new HashMap<String, String>();
 	private HashMap<String, String> m_signatureproviderdermap = new HashMap<String, String>();
 	
@@ -128,19 +159,31 @@ public class SignatureModul {
 		return m_sigserialnumber;
 	}
 	
-	public String GetSignatureSerialNumber(String signatureid) throws BasicException
+	private String ToHex(String serialNumber)
 	{
-		if(m_signatureserialmap.containsKey(signatureid))
-			return m_signatureserialmap.get(signatureid);
+		BigInteger i = new BigInteger(serialNumber);
+		String hex = String.format("%01X", i);
+		return hex;
+	}
+	
+	public String GetSignatureSerialNumberHex()
+	{
+		return ToHex(m_sigserialnumber);
+	}
+	
+	public String GetSignatureSerialNumberHex(String signatureid) throws BasicException
+	{
+		if(m_signatureserialhexmap.containsKey(signatureid))
+			return m_signatureserialhexmap.get(signatureid);
 		
 		Object ocertserial = new StaticSentence(m_session, "SELECT CERTSERIAL FROM SIGNATURES "
 				+ "WHERE ID = ?",
 				new SerializerWriteBasic(new Datas[] { Datas.STRING }),
 				SerializerReadBytes.INSTANCE).find(new Object[] { signatureid });
 		
-		String sigserialnumber = new String((byte[])ocertserial, StandardCharsets.UTF_8);
-		m_signatureserialmap.put(signatureid, sigserialnumber);
-		return sigserialnumber;
+		String sigserialnumberhex = ToHex(new String((byte[])ocertserial, StandardCharsets.UTF_8));
+		m_signatureserialhexmap.put(signatureid, sigserialnumberhex);
+		return sigserialnumberhex;
 	}
 	
 	public String GetSignatureDERBase64(String signatureid) throws BasicException
@@ -356,7 +399,7 @@ public class SignatureModul {
 					m_dbsigserialnumber = new String((byte[])odbcertserial, StandardCharsets.UTF_8);
 					if(odbactivesignatureid != null)
 					{
-						m_signatureserialmap.put(m_dbactivesignatureid, m_dbsigserialnumber);
+						m_signatureserialhexmap.put(m_dbactivesignatureid, ToHex(m_dbsigserialnumber));
 					}
 				}
 				
@@ -471,7 +514,7 @@ public class SignatureModul {
 			if (res == JOptionPane.YES_OPTION) {
 				
 				// add signature unit
-				if(!AddNewSignatureDevice(false, false))
+				if(!AddNewSignatureDevice(caller, false, false))
 				{
 					JConfirmDialog.showError(m_app, 
 							caller, 
@@ -496,7 +539,7 @@ public class SignatureModul {
 				
 				if (resOffline == JOptionPane.YES_OPTION) {
 					// add signature unit
-					if(!AddNewSignatureDevice(false, true))
+					if(!AddNewSignatureDevice(caller, false, true))
 					{
 						JConfirmDialog.showError(m_app, 
 								caller, 
@@ -527,7 +570,6 @@ public class SignatureModul {
 		{
 			// first certificate
 			// register new signature unit at finance office first
-			// start with certificate?
 			
 			int res = JConfirmDialog.showConfirm(m_app, caller, 
 					null,
@@ -536,7 +578,7 @@ public class SignatureModul {
 			if (res == JOptionPane.YES_OPTION) {
 				
 				// add signature unit
-				if(!AddNewSignatureDevice(true, false))
+				if(!AddNewSignatureDevice(caller, true, false))
 				{
 					JConfirmDialog.showError(m_app, 
 							caller, 
@@ -558,7 +600,7 @@ public class SignatureModul {
 						null,
 						AppLocal.getIntString("signature.registerfirstsignatureunit.offline"));
 				if (resOffline == JOptionPane.YES_OPTION) {
-					if(!AddNewSignatureDevice(true, true))
+					if(!AddNewSignatureDevice(caller, true, true))
 					{
 						JConfirmDialog.showError(m_app, 
 								caller, 
@@ -595,7 +637,7 @@ public class SignatureModul {
 				&& !isStartup
 				&& m_isFirstTicket)
 		{
-			JConfirmDialog.showInformation(m_app, 
+			JConfirmDialog.showError(m_app, 
 					caller, 
 					null,
 					AppLocal.getIntString("signature.startticket.failure")
@@ -663,7 +705,7 @@ public class SignatureModul {
 		
 		new StaticSentence(m_session, 
 				"UPDATE TICKETS SET VALIDATION=? WHERE CASHTICKETID = ? ",
-				new SerializerWriteBasic(new Datas[] {Datas.TIMESTAMP, Datas.INT})
+				new SerializerWriteBasic(new Datas[] {Datas.INT, Datas.INT})
 			)
 		.exec(new Object[] { validationState, ticket.getCashTicketId() }); 
 	}
@@ -674,12 +716,14 @@ public class SignatureModul {
 		// read last month ticket information
 		try {
 			Object oDblastMonth = new StaticSentence(m_session, 
-					"SELECT CASE WHEN T.MONTH = 0 THEN EXTRACT(year FROM ADD_MONTHS(r.DATENEW,-1))*100 + EXTRACT(month FROM ADD_MONTHS(r.DATENEW,-1)) ELSE T.MONTH END AS MONTH  " +
-					"	FROM TICKETS T " +
-					"   INNER JOIN RECEIPTS R ON T.ID=R.ID " +
-					"	WHERE  " +
-					"	T.MONTH IS NOT NULL AND rownum <= 1 " + 
-					"ORDER BY T.MONTH DESC ",
+					"SELECT MONTH FROM ( "
+					+ "SELECT CASE WHEN T.MONTH = 0 THEN EXTRACT(year FROM ADD_MONTHS(r.DATENEW,-1))*100 + EXTRACT(month FROM ADD_MONTHS(r.DATENEW,-1)) ELSE T.MONTH END AS MONTH  "
+					+ "	FROM TICKETS T "
+					+ "   INNER JOIN RECEIPTS R ON T.ID=R.ID "
+					+ "	WHERE  "
+					+ "	T.MONTH IS NOT NULL " 
+					+ "ORDER BY T.MONTH DESC)"
+					+ "WHERE ROWNUM <= 1 ",
 					null,
 					SerializerReadInteger.INSTANCE
 					).find();
@@ -810,10 +854,9 @@ public class SignatureModul {
 							null,
 							AppLocal.getIntString("signature.outoforderend.online"));
 					if (resOnline == JOptionPane.YES_OPTION) {
-						// TODO: FON Web Service integration out of order end
+						SetFONSignatureUnitOutOfOrderEnd(caller, Calendar.getInstance());
 						Log.Info2DB("Signature: online out of order end notification");
 						SetSignatureUnitOutageEnd();
-						
 					}
 					else
 					{
@@ -958,9 +1001,21 @@ public class SignatureModul {
 							null,
 							AppLocal.getIntString("signature.signatureunitoutage48h.online"));
 					if (resOnline == JOptionPane.YES_OPTION) {
-						// TODO: FON Web Service integration out of order 48h start
-						SetSignatureUnitOutageStartTime(outageStartTime, false);
-						Log.Info2DB("Signature: out of order 48 h online");
+						Calendar calOutageStartTime = Calendar.getInstance();
+						calOutageStartTime.setTime(outageStartTime);
+						try {	
+							SetFONSignatureUnitOutOfOrder(caller, calOutageStartTime);
+							SetSignatureUnitOutageStartTime(outageStartTime, false);
+							Log.Info2DB("Signature: out of order 48 h online");
+						} catch(Exception e)
+						{
+							Log.Exception(e);
+							JConfirmDialog.showError(m_app, 
+									caller, 
+									null,
+									AppLocal.getIntString("signature.signatureunitoutage48h.failure")
+									);
+						}
 					}
 					else
 					{
@@ -1128,7 +1183,7 @@ public class SignatureModul {
 					);
 			if(dialogres == JOptionPane.YES_OPTION)
 			{
-				// TODO FON WS ticket check
+				CheckFONTicket(caller, ticket);
 				SetTicketValidation(ticket, false);
 				Log.Info2DB(String.format("Signature: check ticket %1$s online", rksvnotes));
 			}
@@ -1219,7 +1274,7 @@ public class SignatureModul {
 					+ "  || '_'  "
 					+ "  || UTL_RAW.CAST_TO_VARCHAR2(t.CASHSUMCOUNTERENC) "
 					+ "  || '_'  "
-					+ "  || UTL_RAW.CAST_TO_VARCHAR2(s.CERTSERIAL) "
+					+ "  || LTRIM(TO_CHAR(TO_NUMBER(SYS.UTL_RAW.CAST_TO_VARCHAR2(CERTSERIAL)),'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')) "
 					+ "  || '_'  "
 					+ "  || UTL_RAW.CAST_TO_VARCHAR2(t.CHAINVALUE) "
 					+ "    as ClearText, "
@@ -1464,10 +1519,10 @@ public class SignatureModul {
 	}
 	
 	
-	private Boolean AddNewSignatureDevice(Boolean isFirst, Boolean isOfflineRegistration)
+	private Boolean AddNewSignatureDevice(Component caller, Boolean isFirst, Boolean isOfflineRegistration)
 	{
-		// TODO FON WS add cash box (isFirst)
-		// TODO FON WS add signature unit (!isOfflineRegistration)
+		
+		
 		try {
 			try {
 				m_session.begin();
@@ -1506,6 +1561,16 @@ public class SignatureModul {
  						base64Encode(m_issuerCert.getEncoded(), false).getBytes(StandardCharsets.UTF_8)
 						});
 				
+				// FON WS add cash box (isFirst && !isOfflineRegistration)
+				if(isFirst && !isOfflineRegistration)
+				{
+					AddFONCashBox(caller);
+				}
+				// FON WS add signature unit (!isOfflineRegistration)
+				if(!isOfflineRegistration)
+				{
+					AddFONSignatureUnit(caller);
+				}
 				
 				m_session.commit();
 				m_dbactivesignatureid = signatureID; // set new active signature id
@@ -1817,7 +1882,204 @@ public class SignatureModul {
     	return encoder.decode(base64Data);
     }
 
+    public void AddFONCashBox(Component caller) throws Exception
+    {
+    	Rkdb rkdb = new Rkdb();
+    	Registrierung_kasse regCashBox = new Registrierung_kasse();
+    	regCashBox.setAnmerkung(m_app.getHost());
+    	regCashBox.setBenutzerschluessel(base64Encode(m_aeskey.getEncoded(), false));
+    	regCashBox.setKassenidentifikationsnummer(m_posid);
+    	regCashBox.setSatznr(new PositiveInteger("1"));
+    	rkdb.setRegistrierung_kasse(new Registrierung_kasse[] { regCashBox });
+    	DoFONAction(caller, rkdb);
+    }
+    
+    public void AddFONSignatureUnit(Component caller) throws Exception
+    {
+    	Rkdb rkdb = new Rkdb();
+    	Registrierung_se signatureUnit = new Registrierung_se(); 
+    	signatureUnit.setArt_se(Art_se.SIGNATURKARTE);
+    	signatureUnit.setSatznr(new PositiveInteger("2"));
+    	signatureUnit.setVda_id(GetZDAId());
+    	signatureUnit.setZertifikatsseriennummer(new Zertifikatsseriennummer(m_sigserialnumber));
+    	rkdb.setRegistrierung_se(new Registrierung_se[] { signatureUnit });
+    	DoFONAction(caller, rkdb);
+    }
     
     
+    public void CheckFONTicket(Component caller, TicketInfo ticket) throws Exception
+    {
+    	Rkdb rkdb = new Rkdb();
+    	Belegpruefung ticketCheck = new Belegpruefung();
+    	ticketCheck.setSatznr(new PositiveInteger("3"));
+    	String payload = ticket.getSigningClearText();
+    	String signvalue = ticket.getSignatureValue();
+    	String ticketText = payload + "_" + signvalue;
+    	// ticketText = base64Encode(ticketText.getBytes(StandardCharsets.UTF_8), true);
+    	ticketCheck.setBeleg(ticketText);
+    	rkdb.setBelegpruefung(ticketCheck);
+    	DoFONAction(caller, rkdb);
+    }
+    
+    public void SetFONSignatureUnitOutOfOrder(Component caller, Calendar startOutage) throws Exception
+    {
+    	Rkdb rkdb = new Rkdb();
+    	Ausfall_se outOfOrder = new Ausfall_se(); 
+    	outOfOrder.setSatznr(new PositiveInteger("4"));
+    	// 2 == Signatur- bzw. Siegelerstellung unmöglich oder fehlerhaft
+    	outOfOrder.setAusfall(new Ausfall(2, startOutage));
+    	// use signatureserial from DB
+    	outOfOrder.setZertifikatsseriennummer(new Zertifikatsseriennummer(m_dbsigserialnumber));
+    	rkdb.setAusfall_se(new Ausfall_se[] { outOfOrder });
+    	DoFONAction(caller, rkdb);
+    }
+    
+    public void SetFONSignatureUnitOutOfOrderEnd(Component caller, Calendar endOutage) throws Exception
+    {
+    	Rkdb rkdb = new Rkdb();
+    	Wiederinbetriebnahme_se outOfOrderEnd = new Wiederinbetriebnahme_se(); 
+    	outOfOrderEnd.setSatznr(new PositiveInteger("5"));
+    	outOfOrderEnd.setEnde_ausfall(endOutage);
+    	outOfOrderEnd.setZertifikatsseriennummer(new Zertifikatsseriennummer(m_sigserialnumber));
+    	rkdb.setWiederinbetriebnahme_se(new Wiederinbetriebnahme_se[] { outOfOrderEnd });
+    	DoFONAction(caller, rkdb);
+    }
+    
+    
+    public void DoFONAction(Component caller, Rkdb rkdb) throws Exception
+    {
+    	LoginFON(caller);
+    	if(m_wssessionid != null)
+    	{
+    		RkdbServicePortProxy proxy = new RkdbServicePortProxy();
+    		Calendar c = Calendar.getInstance();
+    		rkdb.setTs_erstellung(c);
+    		rkdb.setPaket_nr(new PositiveInteger("1"));
+    		RkdbRequest request = new RkdbRequest();
+    		request.setTid(m_wstid);
+    		request.setBenid(m_wsbenid);
+    		request.setId(m_wssessionid);
+    		
+    		
+    		if(GetIsDevelopment())
+    		{
+    			request.setArt_uebermittlung(Art_uebermittlung.T);
+    		}
+    		else
+    		{
+    			// TODO set production
+    			request.setArt_uebermittlung(Art_uebermittlung.T);
+    		}
+    		request.setErzwinge_asynchron(false);
+    		request.setRkdb(rkdb);
+
+    		RkdbResponse response;
+			try {
+				//TODO set read timeout
+				response = proxy.rkdb(request);
+				RkdbMessage message = response.getResult(0).getRkdbMessage(0);
+				StringBuilder msgVerification = new StringBuilder();
+				if(response.getResult(0).getVerificationResultList() != null)
+				{
+					for(VerificationResult verificationResult : response.getResult(0).getVerificationResultList())
+					{
+						String detailedMessage = verificationResult.getVerificationResultDetailedMessage();
+						msgVerification.append('\n');
+						msgVerification.append(detailedMessage);
+					}
+				}
+				
+				if(message.getRc() == null || "".equals(message.getRc()) || "0".equals(message.getRc()))
+				{
+					// OK
+					// do nothing
+				}
+				else if("B1".equals(message.getRc()))
+				{
+					// cash box already registered
+					// do nothing
+					Log.Info2DB("Signature: cashbox already registered");
+				}
+				else if("B10".equals(message.getRc()))
+				{
+					// signature unit already registered
+					// do nothing
+					Log.Info2DB("Signature: signature unit already registered");
+				}
+				else
+				{
+					String msg = String.format("%1$s: %2$s%3$s", message.getRc(), message.getMsg(), msgVerification.toString());
+					Log.Info2DB(msg);
+					throw new Exception(msg);
+				}
+			} catch (Exception e) {
+				int res = JConfirmDialog.showConfirm(m_app, caller, 
+						null,
+						AppLocal.getIntString("signature.wsaction.repeat", e.getMessage()));
+				if (res == JOptionPane.YES_OPTION) {
+					DoFONAction(caller, rkdb);
+				}
+				else
+				{
+					throw e;
+				}
+			}
+    		
+    		
+    	}
+    }
+    
+    
+    public void LoginFON(Component caller) throws Exception
+    {
+    	if(m_wssessionid == null)
+    	{
+    		// FON WS user login dialog
+    		WSLoginDialog dialog = WSLoginDialog.newJDialog(m_app, caller);
+    		LoginRequest loginRequest = dialog.showLoginDialog(m_wstid, m_wsbenid, m_wspin);
+    		if(loginRequest != null)
+    		{
+    			loginRequest.setHerstellerid("ATU64043056"); // HB-SOFTSOLUTION.COM
+				m_wstid = loginRequest.getTid();
+				m_wsbenid = loginRequest.getBenid();
+				m_wspin = loginRequest.getPin();
+			
+				SessionServicePortProxy proxy = new SessionServicePortProxy();
+				
+				try {
+					LoginResponse response = proxy.login(loginRequest);
+					m_wssessionid = response.getId();
+					
+					if(response.getRc() != 0)
+					{
+						String msg = response.getMsg();
+
+						int res = JConfirmDialog.showConfirm(m_app, caller, 
+								null,
+								AppLocal.getIntString("signature.wslogin.repeat", msg));
+						if (res == JOptionPane.YES_OPTION) {
+							LoginFON(caller);
+						}
+						else
+						{
+							throw new Exception(msg);
+						}
+						
+					}
+				} catch (Exception e) {
+					int res = JConfirmDialog.showConfirm(m_app, caller, 
+							null,
+							AppLocal.getIntString("signature.wslogin.repeat", e.getMessage()));
+					if (res == JOptionPane.YES_OPTION) {
+						LoginFON(caller);
+					}
+					else
+					{
+						throw e;
+					}
+				}
+    		}
+    	}
+    }
     
 }

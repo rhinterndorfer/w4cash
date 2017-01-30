@@ -120,7 +120,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 				SerializerWriteString.INSTANCE, new SerializerReadBasic(
 						new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
 		m_lastcashHost = new StaticSentence(s,
-				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE HOST = ? AND ROWNUM <= 1 ORDER BY DATESTART DESC",
+				"SELECT * FROM (SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE HOST = ? ORDER BY DATESTART DESC) WHERE ROWNUM <= 1 ",
 				SerializerWriteString.INSTANCE, new SerializerReadBasic(
 						new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
 		
