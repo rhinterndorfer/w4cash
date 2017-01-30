@@ -315,15 +315,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		customer = null;
 		loadTickets();
 		printState();
-		// TODO:
-		// m_panelticket.setActiveTicket(null, null);
-
-		// m_restaurantmap.activate();
 
 		showView("map"); // arrancamos en la vista de las mesas.
-
-		// postcondicion es que tenemos ticket activado aqui y ticket en el
-		// panel
 	}
 
 	public boolean deactivate() {
@@ -338,22 +331,11 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 			// guardamos el ticket
 			if (m_PlaceCurrent != null) {
-				// TODO:
-				// try {
-				// dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(),
-				// m_panelticket.getActiveTicket());
-				// } catch (BasicException e) {
-				// new MessageInf(e).show(this);
-				// }
-
 				m_PlaceCurrent = null;
 			}
 
 			// desactivamos cositas.
 			printState();
-
-			// TODO:
-			// m_panelticket.setActiveTicket(null, null);
 
 			return true;
 		} else {
@@ -375,13 +357,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		// guardamos el ticket
 		if (m_PlaceCurrent != null) {
-			// TODO:
-			// try {
-			// dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(),
-			// m_panelticket.getActiveTicket());
-			// } catch (BasicException e) {
-			// new MessageInf(e).show(this);
-			// }
 
 			// me guardo el ticket que quiero copiar.
 			m_PlaceClipboard = m_PlaceCurrent;
@@ -390,9 +365,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		}
 
 		printState();
-
-		// TODO:
-		// m_panelticket.setActiveTicket(null, null);
 	}
 
 	public boolean viewTables(CustomerInfo c) {
@@ -418,20 +390,10 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		// guardamos el ticket
 		if (m_PlaceCurrent != null) {
-			// TODO:
-			// try {
-			// dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(),
-			// m_panelticket.getActiveTicket());
-			// } catch (BasicException e) {
-			// new MessageInf(e).show(this); // maybe other guy deleted it
-			// }
-
 			m_PlaceCurrent = null;
 		}
 
 		printState();
-		// TODO:
-		// m_panelticket.setActiveTicket(null, null);
 	}
 
 	public void deleteTicket() {
@@ -453,8 +415,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 		printState();
 
-		// TODO:
-		// m_panelticket.setActiveTicket(null, null);
 	}
 
 	public void loadTickets() {
@@ -524,8 +484,6 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 	private void setActivePlace(Place place, TicketInfo ticket) {
 		m_PlaceCurrent = place;
-		// TODO:
-		// m_panelticket.setActiveTicket(ticket, m_PlaceCurrent.getName());
 	}
 
 	private void showView(String view) {

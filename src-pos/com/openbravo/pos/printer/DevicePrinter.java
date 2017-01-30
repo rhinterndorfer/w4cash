@@ -52,6 +52,7 @@ public interface DevicePrinter {
     // INTERFAZ PRINTER   
     public void beginReceipt();
     public void printImage(BufferedImage image);
+    public void printImageNoLF(BufferedImage image, int x);
     public void printBarCode(String type, String position, String code);
     public void beginLine(int iTextSize);
     public void printText(int iStyle, String sText);

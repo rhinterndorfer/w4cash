@@ -1,5 +1,5 @@
 //    Openbravo POS is a point of sales application designed for touch screens.
-//    Copyright (C) 2008-2009 Openbravo, S.L.
+//    Copyright (C) 2007-2009 Openbravo, S.L.
 //    http://www.openbravo.com/product/pos
 //
 //    This file is part of Openbravo POS.
@@ -17,38 +17,27 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.openbravo.data.loader;
+package com.openbravo.basic;
 
-/**
- *
- * @author adrianromero
- */
-public class SessionDBGeneric implements SessionDB {
+public class SignatureUnitException extends BasicException {
+    
+	private static final long serialVersionUID = 2767594459868955251L;
 
-    private String name;
-
-    public SessionDBGeneric(String name) {
-        this.name = name;
+	/**
+     * Creates a new instance of <code>DataException</code> without detail message.
+     */
+    public SignatureUnitException() {
     }
 
-    public String TRUE() {
-        return "TRUE";
+    public SignatureUnitException(String msg) {
+        super(msg);
     }
-    public String FALSE() {
-        return "FALSE";
+    
+    public SignatureUnitException(String msg, Throwable cause) {
+        super(msg, cause);
     }
-    public String INTEGER_NULL() {
-        return "CAST(NULL AS INTEGER)";
-    }
-    public String CHAR_NULL() {
-        return "CAST(NULL AS CHAR)";
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public SentenceFind getSequenceSentence(Session s, String sequence) {
-        return new StaticSentence(s, "SELECT NEXTVAL('" + sequence + "')", null, SerializerReadInteger.INSTANCE);
+    
+    public SignatureUnitException(Throwable cause) {
+        super(cause);
     }
 }

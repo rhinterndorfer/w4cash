@@ -194,15 +194,7 @@ public abstract class Datas {
             throw new UnsupportedOperationException();
         }   
     }  
-//    private static final class DatasINPUTSTREAM extends Datas {
-//        public Object getValue(DataRead dr, int i) throws DataException {
-//            byte[] b = dr.getBytes(i);
-//            return b == null ? null : new java.io.ByteArrayInputStream(b);
-//        }
-//        public void setValue(DataWrite dw, int i, Object value) throws DataException {
-//            // TODO: Please implement this method
-//        }
-//    }  
+
     private static final class DatasOBJECT extends Datas {
         public Object getValue(DataRead dr, int i) throws BasicException {
             return dr.getObject(i);

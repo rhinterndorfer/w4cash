@@ -65,6 +65,15 @@ public class JConfirmDialog extends JDialog {
 		this.contentPanel = new JPanel();
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+		java.awt.Dimension screenSize =
+				java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+
+		String w = "800";
+		if(screenSize.getWidth() < 800)
+		{
+			w = String.format("%1$d", (int)screenSize.getWidth());
+		}
+		
 		contentPanel.setLayout(new FlowLayout());
 		{
 			m_jIcon = new JLabel(
@@ -72,7 +81,7 @@ public class JConfirmDialog extends JDialog {
 			contentPanel.add(m_jIcon);
 			
 			StringBuilder sb = new StringBuilder();
-			sb.append("<html><div style='width: 500px'>");
+			sb.append("<html><div style='width: "+w+"px'>");
 			sb.append(message);
 			sb.append("</div></html>");
 			
@@ -108,8 +117,7 @@ public class JConfirmDialog extends JDialog {
 
 		ScaleButtons(app);
 
-		java.awt.Dimension screenSize =
-				java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		
 		setMaximumSize(screenSize);
 		
 		setModal(true);
@@ -191,7 +199,7 @@ public class JConfirmDialog extends JDialog {
 		return this.returnCode;
 	}
 
-	public static int showConfirm(AppView app, Component parent, String message, String title) {
+	public static int showConfirm(AppView app, Component parent, String title, String message) {
 		Window window = getWindow(parent);
 
 		JConfirmDialog myMsg;
@@ -207,7 +215,7 @@ public class JConfirmDialog extends JDialog {
 		return myMsg.getReturnCode();
 	}
 	
-	public static int showInformation(AppView app, Component parent, String message, String title) {
+	public static int showInformation(AppView app, Component parent, String title, String message) {
 		Window window = getWindow(parent);
 
 		JConfirmDialog myMsg;

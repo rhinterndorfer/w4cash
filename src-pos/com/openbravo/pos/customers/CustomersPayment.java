@@ -20,6 +20,7 @@
 package com.openbravo.pos.customers;
 
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.SignatureUnitException;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.format.Formats;
@@ -551,12 +552,13 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 				ticket.setDate(new Date());
 				ticket.setCustomer(customerext);
 
-				dlsales.saveTicket(ticket, m_App.getInventoryLocation());
+				throw new BasicException("Implement taxlogic when using!");
+				// dlsales.saveTicket(ticket, m_App.getInventoryLocation(), null);
 			} catch (BasicException eData) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"),
 						eData);
 				msg.show(m_App, this);
-			}
+			} 
 
 			// reload customer
 			CustomerInfoExt c;

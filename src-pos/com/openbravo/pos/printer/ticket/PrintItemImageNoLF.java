@@ -17,32 +17,41 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
-package com.openbravo.data.loader;
+package com.openbravo.pos.printer.ticket;
 
-/**
- *
- * @author adrianromero
- */
-public class SessionDBDerby implements SessionDB {
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
-    public String TRUE() {
-        return "1";
-    }
-    public String FALSE() {
-        return "0";
-    }
-    public String INTEGER_NULL() {
-        return "CAST(NULL AS INTEGER)";
-    }
-    public String CHAR_NULL() {
-        return "CAST(NULL AS CHAR)";
-    }
+public class PrintItemImageNoLF implements PrintItem {
 
-    public String getName() {
-        return "Derby";
+    protected BufferedImage image;
+    protected double scale;
+    protected int imagex;
+
+    /** Creates a new instance of PrintItemImage
+     * @param image
+     */
+    public PrintItemImageNoLF(BufferedImage image, double scale, int x) {
+        this.image = image;
+        this.scale = scale;
+        this.imagex = x;
+        
     }
 
-    public SentenceFind getSequenceSentence(Session s, String sequence) {
-        return new SequenceForDerby(s, sequence);
+    @Override
+    public void draw(Graphics2D g, int x, int y, int width) {
+        g.drawImage(image, x + (int)(imagex * scale), y, (int)(image.getWidth() * scale), (int)(image.getHeight() * scale), null);
     }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+    
+    @Override
+    public int getColumns() {
+    	int columns = (int) (image.getHeight() * scale / 7); 
+        return columns;
+    }
+    
 }

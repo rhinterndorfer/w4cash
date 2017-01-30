@@ -58,6 +58,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
 	protected SentenceFind m_activecash;
 	protected SentenceFind m_activecashHost;
+	protected SentenceFind m_lastcashHost;
 	protected StaticSentence m_allClosedCash;
 	protected SentenceExec m_insertcash;
 
@@ -118,7 +119,11 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE HOST = ? AND DATEEND IS NULL",
 				SerializerWriteString.INSTANCE, new SerializerReadBasic(
 						new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
-
+		m_lastcashHost = new StaticSentence(s,
+				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND FROM CLOSEDCASH WHERE HOST = ? AND ROWNUM <= 1 ORDER BY DATESTART DESC",
+				SerializerWriteString.INSTANCE, new SerializerReadBasic(
+						new Datas[] { Datas.STRING, Datas.STRING, Datas.INT, Datas.TIMESTAMP, Datas.TIMESTAMP }));
+		
 		m_allClosedCash = new StaticSentence(s,
 				"SELECT MONEY, HOST, HOSTSEQUENCE, DATESTART, DATEEND, BRANCH_HOSTSEQUENCE FROM CLOSEDCASH ORDER BY HOSTSEQUENCE DESC", null,
 				new SerializerReadClass(ClosedCashInfo.class));
@@ -173,7 +178,12 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 	}
 
 	public final void resetResourcesCache() {
-		resourcescache = new HashMap<String, byte[]>();
+		if(resourcescache == null)
+			resourcescache = new HashMap<String, byte[]>();
+		else
+			resourcescache.clear();
+		
+		resourceAsXML.clear();
 	}
 
 	private final byte[] getResource(String name) {
@@ -280,6 +290,10 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		return (Object[]) m_activecashHost.find(sHost);
 	}
 
+	public final Object[] findLastCashHost(String sHost) throws BasicException {
+		return (Object[]) m_lastcashHost.find(sHost);
+	}
+	
 	public final void execInsertCash(Object[] cash) throws BasicException {
 		m_insertcash.exec(cash);
 	}

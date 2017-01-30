@@ -73,6 +73,14 @@ public class DevicePrinterESCPOS implements DevicePrinter  {
         m_CommOutputPrinter.write(m_codes.transImage(image));
     }
     
+    public void printImage(BufferedImage image, double scale) {
+        printImage(image);
+    }
+    
+    public void printImageNoLF(BufferedImage image, int x){
+    	printImage(image);
+    }
+    
     public void printBarCode(String type, String position, String code) {
         
         m_CommOutputPrinter.write(ESCPOS.SELECT_PRINTER);        

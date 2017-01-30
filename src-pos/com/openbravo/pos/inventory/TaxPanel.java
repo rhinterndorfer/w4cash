@@ -98,7 +98,6 @@ public class TaxPanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -109,7 +108,6 @@ public class TaxPanel extends JPanelTable {
 	
 	@Override
 	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
-		// TODO Auto-generated method stub
 		
 	}
 }

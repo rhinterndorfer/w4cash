@@ -42,7 +42,6 @@ public class EditorCreatorComposed implements EditorCreator{
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	} 
 }

@@ -20,21 +20,26 @@ package com.openbravo.pos.mant;
 
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 import com.openbravo.data.gui.MessageInf;
+import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.SignatureUnitException;
 import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.ListKeyed;
 import com.openbravo.pos.admin.DataLogicAdmin;
 import com.openbravo.pos.customers.DataLogicCustomers;
 import com.openbravo.pos.scripting.ScriptEngine;
@@ -45,8 +50,11 @@ import com.openbravo.pos.printer.DeviceTicket;
 import com.openbravo.pos.printer.TicketParser;
 import com.openbravo.pos.printer.TicketPrinterException;
 import com.openbravo.pos.sales.JPanelTicketEdits;
+import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.sales.restaurant.Place;
 import com.openbravo.pos.ticket.FindTicketsInfo;
+import com.openbravo.pos.ticket.TaxInfo;
+
 import java.io.InputStream;
 
 /**
@@ -56,13 +64,13 @@ import java.io.InputStream;
  */
 public class JPlacesBagTicket extends JPlacesBag {
 
-	// private static final String PRINTER_SHEMA =
-	// "/com/nordpos/templates/Schema.Printer.xsd";
-	// private static final String PRINT_TICKET_PREVIEW =
-	// "/com/nordpos/templates/Printer.TicketPreview.xml";
-
+	private static final long serialVersionUID = 8084452344244431088L;
+	
 	private DataLogicSystem m_dlSystem = null;
 	protected DataLogicCustomers dlCustomers;
+	private SentenceList senttax;
+	private TaxesLogic taxeslogic;
+	private ListKeyed taxcollection;
 
 	private final DeviceTicket m_TP;
 	private TicketParser m_TTP;
@@ -101,7 +109,16 @@ public class JPlacesBagTicket extends JPlacesBag {
 																		// imprimir
 																		// el
 																		// ticket
-
+		senttax = m_dlSales.getTaxList();
+		try {
+			java.util.List<TaxInfo> taxlist = senttax.list();
+			taxcollection = new ListKeyed<TaxInfo>(taxlist);
+			taxeslogic = new TaxesLogic(taxlist);
+		} catch (BasicException bex) {
+			taxcollection = null;
+			taxeslogic = null;
+		}
+		
 		initComponents();
 
 		m_TicketsBagTicketBag = new JPlacesBagTicketBag(this);
@@ -142,10 +159,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 		m_jTicketEditor.reset();
 		m_jTicketEditor.activate();
 
-		// TODO:
-		// m_panelticketedit.setActiveTicket(null, null);
-
-		jrbSales.setSelected(true);
+		jrbTickets.setSelected(true);
 
 		m_jEdit.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.EditTicket"));
 		m_jRefund.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.RefundTicket"));
@@ -172,6 +186,10 @@ public class JPlacesBagTicket extends JPlacesBag {
 			// Para editar borramos el ticket anterior
 			try {
 				m_dlSales.deleteTicket(m_ticketCopy, m_App.getInventoryLocation());
+			} catch (SignatureUnitException seData) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"),
+						seData);
+				msg.show(m_App, this);
 			} catch (BasicException eData) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.nosaveticket"),
 						eData);
@@ -194,9 +212,6 @@ public class JPlacesBagTicket extends JPlacesBag {
 		printTicket();
 		m_jTicketEditor.reset();
 		m_jTicketEditor.activate();
-
-		// TODO:
-		// m_panelticketedit.setActiveTicket(null, null);
 	}
 
 	@Override
@@ -209,11 +224,12 @@ public class JPlacesBagTicket extends JPlacesBag {
 		return this;
 	}
 
-	private void readTicket(int iTicketid, int iTickettype) {
+	private void readTicket(int iTicketid, Boolean isCashTicketId) {
 
 		try {
-			TicketInfo ticket = (iTicketid == -1) ? m_dlSales.loadTicket(iTickettype, m_jTicketEditor.getValueInteger())
-					: m_dlSales.loadTicket(iTickettype, iTicketid);
+			TicketInfo ticket = (iTicketid == -1) 
+					? m_dlSales.loadTicket(isCashTicketId, m_jTicketEditor.getValueInteger(), taxeslogic)
+					: m_dlSales.loadTicket(isCashTicketId, iTicketid, taxeslogic);
 
 			if (ticket == null) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -338,8 +354,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 			}
 			//res.get(0);
 		} catch (BasicException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.Exception(e);
 		}
 	}
 	
@@ -373,8 +388,8 @@ public class JPlacesBagTicket extends JPlacesBag {
 		jButton1 = new javax.swing.JButton();
 		m_jTicketEditor = new com.openbravo.editor.JEditorIntegerPositive();
 		jPanel1 = new javax.swing.JPanel();
-		jrbSales = new javax.swing.JRadioButton();
-		jrbRefunds = new javax.swing.JRadioButton();
+		jrbTickets = new javax.swing.JRadioButton();
+		jrbCashTickets = new javax.swing.JRadioButton();
 
 		setLayout(new java.awt.BorderLayout());
 
@@ -480,8 +495,8 @@ public class JPlacesBagTicket extends JPlacesBag {
 			}
 		});
 		gridBagConstraints = new java.awt.GridBagConstraints();
-		gridBagConstraints.gridx = 1;
-		gridBagConstraints.gridy = 0;
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy = 1;
 		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
 		gridBagConstraints.weightx = 1.0;
 		gridBagConstraints.weighty = 1.0;
@@ -490,25 +505,29 @@ public class JPlacesBagTicket extends JPlacesBag {
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
+		gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+		gridBagConstraints.weightx = 1.0;
+		gridBagConstraints.weighty = 1.0;
+		gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
 		jPanel5.add(m_jTicketEditor, gridBagConstraints);
 
 		jPanel4.add(jPanel5);
 
 		jPanel3.add(jPanel4, java.awt.BorderLayout.NORTH);
 
-		buttonGroup1.add(jrbSales);
-		jrbSales.setText(AppLocal.getIntString("label.sales")); // NOI18N
-		jrbSales.setFocusPainted(false);
-		jrbSales.setFocusable(false);
-		jrbSales.setRequestFocusEnabled(false);
-		jPanel1.add(jrbSales);
+		buttonGroup1.add(jrbTickets);
+		jrbTickets.setText(AppLocal.getIntString("label.tickets")); // NOI18N
+		jrbTickets.setFocusPainted(false);
+		jrbTickets.setFocusable(false);
+		jrbTickets.setRequestFocusEnabled(false);
+		jPanel1.add(jrbTickets);
 
-		buttonGroup1.add(jrbRefunds);
-		jrbRefunds.setText(AppLocal.getIntString("label.refunds")); // NOI18N
-		jrbRefunds.setFocusPainted(false);
-		jrbRefunds.setFocusable(false);
-		jrbRefunds.setRequestFocusEnabled(false);
-		jPanel1.add(jrbRefunds);
+		buttonGroup1.add(jrbCashTickets);
+		jrbCashTickets.setText(AppLocal.getIntString("label.cashtickets")); // NOI18N
+		jrbCashTickets.setFocusPainted(false);
+		jrbCashTickets.setFocusable(false);
+		jrbCashTickets.setRequestFocusEnabled(false);
+		jPanel1.add(jrbCashTickets);
 
 		jPanel3.add(jPanel1, java.awt.BorderLayout.CENTER);
 
@@ -519,10 +538,6 @@ public class JPlacesBagTicket extends JPlacesBag {
 
 		m_ticketCopy = m_ticket;
 		m_TicketsBagTicketBag.showEdit();
-
-		// TODO:
-		// m_panelticketedit.showCatalog();
-		// m_panelticketedit.setActiveTicket(m_ticket.copyTicket(), null);
 
 	}// GEN-LAST:event_m_jEditActionPerformed
 
@@ -574,27 +589,23 @@ public class JPlacesBagTicket extends JPlacesBag {
 
 		m_ticketCopy = null;
 		m_TicketsBagTicketBag.showRefund();
-		// TODO:
-		// m_panelticketedit.showRefundLines(aRefundLines);
 
 		TicketInfo refundticket = new TicketInfo();
 		refundticket.setTicketType(TicketInfo.RECEIPT_REFUND);
 		refundticket.setCustomer(m_ticket.getCustomer());
 		refundticket.setPayments(m_ticket.getPayments());
-		// TODO:
-		// m_panelticketedit.setActiveTicket(refundticket, null);
 
 	}// GEN-LAST:event_m_jRefundActionPerformed
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 
-		readTicket(-1, jrbSales.isSelected() ? 0 : 1);
+		readTicket(-1, jrbTickets.isSelected() ? false : true);
 
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	private void m_jKeysActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jKeysActionPerformed
 
-		readTicket(-1, jrbSales.isSelected() ? 0 : 1);
+		readTicket(-1, jrbTickets.isSelected() ? false : true);
 
 	}// GEN-LAST:event_m_jKeysActionPerformed
 
@@ -606,7 +617,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 			m_jTicketEditor.reset();
 			m_jTicketEditor.activate();
 		} else {
-			readTicket(selectedTicket.getTicketId(), selectedTicket.getTicketType());
+			readTicket(selectedTicket.getTicketId(), false);
 		}
 	}// GEN-LAST:event_jButton2ActionPerformed
 
@@ -619,8 +630,8 @@ public class JPlacesBagTicket extends JPlacesBag {
 	private javax.swing.JPanel jPanel3;
 	private javax.swing.JPanel jPanel4;
 	private javax.swing.JPanel jPanel5;
-	private javax.swing.JRadioButton jrbRefunds;
-	private javax.swing.JRadioButton jrbSales;
+	private javax.swing.JRadioButton jrbCashTickets;
+	private javax.swing.JRadioButton jrbTickets;
 	private javax.swing.JPanel m_jButtons;
 	private javax.swing.JButton m_jEdit;
 	private com.openbravo.editor.JEditorKeys m_jKeys;
@@ -644,13 +655,11 @@ public class JPlacesBagTicket extends JPlacesBag {
 
 	@Override
 	public Place[] getPlaces() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void floorChanged() {
-		// TODO Auto-generated method stub
 
 	}
 

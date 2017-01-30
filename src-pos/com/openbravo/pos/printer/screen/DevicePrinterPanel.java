@@ -68,6 +68,9 @@ public class DevicePrinterPanel extends javax.swing.JPanel implements DevicePrin
     public void printImage(BufferedImage image) {
         m_ticketcurrent.printImage(image);
     }
+	public void printImageNoLF(BufferedImage image, int x){
+		m_ticketcurrent.printImageNoLF(image, x);
+    }
     public void printBarCode(String type, String position, String code) {
         m_ticketcurrent.printBarCode(type, position, code);
     }

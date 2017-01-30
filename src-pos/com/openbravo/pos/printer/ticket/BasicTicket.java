@@ -76,7 +76,16 @@ public abstract class BasicTicket implements PrintItem {
         if(m_iBodyColumns < pi.getColumns())
         	m_iBodyColumns = pi.getColumns();
     }
-
+    
+    public void printImageNoLF(BufferedImage image, int x){
+    	PrintItem pi = new PrintItemImageNoLF(image, getImageScale(), x);
+        m_aCommands.add(pi);
+        m_iBodyHeight += pi.getHeight();
+        
+        if(m_iBodyColumns < pi.getColumns())
+        	m_iBodyColumns = pi.getColumns();
+    }
+    
     public void printBarCode(String type, String position, String code) {
 
         PrintItem pi = new PrintItemBarcode(type, position, code, getImageScale());

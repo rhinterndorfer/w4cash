@@ -47,9 +47,7 @@
         #else
         <line>
             <text align="left" length="7">Bon:</text>
-            <text align="left" length="10">${ticket.printId()}</text>
-            <text align="left" length="1">/</text>
-            <text align="left" length="12"> ${host}</text>
+            <text align="left" length="23">${ticket.printId()} / ${host}</text>
         </line>
         #end
         <line>
@@ -113,7 +111,12 @@
         </line>      
         <line>
              <text>------------------------------</text>
-        </line>   
+        </line> 
+        #if ($ticket.getProperty("rksvnotes","") != "")
+        <line>
+            <text align="left" length="30">${ticket.getProperty("rksvnotes")}</text>
+        </line>  
+        #end  
         #foreach ($ticketline in $ticket.getLines())
         <line>
             #if ($ticketline.isProductCom()) 
@@ -178,11 +181,36 @@
             <text align ="left" length="10">Steuer</text>
             <text align ="right" length="20">${ticket.printTax()}</text>
         </line> 
+        <qrnolf x="-10">${ticket.getQRCode()}</qrnolf>   
         <line></line> 
         <line size="1">
-            <text align ="left" length="10" bold="true">Gesamt</text>
-            <text align ="right" length="15" bold="true">${ticket.printTotal()}</text>
+            <text align ="left" length="13" bold="true"></text>
+            <text align ="center" length="12" bold="true">Gesamt</text>
         </line>    
+        <line size="1">
+            <text align ="left" length="13" bold="true"></text>
+            <text align ="center" length="12" bold="true">${ticket.printTotal()}</text>
+        </line>
+        #if ($ticket.printCashTicketId() != "")
+        <line>
+            <text align="left" length="17"></text>
+            <text align="left" length="13">Barbelegnr:</text>
+        </line>
+        <line>
+            <text align="left" length="17"></text>
+            <text align="left" length="13">${ticket.printCashTicketId()}</text>
+        </line>
+        #end
+        #if ($ticket.printCashTicketId() != "" && $ticket.printPosId() != "")
+        <line>
+            <text align="left" length="30">Kassen-ID: ${ticket.printPosId()}</text>
+        </line>
+        #end
+        #if ($ticket.printSignatureState() != "")
+        <line>
+            <text align ="left" length="30">${ticket.printSignatureState()}</text>
+        </line>
+        #end
         #foreach ($paymentline in $ticket.payments)      
 		 #if ($paymentline.getClass().getSimpleName() == "PaymentInfoCash")
          #if ($paymentline.name == "cash")
@@ -200,7 +228,6 @@
          #end
 		 #end 
          #if ($paymentline.name == "cashrefund")
-        <line></line>     
         <line>
             <text bold="true">Gutschrift</text>
          </line>
@@ -209,7 +236,6 @@
         </line>    
          #end
          #if ($paymentline.name == "magcard")
-        <line></line>        
         <line>
             <text bold="true">Karte</text>
         </line>   
@@ -218,7 +244,6 @@
         </line>    
          #end  
          #if ($paymentline.name == "magcardrefund")
-        <line></line>     
         <line>
             <text bold="true">Karte Gutschrift</text>
         </line>    
@@ -227,7 +252,6 @@
         </line>    
          #end
          #if ($paymentline.name == "cheque")
-        <line></line>     
         <line>
             <text bold="true">Scheck</text>
         </line>    
@@ -236,7 +260,6 @@
         </line>    
          #end
          #if ($paymentline.name == "chequerefund")
-        <line></line>     
         <line>
             <text bold="true">Scheck Gutschrift</text>
         </line>    
@@ -245,7 +268,6 @@
         </line>    
          #end
          #if ($paymentline.name == "paperin")
-        <line></line>     
         <line>
             <text bold="true">Rechnung</text>
         </line>    
@@ -326,12 +348,4 @@
 			<text align="center" length="30" bold="true">Powered by w4cash.at</text>
         </line> 
     </ticket>
-    #foreach ($paymentline in $ticket.payments)      
-     #if ($paymentline.name == "cash")
-    <opendrawer/>
-     #end
-     #if ($paymentline.name == "cashrefund")
-    <opendrawer/>
-     #end  
-    #end
 </output>

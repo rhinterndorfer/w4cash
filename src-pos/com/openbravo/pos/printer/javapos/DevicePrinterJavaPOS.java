@@ -116,6 +116,14 @@ public class DevicePrinterJavaPOS  implements DevicePrinter {
         }
     }
     
+    public void printImage(BufferedImage image, double scale) {
+    	printImage(image);
+    }
+    
+    public void printImageNoLF(BufferedImage image, int x){
+    	printImage(image);
+    }
+    
     public void printBarCode(String type, String position, String code) {
         try {
             if (m_printer.getCapRecBarCode()) { // si podemos imprimir codigos de barras

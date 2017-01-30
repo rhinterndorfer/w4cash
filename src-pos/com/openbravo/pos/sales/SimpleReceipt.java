@@ -41,6 +41,7 @@ import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 /**
@@ -449,7 +450,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				try {
 					return this.dlSales.getPlacesSplit();
 				} catch (BasicException e) {
-					// TODO: Logging
+					Log.Exception(e);
 				}
 			}
 		}

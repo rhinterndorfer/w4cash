@@ -96,7 +96,6 @@ public class ResourcesPanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 
 	}
 

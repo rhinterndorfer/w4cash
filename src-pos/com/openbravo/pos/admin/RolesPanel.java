@@ -85,7 +85,6 @@ public class RolesPanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 
 	}
 

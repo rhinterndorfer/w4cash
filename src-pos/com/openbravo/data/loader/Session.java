@@ -181,19 +181,10 @@ public class Session {
 
 		String sdbmanager = getConnection().getMetaData().getDatabaseProductName();
 
-		if ("HSQL Database Engine".equals(sdbmanager)) {
-			return new SessionDBHSQLDB();
-		} else if ("MySQL".equals(sdbmanager)) {
-			return new SessionDBMySQL();
-		} else if ("PostgreSQL".equals(sdbmanager)) {
-			return new SessionDBPostgreSQL();
-		} else if ("Oracle".equals(sdbmanager)) {
+		if ("Oracle".equals(sdbmanager)) {
 			return new SessionDBOracle();
-		} else if ("Apache Derby".equals(sdbmanager)) {
-			return new SessionDBDerby();
-		} else {
-			return new SessionDBGeneric(sdbmanager);
 		}
+		return null;
 	}
 
 	public int getDBTimeout() {

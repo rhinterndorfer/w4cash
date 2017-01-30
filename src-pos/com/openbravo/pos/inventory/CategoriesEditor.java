@@ -35,6 +35,7 @@ import java.util.Vector;
 
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.SignatureUnitException;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;

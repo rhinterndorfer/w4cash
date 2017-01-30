@@ -41,7 +41,8 @@ public interface AppView {
     public AppProperties getProperties();
     public Object getBean(String beanfactory) throws BeanFactoryException;
      
-    //public void setActiveCash(String value, Date dStart, Date dEnd);
+
+    public String getLastCashIndex() throws BasicException;
     public String getActiveCashIndex(Boolean openNew, Boolean ignoreCache) throws BasicException;
     public int getActiveCashSequence();
     public Date getActiveCashDateStart() throws BasicException;

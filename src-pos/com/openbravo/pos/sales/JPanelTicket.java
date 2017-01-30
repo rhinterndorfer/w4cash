@@ -27,6 +27,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.openbravo.data.gui.ComboBoxValModel;
@@ -35,12 +36,14 @@ import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.printer.*;
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.forms.JPanelView;
+import com.openbravo.pos.forms.JPrincipalApp;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.JProductFinder;
 import com.openbravo.pos.scale.ScaleException;
 import com.openbravo.pos.payment.JPaymentSelect;
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.SignatureUnitException;
 import com.openbravo.data.gui.ListKeyed;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.loader.TableDefinition;
@@ -60,6 +63,7 @@ import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
 import com.openbravo.pos.payment.PaymentInfo;
+import com.openbravo.pos.payment.PaymentInfoCash;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.ProductInfoEdit;
 import com.openbravo.pos.ticket.ProductInfoExt;
@@ -68,9 +72,13 @@ import com.openbravo.pos.ticket.TicketInfo;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.transfer.SalesTransferModule;
 import com.openbravo.pos.util.JRPrinterAWT300;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.OnScreenKeyboardUtil;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.ReportUtils;
+
+import at.w4cash.signature.SignatureModul;
+
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
@@ -78,6 +86,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
 import javax.print.PrintService;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -86,6 +96,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import sun.security.krb5.internal.Ticket;
+import sun.util.logging.resources.logging;
 
 /**
  *
@@ -220,8 +232,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 			// res.get(0);
 		} catch (BasicException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.Exception(e);
 		}
 	}
 
@@ -354,6 +365,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jbtnconfig.setPermissions(m_App.getAppUserView().getUser());
 
 		m_ticketsbag.activate();
+		
+		
+		// Signature unit datalogic init and checks
+		SignatureModul sig = SignatureModul.getInstance();
+		sig.InitDataLogic(this, dlSales, taxeslogic);
+		sig.CheckSignatureUnitState(this, true);
+		if(sig.GetIsActive())
+		{
+			sig.CheckSignatureExpiration(this);
+			sig.CheckSignatureOutage(this);
+			sig.CheckStartTicket(this);
+			sig.CheckOpenTicketValidations(this);
+		}
 	}
 
 	public boolean deactivate() {
@@ -1116,36 +1140,31 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 				// Totals() Igual;
 			} else if (cTrans == ' ' || cTrans == '=') {
-				if (m_oTicket.getLinesCount() > 0) {
-
+				try {
+					if (this.m_restaurant != null)
+						this.m_restaurant.generateOrder();
+				} catch (BasicException e) {
+					JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+							AppLocal.getIntString("message.cannotprintticket"), e);
+				}
+				
+				// TicketInfo tt = m_oTicket.copyTicket();
+				if (closeTicket(m_oTicket, m_oTicketExt)) {
+					// Ends edition of current receipt
+					// verify booked products
+					// this.m_App.getAppUserView().
 					try {
 						if (this.m_restaurant != null)
-							this.m_restaurant.generateOrder();
+							this.m_restaurant.newTicket();
+
+						m_ticketsbag.deleteTicket(false);
 					} catch (BasicException e) {
 						JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 								AppLocal.getIntString("message.cannotprintticket"), e);
 					}
-					
-					// TicketInfo tt = m_oTicket.copyTicket();
-					if (closeTicket(m_oTicket, m_oTicketExt)) {
-						// Ends edition of current receipt
-						// verify booked products
-						// this.m_App.getAppUserView().
-						try {
-							if (this.m_restaurant != null)
-								this.m_restaurant.newTicket();
-
-							m_ticketsbag.deleteTicket(false);
-						} catch (BasicException e) {
-							JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-									AppLocal.getIntString("message.cannotprintticket"), e);
-						}
-					} else {
-						// repaint current ticket
-						refreshTicket();
-					}
 				} else {
-					Toolkit.getDefaultToolkit().beep();
+					// repaint current ticket
+					refreshTicket();
 				}
 			}
 		}
@@ -1158,6 +1177,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		if (m_App.getAppUserView().getUser().hasPermission("sales.Total")) {
 
 			try {
+				// check signature device state
+				SignatureModul sig = SignatureModul.getInstance();
+				if(sig.GetIsActive() && sig.GetIsOutOfOrder())
+				{
+					sig.CheckOutageInterval48h(this);
+				}
+				
 				// reset the payment info
 				taxeslogic.calculateTaxes(ticket);
 				if (ticket.getTotal() >= 0.0) {
@@ -1206,7 +1232,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									}
 								}
 
-								dlSales.saveTicket(ticket, m_App.getInventoryLocation());
+								dlSales.saveTicket(ticket, m_App.getInventoryLocation(), taxeslogic);
 								resultok = true;
 
 								try {
@@ -1234,13 +1260,25 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 											: "Printer.Ticket2", ticket, ticketext);
 									}
 								} catch (Exception eData) {
-									JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
-											AppLocal.getIntString("message.cannotprintticket"), eData);
+									JConfirmDialog.showError(m_App, this, 
+											AppLocal.getIntString("message.cannotprintticket"),
+											AppLocal.getIntString("error.network"), 
+											eData);
 								}
 
+							} catch (SignatureUnitException seData) {
+								JConfirmDialog.showError(m_App, this, 
+										AppLocal.getIntString("message.signatureunit.error"),
+										AppLocal.getIntString("message.nosaveticket"),
+										seData);
+								
+								// check signature unit
+								sig.CheckSignatureUnitState(this, false);
 							} catch (Exception eData) {
-								JConfirmDialog.showError(m_App, this, AppLocal.getIntString("message.nosaveticket"),
-										AppLocal.getIntString("message.databaseconnectionerror"), eData);
+								JConfirmDialog.showError(m_App, this, 
+										AppLocal.getIntString("message.databaseconnectionerror"),
+										AppLocal.getIntString("message.nosaveticket"),
+										eData);
 							}
 						}
 					}
@@ -1264,7 +1302,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		return resultok;
 	}
 
-	private void printTicket(String sresourcename, TicketInfo ticket, Object ticketext) {
+	public void printTicket(String sresourcename, TicketInfo ticket, Object ticketext) {
 
 		String sresource = dlSystem.getResourceAsXML(sresourcename);
 		if (sresource == null) {
@@ -2044,9 +2082,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			int res = JOptionPane.YES_OPTION;
 			
 			if(line.getMultiply() != 0)
-				res = JConfirmDialog.showConfirm(m_App, this, 
-						String.format(AppLocal.getIntString("message.wannadeleteline"),line.getMultiply(), line.getProductName()), 
-						null);
+				res = JConfirmDialog.showConfirm(m_App, this,
+						null,
+						String.format(AppLocal.getIntString("message.wannadeleteline"),line.getMultiply(), line.getProductName()));
 			
 			if (res == JOptionPane.YES_OPTION) {
 				removeTicketLine(i); // elimino la linea

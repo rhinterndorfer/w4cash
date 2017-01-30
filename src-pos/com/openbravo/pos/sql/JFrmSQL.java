@@ -110,6 +110,11 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
         return null;
     }
     
+    public String getLastCashIndex() throws BasicException
+    {
+    	return null;
+    }
+    
     public void setActiveCashDateEnd(Date dateEnd){
     	
     }

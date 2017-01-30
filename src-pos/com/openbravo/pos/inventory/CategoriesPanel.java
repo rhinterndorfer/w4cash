@@ -100,7 +100,6 @@ public class CategoriesPanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 
 	}
 

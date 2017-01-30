@@ -27,9 +27,13 @@ import java.applet.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.SAXParserFactory;
+import javax.imageio.ImageIO;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import com.openbravo.pos.forms.DataLogicSystem;
+
+import net.glxn.qrgen.QRCode;
+import net.glxn.qrgen.image.ImageType;
 
 public class TicketParser extends DefaultHandler {
     
@@ -42,6 +46,7 @@ public class TicketParser extends DefaultHandler {
     
     private String bctype;
     private String bcposition;
+    private String xposition;
     private int m_iTextAlign;
     private int m_iTextLength;
     private int m_iTextStyle;
@@ -167,7 +172,12 @@ public class TicketParser extends DefaultHandler {
             break;
         case OUTPUT_TICKET:
             if ("image".equals(qName)){
-                text = new StringBuffer();           
+                text = new StringBuffer();
+            } else if ("qr".equals(qName)) {
+                text = new StringBuffer();
+            } else if ("qrnolf".equals(qName)) {
+                text = new StringBuffer();
+                xposition = attributes.getValue("x");
             } else if ("barcode".equals(qName)) {
                 text = new StringBuffer();
                 bctype = attributes.getValue("type");
@@ -246,13 +256,44 @@ public class TicketParser extends DefaultHandler {
         case OUTPUT_TICKET:
             if ("image".equals(qName)){
                 try {
-                    // BufferedImage image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(m_sText.toString()));
                     BufferedImage image = m_system.getResourceAsImage(text.toString());
                     if (image != null) {
-                        m_oOutputPrinter.printImage(image);
+                    	m_oOutputPrinter.printImage(image);
                     }
                 } catch (Exception fnfe) {
                     //throw new ResourceNotFoundException( fnfe.getMessage() );
+                }
+                text = null;
+            } else if ("qr".equals(qName)) {
+            	try {
+	            	File imageFile = QRCode
+	    				.from(text.toString())
+	    				.to(ImageType.JPG)
+	    				.file();
+	            	
+	            	BufferedImage image = ImageIO.read(imageFile);
+            		m_oOutputPrinter.printImage(image);
+            	} catch (Exception e) {
+
+                }
+                text = null;
+            } else if ("qrnolf".equals(qName)) {
+            	try {
+	            	File imageFile = QRCode
+	    				.from(text.toString())
+	    				.to(ImageType.JPG)
+	    				.file();
+	            	
+	            	BufferedImage image = ImageIO.read(imageFile);
+                	try {
+                		int x = Integer.parseInt(xposition == null ? "0" : xposition);
+                		m_oOutputPrinter.printImageNoLF(image, x);
+                	} catch(Exception ex)
+                	{
+                		m_oOutputPrinter.printImageNoLF(image, 0);
+                	}
+            	} catch (Exception e) {
+
                 }
                 text = null;
             } else if ("barcode".equals(qName)) {

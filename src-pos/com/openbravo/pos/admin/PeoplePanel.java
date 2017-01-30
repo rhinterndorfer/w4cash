@@ -91,7 +91,6 @@ public class PeoplePanel extends JPanelTable {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}   
 

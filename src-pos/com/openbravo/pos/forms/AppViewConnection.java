@@ -26,16 +26,19 @@ import java.net.URLClassLoader;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.loader.Session;
 import com.openbravo.pos.util.AltEncrypter;
+import com.openbravo.pos.util.Log;
 
 /**
  *
  * @author adrianromero
  */
 public class AppViewConnection {
-
+	
 	/** Creates a new instance of AppViewConnection */
 	private AppViewConnection() {
 	}
@@ -69,16 +72,14 @@ public class AppViewConnection {
 					try {
 						Thread.sleep(10000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.Exception(e);
 					}
 					return new Session(props, props.getProperty("db.URL"), sDBUser, sDBPassword, 10);
 				} catch (SQLException eSQLx) {
 					try {
 						Thread.sleep(15000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.Exception(e);
 					}
 					return new Session(props, props.getProperty("db.URL"), sDBUser, sDBPassword, 15);
 				}

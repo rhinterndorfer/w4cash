@@ -181,6 +181,12 @@ public class DevicePrinterPrinter implements DevicePrinter {
 		m_ticketcurrent.printImage(image);
 	}
 
+	
+	@Override
+	public void printImageNoLF(BufferedImage image, int x){
+		m_ticketcurrent.printImageNoLF(image, x);
+    }
+	
 	/**
 	 * Method that is responsible for printing a barcode
 	 *
@@ -267,7 +273,8 @@ public class DevicePrinterPrinter implements DevicePrinter {
 					PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 					aset.add(OrientationRequested.PORTRAIT);
 					aset.add(new JobName(AppLocal.APP_NAME + " - Document", null));
-					aset.add(media);
+					if(media != null)
+						aset.add(media);
 
 					DocPrintJob printjob = ps.createPrintJob();
 					Doc doc = new SimpleDoc(new PrintableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,

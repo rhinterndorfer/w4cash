@@ -229,7 +229,6 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 		});;
@@ -288,7 +287,6 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -343,7 +341,6 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -403,7 +400,6 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -437,7 +433,6 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
 				firePropertyChange("category", null, m_jCategory.getSelectedItem());
 			}
 		});

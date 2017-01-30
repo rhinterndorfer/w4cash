@@ -21,6 +21,8 @@ package com.openbravo.data.loader;
 
 import java.sql.*;
 import com.openbravo.basic.BasicException;
+import com.openbravo.pos.util.Log;
+
 import java.util.logging.Logger;
 
 /**
@@ -29,8 +31,6 @@ import java.util.logging.Logger;
  */
 public class StaticSentence extends JDBCSentence {
 
-    private static Logger logger = Logger.getLogger("com.openbravo.data.loader.StaticSentence");
-    
     private ISQLBuilderStatic m_sentence;
     protected SerializerWrite m_SerWrite = null;
     protected SerializerRead m_SerRead = null;
@@ -80,7 +80,7 @@ public class StaticSentence extends JDBCSentence {
             
             sentence = m_sentence.getSQL(m_SerWrite, params);
             
-            logger.info("Executing static SQL: " + sentence);
+            Log.Info("Executing static SQL: " + sentence);
 
             if (m_Stmt.execute(sentence)) {
                 return new JDBCDataResultSet(m_Stmt.getResultSet(), m_SerRead);
@@ -93,8 +93,7 @@ public class StaticSentence extends JDBCSentence {
                 }
             }
         } catch (SQLException eSQL) {
-        	logger.severe("Error executing static SQL: " + sentence);
-            logger.severe(eSQL.getMessage());
+        	Log.Exception("Error executing static SQL: " + sentence, eSQL);
         	throw new BasicException(eSQL);
         }
     }

@@ -1,5 +1,5 @@
 //    Openbravo POS is a point of sales application designed for touch screens.
-//    Copyright (C) 2008-2009 Openbravo, S.L.
+//    Copyright (C) 2007-2009 Openbravo, S.L.
 //    http://www.openbravo.com/product/pos
 //
 //    This file is part of Openbravo POS.
@@ -19,30 +19,17 @@
 
 package com.openbravo.data.loader;
 
-/**
- *
- * @author adrianromero
- */
-public class SessionDBMySQL implements SessionDB {
+import com.openbravo.basic.BasicException;
 
-    public String TRUE() {
-        return "TRUE";
+public class SerializerReadTimestamp implements SerializerRead {
+    
+    public static final SerializerRead INSTANCE = new SerializerReadTimestamp();
+    
+    /** Creates a new instance of SerializerReadInteger */
+    private SerializerReadTimestamp() {
     }
-    public String FALSE() {
-        return "FALSE";
-    }
-    public String INTEGER_NULL() {
-        return "CAST(NULL AS UNSIGNED INTEGER)";
-    }
-    public String CHAR_NULL() {
-        return "CAST(NULL AS CHAR)";
-    }
-
-    public String getName() {
-        return "MySQL";
-    }
-
-    public SentenceFind getSequenceSentence(Session s, String sequence) {
-        return new SequenceForMySQL(s, sequence);
-    }
+    
+    public Object readValues(DataRead dr) throws BasicException {
+        return Datas.TIMESTAMP.getValue(dr,1);
+    }    
 }

@@ -131,12 +131,10 @@ public class JListData extends javax.swing.JDialog {
 	}// GEN-END:initComponents
 
 	private void m_jCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCancelActionPerformed
-		// TODO add your handling code here:
 		dispose();
 	}// GEN-LAST:event_m_jCancelActionPerformed
 
 	private void m_jOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jOKActionPerformed
-		// TODO add your handling code here:
 		m_selected = m_jData.getSelectedValue();
 		dispose();
 	}// GEN-LAST:event_m_jOKActionPerformed

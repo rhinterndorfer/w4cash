@@ -170,7 +170,6 @@ public class JParamsText extends javax.swing.JPanel implements ReportEditorCreat
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
     

@@ -110,7 +110,6 @@ public class AttributeValuesPanel extends JPanelTable2 {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
 	

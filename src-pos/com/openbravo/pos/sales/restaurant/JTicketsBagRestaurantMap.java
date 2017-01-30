@@ -51,6 +51,7 @@ import com.openbravo.data.loader.SentenceList;
 import com.openbravo.pos.customers.CustomerInfo;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.ticket.TicketLineInfo;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 public class JTicketsBagRestaurantMap extends JTicketsBag {
@@ -243,7 +244,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_jPanelMap.addComponentListener(new ComponentListener() {
 			@Override
 			public void componentShown(ComponentEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -295,13 +295,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void componentHidden(ComponentEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -997,15 +995,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					
 					
 				} catch (BasicException e) {
-					// TODO logging
+					Log.Exception(e);
 				}
 			}
 		});
 		jPanel2.add(m_jbtnOccupied);
 		
 
-		// add direct bonieren button
-		// TODO make a check if a direct bon table is available
+		// add direct sale button
 		btn_promptTicket
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/promptTicket.png")));
 		btn_promptTicket.setText(AppLocal.getIntString("button.promptTicket"));
@@ -1058,7 +1055,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	private void m_jbtnLogoutActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jbtnRefreshActionPerformed
 
-		// TODO logout
 		((JPrincipalApp) m_App.getAppUserView()).getAppview().closeAppView();
 	}
 
@@ -1098,8 +1094,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							{
 								
 								JConfirmDialog.showInformation(m_App, JTicketsBagRestaurantMap.this,
-										AppLocal.getIntString("message.tableempty"),
-										AppLocal.getIntString("error.information"));
+										AppLocal.getIntString("error.information"),
+										AppLocal.getIntString("message.tableempty")
+										);
 							}
 
 							// table occupied
@@ -1131,8 +1128,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							if(!m_place.hasPeople()) 
 							{
 								JConfirmDialog.showInformation(m_App, JTicketsBagRestaurantMap.this,
-										AppLocal.getIntString("message.tablefull"),
-										AppLocal.getIntString("error.information"));
+										AppLocal.getIntString("error.information"),
+										AppLocal.getIntString("message.tablefull")
+										);
 							}
 							
 							// Full table
@@ -1181,8 +1179,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 							setActivePlace(m_place, ticket);
 						} else {
-							// TODO: msg: The table is now full
-
 							JConfirmDialog.showError(m_App, JTicketsBagRestaurantMap.this,
 									AppLocal.getIntString("error.information"),
 									AppLocal.getIntString("message.tablefull"));
@@ -1268,9 +1264,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 							} else {
 								// asks if you want to merge tables
 								if(JConfirmDialog.showConfirm(m_App, 
-										JTicketsBagRestaurantMap.this, 
-										AppLocal.getIntString("message.mergetablequestion"), 
-												AppLocal.getIntString("message.mergetable")) == JOptionPane.YES_OPTION)
+										JTicketsBagRestaurantMap.this,
+										AppLocal.getIntString("message.mergetable"),
+										AppLocal.getIntString("message.mergetablequestion") 
+										) == JOptionPane.YES_OPTION)
 								{
 									// merge lines ticket
 

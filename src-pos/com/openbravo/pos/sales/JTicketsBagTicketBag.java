@@ -143,7 +143,7 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
 
 	private void m_jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jBtnDeleteActionPerformed
 		int res = JConfirmDialog.showConfirm(m_ticketsbagticket.getApp(), this,
-				AppLocal.getIntString("message.wannadelete"), null);
+				null, AppLocal.getIntString("message.wannadelete"));
 		
 		if (res == JOptionPane.YES_OPTION) {
 			m_ticketsbagticket.deleteTicket(true);

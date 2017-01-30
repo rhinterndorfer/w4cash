@@ -224,6 +224,19 @@ public class TaxesLogic {
         return getTaxInfo(tc.getID(), date, customer);
     }    
     
+    public TaxInfo getTaxInfo(double rate) {
+        
+        for (TaxInfo tax : taxlist) {
+            if (tax.getRate() == rate) {
+            	return tax;
+            }
+        }
+
+        return null;
+    }
+    
+    
+    
     public TaxInfo getTaxInfo(String tcid, Date date, CustomerInfoExt customer) {
         
         TaxInfo candidatetax = null;

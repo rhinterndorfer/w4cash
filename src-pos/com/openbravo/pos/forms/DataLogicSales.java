@@ -29,10 +29,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jfree.chart.labels.IntervalXYItemLabelGenerator;
+import org.tempuri.Sig;
 
 import com.openbravo.data.loader.*;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.SignatureUnitException;
 import com.openbravo.data.model.Field;
 import com.openbravo.data.model.Row;
 import com.openbravo.pos.customers.CustomerInfoExt;
@@ -43,15 +45,24 @@ import com.openbravo.pos.inventory.MovementReason;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.mant.FloorsInfo;
 import com.openbravo.pos.payment.PaymentInfo;
+import com.openbravo.pos.payment.PaymentInfoCash;
+import com.openbravo.pos.payment.PaymentInfoList;
+import com.openbravo.pos.payment.PaymentInfoMagcard;
+import com.openbravo.pos.payment.PaymentInfoMagcardRefund;
 import com.openbravo.pos.payment.PaymentInfoTicket;
+import com.openbravo.pos.sales.TaxesException;
+import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
+import at.w4cash.signature.SignatureModul;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -60,6 +71,7 @@ import java.io.IOException;
 public class DataLogicSales extends BeanFactoryDataSingle {
 
 	protected Session s;
+	protected AppView m_app;
 
 	protected Datas[] auxiliarDatas;
 	protected Datas[] stockdiaryDatas;
@@ -105,7 +117,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	}
 
 	public void init(AppView app){
+		
 		this.s = app.getSession();
+		this.m_app = app;
+		
 		// init places for split dialog
 		try {
 			getPlacesSplit();
@@ -263,10 +278,18 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	public SentenceList getTicketsList() {
 		return new StaticSentence(s,
 				new QBFBuilder(
-						"SELECT T.TICKETID, T.TICKETTYPE, R.DATENEW, P.NAME, C.NAME, SUM(PM.TOTAL) "
-								+ "FROM RECEIPTS R JOIN TICKETS T ON R.ID = T.ID LEFT OUTER JOIN PAYMENTS PM ON R.ID = PM.RECEIPT LEFT OUTER JOIN CUSTOMERS C ON C.ID = T.CUSTOMER LEFT OUTER JOIN PEOPLE P ON T.PERSON = P.ID "
-								+ "WHERE ?(QBF_FILTER) GROUP BY T.ID, T.TICKETID, T.TICKETTYPE, R.DATENEW, P.NAME, C.NAME ORDER BY R.DATENEW DESC, T.TICKETID",
-						new String[] { "T.TICKETID", "T.TICKETTYPE", "PM.TOTAL", "R.DATENEW", "R.DATENEW", "P.NAME",
+						"SELECT T.TICKETID, T.TICKETTYPE, R.DATENEW, P.NAME, C.NAME, SUM(PM.TOTAL), T.CASHTICKETID, "
+						+ "(SELECT MAX(EXTRACTVALUE(XMLTYPE(REPLACE(UTL_RAW.CAST_TO_VARCHAR2(TL.Attributes),'<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">','')),'/properties/entry[@key=\"Place\"]')) as Room FROM TICKETLINES TL WHERE TL.TICKET=T.ID GROUP BY TL.TICKET) as Room, "
+						+ "MAX(EXTRACTVALUE(XMLTYPE(REPLACE(UTL_RAW.CAST_TO_VARCHAR2(R.Attributes),'<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">','')),'/properties/entry[@key=\"rksvnotes\"]')) as RKSVNOTES "
+								+ "FROM RECEIPTS R "
+								+ "JOIN TICKETS T ON R.ID = T.ID "
+								+ "LEFT OUTER JOIN PAYMENTS PM ON R.ID = PM.RECEIPT "
+								+ "LEFT OUTER JOIN CUSTOMERS C ON C.ID = T.CUSTOMER "
+								+ "LEFT OUTER JOIN PEOPLE P ON T.PERSON = P.ID "
+								+ "WHERE ?(QBF_FILTER) "
+								+ "GROUP BY T.ID, T.TICKETID, T.TICKETTYPE, R.DATENEW, P.NAME, C.NAME, T.CASHTICKETID "
+								+ "ORDER BY R.DATENEW DESC, T.TICKETID",
+						new String[] { "T.TICKETID", "T.CASHTICKETID", "PM.TOTAL", "R.DATENEW", "R.DATENEW", "P.NAME",
 								"C.NAME" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.INT, Datas.OBJECT, Datas.INT, Datas.OBJECT,
 						Datas.DOUBLE, Datas.OBJECT, Datas.TIMESTAMP, Datas.OBJECT, Datas.TIMESTAMP, Datas.OBJECT,
@@ -400,13 +423,22 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE).find(id) != null;
 	}
 
-	public final TicketInfo loadTicket(final int tickettype, final int ticketid) throws BasicException {
+	public final TicketInfo loadTicket(final Boolean isCashTicketId, final int ticketid, TaxesLogic taxlogic) throws BasicException {
 		TicketInfo ticket = (TicketInfo) new PreparedSentence(s,
-				"SELECT T.ID, T.TICKETTYPE, T.TICKETID, R.DATENEW, R.MONEY, R.ATTRIBUTES, P.ID, P.NAME, T.CUSTOMER FROM RECEIPTS R JOIN TICKETS T ON R.ID = T.ID LEFT OUTER JOIN PEOPLE P ON T.PERSON = P.ID WHERE T.TICKETTYPE = ? AND T.TICKETID = ?",
+				"SELECT T.ID, T.TICKETTYPE, T.TICKETID, "
+				+ "R.DATENEW, R.MONEY, R.ATTRIBUTES, "
+				+ "P.ID, P.NAME, "
+				+ "T.CUSTOMER, "
+				+ "T.CASHTICKETID, T.SIGNATUREID, T.SIGNATUREVALUE, T.CASHSUMCOUNTER, "
+				+ "T.ALGORITHMID, T.POSID, T.SIGNATUREOUTOFORDER, "
+				+ "T.CHAINVALUE, T.CASHSUMCOUNTERENC, T.VALIDATION, T.MONTH "
+				+ "FROM RECEIPTS R JOIN TICKETS T ON R.ID = T.ID LEFT OUTER JOIN PEOPLE P ON T.PERSON = P.ID WHERE (? IS NOT NULL AND T.TICKETID = ?) OR (? IS NOT NULL AND T.CASHTICKETID = ?)",
 				SerializerWriteParams.INSTANCE, new SerializerReadClass(TicketInfo.class)).find(new DataParams() {
 					public void writeValues() throws BasicException {
-						setInt(1, tickettype);
-						setInt(2, ticketid);
+						setInt(1, isCashTicketId ? null : ticketid);
+						setInt(2, isCashTicketId ? null : ticketid);
+						setInt(3, isCashTicketId ? ticketid : null);
+						setInt(4, isCashTicketId ? ticketid : null);
 					}
 				});
 		if (ticket != null) {
@@ -422,18 +454,42 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 			ticket.setPayments(new PreparedSentence(s, "SELECT PAYMENT, TOTAL, TRANSID FROM PAYMENTS WHERE RECEIPT = ?",
 					SerializerWriteString.INSTANCE, new SerializerReadClass(PaymentInfoTicket.class))
 							.list(ticket.getId()));
+			
+			
+			// check if cash ticket
+			// search for cash payment
+			Boolean isCashTicket = ticket.getCashTicketId() != null;
+			try {
+				taxlogic.calculateTaxes(ticket);
+				ticket.setQRCode("");
+				if(isCashTicket)
+				{
+					ticket.setQRCode(ticket.getSigningClearText() + "_" + ticket.getSignatureValue());
+				}
+			} catch(Exception ex)
+			{
+				throw new BasicException("Error generating QR code", ex);
+			}
 		}
+			
 		return ticket;
 	}
 
-	public final void saveTicket(final TicketInfo ticket, final String location) throws BasicException {
+	public final void saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic) throws BasicException, SignatureUnitException {
 
+		SignatureModul sig = SignatureModul.getInstance();
+		if(sig.GetIsActive() && sig.GetIsCriticalError())
+		{
+			throw new SignatureUnitException("Signature device in critical error sate!");
+		}
+		
+		
+		
 		Transaction t = new Transaction(s) {
-			public Object transact() throws BasicException {
+			public Object transact() throws BasicException, SignatureUnitException {
 
 				// Set Receipt Id
-				if (ticket.getTicketId() == 0) {
-					switch (ticket.getTicketType()) {
+				switch (ticket.getTicketType()) {
 					case TicketInfo.RECEIPT_NORMAL:
 						ticket.setTicketId(getNextTicketIndex().intValue());
 						break;
@@ -445,7 +501,64 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						break;
 					default:
 						throw new BasicException();
+				}
+				
+				// check if cash ticket
+				// search for cash payment
+				ticket.setQRCode("");
+				Boolean isCashTicket = false;
+				for (final PaymentInfo p : ticket.getPayments()) {
+					if("cash".equals(p.getName()) 
+							|| "cashrefund".equals(p.getName())
+							|| "magcard".equals(p.getName())
+							|| "magcardrefund".equals(p.getName())
+					)
+					{
+						isCashTicket = true;
+						break;
 					}
+				}
+				
+				if(isCashTicket 
+					&& sig.GetIsActive()
+					)
+				{
+					int cashTicketId = getNextCashTicketIndex();
+					double sum = getLastCashTicketSum();
+					sum = TicketInfo.round(sum, 2);
+					sum = sum + ticket.getTotal2();
+					
+					String signatureId = sig.GetSignatureId();
+					ticket.setCashTicketId(cashTicketId);
+					ticket.setCashSumCounter(sum);
+					ticket.setSignatureId(signatureId);
+					ticket.setPosId(sig.GetPOSID());
+					ticket.setAlgorithmId(1); // maybe in future use different algorithm 
+					
+					// trunover counter 
+					String trunOverCounterCrypted = sig.getTurnOverCounterEncrypted(ticket.getAlgorithmId(), ticket.getCashSumCounter(), ticket.getPosId(), ticket.getCashTicketId());
+					ticket.setCashSumCounterEnc(trunOverCounterCrypted);
+					
+					// chain value
+					String lastCashTicketSignatureValue = null;
+					String lastCashTicketPayload = null;
+					if(cashTicketId > 1)
+					{
+						TicketInfo lastTicket = loadTicket(true, cashTicketId - 1, taxlogic);
+						lastCashTicketPayload = lastTicket.getSigningClearText();
+						lastCashTicketSignatureValue = lastTicket.getSignatureValue();
+					}
+					
+					String chainValue = sig.calculateSignatureValuePreviousReceipt(ticket.getAlgorithmId(), ticket.getPosId(), lastCashTicketPayload, lastCashTicketSignatureValue);
+					ticket.setChainValue(chainValue);
+					
+					
+					String ticketSigningClearText = ticket.getSigningClearText();
+					String signValue = sig.Sign(ticketSigningClearText);
+					ticket.setSignatureValue(signValue);
+					ticket.setSignatureOutOfOrder(sig.GetIsOutOfOrder());
+					
+					ticket.setQRCode(ticketSigningClearText + "_" + signValue);
 				}
 
 				// new receipt
@@ -467,7 +580,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 				// new ticket
 				new PreparedSentence(s,
-						"INSERT INTO TICKETS (ID, TICKETTYPE, TICKETID, PERSON, CUSTOMER) VALUES (?, ?, ?, ?, ?)",
+						"INSERT INTO TICKETS (ID, TICKETTYPE, TICKETID, PERSON, CUSTOMER, "
+						+ "CASHTICKETID, CASHSUMCOUNTER, SIGNATUREID, SIGNATUREVALUE, ALGORITHMID, POSID, SIGNATUREOUTOFORDER, CHAINVALUE, CASHSUMCOUNTERENC, VALIDATION, MONTH) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 						SerializerWriteParams.INSTANCE).exec(new DataParams() {
 					public void writeValues() throws BasicException {
 						setString(1, ticket.getId());
@@ -475,6 +590,17 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						setInt(3, ticket.getTicketId());
 						setString(4, ticket.getUser().getId());
 						setString(5, ticket.getCustomerId());
+						setInt(6, ticket.getCashTicketId());
+						setDouble(7, ticket.getCashSumCounter());
+						setString(8, ticket.getSignatureId());
+						setBytes(9, ticket.getSignatureValueBlob());
+						setInt(10, ticket.getAlgorithmId());
+						setString(11, ticket.getPosId());
+						setInt(12, ticket.getSignatureOutOfOrder() ? 1 : 0);
+						setBytes(13, ticket.getChainValueBlob());
+						setBytes(14, ticket.getCashSumCounterEncBlob());
+						setInt(15, ticket.getValidation());
+						setInt(16, ticket.getMonth());
 					}
 				});
 
@@ -549,7 +675,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		t.execute();
 	}
 
-	public final void deleteTicket(final TicketInfo ticket, final String location) throws BasicException {
+	public final void deleteTicket(final TicketInfo ticket, final String location) throws BasicException, SignatureUnitException {
 
 		Transaction t = new Transaction(s) {
 			public Object transact() throws BasicException {
@@ -609,6 +735,22 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		if (result == null)
 			return 1; // first ticket
 		return (Integer) result;
+	}
+	
+	public final Integer getNextCashTicketIndex() throws BasicException {
+		// sell
+		Object result = s.DB.getCashSequenceSentence(s, "TICKETSNUM").find();
+		if (result == null)
+			return 1; // first ticket
+		return (Integer) result;
+	}
+	
+	public final Double getLastCashTicketSum() throws BasicException {
+		// sell
+		Object result = s.DB.getCashSumSentence(s).find();
+		if (result == null)
+			return 0.0; // first ticket
+		return (Double) result;
 	}
 
 	public final Integer getNextTicketRefundIndex() throws BasicException {

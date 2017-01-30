@@ -86,7 +86,6 @@ public class JPanelPayments extends JPanelTable {
 
 	@Override
 	public void onMove(BrowsableData browseableData, EditorRecord editorRecord, List<Object[]> values) {
-		// TODO Auto-generated method stub
 		
 	}
 	

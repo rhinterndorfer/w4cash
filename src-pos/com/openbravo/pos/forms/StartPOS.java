@@ -34,6 +34,9 @@ import org.jvnet.substance.api.SubstanceSkin;
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.instance.InstanceQuery;
+import com.openbravo.pos.util.Log;
+
+import at.w4cash.signature.SignatureModul;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -46,8 +49,6 @@ import javax.swing.*;
  * @author adrianromero
  */
 public class StartPOS {
-
-	private static Logger logger = Logger.getLogger("com.openbravo.pos.forms.StartPOS");
 
 	private Icon icon = new ImageIcon(getClass().getResource("/com/openbravo/images/wait.gif"));
 
@@ -81,6 +82,32 @@ public class StartPOS {
 				AppConfig config = new AppConfig(args);
 				config.load();
 
+				if(args != null && args.length >= 2)
+				{
+					// DEP export path
+					try {
+						
+						String DEPExportPath = args[1];
+						JRootApp rootapp = new JRootApp();
+					
+						if(rootapp.initApp(config, true))
+						{
+							if(SignatureModul.getInstance() != null && SignatureModul.getInstance().GetIsActive())
+							{
+								SignatureModul.getInstance().DEPExport(DEPExportPath);
+							}
+						}
+						else
+							Log.Exception("Init JRootApp for DEP export failed.");
+					
+					} catch(Exception ex)
+					{
+						Log.Exception(ex);
+					}
+					System.exit(0); // and exit
+				}
+				
+				
 				String screenmode = config.getProperty("machine.screenmode");
 
 				// Set the look and feel.
@@ -95,7 +122,7 @@ public class StartPOS {
 						SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
 					}
 				} catch (Exception e) {
-					logger.log(Level.WARNING, "Cannot set look and feel", e);
+					Log.Exception("Cannot set look and feel", e);
 				}
 
 				JRootGUI r = null;
@@ -109,16 +136,15 @@ public class StartPOS {
 				final JRootGUI root = r;
 				final GuiWorker action = new StartPOS().new GuiWorker(r);
 				
-				new Thread(new Runnable() {
+				Thread t = new Thread(new Runnable() {
 
 					@Override
 					public void run() {
 						action.execute();
-						// TODO Auto-generated method stub
-						// action.actionPerformed(new ActionEvent(root, 0, "")
-						// );
 					}
-				}).start();
+					
+				});
+				t.start();
 				
 				// set Locale.
 				String slang = config.getProperty("user.language");
@@ -149,98 +175,6 @@ public class StartPOS {
 				if(!result)
 					System.exit(1);
 			}
-
-			private void doLicense(JRootGUI root) {
-				File license = new File("w4cash.sha1");
-				File hashing = new File("start.bat");
-
-				// match localfile with uploaded file
-				InputStream inTarget = null;
-				InputStream inTargetSha1 = null;
-				try {
-					try {
-						inTarget = new FileInputStream(hashing);
-						inTargetSha1 = new FileInputStream(license);
-						W4CashSha1 sha1 = new W4CashSha1();
-						// validate
-						boolean isSha1 = sha1.validateSha(inTarget, inTargetSha1,
-								"" + W4CashSha1.readCreationDate(hashing));
-						if (!isSha1) {
-							throw new NoSuchAlgorithmException("License is not working!");
-						}
-					} catch (NoSuchAlgorithmException e) {
-						throw new IOException(e);
-					} finally {
-						if (inTarget != null) {
-							try {
-								inTarget.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-						if (inTargetSha1 != null) {
-							try {
-								inTargetSha1.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				} catch (IOException e) {
-					// TODO: ERROR DIALOG
-
-					// e.printStackTrace();
-					Window win = SwingUtilities.getWindowAncestor(root);
-
-					// JLicenseDialog.showDialog(root.getAppView(), root,
-					// "License", "license");
-					// dialog.setLocationRelativeTo(win);
-
-					// final JDialog dialog = new JDialog(win, "W4CASH Lizenz.",
-					// ModalityType.APPLICATION_MODAL);
-					// dialog.setLocationRelativeTo(win);
-
-					// JPanel panel = new JPanel();
-					// panel.addMouseListener(new java.awt.event.MouseAdapter()
-					// {
-					// public void mouseClicked(java.awt.event.MouseEvent evt) {
-					// dialog.dispose();
-					// }
-					// });
-					// panel.setBackground(Color.red);
-					// JLabel label = new JLabel("Lizenz wurde nicht gefunden,
-					// w4cash wird beendet.");
-					// label.setFont(new Font("Tahoma", Font.BOLD, 20));
-					// label.setHorizontalAlignment(SwingConstants.CENTER);
-					// label.setVerticalAlignment(SwingConstants.CENTER);
-					// panel.add(label, BorderLayout.CENTER);
-					//
-					// dialog.add(panel);
-					// dialog.pack();
-					// dialog.setLocation(new Point(100, 100));
-					// dialog.setSize(500, 50);
-					// dialog.dispose();
-					// dialog.setUndecorated(true);
-					// new Thread(new Runnable() {
-					//
-					// @Override
-					// public void run() {
-					// // TODO Auto-generated method stub
-					// try {
-					// Thread.sleep(5000);
-					// } catch (InterruptedException e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
-					// dialog.dispose();
-					// }
-					// }).start();
-
-					// dialog.setVisible(true);
-
-					System.exit(0);
-				}
-			}
 		});
 	}
 
@@ -258,17 +192,6 @@ public class StartPOS {
 
 		public GuiWorker(Component win) {
 			this.win = win;
-			// super();
-			// }
-
-			// SwingWorker<Void, Void> mySwingWorker = null;
-
-			// @Override
-			// public void actionPerformed(ActionEvent evt) {
-			// Window win = SwingUtilities.getWindowAncestor((Component)
-			// evt.getSource());
-			// final JDialog dialog = new JDialog(win, "W4CASH startet.",
-			// ModalityType.DOCUMENT_MODAL);
 
 			dialog.setUndecorated(true);
 			dialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
@@ -288,8 +211,6 @@ public class StartPOS {
 			dialog.setUndecorated(true);
 			dialog.setVisible(true);
 		}
-		// final JFrame dialog = new JFrame("W4CASH startet."); //,
-		// ModalityType.APPLICATION_MODAL);
 
 		// mySwingWorker = new SwingWorker<Void, Void>() {
 		@Override
@@ -298,30 +219,10 @@ public class StartPOS {
 			Thread.sleep(SLEEP_TIME);
 			return null;
 		}
-		// };
-
-		// mySwingWorker.addPropertyChangeListener(new PropertyChangeListener()
-		// {
-		//
-		// @Override
-		// public void propertyChange(PropertyChangeEvent evt) {
-		// if (evt.getPropertyName().equals("state")) {
-		// if (evt.getNewValue() == SwingWorker.StateValue.DONE) {
-		// dialog.dispose();
-		// }
-		// }
-		// }
-		// });
-		// mySwingWorker.execute();
 		@Override
 		protected void done() {
 			dialog.dispose();
 		}
 
-		// }
-
-		// public SwingWorker<Void, Void> getSwingWorker() {
-		// return this.mySwingWorker;
-		// }
 	}
 }

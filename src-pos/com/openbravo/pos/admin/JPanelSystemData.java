@@ -27,6 +27,7 @@ import com.openbravo.format.Formats;
 
 import java.awt.Component;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -37,6 +38,7 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.AltEncrypter;
 import com.openbravo.pos.util.DirectoryEvent;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 /**
@@ -141,8 +143,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 			}
 			//res.get(0);
 		} catch (BasicException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.Exception(e);
 		}
 	}
 
@@ -185,8 +186,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
     		   upd.exec(new Object[]{systemDataAccountIBAN + "", "System.AccountIBAN", 0, Formats.BYTEA.parseValue(this.txtSystemDataAccountIBAN.getText())}); 
     	   }
 	} catch (BasicException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		Log.Exception(e);
 	}
         
 

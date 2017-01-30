@@ -19,6 +19,8 @@
 
 package com.openbravo.pos.printer;
 
+import java.awt.image.BufferedImage;
+
 import com.openbravo.pos.forms.AppLocal;
 
 public class DevicePrinterNull implements DevicePrinter {
@@ -53,8 +55,12 @@ public class DevicePrinterNull implements DevicePrinter {
     }
     public void printBarCode(String type, String position, String code) {        
     }    
-    public void printImage(java.awt.image.BufferedImage image) {
+    public void printImage(BufferedImage image) {
     }
+	public void printImageNoLF(BufferedImage image, int x){
+		printImage(image);
+    }
+    
     public void beginLine(int iTextSize) {
     }   
     public void printText(int iStyle, String sText) {

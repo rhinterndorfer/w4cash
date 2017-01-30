@@ -21,6 +21,8 @@ package com.openbravo.data.loader;
 
 import java.sql.*;
 import com.openbravo.basic.BasicException;
+import com.openbravo.pos.util.Log;
+
 import java.util.logging.Logger;
 
 /**
@@ -28,8 +30,6 @@ import java.util.logging.Logger;
  * @author  adrianromero
  */
 public class PreparedSentence extends JDBCSentence {
-
-    private static Logger logger = Logger.getLogger("com.openbravo.data.loader.PreparedSentence");
 
     private String m_sentence;
     protected SerializerWrite m_SerWrite = null;
@@ -133,8 +133,7 @@ public class PreparedSentence extends JDBCSentence {
         closeExec();
 
         try {
-
-            logger.info("Executing prepared SQL: " + m_sentence);
+        	Log.Info("Executing prepared SQL: " + m_sentence);
 
             m_Stmt = m_s.getConnection().prepareStatement(m_sentence);
             m_Stmt.setQueryTimeout(m_s.getDBTimeout());
@@ -157,8 +156,7 @@ public class PreparedSentence extends JDBCSentence {
         } catch (SQLException eSQL) {
         	if(!noExceptionLogging)
         	{
-        		logger.severe("Error executing prepared SQL: " + m_sentence);
-        		logger.severe(eSQL.getMessage());
+        		Log.Exception("Error executing prepared SQL: " + m_sentence, eSQL);
         	}
             throw new BasicException(eSQL);
         }

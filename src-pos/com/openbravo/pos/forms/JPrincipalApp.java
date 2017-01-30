@@ -141,25 +141,21 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
 			@Override
 			public void componentShown(ComponentEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void componentResized(ComponentEvent e) {
 				setMenuVisible(false);
-				// setMenuVisible(getBounds().width > 1024);
 			}
 
 			@Override
 			public void componentMoved(ComponentEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void componentHidden(ComponentEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});

@@ -37,6 +37,9 @@ public class FindTicketsInfo implements SerializableRead {
     private String name;
     private String customer;
     private double total;
+    private Integer cashticketid;
+    private String room;
+    private String rksvnotes;
     
     /** Creates new ProductInfo */
     public FindTicketsInfo() {
@@ -52,6 +55,9 @@ public class FindTicketsInfo implements SerializableRead {
         name = dr.getString(4);
         customer = dr.getString(5);
         total = (dr.getObject(6) == null) ? 0.0 : dr.getDouble(6).doubleValue();
+        cashticketid = dr.getInt(7);
+        room = dr.getString(8);
+        rksvnotes = dr.getString(9);
     }
     
     @Override
@@ -59,11 +65,16 @@ public class FindTicketsInfo implements SerializableRead {
         
         String sCustomer = (customer==null) ? "" : customer;
 
-        String sHtml = "<tr><td width=\"30\">"+ "["+ ticketid +"]" +"</td>" +
-                "<td width=\"100\">"+ Formats.TIMESTAMP.formatValue(date) +"</td>" +
-                "<td align=\"center\" width=\"100\">"+ sCustomer +"</td>" +
-                "<td align=\"right\" width=\"100\">"+ Formats.CURRENCY.formatValue(total) +"</td>"+
-                "<td width=\"100\">"+ Formats.STRING.formatValue(name) +"</td></tr>";
+        String sHtml = "<tr>"
+        		+ "<td width=\"100\">"+ "["+ ticketid +"]" +"</td>"
+        		+ "<td width=\"100\">"+ "["+ (cashticketid == null ? "" : cashticketid.toString()) +"]" +"</td>"
+                + "<td width=\"120\">"+ Formats.TIMESTAMP.formatValue(date) +"</td>"
+                + "<td align=\"right\" width=\"120\">"+ Formats.CURRENCY.formatValue(total) +"</td>"
+                + "<td width=\"100\">"+ Formats.STRING.formatValue(room) + "</td>"
+                + "<td align=\"center\" width=\"150\">"+ Formats.STRING.formatValue(sCustomer) +"</td>"
+                + "<td width=\"150\">"+ Formats.STRING.formatValue(name) + "</td>"
+                + "<td width=\"150\">"+ Formats.STRING.formatValue(rksvnotes) + "</td>"
+        		+ "</tr>";
         
         return sHtml;
     }

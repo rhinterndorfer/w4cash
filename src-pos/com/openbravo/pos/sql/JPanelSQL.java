@@ -342,7 +342,6 @@ public class JPanelSQL extends JPanel implements JPanelView {
 	}// GEN-LAST:event_jButton2ActionPerformed
 
 	private void m_jForwardActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jForwardActionPerformed
-		// TODO add your handling code here:
 
 		m_iHistoryIndex++;
 		m_jtxtSQL.setText((String) m_aHistory.get(m_iHistoryIndex));
@@ -359,7 +358,6 @@ public class JPanelSQL extends JPanel implements JPanelView {
 	}// GEN-LAST:event_m_jBackActionPerformed
 
 	private void m_jTreeDBTreeExpanded(javax.swing.event.TreeExpansionEvent evt) {// GEN-FIRST:event_m_jTreeDBTreeExpanded
-		// TODO add your handling code here:
 
 	}// GEN-LAST:event_m_jTreeDBTreeExpanded
 

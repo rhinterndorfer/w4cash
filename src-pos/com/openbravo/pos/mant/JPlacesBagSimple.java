@@ -36,9 +36,6 @@ public class JPlacesBagSimple extends JPlacesBag {
 	}
 
 	public void activate() {
-		// TODO:
-		// m_panelticket.setActiveTicket(new TicketInfo(), null);
-
 		// Authorization
 		m_jDelTicket.setEnabled(
 				m_App.getAppUserView().getUser().hasPermission("com.openbravo.pos.sales.JPanelTicketEdits"));
@@ -46,14 +43,10 @@ public class JPlacesBagSimple extends JPlacesBag {
 	}
 
 	public boolean deactivate() {
-		// TODO:
-		// m_panelticket.setActiveTicket(null, null);
 		return true;
 	}
 
 	public void deleteTicket() {
-		// TODO:
-		// m_panelticket.setActiveTicket(new TicketInfo(), null);
 	}
 
 	protected JComponent getBagComponent() {
@@ -122,19 +115,16 @@ public class JPlacesBagSimple extends JPlacesBag {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Place[] getPlaces() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void floorChanged() {
-		// TODO Auto-generated method stub
 		
 	}
 

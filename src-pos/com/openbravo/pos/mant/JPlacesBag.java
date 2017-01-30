@@ -6,14 +6,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import com.openbravo.basic.BasicException;
+import com.openbravo.data.gui.ListKeyed;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.sales.JTicketsBag;
+import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.sales.TicketsEditor;
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.sales.restaurant.Place;
 import com.openbravo.pos.sales.shared.JTicketsBagShared;
 import com.openbravo.pos.sales.simple.JTicketsBagSimple;
+import com.openbravo.pos.ticket.TaxInfo;
 
 public abstract class JPlacesBag extends JPanel {
 

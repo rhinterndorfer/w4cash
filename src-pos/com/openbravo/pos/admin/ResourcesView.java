@@ -295,7 +295,6 @@ public class ResourcesView extends JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
     

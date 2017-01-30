@@ -66,12 +66,7 @@ public class JPlacesBagShared extends JPlacesBag {
 
 		// precondicion es que tenemos ticket activado aqui y ticket en el panel
 
-		saveCurrentTicket();
-
 		m_sCurrentTicket = null;
-		// TODO:
-		// m_panelticket.setActiveTicket(null, null);
-
 		return true;
 
 		// postcondicion es que no tenemos ticket activado ni ticket en el panel
@@ -92,20 +87,6 @@ public class JPlacesBagShared extends JPlacesBag {
 		return new JPanel();
 	}
 
-	private void saveCurrentTicket() {
-
-		// save current ticket, if exists,
-		// TODO:
-		// if (m_sCurrentTicket != null) {
-		// try {
-		// dlReceipts.insertSharedTicket(m_sCurrentTicket,
-		// m_panelticket.getActiveTicket());
-		// } catch (BasicException e) {
-		// new MessageInf(e).show(this);
-		// }
-		// }
-	}
-
 	private void setActiveTicket(String id) throws BasicException {
 
 		// BEGIN TRANSACTION
@@ -116,9 +97,6 @@ public class JPlacesBagShared extends JPlacesBag {
 		} else {
 			dlReceipts.deleteSharedTicket(id);
 			m_sCurrentTicket = id;
-
-			// TODO:
-			// m_panelticket.setActiveTicket(ticket, null);
 		}
 		// END TRANSACTION
 	}
@@ -139,14 +117,8 @@ public class JPlacesBagShared extends JPlacesBag {
 	}
 
 	private void newTicket() {
-
-		saveCurrentTicket();
-
 		TicketInfo ticket = new TicketInfo();
 		m_sCurrentTicket = UUID.randomUUID().toString(); // m_fmtid.format(ticket.getId());
-
-		// TODO:
-		// m_panelticket.setActiveTicket(ticket, null);
 	}
 
 	/**
@@ -237,7 +209,6 @@ public class JPlacesBagShared extends JPlacesBag {
 					String id = listDialog.showTicketsList(l);
 
 					if (id != null) {
-						saveCurrentTicket();
 						setActiveTicket(id);
 					}
 				} catch (BasicException e) {
@@ -281,7 +252,6 @@ public class JPlacesBagShared extends JPlacesBag {
 
 	@Override
 	public Place getPlace() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -301,13 +271,11 @@ public class JPlacesBagShared extends JPlacesBag {
 
 	@Override
 	public Place[] getPlaces() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected void floorChanged() {
-		// TODO Auto-generated method stub
 		
 	}
 

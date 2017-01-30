@@ -145,7 +145,6 @@ public class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
 	}
 
 	public void refresh() {
-		// TODO:
 	}
 
 	private void setReasonTotal(Object reasonfield, Object totalfield) {

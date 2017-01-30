@@ -19,11 +19,11 @@
 package com.openbravo.pos.ticket;
 
 import java.util.*;
-import java.util.function.DoubleFunction;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.data.loader.DataRead;
@@ -34,6 +34,9 @@ import com.openbravo.data.loader.LocalRes;
 import com.openbravo.pos.customers.CustomerInfoExt;
 import com.openbravo.pos.payment.PaymentInfoMagcard;
 import com.openbravo.pos.util.StringUtils;
+import at.w4cash.signature.SignatureModul;
+import net.glxn.qrgen.QRCode;
+import net.glxn.qrgen.image.ImageType;
 
 /**
  *
@@ -52,6 +55,17 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private String m_sId;
     private int tickettype;
     private int m_iTicketId;
+    private Integer m_iCashTicketId;
+    private String m_SignatureId;
+    private byte[] m_SignatureValue;
+    private Double m_CashSumCounter;
+    private Integer m_algorithmId;
+    private String m_posId;
+    private Integer m_signatureoutoforder;
+    private byte[] m_chainvalue;
+    private byte[] m_cashSumCounterEnc;
+    private Integer m_validation;
+    private Integer m_month;
     private java.util.Date m_dDate;
     private Properties attributes;
     private UserInfo m_User;
@@ -64,6 +78,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     private String m_sResponse;
     private String m_sTempComment;
     private Object m_info;
+    private String m_qrcode;
     
     public void SetInfo(Object info)
     {
@@ -75,6 +90,17 @@ public class TicketInfo implements SerializableRead, Externalizable {
         m_sId = UUID.randomUUID().toString();
         tickettype = RECEIPT_NORMAL;
         m_iTicketId = 0; // incrementamos
+        m_iCashTicketId = null;
+        m_SignatureId = null;
+        m_SignatureValue = null;
+        m_CashSumCounter = null;
+        m_algorithmId = null;
+        m_signatureoutoforder = null;
+        m_chainvalue = null;
+        m_cashSumCounterEnc = null;
+        m_validation = null;
+        m_month = null;
+        m_posId = null;
         m_dDate = new Date();
         attributes = new Properties();
         m_User = null;
@@ -101,6 +127,17 @@ public class TicketInfo implements SerializableRead, Externalizable {
         out.writeObject(m_aLines);
         out.writeObject(m_sTempComment);
         out.writeObject(m_info);
+        out.writeObject(m_iCashTicketId);
+        out.writeObject(m_SignatureId);
+        out.writeObject(m_SignatureValue);
+        out.writeObject(m_CashSumCounter);
+        out.writeObject(m_algorithmId);
+        out.writeObject(m_posId);
+        out.writeObject(m_signatureoutoforder);
+        out.writeObject(m_chainvalue);
+        out.writeObject(m_cashSumCounterEnc);
+        out.writeObject(m_validation);
+        out.writeObject(m_month);
     }
 
     @SuppressWarnings("unchecked")
@@ -116,6 +153,18 @@ public class TicketInfo implements SerializableRead, Externalizable {
         try {
         	m_sTempComment = (String) in.readObject();
         	m_info = in.readObject();
+        	
+            m_iCashTicketId = (Integer)in.readObject();
+            m_SignatureId = (String) in.readObject();
+            m_SignatureValue = (byte[]) in.readObject();
+            m_CashSumCounter = (Double) in.readObject();
+            m_algorithmId = (Integer)in.readObject();
+            m_posId = (String) in.readObject();
+            m_signatureoutoforder = (Integer)in.readObject();
+            m_chainvalue = (byte[]) in.readObject();
+            m_cashSumCounterEnc = (byte[]) in.readObject();
+            m_validation = (Integer)in.readObject();
+            m_month = (Integer)in.readObject();
         } catch(Exception ex) {
         	// do nothing
         	// optional additional data
@@ -143,6 +192,20 @@ public class TicketInfo implements SerializableRead, Externalizable {
         }
         m_User = new UserInfo(dr.getString(7), dr.getString(8));
         m_Customer = new CustomerInfoExt(dr.getString(9));
+        
+        m_iCashTicketId = dr.getInt(10);
+        m_SignatureId = dr.getString(11);
+        m_SignatureValue = dr.getBytes(12);
+        m_CashSumCounter = dr.getDouble(13);
+        m_algorithmId = dr.getInt(14);
+        m_posId = dr.getString(15);
+        m_signatureoutoforder = dr.getInt(16);
+ 
+        m_chainvalue = dr.getBytes(17);
+        m_cashSumCounterEnc = dr.getBytes(18);
+        m_validation = dr.getInt(19);
+        m_month = dr.getInt(20);
+        
         m_aLines = new ArrayList<TicketLineInfo>();
 
         payments = new ArrayList<PaymentInfo>();
@@ -219,6 +282,209 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public void setTicketId(int iTicketId) {
         m_iTicketId = iTicketId;
     // refreshLines();
+    }
+    
+    public String getPosId() {
+    	return m_posId;
+    }
+    
+    public void setPosId(String posId) {
+    	m_posId = posId;
+    }
+    
+    public Boolean getSignatureOutOfOrder() {
+    	return m_signatureoutoforder == null || m_signatureoutoforder == 0 ? false : true;
+    }
+    
+    public void setSignatureOutOfOrder(Boolean outOfOrder) {
+    	m_signatureoutoforder = outOfOrder ? 1 : 0;
+    }
+    
+    public String getChainValue() {
+    	if(m_chainvalue != null)
+    		return new String(m_chainvalue, StandardCharsets.UTF_8);
+    	return null;
+    }
+    
+    public byte[] getChainValueBlob() {
+    	return m_chainvalue;
+    }
+    
+    public void setChainValue(String chainValue) {
+    	if(chainValue != null)
+    		m_chainvalue = chainValue.getBytes(StandardCharsets.UTF_8);
+    	else
+    		m_chainvalue = null;
+    }
+
+    public String getCashSumCounterEnc() {
+    	if(m_cashSumCounterEnc != null)
+    		return new String(m_cashSumCounterEnc, StandardCharsets.UTF_8);
+    	return null;
+    }
+    
+    public byte[] getCashSumCounterEncBlob() {
+    	return m_cashSumCounterEnc;
+    }
+    
+    public void setCashSumCounterEnc(String cashSumCounterEnc) {
+    	if(cashSumCounterEnc != null)
+    		m_cashSumCounterEnc = cashSumCounterEnc.getBytes(StandardCharsets.UTF_8);
+    	else
+    		m_cashSumCounterEnc = null;
+    }
+    
+    
+    
+    public Integer getAlgorithmId() {
+    	return m_algorithmId;
+    }
+    
+    public void setAlgorithmId(Integer algorithmId) {
+    	m_algorithmId = algorithmId;
+    }
+    
+    public Integer getCashTicketId() {
+    	return m_iCashTicketId;
+    }
+    
+    public void setCashTicketId(Integer cashId) {
+    	m_iCashTicketId = cashId;
+    }
+    
+    
+    public Integer getValidation() {
+    	return m_validation;
+    }
+    
+    public void setValidation(Integer validation) {
+    	m_validation = validation;
+    }
+    
+    public Integer getMonth() {
+    	return m_month;
+    }
+    
+    public void setMonth(Integer month) {
+    	m_month = month;
+    }
+    
+    public String getSignatureId() {
+    	return m_SignatureId;
+    }
+    
+    public void setSignatureId(String signatureId) {
+    	m_SignatureId = signatureId;
+    }
+    
+    public String getSignatureValue() {
+    	return new String(m_SignatureValue, StandardCharsets.UTF_8);
+    }
+    
+    public byte[] getSignatureValueBlob() {
+    	return m_SignatureValue;
+    }
+    
+    public void setSignatureValue(String signatureValue) {
+    	if(signatureValue != null)
+    		m_SignatureValue = signatureValue.getBytes(StandardCharsets.UTF_8);
+    	else
+    		m_SignatureValue = null;
+    }
+    
+    public String getSigningClearText() throws BasicException {
+    	SignatureModul sig = SignatureModul.getInstance();
+    	
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("_");
+    	sb.append("R");
+    	sb.append(getAlgorithmId());
+    	sb.append("-");
+    	sb.append(sig.GetZDAId(getSignatureId()));
+    	sb.append("_");
+    	sb.append(getPosId());
+    	sb.append("_");
+    	sb.append(getCashTicketId());
+    	sb.append("_");
+    	String ticketDateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(getDate());
+    	sb.append(ticketDateTime);
+    	sb.append("_");
+    	double tax20 = 0.0;
+    	double tax10 = 0.0;
+    	double tax13 = 0.0;
+    	double tax0 = 0.0;
+    	double tax19 = 0.0;
+    	for(TicketTaxInfo tax : getTaxes())
+    	{
+    		if(tax.getTaxInfo().getRate() == 0.2)
+    		{
+    			tax20 = tax.getTotal();
+    		}
+    		if(tax.getTaxInfo().getRate() == 0.1)
+    		{
+    			tax10 = tax.getTotal();
+    		}
+    		if(tax.getTaxInfo().getRate() == 0.13)
+    		{
+    			tax13 = tax.getTotal();
+    		}
+    		if(tax.getTaxInfo().getRate() == 0.0)
+    		{
+    			tax0 = tax.getTotal();
+    		}
+    		if(tax.getTaxInfo().getRate() == 0.19)
+    		{
+    			tax19 = tax.getTotal();
+    		}
+    	}
+    	NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMAN);
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        nf.setGroupingUsed(false);
+        DecimalFormat df = (DecimalFormat) nf;
+    	// 20%
+    	sb.append(df.format(tax20));
+    	sb.append("_");
+    	// 10%
+    	sb.append(df.format(tax10));
+    	sb.append("_");
+    	// 13%
+    	sb.append(df.format(tax13));
+    	sb.append("_");
+    	// 0%
+    	sb.append(df.format(tax0));
+    	sb.append("_");
+    	// 19%
+    	sb.append(df.format(tax19));
+    	sb.append("_");
+    	// cash counter enc
+    	sb.append(getCashSumCounterEnc());
+    	sb.append("_");
+    	// certificate serial id
+    	sb.append(sig.GetSignatureSerialNumber(getSignatureId()));
+    	sb.append("_");
+    	String chainValue = getChainValue();
+    	sb.append(chainValue);
+    	
+    	return sb.toString();
+    }
+    
+    public void setQRCode(String qrcode)
+    {
+    	m_qrcode = qrcode;
+    }
+    
+    public String getQRCode()
+    {
+    	return m_qrcode;
+    }
+    
+    public Double getCashSumCounter() {
+    	return m_CashSumCounter;
+    }
+    
+    public void setCashSumCounter(Double sum) {
+    	m_CashSumCounter = sum;
     }
 
     public String getNameWithExt()
@@ -409,6 +675,11 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public double getTotal() {
         
         return getSubTotal() + getTax();
+    }
+    
+    public double getTotal2() {
+        
+        return round(getTotal(),2);
     }
 
     public double getTotalPaid() {
@@ -644,7 +915,23 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return Formats.CURRENCY.formatValue(new Double(getTotalPaid()));
     }
     
-    private static double round(double value, int places) {
+    public String printCashTicketId() {
+    	return Formats.INT.formatValue(m_iCashTicketId);
+    }
+    
+    public String printPosId() {
+    	return Formats.STRING.formatValue(m_posId);
+    }
+    
+    public String printSignatureState()
+    {
+    	if(m_iCashTicketId != null && getSignatureOutOfOrder())
+    		return "Sicherheitseinrichtung ausgefallen";
+    	
+    	return "";
+    }
+    
+    public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         long factor = (long) Math.pow(10, places);

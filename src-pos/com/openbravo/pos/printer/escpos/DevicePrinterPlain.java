@@ -55,6 +55,8 @@ public class DevicePrinterPlain implements DevicePrinter  {
     
     public void printImage(BufferedImage image) {
     }
+	public void printImageNoLF(BufferedImage image, int x){
+    }
     
     public void printBarCode(String type, String position, String code) {        
         if (! DevicePrinter.POSITION_NONE.equals(position)) {                

@@ -180,14 +180,12 @@ public class JFind extends JDialog {
 
 	private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdCancelActionPerformed
 
-		// TODO add your handling code here:
 		dispose();
 
 	}// GEN-LAST:event_jcmdCancelActionPerformed
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
 
-		// TODO add your handling code here:
 		m_FindInfo = new FindInfo(m_vec, m_jFind.getText(), m_jWhere.getSelectedIndex(), m_jMatchCase.isSelected(),
 				m_jMatch.getSelectedIndex());
 

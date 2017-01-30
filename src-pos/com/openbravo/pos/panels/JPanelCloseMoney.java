@@ -721,7 +721,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 	private void m_jCloseCashActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseCashActionPerformed
 		
-		// TODO add your handling code here:
 		int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannaclosecash"),
 				AppLocal.getIntString("message.title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (res == JOptionPane.YES_OPTION) {
@@ -741,10 +740,19 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 					// otherwise new cash session is opened
 					printPayments("Printer.CloseCash");
 					
+					// split if contains "\"
+					// support POS with same name in front of "\" character sharing a cash shift
+					String host = m_App.getProperties().getHost();
+					if(host.contains("\\"))
+					{
+						host = host.substring(0, host.indexOf('\\'));
+					}
+					
+					
 					new StaticSentence(m_App.getSession(),
 							"UPDATE CLOSEDCASH SET DATEEND = ? WHERE HOST = ? AND MONEY = ?",
 							new SerializerWriteBasic(new Datas[] { Datas.TIMESTAMP, Datas.STRING, Datas.STRING }))
-									.exec(new Object[] { m_dateEnd, m_App.getProperties().getHost(), activeCash });
+									.exec(new Object[] { m_dateEnd, host, activeCash });
 
 					m_App.closeCashIndex();
 					

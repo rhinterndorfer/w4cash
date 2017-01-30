@@ -187,7 +187,6 @@ public class ProductsWarehouseEditor extends javax.swing.JPanel implements Edito
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
     

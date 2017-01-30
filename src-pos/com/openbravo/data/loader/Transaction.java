@@ -21,6 +21,7 @@ package com.openbravo.data.loader;
 
 import java.sql.SQLException;
 import com.openbravo.basic.BasicException;
+import com.openbravo.basic.SignatureUnitException;
 
 /**
  *
@@ -58,5 +59,5 @@ public abstract class Transaction<T> {
         }
     }
     
-    protected abstract T transact() throws BasicException;
+    protected abstract T transact() throws BasicException, SignatureUnitException;
 }

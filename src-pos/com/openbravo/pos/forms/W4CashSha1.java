@@ -12,6 +12,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.openbravo.pos.util.Log;
+
 public class W4CashSha1 {
 
 	/**
@@ -112,16 +114,14 @@ public class W4CashSha1 {
 			try {
 				ifile.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.Exception(e);
 			}
 		}
 		if (ishafile != null) {
 			try {
 				ishafile.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.Exception(e);
 			}
 		}
 

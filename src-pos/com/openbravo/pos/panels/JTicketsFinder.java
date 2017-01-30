@@ -195,8 +195,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 	}
 
 	private void initCombos() {
-		String[] values = new String[] { AppLocal.getIntString("label.all"), AppLocal.getIntString("label.sales"),
-				AppLocal.getIntString("label.refunds") };
+		String[] values = new String[] { AppLocal.getIntString("label.tickets"),
+				AppLocal.getIntString("label.cashtickets") };
 		jComboBoxTicket.setModel(new DefaultComboBoxModel(values));
 
 		jcboMoney.setModel(ListQBFModelNumber.getMandatoryNumber());
@@ -247,25 +247,26 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		Object[] afilter = new Object[14];
 
-		// Ticket ID
-		if (jtxtTicketID.getText() == null || jtxtTicketID.getText().equals("")) {
+		// ticket id
+		if (jtxtTicketID.getText() == null 
+				|| jtxtTicketID.getText().equals("")
+				|| jComboBoxTicket.getSelectedIndex() != 0) {
 			afilter[0] = QBFCompareEnum.COMP_NONE;
 			afilter[1] = null;
 		} else {
 			afilter[0] = QBFCompareEnum.COMP_EQUALS;
 			afilter[1] = jtxtTicketID.getValueInteger();
 		}
-
-		// Sale and refund checkbox
-		if (jComboBoxTicket.getSelectedIndex() == 0) {
-			afilter[2] = QBFCompareEnum.COMP_DISTINCT;
-			afilter[3] = -1;
-		} else if (jComboBoxTicket.getSelectedIndex() == 1) {
+		
+		// cash ticket id		
+		if (jtxtTicketID.getText() == null 
+				|| jtxtTicketID.getText().equals("")
+				|| jComboBoxTicket.getSelectedIndex() != 1) {
+			afilter[2] = QBFCompareEnum.COMP_NONE;
+			afilter[3] = null;
+		} else {
 			afilter[2] = QBFCompareEnum.COMP_EQUALS;
-			afilter[3] = 0;
-		} else if (jComboBoxTicket.getSelectedIndex() == 2) {
-			afilter[2] = QBFCompareEnum.COMP_EQUALS;
-			afilter[3] = 1;
+			afilter[3] = jtxtTicketID.getValueInteger();
 		}
 
 		// Receipt money
@@ -637,12 +638,11 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
-		PropertyUtil.ScaleDialog(m_App, this, 840, 750);
+		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int)(screenSize.getWidth() * 0.9);
+		int height = (int)(screenSize.getHeight() * 0.8);
+		PropertyUtil.ScaleDialog(m_App, this, width < 840 ? 840 : width, height < 750 ? 750 : height);
 
-		// java.awt.Dimension screenSize =
-		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// setBounds((screenSize.width - 695) / 2, (screenSize.height - 684) /
-		// 2, 695, 684);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
@@ -709,7 +709,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
 		try {
 			jtxtCustomer.setText(finder.getSelectedCustomer() == null ? null
-					: dlSales.loadCustomerExt(finder.getSelectedCustomer().getId()).toString());
+					: dlSales.loadCustomerExt(finder.getSelectedCustomer().getId()).getName());
 		} catch (BasicException e) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotfindcustomer"),
 					e);

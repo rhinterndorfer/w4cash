@@ -36,4 +36,6 @@ public interface SessionDB {
     public String getName();
 
     public SentenceFind getSequenceSentence(Session s, String sequence) throws BasicException;
+    public SentenceFind getCashSequenceSentence(Session s, String sequence) throws BasicException;
+    public SentenceFind getCashSumSentence(Session s) throws BasicException;
 }

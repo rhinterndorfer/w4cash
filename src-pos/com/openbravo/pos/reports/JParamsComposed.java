@@ -103,7 +103,6 @@ public class JParamsComposed extends javax.swing.JPanel implements ReportEditorC
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
    

@@ -205,7 +205,6 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

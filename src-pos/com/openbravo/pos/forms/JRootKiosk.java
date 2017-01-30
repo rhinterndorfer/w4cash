@@ -62,7 +62,7 @@ public class JRootKiosk extends JRootGUI implements AppMessage {
 
 		m_rootapp = new JRootApp();
 
-		if (m_rootapp.initApp(m_props)) {
+		if (m_rootapp.initApp(m_props, false)) {
 
 			if ("true".equals(props.getProperty("machine.uniqueinstance"))) {
 				// Register the running application

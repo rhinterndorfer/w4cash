@@ -139,8 +139,7 @@ public class LocationsView extends javax.swing.JPanel implements EditorRecord {
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 	@Override

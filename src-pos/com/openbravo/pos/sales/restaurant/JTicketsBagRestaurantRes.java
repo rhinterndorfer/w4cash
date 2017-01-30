@@ -700,9 +700,9 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				if((int)e[12] > 0)
 				{
 					// stay and check errors!!!
-					if(JConfirmDialog.showConfirm(m_App, this, 
-							AppLocal.getIntString("message.reservationconflicts"), 
-							null) == JOptionPane.CANCEL_OPTION)
+					if(JConfirmDialog.showConfirm(m_App, this,
+							null,
+							AppLocal.getIntString("message.reservationconflicts")) == JOptionPane.CANCEL_OPTION)
 					{
 						m_bd.refreshData();
 						return;
@@ -757,8 +757,9 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 			
 		} catch (BasicException e) {
 			JConfirmDialog.showInformation(m_App, JTicketsBagRestaurantRes.this,
-					AppLocal.getIntString("message.checkinput"),
-					AppLocal.getIntString("error.information"));
+					AppLocal.getIntString("error.information"),
+					AppLocal.getIntString("message.checkinput")
+					);
 		}
 		
 		

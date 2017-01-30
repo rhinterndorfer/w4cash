@@ -41,7 +41,7 @@ public class AppConfig implements AppProperties {
 	private File configfile;
 
 	public AppConfig(String[] args) {
-		if (args.length == 0) {
+		if (args.length == 0 || "".equals(args[0])) {
 			init(getDefaultConfig());
 		} else {
 			init(new File(args[0]));

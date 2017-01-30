@@ -104,7 +104,6 @@ public class JParamsReason extends javax.swing.JPanel implements ReportEditorCre
 
 	@Override
 	public void ScaleButtons() {
-		// TODO Auto-generated method stub
 		
 	}
     
