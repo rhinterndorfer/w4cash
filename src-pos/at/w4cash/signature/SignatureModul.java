@@ -1949,9 +1949,12 @@ public class SignatureModul {
     public void DoFONAction(Component caller, Rkdb rkdb) throws Exception
     {
     	LoginFON(caller);
-    	if(m_wssessionid != null)
+    	if(m_wssessionid != null && !"".equals(m_wssessionid))
     	{
     		RkdbServicePortProxy proxy = new RkdbServicePortProxy();
+    		((javax.xml.rpc.Stub)proxy.getRkdbServicePort())._setProperty(org.apache.axis.components.net.DefaultCommonsHTTPClientProperties.CONNECTION_DEFAULT_SO_TIMEOUT_KEY, 20000);
+    		((javax.xml.rpc.Stub)proxy.getRkdbServicePort())._setProperty(org.apache.axis.components.net.DefaultCommonsHTTPClientProperties.CONNECTION_DEFAULT_CONNECTION_TIMEOUT_KEY, 20000);
+    		
     		Calendar c = Calendar.getInstance();
     		rkdb.setTs_erstellung(c);
     		rkdb.setPaket_nr(new PositiveInteger("1"));
@@ -1975,7 +1978,7 @@ public class SignatureModul {
 
     		RkdbResponse response;
 			try {
-				//TODO set read timeout
+
 				response = proxy.rkdb(request);
 				RkdbMessage message = response.getResult(0).getRkdbMessage(0);
 				StringBuilder msgVerification = new StringBuilder();
@@ -1993,6 +1996,13 @@ public class SignatureModul {
 				{
 					// OK
 					// do nothing
+				}
+				else if("-1".equals(message.getRc()))
+				{
+					// session timeout
+					m_wssessionid = null;
+					String msg = String.format("%1$s: %2$s", message.getRc(), message.getMsg());
+					throw new Exception(msg);
 				}
 				else if("B1".equals(message.getRc()))
 				{
@@ -2032,7 +2042,7 @@ public class SignatureModul {
     
     public void LoginFON(Component caller) throws Exception
     {
-    	if(m_wssessionid == null)
+    	if(m_wssessionid == null || "".equals(m_wssessionid))
     	{
     		// FON WS user login dialog
     		WSLoginDialog dialog = WSLoginDialog.newJDialog(m_app, caller);
@@ -2045,7 +2055,9 @@ public class SignatureModul {
 				m_wspin = loginRequest.getPin();
 			
 				SessionServicePortProxy proxy = new SessionServicePortProxy();
-				
+				((javax.xml.rpc.Stub)proxy.getSessionServicePort())._setProperty(org.apache.axis.components.net.DefaultCommonsHTTPClientProperties.CONNECTION_DEFAULT_SO_TIMEOUT_KEY, 20000);
+	    		((javax.xml.rpc.Stub)proxy.getSessionServicePort())._setProperty(org.apache.axis.components.net.DefaultCommonsHTTPClientProperties.CONNECTION_DEFAULT_CONNECTION_TIMEOUT_KEY, 20000);
+
 				try {
 					LoginResponse response = proxy.login(loginRequest);
 					m_wssessionid = response.getId();

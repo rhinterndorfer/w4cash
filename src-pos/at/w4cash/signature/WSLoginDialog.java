@@ -128,8 +128,8 @@ public class WSLoginDialog extends javax.swing.JDialog {
 		m_jButtonCancel = new javax.swing.JButton();
 		m_jButtonOK = new javax.swing.JButton();
 		m_jTID = new javax.swing.JTextField(); 
-		m_jBENID = new javax.swing.JTextField();
-		m_jPIN = new javax.swing.JTextField();
+		m_jBENID = new javax.swing.JPasswordField();
+		m_jPIN = new javax.swing.JPasswordField();
 		jLabelTID = new javax.swing.JLabel();
 		jLabelBENID = new javax.swing.JLabel();
 		jLabelPIN = new javax.swing.JLabel();
@@ -211,8 +211,10 @@ public class WSLoginDialog extends javax.swing.JDialog {
 	private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonCancelActionPerformed
 		lr = new LoginRequest();
 		lr.setTid(m_jTID.getText());
-		lr.setBenid(m_jBENID.getText());
-		lr.setPin(m_jPIN.getText());
+		String benid = new String(m_jBENID.getPassword());
+		lr.setBenid(benid);
+		String pin = new String(m_jPIN.getPassword()); 
+		lr.setPin(pin);
 		
 		this.setVisible(false);
 	}// GEN-LAST:event_m_jButtonCancelActionPerformed
@@ -221,8 +223,8 @@ public class WSLoginDialog extends javax.swing.JDialog {
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
 	private javax.swing.JTextField m_jTID;
-	private javax.swing.JTextField m_jBENID;
-	private javax.swing.JTextField m_jPIN;
+	private javax.swing.JPasswordField m_jBENID;
+	private javax.swing.JPasswordField m_jPIN;
 	private javax.swing.JLabel jLabelTID;
 	private javax.swing.JLabel jLabelBENID;
 	private javax.swing.JLabel jLabelPIN;

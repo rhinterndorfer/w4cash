@@ -74,14 +74,12 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		receiptone = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, false, this);
 		receiptone.setCustomerEnabled(false);
-//		receiptone.setCustomerVisible(false);
 		jPanel5.add(receiptone, BorderLayout.CENTER);
-		pack();
-		
 		receipttwo = new SimpleReceipt(app, ticketline, dlSales, dlCustomers, taxeslogic, true, this);
 		jPanel3.add(receipttwo, BorderLayout.CENTER);
-
+		
 		ScaleButtons();
+		pack();
 	}
 
 	public static ReceiptSplit getDialog(AppView app, Component parent, String ticketline, DataLogicSales dlSales,
@@ -100,7 +98,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 		
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		myreceiptsplit.setAlwaysOnTop(true);
-		myreceiptsplit.setPreferredSize(new Dimension(screenSize.width, screenSize.height));
+		// TODO remove
+		myreceiptsplit.setPreferredSize(new Dimension(screenSize.width / 3, screenSize.height));
 	
 		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
 
@@ -120,12 +119,9 @@ public class ReceiptSplit extends javax.swing.JDialog {
 	}
 
 	public boolean showDialog(TicketInfo ticket, TicketInfo ticket2, Object ticketext) {
-
 		receiptone.setTicket(ticket, ticketext);
 		receipttwo.setTicket(ticket2, ticketext);
-		
 		setVisible(true);
-		
 		return accepted;
 	}
 
@@ -292,7 +288,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialogFullScreen(m_App, this);
+		// TODO uncomment
+		// PropertyUtil.ScaleDialogFullScreen(m_App, this);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();

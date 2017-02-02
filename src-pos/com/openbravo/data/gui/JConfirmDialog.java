@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import com.openbravo.beans.DialogType;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 import javax.swing.BoxLayout;
@@ -27,10 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class JConfirmDialog extends JDialog {
-
-	private static final Logger logger = Logger.getLogger(JConfirmDialog.class.getName());
-
-	
 
 	public final static int OK = JOptionPane.YES_OPTION;
 	public final static int CANCEL = JOptionPane.CANCEL_OPTION;
@@ -234,7 +231,7 @@ public class JConfirmDialog extends JDialog {
 	public static int showError(AppView app, Component parent, String title, String message, Exception e,
 			DialogType type) {
 		if (e != null) {
-			logger.info(e.getMessage());
+			Log.Exception(e);
 		}
 
 		Window window = getWindow(parent);

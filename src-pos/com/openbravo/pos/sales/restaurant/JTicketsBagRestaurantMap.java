@@ -314,7 +314,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private class TimerAction implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
         	try {
-        		loadTickets();
+        		loadTickets(true);
         		m_timerErrorCount=1;
         	} catch(Exception ex) {
         		m_timerErrorCount++;
@@ -358,7 +358,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			m_categories = null;
 		}
 		
-		loadTickets();
+		loadTickets(false);
 		printState();
 
 		m_panelticket.setActiveTicket(null, null);
@@ -463,7 +463,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	}
 
 	public boolean viewTables() {
-		loadTickets();
+		loadTickets(false);
 		return viewTables(null);
 	}
 
@@ -771,7 +771,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void loadTickets() {
+	public void loadTickets(Boolean suppressError) {
 
 		Map<String, SharedTicketInfo> atickets = new HashMap<String, SharedTicketInfo>();
 		try {
@@ -780,7 +780,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				atickets.put(ticket.getId(), ticket);
 			}
 		} catch (BasicException e) {
-			new MessageInf(e).show(m_App, this);
+			if(!suppressError)
+			{
+				JConfirmDialog.showError(m_App, 
+						this, 
+						null, 
+						AppLocal.getIntString("error.network"),
+						e);
+			}
 		}
 		
 		// places with reservation today
@@ -1048,7 +1055,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		m_PlaceClipboard = null;
 		customer = null;
-		loadTickets();
+		loadTickets(false);
 		printState();
 
 	}// GEN-LAST:event_m_jbtnRefreshActionPerformed
