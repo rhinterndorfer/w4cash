@@ -135,7 +135,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 		jButton1.setRequestFocusEnabled(false);
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton1ActionPerformed(evt);
+				jButtonLeaveTableActionPerformed(evt);
 			}
 		});
 		add(jButton1);
@@ -160,7 +160,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 
 	
 	// leave table action
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+	private void jButtonLeaveTableActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 		try {
 			m_restaurant.generateOrder();
 			m_restaurant.newTicket();
@@ -171,7 +171,6 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 					AppLocal.getIntString("message.databaseconnectionerror"),
 					e1);
 		}
-		// m_restaurant.setPlm_PlaceCurrent = null;
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables

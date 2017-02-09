@@ -475,7 +475,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return ticket;
 	}
 
-	public final void saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic) throws BasicException, SignatureUnitException {
+	public final Object saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic) throws BasicException, SignatureUnitException {
 
 		SignatureModul sig = SignatureModul.getInstance();
 		if(sig.GetIsActive() && sig.GetIsCriticalError())
@@ -562,6 +562,18 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 					ticket.setQRCode(ticketSigningClearText + "_" + signValue);
 				}
 
+				// check if receipt id already exists
+				Object existingTicketId = new StaticSentence(s, "SELECT TICKETID FROM TICKETS WHERE ID = ?",
+						SerializerWriteString.INSTANCE,
+						SerializerReadInteger.INSTANCE).find(ticket.getId());
+				if(existingTicketId != null)
+				{
+					// load ticket from DB and return
+					TicketInfo fromDB = loadTicket(false, (Integer)existingTicketId, taxlogic);
+					return fromDB;
+				}
+
+				
 				// new receipt
 				new PreparedSentence(s, "INSERT INTO RECEIPTS (ID, MONEY, DATENEW, ATTRIBUTES) VALUES (?, ?, ?, ?)",
 						SerializerWriteParams.INSTANCE).exec(new DataParams() {
@@ -673,7 +685,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				return null;
 			}
 		};
-		t.execute();
+		return t.execute();
 	}
 
 	public final void deleteTicket(final TicketInfo ticket, final String location) throws BasicException, SignatureUnitException {

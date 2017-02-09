@@ -125,10 +125,33 @@ public class AppConfig implements AppProperties {
 				m_propsconfig.load(in);
 				in.close();
 			}
+			
+			// check deprecated
+			checkDeprecated();
 		} catch (IOException e) {
 			loadDefault();
 		}
 
+	}
+	
+	private void checkDeprecated()
+	{
+		Boolean saveNecessary = false;
+		if(m_propsconfig.containsKey("machine.uniqueinstance"))
+		{
+			m_propsconfig.setProperty("machine.nouniqueinstance", "false");
+			m_propsconfig.remove("machine.uniqueinstance");
+			saveNecessary = true;
+		}
+		
+		if(saveNecessary)
+		{
+			try {
+				save();
+			} catch (IOException e) {
+				// do nothing
+			}
+		}
 	}
 
 	public void save() throws IOException {
@@ -154,28 +177,6 @@ public class AppConfig implements AppProperties {
 				+ ";create=true");
 		m_propsconfig.setProperty("db.user", "");
 		m_propsconfig.setProperty("db.password", "");
-
-		// m_propsconfig.setProperty("db.driverlib", new File(new File(dirname),
-		// "lib/hsqldb.jar").getAbsolutePath());
-		// m_propsconfig.setProperty("db.driver", "org.hsqldb.jdbcDriver");
-		// m_propsconfig.setProperty("db.URL", "jdbc:hsqldb:file:" + new
-		// File(new File(System.getProperty("user.home")), AppLocal.APP_ID +
-		// "-db").getAbsolutePath() + ";shutdown=true");
-		// m_propsconfig.setProperty("db.user", "sa");
-		// m_propsconfig.setProperty("db.password", "");
-
-		// m_propsconfig.setProperty("db.driver", "com.mysql.jdbc.Driver");
-		// m_propsconfig.setProperty("db.URL",
-		// "jdbc:mysql://localhost:3306/database");
-		// m_propsconfig.setProperty("db.user", "user");
-		// m_propsconfig.setProperty("db.password", "password");
-
-		// m_propsconfig.setProperty("db.driver", "org.postgresql.Driver");
-		// m_propsconfig.setProperty("db.URL",
-		// "jdbc:postgresql://localhost:5432/database");
-		// m_propsconfig.setProperty("db.user", "user");
-		// m_propsconfig.setProperty("db.password", "password");
-
 		m_propsconfig.setProperty("machine.hostname", getLocalHostName());
 
 		Locale l = Locale.getDefault();
@@ -218,6 +219,6 @@ public class AppConfig implements AppProperties {
 		m_propsconfig.setProperty("paper.standard.height", "698");
 		m_propsconfig.setProperty("paper.standard.mediasizename", "A4");
 
-		m_propsconfig.setProperty("machine.uniqueinstance", "false");
+		m_propsconfig.setProperty("machine.nouniqueinstance", "false");
 	}
 }

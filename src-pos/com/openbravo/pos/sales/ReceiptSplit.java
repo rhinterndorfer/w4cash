@@ -96,11 +96,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 			
 		}
 		
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		myreceiptsplit.setAlwaysOnTop(true);
-		// TODO remove
-		myreceiptsplit.setPreferredSize(new Dimension(screenSize.width / 3, screenSize.height));
-	
+		PropertyUtil.ScaleDialogFullScreen(app, myreceiptsplit);
 		myreceiptsplit.init(app, ticketline, dlSales, dlCustomers, taxeslogic);
 
 		
@@ -288,13 +285,8 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-		// TODO uncomment
-		// PropertyUtil.ScaleDialogFullScreen(m_App, this);
+		PropertyUtil.ScaleDialogFullScreen(m_App, this);
 
-		// java.awt.Dimension screenSize =
-		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// setBounds((screenSize.width - 730) / 2, (screenSize.height - 520) /
-		// 2, 730, 520);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void m_jButtonMoveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jButtonOKActionPerformed

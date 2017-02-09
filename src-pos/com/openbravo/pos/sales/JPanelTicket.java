@@ -1160,7 +1160,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 						m_ticketsbag.deleteTicket(false);
 					} catch (BasicException e) {
-						JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
+						JConfirmDialog.showError(m_App, 
+								this, 
+								AppLocal.getIntString("error.network"),
 								AppLocal.getIntString("message.cannotprintticket"), e);
 					}
 				} else {
@@ -1202,7 +1204,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
 
 					paymentdialog.setTransactionID(ticket.getTransactionID());
-					// paymentdialog.setSize(800, 500);
+
 
 					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
@@ -1233,8 +1235,24 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									}
 								}
 
-								dlSales.saveTicket(ticket, m_App.getInventoryLocation(), taxeslogic);
+								Object existingTicket = dlSales.saveTicket(ticket, m_App.getInventoryLocation(), taxeslogic);
 								resultok = true;
+								if(existingTicket != null)
+								{
+									int res = JConfirmDialog.showConfirm(m_App, 
+											this, 
+											null,
+											AppLocal.getIntString("message.ticketalreadyindb"));
+									if(res == JOptionPane.YES_OPTION)
+									{
+										ticket = (TicketInfo)existingTicket;
+									}
+									else
+									{
+										resultok = false;
+										throw new BasicException("Ticket already in DB");
+									}
+								}
 
 								try {
 									executeEvent(ticket, ticketext, "ticket.close",
@@ -2219,6 +2237,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 												ticket2.addLine(info);
 											}
 										}
+										
 										dlReceipts.updateSharedTicket(currentTicketId, ticket2);
 										dlReceipts.checkinSharedTicket(currentTicketId);
 										

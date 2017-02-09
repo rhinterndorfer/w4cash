@@ -26,6 +26,9 @@ import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
 
+import com.openbravo.data.gui.JConfirmDialog;
+import com.openbravo.data.gui.JMessageDialog;
+import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.config.JFrmConfig;
 import com.openbravo.pos.instance.AppMessage;
 import com.openbravo.pos.instance.InstanceManager;
@@ -63,12 +66,16 @@ public class JRootKiosk extends JRootGUI implements AppMessage {
 		m_rootapp = new JRootApp();
 
 		if (m_rootapp.initApp(m_props, false)) {
-
-			if ("true".equals(props.getProperty("machine.uniqueinstance"))) {
+			if (!"true".equals(props.getProperty("machine.nouniqueinstance"))) {
 				// Register the running application
 				try {
-					m_instmanager = new InstanceManager(this);
+					m_instmanager = new InstanceManager();
 				} catch (Exception e) {
+					JConfirmDialog.showError(m_rootapp, 
+							this, 
+							AppLocal.getIntString("error.error"), 
+							AppLocal.getIntString("message.singleinstance"));
+					return false;
 				}
 			}
 

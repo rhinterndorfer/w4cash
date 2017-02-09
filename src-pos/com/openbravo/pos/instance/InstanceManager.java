@@ -19,11 +19,14 @@
 
 package com.openbravo.pos.instance;
 
-import java.rmi.AlreadyBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+
+import com.openbravo.basic.BasicException;
+import com.openbravo.pos.forms.AppLocal;
 
 /**
  *
@@ -31,19 +34,17 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class InstanceManager {
     
-    private Registry m_registry;
-    private AppMessage m_message;
-    
     /** Creates a new instance of InstanceManager */
-    public InstanceManager(AppMessage message) throws RemoteException, AlreadyBoundException {
-
-        m_registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-
-        m_message = message;
-
-        AppMessage stub = (AppMessage) UnicastRemoteObject.exportObject(m_message, 0);
-        m_registry.bind("AppMessage", stub); 
-
-        // jLabel1.setText("Server ready");
+    public InstanceManager() throws Exception {
+    	File lockFile = new File(new File(System.getProperty("user.home")), AppLocal.APP_ID + ".lock");
+    	if(!lockFile.exists())
+    	{
+			lockFile.createNewFile();
+    	}	
+        
+    	FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel();
+    	FileLock lock = channel.tryLock();
+    	if(lock == null || !lock.isValid())
+    		throw new BasicException("No exclusive lock");
     }    
 }

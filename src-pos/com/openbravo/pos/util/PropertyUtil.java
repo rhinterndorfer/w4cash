@@ -371,6 +371,7 @@ public class PropertyUtil {
 	public static void ScaleDialogFullScreen(AppView app, JDialog dialog) {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		dialog.setBounds(0, 0, screenSize.width, screenSize.height);
+		dialog.setPreferredSize(screenSize);
 	}
 
 	public static void ScaleEditcurrencyFontsize(AppView app, JEditorCurrency label, String key, String defaultValue) {
