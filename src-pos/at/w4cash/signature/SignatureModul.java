@@ -4,7 +4,10 @@ package at.w4cash.signature;
 import java.awt.Component;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -1679,7 +1682,7 @@ public class SignatureModul {
             return base64EncryptedTurnOverValue;
 		}catch(Exception ex)
 		{
-			throw new BasicException("Encrypt trunover counter failed", ex);
+			throw new BasicException("Encrypt turnover counter failed", ex);
 		}
     }
 	
@@ -1759,12 +1762,19 @@ public class SignatureModul {
         
         if(m_cipher == null)
         {
-        	// switch of JCE key 128bit restrictions
+        	// switch off JCE key 128bit restrictions
             try {
-                Field field = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
-                field.setAccessible(true);
-                field.set(null, java.lang.Boolean.FALSE);
+                Field isRestricted = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
+                if (Modifier.isFinal(isRestricted.getModifiers()) ) {
+            		Field modifiers = Field.class.getDeclaredField("modifiers");
+            		modifiers.setAccessible(true);
+            		modifiers.setInt(isRestricted, isRestricted.getModifiers() & ~Modifier.FINAL);
+            	}
+                
+                isRestricted.setAccessible(true);
+                isRestricted.set(null, false); // isRestricted = false;
             } catch (Exception ex) {
+            	Log.Exception("Switch off JCE key 128bit restrictions failed", ex);
             }
         	m_cipher = Cipher.getInstance("AES/CTR/NoPadding", "BC");
         }

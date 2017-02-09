@@ -57,13 +57,9 @@ import com.openbravo.pos.scale.DeviceScale;
 import com.openbravo.pos.scanpal2.DeviceScanner;
 import com.openbravo.pos.scanpal2.DeviceScannerFactory;
 import com.openbravo.pos.util.Log;
-import com.openbravo.pos.util.PropertyUtil;
 
-import at.w4cash.signature.JWSModul;
 import at.w4cash.signature.SignatureModul;
-import javafx.application.Application;
 
-import java.sql.SQLException;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
