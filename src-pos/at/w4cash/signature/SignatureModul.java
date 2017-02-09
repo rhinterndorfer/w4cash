@@ -782,12 +782,12 @@ public class SignatureModul {
 				monthTicket.setUser(m_app.getAppUserView().getUser().getUserInfo());
 				if(currentMonth == 1)
 				{
-					monthTicket.setProperty("rksvnotes", String.format("Jahresbeleg für %1$s", lastMonth));
+					monthTicket.setProperty("rksvnotes", String.format("Jahresbeleg %1$s", lastMonth));
 					monthTicket.setValidation(0); // needs fiscal validation
 				}
 				else
 				{
-					monthTicket.setProperty("rksvnotes", String.format("Monatsbeleg für %1$s", lastMonth));
+					monthTicket.setProperty("rksvnotes", String.format("Monatsbeleg %1$s", lastMonth));
 					monthTicket.setValidation(null); // validation not required
 				}
 				monthTicket.setMonth(lastMonth);
@@ -1236,7 +1236,7 @@ public class SignatureModul {
 		if(caller != null && exportPath == null)
 		{
 			JFileChooser chooser = new JFileChooser(); 
-			chooser.setDialogTitle("Verzeichnis für Export auswählen");
+			chooser.setDialogTitle("Export Verzeichnis");
 			chooser.setCurrentDirectory(new File("c:\\w4cash"));
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		    chooser.showDialog(caller, null);
@@ -1463,14 +1463,14 @@ public class SignatureModul {
 		if(withAES)
 		{
 			sb.append("\n");
-			sb.append("Benutzerschlüssel AES-256: ");
+			sb.append("Benutzerschluessel AES-256: ");
 			if(m_aeskey != null)
 			{
 				String aesKeyBase64 = base64Encode(m_aeskey.getEncoded(), false);
 				sb.append(aesKeyBase64);
 				sb.append("\n");
 				
-				sb.append("Prüfwert für Benutzerschlüssel: ");
+				sb.append("Pruefwert fuer Benutzerschluessel: ");
 				
 				String checkSum = "";
 				try {
@@ -1926,7 +1926,7 @@ public class SignatureModul {
     	Rkdb rkdb = new Rkdb();
     	Ausfall_se outOfOrder = new Ausfall_se(); 
     	outOfOrder.setSatznr(new PositiveInteger("4"));
-    	// 2 == Signatur- bzw. Siegelerstellung unmöglich oder fehlerhaft
+    	// 2 == Signatur- bzw. Siegelerstellung unmoeglich oder fehlerhaft
     	outOfOrder.setAusfall(new Ausfall(2, startOutage));
     	// use signatureserial from DB
     	outOfOrder.setZertifikatsseriennummer(new Zertifikatsseriennummer(m_dbsigserialnumber));
