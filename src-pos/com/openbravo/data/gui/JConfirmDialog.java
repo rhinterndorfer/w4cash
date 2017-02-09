@@ -66,9 +66,9 @@ public class JConfirmDialog extends JDialog {
 				java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 		String w = "800";
-		if(screenSize.getWidth() < 800)
+		if(screenSize.getWidth() < 800 * 1.4) // 1.4 html size factor
 		{
-			w = String.format("%1$d", (int)screenSize.getWidth());
+			w = String.format("%1$d", (int)(screenSize.getWidth() / 1.4));
 		}
 		
 		contentPanel.setLayout(new FlowLayout());
