@@ -24,18 +24,16 @@ import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import com.openbravo.pos.printer.DevicePrinter;
 import com.openbravo.pos.printer.ticket.BasicTicket;
 import com.openbravo.pos.printer.ticket.BasicTicketForPrinter;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.ReportUtils;
 import com.openbravo.pos.util.SelectPrinter;
 import java.awt.Component;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -67,7 +65,6 @@ import javax.print.attribute.standard.OrientationRequested;
  */
 public class DevicePrinterPrinter implements DevicePrinter {
 
-	private static Logger logger = Logger.getLogger("com.openbravo.pos.printer.printer.DevicePrinterPrinter");
 
 	private Component parent;
 	/* name of a printer */
@@ -253,7 +250,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 				if (printservice == null) {
 					String[] printers = ReportUtils.getPrintNames();
 					if (printers.length == 0) {
-						logger.warning(AppLocal.getIntString("message.noprinters"));
+						// logger.warning(AppLocal.getIntString("message.noprinters"));
 						ps = null;
 					} else {
 						SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers, m_App);
@@ -285,8 +282,9 @@ public class DevicePrinterPrinter implements DevicePrinter {
 			}
 
 		} catch (PrintException ex) {
-			logger.log(Level.WARNING, AppLocal.getIntString("message.printererror"), ex);
-			JMessageDialog.showMessage(m_App,parent,
+			Log.Exception(AppLocal.getIntString("message.printererror"), ex);
+			JMessageDialog.showMessage(m_App,
+					parent,
 					new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.printererror"), ex));
 		}
 
@@ -306,7 +304,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 			if (printservice == null) {
 				String[] printers = ReportUtils.getPrintNames();
 				if (printers.length == 0) {
-					logger.warning(AppLocal.getIntString("message.noprinters"));
+					// logger.warning(AppLocal.getIntString("message.noprinters"));
 					ps = null;
 				} else {
 					SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers, m_App);
@@ -342,7 +340,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 			}
 
 		} catch (PrintException ex) {
-			logger.log(Level.WARNING, AppLocal.getIntString("message.printererror"), ex);
+			Log.Exception(AppLocal.getIntString("message.printererror"), ex);
 			JMessageDialog.showMessage(m_App,parent,
 					new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.printererror"), ex));
 		}
