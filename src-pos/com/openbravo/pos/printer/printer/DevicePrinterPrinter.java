@@ -251,6 +251,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 					String[] printers = ReportUtils.getPrintNames();
 					if (printers.length == 0) {
 						// logger.warning(AppLocal.getIntString("message.noprinters"));
+						Log.Info(AppLocal.getIntString("message.noprinters"));
 						ps = null;
 					} else {
 						SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers, m_App);
@@ -305,6 +306,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 				String[] printers = ReportUtils.getPrintNames();
 				if (printers.length == 0) {
 					// logger.warning(AppLocal.getIntString("message.noprinters"));
+					Log.Info(AppLocal.getIntString("message.noprinters"));
 					ps = null;
 				} else {
 					SelectPrinter selectprinter = SelectPrinter.getSelectPrinter(parent, printers, m_App);
