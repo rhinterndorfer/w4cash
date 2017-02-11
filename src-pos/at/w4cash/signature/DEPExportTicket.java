@@ -12,6 +12,7 @@ public class DEPExportTicket implements SerializableRead {
 	private String signatureId;
 	private String posId;
 	private Integer cashTicketId;
+	private Integer isBranchTicket;
 	
 	
 	@Override
@@ -21,6 +22,7 @@ public class DEPExportTicket implements SerializableRead {
         signatureId = dr.getString(3);
         posId = dr.getString(4);
         cashTicketId = dr.getInt(5);
+        isBranchTicket = dr.getInt(6);
 	}
 
 	public String getClearText()
@@ -49,6 +51,11 @@ public class DEPExportTicket implements SerializableRead {
 	public Integer getCashTicketId()
 	{
 		return cashTicketId;
+	}
+	
+	public Integer getIsBranchTicket()
+	{
+		return isBranchTicket;
 	}
 	
 }

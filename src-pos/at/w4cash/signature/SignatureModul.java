@@ -1240,7 +1240,10 @@ public class SignatureModul {
 		{
 			JFileChooser chooser = new JFileChooser(); 
 			chooser.setDialogTitle("Export Verzeichnis");
-			chooser.setCurrentDirectory(new File("c:\\w4cash"));
+			chooser.setCurrentDirectory(
+					chooser.getFileSystemView().getParentDirectory(
+							new File("C:\\"))
+					);
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		    chooser.showDialog(caller, null);
 		    File f = chooser.getSelectedFile();
@@ -1265,15 +1268,15 @@ public class SignatureModul {
 					+ "  || '_'   "
 					+ "  || TO_CHAR(r.DATENEW,'YYYY-MM-dd\"T\"HH24:MI:SS') "
 					+ "  || '_'   "
-					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM TAXLINES TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.2),0),'999999999990D00')),'.',',') "
+					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.2),0),'999999999990D00')),'.',',') "
 					+ "  || '_'   "
-					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM TAXLINES TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.1),0),'999999999990D00')),'.',',') "
+					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.1),0),'999999999990D00')),'.',',') "
 					+ "  || '_'   "
-					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM TAXLINES TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.13),0),'999999999990D00')),'.',',') "
+					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.13),0),'999999999990D00')),'.',',') "
 					+ "  || '_'   "
-					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM TAXLINES TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0),0),'999999999990D00')),'.',',') "
+					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0),0),'999999999990D00')),'.',',') "
 					+ "  || '_'   "
-					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM TAXLINES TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.19),0),'999999999990D00')),'.',',') "
+					+ "  || REPLACE(LTRIM(TO_CHAR(NVL((SELECT ROUND(TL.BASE + TL.AMOUNT,2) FROM (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL INNER JOIN TAXES TA ON TL.TAXID=TA.ID WHERE TL.RECEIPT=T.ID AND TA.RATE=0.19),0),'999999999990D00')),'.',',') "
 					+ "  || '_'  "
 					+ "  || UTL_RAW.CAST_TO_VARCHAR2(t.CASHSUMCOUNTERENC) "
 					+ "  || '_'  "
@@ -1284,8 +1287,9 @@ public class SignatureModul {
 					+ "  t.SignatureValue, "
 					+ "  s.ID as SignatureId, "
 					+ "  t.POSID, "
-					+ "  t.CashTicketId "
-					+ "from (select * from Tickets UNION ALL select * from BRANCH_TICKETS) t " 
+					+ "  t.CashTicketId, "
+					+ "  t.isBranchTicket "
+					+ "from (select 0 as isBranchTicket, Tickets.* from Tickets UNION ALL select 1 as isBranchTicket, BRANCH_TICKETS.* from BRANCH_TICKETS) t " 
 					+ "inner join "
 					+ "(select * from Receipts UNION ALL select * from  BRANCH_RECEIPTS) r "
 					+ "on r.ID=t.ID "
@@ -1313,7 +1317,9 @@ public class SignatureModul {
 			{
 				if(GetIsDevelopment())
 				{
-					if(m_dlSales != null && m_taxeslogic != null)
+					if(m_dlSales != null 
+							&& m_taxeslogic != null 
+							&& depExportticket.getIsBranchTicket() == 0)
 					{
 						TicketInfo ticket = m_dlSales.loadTicket(true, depExportticket.getCashTicketId(), m_taxeslogic);
 						String qrCodeRaw = ticket.getSigningClearText() + "_" + ticket.getSignatureValue();
