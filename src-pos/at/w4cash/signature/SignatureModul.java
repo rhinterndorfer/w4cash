@@ -735,7 +735,7 @@ public class SignatureModul {
 			{
 				storedLastMonth = (Integer)oDblastMonth;
 			}
-			String cashID = m_app.getActiveCashIndex(false, true);
+			String cashID = m_app.getActiveCashIndex(false, true); // used to reload cache
 			Date activeCashDateStart = m_app.getActiveCashDateStart();
 			if(activeCashDateStart == null)
 				activeCashDateStart = new Date();
@@ -743,16 +743,19 @@ public class SignatureModul {
 			// build last month integer
 			Calendar c = Calendar.getInstance();
 			c.setTime(activeCashDateStart);
-			int currentMonth = c.get(Calendar.MONTH) + 1;
+			// int currentMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
+
 			c.add(Calendar.MONTH, -1);
-			int year = c.get(Calendar.YEAR);
-			int month = c.get(Calendar.MONTH) + 1;
+			int lastYear = c.get(Calendar.YEAR);
+			int lastMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
+			int lastYearMonth = (lastYear * 100 + lastMonth + 1);
 			
-			int lastMonth = (year * 100 + month);
-			if(storedLastMonth != null && lastMonth > storedLastMonth)
+			Boolean isYearTicket = (storedLastMonth != null ? storedLastMonth : lastYearMonth) + 88 < lastYearMonth;
+			
+			if(storedLastMonth != null && lastYearMonth > storedLastMonth)
 			{
 				if((GetIsOutOfOrder() || GetIsCriticalError()) 
-						&& currentMonth == 1)
+						&& isYearTicket)
 				{
 					// year ticket
 					// signature has to work!!
@@ -783,17 +786,17 @@ public class SignatureModul {
 				monthTicket.setDate(new Date());
 				monthTicket.setTicketType(TicketInfo.RECEIPT_NORMAL);
 				monthTicket.setUser(m_app.getAppUserView().getUser().getUserInfo());
-				if(currentMonth == 1)
+				if(isYearTicket)
 				{
-					monthTicket.setProperty("rksvnotes", String.format("Jahresbeleg %1$s", lastMonth));
+					monthTicket.setProperty("rksvnotes", String.format("Jahresbeleg %1$s", lastYearMonth));
 					monthTicket.setValidation(0); // needs fiscal validation
 				}
 				else
 				{
-					monthTicket.setProperty("rksvnotes", String.format("Monatsbeleg %1$s", lastMonth));
+					monthTicket.setProperty("rksvnotes", String.format("Monatsbeleg %1$s", lastYearMonth));
 					monthTicket.setValidation(null); // validation not required
 				}
-				monthTicket.setMonth(lastMonth);
+				monthTicket.setMonth(lastYearMonth);
 				
 				m_taxeslogic.calculateTaxes(monthTicket);
 				m_dlSales.saveTicket(monthTicket, m_app.getInventoryLocation(), m_taxeslogic);
@@ -806,7 +809,7 @@ public class SignatureModul {
 				m_panelticket.printTicket("Printer.Ticket" + ticketsuffix, monthTicket, null);
 				
 				
-				if(currentMonth == 1)
+				if(isYearTicket)
 				{
 					// year ticket has to be checked via fiscal services
 					CheckTicketOnline(caller, monthTicket);
@@ -2012,7 +2015,9 @@ public class SignatureModul {
 				if(message.getRc() == null || "".equals(message.getRc()) || "0".equals(message.getRc()))
 				{
 					// OK
-					// do nothing
+					JConfirmDialog.showInformation(m_app, caller, 
+							null,
+							AppLocal.getIntString("signature.wsaction.success"));
 				}
 				else if("-1".equals(message.getRc()))
 				{
@@ -2024,14 +2029,18 @@ public class SignatureModul {
 				else if("B1".equals(message.getRc()))
 				{
 					// cash box already registered
-					// do nothing
 					Log.Info2DB("Signature: cashbox already registered");
+					JConfirmDialog.showInformation(m_app, caller, 
+							null,
+							AppLocal.getIntString("signature.wsaction.success"));
 				}
 				else if("B10".equals(message.getRc()))
 				{
 					// signature unit already registered
-					// do nothing
 					Log.Info2DB("Signature: signature unit already registered");
+					JConfirmDialog.showInformation(m_app, caller, 
+							null,
+							AppLocal.getIntString("signature.wsaction.success"));
 				}
 				else
 				{
@@ -2051,8 +2060,6 @@ public class SignatureModul {
 					throw e;
 				}
 			}
-    		
-    		
     	}
     }
     
@@ -2107,6 +2114,10 @@ public class SignatureModul {
 						throw e;
 					}
 				}
+    		}
+    		else
+    		{
+    			throw new Exception("No login data provided.");
     		}
     	}
     }
