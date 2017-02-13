@@ -748,7 +748,7 @@ public class SignatureModul {
 			c.add(Calendar.MONTH, -1);
 			int lastYear = c.get(Calendar.YEAR);
 			int lastMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
-			int lastYearMonth = (lastYear * 100 + lastMonth + 1);
+			int lastYearMonth = (lastYear * 100 + lastMonth);
 			
 			Boolean isYearTicket = (storedLastMonth != null ? storedLastMonth : lastYearMonth) + 88 < lastYearMonth;
 			
