@@ -311,6 +311,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	public String getProductName() {
 		return attributes.getProperty("product.name");
 	}
+	
+	public void setProductName(String value) {
+		attributes.setProperty("product.name", value);
+	}
 
 	public String getProductAttSetId() {
 		return attributes.getProperty("product.attsetid");

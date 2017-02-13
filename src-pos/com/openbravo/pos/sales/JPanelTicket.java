@@ -570,8 +570,25 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	protected void addTicketLine(TicketLineInfo oLine) {
 
-		TicketLineInfo oOrigLine = oLine.copyTicketLine();
+		if(oLine != null && oLine.getProductName() != null 
+				&& oLine.getProductName().contains("{0}"))
+		{
+			String productName = oLine.getProductName();
 
+			OnScreenKeyboardUtil.StartOSK();
+			
+			String value = null;
+			while(value == null || "".equals(value))
+			{
+				value = javax.swing.JOptionPane.showInputDialog("Text"); 
+			}
+			
+			productName = productName.replace("{0}", value);
+			oLine.setProductName(productName);
+			oLine.setLineGroup(value);
+		}
+		
+		
 		if (executeEventAndRefresh("ticket.addline", new ScriptArg("line", oLine)) == null) {
 
 			if (oLine.isProductCom()) {

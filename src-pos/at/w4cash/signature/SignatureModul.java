@@ -1982,12 +1982,13 @@ public class SignatureModul {
     		
     		if(GetIsDevelopment())
     		{
+    			// development/test
     			request.setArt_uebermittlung(Art_uebermittlung.T);
     		}
     		else
     		{
-    			// TODO set production
-    			request.setArt_uebermittlung(Art_uebermittlung.T);
+    			// production
+    			request.setArt_uebermittlung(Art_uebermittlung.P);
     		}
     		request.setErzwinge_asynchron(false);
     		request.setRkdb(rkdb);

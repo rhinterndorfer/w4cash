@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.2.2.final using JasperReports Library version 6.2.2  -->
-<!-- 2016-08-26T10:01:17 -->
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-02-13T12:11:44 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productgroups" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="productgroups_messages_de" whenResourceMissingType="Empty" uuid="4ad175b2-3aa9-4bf6-8b45-6b5af737d6d3">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="reports\com\openbravo\reports\DataAdapterW4Cash.xml"/>
@@ -17,7 +17,9 @@
 		<![CDATA[select 
  	case when free.RECEIPT is null then 0 else 1 end as Free,
 	coalesce(cpp.NAME, cp.NAME, c.NAME) as CategoryName,
-	MAX(p.Name) as Product,
+  case when p.name like '%{0}%' 
+    then trim(EXTRACTVALUE(XMLTYPE(REPLACE(SYS.UTL_RAW.CAST_TO_VARCHAR2(tl.attributes),'<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">','')),'/properties/entry[@key="product.name"]')) 
+    else p.name end as Product,
 	ta.RATE*100 as Tax,
 	SUM(tl.UNITS) as Units,
 	SUM(Round(tl.UNITS * tl.PRICE * (1+ta.RATE),2)) as PriceGross,
@@ -52,8 +54,16 @@ inner join
 left join
 	(select RECEIPT from (select * from PAYMENTS UNION ALL select * from BRANCH_PAYMENTS) PAYMENTS where PAYMENT = 'free' GROUP BY RECEIPT) free
 	on r.ID=free.RECEIPT
-group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), p.Id, ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1
-order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), MAX(p.NAME), ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1]]>
+group by case when free.RECEIPT is null then 0 else 1 end, coalesce(cpp.NAME, cp.NAME, c.NAME), 
+    case when p.name like '%{0}%' 
+    then trim(EXTRACTVALUE(XMLTYPE(REPLACE(SYS.UTL_RAW.CAST_TO_VARCHAR2(tl.attributes),'<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">','')),'/properties/entry[@key="product.name"]')) 
+    else p.name end, 
+    ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1
+order by case when free.RECEIPT is null then 0 else 1 end desc, coalesce(cpp.NAME, cp.NAME, c.NAME), 
+    case when p.name like '%{0}%' 
+    then trim(EXTRACTVALUE(XMLTYPE(REPLACE(SYS.UTL_RAW.CAST_TO_VARCHAR2(tl.attributes),'<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">','')),'/properties/entry[@key="product.name"]')) 
+    else p.name end, 
+    ta.RATE, SIGN(tl.UNITS)*-1, SIGN(tl.PRICE)*-1]]>
 	</queryString>
 	<field name="Free" class="java.lang.Integer"/>
 	<field name="CategoryName" class="java.lang.String"/>
