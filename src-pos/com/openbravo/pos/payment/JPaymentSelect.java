@@ -28,6 +28,9 @@ import java.awt.Insets;
 import java.awt.Window;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import com.openbravo.pos.forms.AppView;
@@ -50,6 +53,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	private PaymentInfoList m_aPaymentInfo;
 	private boolean printselected;
+	private boolean printsecond;
 
 	private boolean accepted;
 
@@ -80,7 +84,8 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		this.m_App = app;
 		dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		printselected = true;
-
+		printsecond = false;
+		
 		initComponents();
 
 		getRootPane().setDefaultButton(m_jButtonOK);
@@ -93,6 +98,16 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	public boolean isPrintSelected() {
 		return printselected;
+	}
+	
+	public boolean isPrintSecond() {
+		return printsecond;
+	}
+	
+	public void setPrintSecond(boolean value) {
+		printsecond = value;
+		if(m_jSecondPrint != null)
+			m_jSecondPrint.setSelected(value);
 	}
 
 	public List<PaymentInfo> getSelectedPayments() {
@@ -111,6 +126,9 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		m_jButtonPrint.setSelected(printselected);
 		m_jButtonPrint.setVisible(false); // hide print toggle button !!
 
+		m_jSecondPrint.setSelected(false);
+		m_jSecondPrint.setVisible(true);
+		
 		m_jTotalEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTotal)));
 
 		addTabs();
@@ -127,6 +145,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 		// gets the print button state
 		printselected = m_jButtonPrint.isSelected();
+		printsecond = m_jSecondPrint.isSelected();
 
 		// remove all tabs
 		m_jTabPayment.removeAll();
@@ -136,12 +155,16 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	protected abstract void addTabs();
 
-	protected abstract void setStatusPanel(boolean isPositive, boolean isComplete);
+	protected abstract void setStatusPanel(boolean isPositive, boolean isComplete, boolean isPrintSecond);
 
 	protected abstract PaymentInfo getDefaultPayment(double total);
 
 	protected void setOKEnabled(boolean value) {
 		m_jButtonOK.setEnabled(value);
+	}
+	
+	protected void setPrintSecondEnabled(boolean value) {
+		m_jSecondPrint.setEnabled(value);
 	}
 
 	protected void setAddEnabled(boolean value) {
@@ -382,9 +405,9 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		}
 	}
 
-	public void setStatus(boolean isPositive, boolean isComplete) {
+	public void setStatus(boolean isPositive, boolean isComplete, boolean isPrintSecond) {
 
-		setStatusPanel(isPositive, isComplete);
+		setStatusPanel(isPositive, isComplete, isPrintSecond);
 	}
 
 	public void setTransactionID(String tID) {
@@ -413,6 +436,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		jPanel5 = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
 		m_jButtonPrint = new javax.swing.JToggleButton();
+		m_jSecondPrint = new javax.swing.JToggleButton();
 		jPanel1 = new javax.swing.JPanel();
 		m_jButtonOK = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
@@ -516,8 +540,41 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		m_jButtonPrint.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		m_jButtonPrint.setRequestFocusEnabled(false);
 		jPanel2.add(m_jButtonPrint);
+		
+		m_jSecondPrint
+			.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/receipt_printer_x2.png"))); // NOI18N
+		m_jSecondPrint.setSelected(false);
+		m_jSecondPrint.setFocusPainted(false);
+		m_jSecondPrint.setFocusable(false);
+		m_jSecondPrint.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		m_jSecondPrint.setRequestFocusEnabled(false);
+		m_jSecondPrint.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(e.getSource().getClass().equals(JToggleButton.class))
+				{
+					JToggleButton btn = (JToggleButton)e.getSource();
+					
+					if(btn.isSelected())
+					{
+						btn.setContentAreaFilled(false);
+						btn.setOpaque(true);
+						btn.setBackground(Color.green);
+					}
+					else
+					{
+						btn.setContentAreaFilled(true);
+						btn.setOpaque(true);
+						btn.setBackground(null);
+					}
+				}
+			}
+		});
+		jPanel2.add(m_jSecondPrint);
+		
 		jPanel2.add(jPanel1);
-
+		
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		m_jButtonOK.setText(AppLocal.getIntString("message.pay")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
@@ -616,6 +673,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	//private javax.swing.JButton m_jButtonAdd;
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
+	private javax.swing.JToggleButton m_jSecondPrint;
 	private javax.swing.JToggleButton m_jButtonPrint;
 	//private javax.swing.JButton m_jButtonRemove;
 	private javax.swing.JLabel m_jLblRemainingEuros;
@@ -647,6 +705,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		PropertyUtil.ScaleButtonIcon(m_jButtonOK, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jSecondPrint,  btnWidth, btnHeight, fontsize);
 
 	}
 }

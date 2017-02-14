@@ -60,10 +60,11 @@ public class JPaymentSelectRefund extends JPaymentSelect {
         setHeaderVisible(false);
     }
     
-    protected void setStatusPanel(boolean isPositive, boolean isComplete) {
+    protected void setStatusPanel(boolean isPositive, boolean isComplete, boolean isSecondPrint) {
         
         setAddEnabled(isPositive && !isComplete);
         setOKEnabled(isComplete);
+        setPrintSecond(isSecondPrint);
     }    
     
     protected PaymentInfo getDefaultPayment(double total) {

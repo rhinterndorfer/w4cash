@@ -113,7 +113,7 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
 		if (customerext == null) {
 			m_jMoneyEuros.setText(null);
 			jlblMessage.setText(AppLocal.getIntString("message.nocustomernodebt"));
-			notifier.setStatus(false, false);
+			notifier.setStatus(false, false,false);
 		} else {
 			Double value = m_jTendered.getDoubleValue();
 			if (value == null || value == 0.0) {
@@ -128,12 +128,12 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
 					RoundUtils.getValue(customerext.getMaxdebt())) >= 0) {
 				// maximum debt exceded
 				jlblMessage.setText(AppLocal.getIntString("message.customerdebtexceded"));
-				notifier.setStatus(false, false);
+				notifier.setStatus(false, false, false);
 			} else {
 				jlblMessage.setText(null);
 				int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
 				// if iCompare > 0 then the payment is not valid
-				notifier.setStatus(m_dPaid > 0.0 && iCompare <= 0, iCompare == 0);
+				notifier.setStatus(m_dPaid > 0.0 && iCompare <= 0, iCompare == 0, false);
 			}
 		}
 	}

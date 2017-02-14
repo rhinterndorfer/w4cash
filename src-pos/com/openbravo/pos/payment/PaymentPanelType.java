@@ -74,7 +74,7 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 
 	private void resetState() {
 
-		m_notifier.setStatus(false, false);
+		m_notifier.setStatus(false, false, false);
 
 		m_jHolderName.setText(null);
 		m_jCardNumber.setText(null);
@@ -95,7 +95,7 @@ public class PaymentPanelType extends javax.swing.JPanel implements PaymentPanel
 	private class RecalculateName implements PropertyChangeListener {
 		public void propertyChange(PropertyChangeEvent evt) {
 			boolean isvalid = isValidHolder() && isValidCardNumber() && isValidExpirationDate();
-			m_notifier.setStatus(isvalid, isvalid);
+			m_notifier.setStatus(isvalid, isvalid, false);
 		}
 	}
 

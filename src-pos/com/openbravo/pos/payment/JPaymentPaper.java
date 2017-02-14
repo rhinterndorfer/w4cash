@@ -58,7 +58,7 @@ public class JPaymentPaper extends javax.swing.JPanel implements JPaymentInterfa
 	public void activate(CustomerInfoExt customerext, double dTotal, String transID) {
         m_dTicket = dTotal;
         
-        m_notifier.setStatus(customerext != null, customerext != null);
+        m_notifier.setStatus(customerext != null, customerext != null, true);
         
         if(customerext == null)
         {
