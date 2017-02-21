@@ -140,6 +140,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		} else {
 			getRootPane().setDefaultButton(m_jButtonOK);
 			printState();
+			setAlwaysOnTop(true);
 			setVisible(true);
 		}
 
