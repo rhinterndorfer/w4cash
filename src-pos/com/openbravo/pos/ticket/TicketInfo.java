@@ -476,7 +476,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     
     public String getQRCode()
     {
-    	return m_qrcode;
+    	return m_qrcode == null ? "" : m_qrcode;
     }
     
     public Double getCashSumCounter() {

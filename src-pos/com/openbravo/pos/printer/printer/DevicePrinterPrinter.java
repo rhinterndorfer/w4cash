@@ -44,8 +44,10 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.JobName;
 import javax.print.attribute.standard.Media;
+import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.OrientationRequested;
+import javax.print.attribute.standard.PrinterResolution;
 
 /**
  * Class DevicePrinterPrinter is responsible for printing tickets using system
@@ -268,11 +270,17 @@ public class DevicePrinterPrinter implements DevicePrinter {
 
 				if (ps != null) {
 
+					
 					PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 					aset.add(OrientationRequested.PORTRAIT);
 					aset.add(new JobName(AppLocal.APP_NAME + " - Document", null));
 					if(media != null)
 						aset.add(media);
+					else
+					{
+						// default media size
+						aset.add(new MediaPrintableArea(0, 0, 80, 1000, MediaPrintableArea.MM));
+					}
 
 					DocPrintJob printjob = ps.createPrintJob();
 					Doc doc = new SimpleDoc(new PrintableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,
