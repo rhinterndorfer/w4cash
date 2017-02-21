@@ -96,8 +96,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRMapArrayDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import sun.security.krb5.internal.Ticket;
-import sun.util.logging.resources.logging;
 
 /**
  *
