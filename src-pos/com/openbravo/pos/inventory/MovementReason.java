@@ -30,11 +30,14 @@ public class MovementReason extends ComboItemLocal {
     // public static final MovementReason NULL = new MovementReason(null, "");
     public static final MovementReason IN_PURCHASE = new MovementReason(+1, "stock.in.purchase");
     public static final MovementReason IN_REFUND = new MovementReason(+2, "stock.in.refund");
+    public static final MovementReason IN_OPENING = new MovementReason(+3, "stock.in.opening");
     public static final MovementReason IN_MOVEMENT = new MovementReason(+4, "stock.in.movement");
+    public static final MovementReason IN_STOCKTAKING = new MovementReason(+5, "stock.in.stocktaking");
     public static final MovementReason OUT_SALE = new MovementReason(-1, "stock.out.sale");
     public static final MovementReason OUT_REFUND = new MovementReason(-2, "stock.out.refund");
     public static final MovementReason OUT_BREAK = new MovementReason(-3, "stock.out.break");
     public static final MovementReason OUT_MOVEMENT = new MovementReason(-4, "stock.out.movement");
+    public static final MovementReason OUT_STOCKTAKING = new MovementReason(-5, "stock.out.stocktaking");
     
     public static final MovementReason OUT_CROSSING = new MovementReason(1000, "stock.out.crossing");
    

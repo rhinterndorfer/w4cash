@@ -73,7 +73,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		
 		m_sInitScript = "/com/openbravo/pos/scripts/" + s.DB.getName();
 
-		m_version = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS WHERE ID = 'w4cashdb'", null,
+		m_version = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS WHERE ID = 'w4cashdb' AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST')", null,
 				SerializerReadString.INSTANCE);
 		m_dummy = new StaticSentence(s, "SELECT * FROM PEOPLE WHERE 1 = 0");
 

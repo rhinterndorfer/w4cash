@@ -314,13 +314,23 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private class TimerAction implements ActionListener {
         public void actionPerformed(ActionEvent evt) {
         	try {
-        		loadTickets(true);
-        		m_timerErrorCount=1;
-        	} catch(Exception ex) {
-        		m_timerErrorCount++;
+        		StopTimer();
+        		if(loadTickets(true))
+        		{
+        			m_timerErrorCount=1;
+        		}
+        		else
+        		{
+        			m_timerErrorCount++;
+        		}
+        		
+        		m_timer.setInitialDelay(5000 * m_timerErrorCount);
         		m_timer.setDelay(5000 * m_timerErrorCount);
+        	} catch(Exception ex) {
+        		// do nothing
         	}
-        	m_timer.restart();
+        	StartTimer();
+        	
         }
     }    
 
@@ -773,7 +783,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void loadTickets(Boolean suppressError) {
+	public Boolean loadTickets(Boolean suppressError) {
 
 		Map<String, SharedTicketInfo> atickets = new HashMap<String, SharedTicketInfo>();
 		try {
@@ -781,7 +791,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			for (SharedTicketInfo ticket : l) {
 				atickets.put(ticket.getId(), ticket);
 			}
-		} catch (BasicException e) {
+		} catch (Exception e) {
 			if(!suppressError)
 			{
 				JConfirmDialog.showError(m_App, 
@@ -792,7 +802,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			}
 
 			// return immediately
-			return;
+			return false;
 		}
 		
 		// places with reservation today
@@ -815,7 +825,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					, new SerializerWriteBasic(new Datas[] {Datas.TIMESTAMP, Datas.TIMESTAMP}),
 					new SerializerReadClass(Place.class));
 			m_aplacesRes = sent.list(tomorrow.getTime(), new Date());
-		} catch (BasicException eD) {
+		} catch (Exception eD) {
 			// do nothing
 		}
 		
@@ -846,6 +856,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				}
 			}
 		}
+		
+		return true;
 	}
 
 	protected JComponent getBagComponent() {

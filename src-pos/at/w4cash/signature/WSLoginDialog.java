@@ -21,8 +21,10 @@ package at.w4cash.signature;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.util.ModifiedFlowLayout;
+import com.openbravo.pos.util.OnScreenKeyboardUtil;
 import com.openbravo.pos.util.PropertyUtil;
 
 import at.gv.bmf.finanzonline.fon.ws.session.LoginRequest;
@@ -90,8 +92,10 @@ public class WSLoginDialog extends javax.swing.JDialog {
 		this.m_App = app;
 		initComponents();
 		
+		
 		PropertyUtil.ScaleButtonFontsize(m_App, m_jButtonCancel, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleButtonFontsize(m_App, m_jButtonOK, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleButtonFontsize(m_App, m_jButtonKeyboard, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jTID, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jBENID, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jPIN, "common-dialog-fontsize", "22");
@@ -120,13 +124,12 @@ public class WSLoginDialog extends javax.swing.JDialog {
 	// <editor-fold defaultstate="collapsed" desc="Generated
 	// Code">//GEN-BEGIN:initComponents
 	private void initComponents() {
-
-		
 		
 		m_jdata = new javax.swing.JPanel();
 		m_jbuttons = new javax.swing.JPanel();
 		m_jButtonCancel = new javax.swing.JButton();
 		m_jButtonOK = new javax.swing.JButton();
+		m_jButtonKeyboard = new javax.swing.JButton();
 		m_jTID = new javax.swing.JTextField(); 
 		m_jBENID = new javax.swing.JPasswordField();
 		m_jPIN = new javax.swing.JPasswordField();
@@ -167,6 +170,21 @@ public class WSLoginDialog extends javax.swing.JDialog {
 		
 		m_jbuttons.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		m_jbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		
+		m_jButtonKeyboard.setIcon(
+				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_keyboard_small.png"))); // NOI18N
+		m_jButtonKeyboard.setText(AppLocal.getIntString("Button.Keyboard"));
+		m_jButtonKeyboard.setFocusPainted(false);
+		m_jButtonKeyboard.setFocusable(false);
+		m_jButtonKeyboard.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		m_jButtonKeyboard.setRequestFocusEnabled(false);
+		m_jButtonKeyboard.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				OnScreenKeyboardUtil.StartOSK();
+			}
+		});
+		m_jbuttons.add(m_jButtonKeyboard);
 		
 		
 		m_jButtonOK
@@ -222,6 +240,7 @@ public class WSLoginDialog extends javax.swing.JDialog {
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
+	private javax.swing.JButton m_jButtonKeyboard;
 	private javax.swing.JTextField m_jTID;
 	private javax.swing.JPasswordField m_jBENID;
 	private javax.swing.JPasswordField m_jPIN;
