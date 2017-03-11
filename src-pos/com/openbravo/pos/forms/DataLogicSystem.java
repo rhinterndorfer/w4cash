@@ -42,6 +42,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
 	protected String m_sInitScript;
 	private SentenceFind m_version;
+	private SentenceFind m_version2;
 	private SentenceExec m_dummy;
 
 	protected SentenceList m_peoplevisible;
@@ -74,6 +75,8 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		m_sInitScript = "/com/openbravo/pos/scripts/" + s.DB.getName();
 
 		m_version = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS WHERE ID = 'w4cashdb' AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST')", null,
+				SerializerReadString.INSTANCE);
+		m_version2 = new StaticSentence(s, "SELECT VERSION FROM APPLICATIONS WHERE ID = 'w4cashdb' ORDER BY VERSION", null,
 				SerializerReadString.INSTANCE);
 		m_dummy = new StaticSentence(s, "SELECT * FROM PEOPLE WHERE 1 = 0");
 
@@ -145,7 +148,14 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 	// public abstract BaseSentence getShutdown();
 
 	public final String findVersion() throws BasicException {
-		Object result = m_version.find();
+		Object result = null;
+		try {
+			result = m_version.find();
+		} catch(Exception ex)
+		{
+			result = m_version2.find();
+		}
+		
 		if (result != null)
 			return result.toString();
 		else
