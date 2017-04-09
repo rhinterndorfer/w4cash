@@ -123,6 +123,11 @@ INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('47', 'System.City', 0,
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('48', 'System.TAXID', 0, utl_raw.cast_to_raw(''));
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('49', 'System.Thanks', 0, utl_raw.cast_to_raw(''));
 INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('50', 'Script.Note', 0, $FILE{/com/openbravo/pos/templates/Script.Note.txt});
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('51', 'System.AccountBank', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('52', 'System.AccountOwner', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('53', 'System.AccountBIC', 0, utl_raw.cast_to_raw(''));
+INSERT INTO RESOURCES(ID, NAME, RESTYPE, CONTENT) VALUES('54', 'System.AccountIBAN', 0, utl_raw.cast_to_raw(''));
+
 
 CREATE TABLE TAXCUSTCATEGORIES (
     ID VARCHAR2(256) NOT NULL,

@@ -3,13 +3,11 @@ package com.openbravo.data.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dialog;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,13 +15,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.Font;
 import com.openbravo.beans.DialogType;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -39,7 +37,7 @@ public class JConfirmDialog extends JDialog {
 	private JButton cancelButton;
 
 	private int returnCode = -1;
-	private JLabel m_jIcon;
+	// private JLabel m_jIcon;
 
 	/**
 	 * @wbp.parser.constructor
@@ -59,6 +57,7 @@ public class JConfirmDialog extends JDialog {
 	private void init(AppView app, String message, DialogType dialogType) {
 		getContentPane().setLayout(new BorderLayout());
 
+		
 		this.contentPanel = new JPanel();
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -71,11 +70,14 @@ public class JConfirmDialog extends JDialog {
 			w = String.format("%1$d", (int)(screenSize.getWidth() / 1.4));
 		}
 		
+		this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/question.png")).getImage());
+		
 		contentPanel.setLayout(new FlowLayout());
 		{
-			m_jIcon = new JLabel(
-					new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/question.png")));
-			contentPanel.add(m_jIcon);
+			//m_jIcon = new JLabel(
+			//		new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/question.png")));
+			
+			// contentPanel.add(m_jIcon);
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("<html><div style='width: "+w+"px'>");
@@ -83,6 +85,10 @@ public class JConfirmDialog extends JDialog {
 			sb.append("</div></html>");
 			
 			m_jMessage = new JLabel(sb.toString());
+			java.awt.Font f = m_jMessage.getFont();
+			f = new java.awt.Font(f.getName(), f.getStyle(), (int)(32 / 1.4)); // set default size 32 (1.4 html size factor) 
+			m_jMessage.setFont(f);
+			
 			
 			contentPanel.add(m_jMessage);
 		}
@@ -160,13 +166,6 @@ public class JConfirmDialog extends JDialog {
 	}
 
 	private void ScaleButtons(AppView app) {
-		// int btnWidth = Integer
-		// .parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons",
-		// "button-touchsmall-width", "30"));
-		// int btnHeight = Integer
-		// .parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons",
-		// "button-touchsmall-height", "30"));
-
 		int width = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-width", "30"));
 		int height = Integer
 				.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-touchlarge-height", "30"));
@@ -174,7 +173,7 @@ public class JConfirmDialog extends JDialog {
 		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "20"));
 
 		PropertyUtil.ScaleLabelFontsize(app, m_jMessage, "common-small-fontsize", "32");
-		PropertyUtil.ScaleLabelIcon(app, m_jIcon, width, height);
+		// PropertyUtil.ScaleLabelIcon(app, m_jIcon, width, height);
 
 		if (okButton != null) {
 			PropertyUtil.ScaleButtonIcon(okButton, width, height, fontsize);
