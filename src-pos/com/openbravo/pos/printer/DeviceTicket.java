@@ -141,9 +141,9 @@ public class DeviceTicket {
                 } else if ("printer".equals(sPrinterType)) {
 
                     // backward compatibility
-                    if (sPrinterParam2 == null || sPrinterParam2.equals("") || sPrinterParam2.equals("true")) {
+                    if (sPrinterParam2 == null || sPrinterParam2.equals("") || sPrinterParam2.equals("true") || sPrinterParam2.equals("receipt")) {
                         sPrinterParam2 = "receipt";
-                    } else if (sPrinterParam2.equals("false")) {
+                    } else if (sPrinterParam2.equals("false") || sPrinterParam2.equals("standard")) {
                         sPrinterParam2 = "standard";
                     }
 
