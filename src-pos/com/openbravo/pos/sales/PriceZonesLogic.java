@@ -89,10 +89,19 @@ public class PriceZonesLogic {
     					&& (pz.getDateFrom() == null || pz.getDateFrom().compareTo(new java.util.Date()) < 0)
     					&& (pz.getDateTill() == null || pz.getDateTill().compareTo(new java.util.Date()) > 0)
     					&& (pz.getLocation() == null || pz.getLocation().equals(location))
-    					&& pz.getPriceSellGross() < price * (1+taxRate)
 					)
     			{
-    				price = pz.getPriceSellGross() / (1+taxRate);
+    				if(pz.getIsPriceRise() > 0)
+    				{
+    					// price rises override other prices
+    					price = pz.getPriceSellGross() / (1+taxRate);
+    					return price;
+    				}
+    				
+    				if(pz.getPriceSellGross() < price * (1+taxRate))
+    				{
+    					price = pz.getPriceSellGross() / (1+taxRate);
+    				}
     			}
     		
     		}

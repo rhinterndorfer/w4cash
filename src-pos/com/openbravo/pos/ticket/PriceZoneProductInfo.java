@@ -36,6 +36,7 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
     private String name;
     private int isActiv;
     private int isCustomer;
+    private int isPriceRise;
     private java.util.Date dateFrom;
     private java.util.Date dateTill;
     private String location;
@@ -45,11 +46,12 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
     
     public PriceZoneProductInfo(String id, String name, int isActiv, int isCustomer, 
     		java.util.Date dateFrom, java.util.Date dateTill, 
-    		String location, String product, double priceSellGross) {
+    		String location, String product, double priceSellGross, int isPriceRise) {
         this.id = id;
         this.name = name;
         this.isActiv = isActiv;
         this.isCustomer = isCustomer;
+        this.isPriceRise = isPriceRise;
         this.dateFrom = dateFrom;
         this.dateTill = dateTill;
         this.location = location;
@@ -75,6 +77,10 @@ public class PriceZoneProductInfo implements Serializable, IKeyed {
     
     public int getIsCustomer() {
         return isCustomer;
+    }
+    
+    public int getIsPriceRise() {
+        return isPriceRise;
     }
 
     public java.util.Date getDateFrom() {

@@ -323,14 +323,15 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	
 	public final SentenceList getPriceZonesProductList() {
 		return new StaticSentence(s,
-				"SELECT pz.ID, NAME, ISACTIV, ISCUSTOMER, DATEFROM, DATETILL, LOCATION, PRODUCT, PRICESELLGROSS"
+				"SELECT pz.ID, NAME, ISACTIV, ISCUSTOMER, DATEFROM, DATETILL, LOCATION, PRODUCT, PRICESELLGROSS, NVL(ISPRICERISE,0) AS ISPRICERISE"
 				+ " FROM PRICEZONES pz INNER JOIN PRICEZONES_PRICES pzp ON pz.ID = pzp.PRICEZONE"
 				+ " WHERE pz.ISACTIV = 1 ",
 				null, new SerializerRead() {
 					public Object readValues(DataRead dr) throws BasicException {
 						return new PriceZoneProductInfo(dr.getString(1), dr.getString(2), dr.getInt(3), dr.getInt(4),
 								dr.getTimestamp(5), dr.getTimestamp(6), dr.getString(7), dr.getString(8),
-								dr.getDouble(9).doubleValue());
+								dr.getDouble(9).doubleValue(),
+								dr.getInt(10));
 					}
 				});
 	}
