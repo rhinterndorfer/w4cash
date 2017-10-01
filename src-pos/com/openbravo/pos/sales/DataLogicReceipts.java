@@ -94,16 +94,21 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
         	Object[] values = new Object[] {Id, hostname};
             Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};
         	
-            try {
-            	PreparedSentence insert = new PreparedSentence(s
+            PreparedSentence insert = new PreparedSentence(s
                     , "INSERT INTO SHAREDTICKETS (ID, NAME, LOCKBY) VALUES (?, ?, ?)"
                     , new SerializerWriteBasicExt(datas, new int[] {0, 1, 1}));
+            try {
             	insert.noExceptionLogging = true;
             	insert.exec(values);
             } catch(Exception ex)
             {
             	// ignore
             	String m = ex.getMessage();
+            }
+            finally
+            {
+            	// close cursor statement and free resources
+            	insert.closeExec();
             }
             
             int affected = new PreparedSentence(s
