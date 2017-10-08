@@ -949,7 +949,6 @@ public class JRViewer300 extends javax.swing.JPanel implements JRHyperlinkListen
 
 	void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSaveActionPerformed
 		// Add your handling code here:
-
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setLocale(this.getLocale());
 		fileChooser.updateUI();
@@ -966,6 +965,8 @@ public class JRViewer300 extends javax.swing.JPanel implements JRHyperlinkListen
 		if (lastFolder != null) {
 			fileChooser.setCurrentDirectory(lastFolder);
 		}
+
+		OnScreenKeyboardUtil.StartOSK();
 
 		int retValue = fileChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION) {
