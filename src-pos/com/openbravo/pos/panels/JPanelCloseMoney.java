@@ -125,9 +125,14 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jMinDate.setText(null);
 		m_jMaxDate.setText(null);
 		m_jPrintCash.setEnabled(false);
+		m_jPrintCash.setVisible(false);
+		m_jPrintLastCash.setEnabled(true);
+		m_jPrintLastCash.setVisible(true);
 		m_jCloseCash.setEnabled(false);
+		m_jCloseCash.setVisible(false);
 		m_jCount.setText(null); // AppLocal.getIntString("label.noticketstoclose");
 		m_jCash.setText(null);
+		m_jCashTotal.setText(null);
 
 		m_jSales.setText(null);
 		m_jSalesSubtotal.setText(null);
@@ -160,10 +165,15 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		if (m_PaymentsToClose.getPayments() != 0 || m_PaymentsToClose.getSales() != 0) {
 
 			m_jPrintCash.setEnabled(true);
+			m_jPrintCash.setVisible(true);
+			m_jPrintLastCash.setEnabled(false);
+			m_jPrintLastCash.setVisible(false);
 			m_jCloseCash.setEnabled(true);
+			m_jCloseCash.setVisible(true);
 
 			m_jCount.setText(m_PaymentsToClose.printPayments());
 			m_jCash.setText(m_PaymentsToClose.printPaymentsTotal());
+			m_jCashTotal.setText(m_PaymentsToClose.printPaymentsCashTotal());
 
 			m_jSales.setText(m_PaymentsToClose.printSales());
 			m_jSalesSubtotal.setText(m_PaymentsToClose.printSalesBase());
@@ -234,6 +244,39 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 			
 		}
 	}
+	
+	private void printLastCashPayments(String report) {
+		
+		String sresource = m_dlSystem.getResourceAsXML(report);
+		if (sresource == null) {
+			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
+			msg.show(m_App, this);
+		} else {
+			try {
+				// reload data
+				PaymentsModel m_PaymentsToPrint = PaymentsModel.loadInstance(m_App, m_App.getLastCashIndex());
+
+				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+				script.put("payments", m_PaymentsToPrint);
+				m_TTP.printTicket(script.eval(sresource).toString());
+			} catch (ScriptException e) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+						AppLocal.getIntString("message.cannotprintticket"), e);
+				msg.show(m_App, this);
+			} catch (TicketPrinterException e) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+						AppLocal.getIntString("message.cannotprintticket"), e);
+				msg.show(m_App, this);
+			} catch (Exception e)
+			{
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+						AppLocal.getIntString("message.cannotprintticket"), e);
+				msg.show(m_App, this);
+			}
+			
+		}
+	}
+	
 
 	private class FormatsPayment extends Formats {
 		protected String formatValueInt(Object value) {
@@ -270,7 +313,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		jLabel1 = new javax.swing.JLabel();
 		m_jCount = new javax.swing.JTextField();
 		jLabel4 = new javax.swing.JLabel();
+		jLabelCashTotal = new javax.swing.JLabel();
 		m_jCash = new javax.swing.JTextField();
+		m_jCashTotal = new javax.swing.JTextField();
 		jPanel6 = new javax.swing.JPanel();
 		jPanel6Free = new javax.swing.JPanel();
 		m_jSalesTotal = new javax.swing.JTextField();
@@ -285,6 +330,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		jLabel7 = new javax.swing.JLabel();
 		m_jCloseCash = new javax.swing.JButton();
 		m_jPrintCash = new javax.swing.JButton();
+		m_jPrintLastCash = new javax.swing.JButton();
 
 		jLabel5Free = new javax.swing.JLabel();
 		jLabel6Free = new javax.swing.JLabel();
@@ -358,10 +404,15 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jCount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
 		jLabel4.setText(AppLocal.getIntString("Label.Cash")); // NOI18N
+		jLabelCashTotal.setText(AppLocal.getIntString("Label.CashTotal")); // NOI18N
 
 		m_jCash.setEditable(false);
 		m_jCash.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+		m_jCashTotal.setEditable(false);
+		m_jCashTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+		
 		javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
 		jPanel5.setLayout(jPanel5Layout);
 		jPanel5Layout.setHorizontalGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,6 +426,12 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(m_jCount, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel5Layout.createSequentialGroup()
+										.addComponent(jLabelCashTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jCashTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
 												javax.swing.GroupLayout.PREFERRED_SIZE))
 								.addGroup(jPanel5Layout.createSequentialGroup()
 										.addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
@@ -391,6 +448,12 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 						.addGroup(jPanel5Layout.createSequentialGroup()
 								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 										.addComponent(jLabel1).addComponent(m_jCount,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabelCashTotal).addComponent(m_jCashTotal,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -606,6 +669,15 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				m_jPrintCashActionPerformed(evt);
 			}
 		});
+		
+		m_jPrintLastCash
+			.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/yast_printer.png")));
+		m_jPrintLastCash.setText(AppLocal.getIntString("Button.PrintLastCash")); // NOI18N
+		m_jPrintLastCash.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+						m_jPrintCashLastActionPerformed(evt);
+					}
+			});
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
@@ -622,6 +694,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 													.addPreferredGap(
 															javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 													.addComponent(m_jPrintCash)
+													.addPreferredGap(
+															javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+													.addComponent(m_jPrintLastCash)
 													.addPreferredGap(
 																javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 													.addComponent(m_jCloseCash)
@@ -646,6 +721,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 									.addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
 											javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 									.addComponent(m_jCloseCash)
+									.addComponent(m_jPrintLastCash)
 									.addComponent(m_jPrintCash)
 							)
 							.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -716,6 +792,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 		PropertyUtil.ScaleButtonIcon(m_jCloseCash, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jPrintCash, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jPrintLastCash, btnWidth, btnHeight, fontsize);
 
 	}
 
@@ -780,6 +857,15 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 	}// GEN-LAST:event_m_jPrintCashActionPerformed
 
+	private void m_jPrintCashLastActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jPrintCashActionPerformed
+
+		// print report
+		printLastCashPayments("Printer.CloseCash");
+
+	}// GEN-LAST:event_m_jPrintCashActionPerformed
+
+	
+	
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel12;
@@ -787,6 +873,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabelCashTotal;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
 	private javax.swing.JLabel jLabel7;
@@ -799,11 +886,13 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private javax.swing.JPanel jPanel6;
 	private javax.swing.JPanel jPanel6Free;
 	private javax.swing.JTextField m_jCash;
+	private javax.swing.JTextField m_jCashTotal;
 	private javax.swing.JButton m_jCloseCash;
 	private javax.swing.JTextField m_jCount;
 	private javax.swing.JTextField m_jMaxDate;
 	private javax.swing.JTextField m_jMinDate;
 	private javax.swing.JButton m_jPrintCash;
+	private javax.swing.JButton m_jPrintLastCash;
 	private javax.swing.JTextField m_jSales;
 	private javax.swing.JTextField m_jSalesFree;
 	private javax.swing.JTextField m_jSalesSubtotal;

@@ -37,6 +37,10 @@
         </line>
         <line></line>
         <line>
+            <text align ="left" length="20" bold="false">Bargeld</text>
+            <text align ="right" length="10" bold="false">${payments.printPaymentsCashTotal()}</text>
+        </line>
+        <line>
             <text align ="left" length="20" bold="true">Total</text>
             <text align ="right" length="10" bold="true">${payments.printPaymentsTotal()}</text>
         </line>
