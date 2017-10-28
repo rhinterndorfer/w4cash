@@ -178,9 +178,8 @@ public class PaymentsModel {
         
         // Sales
         Object[] recsales = (Object []) new StaticSentence(app.getSession(),
-            "SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(TICKETLINES.UNITS * TICKETLINES.PRICE, ?)) " +
-//            "FROM RECEIPTS, TICKETLINES WHERE RECEIPTS.ID = TICKETLINES.TICKET AND RECEIPTS.MONEY = ?",
-            "FROM RECEIPTS, TICKETLINES, PAYMENTS WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT <> 'free' AND RECEIPTS.ID = TICKETLINES.TICKET AND RECEIPTS.MONEY = ?",
+        	"SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(TAXLINES.BASE,?)) " +
+        	"FROM RECEIPTS, TAXLINES, PAYMENTS WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT <> 'free' AND RECEIPTS.ID = TAXLINES.RECEIPT AND RECEIPTS.MONEY = ?",
             new SerializerWriteBasic(new Datas[] {Datas.INT, Datas.STRING}),
             new SerializerReadBasic(new Datas[] {Datas.INT, Datas.DOUBLE}))
             .find(new Object[] {currencyDecimals, cashIndex});
@@ -194,9 +193,8 @@ public class PaymentsModel {
         
      // Sales Free
         Object[] recsalesfree = (Object []) new StaticSentence(app.getSession(),
-            "SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(TICKETLINES.UNITS * TICKETLINES.PRICE, ?)) " +
-//            "FROM RECEIPTS, TICKETLINES WHERE RECEIPTS.ID = TICKETLINES.TICKET AND RECEIPTS.MONEY = ?",
-            "FROM RECEIPTS, TICKETLINES, PAYMENTS WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT = 'free' AND RECEIPTS.ID = TICKETLINES.TICKET AND RECEIPTS.MONEY = ?",
+    		"SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(TAXLINES.BASE,?)) " +
+        	"FROM RECEIPTS, TAXLINES, PAYMENTS WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT = 'free' AND RECEIPTS.ID = TAXLINES.RECEIPT AND RECEIPTS.MONEY = ?",
             new SerializerWriteBasic(new Datas[] {Datas.INT, Datas.STRING}),
             new SerializerReadBasic(new Datas[] {Datas.INT, Datas.DOUBLE}))
         	.find(new Object[] {currencyDecimals, cashIndex});
