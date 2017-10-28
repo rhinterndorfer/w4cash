@@ -149,6 +149,8 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 			setFocusable(false);
 			setRequestFocusEnabled(false);
 			setMargin(new Insets(8, 14, 8, 14));
+			
+			
 			addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					m_sDialogPlace = m_Place;
@@ -162,6 +164,12 @@ public class JPlacesListDialog extends javax.swing.JDialog {
 			if(place.getOccupied())
 			{
 				setBackground(Color.YELLOW);
+			}
+			
+			if(place.getLocked())
+			{
+				setBackground(Color.ORANGE);
+				setEnabled(false);
 			}
 
 			PropertyUtil.ScaleButtonFontsize(m_App, this, "common-dialog-fontsize", "22");

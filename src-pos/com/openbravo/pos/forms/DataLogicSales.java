@@ -133,7 +133,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 	public List<PlaceSplit> getPlacesSplit() throws BasicException
 	{
 		SentenceList sent = new StaticSentence(s,
-				"SELECT p.ID, case when st.id is null then p.NAME else st.NAME end as Name, f.Name as FloorName, case when st.ID is null then 0 else 1 end as Occupied "
+				"SELECT p.ID, case when st.id is null then p.NAME else st.NAME end as Name, f.Name as FloorName, case when st.ID is null then 0 else case when st.lockby is not null then 2 else 1 end end as Occupied "
 				+ "FROM "
 				+ "PLACES p "
 				+ "INNER JOIN FLOORS f "

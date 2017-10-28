@@ -81,6 +81,10 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 		return m_occupied != null && m_occupied > 0 ? true : false;
 	}
 	
+	public Boolean getLocked() {
+		return m_occupied != null && m_occupied > 1 ? true : false;
+	}
+	
 	@Override
 	public int compareTo(PlaceSplit o) {
 		if(m_sId == null)
