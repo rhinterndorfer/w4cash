@@ -22,6 +22,7 @@ package com.openbravo.pos.ticket;
 import java.io.*;
 
 import com.openbravo.pos.util.PropertyUtil;
+import com.openbravo.pos.util.RoundUtils;
 import com.openbravo.pos.util.StringUtils;
 
 import net.sf.jasperreports.engine.util.Java14BigDecimalHandler;
@@ -457,11 +458,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public double getTax() {
-		return price * multiply * getTaxRate();
+		return getValue()-RoundUtils.round(getSubValue());
 	}
 
 	public double getValue() {
-		return price * multiply * (1.0 + getTaxRate());
+		return RoundUtils.round(price * multiply * (1.0 + getTaxRate()));
 	}
 
 	public String printName() {

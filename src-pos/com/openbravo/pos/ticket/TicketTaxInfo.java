@@ -20,21 +20,20 @@
 package com.openbravo.pos.ticket;
 
 import com.openbravo.format.Formats;
+import com.openbravo.pos.util.RoundUtils;
 
 
 public class TicketTaxInfo {
     
     private TaxInfo tax;
     
-    private double subtotal;
-    private double taxtotal;
+    private double grosstotal;
             
     /** Creates a new instance of TicketTaxInfo */
     public TicketTaxInfo(TaxInfo tax) {
         this.tax = tax;
         
-        subtotal = 0.0;
-        taxtotal = 0.0;
+        grosstotal = 0.0;
     }
     
     public TaxInfo getTaxInfo() {
@@ -42,20 +41,19 @@ public class TicketTaxInfo {
     }
     
     public void add(double dValue) {
-        subtotal += dValue;
-        taxtotal = subtotal * tax.getRate();
+    	grosstotal += RoundUtils.round(dValue * (1 + tax.getRate()));
     }
     
     public double getSubTotal() {    
-        return subtotal;
+        return grosstotal / (1 + tax.getRate());
     }
     
     public double getTax() {       
-        return taxtotal;
+        return RoundUtils.round(getTotal() - getSubTotal());
     }
     
     public double getTotal() {         
-        return subtotal + taxtotal;
+        return grosstotal;
     }
     
     public String printSubTotal() {

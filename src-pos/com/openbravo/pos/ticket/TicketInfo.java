@@ -880,9 +880,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printSubTotal() {
     	// use format per line !!
     	double sum = 0.0;
-    	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
         for (TicketLineInfo line : m_aLines) {
-        	sum += round(line.getSubValue(), digits);
+        	sum += line.getSubValue();
         }
 
         return Formats.CURRENCY.formatValue(sum);
@@ -890,13 +889,15 @@ public class TicketInfo implements SerializableRead, Externalizable {
 
     public String printTax() {
     	// use format per line !!
-    	double sum = 0.0;
+    	double sumNet = 0.0;
+    	double sumGross = 0.0;
     	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
         for (TicketLineInfo line : m_aLines) {
-        	sum += round(line.getTax(), digits);
+        	sumNet += line.getSubValue();
+        	sumGross += round(line.getPriceTax() * line.getMultiply(), digits);
         }
 
-        return Formats.CURRENCY.formatValue(sum);
+         return Formats.CURRENCY.formatValue(sumGross - sumNet);
     }
 
     public String printTotal() {
