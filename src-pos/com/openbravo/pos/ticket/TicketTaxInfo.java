@@ -42,9 +42,21 @@ public class TicketTaxInfo {
         return tax;
     }
     
+    private double gross;
+    // only use when base price is not rounded! otherwise use addGross!!!
     public void add(double dValue) {
-    	grosstotal += RoundUtils.round(dValue * (1 + tax.getRate()));
-    	taxtotal += RoundUtils.round(RoundUtils.round(dValue * (1 + tax.getRate())) - RoundUtils.round(dValue));
+    	gross = RoundUtils.round(dValue * (1 + tax.getRate()));
+    	grosstotal += gross;
+    	grosstotal = RoundUtils.round(grosstotal);
+    	taxtotal += RoundUtils.round(dValue * (1 + tax.getRate())) - RoundUtils.round(dValue);
+    	taxtotal = RoundUtils.round(taxtotal);
+    }
+    
+    public void addGross(double gross) {
+    	grosstotal += gross;
+    	grosstotal = RoundUtils.round(grosstotal);
+    	taxtotal += RoundUtils.round(gross) - RoundUtils.round(gross / (1 + tax.getRate()));
+    	taxtotal = RoundUtils.round(taxtotal);
     }
     
     public double getSubTotal() {    
