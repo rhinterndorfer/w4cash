@@ -28,12 +28,14 @@ public class TicketTaxInfo {
     private TaxInfo tax;
     
     private double grosstotal;
+    private double taxtotal;
             
     /** Creates a new instance of TicketTaxInfo */
     public TicketTaxInfo(TaxInfo tax) {
         this.tax = tax;
         
         grosstotal = 0.0;
+        taxtotal = 0.0;
     }
     
     public TaxInfo getTaxInfo() {
@@ -42,14 +44,15 @@ public class TicketTaxInfo {
     
     public void add(double dValue) {
     	grosstotal += RoundUtils.round(dValue * (1 + tax.getRate()));
+    	taxtotal += RoundUtils.round(RoundUtils.round(dValue * (1 + tax.getRate())) - RoundUtils.round(dValue));
     }
     
     public double getSubTotal() {    
-        return grosstotal / (1 + tax.getRate());
+        return grosstotal - taxtotal;
     }
     
     public double getTax() {       
-        return RoundUtils.round(getTotal() - getSubTotal());
+        return taxtotal;
     }
     
     public double getTotal() {         

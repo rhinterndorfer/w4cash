@@ -656,11 +656,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public double getSubTotal() {
-        double sum = 0.0;
-        for (TicketLineInfo line : m_aLines) {
-            sum += line.getSubValue();
-        }
-        return sum;
+        return getTotal()-getTax();
     }
 
     public double getTax() {
@@ -674,7 +670,11 @@ public class TicketInfo implements SerializableRead, Externalizable {
 
     public double getTotal() {
         
-        return getSubTotal() + getTax();
+    	double sum = 0.0;
+        for (TicketLineInfo line : m_aLines) {
+            sum += line.getValue();
+        }
+        return sum;
     }
     
     public double getTotal2() {
@@ -878,37 +878,15 @@ public class TicketInfo implements SerializableRead, Externalizable {
     }
 
     public String printSubTotal() {
-    	// use format per line !!
-    	double sum = 0.0;
-        for (TicketLineInfo line : m_aLines) {
-        	sum += line.getSubValue();
-        }
-
-        return Formats.CURRENCY.formatValue(sum);
+        return Formats.CURRENCY.formatValue(getTotal()-getTax());
     }
 
     public String printTax() {
-    	// use format per line !!
-    	double sumNet = 0.0;
-    	double sumGross = 0.0;
-    	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
-        for (TicketLineInfo line : m_aLines) {
-        	sumNet += line.getSubValue();
-        	sumGross += round(line.getPriceTax() * line.getMultiply(), digits);
-        }
-
-         return Formats.CURRENCY.formatValue(sumGross - sumNet);
+        return Formats.CURRENCY.formatValue(getTax());
     }
 
     public String printTotal() {
-    	// use format per line !!
-    	double sum = 0.0;
-    	int digits = NumberFormat.getCurrencyInstance().getMaximumFractionDigits();
-        for (TicketLineInfo line : m_aLines) {
-        	sum += round(line.getPriceTax() * line.getMultiply(), digits);
-        }
-
-        return Formats.CURRENCY.formatValue(sum);
+         return Formats.CURRENCY.formatValue(getTotal());
     }
 
     public String printTotalPaid() {

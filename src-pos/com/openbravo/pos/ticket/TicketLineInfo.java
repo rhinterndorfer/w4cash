@@ -458,7 +458,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public double getTax() {
-		return getValue()-RoundUtils.round(getSubValue());
+		return RoundUtils.round(getValue()-RoundUtils.round(getSubValue()));
 	}
 
 	public double getValue() {
@@ -538,7 +538,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public String printSubValue() {
-		return Formats.CURRENCY.formatValue(getSubValue());
+		return Formats.CURRENCY.formatValue(getValue()-getTax());
 	}
 
 	public String printValue() {
