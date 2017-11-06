@@ -17,12 +17,11 @@
 --    You should have received a copy of the GNU General Public License
 --    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
--- Database upgrade script for ORACLE 2.44.8( -> 2.44.9)
+-- Database upgrade script for ORACLE 2.44.9( -> 2.45.0)
 
-ALTER TABLE STOCKTACKINGITEMS MODIFY (ACTUALSTOCK NULL);
 
 UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.CloseCash.xml} WHERE NAME='Printer.CloseCash';
 UPDATE RESOURCES SET CONTENT=$FILE{/com/openbravo/pos/templates/Printer.PartialCash.xml} WHERE NAME='Printer.PartialCash';
 
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{} AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST');
-UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.44.9' WHERE ID = 'w4cashdb' AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST');
+UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.45.0' WHERE ID = 'w4cashdb' AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST');
