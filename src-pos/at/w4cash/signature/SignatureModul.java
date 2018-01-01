@@ -745,12 +745,20 @@ public class SignatureModul {
 			c.setTime(activeCashDateStart);
 			// int currentMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
 
+			// current month
+			int currentYear = c.get(Calendar.YEAR);
+			int currentMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
+			int currentYearMonth = (currentYear * 100 + currentMonth);
+			
+			
+			// last month
 			c.add(Calendar.MONTH, -1);
 			int lastYear = c.get(Calendar.YEAR);
 			int lastMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
 			int lastYearMonth = (lastYear * 100 + lastMonth);
 			
-			Boolean isYearTicket = (storedLastMonth != null ? storedLastMonth : lastYearMonth) + 88 < lastYearMonth;
+			// 12 + 88 = 100
+			Boolean isYearTicket = (storedLastMonth != null ? storedLastMonth : lastYearMonth) + 88 < currentYearMonth;
 			
 			if(storedLastMonth != null && lastYearMonth > storedLastMonth)
 			{
