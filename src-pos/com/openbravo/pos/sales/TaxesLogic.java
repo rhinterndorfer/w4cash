@@ -165,7 +165,7 @@ public class TaxesLogic {
             if (i == null) {
                 list1.add(tickettax);
             } else {
-                i.addGross(tickettax.getTotal());
+                i.addGross(tickettax.getTotal(), tickettax.getTax());
             }
         }
         return list1;

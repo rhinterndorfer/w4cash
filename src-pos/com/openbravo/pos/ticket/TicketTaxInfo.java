@@ -52,10 +52,10 @@ public class TicketTaxInfo {
     	taxtotal = RoundUtils.round(taxtotal);
     }
     
-    public void addGross(double gross) {
+    public void addGross(double gross, double tax) {
     	grosstotal += gross;
     	grosstotal = RoundUtils.round(grosstotal);
-    	taxtotal += RoundUtils.round(gross) - RoundUtils.round(gross / (1 + tax.getRate()));
+    	taxtotal += tax;
     	taxtotal = RoundUtils.round(taxtotal);
     }
     
