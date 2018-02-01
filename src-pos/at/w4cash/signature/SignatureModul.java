@@ -659,6 +659,16 @@ public class SignatureModul {
 	
 	public void CheckOpenTicketValidations(Component caller)
 	{
+		// fix error with wrong year ticket
+		try {
+			new StaticSentence(m_session, 
+					"UPDATE TICKETS SET VALIDATION=NULL WHERE MONTH=201801 AND (SELECT COUNT(*) FROM TICKETS WHERE MONTH BETWEEN 201701 AND 201712 AND VALIDATION is not null) > 0 AND VALIDATION IS NOT NULL "
+				)
+			.exec();
+		} catch(Exception e) {
+			// do nothing
+		}
+		
 		List oDbticketIds = null;
 		try {
 			oDbticketIds = new StaticSentence(m_session, 
@@ -757,8 +767,9 @@ public class SignatureModul {
 			int lastMonth = c.get(Calendar.MONTH) + 1; // + 1 because January = 0 
 			int lastYearMonth = (lastYear * 100 + lastMonth);
 			
+			
 			// 12 + 88 = 100
-			Boolean isYearTicket = (storedLastMonth != null ? storedLastMonth : lastYearMonth) + 88 < currentYearMonth;
+			Boolean isYearTicket = (storedLastMonth != null ? storedLastMonth : lastYearMonth) + 88 < currentYear * 100;
 			
 			if(storedLastMonth != null && lastYearMonth > storedLastMonth)
 			{

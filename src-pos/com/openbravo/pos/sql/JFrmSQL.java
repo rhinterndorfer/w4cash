@@ -127,7 +127,11 @@ public class JFrmSQL extends javax.swing.JFrame implements AppView {
     }
 
     public String getWindowsHost() {
-		return System.getenv("COMPUTERNAME");
+    	String hostname = System.getenv("COMPUTERNAME"); 
+		if(hostname == null)
+			hostname = System.getenv("HOSTNAME");
+		
+		return hostname;
 	}
     
     /*

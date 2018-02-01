@@ -19,12 +19,13 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Openbravo POS.  If not, see <http://www.gnu.org/licenses/>.
 
+export HOSTNAME
+
 DIRNAME=`dirname $0`
 
 CP=$DIRNAME/w4cash.jar
 
 CP=$CP:$DIRNAME/locales/
-CP=$CP:$DIRNAME/lib/substance.jar
-
+CP=$CP:$DIRNAME/lib/*
 
 java -cp $CP -Djava.util.logging.config.file=$DIRNAME/logging.properties -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel com.openbravo.pos.config.JFrmConfig

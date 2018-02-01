@@ -32,7 +32,11 @@ public class LicenseManager {
 	}
 
 	public static String getHost() {
-		return System.getenv("COMPUTERNAME");
+		String hostname = System.getenv("COMPUTERNAME"); 
+		if(hostname == null)
+			hostname = System.getenv("HOSTNAME");
+		
+		return hostname;
 	}
 	
 	public static String getMAC() {
