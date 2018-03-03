@@ -190,7 +190,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 		multiply = dMultiply;
 		multiplyClone = dMultiplyClone;
 		multiplyCloneValid = bMultiplyCloneValid;
-		price = dPrice;
+		price = RoundUtils.round4DB(dPrice);
 		this.tax = tax;
 		this.attributes = attributes;
 		this.unit = attributes.getProperty("product.unit");
@@ -414,7 +414,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public void setPrice(double dValue) {
-		price = dValue;
+		price = RoundUtils.round4DB(dValue);
 	}
 
 	public double getPriceTax() {
@@ -422,7 +422,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public void setPriceTax(double dValue) {
-		price = dValue / (1.0 + getTaxRate());
+		price = RoundUtils.round4DB(dValue / (1.0 + getTaxRate()));
 	}
 
 	public TaxInfo getTaxInfo() {

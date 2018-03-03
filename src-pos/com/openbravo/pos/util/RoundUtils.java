@@ -28,7 +28,12 @@ public class RoundUtils {
     }
     
     public static double round(double dValue) {
-        double fractionMultiplier = Math.pow(10.0, Formats.getCurrencyDecimals());
+    	double fractionMultiplier = Math.pow(10.0, Formats.getCurrencyDecimals());
+        return Math.rint(dValue * fractionMultiplier) / fractionMultiplier;
+    }
+    
+    public static double round4DB(double dValue) {
+    	double fractionMultiplier = Math.pow(10.0, 12);
         return Math.rint(dValue * fractionMultiplier) / fractionMultiplier;
     }
     
