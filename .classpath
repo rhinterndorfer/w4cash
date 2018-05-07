@@ -50,8 +50,6 @@
 	<classpathentry kind="lib" path="lib/qrgen-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/core-3.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/javase-3.3.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/180108/.p2/pool/plugins/javax.wsdl_1.6.2.v201012040545.jar"/>
-	<classpathentry kind="lib" path="C:/Users/180108/.p2/pool/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar"/>
 	<classpathentry kind="lib" path="lib/javax.json-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.10.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
