@@ -51,7 +51,7 @@ public abstract class JEditorNumber extends JEditorAbstract {
         String sOldText = getText();
         
         m_sNumber = "";
-        m_bNegative = false;
+        //m_bNegative = false; // do not change sign
         m_iNumberStatus = NUMBER_ZERONULL;
         
         reprintText();

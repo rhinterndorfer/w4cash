@@ -45,39 +45,44 @@ public class SessionDBOracle implements SessionDB {
     }
 
     public SentenceFind getSequenceSentence(Session s, String sequence) throws BasicException {
-    	String ticketType;
-    	if("TICKETSNUM".equals(sequence))
-    		ticketType = "0,1";
-    	else if("TICKETSNUM_REFUND".equals(sequence))
-    		ticketType = "0,1";
-    	else if("TICKETSNUM_PAYMENT".equals(sequence))
-    		ticketType = "2";
-		else
-			throw new BasicException(String.format("Unkwnon sequence string %1", sequence));
+    	StaticSentence lock = new StaticSentence(s, "LOCK TABLE TICKETS IN EXCLUSIVE MODE", null, null);
+    	try {
+    		lock.exec();
+    	}
+    	finally {
+    		lock.closeExec();
+    	}
     	
-    	String sql=String.format("SELECT TICKETID+1 FROM TICKETS WHERE TICKETTYPE in (%1$s) AND TICKETID = (SELECT MAX(TICKETID) FROM TICKETS WHERE TICKETTYPE in (%1$s)) FOR UPDATE", ticketType);
+    	String sql=String.format("SELECT MAX(TICKETID)+1 FROM TICKETS WHERE TICKETID IS NOT NULL");
     	return new StaticSentence(s, sql, null, SerializerReadInteger.INSTANCE);
     }
     
     
     public SentenceFind getCashSequenceSentence(Session s, String sequence) throws BasicException {
-    	String ticketType;
-    	if("TICKETSNUM".equals(sequence))
-    		ticketType = "0,1";
-    	else if("TICKETSNUM_REFUND".equals(sequence))
-    		ticketType = "0,1";
-    	else if("TICKETSNUM_PAYMENT".equals(sequence))
-    		ticketType = "2";
-		else
-			throw new BasicException(String.format("Unkwnon sequence string %1", sequence));
+    	StaticSentence lock = new StaticSentence(s, "LOCK TABLE TICKETS IN EXCLUSIVE MODE", null, null);
+    	try {
+    		lock.exec();
+    	}
+    	finally {
+    		lock.closeExec();
+    	}
     	
-    	String sql=String.format("SELECT CASHTICKETID+1 FROM TICKETS WHERE TICKETTYPE in (%1$s) AND CASHTICKETID = (SELECT MAX(CASHTICKETID) FROM TICKETS WHERE TICKETTYPE in (%1$s)) FOR UPDATE", ticketType);
+    	String sql=String.format("SELECT MAX(CASHTICKETID)+1 FROM TICKETS WHERE CASHTICKETID IS NOT NULL");
     	return new StaticSentence(s, sql, null, SerializerReadInteger.INSTANCE);
     }
     
     public SentenceFind getCashSumSentence(Session s) throws BasicException
     {
-    	String sql="SELECT CASHSUMCOUNTER FROM TICKETS WHERE CASHTICKETID = (SELECT MAX(CASHTICKETID) FROM TICKETS WHERE CASHTICKETID IS NOT NULL) FOR UPDATE";
+    	StaticSentence lock = new StaticSentence(s, "LOCK TABLE TICKETS IN EXCLUSIVE MODE", null, null);
+    	try {
+    		lock.exec();
+    	}
+    	finally {
+    		lock.closeExec();
+    	}
+    	
+    	
+    	String sql="SELECT CASHSUMCOUNTER FROM TICKETS WHERE CASHTICKETID = (SELECT MAX(CASHTICKETID) FROM TICKETS WHERE CASHTICKETID IS NOT NULL)";
     	return new StaticSentence(s, sql, null, SerializerReadDouble.INSTANCE);
     }
     
