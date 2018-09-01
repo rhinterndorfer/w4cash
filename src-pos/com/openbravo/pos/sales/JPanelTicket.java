@@ -822,7 +822,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				double pricetax = prod.getPriceSellTax(tax);
 				dPor = dPor / pricetax;
 			}
-			addTicketLine(prod, dPor, price, count, prod.getHeight(), prod.getWidth(), prod.getLength());
+			
+			if(Math.abs(dPor) > 1000) // confirm high amount
+			{
+				int res = JConfirmDialog.showConfirm(m_App, this,
+					null,
+					AppLocal.getIntString("message.highamount", dPor, prod.getName()));
+				if (res == JOptionPane.YES_OPTION) {
+					addTicketLine(prod, dPor, price, count, prod.getHeight(), prod.getWidth(), prod.getLength());
+				}
+			}
+			else
+				addTicketLine(prod, dPor, price, count, prod.getHeight(), prod.getWidth(), prod.getLength());
 		} else {
 			// open edit dialog to input price
 			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
@@ -840,7 +851,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					dPor = newTL.getMultiply();
 					count = newTL.getCount();
 					
-					addTicketLine(prod, dPor, price, count, height, width, length);
+					
+					if(Math.abs(dPor) > 1000) // confirm high amount
+					{
+						int res = JConfirmDialog.showConfirm(m_App, this,
+							null,
+							AppLocal.getIntString("message.highamount", dPor, prod.getName()));
+						if (res == JOptionPane.YES_OPTION) {
+							addTicketLine(prod, dPor, price, count, height, width, length);
+						}
+					}
+					else
+						addTicketLine(prod, dPor, price, count, height, width, length);
+					
 				}
 			} catch (BasicException e) {
 				e.printStackTrace();
@@ -851,8 +874,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		}
 
-		// precondicion: prod != null
-//		addTicketLine(prod, dPor, price, count);
 	}
 
 	protected void buttonTransition(ProductInfoExt prod) {
