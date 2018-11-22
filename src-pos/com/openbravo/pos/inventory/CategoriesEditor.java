@@ -248,6 +248,12 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jPrinter.addItem("Drucker 1");
 		m_jPrinter.addItem("Drucker 2");
 		m_jPrinter.addItem("Drucker 3");
+		m_jPrinter.addItem("Drucker 4");
+		m_jPrinter.addItem("Drucker 5");
+		m_jPrinter.addItem("Drucker 6");
+		m_jPrinter.addItem("Drucker 7");
+		m_jPrinter.addItem("Drucker 8");
+		m_jPrinter.addItem("Drucker 9");
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.scrollView = new JScrollPane();
