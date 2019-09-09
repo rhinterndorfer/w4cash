@@ -38,4 +38,6 @@ public interface SessionDB {
     public SentenceFind getSequenceSentence(Session s, String sequence) throws BasicException;
     public SentenceFind getCashSequenceSentence(Session s, String sequence) throws BasicException;
     public SentenceFind getCashSumSentence(Session s) throws BasicException;
+    
+    public Boolean checkConnection(Session s) throws BasicException;
 }

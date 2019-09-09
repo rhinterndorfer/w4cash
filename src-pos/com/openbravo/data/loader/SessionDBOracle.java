@@ -19,7 +19,12 @@
 
 package com.openbravo.data.loader;
 
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import com.openbravo.basic.BasicException;
+import com.openbravo.data.loader.JDBCSentence.JDBCDataResultSet;
+import com.openbravo.pos.util.Log;
 
 /**
  *
@@ -84,6 +89,30 @@ public class SessionDBOracle implements SessionDB {
     	
     	String sql="SELECT CASHSUMCOUNTER FROM TICKETS WHERE CASHTICKETID = (SELECT MAX(CASHTICKETID) FROM TICKETS WHERE CASHTICKETID IS NOT NULL)";
     	return new StaticSentence(s, sql, null, SerializerReadDouble.INSTANCE);
+    }
+    
+    public Boolean checkConnection(Session s) throws BasicException{
+    	String sql="SELECT 1 FROM DUAL";
+    	Statement m_Stmt = null;
+    	try {
+    		m_Stmt = s.getConnectionNoCheck().createStatement();
+	        m_Stmt.setQueryTimeout(5);
+	        m_Stmt.execute(sql);
+	        
+	    } catch (SQLException eSQL) {
+	    	Log.Exception("Error executing static SQL: " + sql, eSQL);
+	    	throw new BasicException(eSQL);
+	    }
+    	finally {
+    		if(m_Stmt != null) {
+    			try {
+    				m_Stmt.close();
+    			} catch (SQLException eSQL) {
+    				// do nothing
+    		    }
+    		}
+    	}
+    	return true;
     }
     
 }

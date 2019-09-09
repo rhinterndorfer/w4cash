@@ -121,6 +121,10 @@ public class Session {
 		}
 		return m_c;
 	}
+	
+	public Connection getConnectionNoCheck() throws SQLException {
+		return m_c;
+	}
 
 	public void begin() throws SQLException {
 
@@ -157,19 +161,38 @@ public class Session {
 		return m_bInTransaction;
 	}
 
-	private void ensureConnection() throws SQLException {
-		// solo se invoca si isTransaction == false
-
+	private boolean checkConnection()
+	{
 		boolean bclosed;
 		try {
 			bclosed = m_c == null || m_c.isClosed();
-		} catch (SQLException e) {
-			bclosed = true;
+			DB.checkConnection(this);
+			return !bclosed;
+		} catch (Exception e) {
+			return false;
 		}
-
-		// reconnect if closed
-		if (bclosed) {
-			connect();
+	}
+	
+	private void ensureConnection() throws SQLException {
+		int retryInitValue = 5;
+		int retry = retryInitValue;
+		
+		while(retry > 0 && !checkConnection()) {
+			if(retry < retryInitValue) {
+				try {
+					Thread.sleep(1000 * (retryInitValue - retry));
+				} catch (InterruptedException e) {
+				}
+			}
+			retry--;
+			
+			// reconnect if closed
+			try {
+				connect();
+			} catch (Exception e) {
+				if(retry == 0)
+					throw e;
+			}
 		}
 	}
 
@@ -189,6 +212,5 @@ public class Session {
 
 	public int getDBTimeout() {
 		return this.m_timeout;
-		
 	}
 }
