@@ -76,7 +76,7 @@ public class StaticSentence extends JDBCSentence {
         try {
         	
             m_Stmt = m_s.getConnection().createStatement();
-            m_Stmt.setQueryTimeout(m_s.getDBTimeout());
+            m_Stmt.setQueryTimeout(0);
             
             sentence = m_sentence.getSQL(m_SerWrite, params);
             

@@ -136,7 +136,7 @@ public class PreparedSentence extends JDBCSentence {
         	Log.Info("Executing prepared SQL: " + m_sentence);
 
             m_Stmt = m_s.getConnection().prepareStatement(m_sentence);
-            m_Stmt.setQueryTimeout(m_s.getDBTimeout());
+            m_Stmt.setQueryTimeout(0);
  
             if (m_SerWrite != null) {
                 // si m_SerWrite fuera null deberiamos cascar.
