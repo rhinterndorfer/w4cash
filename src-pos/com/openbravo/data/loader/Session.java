@@ -174,13 +174,13 @@ public class Session {
 	}
 	
 	private void ensureConnection() throws SQLException {
-		int retryInitValue = 5;
+		int retryInitValue = 20;
 		int retry = retryInitValue;
 		
 		while(retry > 0 && !checkConnection()) {
 			if(retry < retryInitValue) {
 				try {
-					Thread.sleep(1000 * (retryInitValue - retry));
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 				}
 			}
