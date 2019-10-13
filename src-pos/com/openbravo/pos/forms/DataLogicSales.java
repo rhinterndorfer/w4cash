@@ -590,7 +590,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						setTimestamp(3, ticket.getDate());
 						try {
 							ByteArrayOutputStream o = new ByteArrayOutputStream();
-							ticket.getProperties().storeToXML(o, AppLocal.APP_NAME, "UTF-8");
+							ticket.getProperties().storeToXML(o, AppLocal.APP_NAME + " " + AppLocal.APP_VERSION, "UTF-8");
 							setBytes(4, o.toByteArray());
 						} catch (IOException e) {
 							setBytes(4, null);
