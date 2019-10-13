@@ -537,6 +537,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 					ticket.setPosId(sig.GetPOSID());
 					ticket.setAlgorithmId(1); // maybe in future use different algorithm 
 					
+					
+					// For Test Only: remove the following line
+					// long testtruncoverCounter = sig.getTurnOverCounterDecrypted(ticket.getAlgorithmId(), "Zks/c8SurC4=", ticket.getPosId(), 22122);
+					// String testtrunOverCounterCrypted = sig.getTurnOverCounterEncrypted(ticket.getAlgorithmId(), 167418.11, ticket.getPosId(), 22122);
+
+					
 					// trunover counter 
 					String trunOverCounterCrypted = sig.getTurnOverCounterEncrypted(ticket.getAlgorithmId(), ticket.getCashSumCounter(), ticket.getPosId(), ticket.getCashTicketId());
 					ticket.setCashSumCounterEnc(trunOverCounterCrypted);

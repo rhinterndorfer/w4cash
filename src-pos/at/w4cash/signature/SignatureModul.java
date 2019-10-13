@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -1682,8 +1683,7 @@ public class SignatureModul {
         try
         {
 			//NEW METHOD: convert sum to Euro-cent and add to turnover counter
-            long turnoverCounter = (long) (cashSumCounter * 100);
-
+            long turnoverCounter = Math.round(cashSumCounter * 100);
 
             //prepare IV for encryption process, the Initialisation Vector (IV) is calculating by concatenating and then
             //hashing the
@@ -1714,6 +1714,28 @@ public class SignatureModul {
 		}
     }
 	
+	public long getTurnOverCounterDecrypted(int algorithmId, String cashSumCounterEncrypted, String posID, int cashTicketId) throws BasicException {
+        try
+        {
+            String cashBoxIDUTF8String = posID;
+            String receiptIdentifierUTF8String = cashTicketId + ""; //the simple way to convert the long value to an UTF-8 String
+            String IVUTF8StringRepresentation = cashBoxIDUTF8String + receiptIdentifierUTF8String;
+
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] hashValue = messageDigest.digest(IVUTF8StringRepresentation.getBytes());
+            byte[] concatenatedHashValue = new byte[16];
+            System.arraycopy(hashValue, 0, concatenatedHashValue, 0, 16);
+            
+            //decrypt the turnover counter using the AES key
+            long turnOverCounter = decryptCTR(concatenatedHashValue, cashSumCounterEncrypted, m_aeskey);
+            
+            return turnOverCounter;
+		}catch(Exception ex)
+		{
+			throw new BasicException("Decrypt turnover counter failed", ex);
+		}
+    }
+	
 	public String calculateSignatureValuePreviousReceipt(int algorithmId, String posId, String lastTicketPayload, String lastSignatureValue) throws BasicException {
         try {
         	String inputForChainCalculation;
@@ -1729,7 +1751,7 @@ public class SignatureModul {
             }
 
             //set hash algorithm from RK suite, in this case SHA-256
-            // maybe in future use different algorithm based on algorithmId
+            // maybe in future use different algorithm based on algorithmIdFF
             MessageDigest md = MessageDigest.getInstance("SHA-256");
 
             //calculate hash value
@@ -1833,7 +1855,7 @@ public class SignatureModul {
      * @param base64EncryptedTurnOverValue
      * @param symmetricKey
      */
-    public static long decryptCTR(byte[] concatenatedHashValue, 
+    public long decryptCTR(byte[] concatenatedHashValue, 
     		String base64EncryptedTurnOverValue, SecretKey symmetricKey)
             throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException,
             InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
@@ -1850,9 +1872,28 @@ public class SignatureModul {
         IvParameterSpec ivSpec = new IvParameterSpec(IV);
 
         // provider independent
-        Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding", "BC");
-        cipher.init(Cipher.DECRYPT_MODE, symmetricKey, ivSpec);
-        byte[] testPlainTurnOverValueComplete = cipher.doFinal(encryptedTurnOverValue);
+        if(m_cipher == null)
+        {
+        	// switch off JCE key 128bit restrictions
+            try {
+                Field isRestricted = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
+                if (Modifier.isFinal(isRestricted.getModifiers()) ) {
+            		Field modifiers = Field.class.getDeclaredField("modifiers");
+            		modifiers.setAccessible(true);
+            		modifiers.setInt(isRestricted, isRestricted.getModifiers() & ~Modifier.FINAL);
+            	}
+                
+                isRestricted.setAccessible(true);
+                isRestricted.set(null, false); // isRestricted = false;
+            } catch (Exception ex) {
+            	Log.Exception("Switch off JCE key 128bit restrictions failed", ex);
+            }
+        	m_cipher = Cipher.getInstance("AES/CTR/NoPadding", "BC");
+        }
+        
+        
+        m_cipher.init(Cipher.DECRYPT_MODE, symmetricKey, ivSpec);
+        byte[] testPlainTurnOverValueComplete = m_cipher.doFinal(encryptedTurnOverValue);
 
         // extract relevant bytes from decryption result
         byte[] testPlainTurnOverValue = new byte[lengthOfEncryptedTurnOverValue];
