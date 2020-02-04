@@ -671,6 +671,48 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		printState();
 		m_panelticket.setActiveTicket(null, null);
 	}
+	
+	public boolean isPlaceServingStation()
+	{
+		if (m_PlaceCurrent != null 
+				&& m_PlaceCurrent.getName().endsWith("...")) {
+			return true;	
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void cleanTicket() throws BasicException {
+
+		// guardamos el ticket
+		if (m_PlaceCurrent != null) {
+
+			try {
+				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+					m_panelticket.DoSaveTicketEvent();
+					
+					
+					TicketInfo ticket = new TicketInfo();
+					ticket.SetInfo(m_PlaceCurrent.getName());
+					
+					
+					m_PlaceCurrent.setTempName(null);
+					m_PlaceCurrent.setPeople(true);
+					setActivePlace(m_PlaceCurrent, ticket);
+					
+					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+				}
+			} catch (BasicException e) {
+				// new MessageInf(e).show(m_App, this); // maybe other guy
+				// deleted
+
+				throw e;
+			}
+		}
+	}
+	
+	
 
 	private void printOrder(String sresourcename, HashMap<Integer, TicketInfo> tickets, Object ticketext) {
 		String sresource = dlSystem.getResourceAsXML(sresourcename);

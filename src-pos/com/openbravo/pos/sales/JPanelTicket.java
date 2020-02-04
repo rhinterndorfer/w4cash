@@ -1191,10 +1191,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					// verify booked products
 					// this.m_App.getAppUserView().
 					try {
-						if (this.m_restaurant != null)
-							this.m_restaurant.newTicket();
-
-						m_ticketsbag.deleteTicket(false);
+						if(this.m_restaurant != null && this.m_restaurant.isPlaceServingStation())
+						{
+							if (this.m_restaurant != null)
+								this.m_restaurant.cleanTicket();
+						}
+						else
+						{
+							if (this.m_restaurant != null)
+								this.m_restaurant.newTicket();
+	
+							m_ticketsbag.deleteTicket(false);
+						}
 					} catch (BasicException e) {
 						JConfirmDialog.showError(m_App, 
 								this, 
