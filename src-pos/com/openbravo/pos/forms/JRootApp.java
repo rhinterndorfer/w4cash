@@ -20,26 +20,20 @@
 package com.openbravo.pos.forms;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.event.*;
 import java.lang.reflect.Constructor;
 import java.security.Security;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.swing.*;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.openbravo.pos.printer.*;
-import com.openbravo.pos.sales.JPanelButtons;
 import com.openbravo.beans.*;
 
 import com.openbravo.basic.BasicException;
@@ -48,8 +42,6 @@ import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.loader.BatchSentence;
 import com.openbravo.data.loader.BatchSentenceResource;
 import com.openbravo.data.loader.Session;
-import com.openbravo.data.loader.SessionDBOracle;
-import com.openbravo.data.loader.StaticSentence;
 import com.openbravo.license.DeviceInfo;
 import com.openbravo.license.JLicenseDialog;
 import com.openbravo.license.LicenseManager;
@@ -111,7 +103,8 @@ public class JRootApp extends JPanel implements AppView {
 		initComponents();
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 	}
-
+	
+	
 	public boolean initApp(AppProperties props, Boolean noGUI) {
 
 		m_props = props;
@@ -743,17 +736,19 @@ public class JRootApp extends JPanel implements AppView {
 		panelTask = new javax.swing.JPanel();
 		m_jHost = new javax.swing.JLabel();
 		jPanel3 = new javax.swing.JPanel();
+		m_txtExportBegin = new javax.swing.JTextField();
 
 		setPreferredSize(new java.awt.Dimension(1024, 768));
 		setLayout(new java.awt.BorderLayout());
 
 		m_jPanelContainer.setLayout(new java.awt.CardLayout());
-
+		
 		m_jPanelLogin.setLayout(new java.awt.BorderLayout());
 
+		
 		jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
+		
 
-		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		
 
 		jLabel1.setText(
@@ -761,6 +756,8 @@ public class JRootApp extends JPanel implements AppView {
 		
 		jLabel1.setAlignmentX(0.5F);
 		jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		jLabel1.setAlignmentX(Component.CENTER_ALIGNMENT);
 		jLabel1.setMaximumSize(new java.awt.Dimension(800, 1024));
 		jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 		jPanel4.add(jLabel1);
@@ -769,6 +766,7 @@ public class JRootApp extends JPanel implements AppView {
 		jTextSignatureInfo.setMaximumSize(new Dimension(640, 180));
 		jTextSignatureInfo.setEditable(false);
 		jTextSignatureInfo.setOpaque(false);
+		jTextSignatureInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		jPanel4.add(jTextSignatureInfo);
 		
 		// show AES
@@ -778,7 +776,8 @@ public class JRootApp extends JPanel implements AppView {
 		m_jShowAES.setFocusable(false);
 		m_jShowAES.setPreferredSize(new java.awt.Dimension(115, 35));
 		m_jShowAES.setRequestFocusEnabled(false);
-		m_jShowAES.setHorizontalAlignment(JButton.CENTER);
+		m_jShowAES.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		m_jShowAES.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_jShowAES.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				m_jShowAESActionPerformed(evt);
@@ -786,7 +785,13 @@ public class JRootApp extends JPanel implements AppView {
 		});
 		jPanel4.add(m_jShowAES);
 		
-		
+		m_txtExportBegin.setPreferredSize(new java.awt.Dimension(100, 30));
+		m_txtExportBegin.setMaximumSize(new java.awt.Dimension(100, 30));
+		m_txtExportBegin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		m_txtExportBegin.setAlignmentX(Component.CENTER_ALIGNMENT);
+		m_txtExportBegin.setText("01.01.1990");
+		m_txtExportBegin.setBackground(new Color(240,240,240,250));
+		jPanel4.add(m_txtExportBegin);
 		
 		// m_jDEPExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/key.png"))); // NOI18N
 		m_jDEPExport.setText(AppLocal.getIntString("Button.DEPExport")); // NOI18N
@@ -794,7 +799,8 @@ public class JRootApp extends JPanel implements AppView {
 		m_jDEPExport.setFocusable(false);
 		m_jDEPExport.setPreferredSize(new java.awt.Dimension(115, 35));
 		m_jDEPExport.setRequestFocusEnabled(false);
-		m_jDEPExport.setHorizontalAlignment(JButton.CENTER);
+		m_jDEPExport.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+		m_jDEPExport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_jDEPExport.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
 						m_jDEPExportActionPerformed(evt);
@@ -877,6 +883,7 @@ public class JRootApp extends JPanel implements AppView {
 
 		m_jPanelContainer.add(m_jPanelLogin, "login");
 
+		
 		add(m_jPanelContainer, java.awt.BorderLayout.CENTER);
 
 		m_jPanelDown.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0,
@@ -910,7 +917,7 @@ public class JRootApp extends JPanel implements AppView {
 	}// GEN-LAST:event_m_jCloseActionPerformed
 
 	private void m_jDEPExportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseActionPerformed
-		SignatureModul.getInstance().DEPExport(this);;
+		SignatureModul.getInstance().DEPExport(this, null, null, m_txtExportBegin.getText());
 	}// GEN-LAST:event_m_jCloseActionPerformed
 	
 	private void m_txtKeysKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_m_txtKeysKeyTyped
@@ -954,6 +961,7 @@ public class JRootApp extends JPanel implements AppView {
 	private javax.swing.JPanel m_jPanelLogin;
 	private javax.swing.JTextField m_txtKeys;
 	private javax.swing.JPanel panelTask;
+	private javax.swing.JTextField m_txtExportBegin;
 
 	// End of variables declaration//GEN-END:variables
 	@Override

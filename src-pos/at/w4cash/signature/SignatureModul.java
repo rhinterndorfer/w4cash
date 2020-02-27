@@ -1244,20 +1244,20 @@ public class SignatureModul {
 	
 	public void DEPExport(Component caller)
 	{
-		DEPExport(caller, null, null);
+		DEPExport(caller, null, null, "01.01.1990");
 	}
 	
 	public void DEPExport(String exportPath)
 	{
-		DEPExport(null, null, exportPath);
+		DEPExport(null, null, exportPath, "01.01.1990");
 	}
 	
 	public void DEPExport(String exportPath, String posID)
 	{
-		DEPExport(null, posID, exportPath);
+		DEPExport(null, posID, exportPath, "01.01.1990");
 	}
 	
-	public void DEPExport(Component caller, String posID, String exportPath)
+	public void DEPExport(Component caller, String posID, String exportPath, String exportDateStart)
 	{
 		if(caller != null && exportPath == null)
 		{
@@ -1337,12 +1337,11 @@ public class SignatureModul {
 	                + "    on TL19.RECEIPT=T.ID AND TA19.RATE=0.19 "
 					+ "WHERE CashTicketID is not null "
 					+ "    and (? is null or t.POSID = ?) "
+					+ "	   and r.DATENEW >= to_date(?,'dd.mm.yyyy') "
 					+ "ORDER BY t.POSID, t.CASHTICKETID ",
-					new SerializerWriteBasic(new Datas[] {Datas.STRING}), 
+					new SerializerWriteBasic(new Datas[] {Datas.STRING, Datas.STRING, Datas.STRING}), 
 					new SerializerReadClass(DEPExportTicket.class))
-				.list(new Object[] { posID, posID });
-			
-			
+				.list(new Object[] { posID, posID, exportDateStart });
 			
 			HashMap<String, String> signaturePosMap = new HashMap<String, String>();
 			HashMap<String, JsonObjectBuilder> signatureJsonMap = new HashMap<String, JsonObjectBuilder>();
