@@ -29,6 +29,14 @@ public abstract class BaseSentence implements SentenceList, SentenceFind, Senten
     public abstract DataResultSet moreResults() throws BasicException;
     public abstract void closeExec() throws BasicException;
 
+    public void finalize() {
+    	try {
+    		closeExec();
+    	} catch(Exception e) {
+    		
+    	}
+    }
+    
     // Funciones
     public final int exec() throws BasicException {
         return exec((Object) null);

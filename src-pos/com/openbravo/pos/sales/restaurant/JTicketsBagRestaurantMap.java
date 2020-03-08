@@ -310,11 +310,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	}
 	
-	private int m_timerErrorCount = 1;
-	private class TimerAction implements ActionListener {
-        public void actionPerformed(ActionEvent evt) {
-        	try {
-        		StopTimer();
+	
+	private class LoadTicketsThread extends Thread {
+		public void run() 
+	    { 
+			try {
         		if(loadTickets(true))
         		{
         			m_timerErrorCount=1;
@@ -330,7 +330,18 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
         		// do nothing
         	}
         	StartTimer();
-        	
+	    }
+	}
+	
+	private int m_timerErrorCount = 1;
+	private class TimerAction implements ActionListener {
+        public void actionPerformed(ActionEvent evt) {
+        	try {
+        		StopTimer();
+        		new LoadTicketsThread().start();
+        	} catch(Exception ex) {
+        		// do nothing
+        	}
         }
     }    
 
