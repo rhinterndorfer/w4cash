@@ -70,9 +70,7 @@ public class LoadingIndicator extends SwingWorker<Integer, Integer> {
 
 		dialog = new JDialog(getWindow(owner));
 		dialog.setUndecorated(true);
-
 		dialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-
 		dialog.setLocale(null);
 		dialog.add(pan);
 		dialog.pack();

@@ -427,9 +427,10 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 					// se tiene que mostrar el panel
 					m_jLastView = m_jMyView;
 
-					setMenuVisible(getBounds().width > 800);
+					//setMenuVisible(getBounds().width > 800);
+					setMenuVisible(false);
 					jButtonMenuExpander.setEnabled(true);
-					// setMenuVisible(false);
+					
 
 					showView(sTaskClass);
 					// Y ahora que he cerrado la antigua me abro yo

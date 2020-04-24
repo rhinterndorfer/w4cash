@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.swing.*;
 import com.openbravo.pos.forms.JPanelView;
+import com.openbravo.pos.util.WrapLayout;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.data.loader.Vectorer;
@@ -150,6 +151,9 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 			c = new JSaver(this.app, bd);
 			c.applyComponentOrientation(getComponentOrientation());
 			toolbar.add(c);
+			
+			
+			
 		}
 	}
 
@@ -202,8 +206,20 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		}
 
 		bd.moveLast();
+		
+		
 	}
 
+	private static Window getWindow(Component parent) {
+		if (parent == null) {
+			return null;
+		} else if (parent instanceof Frame || parent instanceof JDialog) {
+			return (Window) parent;
+		} else {
+			return getWindow(parent.getParent());
+		}
+	}
+	
 	public boolean deactivate() {
 
 		try {
@@ -226,6 +242,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 
 		container = new javax.swing.JPanel();
 		toolbar = new javax.swing.JPanel();
+		toolbar.setLayout(new WrapLayout());
 
 		setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		setLayout(new java.awt.BorderLayout());
