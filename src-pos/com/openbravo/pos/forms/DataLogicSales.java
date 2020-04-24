@@ -1061,7 +1061,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						Formats.INT },
 				new int[] { 0 });
 	}
-
+	
 	public final TableDefinition getTableTaxes() {
 		return new TableDefinition(s, "TAXES",
 				new String[] { "ID", "NAME", "CATEGORY", "VALIDFROM", "CUSTCATEGORY", "PARENTID", "RATE", "RATECASCADE",

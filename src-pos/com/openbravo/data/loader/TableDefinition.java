@@ -19,6 +19,8 @@
 
 package com.openbravo.data.loader;
 
+import java.util.Dictionary;
+
 import com.openbravo.format.Formats;
 
 public class TableDefinition {
@@ -78,6 +80,10 @@ public class TableDefinition {
     
     public IRenderString getRenderStringBasic(int[] aiFields) {
         return new RenderStringBasic(fieldformat, aiFields);
+    }
+    
+    public IRenderString getRenderStringParent(int[] aiFields, Dictionary<String, String> parents) {
+        return new RenderStringParent(fieldformat, aiFields, parents);
     }
     
     public ComparatorCreator getComparatorCreator(int [] aiOrders) {

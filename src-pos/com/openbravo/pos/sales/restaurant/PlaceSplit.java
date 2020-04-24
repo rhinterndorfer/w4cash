@@ -56,11 +56,10 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 		m_occupied = dr.getInt(4);
 	}
 
-	
 	public void setId(String id) {
 		m_sId = id;
 	}
-	
+
 	public String getId() {
 		return m_sId;
 	}
@@ -68,7 +67,7 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 	public void setName(String name) {
 		m_sName = name;
 	}
-	
+
 	public String getName() {
 		return m_sName;
 	}
@@ -76,38 +75,35 @@ public class PlaceSplit implements SerializableRead, java.io.Serializable, Compa
 	public String getFloorName() {
 		return m_sFloorName == null ? "" : m_sFloorName;
 	}
-	
+
 	public Boolean getOccupied() {
 		return m_occupied != null && m_occupied > 0 ? true : false;
 	}
-	
+
 	public Boolean getLocked() {
 		return m_occupied != null && m_occupied > 1 ? true : false;
 	}
-	
+
 	@Override
 	public int compareTo(PlaceSplit o) {
-		if(m_sId == null)
+		if (m_sId == null)
 			return -10;
-		if(o == null || o.m_sId == null)
+		if (o == null || o.m_sId == null)
 			return 10;
 		return this.m_sId.compareTo(o.m_sId);
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return this.m_sId == null ? -1 : this.m_sId.hashCode();
 	}
-	
-	
+
 	@Override
-	public boolean equals(Object c)
-	{
-		if(m_sId == null && c == null)
+	public boolean equals(Object c) {
+		if (m_sId == null && c == null)
 			return true;
-		if(c == null || !c.getClass().equals(PlaceSplit.class))
+		if (c == null || !c.getClass().equals(PlaceSplit.class))
 			return false;
-		return this.m_sId.compareTo(((PlaceSplit)c).m_sId) == 0 ? true : false;
+		return this.m_sId.compareTo(((PlaceSplit) c).m_sId) == 0 ? true : false;
 	}
 }

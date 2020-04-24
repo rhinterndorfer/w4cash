@@ -20,16 +20,24 @@
 package com.openbravo.pos.inventory;
 
 import java.util.Comparator;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 
+import org.jfree.util.Log;
+
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ListCellRendererBasic;
 import com.openbravo.data.loader.ComparatorCreator;
+import com.openbravo.data.loader.SerializerReadClass;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.panels.*;
+import com.openbravo.pos.sales.restaurant.PlaceSplit;
+import com.openbravo.pos.ticket.CategoryInfo;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
@@ -84,10 +92,26 @@ public class CategoriesPanel extends JPanelTable {
 		return tcategories.getComparatorCreator(new int[] { 5, 1 });
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
-		return new ListCellRendererBasic(tcategories.getRenderStringBasic(new int[] { 1 }), fontsize);
+
+		Dictionary<String, String> parents = new Hashtable<String, String>();
+
+		try {
+			DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+			List<CategoryInfo> categories = dlSales.getCategoriesList().list();
+
+			for (CategoryInfo category : categories) {
+				parents.put(category.getID(), category.getName());
+			}
+		} catch (BasicException e) {
+			// do nothing
+			Log.error(e);
+		}
+
+		return new ListCellRendererBasic(tcategories.getRenderStringParent(new int[] { 2, 1 }, parents), fontsize);
 	}
 
 	public EditorRecord getEditor() {

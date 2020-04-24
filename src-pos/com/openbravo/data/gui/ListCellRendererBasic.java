@@ -43,7 +43,8 @@ public class ListCellRendererBasic extends DefaultListCellRenderer {
 	public void setFontsize(int fontsize) {
 		this.newFont = new Font(getFont().getName(), getFont().getStyle(), fontsize);
 	}
-
+	
+	@SuppressWarnings("rawtypes")
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
 		Component label = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
