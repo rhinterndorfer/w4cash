@@ -564,6 +564,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax,
 				(java.util.Properties) (oProduct.getProperties().clone()), issaege, height, width, length, count));
+		
+		String openAttributes = oProduct.getProperty("OpenAttributes", "False");
+		if("True".equals(openAttributes)) {
+			jEditAttributesActionPerformed(null);
+		}
 	}
 
 	protected void addTicketLine(TicketLineInfo oLine) {
