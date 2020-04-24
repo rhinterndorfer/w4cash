@@ -2,13 +2,16 @@ package com.openbravo.pos.util;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Window;
 import java.awt.font.FontRenderContext;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -26,6 +29,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
@@ -369,11 +373,31 @@ public class PropertyUtil {
 	}
 
 	public static void ScaleDialogFullScreen(AppView app, JDialog dialog) {
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		dialog.setBounds(0, 0, screenSize.width, screenSize.height);
-		dialog.setPreferredSize(screenSize);
+		Window win = getWindow((Component) dialog);
+
+		if(win != null) {
+			dialog.setBounds(win.getX()+5, win.getY()+5, win.getWidth()-10, win.getHeight()-10);
+			dialog.setPreferredSize(new Dimension(win.getWidth()-10, win.getHeight()-10));
+		}
+		else {
+			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+			dialog.setBounds(5, 5, screenSize.width, screenSize.height);
+			dialog.setPreferredSize(screenSize);
+		}
+		
+		
 	}
 
+	private static Window getWindow(Component parent) {
+		if (parent == null) {
+			return null;
+		} else if (parent instanceof Frame) {
+			return (Window) parent;
+		} else {
+			return getWindow(parent.getParent());
+		}
+	}
+	
 	public static void ScaleEditcurrencyFontsize(AppView app, JEditorCurrency label, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);

@@ -38,6 +38,7 @@ import com.openbravo.data.gui.JNavigator;
 import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.BrowsableEditableData;
+import com.openbravo.data.user.BrowseListener;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
@@ -84,7 +85,13 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 				comp = getComparatorCreator().createComparator(new int[] {0});
 			
 			bd = new BrowsableEditableData(getListProvider(), getSaveProvider(), comp, getEditor(), dirty);
-
+			bd.addBrowseListener(new BrowseListener() {
+				@Override
+				public void updateIndex(int iIndex, int iCounter) {
+					changeEntry(bd.getCurrentElement());
+				}
+			});
+			
 			// Add the filter panel
 			Component c = getFilter();
 			if (c != null) {
@@ -154,6 +161,9 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		return null;
 	}
 
+	public void changeEntry(Object element) {
+	}
+	
 	protected abstract void init();
 
 	public abstract EditorRecord getEditor();

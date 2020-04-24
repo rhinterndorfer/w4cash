@@ -25,6 +25,7 @@ import com.openbravo.data.loader.ComparatorCreator;
 import com.openbravo.data.loader.TableDefinition;
 import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.user.BrowsableData;
+import com.openbravo.data.user.BrowseListener;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
@@ -46,6 +47,7 @@ public class CustomersPanel extends JPanelTable {
 	private static final long serialVersionUID = -6252967383983749840L;
 	private TableDefinition tcustomers;
 	private CustomersView jeditor;
+	private String currentCustomerSearchName;
 
 	/** Creates a new instance of CustomersPanel */
 	public CustomersPanel() {
@@ -65,6 +67,19 @@ public class CustomersPanel extends JPanelTable {
 		super.activate();
 	}
 
+	@Override
+	public void changeEntry(Object element) {
+		if(element != null)
+		{
+			Object[] customer = (Object[])element;
+			currentCustomerSearchName = customer[2].toString();
+		}
+	}
+	
+	public String getCurrentCustomerSearchName() {
+		return currentCustomerSearchName;
+	}
+	
 	public ListProvider getListProvider() {
 		return new ListProviderCreator(tcustomers);
 	}

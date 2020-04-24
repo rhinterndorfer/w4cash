@@ -82,7 +82,7 @@ public class BrowsableEditableData {
 		return m_bIsAdjusting || m_bd.isAdjusting();
 	}
 
-	private final Object getCurrentElement() {
+	public final Object getCurrentElement() {
 		return (m_iIndex >= 0 && m_iIndex < m_bd.getSize()) ? m_bd.getElementAt(m_iIndex) : null;
 	}
 
