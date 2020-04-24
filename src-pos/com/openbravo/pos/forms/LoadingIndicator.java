@@ -63,16 +63,10 @@ public class LoadingIndicator extends SwingWorker<Integer, Integer> {
 
 		JPanel pan = new JPanel();
 		pan.setLayout(new BorderLayout());
-		pan.setBackground(Color.WHITE);
 
 		JLabel label = new JLabel(icon);
-		label.setSize(250, 250);
+		label.setSize(256, 256);
 		pan.add(label, BorderLayout.NORTH);
-
-		JLabel text = new JLabel("Moment ...");
-		text.setFont(new Font("Tahoma", Font.BOLD, 24));
-		text.setHorizontalAlignment(SwingConstants.CENTER);
-		pan.add(text, BorderLayout.SOUTH);
 
 		dialog = new JDialog(getWindow(owner));
 		dialog.setUndecorated(true);

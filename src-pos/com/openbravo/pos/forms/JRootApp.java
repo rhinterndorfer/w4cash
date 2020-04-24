@@ -616,7 +616,7 @@ public class JRootApp extends JPanel implements AppView {
 
 			// The user status notificator
 			JComponent principal = m_principalapp.getNotificator();
-			principal.setFont(new java.awt.Font("Tahoma", 0, 8));
+			principal.setFont(new java.awt.Font("Tahoma", 0, 12));
 			principal.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 			jPanel3.add(principal);
 			jPanel3.revalidate();
@@ -871,11 +871,16 @@ public class JRootApp extends JPanel implements AppView {
 				javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")));
 		m_jPanelDown.setLayout(new java.awt.BorderLayout());
 
-		m_jHost.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+		m_jHost.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 		m_jHost.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		m_jHost.setText("*Hostname");
 		panelTask.add(m_jHost);
 
+		panelTask.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		m_jPanelDown.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
+		
 		m_jPanelDown.add(panelTask, java.awt.BorderLayout.LINE_START);
 		m_jPanelDown.add(jPanel3, java.awt.BorderLayout.LINE_END);
 
