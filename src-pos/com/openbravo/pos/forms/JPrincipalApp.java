@@ -105,7 +105,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 		// m_principalnotificator.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("TextField.shadow")),
 		// javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
 
-		if (jButton1.getComponentOrientation().isLeftToRight()) {
+		if (jButtonMenuExpander.getComponentOrientation().isLeftToRight()) {
 			menu_open = new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/menu-right.png"));
 			menu_close = new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/menu-left.png"));
 		} else {
@@ -172,7 +172,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 	}
 
 	private void assignMenuButtonIcon() {
-		jButton1.setIcon(m_jPanelLeft.isVisible() ? menu_close : menu_open);
+		jButtonMenuExpander.setIcon(m_jPanelLeft.isVisible() ? menu_close : menu_open);
 	}
 
 	public class ScriptMenu {
@@ -314,14 +314,16 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
 	public void activate() {
 
+		jButtonMenuExpander.setEnabled(false);
 		setMenuVisible(false);
-		// setMenuVisible(getBounds().width > 1024);
-
+		
 		// arranco la primera opcion
 		if (m_actionfirst != null) {
 			m_actionfirst.actionPerformed(null);
 			m_actionfirst = null;
 		}
+		
+		
 	}
 
 	public boolean deactivate() {
@@ -426,6 +428,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 					m_jLastView = m_jMyView;
 
 					setMenuVisible(getBounds().width > 800);
+					jButtonMenuExpander.setEnabled(true);
 					// setMenuVisible(false);
 
 					showView(sTaskClass);
@@ -444,6 +447,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 					new BasicException(AppLocal.getIntString("message.notpermissions")));
 		}
 		m_appview.waitCursorEnd();
+		
 	}
 
 	public void executeTask(String sTaskClass) {
@@ -488,7 +492,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
 		jPanel1 = new javax.swing.JPanel();
 		jPanel2 = new javax.swing.JPanel();
-		jButton1 = new javax.swing.JButton();
+		jButtonMenuExpander = new javax.swing.JButton();
 		m_jPanelLeft = new javax.swing.JScrollPane();
 		m_jPanelRight = new javax.swing.JPanel();
 		m_jPanelTitle = new javax.swing.JPanel();
@@ -501,16 +505,17 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
 		jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-		jButton1.setFocusPainted(false);
-		jButton1.setFocusable(false);
-		jButton1.setMargin(new java.awt.Insets(14, 2, 14, 2));
-		jButton1.setRequestFocusEnabled(false);
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		jButtonMenuExpander.setFocusPainted(false);
+		jButtonMenuExpander.setEnabled(false);
+		jButtonMenuExpander.setFocusable(false);
+		jButtonMenuExpander.setMargin(new java.awt.Insets(14, 2, 14, 2));
+		jButtonMenuExpander.setRequestFocusEnabled(false);
+		jButtonMenuExpander.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
 			}
 		});
-		jPanel2.add(jButton1);
+		jPanel2.add(jButtonMenuExpander);
 
 		jPanel1.add(jPanel2, java.awt.BorderLayout.LINE_END);
 		jPanel1.add(m_jPanelLeft, java.awt.BorderLayout.CENTER);
@@ -542,7 +547,7 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButton1;
+	private javax.swing.JButton jButtonMenuExpander;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel m_jPanelContainer;

@@ -50,10 +50,8 @@ import javax.swing.*;
  */
 public class StartPOS {
 
-	private Icon icon = new ImageIcon(getClass().getResource("/com/openbravo/images/wait.gif"));
-
 	/** Creates a new instance of StartPOS */
-	private StartPOS() {
+	public StartPOS() {
 	}
 
 	public static boolean registerApp() {
@@ -134,18 +132,6 @@ public class StartPOS {
 				}
 
 				final JRootGUI root = r;
-				final GuiWorker action = new StartPOS().new GuiWorker(r);
-				
-				Thread t = new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						action.execute();
-					}
-					
-				});
-				t.start();
-				
 				// set Locale.
 				String slang = config.getProperty("user.language");
 				String scountry = config.getProperty("user.country");
@@ -169,60 +155,10 @@ public class StartPOS {
 				} else {
 					result=((JRootFrame) root).initFrame(config);
 				}
-
-				action.done();
 				
 				if(!result)
 					System.exit(1);
 			}
 		});
-	}
-
-	class GuiWorker extends SwingWorker<Integer, Integer> {
-		// public class ShowWaitAction extends AbstractAction {
-		/**
-		* 
-		*/
-		// private static final long serialVersionUID = -7964048200093662696L;
-
-		protected static final long SLEEP_TIME = 30 * 1000;
-
-		private JDialog dialog = new JDialog();
-		private Component win = null;
-
-		public GuiWorker(Component win) {
-			this.win = win;
-
-			dialog.setUndecorated(true);
-			dialog.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
-			JLabel label = new JLabel(icon);
-			label.setSize(250, 250);
-			dialog.setLayout(new FlowLayout());
-			dialog.add(label);
-			JLabel text = new JLabel("Lade w4cash");
-			text.setFont(new Font("Tahoma", Font.BOLD, 24));
-			text.setHorizontalAlignment(SwingConstants.CENTER);
-			dialog.add(text);
-			dialog.pack();
-
-			dialog.dispose();
-			dialog.setLocationRelativeTo(win);
-			dialog.setSize(250, 280);
-			dialog.setUndecorated(true);
-			dialog.setVisible(true);
-		}
-
-		// mySwingWorker = new SwingWorker<Void, Void>() {
-		@Override
-		protected Integer doInBackground() throws Exception {
-
-			Thread.sleep(SLEEP_TIME);
-			return null;
-		}
-		@Override
-		protected void done() {
-			dialog.dispose();
-		}
-
 	}
 }

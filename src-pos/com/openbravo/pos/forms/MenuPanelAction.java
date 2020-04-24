@@ -49,8 +49,19 @@ public class MenuPanelAction extends AbstractAction {
         m_App = app;
         m_sMyView = sMyView;
     }
+    
     public void actionPerformed(ActionEvent evt) {
+    	LoadingIndicator loadingIndicator = LoadingIndicator.start();
+    	Thread t = new Thread(new Runnable() {
 
-        m_App.getAppUserView().showTask(m_sMyView);            
+			@Override
+			public void run() {
+				m_App.getAppUserView().showTask(m_sMyView);
+				loadingIndicator.done();
+			}
+
+		});
+    	t.start();
+        
     }    
 }

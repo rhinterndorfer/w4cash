@@ -103,8 +103,7 @@ public class JRootApp extends JPanel implements AppView {
 		initComponents();
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 	}
-	
-	
+
 	public boolean initApp(AppProperties props, Boolean noGUI) {
 
 		m_props = props;
@@ -119,9 +118,9 @@ public class JRootApp extends JPanel implements AppView {
 		try {
 			session = AppViewConnection.createSession(m_props);
 		} catch (BasicException e) {
-			if(!noGUI)
+			if (!noGUI)
 				JMessageDialog.showMessage(this, this, new MessageInf(MessageInf.SGN_DANGER, e.getMessage(), e));
-			
+
 			// try to close session after a invalid connection!
 			if (session != null) {
 				session.close();
@@ -130,9 +129,8 @@ public class JRootApp extends JPanel implements AppView {
 			return false;
 		}
 
-		
 		Log.Init(session, getWindowsHost() + ": " + m_props.getHost());
-		
+
 		m_dlSystem = (DataLogicSystem) getBean("com.openbravo.pos.forms.DataLogicSystem");
 
 		// Create or upgrade the database if database version is not the
@@ -149,21 +147,17 @@ public class JRootApp extends JPanel implements AppView {
 						: m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
 
 				/*
-				 * only for testing !!! String sScript =
-				 * sDBVersion.equals("create") ? m_dlSystem.getInitScript() +
-				 * "-create-2.30.2.sql" : m_dlSystem.getInitScript() +
-				 * "-upgrade-" + sDBVersion + ".sql";
+				 * only for testing !!! String sScript = sDBVersion.equals("create") ?
+				 * m_dlSystem.getInitScript() + "-create-2.30.2.sql" :
+				 * m_dlSystem.getInitScript() + "-upgrade-" + sDBVersion + ".sql";
 				 */
 
 				if (JRootApp.class.getResource(sScript) == null) {
-					if(!noGUI)
-					{
-						JMessageDialog.showMessage(this, this,
-							new MessageInf(MessageInf.SGN_DANGER,
-									sDBVersion == null
-											? AppLocal.getIntString("message.databasenotsupported",
-													session.DB.getName())
-											: AppLocal.getIntString("message.noupdatescript"))); 
+					if (!noGUI) {
+						JMessageDialog.showMessage(this, this, new MessageInf(MessageInf.SGN_DANGER,
+								sDBVersion == null
+										? AppLocal.getIntString("message.databasenotsupported", session.DB.getName())
+										: AppLocal.getIntString("message.noupdatescript")));
 					}
 					session.close();
 					return false;
@@ -242,26 +236,25 @@ public class JRootApp extends JPanel implements AppView {
 		// Show Hostname, Warehouse and URL in taskbar
 		String configName = m_props.getConfigName();
 		m_jHost.setText("<html>" + m_props.getHost() + " - " + sWareHouse + " - " + configName);
-		
+
 		// load properties for login button size
 		posprops = m_dlSystem.getResourceAsProperties("Window.Login");
-		
-		
+
 		// initialise signature module
 		Security.addProvider(new BouncyCastleProvider());
 		try {
 			SignatureModul.InitInstance(this);
-			if(!noGUI)
-			{
+			if (!noGUI) {
+				LoadingIndicator.init(this);
+
 				SignatureModul.getInstance().CheckSignatureUnitState(this, true);
-			
+
 				String signatureUnitInformation = SignatureModul.getInstance().GetSignatureUnitInformation(false);
 				jTextSignatureInfo.setText(signatureUnitInformation);
-			
+
 				showLogin();
 			}
-		} catch(Exception e)
-		{
+		} catch (Exception e) {
 			Log.Exception(e);
 			return false;
 		}
@@ -327,37 +320,36 @@ public class JRootApp extends JPanel implements AppView {
 	public String getInventoryLocation() {
 		return m_sInventoryLocation;
 	}
-	
+
 	public String getHost() {
 		return this.getProperties().getHost();
 	}
-	
+
 	public String getWindowsHost() {
-		String hostname = System.getenv("COMPUTERNAME"); 
-		if(hostname == null)
+		String hostname = System.getenv("COMPUTERNAME");
+		if (hostname == null)
 			hostname = System.getenv("HOSTNAME");
-		
+
 		return hostname;
 	}
-	
+
 	private void CheckActiveCash(Boolean openNew, Boolean ignoreCache) throws BasicException {
 		if (ignoreCache || m_sActiveCashIndex == null || m_dActiveCashDateEnd != null) {
 			String host = this.getProperties().getHost();
 
 			// split if contains "\"
 			// support POS with same name in front of "\" character sharing a cash shift
-			if(host.contains("\\"))
-			{
+			if (host.contains("\\")) {
 				host = host.substring(0, host.indexOf('\\'));
 			}
-			
+
 			Object[] valcash = m_dlSystem.findActiveCashHost(host);
 			if (valcash == null || !host.equals(valcash[1])) {
 				if (openNew) {
 					String id = UUID.randomUUID().toString();
 					Date start = new Date();
 					String location = m_propsdb.getProperty("location");
-					
+
 					// open new cash session
 					m_dlSystem.execInsertCash(new Object[] { id, host, start, null, location });
 
@@ -366,9 +358,7 @@ public class JRootApp extends JPanel implements AppView {
 					m_iActiveCashSequence = (int) valcash[2];
 					m_dActiveCashDateStart = start;
 					m_dActiveCashDateEnd = null;
-				}
-				else
-				{
+				} else {
 					m_sActiveCashIndex = null;
 					m_dActiveCashDateStart = null;
 					m_dActiveCashDateEnd = null;
@@ -385,8 +375,8 @@ public class JRootApp extends JPanel implements AppView {
 	}
 
 	public int getActiveCashSequence() {
-        return m_iActiveCashSequence;
-    }
+		return m_iActiveCashSequence;
+	}
 
 	public String getActiveCashIndex(Boolean openNew, Boolean ignoreCache) throws BasicException {
 		CheckActiveCash(openNew, ignoreCache);
@@ -408,24 +398,19 @@ public class JRootApp extends JPanel implements AppView {
 		m_dActiveCashDateEnd = dateEnd;
 	}
 
-	
-	public String getLastCashIndex() throws BasicException
-    {
+	public String getLastCashIndex() throws BasicException {
 		String host = this.getProperties().getHost();
 		// split if contains "\"
 		// support POS with same name in front of "\" character sharing a cash shift
-		if(host.contains("\\"))
-		{
+		if (host.contains("\\")) {
 			host = host.substring(0, host.indexOf('\\'));
 		}
 
-		
 		String lastCashIndex = null;
 		Object[] valcash = m_dlSystem.findLastCashHost(host);
-		lastCashIndex = (String)valcash[0];
-		return lastCashIndex; 
-    }
-			
+		lastCashIndex = (String) valcash[0];
+		return lastCashIndex;
+	}
 
 	public AppProperties getProperties() {
 		return m_props;
@@ -539,7 +524,7 @@ public class JRootApp extends JPanel implements AppView {
 			jScrollPane1.getViewport().setView(null);
 
 			JFlowPanel jPeople = new JFlowPanel();
-			//jPeople.setMinimumSize(new Dimension(510,118));
+			// jPeople.setMinimumSize(new Dimension(510,118));
 			jPeople.applyComponentOrientation(getComponentOrientation());
 
 			java.util.List people = m_dlSystem.listPeopleVisible();
@@ -626,11 +611,14 @@ public class JRootApp extends JPanel implements AppView {
 	private void openAppView(AppUser user) {
 
 		if (closeAppView()) {
-
+			// LoadingIndicator loadingIndicator = LoadingIndicator.start();
 			m_principalapp = new JPrincipalApp(this, user);
 
 			// The user status notificator
-			jPanel3.add(m_principalapp.getNotificator());
+			JComponent principal = m_principalapp.getNotificator();
+			principal.setFont(new java.awt.Font("Tahoma", 0, 8));
+			principal.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+			jPanel3.add(principal);
 			jPanel3.revalidate();
 
 			// The main panel
@@ -742,18 +730,13 @@ public class JRootApp extends JPanel implements AppView {
 		setLayout(new java.awt.BorderLayout());
 
 		m_jPanelContainer.setLayout(new java.awt.CardLayout());
-		
+
 		m_jPanelLogin.setLayout(new java.awt.BorderLayout());
 
-		
 		jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
-		
 
-		
+		jLabel1.setText("<html><center>Registrierkasse W4CASH</center></html>");
 
-		jLabel1.setText(
-				"<html><center>Registrierkasse W4CASH</center></html>");
-		
 		jLabel1.setAlignmentX(0.5F);
 		jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 		jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -768,9 +751,11 @@ public class JRootApp extends JPanel implements AppView {
 		jTextSignatureInfo.setOpaque(false);
 		jTextSignatureInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
 		jPanel4.add(jTextSignatureInfo);
-		
+
 		// show AES
-		// m_jShowAES.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/key.png"))); // NOI18N
+		// m_jShowAES.setIcon(new
+		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/key.png")));
+		// // NOI18N
 		m_jShowAES.setText(AppLocal.getIntString("Button.ShowAES")); // NOI18N
 		m_jShowAES.setFocusPainted(false);
 		m_jShowAES.setFocusable(false);
@@ -784,16 +769,18 @@ public class JRootApp extends JPanel implements AppView {
 			}
 		});
 		jPanel4.add(m_jShowAES);
-		
+
 		m_txtExportBegin.setPreferredSize(new java.awt.Dimension(100, 30));
 		m_txtExportBegin.setMaximumSize(new java.awt.Dimension(100, 30));
 		m_txtExportBegin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		m_txtExportBegin.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_txtExportBegin.setText("01.01.1990");
-		m_txtExportBegin.setBackground(new Color(240,240,240,250));
+		m_txtExportBegin.setBackground(new Color(240, 240, 240, 250));
 		jPanel4.add(m_txtExportBegin);
-		
-		// m_jDEPExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/key.png"))); // NOI18N
+
+		// m_jDEPExport.setIcon(new
+		// javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/key.png")));
+		// // NOI18N
 		m_jDEPExport.setText(AppLocal.getIntString("Button.DEPExport")); // NOI18N
 		m_jDEPExport.setFocusPainted(false);
 		m_jDEPExport.setFocusable(false);
@@ -802,17 +789,12 @@ public class JRootApp extends JPanel implements AppView {
 		m_jDEPExport.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		m_jDEPExport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		m_jDEPExport.addActionListener(new java.awt.event.ActionListener() {
-					public void actionPerformed(java.awt.event.ActionEvent evt) {
-						m_jDEPExportActionPerformed(evt);
-					}
-				});
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jDEPExportActionPerformed(evt);
+			}
+		});
 		jPanel4.add(m_jDEPExport);
 
-		
-		
-		
-		
-		
 		m_jPanelLogin.add(jPanel4, java.awt.BorderLayout.CENTER);
 
 		m_jLogonName.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -843,7 +825,7 @@ public class JRootApp extends JPanel implements AppView {
 		});
 
 		jPanel8.add(m_jLicense);
-		
+
 		// close
 		m_jClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/exit.png"))); // NOI18N
 		m_jClose.setText(AppLocal.getIntString("Button.Close")); // NOI18N
@@ -883,14 +865,14 @@ public class JRootApp extends JPanel implements AppView {
 
 		m_jPanelContainer.add(m_jPanelLogin, "login");
 
-		
 		add(m_jPanelContainer, java.awt.BorderLayout.CENTER);
 
 		m_jPanelDown.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0,
 				javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")));
 		m_jPanelDown.setLayout(new java.awt.BorderLayout());
 
-		m_jHost.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+		m_jHost.setFont(new java.awt.Font("Tahoma", 0, 8)); // NOI18N
+		m_jHost.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		m_jHost.setText("*Hostname");
 		panelTask.add(m_jHost);
 
@@ -909,7 +891,7 @@ public class JRootApp extends JPanel implements AppView {
 		tryToClose();
 
 	}// GEN-LAST:event_m_jCloseActionPerformed
-	
+
 	private void m_jShowAESActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseActionPerformed
 		String signatureUnitInformation = SignatureModul.getInstance().GetSignatureUnitInformation(true);
 		jTextSignatureInfo.setText(signatureUnitInformation);
@@ -919,7 +901,7 @@ public class JRootApp extends JPanel implements AppView {
 	private void m_jDEPExportActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseActionPerformed
 		SignatureModul.getInstance().DEPExport(this, null, null, m_txtExportBegin.getText());
 	}// GEN-LAST:event_m_jCloseActionPerformed
-	
+
 	private void m_txtKeysKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_m_txtKeysKeyTyped
 
 		m_txtKeys.setText("0");
