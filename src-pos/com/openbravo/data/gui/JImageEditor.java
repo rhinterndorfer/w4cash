@@ -44,6 +44,7 @@ import com.openbravo.pos.util.PropertyUtil;
 
 public class JImageEditor extends javax.swing.JPanel {
 
+	private static final long serialVersionUID = 6059611901250677151L;
 	private Dimension m_maxsize;
 	private ZoomIcon m_icon;
 	private BufferedImage m_Img = null;
