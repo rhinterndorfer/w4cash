@@ -238,6 +238,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jName = new javax.swing.JTextField();
 		jLabel3 = new javax.swing.JLabel();
 		m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
+		m_jImage.setMaxDimensions(new java.awt.Dimension(96, 96));
+		
 		//m_jCatalogAdd = new javax.swing.JButton();
 		//m_jCatalogDelete = new javax.swing.JButton();
 		jLabel5 = new javax.swing.JLabel();

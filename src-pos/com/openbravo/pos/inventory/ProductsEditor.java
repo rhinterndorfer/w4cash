@@ -907,6 +907,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel6 = new javax.swing.JLabel();
 		m_jCode = new javax.swing.JTextField();
 		m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
+		m_jImage.setMaxDimensions(new java.awt.Dimension(96, 96));
+		
 		jLabel3 = new javax.swing.JLabel();
 		m_jPriceBuy = new javax.swing.JTextField();
 		jLabel4 = new javax.swing.JLabel();
