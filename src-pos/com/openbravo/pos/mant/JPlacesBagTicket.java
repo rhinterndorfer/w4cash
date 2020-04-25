@@ -447,7 +447,7 @@ public class JPlacesBagTicket extends JPlacesBag {
 		m_jButtons.add(m_jRefund);
 
 		m_jPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/printer.png"))); // NOI18N
-		m_jPrint.setText(AppLocal.getIntString("button.print")); // NOI18N
+		m_jPrint.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
 		m_jPrint.setFocusPainted(false);
 		m_jPrint.setFocusable(false);
 		m_jPrint.setMargin(new java.awt.Insets(8, 14, 8, 14));

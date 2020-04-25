@@ -239,7 +239,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 			m_jEdit.setEnabled(false);
 		}
 
-		m_jRefund.setEnabled(m_ticket != null && m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL);
+		m_jRefund.setEnabled(m_ticket != null && (m_ticket.getTicketType() == TicketInfo.RECEIPT_NORMAL || m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUND));
 		m_jPrint.setEnabled(m_ticket != null);
 
 		// Este deviceticket solo tiene una impresora, la de pantalla
@@ -443,7 +443,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 		m_jButtons.add(m_jRefund, layoutData);
 
 		m_jPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/yast_printer.png"))); // NOI18N
-		m_jPrint.setText(AppLocal.getIntString("button.print")); // NOI18N
+		m_jPrint.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
 		m_jPrint.setFocusPainted(false);
 		m_jPrint.setFocusable(false);
 		m_jPrint.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -652,9 +652,10 @@ public class JTicketsBagTicket extends JTicketsBag {
 		m_panelticketedit.showRefundLines(aRefundLines);
 
 		TicketInfo refundticket = new TicketInfo();
-		refundticket.setTicketType(TicketInfo.RECEIPT_REFUND);
+		refundticket.setTicketType(m_ticket.getTicketType() == TicketInfo.RECEIPT_REFUND ? TicketInfo.RECEIPT_NORMAL : TicketInfo.RECEIPT_REFUND);
 		refundticket.setCustomer(m_ticket.getCustomer());
 		refundticket.setPayments(m_ticket.getPayments());
+		refundticket.setProperty("RefundTicketId", String.format("%1$s", m_ticket.getTicketId()));
 		m_panelticketedit.setActiveTicket(refundticket, null);
 
 	}// GEN-LAST:event_m_jRefundActionPerformed

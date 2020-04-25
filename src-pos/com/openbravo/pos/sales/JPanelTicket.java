@@ -1369,6 +1369,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	public void printTicket(String sresourcename, TicketInfo ticket, Object ticketext) {
 
+		String []printerdata = m_App.getProperties().getProperty("machine.printer").split(",");
+		if(printerdata.length > 2)
+		{
+			sresourcename = sresourcename.replace("{size}", printerdata[2]);
+			
+			if("Printer.TicketPreview".equals(sresourcename)) {
+				sresourcename = sresourcename + "." + printerdata[2];
+			}
+		}
+			
 		String sresource = dlSystem.getResourceAsXML(sresourcename);
 		if (sresource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
