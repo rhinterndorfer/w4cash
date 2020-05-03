@@ -10,6 +10,7 @@ import java.awt.Frame;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.font.FontRenderContext;
@@ -69,35 +70,32 @@ public class PropertyUtil {
 	private static Logger logger = Logger.getLogger("com.openbravo.pos.util.PropertyUtil");
 
 	private static Graphics2D m_TempGraphics;
-	private static Graphics2D getTempGraphics()
-	{
-		if(m_TempGraphics == null)
-		{
-			BufferedImage imgtext = new BufferedImage(100, 50,  BufferedImage.TYPE_INT_RGB);
+
+	private static Graphics2D getTempGraphics() {
+		if (m_TempGraphics == null) {
+			BufferedImage imgtext = new BufferedImage(100, 50, BufferedImage.TYPE_INT_RGB);
 			m_TempGraphics = imgtext.createGraphics();
 		}
 		return m_TempGraphics;
 	}
-	
-	public static int getGraphicsFontHeight(Font f)
-	{
+
+	public static int getGraphicsFontHeight(Font f) {
 		return getTempGraphics().getFontMetrics(f).getHeight();
 	}
-	
-	public static int getGraphicsFontStringWidth(Font f, String str)
-	{
+
+	public static int getGraphicsFontStringWidth(Font f, String str) {
 		return getTempGraphics().getFontMetrics(f).stringWidth(str);
 	}
-	
-	public static double getGraphicsFontWidthAvg(Font f)
-	{
-		int[] widths = getTempGraphics().getFontMetrics(f).getWidths(); 
+
+	public static double getGraphicsFontWidthAvg(Font f) {
+		int[] widths = getTempGraphics().getFontMetrics(f).getWidths();
 		int sum = 0;
-		for (int d : widths) sum += d;
-		
+		for (int d : widths)
+			sum += d;
+
 		return 1.0d * sum / widths.length;
 	}
-	
+
 	public static void fillSortOrderIfNeeded(BrowsableEditableData bd, int sortColumnIndex) {
 		boolean hasChanged = true;
 		ListModel model = bd.getListModel();
@@ -146,14 +144,12 @@ public class PropertyUtil {
 		}
 	}
 
-	
-	public static String GetCategoriesFilter(AppView app)
-	{
+	public static String GetCategoriesFilter(AppView app) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", "Categories.Filter");
 		return value;
 	}
-	
+
 	public static void ScaleBorderFontsize(AppView app, TitledBorder border, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -375,17 +371,18 @@ public class PropertyUtil {
 	public static void ScaleDialogFullScreen(AppView app, JDialog dialog) {
 		Window win = getWindow((Component) dialog);
 
-		if(win != null) {
-			dialog.setBounds(win.getX()+5, win.getY()+5, win.getWidth()-10, win.getHeight()-10);
-			dialog.setPreferredSize(new Dimension(win.getWidth()-10, win.getHeight()-10));
-		}
-		else {
+		if (win != null) {
+			Insets insets = win.getInsets();
+			dialog.setBounds(win.getX() + insets.left, win.getY() + insets.top,
+					win.getWidth() - insets.left - insets.right, win.getHeight() - insets.top - insets.left);
+			dialog.setPreferredSize(new Dimension(win.getWidth() - insets.left - insets.right,
+					win.getHeight() - insets.top - insets.left));
+		} else {
 			java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 			dialog.setBounds(5, 5, screenSize.width, screenSize.height);
 			dialog.setPreferredSize(screenSize);
 		}
-		
-		
+
 	}
 
 	private static Window getWindow(Component parent) {
@@ -397,7 +394,7 @@ public class PropertyUtil {
 			return getWindow(parent.getParent());
 		}
 	}
-	
+
 	public static void ScaleEditcurrencyFontsize(AppView app, JEditorCurrency label, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -477,12 +474,12 @@ public class PropertyUtil {
 		}
 	}
 
-	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue)
-	{
+	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue) {
 		ScaleLabelFontsize(app, label, key, defaultValue, 1.0);
 	}
-	
-	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue, Double scaleFactor) {
+
+	public static void ScaleLabelFontsize(AppView app, JLabel label, String key, String defaultValue,
+			Double scaleFactor) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
 		if (value == null) {
@@ -492,14 +489,14 @@ public class PropertyUtil {
 			int fontsize = Integer.parseInt(value);
 
 			Font fontTotalEuros = label.getFont();
-			int newfontsize = (int)(fontsize * scaleFactor);
+			int newfontsize = (int) (fontsize * scaleFactor);
 			label.setFont(new Font(fontTotalEuros.getName(), fontTotalEuros.getStyle(), newfontsize));
 			label.setSize((int) label.getSize().getWidth(), newfontsize);
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
 	}
-	
+
 	public static Font ScaleFont(AppView app, Font font, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
@@ -509,7 +506,7 @@ public class PropertyUtil {
 		try {
 			int fontsize = Integer.parseInt(value);
 			return new Font(font.getName(), font.getStyle(), fontsize);
-			
+
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
@@ -802,36 +799,36 @@ public class PropertyUtil {
 		double scaleFactor = fontSize / fontLabel.getSize();
 
 		label.setFont(new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize));
-		if(label.getSize().getWidth() > 0)
+		if (label.getSize().getWidth() > 0)
 			label.setSize((int) (label.getSize().getWidth()), fontSize);
 		else
 			label.setPreferredSize(new Dimension((int) (label.getPreferredSize().getWidth()), fontSize));
-		
+
 		return scaleFactor;
 	}
-	
+
 	public static double ScaleLabelFontsizeAndDimension(JLabel label, int fontSize) {
 		Font fontLabel = label.getFont();
 		Font newFont = new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize);
-		
+
 		double scaleFactor = fontSize / fontLabel.getSize();
 		double scaleFactorWidth = getGraphicsFontWidthAvg(newFont) / getGraphicsFontWidthAvg(fontLabel);
-		
+
 		label.setFont(newFont);
-		if(label.getSize().getWidth() > 0)
+		if (label.getSize().getWidth() > 0)
 			label.setSize((int) (label.getSize().getWidth() * scaleFactorWidth), fontSize);
 		else
-			label.setPreferredSize(new Dimension((int) (label.getPreferredSize().getWidth() * scaleFactorWidth), fontSize));
+			label.setPreferredSize(
+					new Dimension((int) (label.getPreferredSize().getWidth() * scaleFactorWidth), fontSize));
 		return scaleFactor;
 	}
-	
 
 	public static double ScaleTextFieldFontsize(JTextField textfield, int fontSize) {
 		Font fontLabel = textfield.getFont();
 
 		double scaleFactor = fontSize / fontLabel.getSize();
 		Font newFont = new Font(fontLabel.getName(), fontLabel.getStyle(), fontSize);
-		
+
 		textfield.setFont(newFont);
 
 		int height = getTempGraphics().getFontMetrics(newFont).getHeight();
@@ -854,7 +851,7 @@ public class PropertyUtil {
 
 		return scaleFactor;
 	}
-	
+
 	public static void ScaleComboboxFontSize(AppView app, JComboBox combobox, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);

@@ -388,11 +388,11 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 	private void initComponents() {
 
 		jLabel7 = new javax.swing.JLabel();
-		m_jTaxID = new javax.swing.JTextField();
+		m_jTaxID = new javax.swing.JTextField(80);
 		jLabel8 = new javax.swing.JLabel();
-		m_jSearchkey = new javax.swing.JTextField();
+		m_jSearchkey = new javax.swing.JTextField(80);
 		jLabel3 = new javax.swing.JLabel();
-		m_jName = new javax.swing.JTextField();
+		m_jName = new javax.swing.JTextField(80);
 		jLabel4 = new javax.swing.JLabel();
 		m_jVisible = new javax.swing.JCheckBox();
 
@@ -482,7 +482,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_txt_1.gridwidth = 1;
 		gbc_txt_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_1.insets = new Insets(5, 5, 0, 0);
-		gbc_txt_1.weightx = 1.0;
+		gbc_txt_1.weightx = 100.0;
 		gbc_txt_1.gridx = 1;
 		gbc_txt_1.gridy = 0;
 		add(m_jTaxID, gbc_txt_1);
@@ -507,7 +507,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_txt_2.gridwidth = 1;
 		gbc_txt_2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_2.insets = new Insets(5, 5, 0, 0);
-		gbc_txt_2.weightx = 1.0;
+		gbc_txt_2.weightx = 100.0;
 		gbc_txt_2.gridx = 1;
 		gbc_txt_2.gridy = 1;
 		add(m_jSearchkey, gbc_txt_2);
@@ -532,7 +532,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_txt_3.gridwidth = 1;
 		gbc_txt_3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txt_3.insets = new Insets(5, 5, 0, 0);
-		gbc_txt_3.weightx = 1.0;
+		gbc_txt_3.weightx = 100.0;
 		gbc_txt_3.gridx = 1;
 		gbc_txt_3.gridy = 2;
 		add(m_jName, gbc_txt_3);
@@ -605,7 +605,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane.gridwidth = 1;
 		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane.weightx = 1.0;
+		gbc_textPane.weightx = 100.0;
 		gbc_textPane.gridx = 1;
 		gbc_textPane.gridy = 0;
 		jPanel1.add(txtFirstName, gbc_textPane);
@@ -630,7 +630,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane1.gridwidth = 1;
 		gbc_textPane1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane1.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane1.weightx = 1.0;
+		gbc_textPane1.weightx = 100.0;
 		gbc_textPane1.gridx = 1;
 		gbc_textPane1.gridy = 1;
 		jPanel1.add(txtLastName, gbc_textPane1);
@@ -655,7 +655,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane2.gridwidth = 1;
 		gbc_textPane2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane2.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane2.weightx = 1.0;
+		gbc_textPane2.weightx = 100.0;
 		gbc_textPane2.gridx = 1;
 		gbc_textPane2.gridy = 2;
 		jPanel1.add(txtEmail, gbc_textPane2);
@@ -680,7 +680,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane3.gridwidth = 1;
 		gbc_textPane3.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane3.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane3.weightx = 1.0;
+		gbc_textPane3.weightx = 100.0;
 		gbc_textPane3.gridx = 1;
 		gbc_textPane3.gridy = 3;
 		jPanel1.add(txtPhone, gbc_textPane3);
@@ -705,7 +705,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane4.gridwidth = 1;
 		gbc_textPane4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane4.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane4.weightx = 1.0;
+		gbc_textPane4.weightx = 100.0;
 		gbc_textPane4.gridx = 1;
 		gbc_textPane4.gridy = 4;
 		jPanel1.add(txtPhone2, gbc_textPane4);
@@ -730,7 +730,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane5.gridwidth = 1;
 		gbc_textPane5.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane5.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane5.weightx = 1.0;
+		gbc_textPane5.weightx = 100.0;
 		gbc_textPane5.gridx = 1;
 		gbc_textPane5.gridy = 5;
 		jPanel1.add(txtFax, gbc_textPane5);
@@ -769,7 +769,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane6.gridwidth = 1;
 		gbc_textPane6.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane6.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane6.weightx = 1.0;
+		gbc_textPane6.weightx = 100.0;
 		gbc_textPane6.gridx = 1;
 		gbc_textPane6.gridy = 0;
 		jPanel2.add(txtAddress, gbc_textPane6);
@@ -794,7 +794,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane7.gridwidth = 1;
 		gbc_textPane7.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane7.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane7.weightx = 1.0;
+		gbc_textPane7.weightx = 100.0;
 		gbc_textPane7.gridx = 1;
 		gbc_textPane7.gridy = 1;
 		jPanel2.add(txtAddress2, gbc_textPane7);
@@ -819,7 +819,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane8.gridwidth = 1;
 		gbc_textPane8.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane8.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane8.weightx = 1.0;
+		gbc_textPane8.weightx = 100.0;
 		gbc_textPane8.gridx = 1;
 		gbc_textPane8.gridy = 2;
 		jPanel2.add(txtPostal, gbc_textPane8);
@@ -844,7 +844,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane9.gridwidth = 1;
 		gbc_textPane9.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane9.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane9.weightx = 1.0;
+		gbc_textPane9.weightx = 100.0;
 		gbc_textPane9.gridx = 1;
 		gbc_textPane9.gridy = 3;
 		jPanel2.add(txtCity, gbc_textPane9);
@@ -869,7 +869,7 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		gbc_textPane10.gridwidth = 1;
 		gbc_textPane10.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textPane10.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane10.weightx = 1.0;
+		gbc_textPane10.weightx = 100.0;
 		gbc_textPane10.gridx = 1;
 		gbc_textPane10.gridy = 4;
 		jPanel2.add(txtRegion, gbc_textPane10);

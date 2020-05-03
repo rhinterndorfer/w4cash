@@ -57,6 +57,8 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 	protected DirtyManager dirty;
 	protected AppView app;
 
+	
+	
 	/** Creates new form JPanelTableEditor */
 	public JPanelTable() {
 
@@ -72,6 +74,10 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		init();
 	}
 
+	public DirtyManager GetDirtyManager() {
+		return dirty;
+	}
+	
 	public Object getBean() {
 		return this;
 	}

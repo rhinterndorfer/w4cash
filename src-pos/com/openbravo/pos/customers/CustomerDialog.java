@@ -21,6 +21,8 @@ package com.openbravo.pos.customers;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.loader.QBFCompareEnum;
+import com.openbravo.data.user.DirtyListener;
+import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorCreator;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
@@ -48,6 +50,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.axis.wsdl.toJava.JavaBuildFileWriter;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -74,15 +78,16 @@ public class CustomerDialog extends javax.swing.JDialog {
 	public static CustomerDialog getCustomerDialog(AppView app, Component parent, DataLogicCustomers dlCustomers) {
 		Window window = getWindow(parent);
 
-		CustomerDialog myMsg;
+		CustomerDialog dialog;
 		if (window instanceof Frame) {
-			myMsg = new CustomerDialog((Frame) window, true);
+			dialog = new CustomerDialog((Frame) window, true);
 		} else {
-			myMsg = new CustomerDialog((Dialog) window, true);
+			dialog = new CustomerDialog((Dialog) window, true);
 		}
-		myMsg.init(app, dlCustomers);
-		myMsg.applyComponentOrientation(parent.getComponentOrientation());
-		return myMsg;
+		dialog.init(app, dlCustomers);
+		dialog.applyComponentOrientation(parent.getComponentOrientation());
+		dialog.setUndecorated(true);
+		return dialog;
 	}
 
 	private void init(AppView app, DataLogicCustomers dlCustomers) {
@@ -114,7 +119,7 @@ public class CustomerDialog extends javax.swing.JDialog {
 		customerPanel = new CustomersPanel();
 		customerPanel.init(this.m_App);
 		customerPanel.getComponent().applyComponentOrientation(getComponentOrientation());
-
+		customerPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
 		
 		//getContentPane().add(customerPanel.getComponent(), java.awt.BorderLayout.CENTER);
 		getContentPane().add(customerPanel, java.awt.BorderLayout.CENTER);
@@ -132,7 +137,7 @@ public class CustomerDialog extends javax.swing.JDialog {
 			}
 		});
 		jPanel1.add(jcmdOK);
-		getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+		getContentPane().add(jPanel1, java.awt.BorderLayout.EAST);
 		
 		
 		PropertyUtil.ScaleDialogFullScreen(m_App, this);
@@ -141,6 +146,15 @@ public class CustomerDialog extends javax.swing.JDialog {
 		
 		try {
 			customerPanel.activate();
+			DirtyManager dirty = customerPanel.GetDirtyManager();
+			dirty.addDirtyListener(new DirtyListener() {
+				
+				@Override
+				public void changedDirty(boolean bDirty) {
+					jcmdOK.setEnabled(!bDirty);
+				}
+			});
+			
 		} catch (BasicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
