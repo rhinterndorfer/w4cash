@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.inventory;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -117,7 +118,6 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		a.add(0, null); // The null item
 		m_CategoryModel = new ComboBoxValModel(a);
 		m_jCategory.setModel(m_CategoryModel);
-		
 
 	}
 
@@ -141,8 +141,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCategory.setEnabled(false);
 		m_jPrinter.setEnabled(false);
 		m_jImage.setEnabled(false);
-		//m_jCatalogDelete.setEnabled(false);
-		//m_jCatalogAdd.setEnabled(false);
+		// m_jCatalogDelete.setEnabled(false);
+		// m_jCatalogAdd.setEnabled(false);
 	}
 
 	public void writeValueInsert() {
@@ -156,8 +156,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCategory.setEnabled(true);
 		m_jPrinter.setEnabled(true);
 		m_jImage.setEnabled(true);
-		//m_jCatalogDelete.setEnabled(false);
-		//m_jCatalogAdd.setEnabled(false);
+		// m_jCatalogDelete.setEnabled(false);
+		// m_jCatalogAdd.setEnabled(false);
 
 		m_sortOrder = getNextOrderNumber();
 		incOrderNumber();
@@ -177,8 +177,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCategory.setEnabled(false);
 		m_jPrinter.setEnabled(false);
 		m_jImage.setEnabled(false);
-		//m_jCatalogDelete.setEnabled(false);
-		//m_jCatalogAdd.setEnabled(false);
+		// m_jCatalogDelete.setEnabled(false);
+		// m_jCatalogAdd.setEnabled(false);
 	}
 
 	public void writeValueEdit(Object value) {
@@ -197,8 +197,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		m_jCategory.setEnabled(true);
 		m_jPrinter.setEnabled(true);
 		m_jImage.setEnabled(true);
-		//m_jCatalogDelete.setEnabled(true);
-		//m_jCatalogAdd.setEnabled(true);
+		// m_jCatalogDelete.setEnabled(true);
+		// m_jCatalogAdd.setEnabled(true);
 	}
 
 	public Object createValue() throws BasicException {
@@ -236,12 +236,13 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 
 		jLabel2 = new javax.swing.JLabel();
 		m_jName = new javax.swing.JTextField();
+		m_jName.setBackground(new Color(255, 230, 230));
 		jLabel3 = new javax.swing.JLabel();
 		m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
 		m_jImage.setMaxDimensions(new java.awt.Dimension(96, 96));
-		
-		//m_jCatalogAdd = new javax.swing.JButton();
-		//m_jCatalogDelete = new javax.swing.JButton();
+
+		// m_jCatalogAdd = new javax.swing.JButton();
+		// m_jCatalogDelete = new javax.swing.JButton();
 		jLabel5 = new javax.swing.JLabel();
 		m_jCategory = new javax.swing.JComboBox();
 		jLabel7 = new javax.swing.JLabel();
@@ -346,11 +347,12 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		JPanel pfl1 = new JPanel();
 		pfl1.setLayout(fl1);
 
-		//m_jCatalogAdd.setText(AppLocal.getIntString("button.catalogadd")); // NOI18N
-		//pfl1.add(m_jCatalogAdd);
+		// m_jCatalogAdd.setText(AppLocal.getIntString("button.catalogadd")); // NOI18N
+		// pfl1.add(m_jCatalogAdd);
 
-		//m_jCatalogDelete.setText(AppLocal.getIntString("button.catalogdel")); // NOI18N
-		//pfl1.add(m_jCatalogDelete);
+		// m_jCatalogDelete.setText(AppLocal.getIntString("button.catalogdel")); //
+		// NOI18N
+		// pfl1.add(m_jCatalogDelete);
 
 		GridBagConstraints gbc_pane = new GridBagConstraints();
 		gbc_pane.insets = new Insets(5, 5, 0, 0);
@@ -369,20 +371,15 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		gbc_img1.gridy = 4;
 		root.add(m_jImage, gbc_img1);
 
-		
 		/*
-		m_jCatalogAdd.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jCatalogAddActionPerformed(evt);
-			}
-		});
-
-		m_jCatalogDelete.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jCatalogDeleteActionPerformed(evt);
-			}
-		});
-		*/
+		 * m_jCatalogAdd.addActionListener(new java.awt.event.ActionListener() { public
+		 * void actionPerformed(java.awt.event.ActionEvent evt) {
+		 * m_jCatalogAddActionPerformed(evt); } });
+		 * 
+		 * m_jCatalogDelete.addActionListener(new java.awt.event.ActionListener() {
+		 * public void actionPerformed(java.awt.event.ActionEvent evt) {
+		 * m_jCatalogDeleteActionPerformed(evt); } });
+		 */
 
 	}// </editor-fold>//GEN-END:initComponents
 
@@ -407,8 +404,9 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
-		//PropertyUtil.ScaleButtonIcon(m_jCatalogAdd, menuwidth, menuheight, fontsize);
-		//PropertyUtil.ScaleButtonIcon(m_jCatalogDelete, menuwidth, menuheight, fontsize);
+		// PropertyUtil.ScaleButtonIcon(m_jCatalogAdd, menuwidth, menuheight, fontsize);
+		// PropertyUtil.ScaleButtonIcon(m_jCatalogDelete, menuwidth, menuheight,
+		// fontsize);
 	}
 
 	@Override
@@ -447,8 +445,8 @@ public class CategoriesEditor extends JPanel implements EditorRecord {
 	private javax.swing.JLabel jLabel7;
 	private javax.swing.JTextField m_jName;
 	private javax.swing.JComboBox<String> m_jPrinter;
-	//private javax.swing.JButton m_jCatalogAdd;
-	//private javax.swing.JButton m_jCatalogDelete;
+	// private javax.swing.JButton m_jCatalogAdd;
+	// private javax.swing.JButton m_jCatalogDelete;
 	private javax.swing.JComboBox m_jCategory;
 	private Object m_sortOrder;
 	private com.openbravo.data.gui.JImageEditor m_jImage;

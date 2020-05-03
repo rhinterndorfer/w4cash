@@ -19,6 +19,7 @@
 
 package com.openbravo.pos.inventory;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -900,25 +901,32 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel1 = new javax.swing.JLabel();
 		jLabel2 = new javax.swing.JLabel();
 		m_jRef = new javax.swing.JTextField();
+		m_jRef.setBackground(new Color(255,230,230));
 		m_jName = new javax.swing.JTextField();
+		m_jName.setBackground(new Color(255,230,230));
 		m_jTitle = new javax.swing.JLabel();
 		jTabbedPane1 = new javax.swing.JTabbedPane();
 		jPanel1 = new javax.swing.JPanel();
 		jLabel6 = new javax.swing.JLabel();
 		m_jCode = new javax.swing.JTextField();
+		m_jCode.setBackground(new Color(255,230,230));
 		m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
 		m_jImage.setMaxDimensions(new java.awt.Dimension(96, 96));
 		
 		jLabel3 = new javax.swing.JLabel();
 		m_jPriceBuy = new javax.swing.JTextField();
+		m_jPriceBuy.setBackground(new Color(255,230,230));
 		jLabel4 = new javax.swing.JLabel();
 		m_jPriceSell = new javax.swing.JTextField();
 		jLabel5 = new javax.swing.JLabel();
 		m_jCategory = new javax.swing.JComboBox();
+		m_jCategory.setBackground(new Color(255,230,230));
 		jLabel7 = new javax.swing.JLabel();
 		m_jTax = new javax.swing.JComboBox();
+		m_jTax.setBackground(new Color(255,230,230));
 		m_jmargin = new javax.swing.JTextField();
 		m_jPriceSellTax = new javax.swing.JTextField();
+		m_jPriceSellTax.setBackground(new Color(255,230,230));
 		jLabel16 = new javax.swing.JLabel();
 		m_jCodetype = new javax.swing.JComboBox();
 		jLabel13 = new javax.swing.JLabel();

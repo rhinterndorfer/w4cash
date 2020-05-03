@@ -20,7 +20,7 @@
 package com.openbravo.pos.sales.restaurant;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -44,6 +44,7 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.sales.JPlacesListDialog;
 import com.openbravo.pos.util.PropertyUtil;
+import com.openbravo.pos.util.WrapLayout;
 
 import layout.TableLayout;
 import layout.TableLayoutConstraints;
@@ -512,6 +513,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		m_jtxtDescription = new com.openbravo.editor.JEditorString();
 		m_jtxtChairs = new com.openbravo.editor.JEditorIntegerPositive();
 		txtCustomer = new com.openbravo.editor.JEditorString();
+		txtCustomer.setBackground(new Color(255,230,230));
 		jCustomerButton = new javax.swing.JButton();
 		jPanel5 = new javax.swing.JPanel();
 		m_jPlaces = new javax.swing.JTextArea();
@@ -523,7 +525,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 
 		jPanel2.setLayout(new java.awt.BorderLayout());
 
-		m_jToolbarContainer.setLayout(new java.awt.BorderLayout());
+		m_jToolbar.setLayout(new WrapLayout());
+		m_jToolbarContainer.setLayout(new WrapLayout());
 
 		m_jbtnTables.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/atlantikdesignersmall.png"))); // NOI18N
@@ -550,8 +553,8 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		});
 		jPanel4.add(m_jbtnReceive);
 
-		m_jToolbarContainer.add(jPanel4, java.awt.BorderLayout.LINE_START);
-		m_jToolbarContainer.add(m_jToolbar, java.awt.BorderLayout.CENTER);
+		m_jToolbarContainer.add(jPanel4);
+		m_jToolbarContainer.add(m_jToolbar);
 
 		jPanel2.add(m_jToolbarContainer, java.awt.BorderLayout.NORTH);
 
@@ -601,7 +604,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		jPanel1.add(txtCustomer, "1, 2");
 		
 		jCustomerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/kuser.png"))); // NOI18N
-		jCustomerButton.setText(AppLocal.getIntString("Menu.Customers"));
+		//jCustomerButton.setText(AppLocal.getIntString("Menu.Customers"));
 		jCustomerButton.setFocusPainted(false);
 		jCustomerButton.setFocusable(false);
 		jCustomerButton.setRequestFocusEnabled(false);
@@ -627,7 +630,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		
 		
 		m_jPlacesAddButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnplus.png")));
-		m_jPlacesAddButton.setText(AppLocal.getIntString("rest.btn.tablesAdd"));
+		//m_jPlacesAddButton.setText(AppLocal.getIntString("rest.btn.tablesAdd"));
 		m_jPlacesAddButton.setFocusPainted(false);
 		m_jPlacesAddButton.setFocusable(false);
 		m_jPlacesAddButton.setRequestFocusEnabled(false);
@@ -641,7 +644,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 		
 		
 		m_jPlacesRemoveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/btnminus.png")));
-		m_jPlacesRemoveButton.setText(AppLocal.getIntString("rest.btn.tablesRemove"));
+		//m_jPlacesRemoveButton.setText(AppLocal.getIntString("rest.btn.tablesRemove"));
 		m_jPlacesRemoveButton.setFocusPainted(false);
 		m_jPlacesRemoveButton.setFocusable(false);
 		m_jPlacesRemoveButton.setRequestFocusEnabled(false);

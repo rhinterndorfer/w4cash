@@ -31,6 +31,8 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.StringUtils;
+
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -391,8 +393,10 @@ public class CustomersView extends javax.swing.JPanel implements EditorRecord {
 		m_jTaxID = new javax.swing.JTextField(80);
 		jLabel8 = new javax.swing.JLabel();
 		m_jSearchkey = new javax.swing.JTextField(80);
+		m_jSearchkey.setBackground(new Color(255,230,230));
 		jLabel3 = new javax.swing.JLabel();
 		m_jName = new javax.swing.JTextField(80);
+		m_jName.setBackground(new Color(255,230,230));
 		jLabel4 = new javax.swing.JLabel();
 		m_jVisible = new javax.swing.JCheckBox();
 
