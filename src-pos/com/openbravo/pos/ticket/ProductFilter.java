@@ -63,7 +63,17 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 	private ComboBoxValModel m_CategoryModel;
 	private AppView m_App;
 	private BrowsableEditableData m_bd;
+	private Boolean m_hideToggle=false;
 
+	public ProductFilter() {
+		initComponents();
+	}
+	
+	public ProductFilter(Boolean hideToggle) {
+		m_hideToggle = hideToggle;
+		initComponents();
+	}
+	
 	/** Creates new form JQBFProduct */
 	public ProductFilter(AppView app) {
 		m_App = app;
@@ -79,7 +89,13 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 	
 	public void init(AppView app) {
 
-		DataLogicSales dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
+		m_App = app;
+		
+		ScaleButtons();
+	}
+
+	public void activate() throws BasicException {
+		DataLogicSales dlSales = (DataLogicSales) m_App.getBean("com.openbravo.pos.forms.DataLogicSales");
 
 		// El modelo de categorias
 		m_sentcat = dlSales.getCategoriesListSortedByName();
@@ -89,11 +105,8 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		m_jCboPriceBuy.setModel(ListQBFModelNumber.getMandatoryNumber());
 		m_jCboPriceSell.setModel(ListQBFModelNumber.getMandatoryNumber());
 
-		ScaleButtons();
-	}
-
-	public void activate() throws BasicException {
-
+		
+		
 		List catlist = m_sentcat.list();
 		catlist.add(0, null);
 		
@@ -187,7 +200,9 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 				jToggleFilterActionPerformed(evt);
 			}
 		});
-		jPanelFilter.add(jToggleFilter, BorderLayout.CENTER);
+		if(!m_hideToggle) {
+			jPanelFilter.add(jToggleFilter, BorderLayout.CENTER);
+		}
 		
 
 		jPanel2.setLayout(new GridBagLayout());

@@ -620,23 +620,43 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 	private class FieldsManager implements DocumentListener, ActionListener {
 		public void changedUpdate(DocumentEvent e) {
+			Double dPriceSellTax = readCurrency(m_jPriceSellTax.getText());
+			if (dPriceSellTax == null) {
+				calculatePriceSellfromPST();
+			} else {
+				calculatePriceSellTax();
+			}
 			calculateMargin();
-			calculatePriceSellTax();
 		}
 
 		public void insertUpdate(DocumentEvent e) {
+			Double dPriceSellTax = readCurrency(m_jPriceSellTax.getText());
+			if (dPriceSellTax == null || dPriceSellTax == 0) {
+				calculatePriceSellTax();
+			} else {
+				calculatePriceSellfromPST();
+			}
 			calculateMargin();
-			calculatePriceSellTax();
 		}
 
 		public void removeUpdate(DocumentEvent e) {
+			Double dPriceSellTax = readCurrency(m_jPriceSellTax.getText());
+			if (dPriceSellTax == null || dPriceSellTax == 0) {
+				calculatePriceSellTax();
+			} else {
+				calculatePriceSellfromPST();
+			}
 			calculateMargin();
-			calculatePriceSellTax();
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			Double dPriceSellTax = readCurrency(m_jPriceSellTax.getText());
+			if (dPriceSellTax == null || dPriceSellTax == 0) {
+				calculatePriceSellTax();
+			} else {
+				calculatePriceSellfromPST();
+			}
 			calculateMargin();
-			calculatePriceSellTax();
 		}
 	}
 
