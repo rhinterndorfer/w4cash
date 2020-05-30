@@ -36,6 +36,10 @@ import com.openbravo.basic.BasicException;
 import com.openbravo.pos.forms.AppLocal;
 
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
+
+import org.jfree.util.Log;
+
 import java.util.Properties;
 
 /**
@@ -317,6 +321,23 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 		attributes.setProperty("product.name", value);
 	}
 
+	public Boolean getProductAttTicketShow() {
+		return getProductAttSetId() != null && getProductAttSetInstDesc().length() > 0;
+	}
+	
+	public String getProductAttSetInstTicketDesc() {
+		String desc = attributes.getProperty("product.attsetdesc", "");
+		Log.info(desc);
+		desc = desc.replaceAll("[^,]*?\\$[,]*", "").trim();
+		if(desc.endsWith(","))
+		{
+			Log.info(desc);
+			desc = desc.substring(0, desc.length() - 1);
+		}
+		Log.info(desc);
+		return desc;
+	}
+	
 	public String getProductAttSetId() {
 		return attributes.getProperty("product.attsetid");
 	}

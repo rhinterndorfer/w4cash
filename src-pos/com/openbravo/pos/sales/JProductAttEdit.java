@@ -145,7 +145,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 						return new AttributeInstInfo("", "", dr.getString(1), dr.getString(2));
 					}
 				});
-		attvaluesSent = new PreparedSentence(s, "SELECT VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ?",
+		attvaluesSent = new PreparedSentence(s, "SELECT VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ? ORDER BY LINENO NULLS LAST, VALUE",
 				SerializerWriteString.INSTANCE, SerializerReadString.INSTANCE);
 
 		getRootPane().setDefaultButton(m_jButtonOK);

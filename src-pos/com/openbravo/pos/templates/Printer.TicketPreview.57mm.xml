@@ -125,9 +125,9 @@
                 <text align ="left" length="30">${ticketline.printName()}</text>
             #end
        	</line>
-       	#if ($ticketline.productAttSetInstId)
+       	#if ($ticketline.productAttTicketShow)
         <line>
-	        <text align ="left" length="30">    ${ticketline.productAttSetInstDesc}</text>
+	        <text align ="left" length="30">    ${ticketline.productAttSetInstTicketDesc}</text>
         </line>
         #end
        	<line>

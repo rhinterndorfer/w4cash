@@ -142,9 +142,9 @@
                <text align ="right" length="2">D</text>
             #end
         </line> 
-        #if ($ticketline.productAttSetInstId)
+        #if ($ticketline.productAttTicketShow)
         <line>
-	        <text align ="left" length="105">    ${ticketline.productAttSetInstDesc}</text>
+	        <text align ="left" length="105">    ${ticketline.productAttSetInstTicketDesc}</text>
         </line>
         #end
         #end

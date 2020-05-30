@@ -52,6 +52,7 @@ public class AttributeValuesPanel extends JPanelTable2 {
         row = new Row(
                 new Field("ID", Datas.STRING, Formats.STRING),
                 new Field("ATTRIBUTE_ID", Datas.STRING, Formats.STRING),
+                new Field(AppLocal.getIntString("label.order"), Datas.INT, Formats.INT, false, true, true),
                 new Field(AppLocal.getIntString("label.value"), Datas.STRING, Formats.STRING, true, true, true)
         );
 
@@ -59,10 +60,12 @@ public class AttributeValuesPanel extends JPanelTable2 {
                 "ATTRIBUTEVALUE",
                 new PrimaryKey("ID"),
                 new Column("ATTRIBUTE_ID"),
-                new Column("VALUE"));
+                new Column("LINENO"),
+                new Column("VALUE")
+                );
 
         lpr = row.getListProvider(app.getSession(),
-                "SELECT ID, ATTRIBUTE_ID, VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ? ", filter);
+                "SELECT ID, ATTRIBUTE_ID, LINENO, VALUE FROM ATTRIBUTEVALUE WHERE ATTRIBUTE_ID = ? ORDER BY LINENO NULLS LAST, VALUE", filter);
         spr = row.getSaveProvider(app.getSession(), table);
 
         editor = new AttributeValuesEditor(app,dirty);

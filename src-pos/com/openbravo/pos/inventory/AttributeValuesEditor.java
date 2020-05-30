@@ -57,6 +57,7 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 		initComponents();
 
 		jValue.getDocument().addDocumentListener(dirty);
+		jOrder.getDocument().addDocumentListener(dirty);
 
 		ScaleButtons();
 	}
@@ -74,8 +75,10 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 		id = null;
 		attid = null;
 		jValue.setText(null);
-
 		jValue.setEnabled(false);
+		
+		jOrder.setText(null);
+		jOrder.setEnabled(false);
 	}
 
 	public void writeValueInsert() {
@@ -83,8 +86,10 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 		id = UUID.randomUUID().toString();
 		attid = insertid;
 		jValue.setText(null);
-
 		jValue.setEnabled(true);
+		
+		jOrder.setText(null);
+		jOrder.setEnabled(true);
 	}
 
 	public void writeValueEdit(Object value) {
@@ -93,9 +98,14 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 
 		id = obj[0];
 		attid = obj[1];
-		jValue.setText(Formats.STRING.formatValue(obj[2]));
-
+		
+		jOrder.setText(Formats.INT.formatValue(obj[2]));
+		jOrder.setEnabled(true);
+		
+		jValue.setText(Formats.STRING.formatValue(obj[3]));
 		jValue.setEnabled(true);
+		
+		
 	}
 
 	public void writeValueDelete(Object value) {
@@ -104,9 +114,13 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 
 		id = obj[0];
 		attid = obj[1];
-		jValue.setText(Formats.STRING.formatValue(obj[2]));
 
+		jOrder.setText(Formats.INT.formatValue(obj[2]));
+		jOrder.setEnabled(false);
+		
+		jValue.setText(Formats.STRING.formatValue(obj[3]));
 		jValue.setEnabled(false);
+		
 	}
 
 	public Component getComponent() {
@@ -114,7 +128,7 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 	}
 
 	public Object createValue() throws BasicException {
-		return new Object[] { id, attid, Formats.STRING.formatValue(jValue.getText()) };
+		return new Object[] { id, attid, Formats.INT.parseValue(jOrder.getText()), Formats.STRING.formatValue(jValue.getText()) };
 	}
 
 	/**
@@ -128,7 +142,9 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 
 		jLabel2 = new javax.swing.JLabel();
 		jValue = new javax.swing.JTextField();
-
+		jLabelOrder = new javax.swing.JLabel();
+		jOrder = new javax.swing.JTextField();
+		
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		JScrollPane scrollView = new JScrollPane();
 
@@ -140,23 +156,23 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 		GridBagLayout gblayout = new GridBagLayout();
 		root.setLayout(gblayout);
 
-		jLabel2.setText(AppLocal.getIntString("label.value")); // NOI18N
-		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
-		gbc_lbl1.anchor = GridBagConstraints.WEST;
-		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
-		gbc_lbl1.gridx = 0;
-		gbc_lbl1.gridy = 0;
-		root.add(jLabel2, gbc_lbl1);
+		jLabelOrder.setText(AppLocal.getIntString("label.order")); // NOI18N
+		GridBagConstraints gbc_lblOrder = new GridBagConstraints();
+		gbc_lblOrder.anchor = GridBagConstraints.WEST;
+		gbc_lblOrder.insets = new Insets(5, 5, 0, 0);
+		gbc_lblOrder.gridx = 0;
+		gbc_lblOrder.gridy = 0;
+		root.add(jLabelOrder, gbc_lblOrder);
 
-		GridBagConstraints gbc_textPane = new GridBagConstraints();
-		gbc_textPane.gridwidth = 1;
-		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textPane.insets = new Insets(5, 5, 0, 0);
-		gbc_textPane.weightx = 1.0;
-		gbc_textPane.gridx = 1;
-		gbc_textPane.gridy = 0;
-		root.add(jValue, gbc_textPane);
-
+		GridBagConstraints gbc_Order = new GridBagConstraints();
+		gbc_Order.gridwidth = 1;
+		gbc_Order.fill = GridBagConstraints.HORIZONTAL;
+		gbc_Order.insets = new Insets(5, 5, 0, 0);
+		gbc_Order.weightx = 1.0;
+		gbc_Order.gridx = 1;
+		gbc_Order.gridy = 0;
+		root.add(jOrder, gbc_Order);
+		
 		JLabel space1 = new JLabel("");
 		GridBagConstraints gbc_space1 = new GridBagConstraints();
 		gbc_space1.insets = new Insets(5, 5, 0, 0);
@@ -165,6 +181,34 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 		gbc_space1.gridy = 0;
 		root.add(space1, gbc_space1);
 
+		
+		
+		jLabel2.setText(AppLocal.getIntString("label.value")); // NOI18N
+		GridBagConstraints gbc_lbl1 = new GridBagConstraints();
+		gbc_lbl1.anchor = GridBagConstraints.WEST;
+		gbc_lbl1.insets = new Insets(5, 5, 0, 0);
+		gbc_lbl1.gridx = 0;
+		gbc_lbl1.gridy = 1;
+		root.add(jLabel2, gbc_lbl1);
+
+		GridBagConstraints gbc_textPane = new GridBagConstraints();
+		gbc_textPane.gridwidth = 1;
+		gbc_textPane.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textPane.insets = new Insets(5, 5, 0, 0);
+		gbc_textPane.weightx = 1.0;
+		gbc_textPane.gridx = 1;
+		gbc_textPane.gridy = 1;
+		root.add(jValue, gbc_textPane);
+		
+		JLabel space2 = new JLabel("");
+		GridBagConstraints gbc_space2 = new GridBagConstraints();
+		gbc_space2.insets = new Insets(5, 5, 0, 0);
+		gbc_space2.weightx = 1.0;
+		gbc_space2.gridx = 2;
+		gbc_space2.gridy = 1;
+		root.add(space2, gbc_space2);
+
+		
 		JLabel space3 = new JLabel("");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(5, 5, 0, 0);
@@ -172,19 +216,24 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
 		gbc_btnNewButton.fill = GridBagConstraints.BOTH;
 		gbc_btnNewButton.gridwidth = 3;
 		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 1;
+		gbc_btnNewButton.gridy = 2;
 		root.add(space3, gbc_btnNewButton);
 	}// </editor-fold>//GEN-END:initComponents
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JTextField jValue;
+	private javax.swing.JLabel jLabelOrder;
+	private javax.swing.JTextField jOrder;
 	// End of variables declaration//GEN-END:variables
 
 	@Override
 	public void ScaleButtons() {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, jValue, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelOrder, "common-small-fontsize", "32");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, jOrder, "common-small-fontsize", "32");
+		
 	}
 
 	@Override
