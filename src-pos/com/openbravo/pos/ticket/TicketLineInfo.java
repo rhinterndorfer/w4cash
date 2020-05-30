@@ -322,7 +322,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public Boolean getProductAttTicketShow() {
-		return getProductAttSetId() != null && getProductAttSetInstDesc().length() > 0;
+		return getProductAttSetId() != null && getProductAttSetInstTicketDesc().length() > 0;
 	}
 	
 	public String getProductAttSetInstTicketDesc() {
