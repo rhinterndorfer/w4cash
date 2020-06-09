@@ -345,7 +345,7 @@
         </line>
         #end 
 		<line>
-			<text align="center" length="30" bold="true">Powered by w4cash.at</text>
+			<text align="center" length="30" bold="true">${SystemDataInfo}</text>
         </line> 
     </ticket>
 </output>

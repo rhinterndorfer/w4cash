@@ -78,6 +78,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 	private String SystemDataCity = "";
 	private String SystemDataTaxid = "";
 	private String SystemDataThanks = "";
+	private String SystemDataInfo = "";
 	private String SystemDataAccountBank = "";
 	private String SystemDataAccountOwner = "";
 	private String SystemDataAccountBIC = "";
@@ -288,6 +289,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("SystemDataCity", SystemDataCity);
 				script.put("SystemDataTaxid", SystemDataTaxid);
 				script.put("SystemDataThanks", SystemDataThanks);
+				script.put("SystemDataInfo", SystemDataInfo);
 				script.put("SystemDataAccountBank", SystemDataAccountBank);
 				script.put("SystemDataAccountOwner", SystemDataAccountOwner);
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
@@ -340,6 +342,9 @@ public class JTicketsBagTicket extends JTicketsBag {
 					continue;
 				} else if("System.Thanks".compareTo(((Object [])res.get(i))[1].toString())==0) {
 					SystemDataThanks = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					continue;
+				} else if("System.Info".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					SystemDataInfo = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
 					continue;
 				} else if("System.AccountBank".compareTo(((Object [])res.get(i))[1].toString())==0) {
 					SystemDataAccountBank = ((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));

@@ -58,6 +58,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	private int systemDataCity = -1;
 	private int systemDataTAXID = -1;
 	private int systemDataThanks = -1;
+	private int systemDataInfo = -1;
 	private int systemDataAccountBank = -1;
 	private int systemDataAccountOwner = -1;
 	private int systemDataAccountBIC = -1;
@@ -75,6 +76,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 		txtSystemDataTAXID.getDocument().addDocumentListener(dirty);
 		txtSystemDataCity.getDocument().addDocumentListener(dirty);
 		txtSystemDataThanks.getDocument().addDocumentListener(dirty);
+		txtSystemDataInfo.getDocument().addDocumentListener(dirty);
 		txtSystemDataAccountBank.getDocument().addDocumentListener(dirty);
 		txtSystemDataAccountOwner.getDocument().addDocumentListener(dirty);
 		txtSystemDataAccountBIC.getDocument().addDocumentListener(dirty);
@@ -122,6 +124,10 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 				} else if("System.Thanks".compareTo(((Object [])res.get(i))[1].toString())==0) {
 					txtSystemDataThanks.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
 					this.systemDataThanks = Integer.parseInt(((Object [])res.get(i))[0].toString());
+					continue;
+				} else if("System.Info".compareTo(((Object [])res.get(i))[1].toString())==0) {
+					txtSystemDataInfo.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
+					this.systemDataInfo = Integer.parseInt(((Object [])res.get(i))[0].toString());
 					continue;
 				} else if("System.AccountBank".compareTo(((Object [])res.get(i))[1].toString())==0) {
 					txtSystemDataAccountBank.setText((Formats.BYTEA.formatValue(((Object [])res.get(i))[3])));
@@ -172,6 +178,9 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
     	   }
     	   if(systemDataThanks > -1) {
     		   upd.exec(new Object[]{systemDataThanks + "", "System.Thanks", 0, Formats.BYTEA.parseValue(this.txtSystemDataThanks.getText())}); 
+    	   }
+    	   if(systemDataInfo > -1) {
+    		   upd.exec(new Object[]{systemDataInfo + "", "System.Info", 0, Formats.BYTEA.parseValue(this.txtSystemDataInfo.getText())}); 
     	   }
     	   if(systemDataAccountBank > -1) {
     		   upd.exec(new Object[]{systemDataAccountBank + "", "System.AccountBank", 0, Formats.BYTEA.parseValue(this.txtSystemDataAccountBank.getText())}); 
@@ -224,6 +233,8 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 		txtSystemDataAccountBIC = new javax.swing.JTextField();
 		jLabel10 = new javax.swing.JLabel();
 		txtSystemDataAccountIBAN = new javax.swing.JTextField();
+		jLabel11 = new javax.swing.JLabel();
+		txtSystemDataInfo = new javax.swing.JTextField();
 
 		jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder()); //TitledBorder(AppLocal.getIntString("Label.Database"))); // NOI18N
 
@@ -249,6 +260,8 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 		jLabel9.setText(AppLocal.getIntString("System.AccountBIC"));
 		
 		jLabel10.setText(AppLocal.getIntString("System.AccountIBAN"));
+		
+		jLabel11.setText(AppLocal.getIntString("System.Info"));
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
 		jPanel1.setLayout(jPanel1Layout);
@@ -266,6 +279,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 								.addComponent(jLabel8)
 								.addComponent(jLabel9)
 								.addComponent(jLabel10)
+								.addComponent(jLabel11)
 						) 
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,6 +299,8 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 								.addComponent(txtSystemDataCity, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSystemDataThanks, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtSystemDataInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtSystemDataAccountBank, javax.swing.GroupLayout.PREFERRED_SIZE, 328,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,6 +344,11 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 								.addComponent(jLabel6).addComponent(txtSystemDataThanks,
+										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+								.addComponent(jLabel11).addComponent(txtSystemDataInfo,
 										javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -388,6 +409,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	private javax.swing.JLabel jLabel8;
 	private javax.swing.JLabel jLabel9;
 	private javax.swing.JLabel jLabel10;
+	private javax.swing.JLabel jLabel11;
 	// private javax.swing.JLabel jLabel7;
 	
 	private javax.swing.JPanel jPanel1;
@@ -398,6 +420,7 @@ public class JPanelSystemData extends javax.swing.JPanel implements PanelConfig 
 	private javax.swing.JTextField txtSystemDataStreet;
 	private javax.swing.JTextField txtSystemDataCity;
 	private javax.swing.JTextField txtSystemDataThanks;
+	private javax.swing.JTextField txtSystemDataInfo;
 	private javax.swing.JTextField txtSystemDataAccountBank;
 	private javax.swing.JTextField txtSystemDataAccountOwner;
 	private javax.swing.JTextField txtSystemDataAccountBIC;
