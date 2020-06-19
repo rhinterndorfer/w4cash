@@ -413,28 +413,28 @@ public class TicketInfo implements SerializableRead, Externalizable {
     	double tax10 = 0.0;
     	double tax13 = 0.0;
     	double tax0 = 0.0;
-    	double tax19 = 0.0;
+    	double taxB = 0.0;
     	for(TicketTaxInfo tax : getTaxes())
     	{
     		if(tax.getTaxInfo().getRate() == 0.2)
     		{
     			tax20 = tax.getTotal();
     		}
-    		if(tax.getTaxInfo().getRate() == 0.1)
+    		else if(tax.getTaxInfo().getRate() == 0.1)
     		{
     			tax10 = tax.getTotal();
     		}
-    		if(tax.getTaxInfo().getRate() == 0.13)
+    		else if(tax.getTaxInfo().getRate() == 0.13)
     		{
     			tax13 = tax.getTotal();
     		}
-    		if(tax.getTaxInfo().getRate() == 0.0)
+    		else if(tax.getTaxInfo().getRate() == 0.0)
     		{
     			tax0 = tax.getTotal();
     		}
-    		if(tax.getTaxInfo().getRate() == 0.19)
+    		else
     		{
-    			tax19 = tax.getTotal();
+    			taxB = tax.getTotal();
     		}
     	}
     	NumberFormat nf = NumberFormat.getNumberInstance(Locale.GERMAN);
@@ -454,8 +454,8 @@ public class TicketInfo implements SerializableRead, Externalizable {
     	// 0%
     	sb.append(df.format(tax0));
     	sb.append("_");
-    	// 19%
-    	sb.append(df.format(tax19));
+    	// Satz Besonders (ex: 5%, 19%)
+    	sb.append(df.format(taxB));
     	sb.append("_");
     	// cash counter enc
     	sb.append(getCashSumCounterEnc());

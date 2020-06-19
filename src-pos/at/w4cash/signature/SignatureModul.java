@@ -242,7 +242,7 @@ public class SignatureModul {
 	
 	public Boolean GetIsDevelopment()
 	{
-		return  "wSg9954936361".equals(GetPOSID()) 
+		return  "q3E9954936361".equals(GetPOSID()) 
 				||  "1636394599".equals(GetSignatureSerialNumber());
 	}
 	
@@ -1299,7 +1299,7 @@ public class SignatureModul {
 					+ "  || '_'   "
 					+ "  || REPLACE(LTRIM(TO_CHAR(NVL(ROUND(TL00.BASE + TL00.AMOUNT,2),0),'999999999990D00')),'.',',') "
 					+ "  || '_'   "
-					+ "  || REPLACE(LTRIM(TO_CHAR(NVL(ROUND(TL19.BASE + TL19.AMOUNT,2),0),'999999999990D00')),'.',',') "
+					+ "  || REPLACE(LTRIM(TO_CHAR(NVL(ROUND(TLB.BASE + TLB.AMOUNT,2),0),'999999999990D00')),'.',',') "
 					+ "  || '_'  "
 					+ "  || UTL_RAW.CAST_TO_VARCHAR2(t.CASHSUMCOUNTERENC) "
 					+ "  || '_'  "
@@ -1333,8 +1333,8 @@ public class SignatureModul {
 	                + "    (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL00 INNER JOIN TAXES TA00 ON TL00.TAXID=TA00.ID " 
 	                + "    on TL00.RECEIPT=T.ID AND TA00.RATE=0 "
 	                + "left join "
-	                + "    (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TL19 INNER JOIN TAXES TA19 ON TL19.TAXID=TA19.ID " 
-	                + "    on TL19.RECEIPT=T.ID AND TA19.RATE=0.19 "
+	                + "    (select * from TAXLINES UNION ALL select * from BRANCH_TAXLINES) TLB INNER JOIN TAXES TAB ON TLB.TAXID=TAB.ID " 
+	                + "    on TLB.RECEIPT=T.ID AND TAB.RATE!=0.2 AND TAB.RATE!=0.1 AND TAB.RATE!=0.13 AND TAB.RATE!=0 "
 					+ "WHERE CashTicketID is not null "
 					+ "    and (? is null or t.POSID = ?) "
 					+ "	   and r.DATENEW >= to_date(?,'dd.mm.yyyy') "
