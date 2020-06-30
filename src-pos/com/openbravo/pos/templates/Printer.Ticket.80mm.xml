@@ -143,9 +143,14 @@
             #if (${ticketline.getTaxInfo()} == "13%")
                <text align ="right" length="2">C</text>
             #end
-
             #if (${ticketline.getTaxInfo()} == "20%")
                <text align ="right" length="2">D</text>
+            #end
+            #if (${ticketline.getTaxInfo()} == "5%")
+               <text align ="right" length="2">E</text>
+            #end
+            #if (${ticketline.getTaxInfo()} == "19%")
+               <text align ="right" length="2">F</text>
             #end
         </line> 
         #end
@@ -167,9 +172,15 @@
             #if (${taxline.getTaxInfo()} == "20%")
                <text align ="left" length="2">D</text>
             #end
-	<text align ="left" length="8">${taxline.getTaxInfo()}</text>  
-	<text align ="right" length="24">${taxline.printSubTotal()}</text> 
-	<text align ="right" length="10">${taxline.printTax()}</text> 
+            #if (${taxline.getTaxInfo()} == "5%")
+               <text align ="left" length="2">E</text>
+            #end
+            #if (${taxline.getTaxInfo()} == "19%")
+               <text align ="left" length="2">F</text>
+            #end
+			<text align ="left" length="8">${taxline.getTaxInfo()}</text>  
+			<text align ="right" length="24">${taxline.printSubTotal()}</text> 
+			<text align ="right" length="10">${taxline.printTax()}</text> 
 	</line>  
 	#end
 	#end 
@@ -332,13 +343,15 @@
             <text align="right" length="34">${ticket.printUser()}</text>
         </line> 
          #end
-	#if ($SystemDataThanks != "")
+		#if ($SystemDataThanks != "")
         <line>
             <text align="center" length="44" bold="true">${SystemDataThanks}</text>
         </line>
         #end           
+        #if ($SystemDataInfo != "")
         <line>
             <text align="center" length="44">${SystemDataInfo}</text>
         </line>
+        #end
     </ticket>
 </output>

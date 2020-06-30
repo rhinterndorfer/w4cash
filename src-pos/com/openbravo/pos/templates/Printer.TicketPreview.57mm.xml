@@ -147,6 +147,14 @@
             #if (${ticketline.getTaxInfo()} == "20%")
                <text align ="right" length="2">D</text>
             #end
+            
+            #if (${ticketline.getTaxInfo()} == "5%")
+               <text align ="right" length="2">E</text>
+            #end
+            
+            #if (${ticketline.getTaxInfo()} == "19%")
+               <text align ="right" length="2">F</text>
+            #end
         </line> 
         #end
         <line>
@@ -166,6 +174,12 @@
             #end
             #if (${taxline.getTaxInfo()} == "20%")
                <text align ="left" length="2">D</text>
+            #end
+            #if (${taxline.getTaxInfo()} == "5%")
+               <text align ="left" length="2">E</text>
+            #end
+            #if (${taxline.getTaxInfo()} == "19%")
+               <text align ="left" length="2">F</text>
             #end
             <text align ="left" length="8">${taxline.getTaxInfo()}</text>  
             <text align ="right" length="10">${taxline.printSubTotal()}</text> 
@@ -344,8 +358,10 @@
             <text align="center" length="30" bold="true">${SystemDataThanks}</text>
         </line>
         #end 
+        #if ($SystemDataInfo != "")
 		<line>
 			<text align="center" length="30" bold="true">${SystemDataInfo}</text>
         </line> 
+        #end 
     </ticket>
 </output>
