@@ -28,6 +28,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.StringReader;
 import javax.swing.ImageIcon;
@@ -227,11 +228,12 @@ public class JRestaurantButtons extends javax.swing.JPanel {
 	                        title);
 	                
 	               
-	                 // The template resource or the code resource
+	                // The template resource or the code resource
 	                final String template = attributes.getValue("template");
 	                if (template == null) {
 	                    
-	                	final String code = attributes.getValue("code");
+	                	final String codeScript = attributes.getValue("code");
+	                	final String code = dlSystem.getResourceAsXML(codeScript);
 	                    btn.addActionListener(new ActionListener() {
 	                        public void actionPerformed(ActionEvent evt) {
 	                        	try {
