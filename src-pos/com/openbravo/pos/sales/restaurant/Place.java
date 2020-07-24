@@ -46,7 +46,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 	private Color placeReservedColor = new Color(255, 106, 0, 192);
 	private Icon ICO_OCU = new ColorIcon(22, 22, placeOccupiedColor);
 	private Icon ICO_Reserved = new ColorIcon(22, 22, placeReservedColor);
-	private static final Icon ICO_FRE = new NullIcon(22, 22);
+	private Icon ICO_FRE = new NullIcon(22, 22);
 	
 
 	private String m_sId;
@@ -149,6 +149,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		m_btn.setRequestFocusEnabled(false);
 		m_btn.setHorizontalTextPosition(SwingConstants.CENTER);
 		m_btn.setVerticalTextPosition(SwingConstants.CENTER);
+	    ICO_FRE = new NullIcon(m_iWidth, m_iHeight);
 		m_btn.setIcon(ICO_FRE);
 		ICO_OCU = new ColorIcon(m_iWidth, m_iHeight, placeOccupiedColor);
 		ICO_Reserved = new ColorIcon(m_iWidth, m_iHeight, placeReservedColor);
@@ -156,6 +157,7 @@ public class Place implements SerializableRead, java.io.Serializable {
 		// m_btn.setFont(new Font(m_btn.getFont().getName(),
 		// m_btn.getFont().getStyle(), m_iFontsize));
 		m_btn.setForeground(m_iFontColor);
+
 
 		// fontsize
 		Font font = m_btn.getFont();
@@ -218,6 +220,22 @@ public class Place implements SerializableRead, java.io.Serializable {
 
 	public boolean hasPeople() {
 		return m_bPeople;
+	}
+	
+	public void SetPlaceFreeColor(String color) {
+		if(color != null) {
+			Color freeIcoColor = null;
+			try {
+				String cc[] = color.split(";");
+				freeIcoColor = new Color(Integer.parseInt(cc[0]), Integer.parseInt(cc[1]), Integer.parseInt(cc[2]));
+				if (freeIcoColor != null) {
+					ICO_FRE = new ColorIcon(m_iWidth, m_iHeight, freeIcoColor);
+					SetIcon();
+				}
+			} catch (Exception ex) {
+				// do nothing
+			}
+		}
 	}
 	
 	private void SetIcon()

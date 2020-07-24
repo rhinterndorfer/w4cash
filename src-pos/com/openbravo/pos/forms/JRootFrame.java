@@ -26,6 +26,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.rmi.RemoteException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.openbravo.pos.instance.AppMessage;
 import com.openbravo.pos.instance.InstanceManager;
 import java.io.IOException;
@@ -125,8 +127,15 @@ public class JRootFrame extends JRootGUI implements AppMessage {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
-        m_rootapp.tryToClose();
+    	
+    	
+    	int res = JConfirmDialog.showConfirm(m_rootapp, this,
+				null,
+				AppLocal.getIntString("message.closeApp"));
+        if(res==JOptionPane.YES_OPTION){
+        	m_rootapp.tryToClose();
+        }
+        
         
     }//GEN-LAST:event_formWindowClosing
 

@@ -71,6 +71,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 	private PlacesEditor m_Editor;
 	private JTabbedPane jTabFloors;
 	private JPanel jSingleTabFloor;
+	
+	private String placeFreeColor = null;
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JPlacesBagRestaurantMap(AppView app, PlacesEditor editor) {
@@ -86,6 +88,9 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 		customer = null;
 
 		this.m_Editor = editor;
+		
+		
+		placeFreeColor = PropertyUtil.getProperty(app, "Ticket.Buttons", "place-free-color", null);
 
 		try {
 			SentenceList sent = new StaticSentence(app.getSession(),
@@ -201,6 +206,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 				} while (!currfloor.getID().equals(pl.getFloor()));
 			}
 
+			
+			pl.SetPlaceFreeColor(placeFreeColor);
 			currfloor.getContainer().add(pl.getButton());
 			pl.setButtonBounds(m_App, pl.getWidth(), pl.getHeight());
 			pl.setEditor(editor);
@@ -259,6 +266,8 @@ public class JPlacesBagRestaurantMap extends JPlacesBag {
 
 			for (Place pl : m_aplaces) {
 				if (currfloor.getID().equals(pl.getFloor())) {
+					
+					pl.SetPlaceFreeColor(placeFreeColor);
 					currfloor.getContainer().add(pl.getButton());
 					pl.setButtonBounds(m_App, pl.getWidth(), pl.getHeight());
 					pl.setEditor(this.m_Editor);
