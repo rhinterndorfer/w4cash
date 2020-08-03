@@ -536,7 +536,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			if ("True".equals(line.getProperty("order.ignore", "False")))
 				continue;
 
-			printerId = findPrinterIdByCategory(m_categories, line.getProperty("product.categoryid"));
+			printerId = Integer.parseInt(line.getProperty("order.PrinterId","-1"));
+			if(printerId < 0)
+				printerId = findPrinterIdByCategory(m_categories, line.getProperty("product.categoryid"));
 
 			if (printerId < 0)
 				continue;
@@ -559,7 +561,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountOriginal = 0;
 			for (TicketLineInfo inf : ticketinfo1.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0
-						&& line.getProperty("product.sort", "") == inf.getProperty("product.sort", "")
+						&& (line.getProperty("product.sortIgnore", "False").equals("True") || line.getProperty("product.sort", "") == inf.getProperty("product.sort", ""))
 						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc())
 								.equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())) {
@@ -571,7 +573,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountClone = 0;
 			for (TicketLineInfo inf : clone.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0
-						&& line.getProperty("product.sort", "") == inf.getProperty("product.sort", "")
+						&& (line.getProperty("product.sortIgnore", "False").equals("True") || line.getProperty("product.sort", "") == inf.getProperty("product.sort", ""))
 						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc())
 								.equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())) {
@@ -593,7 +595,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			if ("True".equals(inf.getProperty("order.ignore", "False")))
 				continue;
 
-			printerId = findPrinterIdByCategory(m_categories, inf.getProperty("product.categoryid"));
+			printerId = Integer.parseInt(inf.getProperty("order.PrinterId","-1"));
+			if(printerId < 0)
+				printerId = findPrinterIdByCategory(m_categories, inf.getProperty("product.categoryid"));
+
 			if (printerId < 0)
 				continue;
 
@@ -611,7 +616,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountOriginal = 0;
 			for (TicketLineInfo line : ticketinfo1.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0
-						&& line.getProperty("product.sort", "") == inf.getProperty("product.sort", "")
+						&& (line.getProperty("product.sortIgnore", "False").equals("True") || line.getProperty("product.sort", "") == inf.getProperty("product.sort", ""))
 						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc())
 								.equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())) {
@@ -622,12 +627,12 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			double amountClone = 0;
 			for (TicketLineInfo line : clone.getLines()) {
 				if (line.getProductID().compareTo(inf.getProductID()) == 0
-						&& line.getProperty("product.sort", "") == inf.getProperty("product.sort", "")
+						&& (line.getProperty("product.sortIgnore", "False").equals("True") || line.getProperty("product.sort", "") == inf.getProperty("product.sort", ""))
 						// && line.getPrice() == inf.getPrice() // price is not relevant for order
 						&& (line.getProductAttSetInstDesc() == null ? "" : line.getProductAttSetInstDesc())
 								.equals(inf.getProductAttSetInstDesc() == null ? "" : inf.getProductAttSetInstDesc())) {
-					amountClone += inf.getMultiply();
-					inf.setProperty("order.ignore", "True"); // ignore in further loops
+					amountClone += line.getMultiply();
+					line.setProperty("order.ignore", "True"); // ignore in further loops
 				}
 			}
 
