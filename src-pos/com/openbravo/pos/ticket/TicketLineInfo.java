@@ -35,6 +35,7 @@ import com.openbravo.data.loader.SerializableWrite;
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.forms.AppLocal;
 
+import java.util.Date;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
@@ -355,7 +356,12 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 	
 	public String getLineGroup() {
-		return attributes.getProperty("line.group", "");
+		String lineGroup = attributes.getProperty("line.group", "");
+		if(lineGroup.contains("{seconds}")) {
+			lineGroup = lineGroup.replace("{seconds}",  String.format("%d", new Date().getTime()));
+			setLineGroup(lineGroup);
+		}
+		return lineGroup;
 	}
 
 	public void setLineGroup(String value) {
