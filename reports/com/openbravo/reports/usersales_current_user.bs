@@ -32,15 +32,14 @@ report.setSentence("SELECT PEOPLE.NAME, SUM(TICKETLINES.UNITS * TICKETLINES.PRIC
                 " , TAXES " +
                 " , PAYMENTS " +
                 "WHERE PAYMENTS.RECEIPT = RECEIPTS.ID " + 
-                " AND PAYMENTS.PAYMENT <> 'free' " +
                 " AND PEOPLE.ID = TICKETS.PERSON " +
                 " AND RECEIPTS.ID = TICKETS.ID " +
                 " AND TICKETS.ID = TICKETLINES.TICKET " + 
                 " AND RECEIPTS.MONEY=CLOSEDCASH.MONEY " + 
                 " AND TAXES.ID=TICKETLINES.TAXID " + 
                 " AND ?(QBF_FILTER) " +  
-                "GROUP BY PEOPLE.NAME, CLOSEDCASH.HOSTSEQUENCE, PAYMENTS.PAYMENT " +
-                "ORDER BY PEOPLE.NAME, CLOSEDCASH.HOSTSEQUENCE, PAYMENTS.PAYMENT ");
+                "GROUP BY CLOSEDCASH.HOSTSEQUENCE, PEOPLE.NAME, PAYMENTS.PAYMENT " +
+                "ORDER BY CLOSEDCASH.HOSTSEQUENCE, PEOPLE.NAME, PAYMENTS.PAYMENT ");
 report.addParameter("CLOSEDCASH.HOSTSEQUENCE");
 report.addParameter("CLOSEDCASH.HOSTSEQUENCE");
 report.addParameter("PEOPLE.ID");
