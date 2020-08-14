@@ -44,7 +44,7 @@ import com.openbravo.data.loader.Datas;
 import com.openbravo.data.loader.SerializerWrite;
 import com.openbravo.data.loader.SerializerWriteBasic;
 
-public class JParamsClosedPosInterval extends javax.swing.JPanel implements ReportEditorCreator {
+public class JParamsClosedPosIntervalUser extends javax.swing.JPanel implements ReportEditorCreator {
 
 	private static final long serialVersionUID = -4443246826729773270L;
 
@@ -54,11 +54,11 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 	private Boolean _filterBranch = false;
 
 	/** Creates new form JParamsClosedPos */
-	public JParamsClosedPosInterval() {
+	public JParamsClosedPosIntervalUser() {
 		initComponents();
 	}
 
-	public JParamsClosedPosInterval(Boolean filterBranch) {
+	public JParamsClosedPosIntervalUser(Boolean filterBranch) {
 		_filterBranch = filterBranch;
 		initComponents();
 	}
@@ -94,7 +94,11 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 	}
 
 	public SerializerWrite getSerializerWrite() {
-		return new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.INT, Datas.OBJECT, Datas.INT });
+		return new SerializerWriteBasic(new Datas[] { 
+				Datas.OBJECT, Datas.INT, 
+				Datas.OBJECT, Datas.INT,
+				Datas.OBJECT, Datas.STRING
+				});
 	}
 
 	public Component getComponent() {
@@ -104,6 +108,10 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 	public Object createValue() throws BasicException {
 		Object startClosedPos = 1; // Formats.TIMESTAMP.parseValue(jTxtStartDate.getText());
 		Object endClosedPos = 1; // Formats.TIMESTAMP.parseValue(jTxtEndDate.getText());
+		String userId = "";
+		if(m_App != null && m_App.getAppUserView() != null && m_App.getAppUserView().getUser() != null)
+			userId = m_App.getAppUserView().getUser().getId();
+		
 		return new Object[] {
 				m_startClosedPosModel.getSelectedKey() == null 
 						? QBFCompareEnum.COMP_NONE
@@ -112,7 +120,12 @@ public class JParamsClosedPosInterval extends javax.swing.JPanel implements Repo
 				m_endClosedPosModel.getSelectedKey() == null
 						? QBFCompareEnum.COMP_NONE 
 					    : QBFCompareEnum.COMP_LESSOREQUALS,
-				m_endClosedPosModel.getSelectedKey() };
+				m_endClosedPosModel.getSelectedKey(),
+				userId == null
+						? QBFCompareEnum.COMP_NONE
+						: QBFCompareEnum.COMP_EQUALS,
+				userId
+		};
 	}
 
 	public Object getStartItem() {

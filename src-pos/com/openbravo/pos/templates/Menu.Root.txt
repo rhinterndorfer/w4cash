@@ -22,6 +22,7 @@
     group.addPanel("/com/openbravo/images/contents.png", "Menu.TicketEdit", "com.openbravo.pos.sales.JPanelTicketEdits");
     group.addPanel("/com/openbravo/images/cash22.png", "Menu.Payments", "com.openbravo.pos.panels.JPanelPayments");
     group.addPanel("/com/openbravo/images/button_cancel.png", "Menu.CloseTPV", "com.openbravo.pos.panels.JPanelCloseMoney");
+    group.addPanel("/com/openbravo/images/report.png", "Menu.Sales.Reports.UserSellsCurrentUser", "/com/openbravo/reports/usersales_current_user.bs");
     
 
     group = menu.addGroup("Menu.Backoffice");

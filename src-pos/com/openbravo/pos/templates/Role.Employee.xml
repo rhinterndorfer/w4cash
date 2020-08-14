@@ -44,4 +44,5 @@
     <class name="button.tools" />
     <class name="button.note" />
     <class name="button.opendrawer"/>
+    <class name="/com/openbravo/reports/usersales_current_user.bs"/>
 </permissions>

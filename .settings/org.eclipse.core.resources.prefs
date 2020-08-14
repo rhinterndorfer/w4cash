@@ -12,6 +12,7 @@ encoding//reports/com/openbravo/reports/productsales2.jrxml=UTF-8
 encoding//reports/com/openbravo/reports/tax.jrxml=UTF-8
 encoding//reports/com/openbravo/reports/tax2.jrxml=UTF-8
 encoding//reports/com/openbravo/reports/usersales.jrxml=UTF-8
+encoding//reports/com/openbravo/reports/usersales_current_user.jrxml=UTF-8
 encoding//src-pos/at/gv/bmf/finanzonline/fon/ws/session/LoginRequest.java=UTF-8
 encoding//src-pos/at/gv/bmf/finanzonline/fon/ws/session/LoginResponse.java=UTF-8
 encoding//src-pos/at/gv/bmf/finanzonline/fon/ws/session/LogoutRequest.java=UTF-8
