@@ -123,6 +123,13 @@ public class ProductFilter extends javax.swing.JPanel implements ReportEditorCre
 		return this;
 	}
 
+	public String GetSelectedCategoryKey() {
+		if(m_CategoryModel != null && m_CategoryModel.getSelectedKey() != null)
+			return m_CategoryModel.getSelectedKey().toString();
+		else
+			return null;
+	}
+	
 	public Object createValue() throws BasicException {
 
 		if (m_jBarcode.getText() == null || m_jBarcode.getText().equals("")) {

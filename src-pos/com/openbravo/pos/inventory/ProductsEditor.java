@@ -40,6 +40,8 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
+import com.openbravo.data.loader.PreparedSentence;
+import com.openbravo.data.loader.SentenceExec;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.BrowsableEditableData;
@@ -47,6 +49,7 @@ import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.sales.TaxesLogic;
+import com.openbravo.pos.ticket.ProductFilter;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.util.Date;
@@ -90,15 +93,26 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private JTextField m_jstockLength;
 	// private JTextField m_jstockCount;
 	private boolean issaege;
+	private ProductFilter m_productfilter;
+	private PreparedSentence refsent;
 
 	/** Creates new form JEditProduct */
-	public ProductsEditor(AppView app, DataLogicSales dlSales, DirtyManager dirty) {
+	public ProductsEditor(AppView app, DataLogicSales dlSales, DirtyManager dirty, ProductFilter productfilter) {
 		m_App = app;
+		
+		m_productfilter = productfilter;
 
 		initComponents();
 
 		// The taxes sentence
 		taxsent = dlSales.getTaxList();
+		
+		// next free ref sentence
+		try {
+			refsent = dlSales.getNextFreeProductReferenceSent();
+		} catch (BasicException e1) {
+			refsent = null;
+		}
 
 		// The categories model
 		m_sentcat = dlSales.getCategoriesListSortedByName();
@@ -270,15 +284,37 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		// Los valores
 		m_jTitle.setText(AppLocal.getIntString("label.recordnew"));
 		m_id = UUID.randomUUID().toString();
-		m_jRef.setText(null);
-		m_jCode.setText(null);
+		
+		
+		String categoryId = null;
+		if(m_productfilter != null)
+			categoryId = m_productfilter.GetSelectedCategoryKey();
+		
+		String newreference = null;
+		if(refsent != null) {
+			try {
+				String newrefvalue = (String)refsent.find(categoryId, categoryId);
+				if(newrefvalue == null && categoryId != null)
+					newrefvalue = (String)refsent.find(null, null);
+				
+				newreference = newrefvalue;
+			} catch (BasicException e) {
+				// do nothing
+			}
+		}
+		
+		m_jRef.setText(newreference);
+		m_jCode.setText(newreference);
+		
 		m_jName.setText(null);
 		m_jComment.setSelected(false);
 		m_jScale.setSelected(false);
-		m_CategoryModel.setSelectedKey(null);
+		
+		m_CategoryModel.setSelectedKey(categoryId);
+		
 		taxcatmodel.setSelectedKey(null);
 		attmodel.setSelectedKey(null);
-		m_jPriceBuy.setText(null);
+		m_jPriceBuy.setText("0");
 		setPriceSell(null);
 		m_jImage.setImage(null);
 		m_jImage.setSelecteBGColor(null);

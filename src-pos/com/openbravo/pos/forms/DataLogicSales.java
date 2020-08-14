@@ -1096,6 +1096,34 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				new Datas[] { Datas.STRING, Datas.STRING, Datas.STRING },
 				new Formats[] { Formats.STRING, Formats.STRING, Formats.STRING }, new int[] { 0 });
 	}
+	
+	public final PreparedSentence getNextFreeProductReferenceSent() throws BasicException {
+
+		return new PreparedSentence(s,
+				" select " + 
+				"    to_char(max(n.ref+1)) new_ref " + 
+				" from " + 
+				" ( " + 
+				"    select 0 ref " + 
+				"    from dual " + 
+				"    union " + 
+				"    select to_number(reference,'999999999999') ref " + 
+				"    from products " + 
+				"    where (category = ? or ? is null) " + 
+				"        and regexp_like(reference, '^\\d+?$') " + 
+				" ) n " + 
+				" left join " + 
+				"    ( " + 
+				"        select to_number(reference,'999999999999') ref " + 
+				"        from products " + 
+				"        where regexp_like(reference, '^\\d+?$') " + 
+				"    ) x " + 
+				"    on n.ref+1 = x.ref " + 
+				" where x.ref is null ",
+				new SerializerWriteBasic(Datas.STRING, Datas.STRING), SerializerReadString.INSTANCE);
+	}
+	
+	
 
 	protected static class CustomerExtRead implements SerializerRead {
 		public Object readValues(DataRead dr) throws BasicException {
