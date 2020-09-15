@@ -622,6 +622,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("SystemDataCity", SystemDataCity);
 				script.put("SystemDataTaxid", SystemDataTaxid);
 				script.put("SystemDataThanks", SystemDataThanks);
+				script.put("SystemDataInfo", SystemDataInfo);
 				script.put("SystemDataAccountBank", SystemDataAccountBank);
 				script.put("SystemDataAccountOwner", SystemDataAccountOwner);
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
