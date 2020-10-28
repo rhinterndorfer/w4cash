@@ -76,6 +76,10 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private int productFontSize;
 	private int catFontSize;
 	private String categoriesFilter;
+	
+	private int doubleClickTimeoutMillis=0;
+	private String lastProductId = null;
+	private Long lastProductTimeMillis = (long) 0;
 
 	/** Creates new form JCatalog */
 	public JCatalog(AppView app, DataLogicSales dlSales) {
@@ -102,6 +106,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/empty.png");
 		tnbbutton = new ThumbNailBuilder(widthProduct, heightProduct, "com/openbravo/images/empty.png");
+		
+		doubleClickTimeoutMillis = Integer.parseInt(m_App.getProperties().getProperty("product.doubleClickTimeoutMillis"));
 		
 	}
 
@@ -289,7 +295,18 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		m_jCategories.setPreferredSize(new java.awt.Dimension(catWidth, ps.height));
 	}
 
+	
 	protected void fireSelectedProduct(ProductInfoExt prod) {
+
+		Long currentTimeMillis = System.currentTimeMillis(); 
+		if(doubleClickTimeoutMillis > 0
+				&& lastProductId == prod.getID()
+				&& currentTimeMillis < lastProductTimeMillis + doubleClickTimeoutMillis 
+				) {
+			lastProductTimeMillis = System.currentTimeMillis();
+			return;
+		}
+		
 		EventListener[] l = listeners.getListeners(ActionListener.class);
 		ActionEvent e = null;
 		for (int i = 0; i < l.length; i++) {
@@ -298,6 +315,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			}
 			((ActionListener) l[i]).actionPerformed(e);
 		}
+		lastProductTimeMillis = System.currentTimeMillis();
+		lastProductId = prod.getID();
 	}
 
 	private void selectCategoryPanel(CategoryInfo catid) {

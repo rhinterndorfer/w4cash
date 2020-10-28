@@ -127,8 +127,8 @@ public class JRestaurantButtons extends javax.swing.JPanel {
         	if(JButton.class.isAssignableFrom(c.getClass()))
         	{
         		PropertyUtil.ScaleButtonIcon(JButton.class.cast(c), 
-        				Integer.parseInt(getProperty("button-touchlarge-width", "60")), 
-        				Integer.parseInt(getProperty("button-touchlarge-height", "60")), fontsize);
+        				Integer.parseInt(getProperty("button-touchsmall-width", "60")), 
+        				Integer.parseInt(getProperty("button-touchsmall-height", "60")), fontsize);
         	}
         }
     }

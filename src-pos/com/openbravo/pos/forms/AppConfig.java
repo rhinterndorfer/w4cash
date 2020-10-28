@@ -70,6 +70,9 @@ public class AppConfig implements AppProperties {
 		if (value == null && "db.timeout".equals(sKey)) {
 			return "90";
 		}
+		if (value == null && "product.doubleClickTimeoutMillis".equals(sKey)) {
+			return "0";
+		}
 		
 		return value;
 	}
