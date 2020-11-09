@@ -108,7 +108,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				new Field("STOCKCOST", Datas.DOUBLE, Formats.CURRENCY),
 				new Field("STOCKVOLUME", Datas.DOUBLE, Formats.DOUBLE),
 				new Field("ISCATALOG", Datas.BOOLEAN, Formats.BOOLEAN), 
-				new Field("CATORDER", Datas.INT, Formats.INT),
+				new Field("CATORDER", Datas.DOUBLE, Formats.INT),
 				new Field("PROPERTIES", Datas.BYTES, Formats.NULL),
 				new Field("UNIT", Datas.STRING, Formats.STRING),
 				new Field("ATTR1", Datas.STRING, Formats.STRING),

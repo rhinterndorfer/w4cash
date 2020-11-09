@@ -118,8 +118,13 @@ public class JRestaurantButtons extends javax.swing.JPanel {
         }     
         
         
-        int fontsize = Integer
-				.parseInt(getProperty("button-small-fontsize", "16"));
+        int smallWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width", "60"));
+		int smallHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
         for(int i=0;i < this.getComponents().length; i++)
         {
         	Component c = this.getComponents()[i];
@@ -127,8 +132,9 @@ public class JRestaurantButtons extends javax.swing.JPanel {
         	if(JButton.class.isAssignableFrom(c.getClass()))
         	{
         		PropertyUtil.ScaleButtonIcon(JButton.class.cast(c), 
-        				Integer.parseInt(getProperty("button-touchsmall-width", "60")), 
-        				Integer.parseInt(getProperty("button-touchsmall-height", "60")), fontsize);
+        				smallWidth, 
+        				smallHeight, 
+        				fontsize);
         	}
         }
     }

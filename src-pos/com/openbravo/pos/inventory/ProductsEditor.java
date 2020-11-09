@@ -519,9 +519,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		myprod[15] = Boolean.valueOf(m_jInCatalog.isSelected());
 
 		if (m_jCatalogOrder.getText() == null || "".equals(m_jCatalogOrder.getText().trim())) {
-			myprod[16] = Formats.INT.parseValue(m_jRef.getText() == null ? "" : m_jRef.getText().replaceAll("[^0-9]", "")); 
+			myprod[16] = Formats.DOUBLE.parseValue(m_jRef.getText() == null ? "" : m_jRef.getText().replaceAll("[^0-9]", "")); 
 		} else
-			myprod[16] = Formats.INT.parseValue(m_jCatalogOrder.getText());
+			myprod[16] = Formats.DOUBLE.parseValue(m_jCatalogOrder.getText());
 
 		myprod[17] = Formats.BYTEA.parseValue(txtAttributes.getText());
 

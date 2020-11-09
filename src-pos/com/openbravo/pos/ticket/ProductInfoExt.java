@@ -50,7 +50,7 @@ public class ProductInfoExt {
     protected double m_dPriceSell;
     protected BufferedImage m_Image;
     protected Color bgColor;
-    protected int m_sort;
+    protected long m_sort;
     
     public Color getBgColor() {
 		return bgColor;
@@ -246,7 +246,7 @@ public class ProductInfoExt {
         m_Image = img;
     }
     
-    public int getSort()
+    public long getSort()
     {
     	return m_sort;
     }
@@ -285,7 +285,7 @@ public class ProductInfoExt {
             product.m_Height = dr.getString(16);
             product.m_Width = dr.getString(17);
             product.m_Length = dr.getString(18);
-            product.m_sort = dr.getInt(19);
+            product.m_sort = dr.getDouble(19) != null ? dr.getDouble(19).longValue() : null;
             return product;
         }};
     }

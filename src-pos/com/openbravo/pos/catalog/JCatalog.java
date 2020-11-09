@@ -76,8 +76,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private int productFontSize;
 	private int catFontSize;
 	private String categoriesFilter;
-	
-	private int doubleClickTimeoutMillis=0;
+
+	private int doubleClickTimeoutMillis = 0;
 	private String lastProductId = null;
 	private Long lastProductTimeMillis = (long) 0;
 
@@ -106,9 +106,10 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		tnbcat = new ThumbNailBuilder(widthCat, heightCat, "com/openbravo/images/empty.png");
 		tnbbutton = new ThumbNailBuilder(widthProduct, heightProduct, "com/openbravo/images/empty.png");
-		
-		doubleClickTimeoutMillis = Integer.parseInt(m_App.getProperties().getProperty("product.doubleClickTimeoutMillis"));
-		
+
+		doubleClickTimeoutMillis = Integer
+				.parseInt(m_App.getProperties().getProperty("product.doubleClickTimeoutMillis"));
+
 	}
 
 	public Component getComponent() {
@@ -196,8 +197,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				m_jCategoryList.add(jcategoryTab, "CATEGORY");
 			}
 			jcategoryTab.addButton(
-					new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)), category.getBgColor(),
-					new SelectedCategoryMain(category));
+					new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)),
+					category.getBgColor(), new SelectedCategoryMain(category));
 
 			selectCategoryPanel(category);
 
@@ -240,8 +241,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 					// Add products
 					for (ProductInfoExt prod2 : products) {
 						jcurrTab.addButton(new ImageIcon(
-								tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2), productFontSize)), prod2.getBgColor(),
-								new SelectedAction(prod2));
+								tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2), productFontSize)),
+								prod2.getBgColor(), new SelectedAction(prod2));
 					}
 				}
 			} catch (BasicException eb) {
@@ -295,18 +296,15 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		m_jCategories.setPreferredSize(new java.awt.Dimension(catWidth, ps.height));
 	}
 
-	
 	protected void fireSelectedProduct(ProductInfoExt prod) {
 
-		Long currentTimeMillis = System.currentTimeMillis(); 
-		if(doubleClickTimeoutMillis > 0
-				&& lastProductId == prod.getID()
-				&& currentTimeMillis < lastProductTimeMillis + doubleClickTimeoutMillis 
-				) {
+		Long currentTimeMillis = System.currentTimeMillis();
+		if (doubleClickTimeoutMillis > 0 && lastProductId == prod.getID()
+				&& currentTimeMillis < lastProductTimeMillis + doubleClickTimeoutMillis) {
 			lastProductTimeMillis = System.currentTimeMillis();
 			return;
 		}
-		
+
 		EventListener[] l = listeners.getListeners(ActionListener.class);
 		ActionEvent e = null;
 		for (int i = 0; i < l.length; i++) {
@@ -335,10 +333,10 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID(), categoriesFilter);
 				for (CategoryInfo cat : categories) {
 					jcurrTab.addButton(
-							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),  cat.getBgColor(),
-							new SelectedCategory(cat));
+							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),
+							cat.getBgColor(), new SelectedCategory(cat));
 					selectCategoryPanel(cat);
-					
+
 					// product components not used at the moment
 					// fillCategoryProductComments(cat);
 				}
@@ -347,8 +345,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				java.util.List<ProductInfoExt> products = m_dlSales.getProductCatalog(catid.getID());
 				for (ProductInfoExt prod : products) {
 					jcurrTab.addButton(new ImageIcon(
-							tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod), productFontSize)), prod.getBgColor(),
-							new SelectedAction(prod));
+							tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod), productFontSize)),
+							prod.getBgColor(), new SelectedAction(prod));
 				}
 			}
 			// HB select actual categorie
@@ -405,8 +403,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		if (this.previousCategory != null) {
 			selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(this.previousCategory.getImage())),
 					this.previousCategory.getName());
-					// Show subcategories panel
-					// selectIndicatorCategories();
+			// Show subcategories panel
+			// selectIndicatorCategories();
 
 			// Show selected root category
 			CategoryInfo cat = (CategoryInfo) this.previousCategory;
@@ -436,8 +434,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 	private void showSubcategoryPanel(CategoryInfo category) {
 		// always show root category
-		// selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(category.getImage())), category.getName());
-		
+		// selectIndicatorPanel(new
+		// ImageIcon(tnbbutton.getThumbNail(category.getImage())), category.getName());
+
 		previousCategory = this.selectedCategory;
 		selectCategoryPanel(category);
 		// showingcategory = category;
@@ -451,12 +450,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 			if (m_productsset.containsKey(id)) {
 				// It is an empty panel
 				/*
-				if (showingcategory == null) {
-					showRootCategoriesPanel();
-				} else {
-					showSubcategoryPanel(showingcategory);
-				}
-				*/
+				 * if (showingcategory == null) { showRootCategoriesPanel(); } else {
+				 * showSubcategoryPanel(showingcategory); }
+				 */
 				showRootCategoriesPanel();
 			} else {
 				try {
@@ -467,15 +463,12 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						// no hay productos por tanto lo anado a la de vacios y
 						// muestro el panel principal.
 						m_productsset.put(id, null);
-						
+
 						/*
-						if (showingcategory == null) {
-						 
-							showRootCategoriesPanel();
-						} else {
-							showSubcategoryPanel(showingcategory);
-						}
-						*/
+						 * if (showingcategory == null) {
+						 * 
+						 * showRootCategoriesPanel(); } else { showSubcategoryPanel(showingcategory); }
+						 */
 						showRootCategoriesPanel();
 					} else {
 
@@ -492,7 +485,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 						// Add products
 						for (ProductInfoExt prod : products) {
 							jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(),
-									getProductLabel(prod), productFontSize)), prod.getBgColor(), new SelectedAction(prod));
+									getProductLabel(prod), productFontSize)), prod.getBgColor(),
+									new SelectedAction(prod));
 						}
 
 						selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(product.getImage())),
@@ -504,15 +498,12 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				} catch (BasicException eb) {
 					eb.printStackTrace();
 					m_productsset.put(id, null);
-					
+
 					/*
-					if (showingcategory == null) {
-						showRootCategoriesPanel();
-					} else {
-						showSubcategoryPanel(showingcategory);
-					}
-					*/
-					
+					 * if (showingcategory == null) { showRootCategoriesPanel(); } else {
+					 * showSubcategoryPanel(showingcategory); }
+					 */
+
 					showRootCategoriesPanel();
 				}
 			}
@@ -728,8 +719,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	//
 	// }// GEN-LAST:event_m_jUpActionPerformed
 
-	private void m_jListCategoriesValueChanged(
-			CategoryInfo category/* javax.swing.event.ListSelectionEvent evt */) {// GEN-FIRST:event_m_jListCategoriesValueChanged
+	private void m_jListCategoriesValueChanged(CategoryInfo category/* javax.swing.event.ListSelectionEvent evt */) {// GEN-FIRST:event_m_jListCategoriesValueChanged
 
 		// if (!evt.getValueIsAdjusting()) {
 		CategoryInfo cat = (CategoryInfo) category;
