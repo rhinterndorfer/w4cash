@@ -1306,19 +1306,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									executeEvent(ticket, ticketext, "ticket.close",
 											new ScriptArg("print", paymentdialog.isPrintSelected()));
 
-									String[] bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-									String ticketsuffix = "";
-									if (bonsize.length > 2)
-										ticketsuffix = "." + bonsize[2];
-									// Print receipt.
-
 									int printMultiplier = 1;
 									if (paymentdialog.isPrintSecond()) {
 										printMultiplier = 2;
 									}
 
+									
 									for (int i = 1; i <= printMultiplier; i++) {
-										printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket" + ticketsuffix
+										printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket.{size}"
 												: "Printer.Ticket2", ticket, ticketext);
 									}
 								} catch (Exception eData) {
@@ -1364,6 +1359,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	public void printTicket(String sresourcename, TicketInfo ticket, Object ticketext) {
 
 		String[] printerdata = m_App.getProperties().getProperty("machine.printer").split(",");
+		
+		if(ticket != null && ticket.getCustomer() != null) {
+			String printerCustomer = m_App.getProperties().getProperty("machine.printer.customer" );
+			if(printerCustomer != null) {
+				printerdata = printerCustomer.split(",");
+			}
+		}
+		
+		// try get printer data for payment
+		if(ticket != null && !ticket.getPayments().isEmpty()) {
+			String paymentName = ticket.getPayments().get(0).getName();
+			String printerPayment = m_App.getProperties().getProperty("machine.printer." + paymentName);
+			if(printerPayment != null) {
+				printerdata = printerPayment.split(",");
+			}
+		}
+		
 		if (printerdata.length > 2) {
 			sresourcename = sresourcename.replace("{size}", printerdata[2]);
 
