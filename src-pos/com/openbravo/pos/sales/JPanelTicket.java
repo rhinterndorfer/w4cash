@@ -1359,20 +1359,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	public void printTicket(String sresourcename, TicketInfo ticket, Object ticketext) {
 
 		String[] printerdata = m_App.getProperties().getProperty("machine.printer").split(",");
-		
+		String printerSubName = null;
+
+		// find customer printer
 		if(ticket != null && ticket.getCustomer() != null) {
 			String printerCustomer = m_App.getProperties().getProperty("machine.printer.customer" );
 			if(printerCustomer != null) {
 				printerdata = printerCustomer.split(",");
-			}
-		}
-		
-		// try get printer data for payment
-		if(ticket != null && !ticket.getPayments().isEmpty()) {
-			String paymentName = ticket.getPayments().get(0).getName();
-			String printerPayment = m_App.getProperties().getProperty("machine.printer." + paymentName);
-			if(printerPayment != null) {
-				printerdata = printerPayment.split(",");
+				printerSubName = "customer";
 			}
 		}
 		
@@ -1385,6 +1379,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 
 		String sresource = dlSystem.getResourceAsXML(sresourcename);
+		if(printerSubName != null) {
+			sresource = sresource.replaceAll("<ticket>", "<ticket printer=\"" + printerSubName + "\">");
+		}
+		
 		if (sresource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
 			msg.show(m_App, JPanelTicket.this);

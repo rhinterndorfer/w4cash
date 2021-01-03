@@ -120,7 +120,7 @@ public class DeviceTicket {
         int iPrinterIndex = 1;
         String sPrinterIndex = Integer.toString(iPrinterIndex);
         String sprinter = props.getProperty("machine.printer");
-
+        
         while (sprinter != null && !"".equals(sprinter)) {
 
             StringParser sp = new StringParser(sprinter);
@@ -175,8 +175,14 @@ public class DeviceTicket {
 
             // siguiente impresora...
             iPrinterIndex++;
+            String lastPrinterIndex = sPrinterIndex;
             sPrinterIndex = Integer.toString(iPrinterIndex);
             sprinter = props.getProperty("machine.printer." + sPrinterIndex);
+            
+            if("customer" != lastPrinterIndex && sprinter == null) {
+            	sPrinterIndex = "customer";
+            	sprinter = props.getProperty("machine.printer.customer");
+            }
         }
     }
 
