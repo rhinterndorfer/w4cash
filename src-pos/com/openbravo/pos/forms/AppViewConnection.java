@@ -51,10 +51,11 @@ public class AppViewConnection {
 			if (isJavaWebStart()) {
 				Class.forName(props.getProperty("db.driver"), true, Thread.currentThread().getContextClassLoader());
 			} else {
-				ClassLoader cloader = new URLClassLoader(
-						new URL[] { new File(props.getProperty("db.driverlib")).toURI().toURL() });
-				DriverManager.registerDriver(new DriverWrapper(
-						(Driver) Class.forName(props.getProperty("db.driver"), true, cloader).newInstance()));
+				// ClassLoader cloader = new URLClassLoader(
+				//		new URL[] { new File(props.getProperty("db.driverlib")).toURI().toURL() });
+				// DriverManager.registerDriver(new DriverWrapper(
+				//		(Driver) Class.forName(props.getProperty("db.driver"), true, cloader).newInstance()));
+				DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
 			}
 
 			String sDBUser = props.getProperty("db.user");
@@ -85,12 +86,6 @@ public class AppViewConnection {
 				}
 			}
 
-		} catch (InstantiationException e) {
-			throw new BasicException(AppLocal.getIntString("message.databasedrivererror"), e);
-		} catch (IllegalAccessException eIA) {
-			throw new BasicException(AppLocal.getIntString("message.databasedrivererror"), eIA);
-		} catch (MalformedURLException eMURL) {
-			throw new BasicException(AppLocal.getIntString("message.databasedrivererror"), eMURL);
 		} catch (ClassNotFoundException eCNF) {
 			throw new BasicException(AppLocal.getIntString("message.databasedrivererror"), eCNF);
 		} catch (SQLException eSQL) {

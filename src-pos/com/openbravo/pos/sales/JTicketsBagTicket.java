@@ -265,10 +265,6 @@ public class JTicketsBagTicket extends JTicketsBag {
 				}
 
 				//** get selected printer size
-				
-				
-				
-				
 				script.put("ticket", m_ticket);
 				
 				if(m_ticket.getLinesCount() > 0)
@@ -295,12 +291,22 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
 				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 				
-				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
-				String ticketsuffix = "";
-				if(bonsize.length > 2)
-					ticketsuffix = "."+bonsize[2];
 				
+				String []printerdata = m_App.getProperties().getProperty("machine.printer").split(",");
+
+				// find customer printer
+				if(m_ticket != null && m_ticket.getCustomer() != null) {
+					String printerCustomer = m_App.getProperties().getProperty("machine.printer.customer" );
+					if(printerCustomer != null) {
+						printerdata = printerCustomer.split(",");
+					}
+				}
+				
+				String ticketsuffix = "";
+				if(printerdata.length > 2)
+					ticketsuffix = "."+printerdata[2];
 				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix);
+				
 				Object o = script.eval(asxml);
 				m_TTP.printTicket(o.toString());
 			} catch (ScriptException e) {
@@ -628,11 +634,30 @@ public class JTicketsBagTicket extends JTicketsBag {
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
 				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 				
-				String []bonsize = m_App.getProperties().getProperty("machine.printer").split(",");
+			
+				String []printerdata = m_App.getProperties().getProperty("machine.printer").split(",");
+				String printerSubName = null;
+				
+				// find customer printer
+				if(m_ticket != null && m_ticket.getCustomer() != null) {
+					String printerCustomer = m_App.getProperties().getProperty("machine.printer.customer" );
+					if(printerCustomer != null) {
+						printerdata = printerCustomer.split(",");
+						printerSubName = "customer";
+					}
+				}
+				
 				String ticketsuffix = "";
-				if(bonsize.length > 2)
-					ticketsuffix = "."+bonsize[2];
-				m_TTP2.printTicket(script.eval(m_dlSystem.getResourceAsXML("Printer.TicketPreview"+ ticketsuffix)).toString());
+				if(printerdata.length > 2)
+					ticketsuffix = "."+printerdata[2];
+				
+				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix);
+				if(printerSubName != null) {
+					asxml = asxml.replaceAll("<ticket>", "<ticket printer=\"" + printerSubName + "\">");
+				}
+				
+				m_TTP2.printTicket(script.eval(asxml).toString());
+				
 			} catch (ScriptException e) {
 				JMessageDialog.showMessage(m_App, this,
 						new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotprint"), e));
