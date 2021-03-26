@@ -64,6 +64,7 @@ public class CustomerDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 589258512297472116L;
 	private AppView m_App;
+	private String initSearchName;
 
 	/** Creates new form JCustomerFinder */
 	private CustomerDialog(java.awt.Frame parent, boolean modal) {
@@ -75,7 +76,7 @@ public class CustomerDialog extends javax.swing.JDialog {
 		super(parent, modal);
 	}
 
-	public static CustomerDialog getCustomerDialog(AppView app, Component parent, DataLogicCustomers dlCustomers) {
+	public static CustomerDialog getCustomerDialog(AppView app, Component parent, DataLogicCustomers dlCustomers, CustomerInfo selectCustomer) {
 		Window window = getWindow(parent);
 
 		CustomerDialog dialog;
@@ -84,9 +85,15 @@ public class CustomerDialog extends javax.swing.JDialog {
 		} else {
 			dialog = new CustomerDialog((Dialog) window, true);
 		}
+		if(selectCustomer != null) {
+			dialog.setInitCustomerSearchName(selectCustomer.searchkey);	
+		}
 		dialog.init(app, dlCustomers);
 		dialog.applyComponentOrientation(parent.getComponentOrientation());
 		dialog.setUndecorated(true);
+		
+		
+		
 		return dialog;
 	}
 
@@ -98,6 +105,10 @@ public class CustomerDialog extends javax.swing.JDialog {
 
 	public String getCurrentCustomerSearchName() {
 		return customerPanel.getCurrentCustomerSearchName();
+	}
+	
+	public void setInitCustomerSearchName(String searchName) {
+		initSearchName = searchName;
 	}
 	
 	private static Window getWindow(Component parent) {
@@ -145,6 +156,7 @@ public class CustomerDialog extends javax.swing.JDialog {
 		getRootPane().setDefaultButton(jcmdOK);
 		
 		try {
+			customerPanel.setInitCustomerSearchName(initSearchName);
 			customerPanel.activate();
 			DirtyManager dirty = customerPanel.GetDirtyManager();
 			dirty.addDirtyListener(new DirtyListener() {

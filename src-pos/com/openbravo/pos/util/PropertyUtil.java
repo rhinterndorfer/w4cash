@@ -365,6 +365,12 @@ public class PropertyUtil {
 
 	public static void ScaleDialog(AppView app, JDialog dialog, int width, int height) {
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		
+		if(width > screenSize.width)
+			width = screenSize.width;
+		if(height > screenSize.height)
+			height = screenSize.height;
+		
 		dialog.setBounds((screenSize.width - width) / 2, (screenSize.height - height) / 2, width, height);
 	}
 

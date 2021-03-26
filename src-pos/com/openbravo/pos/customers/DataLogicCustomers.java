@@ -86,14 +86,16 @@ public class DataLogicCustomers extends BeanFactoryDataSingle {
     // CustomerList list
     public SentenceList getCustomerList() {
         return new StaticSentence(s
-            , new QBFBuilder("SELECT ID, TAXID, SEARCHKEY, NAME FROM CUSTOMERS WHERE VISIBLE = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY NAME", new String[] {"TAXID", "SEARCHKEY", "NAME"})
-            , new SerializerWriteBasic(new Datas[] {Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING})
+            , new QBFBuilder("SELECT ID, TAXID, SEARCHKEY, NAME, ADDRESS || case when ADDRESS2 is not null then ', '|| ADDRESS2 else '' end || ', '|| POSTAL || ' ' || CITY ADDRESS FROM CUSTOMERS WHERE VISIBLE = " + s.DB.TRUE() + " AND ?(QBF_FILTER) ORDER BY NAME", 
+            		new String[] {"SEARCHKEY", "NAME"})
+            , new SerializerWriteBasic(new Datas[] {Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING})
             , new SerializerRead() {
                     public Object readValues(DataRead dr) throws BasicException {
                         CustomerInfo c = new CustomerInfo(dr.getString(1));
                         c.setTaxid(dr.getString(2));
                         c.setSearchkey(dr.getString(3));
                         c.setName(dr.getString(4));
+                        c.setAddress(dr.getString(5));
                         return c;
                     }                
                 });

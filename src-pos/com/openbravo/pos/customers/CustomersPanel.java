@@ -27,6 +27,7 @@ import com.openbravo.data.loader.Vectorer;
 import com.openbravo.data.user.BrowsableData;
 import com.openbravo.data.user.BrowseListener;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.Finder;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.data.user.SaveProvider;
@@ -48,6 +49,7 @@ public class CustomersPanel extends JPanelTable {
 	private TableDefinition tcustomers;
 	private CustomersView jeditor;
 	private String currentCustomerSearchName;
+	private String initCustomerSearchName;
 
 	/** Creates a new instance of CustomersPanel */
 	public CustomersPanel() {
@@ -80,6 +82,10 @@ public class CustomersPanel extends JPanelTable {
 		return currentCustomerSearchName;
 	}
 	
+	public void setInitCustomerSearchName(String searchName) {
+		initCustomerSearchName = searchName;
+	}
+	
 	public ListProvider getListProvider() {
 		return new ListProviderCreator(tcustomers);
 	}
@@ -90,19 +96,40 @@ public class CustomersPanel extends JPanelTable {
 	}
 
 	@Override
+	public Finder getInitialFinder() {
+		return new Finder() {
+			
+			@Override
+			public boolean match(Object obj) throws BasicException {
+				Object[] customer = (Object[])obj;
+				String customerSearchName = customer[2].toString();
+				
+				if(customerSearchName != null && customerSearchName.equals(initCustomerSearchName))
+				{
+					return true;
+				}
+				else {
+					return false;	
+				}
+				
+			}
+		};
+	}
+	
+	@Override
 	public Vectorer getVectorer() {
-		return tcustomers.getVectorerBasic(new int[] { 1, 2, 3, 4 });
+		return tcustomers.getVectorerBasic(new int[] { 2, 3, 1 });
 	}
 
 	@Override
 	public ComparatorCreator getComparatorCreator() {
-		return tcustomers.getComparatorCreator(new int[] { 1, 2, 3, 4 });
+		return tcustomers.getComparatorCreator(new int[] { 2, 3, 1 });
 	}
 
 	@Override
 	public ListCellRenderer getListCellRenderer() {
 		int fontsize = Integer.parseInt(PropertyUtil.getProperty(app, "Ticket.Buttons", "button-small-fontsize", "16"));
-		return new ListCellRendererBasic(tcustomers.getRenderStringBasic(new int[] { 3 }), fontsize);
+		return new ListCellRendererBasic(tcustomers.getRenderStringBasic(new int[] { 2 }), fontsize);
 	}
 
 	public EditorRecord getEditor() {

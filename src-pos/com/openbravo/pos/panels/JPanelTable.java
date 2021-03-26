@@ -42,6 +42,7 @@ import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.BrowseListener;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.data.user.EditorRecord;
+import com.openbravo.data.user.Finder;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.SaveProvider;
 import com.openbravo.pos.forms.BeanFactoryApp;
@@ -163,6 +164,10 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 		}
 	}
 
+	public Finder getInitialFinder() {
+		return null;
+	}
+	
 	public Component getToolbarExtras() {
 		return null;
 	}
@@ -210,9 +215,19 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
 				e.printStackTrace();
 			}
 		}
-
-		bd.moveLast();
 		
+		Finder initFinder = getInitialFinder();
+		if(initFinder != null) {
+			int index = bd.findNext(initFinder);
+			if (index >= 0) {
+				bd.moveTo(index);
+			} else {
+				bd.moveLast();	
+			}
+		}
+		else {
+			bd.moveLast();
+		}
 		
 	}
 

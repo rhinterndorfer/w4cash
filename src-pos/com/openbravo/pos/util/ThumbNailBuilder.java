@@ -69,7 +69,7 @@ public class ThumbNailBuilder {
 		}
 	}
 
-	public Image getThumbNailText(Image img, String text, int fontsize) {
+	public Image getThumbNailText(Image img, String text, int fontsize, int transparency) {
 
 		img = getThumbNail(img);
 
@@ -104,8 +104,8 @@ public class ThumbNailBuilder {
 		label.setSize(d);
 
 		// The background
-		Color c1 = new Color(0xff, 0xff, 0xff, 0x80);
-		Color c2 = new Color(0xff, 0xff, 0xff, 0xf0);
+		Color c1 = new Color(0xff, 0xff, 0xff, transparency);
+		Color c2 = new Color(0xff, 0xff, 0xff, transparency+64 > 256 ? 256 : transparency+64);
 
 		Paint gpaint = new GradientPaint(new Point(0, 0), c1, new Point(label.getWidth() / 2, 0), c2, true);
 

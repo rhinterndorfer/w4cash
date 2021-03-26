@@ -21,7 +21,9 @@ package com.openbravo.pos.ticket;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
+import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.util.ThumbNailBuilder;
 import com.openbravo.format.Formats;
 
@@ -33,9 +35,11 @@ import com.openbravo.format.Formats;
 public class ProductRenderer extends DefaultListCellRenderer {
                 
     ThumbNailBuilder tnbprod;
+    TaxesLogic taxLogic;
 
     /** Creates a new instance of ProductRenderer */
-    public ProductRenderer() {   
+    public ProductRenderer(TaxesLogic taxLogic) {   
+    	this.taxLogic = taxLogic;
         tnbprod = new ThumbNailBuilder(64, 32, "com/openbravo/images/package.png");
     }
 
@@ -45,7 +49,8 @@ public class ProductRenderer extends DefaultListCellRenderer {
         
         ProductInfoExt prod = (ProductInfoExt) value;
         if (prod != null) {
-            setText("<html>" + prod.getReference() + " - " + prod.getName() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" + Formats.CURRENCY.formatValue(new Double(prod.getPriceSell())));
+        	TaxInfo tax = taxLogic.getTaxInfo(prod.getTaxCategoryID(), new Date());
+            setText("<html>" + prod.getName() + "<BR/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + prod.getCode() + " | " + prod.printPriceSellTax(tax));
             Image img = tnbprod.getThumbNail(prod.getImage());
             setIcon(img == null ? null :new ImageIcon(img));
         }

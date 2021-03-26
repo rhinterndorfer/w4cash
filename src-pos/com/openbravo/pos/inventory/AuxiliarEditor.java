@@ -28,6 +28,7 @@ import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.ticket.ProductInfoExt;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.Component;
@@ -321,8 +322,11 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
 
 	private void m_jSearchActionPerformed(AppView app, java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jSearchActionPerformed
 
-		assignProduct(JProductFinder.showMessage(app, this, m_dlSales, JProductFinder.PRODUCT_AUXILIAR));
-
+		try {
+			assignProduct(JProductFinder.showMessage(app, this, m_dlSales, JProductFinder.PRODUCT_AUXILIAR));
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
 	}// GEN-LAST:event_m_jSearchActionPerformed
 
 	private void m_jReferenceActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jReferenceActionPerformed

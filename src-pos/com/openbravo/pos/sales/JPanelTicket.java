@@ -2183,10 +2183,17 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 	private void m_jListActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jListActionPerformed
 
-		ProductInfoExt prod = JProductFinder.showMessage(m_App, JPanelTicket.this, dlSales);
-		if (prod != null) {
-			buttonTransition(prod);
+		ProductInfoExt prod;
+		try {
+			prod = JProductFinder.showMessage(m_App, JPanelTicket.this, dlSales);
+			if (prod != null) {
+				buttonTransition(prod);
+			}
+		} catch (BasicException e) {
+			Log.Exception(e);
 		}
+		
+		
 
 	}// GEN-LAST:event_m_jListActionPerformed
 

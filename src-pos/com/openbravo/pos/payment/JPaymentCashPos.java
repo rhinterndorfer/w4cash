@@ -149,7 +149,7 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 		public void addButton(String image, double amount) {
 			JButton btn = new JButton();
 			btn.setIcon(new ImageIcon(tnbbutton.getThumbNailText(dlSystem.getResourceAsImage(image),
-					Formats.CURRENCY.formatValue(amount), 20)));
+					Formats.CURRENCY.formatValue(amount), 20, 0x80)));
 			btn.setFocusPainted(false);
 			btn.setFocusable(false);
 			btn.setRequestFocusEnabled(false);

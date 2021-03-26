@@ -35,7 +35,9 @@ public class CustomerRenderer extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
-        setText(value.toString());
+        
+        CustomerInfo customerInfo = (CustomerInfo)value; 
+        setText(customerInfo.toString() + " | " + customerInfo.getAddress());
         setIcon(icocustomer);
         return this;
     }      

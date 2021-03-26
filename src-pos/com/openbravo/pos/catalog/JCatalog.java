@@ -80,6 +80,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 	private int doubleClickTimeoutMillis = 0;
 	private String lastProductId = null;
 	private Long lastProductTimeMillis = (long) 0;
+	private int buttonTextBackgroundTransparency;
 
 	/** Creates new form JCatalog */
 	public JCatalog(AppView app, DataLogicSales dlSales) {
@@ -110,6 +111,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		doubleClickTimeoutMillis = Integer
 				.parseInt(m_App.getProperties().getProperty("product.doubleClickTimeoutMillis"));
 
+		buttonTextBackgroundTransparency = Integer.parseInt(
+				PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button.TextBackgroundTransparency", "160"));
 	}
 
 	public Component getComponent() {
@@ -123,10 +126,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
-		// PropertyUtil.ScaleButtonIcon(m_jUp, width, height, fontsize);
-		// PropertyUtil.ScaleButtonIcon(m_jDown, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_btnBack1, width, height, fontsize);
-		// ScaleButtonIcon(btn, width, height);
 	}
 
 	public void showCatalogPanel(String id) {
@@ -159,10 +159,11 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 		// Load all categories.
 		java.util.List<CategoryInfo> categories = m_dlSales.getRootCategories(categoriesFilter);
+		java.util.List<CategoryInfo> emptyCategories = m_dlSales.getEmptyCategories();
 
 		// Select the first category
 
-		fillCategories(categories);
+		fillCategories(categories, emptyCategories);
 
 		// m_jListCategories.setCellRenderer(new SmallCategoryRenderer());
 		// m_jListCategories.setModel(new CategoriesListModel(categories)); //
@@ -185,26 +186,29 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 		showRootCategoriesPanel();
 	}
 
-	private void fillCategories(java.util.List<CategoryInfo> categories) {
+	private void fillCategories(java.util.List<CategoryInfo> categories, java.util.List<CategoryInfo> emptyCategories) {
 
 		for (CategoryInfo category : categories) {
-			if (this.jcategoryTab == null) {
-				this.jcategoryTab = new JCatalogTab(m_App);
-				this.jcategoryTab.getScrollPane()
-						.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-				jcategoryTab.applyComponentOrientation(getComponentOrientation());
-				// jcategoryTab.
-				m_jCategoryList.add(jcategoryTab, "CATEGORY");
+			if (!emptyCategories.contains(category)) {
+
+				if (this.jcategoryTab == null) {
+					this.jcategoryTab = new JCatalogTab(m_App);
+					this.jcategoryTab.getScrollPane()
+							.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+					jcategoryTab.applyComponentOrientation(getComponentOrientation());
+					// jcategoryTab.
+					m_jCategoryList.add(jcategoryTab, "CATEGORY");
+				}
+				jcategoryTab.addButton(
+						new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize,
+								buttonTextBackgroundTransparency)),
+						category.getBgColor(), new SelectedCategoryMain(category));
+
+				selectCategoryPanel(category);
+
+				// product components not used at the moment
+				// fillCategoryProductComments(category);
 			}
-			jcategoryTab.addButton(
-					new ImageIcon(tnbcat.getThumbNailText(category.getImage(), category.getName(), catFontSize)),
-					category.getBgColor(), new SelectedCategoryMain(category));
-
-			selectCategoryPanel(category);
-
-			// product components not used at the moment
-			// fillCategoryProductComments(category);
-
 		}
 
 		CardLayout cl = (CardLayout) (m_jCategoryList.getLayout());
@@ -240,8 +244,9 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 					// Add products
 					for (ProductInfoExt prod2 : products) {
-						jcurrTab.addButton(new ImageIcon(
-								tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2), productFontSize)),
+						jcurrTab.addButton(
+								new ImageIcon(tnbbutton.getThumbNailText(prod2.getImage(), getProductLabel(prod2),
+										productFontSize, buttonTextBackgroundTransparency)),
 								prod2.getBgColor(), new SelectedAction(prod2));
 					}
 				}
@@ -331,21 +336,26 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 				// Add subcategories
 				java.util.List<CategoryInfo> categories = m_dlSales.getSubcategories(catid.getID(), categoriesFilter);
+				java.util.List<CategoryInfo> emptyCategories = m_dlSales.getEmptyCategories();
 				for (CategoryInfo cat : categories) {
-					jcurrTab.addButton(
-							new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize)),
-							cat.getBgColor(), new SelectedCategory(cat));
-					selectCategoryPanel(cat);
+					if (!emptyCategories.contains(cat)) {
+						jcurrTab.addButton(
+								new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), catFontSize,
+										buttonTextBackgroundTransparency)),
+								cat.getBgColor(), new SelectedCategory(cat));
+						selectCategoryPanel(cat);
 
-					// product components not used at the moment
-					// fillCategoryProductComments(cat);
+						// product components not used at the moment
+						// fillCategoryProductComments(cat);
+					}
 				}
 
 				// Add products
 				java.util.List<ProductInfoExt> products = m_dlSales.getProductCatalog(catid.getID());
 				for (ProductInfoExt prod : products) {
-					jcurrTab.addButton(new ImageIcon(
-							tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod), productFontSize)),
+					jcurrTab.addButton(
+							new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod),
+									productFontSize, buttonTextBackgroundTransparency)),
 							prod.getBgColor(), new SelectedAction(prod));
 				}
 			}
@@ -484,9 +494,10 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 
 						// Add products
 						for (ProductInfoExt prod : products) {
-							jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(),
-									getProductLabel(prod), productFontSize)), prod.getBgColor(),
-									new SelectedAction(prod));
+							jcurrTab.addButton(
+									new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod),
+											productFontSize, buttonTextBackgroundTransparency)),
+									prod.getBgColor(), new SelectedAction(prod));
 						}
 
 						selectIndicatorPanel(new ImageIcon(tnbbutton.getThumbNail(product.getImage())),
@@ -656,7 +667,8 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 				boolean cellHasFocus) {
 			super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
 			CategoryInfo cat = (CategoryInfo) value;
-			ImageIcon icon = new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), productFontSize));
+			ImageIcon icon = new ImageIcon(tnbcat.getThumbNailText(cat.getImage(), cat.getName(), productFontSize,
+					buttonTextBackgroundTransparency));
 			if (icon.getIconWidth() > 50) {
 				setIcon(icon);
 				setText("");

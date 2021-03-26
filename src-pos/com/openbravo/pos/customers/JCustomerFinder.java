@@ -40,6 +40,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -57,7 +59,6 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	private ListProvider lpr;
 	private AppView m_App;
 	private DataLogicCustomers m_dlCustomers;
-	
 
 	/** Creates new form JCustomerFinder */
 	private JCustomerFinder(java.awt.Frame parent, boolean modal) {
@@ -96,25 +97,57 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		PropertyUtil.ScaleScrollbar(m_App, jScrollPane1);
 
-		m_jtxtTaxID.addEditorKeys(m_jKeys);
-		m_jtxtSearchKey.addEditorKeys(m_jKeys);
-		m_jtxtName.addEditorKeys(m_jKeys);
+		// m_jtxtTaxID.addEditorKeys(m_jKeys);
+		// m_jtxtSearchKey.addEditorKeys(m_jKeys);
+		// m_jtxtName.addEditorKeys(m_jKeys);
 
-		m_jtxtTaxID.reset();
-		m_jtxtSearchKey.reset();
-		m_jtxtName.reset();
+		// m_jtxtTaxID.reset();
+		m_jtxtSearchKey.setText("");
+		m_jtxtName.setText("");
 
-		m_jtxtSearchKey.activate();
+		m_jtxtSearchKey.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					jButtonSearch.doClick();
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+
+		m_jtxtName.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					jButtonSearch.doClick();
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
 
 		lpr = new ListProviderCreator(dlCustomers.getCustomerList(), this);
 
 		jListCustomers.setCellRenderer(new CustomerRenderer());
 
-		getRootPane().setDefaultButton(jcmdOK);
+		// getRootPane().setDefaultButton(jcmdOK);
 
 		selectedCustomer = null;
-
-		m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 	}
@@ -123,20 +156,18 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		if (customer == null || customer.getName() == null || customer.getName().equals("")) {
 
-			m_jtxtTaxID.reset();
-			m_jtxtSearchKey.reset();
-			m_jtxtName.reset();
+			m_jtxtSearchKey.setText("");
+			m_jtxtName.setText("");
 
-			m_jtxtSearchKey.activate();
+			m_jtxtSearchKey.grabFocus();
 
 			cleanSearch();
 		} else {
 
-			m_jtxtTaxID.setText(customer.getTaxid());
 			m_jtxtSearchKey.setText(customer.getSearchkey());
-			m_jtxtName.setText(customer.getName());
+			//m_jtxtName.setText(customer.getName());
 
-			m_jtxtSearchKey.activate();
+			m_jtxtSearchKey.grabFocus();
 
 			executeSearch();
 		}
@@ -155,41 +186,31 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 				jListCustomers.setSelectedIndex(0);
 			}
 		} catch (BasicException e1) {
-			JConfirmDialog.showError(m_App, JCustomerFinder.this, AppLocal.getIntString("error.network"), 
-					AppLocal.getIntString("message.databaseconnectionerror"),
-					e1);
+			JConfirmDialog.showError(m_App, JCustomerFinder.this, AppLocal.getIntString("error.network"),
+					AppLocal.getIntString("message.databaseconnectionerror"), e1);
 		}
 	}
 
 	public Object createValue() throws BasicException {
 
-		Object[] afilter = new Object[6];
+		Object[] afilter = new Object[4];
 
-		// TaxID
-		if (m_jtxtTaxID.getText() == null || m_jtxtTaxID.getText().equals("")) {
+		// SearchKey
+		if (m_jtxtSearchKey.getText() == null || m_jtxtSearchKey.getText().equals("")) {
 			afilter[0] = QBFCompareEnum.COMP_NONE;
 			afilter[1] = null;
 		} else {
 			afilter[0] = QBFCompareEnum.COMP_RE;
-			afilter[1] = "%" + m_jtxtTaxID.getText() + "%";
-		}
-
-		// SearchKey
-		if (m_jtxtSearchKey.getText() == null || m_jtxtSearchKey.getText().equals("")) {
-			afilter[2] = QBFCompareEnum.COMP_NONE;
-			afilter[3] = null;
-		} else {
-			afilter[2] = QBFCompareEnum.COMP_RE;
-			afilter[3] = "%" + m_jtxtSearchKey.getText() + "%";
+			afilter[1] = "%" + m_jtxtSearchKey.getText() + "%";
 		}
 
 		// Name
 		if (m_jtxtName.getText() == null || m_jtxtName.getText().equals("")) {
-			afilter[4] = QBFCompareEnum.COMP_NONE;
-			afilter[5] = null;
+			afilter[2] = QBFCompareEnum.COMP_NONE;
+			afilter[3] = null;
 		} else {
-			afilter[4] = QBFCompareEnum.COMP_RE;
-			afilter[5] = "%" + m_jtxtName.getText() + "%";
+			afilter[2] = QBFCompareEnum.COMP_RE;
+			afilter[3] = "%" + m_jtxtName.getText() + "%";
 		}
 
 		return afilter;
@@ -223,26 +244,22 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		}
 	}
 
-	
 	@SuppressWarnings("rawtypes")
 	private void initComponents() {
 
 		jPanel2 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel3 = new javax.swing.JPanel();
 		jPanel5 = new javax.swing.JPanel();
 		jPanel7 = new javax.swing.JPanel();
-		jLabel5 = new javax.swing.JLabel();
-		m_jtxtName = new com.openbravo.editor.JEditorString();
-		jLabel6 = new javax.swing.JLabel();
-		m_jtxtSearchKey = new com.openbravo.editor.JEditorString();
-		jLabel7 = new javax.swing.JLabel();
-		m_jtxtTaxID = new com.openbravo.editor.JEditorString();
+		jLabelName = new javax.swing.JLabel();
+		m_jtxtName = new javax.swing.JTextField();
+		jLabelSearchKey = new javax.swing.JLabel();
+		m_jtxtSearchKey = new javax.swing.JTextField();
 		jPanel6 = new javax.swing.JPanel();
-		jButton1 = new javax.swing.JButton();
-		jButton3 = new javax.swing.JButton();
+		jButtonRefresh = new javax.swing.JButton();
+		jButtonSearch = new javax.swing.JButton();
 		jButtonKeyboard = new javax.swing.JButton();
-		jButtonAdd = new javax.swing.JButton();
+		jButtonCustomer = new javax.swing.JButton();
 		jPanel4 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jListCustomers = new javax.swing.JList();
@@ -255,7 +272,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		setTitle(AppLocal.getIntString("form.customertitle")); // NOI18N
 
 		jPanel2.setLayout(new java.awt.BorderLayout());
-		jPanel2.add(m_jKeys, java.awt.BorderLayout.NORTH);
+		// jPanel2.add(m_jKeys, java.awt.BorderLayout.NORTH);
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
@@ -263,35 +280,27 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		jPanel5.setLayout(new java.awt.BorderLayout());
 
-		jLabel5.setText(AppLocal.getIntString("label.prodname")); // NOI18N
+		jLabelName.setText(AppLocal.getIntString("label.prodname")); // NOI18N
 
-		jLabel6.setText(AppLocal.getIntString("label.searchkey")); // NOI18N
+		jLabelSearchKey.setText(AppLocal.getIntString("label.searchkey")); // NOI18N
 
-		jLabel7.setText(AppLocal.getIntString("label.taxid")); // NOI18N
 		javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
 		jPanel7.setLayout(jPanel7Layout);
 
-
 		ScaleLabels();
 
-		int width = PropertyUtil.findMaxLabelWidth(jLabel7, jLabel5, jLabel6);
+		int width = PropertyUtil.findMaxLabelWidth(jLabelSearchKey, jLabelName, jLabelSearchKey);
 		jPanel7Layout.setHorizontalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addGroup(jPanel7Layout.createSequentialGroup()
-										.addComponent(jLabel6, width, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(m_jtxtSearchKey, width, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.DEFAULT_SIZE))
+				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap().addGroup(jPanel7Layout
+						.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 						.addGroup(jPanel7Layout.createSequentialGroup()
-								.addComponent(jLabel7, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+								.addComponent(jLabelSearchKey, width, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(m_jtxtTaxID, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
+								.addComponent(m_jtxtSearchKey, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addGroup(jPanel7Layout.createSequentialGroup()
-								.addComponent(jLabel5, width, javax.swing.GroupLayout.DEFAULT_SIZE,
+								.addComponent(jLabelName, width, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE)
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(m_jtxtName, javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -299,46 +308,42 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		jPanel7Layout.setVerticalGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel7Layout.createSequentialGroup().addContainerGap()
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel6).addComponent(m_jtxtSearchKey, javax.swing.GroupLayout.DEFAULT_SIZE,
+								.addComponent(jLabelSearchKey).addComponent(
+										m_jtxtSearchKey, javax.swing.GroupLayout.DEFAULT_SIZE,
 										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel5).addComponent(m_jtxtName,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE))
-						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(jLabel7).addComponent(m_jtxtTaxID, javax.swing.GroupLayout.PREFERRED_SIZE,
-										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addComponent(jLabelName).addComponent(m_jtxtName, javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE))
 						.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
 		jPanel5.add(jPanel7, java.awt.BorderLayout.CENTER);
 
-		jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
-		jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
-		jButton1.setFocusPainted(false);
-		jButton1.setFocusable(false);
-		jButton1.setRequestFocusEnabled(false);
-		jButton1.addActionListener(new java.awt.event.ActionListener() {
+		jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
+		jButtonRefresh.setText(AppLocal.getIntString("button.clean")); // NOI18N
+		jButtonRefresh.setFocusPainted(false);
+		jButtonRefresh.setFocusable(false);
+		jButtonRefresh.setRequestFocusEnabled(false);
+		jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButtonRefreshActionPerformed(evt);
 			}
 		});
-		jPanel6.add(jButton1);
+		jPanel6.add(jButtonRefresh);
 
-		jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launchfilter.png"))); // NOI18N
-		jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
-		jButton3.setFocusPainted(false);
-		jButton3.setFocusable(false);
-		jButton3.setRequestFocusEnabled(false);
-		jButton3.addActionListener(new java.awt.event.ActionListener() {
+		jButtonSearch
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launchfilter.png"))); // NOI18N
+		jButtonSearch.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
+		jButtonSearch.setFocusPainted(false);
+		jButtonSearch.setFocusable(false);
+		jButtonSearch.setRequestFocusEnabled(false);
+		jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButtonSearchActionPerformed(evt);
 			}
 		});
-		jPanel6.add(jButton3);
-		
-		
+		jPanel6.add(jButtonSearch);
+
 		jButtonKeyboard.setIcon(
 				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_keyboard.png"))); // NOI18N
 		jButtonKeyboard.setText(AppLocal.getIntString("Button.Keyboard"));
@@ -352,17 +357,19 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 			}
 		});
 		jPanel6.add(jButtonKeyboard);
-		
-		jButtonAdd.setIcon(
-				new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png"))); // NOI18N
-		jButtonAdd.setText(AppLocal.getIntString("label.customer"));
-		jButtonAdd.setFocusPainted(false);
-		jButtonAdd.setFocusable(false);
-		jButtonAdd.setMargin(new java.awt.Insets(8, 16, 8, 16));
-		jButtonAdd.setRequestFocusEnabled(false);
-		jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+
+		jButtonCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/customer.png"))); // NOI18N
+		jButtonCustomer.setText(AppLocal.getIntString("label.customer"));
+		jButtonCustomer.setFocusPainted(false);
+		jButtonCustomer.setFocusable(false);
+		jButtonCustomer.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		jButtonCustomer.setRequestFocusEnabled(false);
+		jButtonCustomer.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				CustomerDialog dialog = CustomerDialog.getCustomerDialog(m_App, (Component)evt.getSource(), m_dlCustomers);
+				selectedCustomer = (CustomerInfo) jListCustomers.getSelectedValue();
+				
+				CustomerDialog dialog = CustomerDialog.getCustomerDialog(m_App, (Component) evt.getSource(),
+						m_dlCustomers, selectedCustomer);
 				dialog.setVisible(true);
 				String customerSearchName = dialog.getCurrentCustomerSearchName();
 				jButtonRefreshActionPerformed(evt);
@@ -370,9 +377,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 				jButtonSearchActionPerformed(evt);
 			}
 		});
-		jPanel6.add(jButtonAdd);
-		
-		
+		jPanel6.add(jButtonCustomer);
 
 		jPanel5.add(jPanel6, java.awt.BorderLayout.SOUTH);
 
@@ -435,24 +440,17 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 		getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialog(m_App, this, 860, 610);
+		PropertyUtil.ScaleDialog(m_App, this, 1024, 768);
 
-		// java.awt.Dimension screenSize =
-		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// setBounds((screenSize.width - 613) / 2, (screenSize.height - 610) /
-		// 2, 613, 610);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void ScaleLabels() {
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel6, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel7, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelName, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelSearchKey, "common-dialog-fontsize", "22");
 
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtSearchKey, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtTaxID, "common-dialog-fontsize", "22");
-		
-		
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jtxtSearchKey, "common-dialog-fontsize", "22");
+
 		Font f = jListCustomers.getFont();
 		jListCustomers.setFont(PropertyUtil.ScaleFont(m_App, f, "common-dialog-fontsize", "22"));
 	}
@@ -466,10 +464,10 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
-		PropertyUtil.ScaleButtonIcon(jButton1, btnWidth, btnHeight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jButton3, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButtonRefresh, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButtonSearch, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jButtonKeyboard, btnWidth, btnHeight, fontsize);
-		PropertyUtil.ScaleButtonIcon(jButtonAdd, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButtonCustomer, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jcmdOK, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(jcmdCancel, btnWidth, btnHeight, fontsize);
 	}
@@ -510,23 +508,21 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
 	private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 
-		m_jtxtTaxID.reset();
-		m_jtxtSearchKey.reset();
-		m_jtxtName.reset();
+		m_jtxtSearchKey.setText("");
+		m_jtxtName.setText("");
 
-		m_jtxtSearchKey.activate();
+		m_jtxtSearchKey.grabFocus();
 
 		cleanSearch();
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButton1;
-	private javax.swing.JButton jButton3;
+	private javax.swing.JButton jButtonRefresh;
+	private javax.swing.JButton jButtonSearch;
 	private javax.swing.JButton jButtonKeyboard;
-	private javax.swing.JButton jButtonAdd;
-	private javax.swing.JLabel jLabel5;
-	private javax.swing.JLabel jLabel6;
-	private javax.swing.JLabel jLabel7;
+	private javax.swing.JButton jButtonCustomer;
+	private javax.swing.JLabel jLabelName;
+	private javax.swing.JLabel jLabelSearchKey;
 	@SuppressWarnings("rawtypes")
 	private javax.swing.JList jListCustomers;
 	private javax.swing.JPanel jPanel1;
@@ -540,10 +536,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JButton jcmdCancel;
 	private javax.swing.JButton jcmdOK;
-	private com.openbravo.editor.JEditorKeys m_jKeys;
-	private com.openbravo.editor.JEditorString m_jtxtName;
-	private com.openbravo.editor.JEditorString m_jtxtSearchKey;
-	private com.openbravo.editor.JEditorString m_jtxtTaxID;
+	private javax.swing.JTextField m_jtxtName;
+	private javax.swing.JTextField m_jtxtSearchKey;
 	// End of variables declaration//GEN-END:variables
 
 }

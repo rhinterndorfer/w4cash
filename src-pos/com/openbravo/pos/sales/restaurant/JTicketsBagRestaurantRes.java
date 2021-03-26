@@ -97,6 +97,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
 				customer.setTaxid(null);
 				customer.setSearchkey(null);
 				customer.setName(txtCustomer.getText());
+				customer.setAddress(null);
 			}
 		});
 		m_jtxtChairs.addPropertyChangeListener("Text", m_Dirty);

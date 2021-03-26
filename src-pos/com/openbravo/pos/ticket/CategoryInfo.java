@@ -26,13 +26,14 @@ import java.awt.image.*;
 import com.openbravo.data.loader.IKeyed;
 import com.openbravo.data.loader.ImageUtils;
 import com.openbravo.data.loader.SerializerRead;
+import com.openbravo.pos.sales.restaurant.PlaceSplit;
 
 /**
  *
  * @author Adrian
  * @version
  */
-public class CategoryInfo implements IKeyed {
+public class CategoryInfo implements IKeyed, Comparable<CategoryInfo> {
 
 	private static final long serialVersionUID = 8612449444103L;
 	private String m_sID;
@@ -132,4 +133,29 @@ public class CategoryInfo implements IKeyed {
 	public void setBgColor(Color bgColor) {
 		this.bgColor = bgColor;
 	}
+	
+	
+	@Override
+	public int compareTo(CategoryInfo o) {
+		if (m_sID == null)
+			return -10;
+		if (o == null || o.m_sID == null)
+			return 10;
+		return this.m_sID.compareTo(o.m_sID);
+	}
+
+	@Override
+	public int hashCode() {
+		return this.m_sID == null ? -1 : this.m_sID.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object c) {
+		if (m_sID == null && c == null)
+			return true;
+		if (c == null || !c.getClass().equals(CategoryInfo.class))
+			return false;
+		return this.m_sID.compareTo(((CategoryInfo) c).m_sID) == 0 ? true : false;
+	}
+	
 }

@@ -28,6 +28,7 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSales;
 import com.openbravo.pos.reports.ReportEditorCreator;
 import com.openbravo.pos.ticket.ProductInfoExt;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 import java.awt.Component;
@@ -270,7 +271,11 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
 
 	private void searchActionPerformed(AppView app, java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchActionPerformed
 
-		assignProduct(JProductFinder.showMessage(app, this, m_dlSales, JProductFinder.PRODUCT_NORMAL));
+		try {
+			assignProduct(JProductFinder.showMessage(app, this, m_dlSales, JProductFinder.PRODUCT_NORMAL));
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
 
 	}// GEN-LAST:event_searchActionPerformed
 

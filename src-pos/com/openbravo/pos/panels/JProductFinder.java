@@ -26,6 +26,9 @@ import com.openbravo.pos.util.PropertyUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.basic.BasicException;
@@ -33,6 +36,7 @@ import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.user.ListProvider;
 import com.openbravo.data.user.ListProviderCreator;
 import com.openbravo.pos.forms.DataLogicSales;
+import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurant;
 import com.openbravo.pos.scale.Scale;
 
@@ -60,16 +64,33 @@ public class JProductFinder extends javax.swing.JDialog {
 		super(parent, modal);
 	}
 
-	private ProductInfoExt init(AppView app, DataLogicSales dlSales, int productsType) {
+	private ProductInfoExt init(AppView app, DataLogicSales dlSales, int productsType) throws BasicException {
 		this.m_App = app;
 		initComponents();
 
 		PropertyUtil.ScaleScrollbar(m_App, jScrollPane1);
 
-		// ProductFilter jproductfilter = new ProductFilter(app);
-		ProductFilterSales jproductfilter = new ProductFilterSales(app, dlSales, m_jKeys);
+		ProductFilterSales jproductfilter = new ProductFilterSales(app, dlSales);
 		jproductfilter.activate();
 		m_jProductSelect.add(jproductfilter, BorderLayout.CENTER);
+		jproductfilter.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					jButtonSearch.doClick();
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+
 		switch (productsType) {
 		case PRODUCT_NORMAL:
 			lpr = new ListProviderCreator(dlSales.getProductListNormal(), jproductfilter);
@@ -83,13 +104,14 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		}
 
-		jListProducts.setCellRenderer(new ProductRenderer());
-
-		getRootPane().setDefaultButton(jcmdOK);
+		TaxesLogic taxeslogic = new TaxesLogic(dlSales.getTaxList().list());
+		jListProducts.setCellRenderer(new ProductRenderer(taxeslogic));
+		
+		//getRootPane().setDefaultButton(jcmdOK);
 
 		m_ReturnProduct = null;
 
-		m_jKeys.ScaleButtons();
+		// m_jKeys.ScaleButtons();
 
 		ScaleButtons();
 
@@ -109,11 +131,13 @@ public class JProductFinder extends javax.swing.JDialog {
 		}
 	}
 
-	public static ProductInfoExt showMessage(AppView app, Component parent, DataLogicSales dlSales) {
+	public static ProductInfoExt showMessage(AppView app, Component parent, DataLogicSales dlSales)
+			throws BasicException {
 		return showMessage(app, parent, dlSales, PRODUCT_ALL);
 	}
 
-	public static ProductInfoExt showMessage(AppView app, Component parent, DataLogicSales dlSales, int productsType) {
+	public static ProductInfoExt showMessage(AppView app, Component parent, DataLogicSales dlSales, int productsType)
+			throws BasicException {
 
 		Window window = getWindow(parent);
 
@@ -153,11 +177,10 @@ public class JProductFinder extends javax.swing.JDialog {
 	private void initComponents() {
 
 		jPanel4 = new javax.swing.JPanel();
-		m_jKeys = new com.openbravo.editor.JEditorKeys(m_App);
 		jPanel2 = new javax.swing.JPanel();
 		m_jProductSelect = new javax.swing.JPanel();
 		jPanel3 = new javax.swing.JPanel();
-		jButton3 = new javax.swing.JButton();
+		jButtonSearch = new javax.swing.JButton();
 		jPanel5 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		jListProducts = new javax.swing.JList();
@@ -169,7 +192,6 @@ public class JProductFinder extends javax.swing.JDialog {
 		setTitle(AppLocal.getIntString("form.productslist")); // NOI18N
 
 		jPanel4.setLayout(new java.awt.BorderLayout());
-		jPanel4.add(m_jKeys, java.awt.BorderLayout.NORTH);
 
 		getContentPane().add(jPanel4, java.awt.BorderLayout.LINE_END);
 
@@ -177,14 +199,15 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		m_jProductSelect.setLayout(new java.awt.BorderLayout());
 
-		jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launchfilter.png"))); // NOI18N
-		jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
-		jButton3.addActionListener(new java.awt.event.ActionListener() {
+		jButtonSearch
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/launchfilter.png"))); // NOI18N
+		jButtonSearch.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
+		jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton3ActionPerformed(evt);
 			}
 		});
-		jPanel3.add(jButton3);
+		jPanel3.add(jButtonSearch);
 
 		m_jProductSelect.add(jPanel3, java.awt.BorderLayout.SOUTH);
 
@@ -240,18 +263,12 @@ public class JProductFinder extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-		int width = 800;
+		int width = 1024;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		if(d.getWidth() < 800)
-		{
-			width = (int)d.getWidth(); 
+		if (d.getWidth() < 1024) {
+			width = (int) d.getWidth();
 		}
-		PropertyUtil.ScaleDialog(m_App, this, width, 660);
-		
-		// java.awt.Dimension screenSize =
-		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		// setBounds((screenSize.width - 665) / 2, (screenSize.height - 565) /
-		// 2, 665, 565);
+		PropertyUtil.ScaleDialog(m_App, this, width, 768);
 	}// </editor-fold>//GEN-END:initComponents
 
 	public void ScaleButtons() {
@@ -262,9 +279,12 @@ public class JProductFinder extends javax.swing.JDialog {
 		int fontsize = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
-		PropertyUtil.ScaleButtonIcon(jButton3, width, height, fontsize);
+		PropertyUtil.ScaleButtonIcon(jButtonSearch, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jcmdOK, width, height, fontsize);
 		PropertyUtil.ScaleButtonIcon(jcmdCancel, width, height, fontsize);
+		
+		Font font = jListProducts.getFont();
+		jListProducts.setFont(new Font(font.getFontName(), font.getStyle(), fontsize ));
 	}
 
 	private void jListProductsMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jListProductsMouseClicked
@@ -304,14 +324,13 @@ public class JProductFinder extends javax.swing.JDialog {
 			}
 		} catch (BasicException e1) {
 			JConfirmDialog.showError(m_App, JProductFinder.this, AppLocal.getIntString("error.network"),
-					AppLocal.getIntString("message.databaseconnectionerror"),
-					e1);
+					AppLocal.getIntString("message.databaseconnectionerror"), e1);
 		}
 
 	}// GEN-LAST:event_jButton3ActionPerformed
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JButton jButton3;
+	private javax.swing.JButton jButtonSearch;
 	private javax.swing.JList jListProducts;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
@@ -321,7 +340,7 @@ public class JProductFinder extends javax.swing.JDialog {
 	private javax.swing.JScrollPane jScrollPane1;
 	private javax.swing.JButton jcmdCancel;
 	private javax.swing.JButton jcmdOK;
-	private com.openbravo.editor.JEditorKeys m_jKeys;
+	// private com.openbravo.editor.JEditorKeys m_jKeys;
 	private javax.swing.JPanel m_jProductSelect;
 	// End of variables declaration//GEN-END:variables
 

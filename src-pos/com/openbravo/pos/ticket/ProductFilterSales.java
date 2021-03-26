@@ -23,9 +23,13 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.data.gui.ComboBoxValModel;
@@ -47,7 +51,7 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 	private AppView m_App;
 
 	/** Creates new form ProductFilterSales */
-	public ProductFilterSales(AppView app, DataLogicSales dlSales, JEditorKeys jKeys) {
+	public ProductFilterSales(AppView app, DataLogicSales dlSales) {
 		m_App = app;
 		initComponents();
 
@@ -55,26 +59,34 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 		m_sentcat = dlSales.getCategoriesList();
 		m_CategoryModel = new ComboBoxValModel();
 
-		m_jCboPriceBuy.setModel(ListQBFModelNumber.getMandatoryNumber());
-		m_jPriceBuy.addEditorKeys(jKeys);
+		m_jtxtName.addKeyListener(new KeyListener() {
 
-		m_jCboPriceSell.setModel(ListQBFModelNumber.getMandatoryNumber());
-		m_jPriceSell.addEditorKeys(jKeys);
+			@Override
+			public void keyTyped(KeyEvent e) {
+				JTextField o = (JTextField) e.getSource();
+				ProductFilterSales p = (ProductFilterSales)o.getParent().getParent();
+				p.processKeyEvent(e);
+			}
 
-		m_jtxtName.addEditorKeys(jKeys);
+			@Override
+			public void keyReleased(KeyEvent e) {
+				JTextField o = (JTextField) e.getSource();
+				ProductFilterSales p = (ProductFilterSales)o.getParent().getParent();
+				p.processKeyEvent(e);
+			}
 
-		m_jtxtBarCode.addEditorKeys(jKeys);
-
+			@Override
+			public void keyPressed(KeyEvent e) {
+				JTextField o = (JTextField) e.getSource();
+				ProductFilterSales p = (ProductFilterSales)o.getParent().getParent();
+				p.processKeyEvent(e);
+			}
+		});
 	}
 
 	public void activate() {
 
-		m_jtxtBarCode.reset();
-		m_jtxtBarCode.setEditModeEnum(JEditorString.MODE_123);
-		m_jtxtName.reset();
-		m_jPriceBuy.reset();
-		m_jPriceSell.reset();
-		m_jtxtName.activate();
+		m_jtxtName.setText("");
 
 		try {
 			List catlist = m_sentcat.list();
@@ -88,7 +100,7 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 
 	public Object createValue() throws BasicException {
 
-		Object[] afilter = new Object[10];
+		Object[] afilter = new Object[4];
 
 		// Nombre
 		if (m_jtxtName.getText() == null || m_jtxtName.getText().equals("")) {
@@ -99,30 +111,13 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 			afilter[1] = "%" + m_jtxtName.getText() + "%";
 		}
 
-		// Precio de compra
-		afilter[3] = m_jPriceBuy.getDoubleValue();
-		afilter[2] = afilter[3] == null ? QBFCompareEnum.COMP_NONE : m_jCboPriceBuy.getSelectedItem();
-
-		// Precio de venta
-		afilter[5] = m_jPriceSell.getDoubleValue();
-		afilter[4] = afilter[5] == null ? QBFCompareEnum.COMP_NONE : m_jCboPriceSell.getSelectedItem();
-
 		// Categoria
 		if (m_CategoryModel.getSelectedKey() == null) {
-			afilter[6] = QBFCompareEnum.COMP_NONE;
-			afilter[7] = null;
+			afilter[2] = QBFCompareEnum.COMP_NONE;
+			afilter[3] = null;
 		} else {
-			afilter[6] = QBFCompareEnum.COMP_EQUALS;
-			afilter[7] = m_CategoryModel.getSelectedKey();
-		}
-
-		// el codigo de barras
-		if (m_jtxtBarCode.getText() == null || m_jtxtBarCode.getText().equals("")) {
-			afilter[8] = QBFCompareEnum.COMP_NONE;
-			afilter[9] = null;
-		} else {
-			afilter[8] = QBFCompareEnum.COMP_RE;
-			afilter[9] = "%" + m_jtxtBarCode.getText() + "%";
+			afilter[2] = QBFCompareEnum.COMP_EQUALS;
+			afilter[3] = m_CategoryModel.getSelectedKey();
 		}
 
 		return afilter;
@@ -138,17 +133,9 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 	private void initComponents() {
 
 		jLabel5 = new javax.swing.JLabel();
-		m_jtxtName = new com.openbravo.editor.JEditorString();
+		m_jtxtName = new javax.swing.JTextField();
 		jLabel2 = new javax.swing.JLabel();
 		m_jCategory = new javax.swing.JComboBox();
-		jLabel4 = new javax.swing.JLabel();
-		m_jCboPriceBuy = new javax.swing.JComboBox();
-		m_jPriceBuy = new com.openbravo.editor.JEditorCurrency();
-		jLabel3 = new javax.swing.JLabel();
-		m_jCboPriceSell = new javax.swing.JComboBox();
-		m_jPriceSell = new com.openbravo.editor.JEditorCurrency();
-		m_jtxtBarCode = new com.openbravo.editor.JEditorString();
-		jLabel1 = new javax.swing.JLabel();
 		ScaleButtons();
 		setLayout(new BorderLayout());
 
@@ -159,43 +146,18 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 		main.setLayout(layout);
 		GridBagConstraints layoutData = new GridBagConstraints();
 		layoutData.insets = new Insets(5, 0, 0, 5);
-		
-		jLabel1.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 0, GridBagConstraints.BOTH);
-		main.add(jLabel1, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 0, GridBagConstraints.BOTH, 2);
-		main.add(m_jtxtBarCode, layoutData);
 
 		jLabel5.setText(AppLocal.getIntString("label.prodname")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 1, GridBagConstraints.BOTH);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 0, GridBagConstraints.BOTH);
 		main.add(jLabel5, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 1, GridBagConstraints.BOTH, 2);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 0, GridBagConstraints.BOTH, 2);
 		main.add(m_jtxtName, layoutData);
 
 		jLabel2.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 2, GridBagConstraints.BOTH);
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 1, GridBagConstraints.BOTH);
 		main.add(jLabel2, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 2, GridBagConstraints.BOTH, 2);
+		PropertyUtil.setGridBagConstraints(layoutData, 1, 1, GridBagConstraints.BOTH, 2);
 		main.add(m_jCategory, layoutData);
-		// PropertyUtil.setGridBagConstraints(layoutData, 2, 2,
-		// GridBagConstraints.HORIZONTAL);
-		// add(m_j, layoutData);
-
-		jLabel4.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 3, GridBagConstraints.BOTH);
-		main.add(jLabel4, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 3, GridBagConstraints.BOTH);
-		main.add(m_jCboPriceBuy, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 2, 3, GridBagConstraints.BOTH);
-		main.add(m_jPriceBuy, layoutData);
-
-		jLabel3.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
-		PropertyUtil.setGridBagConstraints(layoutData, 0, 4, GridBagConstraints.BOTH);
-		main.add(jLabel3, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 1, 4, GridBagConstraints.BOTH);
-		main.add(m_jCboPriceSell, layoutData);
-		PropertyUtil.setGridBagConstraints(layoutData, 2, 4, GridBagConstraints.BOTH);
-		main.add(m_jPriceSell, layoutData);
 
 		add(main, BorderLayout.CENTER);
 
@@ -204,35 +166,17 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 	@Override
 	public void ScaleButtons() {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel2, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel1, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel3, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleLabelFontsize(m_App, jLabel4, "common-dialog-fontsize", "22");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel5, "common-dialog-fontsize", "22");
 
 		PropertyUtil.ScaleComboFontsize(m_App, m_jCategory, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceBuy, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleComboFontsize(m_App, m_jCboPriceSell, "common-dialog-fontsize", "22");
-
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtBarCode, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleEditstringFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
-
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceSell, "common-dialog-fontsize", "22");
-		PropertyUtil.ScaleEditcurrencyFontsize(m_App, m_jPriceBuy, "common-dialog-fontsize", "22");
+		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jtxtName, "common-dialog-fontsize", "22");
 	}
 
 	// Variables declaration - do not modify//GEN-BEGIN:variables
-	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
-	private javax.swing.JLabel jLabel3;
-	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JComboBox m_jCategory;
-	private javax.swing.JComboBox m_jCboPriceBuy;
-	private javax.swing.JComboBox m_jCboPriceSell;
-	private com.openbravo.editor.JEditorCurrency m_jPriceBuy;
-	private com.openbravo.editor.JEditorCurrency m_jPriceSell;
-	private com.openbravo.editor.JEditorString m_jtxtBarCode;
-	private com.openbravo.editor.JEditorString m_jtxtName;
+	private javax.swing.JTextField m_jtxtName;
 	// End of variables declaration//GEN-END:variables
 
 }
