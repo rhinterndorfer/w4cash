@@ -471,7 +471,17 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	public void setProperty(String key, String value) {
 		attributes.setProperty(key, value);
 	}
+	
+	public void setPropertyNotExists(String key, String value) {
+		if(!attributes.containsKey(key)) {
+			attributes.setProperty(key, value);
+		}
+	}
 
+	public void clearProperty(String key) {
+		attributes.remove(key);
+	}
+	
 	public Properties getProperties() {
 		return attributes;
 	}
