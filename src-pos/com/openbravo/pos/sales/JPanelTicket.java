@@ -1011,8 +1011,28 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			} else if ((cTrans == '0' || cTrans == '1' || cTrans == '2' || cTrans == '3' || cTrans == '4'
 					|| cTrans == '5' || cTrans == '6' || cTrans == '7' || cTrans == '8' || cTrans == '9')
 					&& (m_iNumberStatus == NUMBER_PORINT)) {
-				// Un numero entero
-				m_jPor.setText(m_jPor.getText() + cTrans);
+				// check for ean13 input
+				String newText = m_jPor.getText() + cTrans;
+				Boolean isEan = false;
+				if(newText.length() == 1+13) // 'x' + 13 characters
+				{
+					try {
+						Long value = Long.parseLong(newText.substring(1));
+						m_jPor.setText("x1");
+						m_jPrice.setText(Long.toString(value));
+						m_sBarcode.append(Long.toString(value));
+						m_iNumberStatus = NUMBER_INPUTINT;
+						m_iNumberStatusInput = NUMBERVALID;
+						isEan = true;
+					} catch (Exception e) {
+						// do nothing
+					}
+				}
+				
+				if(!isEan) {
+					m_jPor.setText(newText);	
+				}
+				
 
 			} else if ((cTrans == '.' || cTrans == ',') && m_iNumberStatus == NUMBER_PORZERO) {
 				m_jPor.setText("x0.");
