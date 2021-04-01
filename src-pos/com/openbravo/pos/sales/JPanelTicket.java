@@ -496,6 +496,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			for (int i = 0; i < m_oTicket.getLinesCount(); i++) {
 				m_ticketlines.addTicketLine(m_oTicket.getLine(i));
 			}
+			
+			visorTicket(m_oTicket);
 			printPartialTotals();
 			stateToZero();
 
@@ -534,7 +536,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			m_ticketlines.setTicketLine(index, oLine);
 			m_ticketlines.setSelectedIndex(index);
 
-			visorTicketLine(oLine, oOrigLine, true); // Y al visor tambien...
+			visorTicket(m_oTicket);
 			printPartialTotals();
 			stateToZero();
 
@@ -614,7 +616,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 													// vista...
 			}
 
-			// visorTicketLine(oLine, oOrigLine, false);
+			visorTicket(m_oTicket);
 			printPartialTotals();
 			stateToZero();
 
@@ -661,7 +663,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				}
 			}
 
-			visorTicketLine(null, oOrigLine, false); // borro el visor
+			visorTicket(m_oTicket);
 			printPartialTotals(); // pinto los totales parciales...
 			stateToZero(); // Pongo a cero
 
@@ -1500,22 +1502,37 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
-	private void visorTicketLine(TicketLineInfo oLine, TicketLineInfo oOrigLine, Boolean isEditOperation) {
-		if (oLine == null) {
+	private void visorTicket(TicketInfo ticket) {
+		if (ticket == null || ticket.getLinesCount() == 0) {
 			m_App.getDeviceTicket().getDeviceDisplay().clearVisor();
+
+			try {
+				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+				script.put("ticket", ticket);
+
+				String resource = dlSystem.getResourceAsXML("Printer.TicketEmpty");
+				if(resource != null && resource != "") {
+					m_TTP.printTicket(script.eval(resource).toString());
+				}
+			} catch (ScriptException e) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+						AppLocal.getIntString("message.cannotprintline"), e);
+				msg.show(m_App, JPanelTicket.this);
+			} catch (TicketPrinterException e) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
+						AppLocal.getIntString("message.cannotprintline"), e);
+				msg.show(m_App, JPanelTicket.this);
+			}
+			
 		} else {
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
-				script.put("ticketline", oLine);
-				script.put("ticketlineOrig", oOrigLine);
-				script.put("ticketlineEdit", isEditOperation);
-				script.put("place", m_oTicketExt != null && m_oTicketExt.getClass().equals(String.class) // &&
-																											// !m_oTicketExt.toString().endsWith("$")
-						? m_oTicketExt.toString()
-						: "");
-				script.put("host", m_App.getHost());
+				script.put("ticket", ticket);
 
-				m_TTP.printTicket(script.eval(dlSystem.getResourceAsXML("Printer.TicketLine")).toString());
+				String resource = dlSystem.getResourceAsXML("Printer.TicketChange");
+				if(resource != null && resource != "") {
+					m_TTP.printTicket(script.eval(resource).toString());
+				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintline"), e);

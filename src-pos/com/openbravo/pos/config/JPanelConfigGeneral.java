@@ -215,6 +215,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
         jcboMachineDisplay.addItem("javapos");
         jcboMachineDisplay.addItem("epson");
         jcboMachineDisplay.addItem("ld200");
+        jcboMachineDisplay.addItem("glancetron");
         jcboMachineDisplay.addItem("surepos");
         jcboMachineDisplay.addItem("Not defined");
 
@@ -225,7 +226,18 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
         jcboSerialDisplay.addItem("COM2");
         jcboSerialDisplay.addItem("COM3");
         jcboSerialDisplay.addItem("COM4");
-        jcboSerialDisplay.addItem("LPT1");
+        jcboSerialDisplay.addItem("COM5");
+        jcboSerialDisplay.addItem("COM6");
+        jcboSerialDisplay.addItem("COM7");
+        jcboSerialDisplay.addItem("COM8");
+        jcboSerialDisplay.addItem("COM9");
+        jcboSerialDisplay.addItem("COM10");
+        jcboSerialDisplay.addItem("COM11");
+        jcboSerialDisplay.addItem("COM12");
+        jcboSerialDisplay.addItem("COM13");
+        jcboSerialDisplay.addItem("COM14");
+        jcboSerialDisplay.addItem("COM15");
+        jcboSerialDisplay.addItem("COM16");
         jcboSerialDisplay.addItem("/dev/ttyS0");
         jcboSerialDisplay.addItem("/dev/ttyS1");
         jcboSerialDisplay.addItem("/dev/ttyS2");
@@ -431,7 +443,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
         }
 
         String sMachineDisplay = comboValue(jcboMachineDisplay.getSelectedItem());
-        if ("epson".equals(sMachineDisplay) || "ld200".equals(sMachineDisplay) || "surepos".equals(sMachineDisplay)) {
+        if ("epson".equals(sMachineDisplay) || "ld200".equals(sMachineDisplay) || "surepos".equals(sMachineDisplay) || "glancetron".equals(sMachineDisplay)) {
             config.setProperty("machine.display", sMachineDisplay + ":" + comboValue(jcboConnDisplay.getSelectedItem()) + "," + comboValue(jcboSerialDisplay.getSelectedItem()));
         } else if ("javapos".equals(sMachineDisplay)) {
             config.setProperty("machine.display", sMachineDisplay + ":" + m_jtxtJPOSName.getText());
@@ -1195,7 +1207,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
     private void jcboMachineDisplayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcboMachineDisplayActionPerformed
         CardLayout cl = (CardLayout) (m_jDisplayParams.getLayout());
 
-        if ("epson".equals(jcboMachineDisplay.getSelectedItem()) || "ld200".equals(jcboMachineDisplay.getSelectedItem()) || "surepos".equals(jcboMachineDisplay.getSelectedItem())) {
+        if ("epson".equals(jcboMachineDisplay.getSelectedItem()) || "ld200".equals(jcboMachineDisplay.getSelectedItem()) || "surepos".equals(jcboMachineDisplay.getSelectedItem()) || "glancetron".equals(jcboMachineDisplay.getSelectedItem())) {
             cl.show(m_jDisplayParams, "comm");
         } else if ("javapos".equals(jcboMachineDisplay.getSelectedItem())) {
             cl.show(m_jDisplayParams, "javapos");
