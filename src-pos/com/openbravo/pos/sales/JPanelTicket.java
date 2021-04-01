@@ -366,6 +366,19 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			sig.CheckMonthTicket(this);
 			sig.CheckOpenTicketValidations(this);
 		}
+
+	}
+
+	@Override
+	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
+
+		m_jKeyFactory.setText(null);
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				m_jKeyFactory.requestFocus();
+			}
+		});
 	}
 
 	public boolean deactivate() {
@@ -496,7 +509,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			for (int i = 0; i < m_oTicket.getLinesCount(); i++) {
 				m_ticketlines.addTicketLine(m_oTicket.getLine(i));
 			}
-			
+
 			visorTicket(m_oTicket);
 			printPartialTotals();
 			stateToZero();
@@ -504,14 +517,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			// Muestro el panel de tickets.
 			cl.show(this, "ticket");
 
-			// activo el tecleador...
-			m_jKeyFactory.setText(null);
-			java.awt.EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					m_jKeyFactory.requestFocus();
-				}
-			});
 		}
+
+		// activo el tecleador...
+		m_jKeyFactory.setText(null);
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				m_jKeyFactory.requestFocus();
+			}
+		});
+
 	}
 
 	private void printPartialTotals() {
@@ -627,7 +642,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		// check if additional products should be added
 		checkProductAdd(oLine, oLine.getMultiply());
 	}
-	
+
 	private void checkProductAdd(TicketLineInfo oLine, double multiply) {
 		int indexOld = m_ticketlines.getSelectedIndex();
 		TicketLineInfo ticketOld = m_oTicket.getLine(indexOld);
@@ -638,7 +653,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				incProductByCode(productCodesToAdd[i], multiply);
 			}
 		}
-		
+
 		indexOld = m_oTicket.getLines().indexOf(ticketOld);
 		m_ticketlines.setSelectedIndex(indexOld);
 	}
@@ -804,7 +819,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					// iva incluido...
 					TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getDate(),
 							m_oTicket.getCustomer());
-					addTicketLine(oProduct, 1.0, oProduct.getPriceSell() / (1.0 + tax.getRate()), null, null, null, null);
+					addTicketLine(oProduct, 1.0, oProduct.getPriceSell() / (1.0 + tax.getRate()), null, null, null,
+							null);
 				} else {
 					addTicketLine(oProduct, dMul, oProduct.getPriceSell(), null, null, null, null);
 				}
@@ -1016,7 +1032,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				// check for ean13 input
 				String newText = m_jPor.getText() + cTrans;
 				Boolean isEan = false;
-				if(newText.length() == 1+13) // 'x' + 13 characters
+				if (newText.length() == 1 + 13) // 'x' + 13 characters
 				{
 					try {
 						Long value = Long.parseLong(newText.substring(1));
@@ -1030,11 +1046,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						// do nothing
 					}
 				}
-				
-				if(!isEan) {
-					m_jPor.setText(newText);	
+
+				if (!isEan) {
+					m_jPor.setText(newText);
 				}
-				
 
 			} else if ((cTrans == '.' || cTrans == ',') && m_iNumberStatus == NUMBER_PORZERO) {
 				m_jPor.setText("x0.");
@@ -1333,7 +1348,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 										printMultiplier = 2;
 									}
 
-									
 									for (int i = 1; i <= printMultiplier; i++) {
 										printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket.{size}"
 												: "Printer.Ticket2", ticket, ticketext);
@@ -1384,14 +1398,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		String printerSubName = null;
 
 		// find customer printer
-		if(ticket != null && ticket.getCustomer() != null) {
-			String printerCustomer = m_App.getProperties().getProperty("machine.printer.customer" );
-			if(printerCustomer != null) {
+		if (ticket != null && ticket.getCustomer() != null) {
+			String printerCustomer = m_App.getProperties().getProperty("machine.printer.customer");
+			if (printerCustomer != null) {
 				printerdata = printerCustomer.split(",");
 				printerSubName = "customer";
 			}
 		}
-		
+
 		if (printerdata.length > 2) {
 			sresourcename = sresourcename.replace("{size}", printerdata[2]);
 
@@ -1401,10 +1415,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 
 		String sresource = dlSystem.getResourceAsXML(sresourcename);
-		if(printerSubName != null) {
+		if (printerSubName != null) {
 			sresource = sresource.replaceAll("<ticket>", "<ticket printer=\"" + printerSubName + "\">");
 		}
-		
+
 		if (sresource == null) {
 			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
 			msg.show(m_App, JPanelTicket.this);
@@ -1511,7 +1525,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("ticket", ticket);
 
 				String resource = dlSystem.getResourceAsXML("Printer.TicketEmpty");
-				if(resource != null && resource != "") {
+				if (resource != null && resource != "") {
 					m_TTP.printTicket(script.eval(resource).toString());
 				}
 			} catch (ScriptException e) {
@@ -1523,14 +1537,14 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						AppLocal.getIntString("message.cannotprintline"), e);
 				msg.show(m_App, JPanelTicket.this);
 			}
-			
+
 		} else {
 			try {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("ticket", ticket);
 
 				String resource = dlSystem.getResourceAsXML("Printer.TicketChange");
-				if(resource != null && resource != "") {
+				if (resource != null && resource != "") {
 					m_TTP.printTicket(script.eval(resource).toString());
 				}
 			} catch (ScriptException e) {
@@ -2229,8 +2243,6 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		} catch (BasicException e) {
 			Log.Exception(e);
 		}
-		
-		
 
 	}// GEN-LAST:event_m_jListActionPerformed
 
