@@ -95,7 +95,6 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jsalestableFree.getTableHeader().setReorderingAllowed(false);
 		m_jsalestableFree.setRowHeight(25);
 		m_jsalestableFree.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
 		ScaleButtons();
 	}
 
@@ -443,7 +442,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		jPanel5Layout.setVerticalGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel5Layout.createSequentialGroup()
 						.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(m_jScrollTableTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 140,
+								.addComponent(m_jScrollTableTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 190,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGroup(jPanel5Layout.createSequentialGroup()
 								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

@@ -29,6 +29,8 @@ import com.openbravo.data.loader.*;
 import com.openbravo.format.Formats;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.forms.DataLogicSystem;
+import com.openbravo.pos.util.PropertyUtil;
 import com.openbravo.pos.util.StringUtils;
 
 /**
@@ -91,8 +93,7 @@ public class PaymentsModel {
         // Propiedades globales
         p.m_sHost = app.getProperties().getHost();
         p.m_app = app;
-        
-        
+                
         
         // shift data
         Object[] shiftdata = (Object []) new StaticSentence(app.getSession()
@@ -165,7 +166,8 @@ public class PaymentsModel {
               "FROM PAYMENTS, RECEIPTS " +
               "WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND RECEIPTS.MONEY = ? " +
 //              "WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT <> 'free' AND RECEIPTS.MONEY = ? " +
-              "GROUP BY PAYMENTS.DESCRIPTION, PAYMENTS.PAYMENT"
+              "GROUP BY PAYMENTS.DESCRIPTION, PAYMENTS.PAYMENT " + 
+              "ORDER BY PAYMENTS.PAYMENT"
             , SerializerWriteString.INSTANCE
             , new SerializerReadClass(PaymentsModel.PaymentsLine.class)) //new SerializerReadBasic(new Datas[] {Datas.STRING, Datas.DOUBLE}))
             .list(cashIndex); 
@@ -175,6 +177,27 @@ public class PaymentsModel {
         } else {
             p.m_lpayments = l;
         }        
+        
+        // products to show in close report
+        String productsFilter = PropertyUtil.GetCloseMoneyProductsFilter(app);
+        if(productsFilter != null) {
+        	List l_info = new StaticSentence(app.getSession()            
+                    , "select 'info' payment, SUM(ticketlines.UNITS * ticketlines.PRICE * (1+taxes.RATE)) grossprice, products.name description "
+                    		+ "from ticketlines, receipts, products, taxes "
+                    		+ "where ticketlines.TICKET = RECEIPTS.ID AND RECEIPTS.MONEY = ? "
+                    		+ "and ticketlines.product = products.id "
+                    		+ "and ticketlines.taxid = taxes.id "
+                    		+ productsFilter
+                    		+ "group by products.name "
+                    , SerializerWriteString.INSTANCE
+                    , new SerializerReadClass(PaymentsModel.PaymentsLine.class)) 
+                    .list(cashIndex);
+        	
+        	if (l_info != null) {
+        		p.m_lpayments.addAll(l_info);
+        	}
+        }
+        
         
         // Sales
         Object[] recsales = (Object []) new StaticSentence(app.getSession(),

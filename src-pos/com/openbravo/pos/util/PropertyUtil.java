@@ -150,6 +150,12 @@ public class PropertyUtil {
 		return value;
 	}
 
+	public static String GetCloseMoneyProductsFilter(AppView app) {
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", "CloseMoney.Products.Filter");
+		return value;
+	}
+	
 	public static void ScaleBorderFontsize(AppView app, TitledBorder border, String key, String defaultValue) {
 		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
 		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
