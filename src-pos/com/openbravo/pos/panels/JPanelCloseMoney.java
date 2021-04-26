@@ -132,6 +132,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jCount.setText(null); // AppLocal.getIntString("label.noticketstoclose");
 		m_jCash.setText(null);
 		m_jCashTotal.setText(null);
+		
+		m_jCardTotal.setText(null);
+		m_jPaperinTotal.setText(null);
+		m_jCashInOutTotal.setText(null);
+		m_jCashOthersTotal.setText(null);
 
 		m_jSales.setText(null);
 		m_jSalesSubtotal.setText(null);
@@ -173,6 +178,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 			m_jCount.setText(m_PaymentsToClose.printPayments());
 			m_jCash.setText(m_PaymentsToClose.printPaymentsTotal());
 			m_jCashTotal.setText(m_PaymentsToClose.printPaymentsCashTotal());
+			m_jCardTotal.setText(m_PaymentsToClose.printPaymentsCardTotal());
+			m_jPaperinTotal.setText(m_PaymentsToClose.printPaymentsPaperinTotal());
+			m_jCashInOutTotal.setText(m_PaymentsToClose.printPaymentsCashInOutTotal());
+			m_jCashOthersTotal.setText(m_PaymentsToClose.printPaymentsOthersTotal());
 
 			m_jSales.setText(m_PaymentsToClose.printSales());
 			m_jSalesSubtotal.setText(m_PaymentsToClose.printSalesBase());
@@ -313,8 +322,16 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		m_jCount = new javax.swing.JTextField();
 		jLabel4 = new javax.swing.JLabel();
 		jLabelCashTotal = new javax.swing.JLabel();
+		jLabelCardTotal = new javax.swing.JLabel();
+		jLabelPaperinTotal = new javax.swing.JLabel();
+		jLabelCashInOutTotal = new javax.swing.JLabel();
+		jLabelOthersTotal = new javax.swing.JLabel();
 		m_jCash = new javax.swing.JTextField();
 		m_jCashTotal = new javax.swing.JTextField();
+		m_jCardTotal = new javax.swing.JTextField();
+		m_jPaperinTotal = new javax.swing.JTextField();
+		m_jCashInOutTotal = new javax.swing.JTextField();
+		m_jCashOthersTotal = new javax.swing.JTextField();
 		jPanel6 = new javax.swing.JPanel();
 		jPanel6Free = new javax.swing.JPanel();
 		m_jSalesTotal = new javax.swing.JTextField();
@@ -404,13 +421,28 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 		jLabel4.setText(AppLocal.getIntString("Label.Cash")); // NOI18N
 		jLabelCashTotal.setText(AppLocal.getIntString("Label.CashTotal")); // NOI18N
+		jLabelCardTotal.setText(AppLocal.getIntString("Label.CardTotal")); // NOI18N
+		jLabelPaperinTotal.setText(AppLocal.getIntString("Label.PaperinTotal")); // NOI18N
+		jLabelCashInOutTotal.setText(AppLocal.getIntString("Label.CashInOutTotal")); // NOI18N
+		jLabelOthersTotal.setText(AppLocal.getIntString("Label.OthersTotal")); // NOI18N
 
 		m_jCash.setEditable(false);
 		m_jCash.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
 		m_jCashTotal.setEditable(false);
 		m_jCashTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
+		
+		m_jCardTotal.setEditable(false);
+		m_jCardTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		
+		m_jPaperinTotal.setEditable(false);
+		m_jPaperinTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		
+		m_jCashInOutTotal.setEditable(false);
+		m_jCashInOutTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+		
+		m_jCashOthersTotal.setEditable(false);
+		m_jCashOthersTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 		
 		javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
 		jPanel5.setLayout(jPanel5Layout);
@@ -431,6 +463,30 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(m_jCashTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel5Layout.createSequentialGroup()
+										.addComponent(jLabelCardTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jCardTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel5Layout.createSequentialGroup()
+										.addComponent(jLabelPaperinTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jPaperinTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel5Layout.createSequentialGroup()
+										.addComponent(jLabelCashInOutTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jCashInOutTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addGroup(jPanel5Layout.createSequentialGroup()
+										.addComponent(jLabelOthersTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(m_jCashOthersTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100,
 												javax.swing.GroupLayout.PREFERRED_SIZE))
 								.addGroup(jPanel5Layout.createSequentialGroup()
 										.addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
@@ -457,6 +513,35 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 												javax.swing.GroupLayout.DEFAULT_SIZE,
 												javax.swing.GroupLayout.PREFERRED_SIZE))
 								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								
+								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabelCardTotal).addComponent(m_jCardTotal,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								
+								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabelPaperinTotal).addComponent(m_jPaperinTotal,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								
+								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabelOthersTotal).addComponent(m_jCashOthersTotal,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								
+								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+										.addComponent(jLabelCashInOutTotal).addComponent(m_jCashInOutTotal,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												javax.swing.GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								
 								.addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 										.addComponent(jLabel4).addComponent(m_jCash,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -873,6 +958,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabelCashTotal;
+	private javax.swing.JLabel jLabelCardTotal;
+	private javax.swing.JLabel jLabelPaperinTotal;
+	private javax.swing.JLabel jLabelCashInOutTotal;
+	private javax.swing.JLabel jLabelOthersTotal;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
 	private javax.swing.JLabel jLabel7;
@@ -886,6 +975,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private javax.swing.JPanel jPanel6Free;
 	private javax.swing.JTextField m_jCash;
 	private javax.swing.JTextField m_jCashTotal;
+	private javax.swing.JTextField m_jCardTotal;
+	private javax.swing.JTextField m_jPaperinTotal;
+	private javax.swing.JTextField m_jCashInOutTotal;
+	private javax.swing.JTextField m_jCashOthersTotal;
 	private javax.swing.JButton m_jCloseCash;
 	private javax.swing.JTextField m_jCount;
 	private javax.swing.JTextField m_jMaxDate;

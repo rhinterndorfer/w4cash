@@ -41,6 +41,22 @@
             <text align ="right" length="10" bold="false">${payments.printPaymentsCashTotal()}</text>
         </line>
         <line>
+            <text align ="left" length="20" bold="false">Karte</text>
+            <text align ="right" length="10" bold="false">${payments.printPaymentsCardTotal()}</text>
+        </line>
+        <line>
+            <text align ="left" length="20" bold="false">Rechnung</text>
+            <text align ="right" length="10" bold="false">${payments.printPaymentsPaperinTotal()}</text>
+        </line>
+        <line>
+            <text align ="left" length="20" bold="false">Sonstige</text>
+            <text align ="right" length="10" bold="false">${payments.printPaymentsOthersTotal()}</text>
+        </line>
+        <line>
+            <text align ="left" length="20" bold="false">Ein-/Auszahlung</text>
+            <text align ="right" length="10" bold="false">${payments.printPaymentsCashInOutTotal()}</text>
+        </line>
+        <line>
             <text align ="left" length="20" bold="true">Total</text>
             <text align ="right" length="10" bold="true">${payments.printPaymentsTotal()}</text>
         </line>

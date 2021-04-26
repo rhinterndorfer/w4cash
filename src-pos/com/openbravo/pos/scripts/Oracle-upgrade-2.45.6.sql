@@ -26,6 +26,9 @@ UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Manager.xml
 UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Employee.xml} WHERE ID='2';
 UPDATE ROLES SET PERMISSIONS=$FILE{/com/openbravo/pos/templates/Role.Guest.xml} WHERE ID='3';
 
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.CloseCash.xml} WHERE NAME='Printer.CloseCash';  
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.PartialCash.xml} WHERE NAME='Printer.PartialCash';  
+
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{} AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST');
 UPDATE APPLICATIONS SET NAME = 'w4cashdb', VERSION = '2.45.7' WHERE ID = 'w4cashdb' AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST');
 
