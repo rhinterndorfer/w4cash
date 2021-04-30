@@ -750,7 +750,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 					script.put("place", ticketext != null && ticketext.getClass().equals(String.class) // show place on
 																										// order &&
 																										// !ticketext.toString().endsWith("$")
-							? ticketext.toString()
+							? ticketext.toString().replace("&","&amp;")
 							: "");
 					script.put("host", m_App.getHost());
 

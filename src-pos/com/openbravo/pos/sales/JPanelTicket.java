@@ -1436,7 +1436,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				}
 				script.put("ticket", ticket);
 				script.put("place", ticketext != null && ticketext.getClass().equals(String.class)
-						&& !ticketext.toString().endsWith("$") ? ticketext.toString() : "");
+						&& !ticketext.toString().endsWith("$") ? ticketext.toString().replace("&","&amp;") : "");
 				script.put("host", m_App.getHost());
 
 				script.put("SystemDataAddresLine1", SystemDataAddressLine1);
@@ -1707,7 +1707,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			script.put("ticket", ticket);
 			script.put("place", ticketext != null && ticketext.getClass().equals(String.class) // &&
 																								// !ticketext.toString().endsWith("$")
-					? ticketext.toString()
+					? ticketext.toString().replace("&","&amp;")
 					: "");
 			script.put("host", m_App.getHost());
 

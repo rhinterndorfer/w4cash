@@ -270,7 +270,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				if(m_ticket.getLinesCount() > 0)
 				{
 					String place = m_ticket.getLine(0).getProperty("Place");
-					script.put("place", place == null ? "" : place);
+					script.put("place", place == null ? "" : place.replace("&","&amp;"));
 				}
 				else
 				{

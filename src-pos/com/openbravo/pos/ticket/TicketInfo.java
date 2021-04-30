@@ -860,6 +860,11 @@ public class TicketInfo implements SerializableRead, Externalizable {
     public String printDate() {
         return Formats.TIMESTAMP.formatValue(m_dDate);
     }
+    
+    public String printTodayShort() {
+    	DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        return dateFormat.format(new Date());
+    }
 
     public String printUser() {
         return m_User == null ? "" : m_User.getName();
