@@ -2297,6 +2297,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									ticket1.SetTicketLinesMultiplyClone();
 
 								setActiveTicket(ticket1, m_oTicketExt);
+								
+								if(this.m_restaurant != null && this.m_restaurant.getPlaceCurrent() != null)
+									dlReceipts.updateSharedTicket(this.m_restaurant.getPlaceCurrent().getId(), ticket1);
 							} else
 								m_ticketsbag.deleteTicket(false);
 						} else {
