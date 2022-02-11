@@ -1167,34 +1167,8 @@ public class SignatureModul {
 	{
 		if(m_sigCert != null)
 		{
-			Calendar c = Calendar.getInstance();
-			if(m_sigCert.getNotAfter().before(c.getTime()))
-			{
-				// certificate is expired
-				// signature unit is working => notify finance office 
-				JConfirmDialog.showError(m_app, 
-						caller, 
-						null,
-						AppLocal.getIntString("signature.expired")
-						);
-				m_isCriticalError = true;
-				return;
-			}
-			
-			c.add(Calendar.MONTH, 1);
-			if(m_sigCert.getNotAfter().before(c.getTime()))
-			{
-				// certificate expires within the next 2 months
-				String expDate = new SimpleDateFormat("dd.MM.yyyy").format(m_sigCert.getNotAfter());
-				JConfirmDialog.showInformation(m_app, 
-						caller, 
-						null,
-						String.format(AppLocal.getIntString("signature.expiresinXdays"), expDate)
-						);
-				Log.Info2DB("Signature: certificate expiration (within next month))");
-				return;
-			}
-			
+			// https://www.wko.at/branchen/information-consulting/unternehmensberatung-buchhaltung-informationstechnologie/it-dienstleistung/Registrierkassenpflicht.html
+			// Usage of expired certificates is valid
 		}
 	}
 
