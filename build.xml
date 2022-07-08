@@ -28,11 +28,11 @@
 	<property name="name" value="w4cash" />
 	<!-- project version -->
 	<property name="version" value="2.45.7" />
-	<!-- avac properties -->
+	<!-- javac properties -->
 	<property name="javac.deprecation" value="off" />
 	<property name="javac.optimize" value="on" />
 	<property name="javac.debug" value="off" />
-	<property name="javac.minVMVersion" value="1.8" />
+	<property name="javac.exec" value="C:\Program Files\Java\jdk1.8.0_202\bin\javac.exe" />
 	<!-- read in property files -->
 	<property file="build.properties" />
 	<property name="src.pos" value="${basedir}/src-pos" />
@@ -76,7 +76,16 @@
 	<!-- ================================================================= -->
 	<target name="compilepos" depends="init.classes">
 		<mkdir dir="${dest.classes}/pos" />
-		<javac srcdir="${src.pos}" destdir="${dest.classes}/pos" debug="${javac.debug}" deprecation="${javac.deprecation}" optimize="${javac.optimize}" target="${javac.minVMVersion}" includeantruntime="false">
+		<javac srcdir="${src.pos}" 
+			destdir="${dest.classes}/pos" 
+			debug="${javac.debug}" 
+			deprecation="${javac.deprecation}" 
+			optimize="${javac.optimize}" 
+			target="1.8" 
+			source="1.8" 
+			includeantruntime="false"
+			fork="yes"
+			executable="${javac.exec}">
 			<classpath>
 				<fileset dir="${basedir}/lib">
 					<include name="**/*.jar" />

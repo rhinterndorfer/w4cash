@@ -1158,11 +1158,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						}
 					} else {
 						// substract one unit to the selected line
-						newline.setMultiply(newline.getMultiply() - 1.0);
-						if (newline.getMultiply() <= 0.0) {
-							removeTicketLine(i); // elimino la linea
+						if(!"true".equals(m_jbtnconfig.getProperty("disableQuickSubstract"))) {
+							newline.setMultiply(newline.getMultiply() - 1.0);
+							
+							if (newline.getMultiply() <= 0.0) {
+								removeTicketLine(i); // elimino la linea
+							} else {
+								paintTicketLine(i, newline);
+							}
 						} else {
-							paintTicketLine(i, newline);
+							Toolkit.getDefaultToolkit().beep();
 						}
 					}
 				}
