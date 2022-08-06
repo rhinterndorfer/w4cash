@@ -1504,7 +1504,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			Map<String, Object> reportfields = new HashMap<String, Object>();
 			reportfields.put("TICKET", ticket);
 			reportfields.put("PLACE",
-					ticketext != null && ticketext.getClass().equals(String.class) ? ticketext.toString() : "");
+					ticketext != null && ticketext.getClass().equals(String.class)
+					&& !ticketext.toString().endsWith("$") ? ticketext.toString().replace("&","&amp;") : "");
 
 			JasperPrint jp = JasperFillManager.fillReport(jr, reportparams,
 					new JRMapArrayDataSource(new Object[] { reportfields }));
@@ -1710,8 +1711,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 			ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.BEANSHELL);
 			script.put("ticket", ticket);
-			script.put("place", ticketext != null && ticketext.getClass().equals(String.class) // &&
-																								// !ticketext.toString().endsWith("$")
+			script.put("place", ticketext != null && ticketext.getClass().equals(String.class) // show place on
+										// order &&
+										// !ticketext.toString().endsWith("$")
 					? ticketext.toString().replace("&","&amp;")
 					: "");
 			script.put("host", m_App.getHost());
