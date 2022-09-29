@@ -174,9 +174,10 @@ public class Session {
 	}
 	
 	private void ensureConnection() throws SQLException {
-		int retryInitValue = 20;
+		int retryInitValue = 3;
 		int retry = retryInitValue;
 		
+		long startTimeMillis = System.currentTimeMillis();
 		while(retry > 0 && !checkConnection()) {
 			if(retry < retryInitValue) {
 				try {
@@ -184,7 +185,14 @@ public class Session {
 				} catch (InterruptedException e) {
 				}
 			}
+			while(System.currentTimeMillis() - startTimeMillis < 5000) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+				}
+			}
 			retry--;
+			startTimeMillis = System.currentTimeMillis();
 			
 			// reconnect if closed
 			try {
@@ -194,6 +202,9 @@ public class Session {
 					throw e;
 			}
 		}
+		if(retry == 0) {
+			throw new SQLException("Cannot establish database connection");
+		}
 	}
 
 	public String getURL() throws SQLException {
@@ -202,7 +213,7 @@ public class Session {
 
 	private SessionDB getDiff() throws SQLException {
 
-		String sdbmanager = getConnection().getMetaData().getDatabaseProductName();
+		String sdbmanager = getConnectionNoCheck().getMetaData().getDatabaseProductName();
 
 		if ("Oracle".equals(sdbmanager)) {
 			return new SessionDBOracle();

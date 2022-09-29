@@ -100,10 +100,11 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
             try {
             	insert.noExceptionLogging = true;
             	insert.exec(values);
-            } catch(Exception ex)
-            {
-            	// ignore
-            	String m = ex.getMessage();
+            }
+            catch(Exception ex) {
+            	if(!java.sql.SQLIntegrityConstraintViolationException.class.equals(ex.getCause().getClass())) {
+            		throw ex;
+            	}
             }
             finally
             {
