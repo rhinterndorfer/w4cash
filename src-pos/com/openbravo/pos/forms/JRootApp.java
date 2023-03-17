@@ -525,7 +525,6 @@ public class JRootApp extends JPanel implements AppView {
 			jScrollPane1.getViewport().setView(null);
 
 			JFlowPanel jPeople = new JFlowPanel();
-			// jPeople.setMinimumSize(new Dimension(510,118));
 			jPeople.applyComponentOrientation(getComponentOrientation());
 
 			java.util.List people = m_dlSystem.listPeopleVisible();
@@ -535,36 +534,38 @@ public class JRootApp extends JPanel implements AppView {
 				AppUser user = (AppUser) people.get(i);
 
 				JButton btn = new JButton(new AppUserAction(user));
-
-				// JButton btn = new JPanelButtons(new AppUserAction(user));
-
 				btn.applyComponentOrientation(getComponentOrientation());
 				btn.setFocusPainted(false);
 				btn.setFocusable(false);
 				btn.setRequestFocusEnabled(false);
 				btn.setHorizontalAlignment(SwingConstants.LEADING);
-				/**
-				 * change user login buttons size
-				 */
-				// posprops.getProperty(key, defaultValue)
-				btn.setMaximumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
-						Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
-				btn.setPreferredSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
-						Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
-				btn.setMinimumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
-						Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
-
-				// btn.setMaximumSize(new Dimension(150, 50));
-				// btn.setPreferredSize(new Dimension(150, 50));
-				// btn.setMinimumSize(new Dimension(150, 50));
-
+				sizeButton(btn);
 				jPeople.add(btn);
 			}
+			jScrollPane1.setMinimumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-panel-width", "510")),
+					Integer.parseInt(posprops.getProperty("login-panel-height", "118"))));
+			jScrollPane1.setPreferredSize(new Dimension(Integer.parseInt(posprops.getProperty("login-panel-width", "510")),
+					Integer.parseInt(posprops.getProperty("login-panel-height", "118"))));
+			
 			jScrollPane1.getViewport().setView(jPeople);
 
 		} catch (BasicException ee) {
 			ee.printStackTrace();
 		}
+	}
+	
+	private void sizeButton(JButton btn) {
+		// posprops.getProperty(key, defaultValue)
+		btn.setMaximumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
+				Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+		btn.setPreferredSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
+				Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+		btn.setMinimumSize(new Dimension(Integer.parseInt(posprops.getProperty("login-img-width", "150")),
+				Integer.parseInt(posprops.getProperty("login-img-height", "50"))));
+		
+		int fontSize = Integer.parseInt(posprops.getProperty("login-btn-fontsize", "12"));
+		Font btnFont = btn.getFont().deriveFont(btn.getFont().getStyle(), fontSize);
+		btn.setFont(btnFont);
 	}
 
 	// La accion del selector
@@ -657,6 +658,10 @@ public class JRootApp extends JPanel implements AppView {
 		// Show Login
 		listPeople();
 		showView("login");
+		
+		// resize buttons
+		sizeButton(m_jClose);
+		
 
 		// show welcome message
 		printerStart();
@@ -716,7 +721,6 @@ public class JRootApp extends JPanel implements AppView {
 		jPanel2 = new javax.swing.JPanel();
 		jPanel8 = new javax.swing.JPanel();
 		m_jClose = new javax.swing.JButton();
-		m_jLicense = new javax.swing.JButton();
 		m_jShowAES = new javax.swing.JButton();
 		m_jDEPExport = new javax.swing.JButton();
 		jPanel1 = new javax.swing.JPanel();
@@ -811,28 +815,12 @@ public class JRootApp extends JPanel implements AppView {
 
 		jPanel8.setLayout(new java.awt.GridLayout(0, 1, 5, 5));
 
-		// license
-		m_jLicense.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/license.png"))); // NOI18N
-		m_jLicense.setText(AppLocal.getIntString("Button.License")); // NOI18N
-		m_jLicense.setFocusPainted(false);
-		m_jLicense.setFocusable(false);
-		m_jLicense.setPreferredSize(new java.awt.Dimension(115, 35));
-		m_jLicense.setRequestFocusEnabled(false);
-		m_jLicense.setHorizontalAlignment(JButton.LEFT);
-		m_jLicense.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jLicenseActionPerformed(evt);
-			}
-		});
-
-		jPanel8.add(m_jLicense);
-
 		// close
 		m_jClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/exit.png"))); // NOI18N
 		m_jClose.setText(AppLocal.getIntString("Button.Close")); // NOI18N
+		m_jClose.setPreferredSize(new java.awt.Dimension(115, 35));
 		m_jClose.setFocusPainted(false);
 		m_jClose.setFocusable(false);
-		m_jClose.setPreferredSize(new java.awt.Dimension(115, 35));
 		m_jClose.setRequestFocusEnabled(false);
 		m_jClose.setHorizontalAlignment(JButton.LEFT);
 		m_jClose.addActionListener(new java.awt.event.ActionListener() {
@@ -941,7 +929,6 @@ public class JRootApp extends JPanel implements AppView {
 	private javax.swing.JButton m_jShowAES;
 	private javax.swing.JButton m_jDEPExport;
 	private javax.swing.JButton m_jClose;
-	private javax.swing.JButton m_jLicense;
 	private javax.swing.JLabel m_jHost;
 	private javax.swing.JPanel m_jLogonName;
 	private javax.swing.JPanel m_jPanelContainer;

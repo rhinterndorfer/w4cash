@@ -157,6 +157,16 @@ public class JPaymentCashPos extends javax.swing.JPanel implements JPaymentInter
 			btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 			btn.setMargin(new Insets(2, 2, 2, 2));
 			btn.addActionListener(new AddAmount(amount));
+			
+			//scale button
+			int btnWidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-width","48"));
+			int btnHeight = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-height","48"));
+			int fontsize = Integer
+					.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+			
+			PropertyUtil.ScaleButtonIcon(btn, btnWidth, btnHeight, fontsize);
+			PropertyUtil.ScaleButtonFontsize(btn, fontsize);
+			
 			jPanel6.add(btn);
 		}
 	}

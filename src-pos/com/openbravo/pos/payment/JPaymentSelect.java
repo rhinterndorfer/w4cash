@@ -613,7 +613,12 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		{
 			width = (int)d.getWidth(); 
 		}
-		PropertyUtil.ScaleDialog(m_App, this, width, 700);
+		int dialogWidth = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-payment-width", String.format("%1$d", width)));
+		int dialogHeight = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-payment-height", "700"));
+		
+		PropertyUtil.ScaleDialog(m_App, this, dialogWidth, dialogHeight);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();
