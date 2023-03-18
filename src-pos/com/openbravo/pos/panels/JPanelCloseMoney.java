@@ -255,12 +255,14 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		}
 	}
 	
-	private void printLastCashPayments(String report) {
+	private void printLastCashPayments(String report, Boolean isRequired) {
 		
 		String sresource = m_dlSystem.getResourceAsXML(report);
 		if (sresource == null) {
-			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
-			msg.show(m_App, this);
+			if(isRequired) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
+				msg.show(m_App, this);
+			}
 		} else {
 			try {
 				// reload data
@@ -948,7 +950,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private void m_jPrintCashLastActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jPrintCashActionPerformed
 
 		// print report
-		printLastCashPayments("Printer.CloseCash");
+		printLastCashPayments("Printer.CloseCash", true);
+		printLastCashPayments("Printer.CloseCash.Free", false);
 
 	}// GEN-LAST:event_m_jPrintCashActionPerformed
 
