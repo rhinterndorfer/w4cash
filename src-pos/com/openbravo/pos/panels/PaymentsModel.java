@@ -48,6 +48,7 @@ public class PaymentsModel {
     private Double m_dPaymentsCardTotal;
     private Double m_dPaymentsCashInOutTotal;
     private Double m_dPaymentsPaperinTotal;
+    private Double m_dPaymentsFreeTotal;
     private java.util.List<PaymentsLine> m_lpayments;
     
     private final static String[] PAYMENTHEADERS = {"Label.Payment", "Label.Description", "label.totalcash"};
@@ -189,6 +190,20 @@ public class PaymentsModel {
         }
         
         
+        Object[] valticketsfreetotal = (Object []) new StaticSentence(app.getSession()
+                , "SELECT NVL(SUM(PAYMENTS.TOTAL),0) " +
+                  "FROM PAYMENTS, RECEIPTS " +
+                  "WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT in ('free') AND RECEIPTS.MONEY = ?"
+                , SerializerWriteString.INSTANCE
+                , new SerializerReadBasic(new Datas[] {Datas.DOUBLE}))
+                .find(cashIndex);
+            
+        if (valticketscardtotal == null ) {
+            p.m_dPaymentsFreeTotal = new Double(0.0);
+        } else {
+            p.m_dPaymentsFreeTotal = (Double) valticketsfreetotal[0];
+        }
+        
         // list of payments
         List l = new StaticSentence(app.getSession()            
             , "SELECT PAYMENTS.PAYMENT, SUM(PAYMENTS.TOTAL), PAYMENTS.DESCRIPTION " +
@@ -240,8 +255,8 @@ public class PaymentsModel {
         
         // Sales
         Object[] recsales = (Object []) new StaticSentence(app.getSession(),
-        	"SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(TAXLINES.BASE,?)) " +
-        	"FROM RECEIPTS, TAXLINES, PAYMENTS WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT <> 'free' AND RECEIPTS.ID = TAXLINES.RECEIPT AND RECEIPTS.MONEY = ?",
+        	"SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(NVL(TAXLINES.BASE,0),?)) " +
+        	"FROM RECEIPTS LEFT JOIN TAXLINES ON RECEIPTS.ID = TAXLINES.RECEIPT INNER JOIN PAYMENTS ON PAYMENTS.RECEIPT = RECEIPTS.ID WHERE PAYMENTS.PAYMENT <> 'free' AND RECEIPTS.MONEY = ?",
             new SerializerWriteBasic(new Datas[] {Datas.INT, Datas.STRING}),
             new SerializerReadBasic(new Datas[] {Datas.INT, Datas.DOUBLE}))
             .find(new Object[] {currencyDecimals, cashIndex});
@@ -255,8 +270,8 @@ public class PaymentsModel {
         
         // Sales Free
         Object[] recsalesfree = (Object []) new StaticSentence(app.getSession(),
-    		"SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(TAXLINES.BASE,?)) " +
-        	"FROM RECEIPTS, TAXLINES, PAYMENTS WHERE PAYMENTS.RECEIPT = RECEIPTS.ID AND PAYMENTS.PAYMENT = 'free' AND RECEIPTS.ID = TAXLINES.RECEIPT AND RECEIPTS.MONEY = ?",
+    		"SELECT COUNT(DISTINCT RECEIPTS.ID), SUM(ROUND(NVL(TAXLINES.BASE,0),?)) " +
+        	"FROM RECEIPTS LEFT JOIN TAXLINES ON RECEIPTS.ID = TAXLINES.RECEIPT INNER JOIN PAYMENTS ON PAYMENTS.RECEIPT = RECEIPTS.ID WHERE PAYMENTS.PAYMENT = 'free' AND RECEIPTS.MONEY = ?",
             new SerializerWriteBasic(new Datas[] {Datas.INT, Datas.STRING}),
             new SerializerReadBasic(new Datas[] {Datas.INT, Datas.DOUBLE}))
         	.find(new Object[] {currencyDecimals, cashIndex});
@@ -402,6 +417,10 @@ public class PaymentsModel {
         return Formats.CURRENCY.formatValue(m_dPaymentsCardTotal);
     }
     
+    public String printPaymentsFreeTotal() {
+        return Formats.CURRENCY.formatValue(m_dPaymentsFreeTotal);
+    }
+    
     public String printPaymentsPaperinTotal() {
         return Formats.CURRENCY.formatValue(m_dPaymentsPaperinTotal);
     }
@@ -451,6 +470,9 @@ public class PaymentsModel {
     }  
     public List<SalesLine> getSaleLines() {
         return m_lsales;
+    }
+    public List<SalesLine> getSaleFreeLines() {
+        return m_lsalesFree;
     }
     
     public AbstractTableModel getPaymentsModel() {

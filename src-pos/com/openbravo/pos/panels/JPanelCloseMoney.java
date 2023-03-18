@@ -219,14 +219,16 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		jColumns.getColumn(1).setResizable(false);
 	}
 
-	private void printPayments(String report) {
+	private void printPayments(String report, Boolean isRequired ) {
 
 		
 		
 		String sresource = m_dlSystem.getResourceAsXML(report);
 		if (sresource == null) {
-			MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
-			msg.show(m_App, this);
+			if(isRequired) {
+				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotprintticket"));
+				msg.show(m_App, this);	
+			}
 		} else {
 			try {
 				// reload data
@@ -899,7 +901,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 					// print report before closing
 					// otherwise new cash session is opened
-					printPayments("Printer.CloseCash");
+					printPayments("Printer.CloseCash", true);
+					printPayments("Printer.CloseCash.Free", false);
 					
 					// split if contains "\"
 					// support POS with same name in front of "\" character sharing a cash shift
@@ -937,7 +940,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private void m_jPrintCashActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jPrintCashActionPerformed
 
 		// print report
-		printPayments("Printer.PartialCash");
+		printPayments("Printer.PartialCash", true);
+		printPayments("Printer.PartialCash.Free", false);
 
 	}// GEN-LAST:event_m_jPrintCashActionPerformed
 

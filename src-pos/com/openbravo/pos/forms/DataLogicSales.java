@@ -490,6 +490,15 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		Transaction t = new Transaction(s) {
 			public Object transact() throws BasicException, SignatureUnitException {
 
+				// lock exclusive at start with timeout
+				StaticSentence lock = new StaticSentence(s, "LOCK TABLE TICKETS IN EXCLUSIVE MODE WAIT 30", null, null);
+		    	try {
+		    		lock.exec();
+		    	}
+		    	finally {
+		    		lock.closeExec();
+		    	}
+				
 				// Set Receipt Id
 				switch (ticket.getTicketType()) {
 				case TicketInfo.RECEIPT_NORMAL:
