@@ -848,6 +848,16 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return avalues.toArray(new TicketTaxInfo[avalues.size()]);
     }
 
+    public TicketLineInfo getLastLine() {
+        int count = getLinesCount();
+        if(count > 0) {
+        	TicketLineInfo lastLine = getLine(count - 1);
+        	return lastLine;
+        }
+    	return null;
+   }
+    
+    
     public String printId() {
         if (m_iTicketId > 0) {
             // valid ticket id

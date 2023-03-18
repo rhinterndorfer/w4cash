@@ -23,6 +23,7 @@ import java.awt.*;
 import javax.swing.*;
 import com.openbravo.pos.printer.*;
 import com.openbravo.pos.forms.AppLocal;
+import com.openbravo.pos.forms.AppView;
 
 /**
  *
@@ -48,6 +49,8 @@ public class DeviceDisplayPanel extends JPanel implements DeviceDisplay, DeviceD
 
         m_displaylines = new DeviceDisplayBase(this);
     }
+    
+    public void setAppView(AppView app) {};
     
     public String getDisplayName() {
         return m_sName;
@@ -75,7 +78,17 @@ public class DeviceDisplayPanel extends JPanel implements DeviceDisplay, DeviceD
     
     public void repaintLines() {
         jline1.setText(m_displaylines.getLine1());
+        if(jline1.getText().trim().isEmpty()) {
+        	jline1.setOpaque(false);
+        } else {
+        	jline1.setOpaque(true);
+        }
         jline2.setText(m_displaylines.getLine2());
+        if(jline2.getText().trim().isEmpty()) {
+        	jline2.setOpaque(false);
+        } else {
+        	jline2.setOpaque(true);
+        }
     }
     
     @Override
@@ -83,14 +96,20 @@ public class DeviceDisplayPanel extends JPanel implements DeviceDisplay, DeviceD
         
         paintBorder(g);
         
-        Graphics2D g2d = (Graphics2D) g;     
+        //Graphics2D g2d = (Graphics2D) g;     
         
-        Insets i = getInsets();
+        //Insets i = getInsets();
         
         //g.setColor(getBackground());
+        /*
         g2d.setPaint(new GradientPaint(getWidth() - i.left - i.right - 50, getHeight() - i.top - i.bottom - 50, getBackground()
                                      , getWidth() - i.left - i.right, getHeight() - i.top - i.bottom, new Color(0xf0f0f0), true));
-        g2d.fillRect(i.left, i.top, getWidth() - i.left - i.right, getHeight() - i.top - i.bottom);
+        
+        //g2d.setPaint(new paint);
+        //g2d.fillRect(i.left, i.top, getWidth() - i.left - i.right, getHeight() - i.top - i.bottom);
+         * */
+        
+        //g2d.clearRect(i.left, i.top, getWidth() - i.left - i.right, getHeight() - i.top - i.bottom);
 
     }
     
@@ -107,7 +126,8 @@ public class DeviceDisplayPanel extends JPanel implements DeviceDisplay, DeviceD
         jline1 = new javax.swing.JLabel();
         jline2 = new javax.swing.JLabel();
 
-        setBackground(javax.swing.UIManager.getDefaults().getColor("window"));
+        //setBackground(javax.swing.UIManager.getDefaults().getColor("window"));
+        setOpaque(false);
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setLayout(new java.awt.BorderLayout());
 
@@ -116,12 +136,16 @@ public class DeviceDisplayPanel extends JPanel implements DeviceDisplay, DeviceD
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         jline1.setText("jline1");
+        jline1.setBackground(Color.white);
+        jline1.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         jPanel1.add(jline1, gridBagConstraints);
 
         jline2.setText("jline2");
+        jline2.setBackground(Color.white);
+        jline2.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;

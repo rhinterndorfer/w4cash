@@ -95,7 +95,8 @@ public class DeviceTicket {
             if ("screen".equals(sDisplayType)) {
                 m_devicedisplay = new DeviceDisplayPanel();
             } else if ("window".equals(sDisplayType)) {
-                m_devicedisplay = new DeviceDisplayWindow();
+                m_devicedisplay = new DeviceDisplayWindow(app);
+                
             } else if ("epson".equals(sDisplayType)) {
                 m_devicedisplay = new DeviceDisplayESCPOS(pws.getPrinterWritter(sDisplayParam1, sDisplayParam2), new UnicodeTranslatorInt());
             } else if ("surepos".equals(sDisplayType)) {
