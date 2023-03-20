@@ -192,7 +192,12 @@ public class JPasswordDialog extends javax.swing.JDialog {
 
 		ScaleButtons(m_App);
 		
-		PropertyUtil.ScaleDialog(m_App, this, 350, 520);
+		
+		
+		
+		int width = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-password-width", "350"));
+		int height = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "dialog-password-height", "520"));
+		PropertyUtil.ScaleDialog(m_App, this, width, height);
 
 		// java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		// setBounds((screenSize.width), (screenSize.height), 258, 428);
