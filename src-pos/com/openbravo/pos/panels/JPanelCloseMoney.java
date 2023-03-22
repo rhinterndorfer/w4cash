@@ -219,7 +219,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		jColumns.getColumn(1).setResizable(false);
 	}
 
-	private void printPayments(String report, Boolean isRequired ) {
+	private void printPayments(String report, Boolean isRequired, Boolean isFreePayment) {
 
 		
 		
@@ -234,9 +234,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				// reload data
 				loadData();
 				
-				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
-				script.put("payments", m_PaymentsToClose);
-				m_TTP.printTicket(script.eval(sresource).toString());
+				if(!isFreePayment || m_PaymentsToClose.getSaleFreeLines().size() > 0) {
+					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+					script.put("payments", m_PaymentsToClose);
+					m_TTP.printTicket(script.eval(sresource).toString());
+				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
@@ -255,7 +257,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 		}
 	}
 	
-	private void printLastCashPayments(String report, Boolean isRequired) {
+	private void printLastCashPayments(String report, Boolean isRequired, Boolean isFreePayment) {
 		
 		String sresource = m_dlSystem.getResourceAsXML(report);
 		if (sresource == null) {
@@ -268,9 +270,11 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				// reload data
 				PaymentsModel m_PaymentsToPrint = PaymentsModel.loadInstance(m_App, m_App.getLastCashIndex());
 
-				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
-				script.put("payments", m_PaymentsToPrint);
-				m_TTP.printTicket(script.eval(sresource).toString());
+				if(!isFreePayment || m_PaymentsToPrint.getSaleFreeLines().size() > 0) {
+					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
+					script.put("payments", m_PaymentsToPrint);
+					m_TTP.printTicket(script.eval(sresource).toString());
+				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
@@ -903,8 +907,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
 					// print report before closing
 					// otherwise new cash session is opened
-					printPayments("Printer.CloseCash", true);
-					printPayments("Printer.CloseCash.Free", false);
+					printPayments("Printer.CloseCash", true, false);
+					printPayments("Printer.CloseCash.Free", false, true);
 					
 					// split if contains "\"
 					// support POS with same name in front of "\" character sharing a cash shift
@@ -942,16 +946,16 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 	private void m_jPrintCashActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jPrintCashActionPerformed
 
 		// print report
-		printPayments("Printer.PartialCash", true);
-		printPayments("Printer.PartialCash.Free", false);
+		printPayments("Printer.PartialCash", true, false);
+		printPayments("Printer.PartialCash.Free", false, true);
 
 	}// GEN-LAST:event_m_jPrintCashActionPerformed
 
 	private void m_jPrintCashLastActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jPrintCashActionPerformed
 
 		// print report
-		printLastCashPayments("Printer.CloseCash", true);
-		printLastCashPayments("Printer.CloseCash.Free", false);
+		printLastCashPayments("Printer.CloseCash", true, false);
+		printLastCashPayments("Printer.CloseCash.Free", false, true);
 
 	}// GEN-LAST:event_m_jPrintCashActionPerformed
 
