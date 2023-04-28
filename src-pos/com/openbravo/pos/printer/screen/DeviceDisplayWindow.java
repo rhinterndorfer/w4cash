@@ -41,6 +41,7 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import com.openbravo.pos.forms.AppConfig;
@@ -78,6 +79,14 @@ public class DeviceDisplayWindow extends javax.swing.JFrame implements DeviceDis
 			// do nothing
 		}
 		
+		int displayWindowIndex = 1;
+		try {
+			displayWindowIndex = Integer.parseInt(app.getProperties().getProperty("Display.Window.Index"));
+		} catch(Exception e){
+			// do nothing
+		}
+		
+		
 		if(backgroundImageFolderPath != null)
 		{
 			usedBackgroundImages = new HashSet<String>();
@@ -87,7 +96,7 @@ public class DeviceDisplayWindow extends javax.swing.JFrame implements DeviceDis
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice[] gs = ge.getScreenDevices();
 		if (gs.length > 1) {
-			GraphicsConfiguration configuration = gs[1].getDefaultConfiguration();
+			GraphicsConfiguration configuration = gs[displayWindowIndex].getDefaultConfiguration();
 			Rectangle rectNew = configuration.getBounds();
 			Rectangle rectOld = this.getBounds();
 			this.setBounds(rectNew);
@@ -101,6 +110,8 @@ public class DeviceDisplayWindow extends javax.swing.JFrame implements DeviceDis
 		
 		m_background.add(m_display.getDisplayComponent());
 
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setUndecorated(true);
 		setVisible(true);
 	}
 	
