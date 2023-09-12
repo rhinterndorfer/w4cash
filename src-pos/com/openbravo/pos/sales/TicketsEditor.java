@@ -23,9 +23,11 @@ import com.openbravo.pos.ticket.TicketInfo;
 
 public interface TicketsEditor {
     
-    public void setActiveTicket(TicketInfo oTicket, Object oTicketExt); // el ticket mas informacion extra...
+    public void setActiveTicket(TicketInfo oTicket, Object oTicketExt, Boolean useMultiplyClone);
+    public void setActiveTicket(TicketInfo oTicket, Object oTicketExt);
     public TicketInfo getActiveTicket();
 	public TicketInfo getActiveTicketClone();
 	public void SyncTicketClone();
 	public void DoSaveTicketEvent();
+	public void DoCloseTicket();
 }

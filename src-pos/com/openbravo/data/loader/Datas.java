@@ -19,11 +19,15 @@
 
 package com.openbravo.data.loader;
 
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.google.gson.Gson;
 import com.openbravo.basic.BasicException;
+import com.openbravo.pos.ticket.TicketInfo;
 
 public abstract class Datas {
     
@@ -36,7 +40,7 @@ public abstract class Datas {
     public final static Datas IMAGE = new DatasIMAGE();
     //public final static Datas INPUTSTREAM = new DatasINPUTSTREAM();
     public final static Datas OBJECT = new DatasOBJECT();
-    public final static Datas SERIALIZABLE = new DatasSERIALIZABLE();
+    public final static Datas SERIALIZABLETicketInfo = new DatasSERIALIZABLE(TicketInfo.class);
     public final static Datas NULL = new DatasNULL();
     
     private static DateFormat tsf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
@@ -147,7 +151,7 @@ public abstract class Datas {
         public Object getValue(DataRead dr, int i) throws BasicException {
             return dr.getTimestamp(i);
         }
-         public void setValue(DataWrite dw, int i, Object value) throws BasicException {
+        public void setValue(DataWrite dw, int i, Object value) throws BasicException {
             dw.setTimestamp(i, (java.util.Date) value);
         }
         public Class getClassValue() {
@@ -213,18 +217,37 @@ public abstract class Datas {
         }   
     }
     
-    private static final class DatasSERIALIZABLE extends Datas {
-        public Object getValue(DataRead dr, int i) throws BasicException {
-            return ImageUtils.readSerializable(dr.getBytes(i));
+    private static final class DatasSERIALIZABLE<T> extends Datas {
+        
+    	private Class<T> type;
+    	public DatasSERIALIZABLE(Class<T> type) {
+    		this.type = type;
+    	}
+    	
+    	public Object getValue(DataRead dr, int i) throws BasicException {
+    		try {
+    			String json = new String(dr.getBytes(i), StandardCharsets.UTF_8);
+    			Gson gson = new Gson();
+    			T obj = gson.fromJson(json, type);
+    			return obj;
+    		} catch(Exception ex) {
+    			Object obj = ImageUtils.readSerializable(dr.getBytes(i));
+    			return obj;
+    		}
+        	
+        	
         }
         public void setValue(DataWrite dw, int i, Object value) throws BasicException {
-            dw.setBytes(i, ImageUtils.writeSerializable(value));
+            Gson gson = new Gson();
+        	String json = gson.toJson(value);
+        	dw.setBytes(i, json.getBytes(StandardCharsets.UTF_8));
         }
         public Class getClassValue() {
             return java.lang.Object.class;
         }
         protected String toStringAbstract(Object value) {
-            return "0x" + ImageUtils.bytes2hex(ImageUtils.writeSerializable(value));
+            
+        	return "0x" + ImageUtils.bytes2hex(ImageUtils.writeSerializable(value));
         }
         protected int compareAbstract(Object o1, Object o2) {
             throw new UnsupportedOperationException();

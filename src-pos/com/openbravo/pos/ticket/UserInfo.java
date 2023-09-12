@@ -35,6 +35,9 @@ public class UserInfo implements Serializable {
         m_sId = id;
         m_sName = name;
     }
+    
+    public UserInfo() {
+    }
 
     public String getId() {
         return m_sId;

@@ -274,7 +274,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
 				if (line.getMultiply() > 1.0) {
 					line.setMultiply(line.getMultiply() - 1.0);
 					ticketlines.setTicketLine(i, line);
-					line = line.copyTicketLine();
+					line = line.copyTicketLine(false);
 					line.setMultiply(1.0);
 					l.add(line);
 					i++;

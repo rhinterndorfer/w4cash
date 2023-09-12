@@ -99,6 +99,10 @@ public class AppUser {
         return m_sCard;
     }
     
+    public Boolean isServer() {
+        return "server$".equals(m_sName);
+    }
+    
     public boolean authenticate() {
         return m_sPassword == null || m_sPassword.equals("") || m_sPassword.startsWith("empty:");
     }

@@ -232,11 +232,11 @@ public class TicketInfo implements SerializableRead, Externalizable {
         return t;
     }
     
-    public TicketInfo copyTicket() {
+    public TicketInfo copyTicket(Boolean useMultiplyClone) {
     	TicketInfo t = copyTicketHeader();
         
     	for (TicketLineInfo l : m_aLines) {
-            t.m_aLines.add(l.copyTicketLine());
+            t.m_aLines.add(l.copyTicketLine(useMultiplyClone));
         }
         t.refreshLines();
 
@@ -806,7 +806,7 @@ public class TicketInfo implements SerializableRead, Externalizable {
     	
     	// now remove the ticket lines where the unit = 0
 		// start deleteing in reverse order
-		for (int i = getLinesCount() - 1 ; i > 0 ; i--) { 
+		for (int i = getLinesCount() - 1 ; i >= 0 ; i--) { 
 			TicketLineInfo loop_ticketline = getLine(i);
 			double loop_amount  = loop_ticketline.getMultiply();
 			if (loop_amount == 0){

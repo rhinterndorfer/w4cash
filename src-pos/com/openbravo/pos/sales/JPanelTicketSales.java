@@ -52,15 +52,14 @@ public class JPanelTicketSales extends JPanelTicket {
 	}
 
 	protected Component getSouthComponent() {
-		m_cat = new JCatalog(m_App,dlSales, "true".equals(m_jbtnconfig.getProperty("pricevisible")),
+		m_cat = new JCatalog(m_App, dlSales, "true".equals(m_jbtnconfig.getProperty("pricevisible")),
 				"true".equals(m_jbtnconfig.getProperty("taxesincluded")),
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-width", "64")),
 				Integer.parseInt(m_jbtnconfig.getProperty("product-img-height", "54")),
 				Integer.parseInt(m_jbtnconfig.getProperty("category-img-width", "32")),
 				Integer.parseInt(m_jbtnconfig.getProperty("category-img-height", "32")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-product-fontsize", "20")),
-				Integer.parseInt(m_jbtnconfig.getProperty("button-category-fontsize", "20"))
-		);
+				Integer.parseInt(m_jbtnconfig.getProperty("button-category-fontsize", "20")));
 		m_cat.addActionListener(new CatalogListener());
 		m_cat.setCatWidth(Integer.parseInt(m_jbtnconfig.getProperty("cat-width", "275")));
 		m_cat.getComponent()
