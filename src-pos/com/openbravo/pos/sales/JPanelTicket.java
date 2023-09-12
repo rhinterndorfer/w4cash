@@ -425,13 +425,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
-	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt, Boolean useMultiplyClone) {
+	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt, Boolean useMultiplyClone, Boolean useTicketUser) {
 		m_oTicket = oTicket;
 		m_oTicketExt = oTicketExt;
 
 		if (m_oTicket != null) {
 			// Asign preeliminary properties to the receipt
-			m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+			if(!useTicketUser || m_oTicket.getUser() == null) {
+				m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+			}
 
 			/*
 			 * set at ticket close try {
@@ -457,7 +459,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	}
 	
 	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt) {
-		setActiveTicket(oTicket, oTicketExt, false);
+		setActiveTicket(oTicket, oTicketExt, false, false);
 	}
 
 	public void SyncTicketClone() {

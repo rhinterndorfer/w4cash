@@ -327,7 +327,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 						
 						if("print".equals(info.getState())) {
 							
-							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true);
+							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
 							
 							Place pl = new Place();
 							pl.setSId(sharedTicketId);
@@ -343,7 +343,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 						
 						if("close".equals(info.getState())) {
 							
-							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true);
+							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
 							
 							Place pl = new Place();
 							pl.setSId(sharedTicketId);
