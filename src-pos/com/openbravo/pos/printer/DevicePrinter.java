@@ -50,7 +50,7 @@ public interface DevicePrinter {
     public void reset();
     
     // INTERFAZ PRINTER   
-    public void beginReceipt();
+    public void beginReceipt(String id);
     public void printImage(BufferedImage image);
     public void printImageNoLF(BufferedImage image, int x);
     public void printBarCode(String type, String position, String code);

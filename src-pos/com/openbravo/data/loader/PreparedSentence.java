@@ -116,6 +116,13 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }
+        public void setCharacterStream (int paramIndex, java.io.Reader reader) throws BasicException {
+        	try {
+                m_ps.setCharacterStream(paramIndex, reader);
+            } catch (SQLException eSQL) {
+                throw new BasicException(eSQL);
+            }	
+        }
         public void setObject(int paramIndex, Object value) throws BasicException {
             try {
                 m_ps.setObject(paramIndex, value);

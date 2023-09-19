@@ -308,7 +308,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 				String asxml = m_dlSystem.getResourceAsXML("Printer.TicketPreview" + ticketsuffix);
 				
 				Object o = script.eval(asxml);
-				m_TTP.printTicket(o.toString());
+				m_TTP.printTicket(o.toString(), m_ticket.getId());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);
@@ -656,7 +656,7 @@ public class JTicketsBagTicket extends JTicketsBag {
 					asxml = asxml.replaceAll("<ticket>", "<ticket printer=\"" + printerSubName + "\">");
 				}
 				
-				m_TTP2.printTicket(script.eval(asxml).toString());
+				m_TTP2.printTicket(script.eval(asxml).toString(), m_ticket.getId());
 				
 			} catch (ScriptException e) {
 				JMessageDialog.showMessage(m_App, this,

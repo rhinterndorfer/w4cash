@@ -511,7 +511,7 @@ public class JRootApp extends JPanel implements AppView {
 			m_TP.getDeviceDisplay().writeVisor(AppLocal.APP_NAME, AppLocal.APP_VERSION);
 		} else {
 			try {
-				m_TTP.printTicket(sresource);
+				m_TTP.printTicket(sresource, null);
 			} catch (TicketPrinterException eTP) {
 				m_TP.getDeviceDisplay().writeVisor(AppLocal.APP_NAME, AppLocal.APP_VERSION);
 			}

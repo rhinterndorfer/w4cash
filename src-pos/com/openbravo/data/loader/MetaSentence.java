@@ -70,7 +70,11 @@ public class MetaSentence<T> extends JDBCSentence {
 //       }
         public void setBytes(int paramIndex, byte[] value) throws BasicException {
              throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
-       }
+        }
+        public void setCharacterStream(int paramIndex, java.io.Reader reader) throws BasicException {
+            throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
+        }
+        
         public void setObject(int paramIndex, Object value) throws BasicException {
             setString(paramIndex, (value == null) ? null : value.toString());
         }

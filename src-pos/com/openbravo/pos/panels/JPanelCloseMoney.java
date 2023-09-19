@@ -237,7 +237,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				if(!isFreePayment || m_PaymentsToClose.getSaleFreeLines().size() > 0) {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("payments", m_PaymentsToClose);
-					m_TTP.printTicket(script.eval(sresource).toString());
+					m_TTP.printTicket(script.eval(sresource).toString(), null);
 				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -273,7 +273,7 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 				if(!isFreePayment || m_PaymentsToPrint.getSaleFreeLines().size() > 0) {
 					ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 					script.put("payments", m_PaymentsToPrint);
-					m_TTP.printTicket(script.eval(sresource).toString());
+					m_TTP.printTicket(script.eval(sresource).toString(), null);
 				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,

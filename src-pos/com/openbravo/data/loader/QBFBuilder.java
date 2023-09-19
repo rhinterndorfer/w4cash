@@ -146,6 +146,9 @@ public class QBFBuilder implements ISQLBuilderStatic {
                 throw new BasicException("Param type not allowed");
             }
         }
+        public void setCharacterStream(int paramIndex, java.io.Reader reader) throws BasicException {
+            throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
+        }
         public void setObject(int paramIndex, Object value) throws BasicException {
             if ((paramIndex - 1) % 2 == 0) {
                 if (value instanceof QBFCompareEnum) {

@@ -91,7 +91,10 @@ public class SerializerWriteComposed implements SerializerWrite {
             dp.setBytes(offset + paramIndex, value);
             max = Math.max(max, offset + paramIndex);
         }
-
+        public void setCharacterStream(int paramIndex, java.io.Reader reader) throws BasicException {
+            dp.setCharacterStream(paramIndex, reader);
+            max = Math.max(max, offset + paramIndex);
+        }
         public void setObject(int paramIndex, Object value) throws BasicException {
             dp.setObject(offset + paramIndex, value);
             max = Math.max(max, offset + paramIndex);

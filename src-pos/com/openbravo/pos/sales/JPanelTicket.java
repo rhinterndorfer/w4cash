@@ -1493,7 +1493,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
 				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 
-				m_TTP.printTicket(script.eval(sresource).toString());
+				m_TTP.printTicket(script.eval(sresource).toString(), ticket.getId());
 			} catch (ScriptException e) {
 				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 				// AppLocal.getIntString("message.cannotprintticket"), e);
@@ -1569,7 +1569,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 				String resource = dlSystem.getResourceAsXML("Printer.TicketEmpty");
 				if (resource != null && resource != "") {
-					m_TTP.printTicket(script.eval(resource).toString());
+					m_TTP.printTicket(script.eval(resource).toString(), ticket.getId());
 				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1588,7 +1588,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 				String resource = dlSystem.getResourceAsXML("Printer.TicketChange");
 				if (resource != null && resource != "") {
-					m_TTP.printTicket(script.eval(resource).toString());
+					m_TTP.printTicket(script.eval(resource).toString(), ticket.getId());
 				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,

@@ -813,7 +813,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 					script.put("printer", "" + key);
 					script.put("printername", "Drucker " + key);
-					m_TTP.printTicket(script.eval(sresource).toString());
+					m_TTP.printTicket(script.eval(sresource).toString(), inf.getId());
 				} catch (ScriptException e) {
 					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 							AppLocal.getIntString("message.cannotprintticket"), e);

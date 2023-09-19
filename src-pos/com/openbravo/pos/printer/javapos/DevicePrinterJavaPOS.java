@@ -93,7 +93,7 @@ public class DevicePrinterJavaPOS  implements DevicePrinter {
     public void reset() {
     }
     
-    public void beginReceipt() {
+    public void beginReceipt(String id) {
         try {
             m_printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
         } catch (JposException e) {

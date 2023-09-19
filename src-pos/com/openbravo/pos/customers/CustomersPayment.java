@@ -214,7 +214,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("ticket", ticket);
 				script.put("customer", customer);
-				ttp.printTicket(script.eval(resource).toString());
+				ttp.printTicket(script.eval(resource).toString(), ticket.getId());
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 						AppLocal.getIntString("message.cannotprintticket"), e);

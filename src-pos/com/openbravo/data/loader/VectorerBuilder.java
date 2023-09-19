@@ -74,6 +74,10 @@ public abstract class VectorerBuilder implements Vectorer {
             ensurePlace(paramIndex -1);
             m_aParams.set(paramIndex - 1, value.toString()); // quiza un uuencode o algo asi
         }
+        public void setCharacterStream(int paramIndex, java.io.Reader reader) throws BasicException {
+        	ensurePlace(paramIndex -1);
+        	m_aParams.set(paramIndex - 1, reader.toString());
+        }
         public void setObject(int paramIndex, Object value) throws BasicException {
             ensurePlace(paramIndex - 1);
             m_aParams.set(paramIndex - 1, value.toString());

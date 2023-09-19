@@ -25,6 +25,10 @@ import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 
 import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.Printable;
+
 import javax.swing.JComponent;
 import com.openbravo.pos.printer.DevicePrinter;
 import com.openbravo.pos.printer.ticket.BasicTicket;
@@ -96,6 +100,8 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	private int imageable_y;
 	private Media media;
 	private String mediasizename;
+	private Boolean printToDB;
+	private String id;
 
 	private static final HashMap<String, MediaSizeName> mediasizenamemap = new HashMap<String, MediaSizeName>();
 
@@ -116,6 +122,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 		m_sName = "Printer"; // "AppLocal.getIntString("Printer.Screen");
 		m_ticketcurrent = null;
 		printservice = ReportUtils.getPrintService(printername);
+		printToDB = "NUL".equals(printername);
 
 		this.imageable_x = imageable_x;
 		this.imageable_y = imageable_y;
@@ -167,7 +174,8 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	 * Method that is responsible for start a new ticket
 	 */
 	@Override
-	public void beginReceipt() {
+	public void beginReceipt(String id) {
+		this.id = id;
 		m_ticketcurrent = new BasicTicketForPrinter();
 	}
 
@@ -292,13 +300,12 @@ public class DevicePrinterPrinter implements DevicePrinter {
 						doc = new SimpleDoc(new PageableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,
 								imageable_width, m_ticketcurrent.getHeight()), DocFlavor.SERVICE_FORMATTED.PAGEABLE, null);
 					} else {
-						doc = new SimpleDoc(new PrintableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,
-								imageable_width, imageable_height), DocFlavor.SERVICE_FORMATTED.PRINTABLE, null);
+						PrintableBasicTicket printable =new PrintableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,
+								imageable_width, imageable_height, this.m_App, printToDB, id); 
+						
+						doc = new SimpleDoc(printable, DocFlavor.SERVICE_FORMATTED.PRINTABLE, null);
 					}
 					
-					
-					
-
 					printjob.print(doc, aset);
 				}
 			}

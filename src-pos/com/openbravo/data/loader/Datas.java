@@ -28,6 +28,7 @@ import java.util.Date;
 import com.google.gson.Gson;
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.util.Log;
 
 public abstract class Datas {
     
@@ -231,6 +232,7 @@ public abstract class Datas {
     			T obj = gson.fromJson(json, type);
     			return obj;
     		} catch(Exception ex) {
+    			Log.Exception(ex);
     			Object obj = ImageUtils.readSerializable(dr.getBytes(i));
     			return obj;
     		}

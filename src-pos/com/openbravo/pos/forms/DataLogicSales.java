@@ -56,11 +56,13 @@ import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 import at.w4cash.signature.SignatureModul;
 
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -478,6 +480,49 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 		return ticket;
 	}
+	
+	public final void addTicketImage(final String ticketId, final int page, final String mime, String contentBase64) {
+		// new receipt
+		try {
+			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET MIME = ?, CONTENTBASE64 = ? WHERE ID = ? and PAGE = ?",
+					SerializerWriteParams.INSTANCE).exec(new DataParams() {
+						public void writeValues() throws BasicException {
+							setString(1, mime);
+							
+							try {
+								CharArrayReader r = new CharArrayReader(contentBase64.toCharArray());
+								setCharacterStream(2, r);
+							} catch (Exception e) {
+								setCharacterStream(2, null);
+							}
+							
+							setString(3, ticketId);
+							setInt(4, page);
+						}
+					});
+			
+			if(affected == 0) {
+				new PreparedSentence(s, "INSERT INTO TICKETS_IMAGE (ID, PAGE, MIME, CONTENTBASE64) VALUES (?, ?, ?, ?)",
+						SerializerWriteParams.INSTANCE).exec(new DataParams() {
+							public void writeValues() throws BasicException {
+								setString(1, ticketId);
+								setInt(2, page);
+								setString(3, mime);
+								
+								try {
+									CharArrayReader r = new CharArrayReader(contentBase64.toCharArray());
+									setCharacterStream(4, r);
+								} catch (Exception e) {
+									setCharacterStream(4, null);
+								}
+							}
+						});
+			}
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
+	}
+	
 
 	public final Object saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic)
 			throws BasicException, SignatureUnitException {

@@ -50,7 +50,7 @@ public class DevicePrinterPlain implements DevicePrinter  {
     public void reset() {
     }
     
-    public void beginReceipt() {
+    public void beginReceipt(String id) {
     }
     
     public void printImage(BufferedImage image) {
