@@ -56,7 +56,10 @@ public class CustomerInfoExt extends CustomerInfo {
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
         super(id);
-    } 
+    }
+    
+    public CustomerInfoExt() {
+    }
   
     public String getTaxCustCategoryID() {
         return taxcustomerid;

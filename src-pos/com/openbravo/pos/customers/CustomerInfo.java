@@ -43,6 +43,13 @@ public class CustomerInfo implements Serializable {
         this.name = null;
     }
     
+    public CustomerInfo() {
+    	this.id = null;
+        this.searchkey = null;
+        this.taxid = null;
+        this.name = null;
+    }
+    
     public String getId() {
         return id;
     }    
