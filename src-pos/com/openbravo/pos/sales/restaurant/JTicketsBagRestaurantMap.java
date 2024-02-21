@@ -676,7 +676,14 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	}
 
 	public boolean isPlaceServingStation() {
-		if (m_PlaceCurrent != null && m_PlaceCurrent.getName().endsWith("...")) {
+		if (m_PlaceCurrent != null 
+				&& 
+				(
+					m_PlaceCurrent.getName().endsWith("...")
+					||
+					m_PlaceCurrent.getName().endsWith("...$")
+				)
+			) {
 			return true;
 		} else {
 			return false;
