@@ -478,10 +478,12 @@ public class JProductAttEdit extends javax.swing.JDialog {
 		} else {
 
 			if (this.attInstanceId == null) {
-				this.attInstanceId = UUID.randomUUID().toString();
+				String attInstanceId = UUID.randomUUID().toString();
 				try {
-					attsetSave.exec(this.attInstanceId, attsetid, this.attsetDescription);
+					attsetSave.exec(attInstanceId, attsetid, this.attsetDescription);
+					this.attInstanceId = attInstanceId;
 				} catch (BasicException ex) {
+					ok = false;
 					return;
 				}
 			}
