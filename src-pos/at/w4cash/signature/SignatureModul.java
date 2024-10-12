@@ -660,16 +660,6 @@ public class SignatureModul {
 	
 	public void CheckOpenTicketValidations(Component caller)
 	{
-		// fix error with wrong year ticket
-		try {
-			new StaticSentence(m_session, 
-					"UPDATE TICKETS SET VALIDATION=NULL WHERE MONTH=201801 AND (SELECT COUNT(*) FROM TICKETS WHERE MONTH BETWEEN 201701 AND 201712 AND VALIDATION is not null) > 0 AND VALIDATION IS NOT NULL "
-				)
-			.exec();
-		} catch(Exception e) {
-			// do nothing
-		}
-		
 		List oDbticketIds = null;
 		try {
 			oDbticketIds = new StaticSentence(m_session, 
