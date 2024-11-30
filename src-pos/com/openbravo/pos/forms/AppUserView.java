@@ -31,4 +31,5 @@ public interface AppUserView {
     public AppUser getUser(); // Usuario logado
     public void showTask(String sTaskClass);
     public void executeTask(String sTaskClass);
+    public void toggleMenu();
 }

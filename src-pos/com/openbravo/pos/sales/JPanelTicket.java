@@ -1774,6 +1774,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		PropertyUtil.ScaleButtonIcon(m_jList,
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
 				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
+		
+		PropertyUtil.ScaleButtonIcon(jBtnMenuToggle,
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-width", "60")),
+				Integer.parseInt(m_jbtnconfig.getProperty("button-touchlarge-height", "60")), fontsizeSmall);
+		
+		
 
 		m_ticketsbag.ScaleButtons();
 	}
@@ -1806,6 +1812,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		m_jDelete = new javax.swing.JButton();
 		m_jList = new javax.swing.JButton();
 		m_jEditLine = new javax.swing.JButton();
+		jBtnMenuToggle = new javax.swing.JButton();
 		jEditAttributes = new javax.swing.JButton();
 		m_jPanelCentral = new javax.swing.JPanel();
 		jPanel4 = new javax.swing.JPanel();
@@ -1974,6 +1981,23 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		PropertyUtil.setGridBagConstraints(layoutData, 0, 3, GridBagConstraints.NONE);
 		jPanel2.add(jEditAttributes, layoutData);
 
+		jBtnMenuToggle
+			.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/menu-icon.png"))); // NOI18N
+		jBtnMenuToggle.setFocusPainted(false);
+		jBtnMenuToggle.setFocusable(false);
+		jBtnMenuToggle.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		jBtnMenuToggle.setRequestFocusEnabled(false);
+		jBtnMenuToggle.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				//jEditAttributesActionPerformed(evt);
+				m_App.getAppUserView().toggleMenu();
+			}
+		});
+		PropertyUtil.setGridBagConstraints(layoutData, 0, 4, GridBagConstraints.NONE);
+		jPanel2.add(jBtnMenuToggle, layoutData);
+		
+		
+		
 		jPanel5.add(jPanel2, java.awt.BorderLayout.NORTH);
 
 		m_jPanTicket.add(jPanel5, java.awt.BorderLayout.LINE_END);
@@ -2438,6 +2462,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private javax.swing.JButton btnCustomer;
 	private javax.swing.JButton btnSplit;
 	private javax.swing.JPanel catcontainer;
+	private javax.swing.JButton jBtnMenuToggle;
 	private javax.swing.JButton jEditAttributes;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;

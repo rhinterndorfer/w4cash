@@ -348,6 +348,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
 
 		PropertyUtil.ScaleButtonIcon(m_jbtnRefresh, smallWidth, smallHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jbtnToggleMenu, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnReservations, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnOccupied, smallWidth, smallHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jbtnLogout, smallWidth, smallHeight, fontsize);
@@ -970,6 +971,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel3 = new javax.swing.JPanel();
 		m_jbtnReservations = new javax.swing.JButton();
 		m_jbtnRefresh = new javax.swing.JButton();
+		m_jbtnToggleMenu = new javax.swing.JButton();
 		m_jbtnOccupied = new javax.swing.JButton();
 		m_jbtnLogout = new javax.swing.JButton();
 		m_jText = new javax.swing.JLabel();
@@ -983,6 +985,30 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 		jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
+		m_jbtnToggleMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/menu-icon.png"))); // NOI18N
+		m_jbtnToggleMenu.setFocusPainted(false);
+		m_jbtnToggleMenu.setFocusable(false);
+		m_jbtnToggleMenu.setRequestFocusEnabled(false);
+		m_jbtnToggleMenu.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_App.getAppUserView().toggleMenu();
+			}
+		});
+		jPanel2.add(m_jbtnToggleMenu);
+		
+		
+		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
+		m_jbtnRefresh.setFocusPainted(false);
+		m_jbtnRefresh.setFocusable(false);
+		m_jbtnRefresh.setRequestFocusEnabled(false);
+		m_jbtnRefresh.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jbtnRefreshActionPerformed(evt);
+			}
+		});
+		jPanel2.add(m_jbtnRefresh);
+		
+		
 		m_jbtnReservations.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/date.png"))); // NOI18N
 		m_jbtnReservations.setText(AppLocal.getIntString("button.reservations")); // NOI18N
 		m_jbtnReservations.setFocusPainted(false);
@@ -997,18 +1023,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		jPanel2.add(m_jbtnReservations);
 
-		m_jbtnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/refresh.png"))); // NOI18N
-		m_jbtnRefresh.setText(AppLocal.getIntString("button.reloadticket"));
-		m_jbtnRefresh.setFocusPainted(false);
-		m_jbtnRefresh.setFocusable(false);
-		// m_jbtnRefresh.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		m_jbtnRefresh.setRequestFocusEnabled(false);
-		m_jbtnRefresh.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				m_jbtnRefreshActionPerformed(evt);
-			}
-		});
-		jPanel2.add(m_jbtnRefresh);
+		
 
 		m_jbtnOccupied.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/table.png"))); // NOI18N
 		m_jbtnOccupied.setText(AppLocal.getIntString("button.occupied"));
@@ -1363,6 +1378,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private javax.swing.JPanel m_jPanelMap;
 	private javax.swing.JLabel m_jText;
 	private javax.swing.JButton m_jbtnRefresh;
+	private javax.swing.JButton m_jbtnToggleMenu;
 	private javax.swing.JButton m_jbtnReservations;
 	private javax.swing.JButton m_jbtnOccupied;
 	private javax.swing.JButton btn_promptTicket;
