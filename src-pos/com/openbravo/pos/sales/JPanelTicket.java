@@ -859,7 +859,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		this.issaege = Boolean
 				.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
-		if ((prod.getPriceSell() > 0.0 || (prod.isCom() && prod.getPriceSell() <= -0.01)) && !issaege) {
+		Boolean ignoreNegativePrice = "True".equals(prod.getProperty("ignoreNegativePrice"));
+		if (
+				(
+						prod.getPriceSell() > 0.0 
+						|| (prod.isCom() && prod.getPriceSell() <= -0.01)
+						|| ignoreNegativePrice
+				) 
+				&& !issaege
+			) {
 			price = prod.getPriceSell();
 			TaxInfo tax = taxeslogic.getTaxInfo(prod.getTaxCategoryID(), m_oTicket.getDate(), m_oTicket.getCustomer());
 

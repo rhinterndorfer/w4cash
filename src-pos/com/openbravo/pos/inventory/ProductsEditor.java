@@ -26,34 +26,49 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.*;
 import java.awt.image.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.format.Formats;
 import com.openbravo.basic.BasicException;
+import com.openbravo.controls.ComboBoxFilterDecorator;
+import com.openbravo.controls.ProductComboRenderer;
+import com.openbravo.controls.ProductListCellRenderer;
 import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.loader.PreparedSentence;
-import com.openbravo.data.loader.SentenceExec;
 import com.openbravo.data.loader.SentenceList;
 import com.openbravo.data.user.EditorRecord;
 import com.openbravo.data.user.BrowsableEditableData;
 import com.openbravo.data.user.DirtyManager;
 import com.openbravo.pos.forms.DataLogicSales;
-import com.openbravo.pos.forms.DataLogicSystem;
 import com.openbravo.pos.sales.TaxesLogic;
 import com.openbravo.pos.ticket.ProductFilter;
 import com.openbravo.pos.util.PropertyUtil;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
+import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
+import java.util.Vector;
 import java.util.regex.Pattern;
 
 /**
@@ -76,6 +91,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private TaxesLogic taxeslogic;
 
 	private ComboBoxValModel m_CodetypeModel;
+	
+	private SentenceList products_sent;
+	private java.util.List products; 
 
 	private Object m_id;
 	private Object pricesell;
@@ -113,6 +131,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		} catch (BasicException e1) {
 			refsent = null;
 		}
+		
+		products_sent = dlSales.getProductListSimple();
 
 		// The categories model
 		m_sentcat = dlSales.getCategoriesListSortedByName();
@@ -181,6 +201,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jInCatalog.addActionListener(dirty);
 		m_jCatalogOrder.getDocument().addDocumentListener(dirty);
 		txtAttributes.getDocument().addDocumentListener(dirty);
+		
+		initAddProduct();
 
 		FieldsManager fm = new FieldsManager();
 		m_jPriceBuy.getDocument().addDocumentListener(fm);
@@ -193,6 +215,162 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		writeValueEOF();
 
 		ScaleButtons();
+	}
+	
+	private List getProducts(String code) {
+		try {
+			if (products == null) {
+				products = products_sent.list();
+			}
+			
+			if(code != null) {
+				for(Object product : products) {
+					if(code.equals(((Object[])product)[1])) {
+						List result = new ArrayList<Object>();
+						result.add(product);
+						return result;
+					}
+				}
+				return new ArrayList<Object>();
+			}
+		} catch (BasicException e1) {
+		}
+		return products;
+	}
+	
+	private void initAddProduct() {
+		
+		
+		addProductComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		addProductComboBox.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				addProductComboBox.setSelectedItem(e.getItem());
+			}
+		});
+		
+		
+		addProductComboBox.addPopupMenuListener(new PopupMenuListener() {
+			
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				if(addProductComboBox.getItemCount() == 0) {
+					// fill products
+					for(Object product : getProducts(null)) {
+						addProductComboBox.addItem((Object[])product);
+					}
+					
+					ComboBoxFilterDecorator<Object[]> decorate = ComboBoxFilterDecorator.decorate(addProductComboBox,
+							ProductComboRenderer::getEmployeeDisplayText,
+							ProductComboRenderer::productFilter);
+
+					addProductComboBox.setRenderer(new ProductComboRenderer(decorate.getFilterTextSupplier()));
+				}
+			}
+			
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			}
+			
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+			}
+		});
+		
+		addProductAddButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object product = addProductComboBox.getSelectedItem();
+				if(product != null) {
+					if(!addProductListModel.contains(product)) {
+						addProductListModel.add((Object[])product);
+						addProductList.setListData(addProductListModel);
+						addProductList.setSelectedIndex(-1);
+						setAttribute();
+					}
+				}
+			}
+		});
+		
+		addProductRemoveButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Object product = addProductList.getSelectedValue();
+				if(product != null) {
+					int index = addProductListModel.indexOf(product);
+					if(index >= 0) {
+						addProductListModel.remove(index);
+						addProductList.setListData(addProductListModel);
+						setAttribute();
+					}
+				}
+			}
+		});
+		
+		
+		ignoreNegativePricesCheckBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setAttribute();
+			}
+		});
+	}
+	
+	private void setAttribute() {
+		String attributeText = txtAttributes.getText();
+		Properties prop = new Properties();
+		try {
+			if(attributeText != null && attributeText != "") {
+				prop.loadFromXML(new ByteArrayInputStream(attributeText.getBytes()));
+			}
+		} catch (InvalidPropertiesFormatException e) {
+		} catch (IOException e) {
+		}
+		
+		
+		// ProductAdd
+		StringBuilder sbAddProduct = new StringBuilder();
+		for(Object product : addProductListModel) {
+			if(sbAddProduct.length() > 0) {
+				sbAddProduct.append(",");
+			}
+			sbAddProduct.append(((Object[])product)[1]);
+		}
+		
+		if(sbAddProduct.length() == 0) {
+			prop.remove("ProductAdd");
+		} else {
+			prop.setProperty("ProductAdd", sbAddProduct.toString());
+		}
+		
+		
+		
+		// ignoreNegativePrice
+		Boolean isSelectedIgnoreNegativePrice = ignoreNegativePricesCheckBox.isSelected();
+		if(isSelectedIgnoreNegativePrice) {
+			prop.setProperty("ignoreNegativePrice", "True");
+		} else {
+			prop.remove("ignoreNegativePrice");
+		}
+		
+		
+		// set attribute text
+		ByteArrayOutputStream o = new ByteArrayOutputStream();
+		try {
+			prop.storeToXML(o, null);
+			attributeText = new String(o.toByteArray());
+			txtAttributes.setText(attributeText);
+		} catch (IOException e) {
+		}
 	}
 
 	public void activate() throws BasicException {
@@ -460,8 +638,36 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		m_jstockvolume.setText(Formats.DOUBLE.formatValue(myprod[14]));
 		m_jInCatalog.setSelected(((Boolean) myprod[15]).booleanValue());
 		m_jCatalogOrder.setText(Formats.INT.formatValue(myprod[16]));
-		txtAttributes.setText(Formats.BYTEA.formatValue(myprod[17]));
+		String attributeText = Formats.BYTEA.formatValue(myprod[17]);
+		txtAttributes.setText(attributeText);
 		txtAttributes.setCaretPosition(0);
+		
+		
+		Properties prop = new Properties();
+		addProductListModel.clear();
+		
+		try {
+			if(attributeText != null && attributeText != "") {
+				prop.loadFromXML(new ByteArrayInputStream(attributeText.getBytes()));
+			}
+		} catch (InvalidPropertiesFormatException e) {
+		} catch (IOException e) {
+		}
+		
+		String addProductString = prop.getProperty("ProductAdd");
+		if(addProductString != null) {
+			for(String productCode :addProductString.split(",")) {
+				for(Object product : getProducts(productCode)) {
+					addProductListModel.add((Object[])product);
+				}
+			}
+		}
+		
+		Boolean isSelectedIgnoreNegativePrice = "True".equals(prop.getProperty("ignoreNegativePrice"));
+		ignoreNegativePricesCheckBox.setSelected(isSelectedIgnoreNegativePrice);
+		
+		addProductList.setListData(addProductListModel);
+		
 		reportlock = false;
 
 		// Los habilitados
@@ -524,6 +730,7 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			myprod[16] = Formats.DOUBLE.parseValue(m_jCatalogOrder.getText());
 
 		myprod[17] = Formats.BYTEA.parseValue(txtAttributes.getText());
+		
 
 		myprod[18] = m_jstockunit.getText();
 		if (issaege) {
@@ -746,210 +953,6 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		}
 	}
 
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	// <editor-fold defaultstate="collapsed" desc="Generated
-	// Code">//GEN-BEGIN:initComponents
-	// private void initComponents() {
-	//
-	// jLabel1 = new javax.swing.JLabel();
-	// jLabel2 = new javax.swing.JLabel();
-	// m_jRef = new javax.swing.JTextField();
-	// m_jName = new javax.swing.JTextField();
-	// m_jTitle = new javax.swing.JLabel();
-	// jTabbedPane1 = new javax.swing.JTabbedPane();
-	// jPanel1 = new javax.swing.JPanel();
-	// jLabel6 = new javax.swing.JLabel();
-	// m_jCode = new javax.swing.JTextField();
-	// m_jImage = new com.openbravo.data.gui.JImageEditor(m_App);
-	// jLabel3 = new javax.swing.JLabel();
-	// m_jPriceBuy = new javax.swing.JTextField();
-	// jLabel4 = new javax.swing.JLabel();
-	// m_jPriceSell = new javax.swing.JTextField();
-	// jLabel5 = new javax.swing.JLabel();
-	// m_jCategory = new javax.swing.JComboBox();
-	// jLabel7 = new javax.swing.JLabel();
-	// m_jTax = new javax.swing.JComboBox();
-	// m_jmargin = new javax.swing.JTextField();
-	// m_jPriceSellTax = new javax.swing.JTextField();
-	// jLabel16 = new javax.swing.JLabel();
-	// m_jCodetype = new javax.swing.JComboBox();
-	// jLabel13 = new javax.swing.JLabel();
-	// m_jAtt = new javax.swing.JComboBox();
-	// jPanel2 = new javax.swing.JPanel();
-	// jLabel9 = new javax.swing.JLabel();
-	// m_jstockcost = new javax.swing.JTextField();
-	// jLabel10 = new javax.swing.JLabel();
-	// m_jstockvolume = new javax.swing.JTextField();
-	// m_jScale = new javax.swing.JCheckBox();
-	// m_jComment = new javax.swing.JCheckBox();
-	// jLabel18 = new javax.swing.JLabel();
-	// m_jCatalogOrder = new javax.swing.JTextField();
-	// m_jInCatalog = new javax.swing.JCheckBox();
-	// jLabel8 = new javax.swing.JLabel();
-	// jLabel11 = new javax.swing.JLabel();
-	// jLabel12 = new javax.swing.JLabel();
-	// jPanel3 = new javax.swing.JPanel();
-	// jScrollPane1 = new javax.swing.JScrollPane();
-	// txtAttributes = new javax.swing.JTextArea();
-	//
-	// setLayout(null);
-	//
-	// m_jTitle.setFont(new java.awt.Font("SansSerif", 3, 18));
-	// add(m_jTitle);
-	// m_jTitle.setBounds(10, 10, 320, 30);
-	//
-	// jLabel1.setText(AppLocal.getIntString("label.prodref")); // NOI18N
-	// add(jLabel1);
-	// jLabel1.setBounds(10, 50, 80, 15);
-	//
-	// jLabel2.setText(AppLocal.getIntString("label.prodname")); // NOI18N
-	// add(jLabel2);
-	// jLabel2.setBounds(180, 50, 70, 15);
-	// add(m_jRef);
-	// m_jRef.setBounds(90, 50, 70, 19);
-	// add(m_jName);
-	// m_jName.setBounds(250, 50, 220, 19);
-	//
-	// // JScrollPane jScrCont = new JScrollPane();
-	// //
-	// jScrCont.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	// jPanel1.setLayout(null);
-	// // jScrCont.setViewportView(jPanel1);
-	//
-	// jLabel6.setText(AppLocal.getIntString("label.prodbarcode")); // NOI18N
-	// jPanel1.add(jLabel6);
-	// jLabel6.setBounds(10, 20, 150, 15);
-	// jPanel1.add(m_jCode);
-	// m_jCode.setBounds(160, 20, 170, 19);
-	//
-	// jLabel3.setText(AppLocal.getIntString("label.prodpricebuy")); // NOI18N
-	// jPanel1.add(jLabel3);
-	// jLabel3.setBounds(10, 50, 150, 15);
-	//
-	// m_jPriceBuy.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel1.add(m_jPriceBuy);
-	// m_jPriceBuy.setBounds(160, 50, 80, 19);
-	//
-	// jLabel4.setText(AppLocal.getIntString("label.prodpricesell")); // NOI18N
-	// jPanel1.add(jLabel4);
-	// jLabel4.setBounds(10, 80, 150, 15);
-	//
-	// m_jPriceSell.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel1.add(m_jPriceSell);
-	// m_jPriceSell.setBounds(160, 80, 80, 19);
-	//
-	// jLabel7.setText(AppLocal.getIntString("label.taxcategory")); // NOI18N
-	// jPanel1.add(jLabel7);
-	// jLabel7.setBounds(10, 110, 150, 15);
-	// jPanel1.add(m_jTax);
-	// m_jTax.setBounds(160, 110, 170, 20);
-	//
-	// jLabel16.setText(AppLocal.getIntString("label.prodpriceselltax")); //
-	// NOI18N
-	// jPanel1.add(jLabel16);
-	// jLabel16.setBounds(10, 140, 150, 15);
-	//
-	// m_jPriceSellTax.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel1.add(m_jPriceSellTax);
-	// m_jPriceSellTax.setBounds(160, 140, 80, 19);
-	//
-	// jLabel5.setText(AppLocal.getIntString("label.prodcategory")); // NOI18N
-	// jPanel1.add(jLabel5);
-	// jLabel5.setBounds(10, 170, 150, 15);
-	// jPanel1.add(m_jCategory);
-	// m_jCategory.setBounds(160, 170, 170, 20);
-	//
-	// m_jmargin.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel1.add(m_jmargin);
-	// m_jmargin.setBounds(250, 80, 80, 19);
-	//
-	// jPanel1.add(m_jCodetype);
-	// m_jCodetype.setBounds(250, 40, 80, 20);
-	//
-	// jLabel13.setText(AppLocal.getIntString("label.attributes")); // NOI18N
-	// jPanel1.add(jLabel13);
-	// jLabel13.setBounds(10, 200, 150, 15);
-	// jPanel1.add(m_jAtt);
-	// m_jAtt.setBounds(160, 200, 170, 20);
-	//
-	// jPanel1.add(m_jImage);
-	// m_jImage.setBounds(340, 20, 260, 360);
-	//
-	// jTabbedPane1.addTab(AppLocal.getIntString("label.prodgeneral"), jPanel1);
-	// // NOI18N
-	//
-	// jPanel2.setLayout(null);
-	//
-	// jLabel9.setText(AppLocal.getIntString("label.prodstockcost")); // NOI18N
-	// jPanel2.add(jLabel9);
-	// jLabel9.setBounds(10, 20, 150, 15);
-	//
-	// m_jstockcost.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel2.add(m_jstockcost);
-	// m_jstockcost.setBounds(160, 20, 80, 19);
-	//
-	// jLabel10.setText(AppLocal.getIntString("label.prodstockvol")); // NOI18N
-	// jPanel2.add(jLabel10);
-	// jLabel10.setBounds(10, 50, 150, 15);
-	//
-	// m_jstockvolume.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel2.add(m_jstockvolume);
-	// m_jstockvolume.setBounds(160, 50, 80, 19);
-	// jPanel2.add(m_jScale);
-	// m_jScale.setBounds(160, 140, 80, 21);
-	// jPanel2.add(m_jComment);
-	// m_jComment.setBounds(160, 110, 80, 21);
-	//
-	// jLabel18.setText(AppLocal.getIntString("label.prodorder")); // NOI18N
-	// jPanel2.add(jLabel18);
-	// jLabel18.setBounds(250, 80, 60, 15);
-	//
-	// m_jCatalogOrder.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-	// jPanel2.add(m_jCatalogOrder);
-	// m_jCatalogOrder.setBounds(310, 80, 80, 19);
-	//
-	// m_jInCatalog.addActionListener(new java.awt.event.ActionListener() {
-	// public void actionPerformed(java.awt.event.ActionEvent evt) {
-	// m_jInCatalogActionPerformed(evt);
-	// }
-	// });
-	// jPanel2.add(m_jInCatalog);
-	// m_jInCatalog.setBounds(160, 80, 50, 21);
-	//
-	// jLabel8.setText(AppLocal.getIntString("label.prodincatalog")); // NOI18N
-	// jPanel2.add(jLabel8);
-	// jLabel8.setBounds(10, 80, 150, 15);
-	//
-	// jLabel11.setText(AppLocal.getIntString("label.prodaux")); // NOI18N
-	// jPanel2.add(jLabel11);
-	// jLabel11.setBounds(10, 110, 150, 15);
-	//
-	// jLabel12.setText(AppLocal.getIntString("label.prodscale")); // NOI18N
-	// jPanel2.add(jLabel12);
-	// jLabel12.setBounds(10, 140, 150, 15);
-	//
-	// jTabbedPane1.addTab(AppLocal.getIntString("label.prodstock"), jPanel2);
-	// // NOI18N
-	//
-	// jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5,
-	// 5));
-	// jPanel3.setLayout(new java.awt.BorderLayout());
-	//
-	// txtAttributes.setFont(new java.awt.Font("DialogInput", 0, 12));
-	// jScrollPane1.setViewportView(txtAttributes);
-	//
-	// jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-	//
-	// jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3);
-	// // NOI18N
-	// add(jTabbedPane1);
-	// jTabbedPane1.setBounds(10, 90, 660, 460);
-	// }// </editor-fold>//GEN-END:initComponents
-
 	private void initComponents() {
 		this.issaege = Boolean
 				.parseBoolean(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "module-saegewerk", "false"));
@@ -994,7 +997,8 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jLabel21 = new javax.swing.JLabel();
 		jLabel22 = new javax.swing.JLabel();
 		jLabel23 = new javax.swing.JLabel();
-
+		
+		
 		m_jstockunit = new javax.swing.JTextField();
 		if (issaege) {
 			m_jstockheight = new javax.swing.JTextField();
@@ -1016,6 +1020,17 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		jPanel3 = new javax.swing.JPanel();
 		jScrollPane1 = new javax.swing.JScrollPane();
 		txtAttributes = new javax.swing.JTextArea();
+		
+		jPanelPropertiesHelper = new JPanel();
+		jLabelAddProducts = new JLabel();
+		addProductComboBox = new javax.swing.JComboBox<>();
+		addProductListModel = new Vector<>();
+		addProductList = new JList<>(addProductListModel);
+		addProductList.setCellRenderer(new ProductListCellRenderer());
+		addProductAddButton = new JButton();
+		addProductRemoveButton = new JButton();
+		ignoreNegativePricesCheckBoxLabel = new JLabel();
+		ignoreNegativePricesCheckBox = new JCheckBox();
 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.scrollView = new JScrollPane();
@@ -1475,12 +1490,102 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 
 		jTabbedPane1.addTab(AppLocal.getIntString("label.prodstock"), jPanel2); // NOI18N
 
+		jPanelPropertiesHelper.setLayout(new GridBagLayout());
+		
+		jLabelAddProducts.setText(AppLocal.getIntString("label.addproducts"));
+		GridBagConstraints gbc_lblAddProducts = new GridBagConstraints();
+		gbc_lblAddProducts.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAddProducts.insets = new Insets(5, 5, 0, 0);
+		gbc_lblAddProducts.gridx = 0;
+		gbc_lblAddProducts.gridy = 0;
+		gbc_lblAddProducts.gridheight = 2;
+		jPanelPropertiesHelper.add(jLabelAddProducts, gbc_lblAddProducts);
+		
+		
+		
+		GridBagConstraints gbc_addProductList = new GridBagConstraints();
+		gbc_addProductList.fill = GridBagConstraints.BOTH;
+		gbc_addProductList.insets = new Insets(5, 5, 0, 0);
+		gbc_addProductList.gridx = 1;
+		gbc_addProductList.gridy = 0;
+		gbc_addProductList.gridheight = 2;
+		gbc_addProductList.weightx = 1;
+		jPanelPropertiesHelper.add(addProductList, gbc_addProductList);
+		
+		addProductAddButton.setText("<");
+		GridBagConstraints gbc_addProductAddButton = new GridBagConstraints();
+		gbc_addProductAddButton.fill = GridBagConstraints.WEST;
+		gbc_addProductAddButton.insets = new Insets(5, 5, 0, 0);
+		gbc_addProductAddButton.gridx = 2;
+		gbc_addProductAddButton.gridy = 0;
+		jPanelPropertiesHelper.add(addProductAddButton, gbc_addProductAddButton);
+		
+		addProductRemoveButton.setText("X");
+		GridBagConstraints gbc_addProductRemoveButton = new GridBagConstraints();
+		gbc_addProductRemoveButton.fill = GridBagConstraints.WEST;
+		gbc_addProductRemoveButton.insets = new Insets(5, 5, 0, 0);
+		gbc_addProductRemoveButton.gridx = 2;
+		gbc_addProductRemoveButton.gridy = 1;
+		jPanelPropertiesHelper.add(addProductRemoveButton, gbc_addProductRemoveButton);
+		
+
+		
+		GridBagConstraints gbc_cb_addProduct = new GridBagConstraints();
+		gbc_cb_addProduct.insets = new Insets(5, 5, 0, 0);
+		gbc_cb_addProduct.weighty = 1.0;
+		gbc_cb_addProduct.fill = GridBagConstraints.BOTH;
+		gbc_cb_addProduct.gridx = 3;
+		gbc_cb_addProduct.gridy = 0;
+		gbc_cb_addProduct.gridheight = 2;
+		gbc_cb_addProduct.weightx = 1;
+		
+		jPanelPropertiesHelper.add(addProductComboBox, gbc_cb_addProduct);
+		
+		
+		ignoreNegativePricesCheckBoxLabel.setText(AppLocal.getIntString("label.ignorenegativeprice"));
+		GridBagConstraints gbc_cb_ingoreNatgivePriceLabel = new GridBagConstraints();
+		gbc_cb_ingoreNatgivePriceLabel.insets = new Insets(5, 5, 0, 0);
+		gbc_cb_ingoreNatgivePriceLabel.fill = GridBagConstraints.SOUTHWEST;
+		gbc_cb_ingoreNatgivePriceLabel.gridx = 0;
+		gbc_cb_ingoreNatgivePriceLabel.gridy = 2;
+		
+		jPanelPropertiesHelper.add(ignoreNegativePricesCheckBoxLabel, gbc_cb_ingoreNatgivePriceLabel);
+		
+		GridBagConstraints gbc_ingoreNatgivePriceCheckbox = new GridBagConstraints();
+		gbc_ingoreNatgivePriceCheckbox.insets = new Insets(5, 5, 0, 0);
+		gbc_ingoreNatgivePriceCheckbox.fill = GridBagConstraints.SOUTHWEST;
+		gbc_ingoreNatgivePriceCheckbox.gridx = 1;
+		gbc_ingoreNatgivePriceCheckbox.gridy = 2;
+		
+		jPanelPropertiesHelper.add(ignoreNegativePricesCheckBox, gbc_ingoreNatgivePriceCheckbox);
+		
+		
 		jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		jPanel3.setLayout(new java.awt.BorderLayout());
+		jPanel3.setLayout(new java.awt.GridBagLayout());
 
 		txtAttributes.setFont(new java.awt.Font("DialogInput", 0, 12));
+		txtAttributes.setEnabled(true);
+		
 		jScrollPane1.setViewportView(txtAttributes);
-		jPanel3.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+		
+		
+		GridBagConstraints gbc_helper = new GridBagConstraints();
+		gbc_helper.fill = GridBagConstraints.BOTH;
+		gbc_helper.insets = new Insets(5, 5, 0, 0);
+		gbc_helper.gridx = 0;
+		gbc_helper.gridy = 0;
+		gbc_helper.weightx = 1;
+		jPanel3.add(jPanelPropertiesHelper, gbc_helper);
+		
+		GridBagConstraints gbc_txt = new GridBagConstraints();
+		gbc_txt.fill = GridBagConstraints.BOTH;
+		gbc_txt.insets = new Insets(5, 5, 0, 0);
+		gbc_txt.gridx = 0;
+		gbc_txt.gridy = 1;
+		gbc_txt.weighty = 0.9;
+		gbc_txt.weightx = 1;
+		jPanel3.add(jScrollPane1, gbc_txt);
+		
 
 		jTabbedPane1.addTab(AppLocal.getIntString("label.properties"), jPanel3); // NOI18N
 		GridBagConstraints gbc_tab = new GridBagConstraints();
@@ -1524,6 +1629,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel21, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel22, "common-small-fontsize", "32");
 		PropertyUtil.ScaleLabelFontsize(m_App, jLabel23, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, jLabelAddProducts, "common-small-fontsize", "32");
+		PropertyUtil.ScaleLabelFontsize(m_App, ignoreNegativePricesCheckBoxLabel, "common-small-fontsize", "32");
+		
 
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCatalogOrder, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jCode, "common-small-fontsize", "32");
@@ -1539,8 +1647,6 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockheight, "common-small-fontsize", "32");
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockwidth, "common-small-fontsize", "32");
 			PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockLength, "common-small-fontsize", "32");
-			// PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockCount,
-			// "common-small-fontsize", "32");
 		}
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockcost, "common-small-fontsize", "32");
 		PropertyUtil.ScaleTextFieldFontsize(m_App, m_jstockvolume, "common-small-fontsize", "32");
@@ -1549,7 +1655,9 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleComboFontsize(m_App, m_jTax, "common-small-fontsize", "32");
 		PropertyUtil.ScaleComboFontsize(m_App, m_jCodetype, "common-small-fontsize", "32");
 		PropertyUtil.ScaleComboFontsize(m_App, m_jAtt, "common-small-fontsize", "32");
+		PropertyUtil.ScaleComboFontsize(m_App, addProductComboBox, "common-small-fontsize", "32");
 
+		
 		PropertyUtil.ScaleCheckboxSize(m_App, m_jScale, "common-small-fontsize", "32");
 		PropertyUtil.ScaleCheckboxSize(m_App, m_jInCatalog, "common-small-fontsize", "32");
 		PropertyUtil.ScaleCheckboxSize(m_App, m_jComment, "common-small-fontsize", "32");
@@ -1557,18 +1665,11 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 		PropertyUtil.ScaleTabbedPaneFontsize(m_App, jTabbedPane1, "common-small-fontsize", "32");
 
 		PropertyUtil.ScaleScrollbar(m_App, scrollView);
-
-		int menuwidth = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
-		int menuheight = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchsmall-fontsize", "32"));
-		int fontsize = Integer
-				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
-
-		// PropertyUtil.ScaleButtonIcon(m_jCatalogAdd, menuwidth, menuheight,
-		// fontsize);
-		// PropertyUtil.ScaleButtonIcon(m_jCatalogDelete, menuwidth, menuheight,
-		// fontsize);
+		
+		PropertyUtil.ScaleButtonFontsize(m_App, addProductAddButton, "common-small-fontsize", "32");
+		PropertyUtil.ScaleButtonFontsize(m_App, addProductRemoveButton, "common-small-fontsize", "32");
+		PropertyUtil.ScaleListFontsize(m_App, addProductList, "common-small-fontsize", "32");
+		PropertyUtil.ScaleCheckboxSize(m_App, ignoreNegativePricesCheckBox, "common-small-fontsize", "32");
 	}
 
 	@Override
@@ -1630,6 +1731,16 @@ public class ProductsEditor extends JPanel implements EditorRecord {
 	private javax.swing.JTextField m_jstockunit;
 	private javax.swing.JTextField m_jstockvolume;
 	private javax.swing.JTextArea txtAttributes;
+	
+	private javax.swing.JPanel jPanelPropertiesHelper;
+	private javax.swing.JComboBox<Object[]> addProductComboBox;
+	private JList<Object[]> addProductList;
+	private Vector<Object[]> addProductListModel;
+	private JButton addProductAddButton;
+	private JButton addProductRemoveButton;
+	private JLabel jLabelAddProducts; 
+	private JLabel ignoreNegativePricesCheckBoxLabel;
+	private JCheckBox ignoreNegativePricesCheckBox;
 	// End of variables declaration//GEN-END:variables
 
 }

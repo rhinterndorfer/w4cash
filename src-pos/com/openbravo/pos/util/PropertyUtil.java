@@ -32,6 +32,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -364,6 +365,25 @@ public class PropertyUtil {
 			label.setMaximumSize(new java.awt.Dimension((int) 100, fontsize));
 			label.setMinimumSize(new java.awt.Dimension((int) label.getSize().getWidth(), fontsize));
 			label.setPreferredSize(new java.awt.Dimension((int) label.getSize().getWidth(), fontsize));
+		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
+		}
+	}
+	
+	public static void ScaleListFontsize(AppView app, JList list, String key, String defaultValue) {
+		DataLogicSystem dlSystem = (DataLogicSystem) app.getBean("com.openbravo.pos.forms.DataLogicSystem");
+		String value = getProperty(app, dlSystem, "Ticket.Buttons", key);
+		if (value == null) {
+			value = defaultValue;
+		}
+		try {
+			int fontsize = Integer.parseInt(value);
+
+			Font font = list.getFont();
+			list.setFont(new Font(font.getName(), font.getStyle(), fontsize));
+			list.setSize((int) list.getSize().getWidth(), fontsize);
+			
+			
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 		}
