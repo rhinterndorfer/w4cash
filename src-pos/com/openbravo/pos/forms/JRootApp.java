@@ -42,9 +42,6 @@ import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.loader.BatchSentence;
 import com.openbravo.data.loader.BatchSentenceResource;
 import com.openbravo.data.loader.Session;
-import com.openbravo.license.DeviceInfo;
-import com.openbravo.license.JLicenseDialog;
-import com.openbravo.license.LicenseManager;
 import com.openbravo.pos.scale.DeviceScale;
 import com.openbravo.pos.scanpal2.DeviceScanner;
 import com.openbravo.pos.scanpal2.DeviceScannerFactory;
@@ -286,20 +283,7 @@ public class JRootApp extends JPanel implements AppView {
 		}
 	}
 
-	private void tryToLicense() {
-		LicenseManager manager = new LicenseManager();
-		DeviceInfo deviceinfo = manager.readDeviceInfo(this);
-		JLicenseDialog dialog = JLicenseDialog.showDialog(this, this, AppLocal.getIntString("Button.License"));
-		// license generated successful
-		if (JLicenseDialog.OK == dialog.getReturnCode()) {
-			try {
-				deviceinfo.writeDeviceInfoLicense(this, dialog.getLicense());
-			} catch (BasicException e1) {
-				e1.printStackTrace();
-			}
-		}
-	}
-
+	
 	// Interfaz de aplicacion
 	public DeviceTicket getDeviceTicket() {
 		return m_TP;
@@ -875,10 +859,6 @@ public class JRootApp extends JPanel implements AppView {
 
 		add(m_jPanelDown, java.awt.BorderLayout.SOUTH);
 	}// </editor-fold>//GEN-END:initComponents
-
-	private void m_jLicenseActionPerformed(java.awt.event.ActionEvent evt) {
-		tryToLicense();
-	}
 
 	private void m_jCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_m_jCloseActionPerformed
 

@@ -1791,19 +1791,23 @@ public class SignatureModul {
         if(m_cipher == null)
         {
         	// switch off JCE key 128bit restrictions
-            try {
-                Field isRestricted = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
-                if (Modifier.isFinal(isRestricted.getModifiers()) ) {
-            		Field modifiers = Field.class.getDeclaredField("modifiers");
-            		modifiers.setAccessible(true);
-            		modifiers.setInt(isRestricted, isRestricted.getModifiers() & ~Modifier.FINAL);
-            	}
-                
-                isRestricted.setAccessible(true);
-                isRestricted.set(null, false); // isRestricted = false;
-            } catch (Exception ex) {
-            	Log.Exception("Switch off JCE key 128bit restrictions failed", ex);
-            }
+        	// if MaxAllowedKey is less then integer max value
+        	int maxKeyLen = Cipher.getMaxAllowedKeyLength("AES/CTR/NoPadding");
+        	if( maxKeyLen < Integer.MAX_VALUE ) {
+	        	try {
+	                Field isRestricted = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
+	                if (Modifier.isFinal(isRestricted.getModifiers()) ) {
+	            		Field modifiers = Field.class.getDeclaredField("modifiers");
+	            		modifiers.setAccessible(true);
+	            		modifiers.setInt(isRestricted, isRestricted.getModifiers() & ~Modifier.FINAL);
+	            	}
+	                
+	                isRestricted.setAccessible(true);
+	                isRestricted.set(null, false); // isRestricted = false;
+	            } catch (Exception ex) {
+	            	Log.Exception("Switch off JCE key 128bit restrictions failed", ex);
+	            }
+        	}
         	m_cipher = Cipher.getInstance("AES/CTR/NoPadding", "BC");
         }
         
