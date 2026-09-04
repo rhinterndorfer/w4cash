@@ -43,7 +43,7 @@ public class JWSModul {
 	
 	public static void SetEndpointServerAddress(String serverAddress)
 	{
-		String endPoint = String.format("http://%1$s:80/Temporary_Listen_Addresses/w4cashSig", serverAddress);
+		String endPoint = String.format("http://%1$s/Temporary_Listen_Addresses/w4cashSig", serverAddress);
 		GetProxy().setEndpoint(endPoint);
 	}
 	
