@@ -22,6 +22,7 @@ package com.openbravo.data.loader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.concurrent.Executor;
 
 import com.openbravo.pos.forms.AppConfig;
 import com.openbravo.pos.forms.AppProperties;
@@ -88,6 +89,10 @@ public class Session {
 		// creamos una nueva conexion.
 		m_c = (m_suser == null && m_spassword == null) ? DriverManager.getConnection(m_surl)
 				: DriverManager.getConnection(m_surl, m_suser, m_spassword);
+		
+		Executor executor = Runnable::run;
+		m_c.setNetworkTimeout(executor, m_timeout);
+		
 		m_c.setAutoCommit(true);
 		m_bInTransaction = false;
 	}
@@ -166,7 +171,9 @@ public class Session {
 		boolean bclosed;
 		try {
 			bclosed = m_c == null || m_c.isClosed();
-			DB.checkConnection(this);
+			if(!bclosed) {
+				DB.checkConnection(this);
+			}
 			return !bclosed;
 		} catch (Exception e) {
 			return false;
@@ -184,13 +191,15 @@ public class Session {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
 				}
-			}
-			while(System.currentTimeMillis() - startTimeMillis < 5000) {
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
+				
+				while(System.currentTimeMillis() - startTimeMillis < 3000) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+					}
 				}
 			}
+			
 			retry--;
 			startTimeMillis = System.currentTimeMillis();
 			
