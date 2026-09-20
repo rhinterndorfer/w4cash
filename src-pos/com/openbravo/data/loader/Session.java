@@ -91,7 +91,7 @@ public class Session {
 				: DriverManager.getConnection(m_surl, m_suser, m_spassword);
 		
 		Executor executor = Runnable::run;
-		m_c.setNetworkTimeout(executor, m_timeout);
+		m_c.setNetworkTimeout(executor, m_timeout * 1000);
 		
 		m_c.setAutoCommit(true);
 		m_bInTransaction = false;
