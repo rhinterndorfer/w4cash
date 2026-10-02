@@ -146,6 +146,9 @@
             #if (${ticketline.getTaxInfo()} == "19%")
                <text align ="right" length="2">F</text>
             #end
+            #if (${ticketline.getTaxInfo()} == "4,9%")
+               <text align ="right" length="2">G</text>
+            #end
         </line> 
         #if ($ticketline.productAttTicketShow)
         <line>
@@ -177,6 +180,9 @@
             #end
             #if (${taxline.getTaxInfo()} == "19%")
                <text align ="left" length="2">F</text>
+            #end
+            #if (${taxline.getTaxInfo()} == "4,9%")
+               <text align ="left" length="2">G</text>
             #end
 			<text align ="left" length="10">${taxline.getTaxInfo()}</text>  
 			<text align ="right" length="15">${taxline.printSubTotal()}</text> 

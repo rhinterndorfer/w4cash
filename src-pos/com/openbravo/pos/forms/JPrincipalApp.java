@@ -389,6 +389,11 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 	public AppUser getUser() {
 		return m_appuser;
 	}
+	
+	public void toggleMenu() {
+		setMenuVisible(!m_jPanelLeft.isVisible());
+		jButtonMenuExpander.setVisible(m_jPanelLeft.isVisible());
+	}
 
 	public void showTask(String sTaskClass) {
 

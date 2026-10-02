@@ -340,7 +340,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 			desc = desc.substring(0, desc.length() - 1);
 		}
 		Log.info(desc);
-		return desc;
+		return StringUtils.encodeXML(desc);
 	}
 	
 	public String getProductAttSetId() {
@@ -348,7 +348,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 	}
 
 	public String getProductAttSetInstDesc() {
-		return attributes.getProperty("product.attsetdesc", "");
+		String attsetinstdesc = attributes.getProperty("product.attsetdesc", "");
+		if(attsetinstdesc != "")
+			return StringUtils.encodeXML(attsetinstdesc);
+		else
+			return attsetinstdesc;
 	}
 
 	public void setProductAttSetInstDesc(String value) {

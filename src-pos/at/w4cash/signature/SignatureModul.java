@@ -660,16 +660,6 @@ public class SignatureModul {
 	
 	public void CheckOpenTicketValidations(Component caller)
 	{
-		// fix error with wrong year ticket
-		try {
-			new StaticSentence(m_session, 
-					"UPDATE TICKETS SET VALIDATION=NULL WHERE MONTH=201801 AND (SELECT COUNT(*) FROM TICKETS WHERE MONTH BETWEEN 201701 AND 201712 AND VALIDATION is not null) > 0 AND VALIDATION IS NOT NULL "
-				)
-			.exec();
-		} catch(Exception e) {
-			// do nothing
-		}
-		
 		List oDbticketIds = null;
 		try {
 			oDbticketIds = new StaticSentence(m_session, 
@@ -1801,19 +1791,23 @@ public class SignatureModul {
         if(m_cipher == null)
         {
         	// switch off JCE key 128bit restrictions
-            try {
-                Field isRestricted = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
-                if (Modifier.isFinal(isRestricted.getModifiers()) ) {
-            		Field modifiers = Field.class.getDeclaredField("modifiers");
-            		modifiers.setAccessible(true);
-            		modifiers.setInt(isRestricted, isRestricted.getModifiers() & ~Modifier.FINAL);
-            	}
-                
-                isRestricted.setAccessible(true);
-                isRestricted.set(null, false); // isRestricted = false;
-            } catch (Exception ex) {
-            	Log.Exception("Switch off JCE key 128bit restrictions failed", ex);
-            }
+        	// if MaxAllowedKey is less then integer max value
+        	int maxKeyLen = Cipher.getMaxAllowedKeyLength("AES/CTR/NoPadding");
+        	if( maxKeyLen < Integer.MAX_VALUE ) {
+	        	try {
+	                Field isRestricted = Class.forName("javax.crypto.JceSecurity").getDeclaredField("isRestricted");
+	                if (Modifier.isFinal(isRestricted.getModifiers()) ) {
+	            		Field modifiers = Field.class.getDeclaredField("modifiers");
+	            		modifiers.setAccessible(true);
+	            		modifiers.setInt(isRestricted, isRestricted.getModifiers() & ~Modifier.FINAL);
+	            	}
+	                
+	                isRestricted.setAccessible(true);
+	                isRestricted.set(null, false); // isRestricted = false;
+	            } catch (Exception ex) {
+	            	Log.Exception("Switch off JCE key 128bit restrictions failed", ex);
+	            }
+        	}
         	m_cipher = Cipher.getInstance("AES/CTR/NoPadding", "BC");
         }
         

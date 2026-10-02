@@ -143,17 +143,17 @@
             #if (${ticketline.getTaxInfo()} == "13%")
                <text align ="right" length="2">C</text>
             #end
-
             #if (${ticketline.getTaxInfo()} == "20%")
                <text align ="right" length="2">D</text>
             #end
-            
             #if (${ticketline.getTaxInfo()} == "5%")
                <text align ="right" length="2">E</text>
             #end
-            
             #if (${ticketline.getTaxInfo()} == "19%")
                <text align ="right" length="2">F</text>
+            #end
+            #if (${ticketline.getTaxInfo()} == "4,9%")
+               <text align ="right" length="2">G</text>
             #end
         </line> 
         #end
@@ -180,6 +180,9 @@
             #end
             #if (${taxline.getTaxInfo()} == "19%")
                <text align ="left" length="2">F</text>
+            #end
+            #if (${taxline.getTaxInfo()} == "4,9%")
+               <text align ="left" length="2">G</text>
             #end
             <text align ="left" length="8">${taxline.getTaxInfo()}</text>  
             <text align ="right" length="10">${taxline.printSubTotal()}</text> 

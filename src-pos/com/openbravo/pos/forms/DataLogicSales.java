@@ -133,7 +133,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<PlaceSplit> getPlacesSplit() throws BasicException {
 		SentenceList sent = new StaticSentence(s,
 				"SELECT p.ID, case when st.id is null then p.NAME else st.NAME end as Name, f.Name as FloorName, case when st.ID is null then 0 else case when st.lockby is not null then 2 else 1 end end as Occupied "
@@ -144,7 +143,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return placesSplit;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<PlaceSplit> getOccupied() throws BasicException {
 		SentenceList sent = new StaticSentence(s,
 				"SELECT p.ID, st.NAME, f.Name as FloorName, 1 as Occupied " + "FROM " + "PLACES p "
@@ -159,7 +157,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return productsRow;
 	}
 
-	// Utilidades de productos
+	// Product Info
 	public final ProductInfoExt getProductInfo(String id) throws BasicException {
 		return (ProductInfoExt) new PreparedSentence(s,
 				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
@@ -182,7 +180,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).find(sReference);
 	}
 
-	// Catalogo de productos
+	// Categories
 	public final List<CategoryInfo> getCategories(String filter) throws BasicException {
 
 		if (filter == null)
@@ -203,7 +201,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				+ ") ";
 	}
 
-	// Catalogo de productos
 	public final List<CategoryInfo> getEmptyCategories() throws BasicException {
 		if (emptyCategories == null) {
 			emptyCategories = new PreparedSentence(s,
@@ -214,7 +211,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return emptyCategories;
 	}
 
-	// Catalogo de productos
 	public final List<CategoryInfo> getRootCategories(String filter) throws BasicException {
 		if (filter == null)
 			filter = "";
@@ -246,7 +242,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 						+ "ORDER BY O.CATORDER, P.NAME",
 				SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
 	}
-
+	
 	public List<ProductInfoExt> getProductComments(String id) throws BasicException {
 		return new PreparedSentence(s,
 				"SELECT P.ID, P.REFERENCE, P.CODE, P.NAME, P.ISCOM, P.ISSCALE, P.PRICEBUY, P.PRICESELL, P.TAXCAT, P.CATEGORY, P.ATTRIBUTESET_ID, P.IMAGE, P.BGCOLOR, P.ATTRIBUTES, P.UNIT, P.ATTR1, P.ATTR2, P.ATTR3, NVL(O.CATORDER, 2147483647) "
@@ -274,6 +270,18 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 				new String[] { "NAME", "CATEGORY" }),
 				new SerializerWriteBasic(new Datas[] { Datas.OBJECT, Datas.STRING, Datas.OBJECT, Datas.STRING }),
 				ProductInfoExt.getSerializerRead());
+	}
+	
+	// Simple products list
+	public final SentenceList getProductListSimple() {
+		return new StaticSentence(s, 
+				"SELECT P.ID, P.CODE, P.NAME FROM PRODUCTS P ORDER BY P.NAME",
+				null,
+				new SerializerRead() {
+					public Object readValues(DataRead dr) throws BasicException {
+						return new Object[] {dr.getString(1), dr.getString(2), dr.getString(3)};
+					}
+				});
 	}
 
 	// Auxiliar list for a filter

@@ -52,6 +52,9 @@ public abstract class Transaction<T> {
                 } catch (BasicException e) {
                     s.rollback();
                     throw e;
+                } catch (Throwable t) {
+                	s.rollback();
+                    throw new BasicException(t);
                 }
             } catch (SQLException eSQL) {
                 throw new BasicException("Transaction error", eSQL);
