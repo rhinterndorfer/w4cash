@@ -489,10 +489,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return ticket;
 	}
 	
-	public final void addTicketImage(final String ticketId, final int page, final String mime, String contentBase64, final String state) {
+	public final void addTicketImage(final String ticketId, final String mime, String contentBase64, final String state) {
 		// new receipt
 		try {
-			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET MIME = ?, CONTENTBASE64 = ?, STATE = ? WHERE ID = ? and PAGE = ?",
+			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET MIME = ?, CONTENTBASE64 = ?, STATE = ? WHERE ID = ?",
 					SerializerWriteParams.INSTANCE).exec(new DataParams() {
 						public void writeValues() throws BasicException {
 							setString(1, mime);
@@ -507,27 +507,24 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 							setString(3, state);
 							
 							setString(4, ticketId);
-							setInt(5, page);
-							
 						}
 					});
 			
 			if(affected == 0) {
-				new PreparedSentence(s, "INSERT INTO TICKETS_IMAGE (ID, PAGE, MIME, CONTENTBASE64, STATE) VALUES (?, ?, ?, ?, ?)",
+				new PreparedSentence(s, "INSERT INTO TICKETS_IMAGE (ID, MIME, CONTENTBASE64, STATE) VALUES (?, ?, ?, ?)",
 						SerializerWriteParams.INSTANCE).exec(new DataParams() {
 							public void writeValues() throws BasicException {
 								setString(1, ticketId);
-								setInt(2, page);
-								setString(3, mime);
+								setString(2, mime);
 								
 								try {
 									CharArrayReader r = new CharArrayReader(contentBase64.toCharArray());
-									setCharacterStream(4, r);
+									setCharacterStream(3, r);
 								} catch (Exception e) {
-									setCharacterStream(4, null);
+									setCharacterStream(3, null);
 								}
 								
-								setString(5, state);
+								setString(4, state);
 							}
 						});
 			}

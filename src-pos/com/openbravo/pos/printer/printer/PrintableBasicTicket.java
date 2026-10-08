@@ -37,6 +37,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 
@@ -52,10 +55,9 @@ public class PrintableBasicTicket implements Printable {
 	private int imageable_y;
 
 	private BasicTicket ticket;
-	private AppView app;
-	private Boolean printToDB;
-	private DataLogicSales dlSales = null;
-	private String id;
+	private Graphics2D dbGraphics;
+	private Hashtable<Integer, Integer> dbGraphics_page_y = new Hashtable<Integer, Integer>();
+	
 
 	public PrintableBasicTicket(BasicTicket ticket, int imageable_x, int imageable_y, int imageable_width,
 			int imageable_height) {
@@ -68,16 +70,15 @@ public class PrintableBasicTicket implements Printable {
 	}
 
 	public PrintableBasicTicket(BasicTicket ticket, int imageable_x, int imageable_y, int imageable_width,
-			int imageable_height, AppView app, Boolean printToDB, String id) {
+			int imageable_height, Graphics2D dbGraphics ) {
 		this.ticket = ticket;
 		this.imageable_x = imageable_x;
 		this.imageable_y = imageable_y;
 		this.imageable_width = imageable_width;
 		this.imageable_height = imageable_height;
-		this.app = app;
-		dlSales = (DataLogicSales) this.app.getBean("com.openbravo.pos.forms.DataLogicSales");
-		this.printToDB = printToDB;
-		this.id = id;
+		
+		
+		this.dbGraphics = dbGraphics;
 
 	}
 
@@ -86,33 +87,20 @@ public class PrintableBasicTicket implements Printable {
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 
 		Graphics2D g2d = (Graphics2D) graphics;
-		Graphics2D g2dImage = null;
-		BufferedImage bufImg = null;
-		int scale = 5;
-		
-		if (printToDB) {
-			
-			bufImg = new BufferedImage(imageable_width * scale, imageable_height * scale, BufferedImage.TYPE_INT_ARGB);
-			g2dImage = bufImg.createGraphics();
-			g2dImage.scale(scale, scale);
-			g2dImage.setComposite(AlphaComposite.Clear);
-			g2dImage.fillRect(0, 0, imageable_width, imageable_height);
-			g2dImage.setComposite(AlphaComposite.Src);
-			g2dImage.setColor(Color.black);
-		}
 
 		int line = 0;
 		int currentpage = 0;
 		int currentpagey = 0;
-		int lastValidPageY = 0;
 		boolean printed = false;
 
+		Integer dbGraphics_y = 0;
+		if(dbGraphics_page_y.contains(pageIndex-1)) {
+			dbGraphics_y = dbGraphics_page_y.get(pageIndex-1);
+		}
+		
 		g2d.translate(imageable_x, imageable_y);
-		if (g2dImage != null)
-			g2dImage.translate(imageable_x, imageable_y);
 
 		java.util.List<PrintItem> commands = ticket.getCommands();
-
 		while (line < commands.size()) {
 
 			int itemheight = commands.get(line).getHeight();
@@ -123,34 +111,24 @@ public class PrintableBasicTicket implements Printable {
 				currentpage++;
 				currentpagey = imageable_y + itemheight; // add top margin
 			}
+			
+			dbGraphics_y += itemheight;
 
 			if (currentpage < pageIndex) {
 				line++;
 			} else if (currentpage == pageIndex) {
 				printed = true;
 				commands.get(line).draw(g2d, 0, currentpagey - itemheight, imageable_width);
-				if (g2dImage != null)
-					commands.get(line).draw(g2dImage, 0, currentpagey - itemheight, imageable_width);
-				lastValidPageY = currentpagey;
+				if (this.dbGraphics != null && !dbGraphics_page_y.contains(pageIndex))
+					commands.get(line).draw(this.dbGraphics, 0, dbGraphics_y - itemheight, imageable_width);
 				line++;
 			} else if (currentpage > pageIndex) {
 				line++;
 			}
 		}
-
-		if (g2dImage != null && printed) {
-			try {
-				bufImg.flush();
-				BufferedImage bufImgOut = bufImg.getSubimage(0, 0, imageable_width * scale, lastValidPageY * scale);
-				bufImgOut.flush();
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				ImageIO.write(bufImgOut, "png", os);
-				String base64content = Base64.getEncoder().encodeToString(os.toByteArray());
-				// byte[] byteArray = base64content.getBytes("ASCII");
-				dlSales.addTicketImage(id, pageIndex, "image/png", base64content, "printing");
-			} catch (Exception e) {
-				Log.Exception(e);
-			}
+		
+		if(!dbGraphics_page_y.contains(pageIndex)) {
+			dbGraphics_page_y.put(pageIndex, dbGraphics_y);
 		}
 
 		return printed ? Printable.PAGE_EXISTS : Printable.NO_SUCH_PAGE;

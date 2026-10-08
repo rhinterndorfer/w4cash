@@ -29,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.Printable;
+import java.io.ByteArrayOutputStream;
 
 import javax.swing.JComponent;
 import com.openbravo.pos.printer.DevicePrinter;
@@ -37,8 +38,15 @@ import com.openbravo.pos.printer.ticket.BasicTicketForPrinter;
 import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.ReportUtils;
 import com.openbravo.pos.util.SelectPrinter;
+
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.util.Base64;
 import java.util.HashMap;
+
+import javax.imageio.ImageIO;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -295,16 +303,31 @@ public class DevicePrinterPrinter implements DevicePrinter {
 						aset.add(new MediaPrintableArea(0, 0, 80, 1000, MediaPrintableArea.MM));
 					}
 
-					DocPrintJob printjob = ps.createPrintJob();
+					Graphics2D dbGraphics = null;
+					BufferedImage bufImg = null;
+					int scale = 5;
 					
+					DocPrintJob printjob = ps.createPrintJob();
 					
 					Doc doc = null;
 					if(mediasizename.equals("Journal")) {
 						doc = new SimpleDoc(new PageableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,
 								imageable_width, m_ticketcurrent.getHeight()), DocFlavor.SERVICE_FORMATTED.PAGEABLE, null);
 					} else {
+						if(printToDB) {
+							bufImg = new BufferedImage(imageable_width * scale, m_ticketcurrent.getHeight() * scale, BufferedImage.TYPE_INT_ARGB);
+							dbGraphics = bufImg.createGraphics();
+							dbGraphics.scale(scale, scale);
+							dbGraphics.setComposite(AlphaComposite.Clear);
+							dbGraphics.setColor(Color.white);
+							dbGraphics.fillRect(0, 0, imageable_width, imageable_height);
+							dbGraphics.setComposite(AlphaComposite.Src);
+							dbGraphics.setColor(Color.black);
+						}
+						
+						
 						PrintableBasicTicket printable =new PrintableBasicTicket(m_ticketcurrent, imageable_x, imageable_y,
-								imageable_width, imageable_height, this.m_App, printToDB, id); 
+								imageable_width, imageable_height, dbGraphics); 
 						
 						doc = new SimpleDoc(printable, DocFlavor.SERVICE_FORMATTED.PRINTABLE, null);
 					}
@@ -312,6 +335,17 @@ public class DevicePrinterPrinter implements DevicePrinter {
 					printjob.print(doc, aset);
 					
 					if(printToDB) {
+						if (dbGraphics != null && bufImg != null) {
+							try {
+								bufImg.flush();
+								ByteArrayOutputStream os = new ByteArrayOutputStream();
+								ImageIO.write(bufImg, "png", os);
+								String base64content = Base64.getEncoder().encodeToString(os.toByteArray());
+								dlSales.addTicketImage(id, "image/png", base64content, "printing");
+							} catch (Exception e) {
+								Log.Exception(e);
+							}
+						}
 						dlSales.updateTicketImageState(this.id, "done");
 					}
 				}
