@@ -1357,8 +1357,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 							ticket.setPayments(paymentdialog.getSelectedPayments());
 						}
 
-						// Asigno los valores definitivos del ticket...
-						ticket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+						if(!m_App.getAppUserView().getUser().isServer())
+							ticket.setUser(m_App.getAppUserView().getUser().getUserInfo());
 
 						if (executeEvent(ticket, ticketext, "ticket.save") == null) {
 							// Save the receipt and assign a receipt number
@@ -1501,7 +1501,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
 				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 
-				m_TTP.printTicket(script.eval(sresource).toString(), ticket.getId());
+				Boolean print2db = m_App.getAppUserView().getUser().isServer();
+				m_TTP.printTicket(script.eval(sresource).toString(), ticket.getId(), print2db);
 			} catch (ScriptException e) {
 				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 				// AppLocal.getIntString("message.cannotprintticket"), e);

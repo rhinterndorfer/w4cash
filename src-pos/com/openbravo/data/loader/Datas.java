@@ -19,15 +19,18 @@
 
 package com.openbravo.data.loader;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonObject;
 import com.openbravo.basic.BasicException;
+import com.openbravo.pos.payment.PaymentInfo;
 import com.openbravo.pos.ticket.TicketInfo;
+import com.openbravo.pos.ticket.TicketTaxInfo;
 import com.openbravo.pos.util.Log;
 
 public abstract class Datas {
@@ -228,7 +231,23 @@ public abstract class Datas {
     	public Object getValue(DataRead dr, int i) throws BasicException {
     		try {
     			String json = new String(dr.getBytes(i), StandardCharsets.UTF_8);
-    			Gson gson = new Gson();
+    			Gson gson = new GsonBuilder()
+    					.registerTypeAdapter(
+    			                PaymentInfo.class,
+    			                (JsonDeserializer<PaymentInfo>) (jsonElement, type, context) -> {
+    			                	return null;
+    			                })
+    					.registerTypeAdapter(
+    			                TicketTaxInfo.class,
+    			                (JsonDeserializer<PaymentInfo>) (jsonElement, type, context) -> {
+    			                	return null;
+    			                })
+
+    					.create();
+    			
+    			
+    			
+    			
     			T obj = gson.fromJson(json, type);
     			return obj;
     		} catch(Exception ex) {

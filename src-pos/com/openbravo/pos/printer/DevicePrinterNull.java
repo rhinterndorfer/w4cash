@@ -51,7 +51,7 @@ public class DevicePrinterNull implements DevicePrinter {
     public void reset() {
     }
     
-    public void beginReceipt(String id) {
+    public void beginReceipt(String id, Boolean print2db) {
     }
     public void printBarCode(String type, String position, String code) {        
     }    

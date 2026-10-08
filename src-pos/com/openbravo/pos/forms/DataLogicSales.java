@@ -489,10 +489,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		return ticket;
 	}
 	
-	public final void addTicketImage(final String ticketId, final int page, final String mime, String contentBase64) {
+	public final void addTicketImage(final String ticketId, final int page, final String mime, String contentBase64, final String state) {
 		// new receipt
 		try {
-			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET MIME = ?, CONTENTBASE64 = ? WHERE ID = ? and PAGE = ?",
+			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET MIME = ?, CONTENTBASE64 = ?, STATE = ? WHERE ID = ? and PAGE = ?",
 					SerializerWriteParams.INSTANCE).exec(new DataParams() {
 						public void writeValues() throws BasicException {
 							setString(1, mime);
@@ -504,13 +504,16 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 								setCharacterStream(2, null);
 							}
 							
-							setString(3, ticketId);
-							setInt(4, page);
+							setString(3, state);
+							
+							setString(4, ticketId);
+							setInt(5, page);
+							
 						}
 					});
 			
 			if(affected == 0) {
-				new PreparedSentence(s, "INSERT INTO TICKETS_IMAGE (ID, PAGE, MIME, CONTENTBASE64) VALUES (?, ?, ?, ?)",
+				new PreparedSentence(s, "INSERT INTO TICKETS_IMAGE (ID, PAGE, MIME, CONTENTBASE64, STATE) VALUES (?, ?, ?, ?, ?)",
 						SerializerWriteParams.INSTANCE).exec(new DataParams() {
 							public void writeValues() throws BasicException {
 								setString(1, ticketId);
@@ -523,6 +526,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 								} catch (Exception e) {
 									setCharacterStream(4, null);
 								}
+								
+								setString(5, state);
 							}
 						});
 			}
@@ -531,6 +536,20 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		}
 	}
 	
+	public final void updateTicketImageState(final String ticketId, final String state) {
+		// new receipt
+		try {
+			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET STATE = ? WHERE ID = ?",
+					SerializerWriteParams.INSTANCE).exec(new DataParams() {
+						public void writeValues() throws BasicException {
+							setString(1, state);
+							setString(2, ticketId);
+						}
+					});
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
+	}
 
 	public final Object saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic)
 			throws BasicException, SignatureUnitException {

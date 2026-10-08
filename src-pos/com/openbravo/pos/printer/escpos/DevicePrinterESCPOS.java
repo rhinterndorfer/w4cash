@@ -64,7 +64,7 @@ public class DevicePrinterESCPOS implements DevicePrinter  {
     public void reset() {
     }
     
-    public void beginReceipt(String id) {
+    public void beginReceipt(String id, Boolean print2db) {
     }
     
     public void printImage(BufferedImage image) {

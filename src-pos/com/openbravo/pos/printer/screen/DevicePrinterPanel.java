@@ -62,7 +62,7 @@ public class DevicePrinterPanel extends javax.swing.JPanel implements DevicePrin
     }
     
     // INTERFAZ PRINTER 2
-    public void beginReceipt(String id) {
+    public void beginReceipt(String id, Boolean print2db) {
         m_ticketcurrent = new BasicTicketForScreen();
     }
     public void printImage(BufferedImage image) {

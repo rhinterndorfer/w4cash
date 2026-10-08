@@ -70,7 +70,8 @@ public class TicketParser extends DefaultHandler {
 	private DevicePrinter m_oOutputPrinter;
 	protected int m_lastSize;
 	private String id;
-
+	private Boolean print2db = false;
+	
 	/** Creates a new instance of TicketParser */
 	public TicketParser(DeviceTicket printer, DataLogicSystem system) {
 		m_printer = printer;
@@ -78,7 +79,12 @@ public class TicketParser extends DefaultHandler {
 	}
 
 	public void printTicket(String sIn, String id) throws TicketPrinterException {
+		printTicket(sIn, id, false);
+	}
+	
+	public void printTicket(String sIn, String id, Boolean print2db) throws TicketPrinterException {
 		this.id = id;
+		this.print2db = print2db;
 		printTicket(new StringReader(sIn));
 	}
 
@@ -132,19 +138,19 @@ public class TicketParser extends DefaultHandler {
 			} else if ("ticket".equals(qName)) {
 				m_iOutputType = OUTPUT_TICKET;
 				m_oOutputPrinter = m_printer.getDevicePrinter(readString(attributes.getValue("printer"), "1"));
-				m_oOutputPrinter.beginReceipt(id);
+				m_oOutputPrinter.beginReceipt(id, this.print2db);
 			} else if ("printer1".equals(qName)) {
 				m_iOutputType = OUTPUT_TICKET;
 				m_oOutputPrinter = m_printer.getDevicePrinter("1");
-				m_oOutputPrinter.beginReceipt(id);
+				m_oOutputPrinter.beginReceipt(id, false);
 			} else if ("printer2".equals(qName)) {
 				m_iOutputType = OUTPUT_TICKET;
 				m_oOutputPrinter = m_printer.getDevicePrinter("2");
-				m_oOutputPrinter.beginReceipt(id);
+				m_oOutputPrinter.beginReceipt(id, false);
 			} else if ("printer3".equals(qName)) {
 				m_iOutputType = OUTPUT_TICKET;
 				m_oOutputPrinter = m_printer.getDevicePrinter("3");
-				m_oOutputPrinter.beginReceipt(id);
+				m_oOutputPrinter.beginReceipt(id, false);
 			} else if ("display".equals(qName)) {
 				m_iOutputType = OUTPUT_DISPLAY;
 				String animation = attributes.getValue("animation");

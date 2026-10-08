@@ -241,7 +241,9 @@ public class TicketInfo implements SerializableRead, Externalizable {
         t.refreshLines();
 
         for (PaymentInfo p : payments) {
-            t.payments.add(p.copyPayment());
+            if(p != null) {
+            	t.payments.add(p.copyPayment());
+            }
         }
 
         // taxes are not copied, must be calculated again.

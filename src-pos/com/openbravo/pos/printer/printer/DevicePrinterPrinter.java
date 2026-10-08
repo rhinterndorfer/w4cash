@@ -23,6 +23,7 @@ import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
+import com.openbravo.pos.forms.DataLogicSales;
 
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
@@ -106,6 +107,7 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	private static final HashMap<String, MediaSizeName> mediasizenamemap = new HashMap<String, MediaSizeName>();
 
 	private AppView m_App;
+	private DataLogicSales dlSales = null;
 	
 	/**
 	 * Creates a new instance of DevicePrinterPrinter
@@ -118,11 +120,11 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	public DevicePrinterPrinter(AppView app, Component parent, String printername, int imageable_x, int imageable_y,
 			int imageable_width, int imageable_height, String mediasizename) {
 		this.m_App = app;
+		this.dlSales = (DataLogicSales) app.getBean("com.openbravo.pos.forms.DataLogicSales");
 		this.parent = parent;
 		m_sName = "Printer"; // "AppLocal.getIntString("Printer.Screen");
 		m_ticketcurrent = null;
 		printservice = ReportUtils.getPrintService(printername);
-		printToDB = "NUL".equals(printername);
 
 		this.imageable_x = imageable_x;
 		this.imageable_y = imageable_y;
@@ -174,8 +176,9 @@ public class DevicePrinterPrinter implements DevicePrinter {
 	 * Method that is responsible for start a new ticket
 	 */
 	@Override
-	public void beginReceipt(String id) {
+	public void beginReceipt(String id, Boolean print2db) {
 		this.id = id;
+		this.printToDB = print2db;
 		m_ticketcurrent = new BasicTicketForPrinter();
 	}
 
@@ -307,6 +310,10 @@ public class DevicePrinterPrinter implements DevicePrinter {
 					}
 					
 					printjob.print(doc, aset);
+					
+					if(printToDB) {
+						dlSales.updateTicketImageState(this.id, "done");
+					}
 				}
 			}
 
