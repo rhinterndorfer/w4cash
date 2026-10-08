@@ -103,6 +103,15 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 
 		getRootPane().setDefaultButton(jcmdOK);
 
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosed(java.awt.event.WindowEvent e) {
+				if (m_secondScreen != null) {
+					m_secondScreen.dispose();
+					m_secondScreen = null;
+				}
+			}
+		});
+
 		
 	}
 	
@@ -144,6 +153,9 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 					m_fitPanel.refresh();
 				}
 				
+				showSecondScreen();
+				
+				
 				this.setAlwaysOnTop(true);
 				this.setVisible(true);
 				
@@ -161,6 +173,20 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		return false;
 	}
 	
+	private void showSecondScreen() {
+		if (!SecondScreenReceipt.hasSecondScreen() || m_fitPanel == null) {
+			return;
+		}
+		java.awt.image.BufferedImage receipt = m_fitPanel.getSnapshot();
+		if (receipt == null) {
+			return;
+		}
+		if (m_secondScreen == null) {
+			m_secondScreen = new SecondScreenReceipt();
+		}
+		m_secondScreen.show(receipt);
+	}
+
 	private void initSystemData() {
 		DataLogicAdmin dlAdmin = (DataLogicAdmin) m_App.getBean("com.openbravo.pos.admin.DataLogicAdmin"); 
         TableDefinition tresources = dlAdmin.getTableResources();
@@ -254,7 +280,18 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		getContentPane().add(m_jPanelTicket, java.awt.BorderLayout.CENTER);
 		
 		PropertyUtil.ScaleDialogFullScreen(m_App, this);
+		
+		//scale button
+		int btnWidth = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-width","60"));
+		int btnHeight = Integer.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height","60"));
+		int fontsize = Integer
+				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-small-fontsize", "16"));
+		
+		PropertyUtil.ScaleButtonIcon(jcmdOK, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonFontsize(jcmdOK, fontsize);
 
+		PropertyUtil.ScaleButtonIcon(jcmdCancel, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonFontsize(jcmdCancel, fontsize);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
@@ -275,6 +312,7 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel jPanel8;
 	private javax.swing.JPanel m_jPanelTicket;
 	private ScaleToFitPanel m_fitPanel;
+	private SecondScreenReceipt m_secondScreen;
 	private javax.swing.JButton jcmdCancel;
 	private javax.swing.JButton jcmdOK;
 	// End of variables declaration//GEN-END:variables

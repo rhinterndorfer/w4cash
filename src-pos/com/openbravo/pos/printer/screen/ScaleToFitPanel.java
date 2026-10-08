@@ -47,6 +47,18 @@ public class ScaleToFitPanel extends JComponent {
         repaint();
     }
 
+    /**
+     * Returns the ticket rendered at its natural 1:1 size, building the cached
+     * snapshot first if needed. May return null while the ticket is empty.
+     * Useful to reuse the same bitmap on an additional display.
+     */
+    public BufferedImage getSnapshot() {
+        if (m_snapshot == null) {
+            buildSnapshot();
+        }
+        return m_snapshot;
+    }
+
     @Override
     public void doLayout() {
         // Keep the child at its natural (preferred) size, anchored at the origin.
