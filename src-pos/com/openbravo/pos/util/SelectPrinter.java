@@ -159,7 +159,7 @@ public class SelectPrinter extends javax.swing.JDialog {
 
 		getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-		PropertyUtil.ScaleDialog(m_App, this, 359, 176);
+		PropertyUtil.ScaleDialog(m_App, this, 640, 480);
 
 		// java.awt.Dimension screenSize =
 		// java.awt.Toolkit.getDefaultToolkit().getScreenSize();

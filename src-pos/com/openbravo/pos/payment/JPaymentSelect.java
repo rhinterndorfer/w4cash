@@ -124,7 +124,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		this.customerext = customerext;
 
 		m_jButtonPrint.setSelected(printselected);
-		m_jButtonPrint.setVisible(false); // hide print toggle button !!
+		m_jButtonPrint.setVisible(true); // hide print toggle button !!
 
 		m_jSecondPrint.setSelected(false);
 		m_jSecondPrint.setVisible(true);
@@ -536,10 +536,36 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		m_jButtonPrint
 				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileprint.png"))); // NOI18N
 		m_jButtonPrint.setSelected(true);
+		m_jButtonPrint.setContentAreaFilled(false);
+		m_jButtonPrint.setOpaque(true);
+		m_jButtonPrint.setBackground(Color.green);
 		m_jButtonPrint.setFocusPainted(false);
 		m_jButtonPrint.setFocusable(false);
 		m_jButtonPrint.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		m_jButtonPrint.setRequestFocusEnabled(false);
+		m_jButtonPrint.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(e.getSource().getClass().equals(JToggleButton.class))
+				{
+					JToggleButton btn = (JToggleButton)e.getSource();
+					
+					if(btn.isSelected())
+					{
+						btn.setContentAreaFilled(false);
+						btn.setOpaque(true);
+						btn.setBackground(Color.green);
+					}
+					else
+					{
+						btn.setContentAreaFilled(true);
+						btn.setOpaque(true);
+						btn.setBackground(null);
+					}
+				}
+			}
+		});
 		jPanel2.add(m_jButtonPrint);
 		
 		m_jSecondPrint
@@ -711,6 +737,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		PropertyUtil.ScaleButtonIcon(m_jButtonOK, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonPrint,  btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jSecondPrint,  btnWidth, btnHeight, fontsize);
 
 	}

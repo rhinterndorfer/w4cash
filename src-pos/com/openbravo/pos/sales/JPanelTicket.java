@@ -33,6 +33,7 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.printer.*;
+import com.openbravo.pos.printer.screen.DevicePrinterDialog;
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.forms.JPanelView;
 import com.openbravo.pos.forms.AppView;
@@ -155,6 +156,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private TicketInfo m_oTicketClone;
 
 	protected JTicketsBagRestaurantMap m_restaurant;
+	
+	private DevicePrinterDialog devicePrinterDialog; 
 
 	public JTicketsBagRestaurantMap getRestaurant() {
 		return m_restaurant;
@@ -309,6 +312,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		paymentdialogreceipt.init(m_App);
 		paymentdialogrefund = JPaymentSelectRefund.getDialog(this);
 		paymentdialogrefund.init(m_App);
+		devicePrinterDialog = DevicePrinterDialog.getDialog(this);
+		devicePrinterDialog.init(m_App);
 
 		// impuestos incluidos seleccionado ?
 		m_jaddtax.setSelected("true".equals(m_jbtnconfig.getProperty("taxesincluded")));
@@ -1390,17 +1395,24 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 								}
 
 								try {
+									Boolean isPrintSelected = paymentdialog.isPrintSelected();
+									
 									executeEvent(ticket, ticketext, "ticket.close",
-											new ScriptArg("print", paymentdialog.isPrintSelected()));
-
+											new ScriptArg("print", isPrintSelected));
+									
+									if(!isPrintSelected) {
+										devicePrinterDialog.showDialog(ticket);
+									}
+									
+									
+									
 									int printMultiplier = 1;
 									if (paymentdialog.isPrintSecond()) {
 										printMultiplier = 2;
 									}
 
 									for (int i = 1; i <= printMultiplier; i++) {
-										printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket.{size}"
-												: "Printer.Ticket2", ticket, ticketext);
+										printTicket(isPrintSelected ? "Printer.Ticket.{size}" : "Printer.Ticket2", ticket, ticketext);
 									}
 								} catch (Exception eData) {
 									JConfirmDialog.showError(m_App, this,
