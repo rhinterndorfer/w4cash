@@ -162,6 +162,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 
 	protected void setOKEnabled(boolean value) {
 		m_jButtonOK.setEnabled(value);
+		m_jButtonOKNoPrint.setEnabled(value);
 	}
 	
 	protected void setPrintSecondEnabled(boolean value) {
@@ -440,6 +441,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		m_jSecondPrint = new javax.swing.JToggleButton();
 		jPanel1 = new javax.swing.JPanel();
 		m_jButtonOK = new javax.swing.JButton();
+		m_jButtonOKNoPrint = new javax.swing.JButton();
 		m_jButtonCancel = new javax.swing.JButton();
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -602,6 +604,20 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		
 		jPanel2.add(jPanel1);
 		
+		m_jButtonOKNoPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
+		m_jButtonOKNoPrint.setText(AppLocal.getIntString("message.payNoPrint")); // NOI18N
+		m_jButtonOKNoPrint.setFocusPainted(false);
+		m_jButtonOKNoPrint.setFocusable(false);
+		m_jButtonOKNoPrint.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		m_jButtonOKNoPrint.setRequestFocusEnabled(false);
+		m_jButtonOKNoPrint.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				m_jButtonPrint.setSelected(false);
+				m_jButtonOKActionPerformed(evt);
+			}
+		});
+		jPanel2.add(m_jButtonOKNoPrint);
+		
 		m_jButtonOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/button_ok2.png"))); // NOI18N
 		m_jButtonOK.setText(AppLocal.getIntString("message.pay")); // NOI18N
 		m_jButtonOK.setFocusPainted(false);
@@ -705,6 +721,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 	//private javax.swing.JButton m_jButtonAdd;
 	private javax.swing.JButton m_jButtonCancel;
 	private javax.swing.JButton m_jButtonOK;
+	private javax.swing.JButton m_jButtonOKNoPrint;
 	private javax.swing.JToggleButton m_jSecondPrint;
 	private javax.swing.JToggleButton m_jButtonPrint;
 	//private javax.swing.JButton m_jButtonRemove;
@@ -736,6 +753,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog implements JPay
 		int btnHeight = Integer
 				.parseInt(PropertyUtil.getProperty(m_App, "Ticket.Buttons", "button-touchlarge-height", "60"));
 		PropertyUtil.ScaleButtonIcon(m_jButtonOK, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonIcon(m_jButtonOKNoPrint, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonCancel, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jButtonPrint,  btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonIcon(m_jSecondPrint,  btnWidth, btnHeight, fontsize);

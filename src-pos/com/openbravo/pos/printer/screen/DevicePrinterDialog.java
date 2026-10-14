@@ -54,6 +54,9 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 	private String SystemDataAccountOwner = "";
 	private String SystemDataAccountBIC = "";
 	private String SystemDataAccountIBAN = "";
+	
+	
+	private Boolean isPrint = false;
 
 	/** Creates new form SelectPrinter */
 	private DevicePrinterDialog(java.awt.Frame parent, boolean modal, ComponentOrientation o) {
@@ -66,7 +69,7 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		super(parent, modal);
 		this.applyComponentOrientation(o);
 	}
-	
+
 	public static DevicePrinterDialog getDialog(Component parent) {
         
         Window window = getWindow(parent);
@@ -86,6 +89,10 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		} else {
 			return getWindow(parent.getParent());
 		}
+	}
+	
+	public Boolean IsPrint() {
+		return isPrint;
 	}
 
 	
@@ -244,7 +251,7 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		jPanel8 = new javax.swing.JPanel();
 		jPanel1 = new javax.swing.JPanel();
 		jcmdOK = new javax.swing.JButton();
-		jcmdCancel = new javax.swing.JButton();
+		jcmdPrint = new javax.swing.JButton();
 		m_jPanelTicket = new javax.swing.JPanel();
 		m_jPanelTicket.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		m_jPanelTicket.setLayout(new java.awt.BorderLayout());
@@ -264,16 +271,16 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		});
 		jPanel1.add(jcmdOK);
 
-		jcmdCancel
-				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/locationbar_erase.png"))); // NOI18N
-		jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
-		jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
-		jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
+		jcmdPrint
+				.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/openbravo/images/fileprint.png"))); // NOI18N
+		jcmdPrint.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
+		jcmdPrint.setMargin(new java.awt.Insets(8, 16, 8, 16));
+		jcmdPrint.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jcmdCancelActionPerformed(evt);
+				jcmdPrintActionPerformed(evt);
 			}
 		});
-		jPanel1.add(jcmdCancel);
+		jPanel1.add(jcmdPrint);
 		jPanel8.add(jPanel1, java.awt.BorderLayout.LINE_END);
 
 		getContentPane().add(jPanel8, java.awt.BorderLayout.SOUTH);
@@ -290,18 +297,18 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 		PropertyUtil.ScaleButtonIcon(jcmdOK, btnWidth, btnHeight, fontsize);
 		PropertyUtil.ScaleButtonFontsize(jcmdOK, fontsize);
 
-		PropertyUtil.ScaleButtonIcon(jcmdCancel, btnWidth, btnHeight, fontsize);
-		PropertyUtil.ScaleButtonFontsize(jcmdCancel, fontsize);
+		PropertyUtil.ScaleButtonIcon(jcmdPrint, btnWidth, btnHeight, fontsize);
+		PropertyUtil.ScaleButtonFontsize(jcmdPrint, fontsize);
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdOKActionPerformed
-
+		isPrint = false;
 		dispose();
 
 	}// GEN-LAST:event_jcmdOKActionPerformed
 
-	private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdCancelActionPerformed
-
+	private void jcmdPrintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jcmdCancelActionPerformed
+		isPrint = true;
 		dispose();
 
 	}// GEN-LAST:event_jcmdCancelActionPerformed
@@ -313,7 +320,7 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 	private javax.swing.JPanel m_jPanelTicket;
 	private ScaleToFitPanel m_fitPanel;
 	private SecondScreenReceipt m_secondScreen;
-	private javax.swing.JButton jcmdCancel;
+	private javax.swing.JButton jcmdPrint;
 	private javax.swing.JButton jcmdOK;
 	// End of variables declaration//GEN-END:variables
 

@@ -1402,6 +1402,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 									
 									if(!isPrintSelected) {
 										devicePrinterDialog.showDialog(ticket);
+										isPrintSelected = devicePrinterDialog.IsPrint();
 									}
 									
 									
