@@ -19,6 +19,8 @@
 
 package com.openbravo.pos.payment;
 
+import java.util.Locale;
+
 import com.openbravo.format.Formats;
 
 public abstract class PaymentInfo {
@@ -30,5 +32,21 @@ public abstract class PaymentInfo {
     
     public String printTotal() {
         return Formats.CURRENCY.formatValue(new Double(getTotal()));
+    }
+    
+    
+    public String buildPaymentQRCode(String owner, String bic, String iban, String reference) {
+    	String newLine = System.getProperty("line.separator");
+    	return "BCD".concat(newLine)
+    			.concat("002").concat(newLine)
+    			.concat("1").concat(newLine)
+    			.concat("SCT").concat(newLine)
+    			.concat(bic == null ? "" : bic).concat(newLine)
+    			.concat(owner == null ? "" : owner).concat(newLine)
+    			.concat(iban == null ? "" : iban.replace(" ", "")).concat(newLine)
+    			.concat("EUR").concat(String.format(Locale.US, "%.2f",getTotal())).concat(newLine)
+    			.concat(newLine)
+    			.concat(reference == null ? "" : reference)
+    			;
     }
 }

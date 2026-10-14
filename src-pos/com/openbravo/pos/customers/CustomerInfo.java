@@ -79,8 +79,12 @@ public class CustomerInfo implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+        return StringUtils.encodeXML(address);
     }    
+    
+    public String getAddressRaw() {
+        return address;
+    }
 
     public void setAddress(String address) {
         this.address = address;

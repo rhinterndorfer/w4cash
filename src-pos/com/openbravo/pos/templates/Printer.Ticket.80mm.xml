@@ -316,6 +316,10 @@
         	<text align="left" length="10">IBAN:</text>
             <text length="34">${SystemDataAccountIBAN}</text>
         </line>
+        <line>
+        	<text align="left" length="20" bold="true">Zahlen mit Code:</text>
+        </line>	
+        <qr>${paymentline.buildPaymentQRCode(${SystemDataAccountOwner}, ${SystemDataAccountBIC}, ${SystemDataAccountIBAN}, "Rechnung ${ticket.printId()}")}</qr>
         #end
          #end
          #if ($paymentline.name == "paperout")

@@ -284,6 +284,11 @@
             <text align ="right" length="20">${paymentline.printTotal()}</text>
         </line> 
         #if ($SystemDataAccountIBAN != "")
+        <qrnolf x="300">${paymentline.buildPaymentQRCode(${SystemDataAccountOwner}, ${SystemDataAccountBIC}, ${SystemDataAccountIBAN}, "Rechnung ${ticket.printId()}")}</qrnolf>
+        <line>
+        	<text align="left" length="43"></text>
+        	<text align="left" length="20" bold="true">Zahlen mit Code:</text>
+        </line>
         <line>
         	<text align="left" length="105">Bankverbindung:</text>
         </line>

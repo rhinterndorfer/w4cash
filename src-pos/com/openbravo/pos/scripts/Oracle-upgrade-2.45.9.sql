@@ -28,7 +28,14 @@ CREATE TABLE TICKETS_IMAGE (
 	"STATE" VARCHAR2(32) NULL
 );
 
-ALTER TABLE TICKETS_IMAGE ADD CONSTRAINT PK_TICKETS_IMAGE PRIMARY KEY ("ID","PAGE");
+ALTER TABLE TICKETS_IMAGE ADD CONSTRAINT PK_TICKETS_IMAGE PRIMARY KEY ("ID");
+
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.Ticket.57mm.xml} WHERE NAME='Printer.TicketPreview.57mm';
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.Ticket.80mm.xml} WHERE NAME='Printer.TicketPreview.80mm';
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.Ticket.A4.xml} WHERE NAME='Printer.TicketPreview.A4';
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.Ticket.57mm.xml} WHERE NAME='Printer.Ticket.57mm';
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.Ticket.80mm.xml} WHERE NAME='Printer.Ticket.80mm';
+UPDATE RESOURCES SET CONTENT= $FILE{/com/openbravo/pos/templates/Printer.Ticket.A4.xml} WHERE NAME='Printer.Ticket.A4';
 
 
 UPDATE APPLICATIONS SET NAME = $APP_NAME{}, VERSION = $APP_VERSION{} WHERE ID = $APP_ID{} AND DBServerName = SYS_CONTEXT('USERENV', 'SERVER_HOST');

@@ -37,7 +37,7 @@ public class CustomerRenderer extends DefaultListCellRenderer {
         super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
         
         CustomerInfo customerInfo = (CustomerInfo)value; 
-        setText(customerInfo.toString() + " | " + customerInfo.getAddress());
+        setText(customerInfo.toString() + " | " + customerInfo.getAddressRaw());
         setIcon(icocustomer);
         return this;
     }      
