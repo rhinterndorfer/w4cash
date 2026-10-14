@@ -470,15 +470,7 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 					java.util.List<ProductInfoExt> products = m_dlSales.getProductComments(id);
 
 					if (products.size() == 0) {
-						// no hay productos por tanto lo anado a la de vacios y
-						// muestro el panel principal.
 						m_productsset.put(id, null);
-
-						/*
-						 * if (showingcategory == null) {
-						 * 
-						 * showRootCategoriesPanel(); } else { showSubcategoryPanel(showingcategory); }
-						 */
 						showRootCategoriesPanel();
 					} else {
 
@@ -508,12 +500,6 @@ public class JCatalog extends JPanel implements /* ListSelectionListener, */ Cat
 					}
 				} catch (BasicException eb) {
 					eb.printStackTrace();
-					m_productsset.put(id, null);
-
-					/*
-					 * if (showingcategory == null) { showRootCategoriesPanel(); } else {
-					 * showSubcategoryPanel(showingcategory); }
-					 */
 
 					showRootCategoriesPanel();
 				}

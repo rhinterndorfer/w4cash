@@ -1263,7 +1263,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				try {
 					if (this.m_restaurant != null)
 						this.m_restaurant.generateOrder();
-				} catch (BasicException e) {
+				} catch (Exception e) {
 					JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 							AppLocal.getIntString("message.cannotprintticket"), e);
 				}
@@ -1516,16 +1516,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				Boolean print2db = m_App.getAppUserView().getUser().isServer();
 				m_TTP.printTicket(script.eval(sresource).toString(), ticket.getId(), print2db);
 			} catch (ScriptException e) {
-				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-				// AppLocal.getIntString("message.cannotprintticket"), e);
-				// msg.show(m_App, JPanelTicket.this);
-
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 						AppLocal.getIntString("message.cannotprintticket"), e);
 			} catch (TicketPrinterException e) {
-				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-				// AppLocal.getIntString("message.cannotprintticket"), e);
-				// msg.show(m_App, JPanelTicket.this);
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 						AppLocal.getIntString("message.cannotprintticket"), e);
 			}

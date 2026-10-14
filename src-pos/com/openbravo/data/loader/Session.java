@@ -181,7 +181,7 @@ public class Session {
 	}
 	
 	private void ensureConnection() throws SQLException {
-		int retryInitValue = 3;
+		int retryInitValue = 2;
 		int retry = retryInitValue;
 		
 		long startTimeMillis = System.currentTimeMillis();

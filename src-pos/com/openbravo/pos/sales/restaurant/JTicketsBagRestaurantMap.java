@@ -720,13 +720,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				}
 				m_jbtnRefreshActionPerformed(null);
 			} catch (BasicException e) {
-				// new MessageInf(e).show(m_App, this); // maybe other guy
-				// deleted
-
 				throw e;
 			}
-
-			// m_PlaceCurrent = null;
 		}
 
 		printState();
