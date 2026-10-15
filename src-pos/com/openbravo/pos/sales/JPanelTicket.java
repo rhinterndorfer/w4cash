@@ -1350,6 +1350,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					if (paymentInfo != null 
 							|| paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
+						Boolean isPrintSelected = paymentdialog.isPrintSelected();
+						
+						
 						// reset MultiplyClone
 						ticket.SetTicketLinesMultiplyCloneInvalid();
 
@@ -1382,21 +1385,26 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 								Object existingTicket = dlSales.saveTicket(ticket, m_App.getInventoryLocation(),
 										taxeslogic);
+								
 								resultok = true;
 								if (existingTicket != null) {
-									int res = JConfirmDialog.showConfirm(m_App, this, null,
-											AppLocal.getIntString("message.ticketalreadyindb"));
-									if (res == JOptionPane.YES_OPTION) {
+									Boolean isServer = m_App.getAppUserView().getUser().isServer();
+									
+									if(isServer) {
 										ticket = (TicketInfo) existingTicket;
 									} else {
-										resultok = false;
-										throw new BasicException("Ticket already in DB");
+										int res = JConfirmDialog.showConfirm(m_App, this, null,
+												AppLocal.getIntString("message.ticketalreadyindb"));
+										if (res == JOptionPane.YES_OPTION) {
+											ticket = (TicketInfo) existingTicket;
+										} else {
+											resultok = false;
+											throw new BasicException("Ticket already in DB");
+										}
 									}
 								}
 
 								try {
-									Boolean isPrintSelected = paymentdialog.isPrintSelected();
-									
 									executeEvent(ticket, ticketext, "ticket.close",
 											new ScriptArg("print", isPrintSelected));
 									
@@ -1405,6 +1413,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 										isPrintSelected = devicePrinterDialog.IsPrint();
 									}
 									
+									// set selected output type
+									ticket.setProperty("ReceiptOutput", isPrintSelected ? "Printer" : "Display" );
+									dlSales.updateTicketProperties(ticket);
 									
 									
 									int printMultiplier = 1;

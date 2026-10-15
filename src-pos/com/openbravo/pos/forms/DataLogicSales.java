@@ -548,6 +548,28 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 		}
 	}
 
+	public final void updateTicketProperties(final TicketInfo ticket) 
+			throws BasicException
+	{
+		// update receipt attributes
+		new PreparedSentence(s, "update RECEIPTS set ATTRIBUTES = ? where ID = ?",
+				SerializerWriteParams.INSTANCE).exec(new DataParams() {
+					public void writeValues() throws BasicException {
+
+						try {
+							ByteArrayOutputStream o = new ByteArrayOutputStream();
+							ticket.getProperties().storeToXML(o, AppLocal.APP_NAME + " " + AppLocal.APP_VERSION,
+									"UTF-8");
+							setBytes(1, o.toByteArray());
+						} catch (IOException e) {
+							setBytes(4, null);
+						}
+						setString(2, ticket.getId());
+
+					}
+				});
+	}
+	
 	public final Object saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic)
 			throws BasicException, SignatureUnitException {
 
