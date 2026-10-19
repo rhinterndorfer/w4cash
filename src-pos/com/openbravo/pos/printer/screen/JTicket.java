@@ -51,8 +51,12 @@ class JTicket extends javax.swing.JPanel {
         }
         
         Insets i = getInsets();
+        
+        /*
         g2d.setPaint(new GradientPaint(getWidth() - i.left - i.right - 100, getHeight() - i.top - i.bottom - 100, getBackground()
                                      , getWidth() - i.left - i.right, getHeight() - i.top - i.bottom, new Color(0xf0f0f0), true));
+                                     */
+        g2d.setColor(Color.white);
         g2d.fillRect(i.left, i.top, getWidth() - i.left - i.right, getHeight() - i.top - i.bottom);
         
         g.setColor(getForeground());
@@ -84,7 +88,8 @@ class JTicket extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0)));
+        javax.swing.border.LineBorder border = new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2);
+        setBorder(border);
     }//GEN-END:initComponents
     
     

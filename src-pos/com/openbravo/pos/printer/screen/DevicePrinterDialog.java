@@ -8,8 +8,6 @@ import com.openbravo.pos.admin.DataLogicAdmin;
 import com.openbravo.pos.forms.AppLocal;
 import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.forms.DataLogicSystem;
-import com.openbravo.pos.payment.JPaymentSelect;
-import com.openbravo.pos.payment.JPaymentSelectRefund;
 import com.openbravo.pos.printer.DeviceTicket;
 import com.openbravo.pos.printer.TicketParser;
 import com.openbravo.pos.printer.TicketPrinterException;
@@ -31,7 +29,6 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  *
