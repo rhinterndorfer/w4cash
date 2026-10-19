@@ -169,9 +169,10 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 				
 				showSecondScreen();
 				
+				this.setUndecorated(true);
+				this.pack();
 				PropertyUtil.ScaleDialogFullScreen(m_App, this);
 				
-				this.pack();
 				this.setAlwaysOnTop(true);
 				this.setVisible(true);
 				
