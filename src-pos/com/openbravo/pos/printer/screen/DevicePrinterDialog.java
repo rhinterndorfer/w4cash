@@ -26,6 +26,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Window;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -117,6 +118,15 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 					m_secondScreen = null;
 				}
 			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				super.windowActivated(e);
+				
+				e.getWindow().repaint();
+				m_jPanelTicket.repaint();
+			}
+	
 		});
 
 		
@@ -162,7 +172,9 @@ public class DevicePrinterDialog extends javax.swing.JDialog {
 				
 				showSecondScreen();
 				
+				PropertyUtil.ScaleDialogFullScreen(m_App, this);
 				
+				this.pack();
 				this.setAlwaysOnTop(true);
 				this.setVisible(true);
 				

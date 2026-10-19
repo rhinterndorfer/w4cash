@@ -35,7 +35,17 @@ public class SecondScreenReceipt {
         if (devices.length < 2 || receipt == null || receipt.getWidth() <= 0 || receipt.getHeight() <= 0) {
             return;
         }
-        m_device = devices[1];
+        
+        m_device = null;
+        
+        for (GraphicsDevice d : devices) {
+            Rectangle bounds = d.getDefaultConfiguration().getBounds();
+            if (bounds.x == 0 && bounds.y == 0) {
+                // primary device => ignore
+            } else {
+            	m_device = d;
+            }
+        }
 
         if (m_frame == null) {
             m_surface = new ReceiptSurface(receipt);
