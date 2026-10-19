@@ -56,11 +56,13 @@ import com.openbravo.pos.sales.restaurant.PlaceSplit;
 import com.openbravo.pos.ticket.FindTicketsInfo;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.TicketTaxInfo;
+import com.openbravo.pos.util.Log;
 import com.openbravo.pos.util.PropertyUtil;
 
 import at.w4cash.signature.SignatureModul;
 
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
@@ -486,7 +488,88 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
 		return ticket;
 	}
+	
+	public final void addTicketImage(final String ticketId, final String mime, String contentBase64, final String state) {
+		// new receipt
+		try {
+			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET MIME = ?, CONTENTBASE64 = ?, STATE = ? WHERE ID = ?",
+					SerializerWriteParams.INSTANCE).exec(new DataParams() {
+						public void writeValues() throws BasicException {
+							setString(1, mime);
+							
+							try {
+								CharArrayReader r = new CharArrayReader(contentBase64.toCharArray());
+								setCharacterStream(2, r);
+							} catch (Exception e) {
+								setCharacterStream(2, null);
+							}
+							
+							setString(3, state);
+							
+							setString(4, ticketId);
+						}
+					});
+			
+			if(affected == 0) {
+				new PreparedSentence(s, "INSERT INTO TICKETS_IMAGE (ID, MIME, CONTENTBASE64, STATE) VALUES (?, ?, ?, ?)",
+						SerializerWriteParams.INSTANCE).exec(new DataParams() {
+							public void writeValues() throws BasicException {
+								setString(1, ticketId);
+								setString(2, mime);
+								
+								try {
+									CharArrayReader r = new CharArrayReader(contentBase64.toCharArray());
+									setCharacterStream(3, r);
+								} catch (Exception e) {
+									setCharacterStream(3, null);
+								}
+								
+								setString(4, state);
+							}
+						});
+			}
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
+	}
+	
+	public final void updateTicketImageState(final String ticketId, final String state) {
+		// new receipt
+		try {
+			int affected = new PreparedSentence(s, "UPDATE TICKETS_IMAGE SET STATE = ? WHERE ID = ?",
+					SerializerWriteParams.INSTANCE).exec(new DataParams() {
+						public void writeValues() throws BasicException {
+							setString(1, state);
+							setString(2, ticketId);
+						}
+					});
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
+	}
 
+	public final void updateTicketProperties(final TicketInfo ticket) 
+			throws BasicException
+	{
+		// update receipt attributes
+		new PreparedSentence(s, "update RECEIPTS set ATTRIBUTES = ? where ID = ?",
+				SerializerWriteParams.INSTANCE).exec(new DataParams() {
+					public void writeValues() throws BasicException {
+
+						try {
+							ByteArrayOutputStream o = new ByteArrayOutputStream();
+							ticket.getProperties().storeToXML(o, AppLocal.APP_NAME + " " + AppLocal.APP_VERSION,
+									"UTF-8");
+							setBytes(1, o.toByteArray());
+						} catch (IOException e) {
+							setBytes(4, null);
+						}
+						setString(2, ticket.getId());
+
+					}
+				});
+	}
+	
 	public final Object saveTicket(final TicketInfo ticket, final String location, TaxesLogic taxlogic)
 			throws BasicException, SignatureUnitException {
 

@@ -43,6 +43,13 @@ public class CustomerInfo implements Serializable {
         this.name = null;
     }
     
+    public CustomerInfo() {
+    	this.id = null;
+        this.searchkey = null;
+        this.taxid = null;
+        this.name = null;
+    }
+    
     public String getId() {
         return id;
     }    
@@ -72,8 +79,12 @@ public class CustomerInfo implements Serializable {
     }
 
     public String getAddress() {
-        return address;
+        return StringUtils.encodeXML(address);
     }    
+    
+    public String getAddressRaw() {
+        return address;
+    }
 
     public void setAddress(String address) {
         this.address = address;

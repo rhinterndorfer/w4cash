@@ -203,8 +203,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		resource = resourcescache.get(name);
 
 		if (resource == null) {
-			// Primero trato de obtenerlo de la tabla de recursos
-			int retry = 3;
+			int retry = 2;
 			do
 			{
 				try {
@@ -249,8 +248,12 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
 	public final String getResourceAsXML(String sName) {
 		if (!resourceAsXML.containsKey(sName)) {
-			String xmlResource = Formats.BYTEA.formatValue(getResource(sName));
-			resourceAsXML.put(sName, xmlResource);
+			byte[] resource = getResource(sName);
+			String xmlResource = Formats.BYTEA.formatValue(resource);
+			if(resource != null) {
+				resourceAsXML.put(sName, xmlResource);
+			}
+			return xmlResource;
 		}
 		
 		return resourceAsXML.get(sName);

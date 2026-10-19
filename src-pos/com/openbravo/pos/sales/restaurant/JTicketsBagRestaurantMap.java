@@ -106,6 +106,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 	private String categoriesFilter = null;
 	private String placeFreeColor = null;
+	
 
 	/** Creates new form JTicketsBagRestaurant */
 	public JTicketsBagRestaurantMap(AppView app, TicketsEditor panelticket) {
@@ -128,22 +129,28 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_PlaceClipboard = null;
 		customer = null;
 
-		try {
-			SentenceList sent = new StaticSentence(app.getSession(),
-					"SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME", null,
-					new SerializerReadClass(Floor.class));
-			m_afloors = sent.list();
-
-		} catch (BasicException eD) {
+		
+		if(app.getAppUserView().getUser().isServer()) {
 			m_afloors = new ArrayList<Floor>();
-		}
-		try {
-			SentenceList sent = new StaticSentence(app.getSession(),
-					"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE, FONTCOLOR FROM PLACES ORDER BY FLOOR", null,
-					new SerializerReadClass(Place.class));
-			m_aplaces = sent.list();
-		} catch (BasicException eD) {
 			m_aplaces = new ArrayList<Place>();
+		} else {
+			try {
+				SentenceList sent = new StaticSentence(app.getSession(),
+						"SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY SORTORDER,NAME", null,
+						new SerializerReadClass(Floor.class));
+				m_afloors = sent.list();
+	
+			} catch (BasicException eD) {
+				m_afloors = new ArrayList<Floor>();
+			}
+			try {
+				SentenceList sent = new StaticSentence(app.getSession(),
+						"SELECT ID, NAME, X, Y, FLOOR, WIDTH, HEIGHT, FONTSIZE, FONTCOLOR FROM PLACES ORDER BY FLOOR", null,
+						new SerializerReadClass(Place.class));
+				m_aplaces = sent.list();
+			} catch (BasicException eD) {
+				m_aplaces = new ArrayList<Place>();
+			}
 		}
 
 		initComponents();
@@ -311,16 +318,61 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	private class LoadTicketsThread extends Thread {
 		public void run() {
 			try {
-				if (loadTickets(true)) {
-					m_timerErrorCount = 1;
+				
+				
+				if(m_App.getAppUserView().getUser().isServer()) {
+					for(SharedTicketInfo info : dlReceipts.getServerSharedTicketList()){
+						String sharedTicketId = info.getId();
+						TicketInfo ticketinfo = dlReceipts.getSharedTicket(sharedTicketId);
+						
+						if("print".equals(info.getState())) {
+							
+							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
+							
+							Place pl = new Place();
+							pl.setSId(sharedTicketId);
+							pl.setTempName(info.getName());
+							pl.setSName(info.getName());
+							
+							setPlaceCurrent(pl);
+							generateOrder();
+							newTicket();
+							setPlaceCurrent(null);
+						}
+						
+						
+						if("close".equals(info.getState())) {
+							
+							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
+							
+							Place pl = new Place();
+							pl.setSId(sharedTicketId);
+							pl.setTempName(info.getName());
+							pl.setSName(info.getName());
+							
+							setPlaceCurrent(pl);
+							
+							m_panelticket.DoCloseTicket();
+							setPlaceCurrent(null);
+						}
+					}
+					m_timer.setInitialDelay(1000);
+					m_timer.setDelay(1000);
 				} else {
-					m_timerErrorCount++;
+					if (loadTickets(true)) {
+						m_timerErrorCount = 1;
+					} else {
+						m_timerErrorCount++;
+					}
+					
+					m_timer.setInitialDelay(5000 * m_timerErrorCount);
+					m_timer.setDelay(5000 * m_timerErrorCount);
 				}
 
-				m_timer.setInitialDelay(5000 * m_timerErrorCount);
-				m_timer.setDelay(5000 * m_timerErrorCount);
+				
 			} catch (Exception ex) {
 				// do nothing
+				Log.Exception(ex);
 			}
 			StartTimer();
 		}
@@ -519,7 +571,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 	}
 
 	public void generateOrder() throws BasicException {
-		this.generateOrder(m_panelticket.getActiveTicket().copyTicket(), m_panelticket.getActiveTicketClone());
+		this.generateOrder(m_panelticket.getActiveTicket().copyTicket(false), m_panelticket.getActiveTicketClone());
 		m_panelticket.SyncTicketClone();
 	}
 
@@ -656,20 +708,20 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			try {
 				if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
 					m_panelticket.DoSaveTicketEvent();
-					dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
-					dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
+					
+					if (m_panelticket.getActiveTicket().getLinesCount() > 0) {
+						dlReceipts.updateSharedTicket(m_PlaceCurrent.getId(), m_panelticket.getActiveTicket());
+						dlReceipts.checkinSharedTicket(m_PlaceCurrent.getId());
+					} else {
+						dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());	
+					}
 				} else {
 					dlReceipts.deleteSharedTicket(m_PlaceCurrent.getId());
 				}
 				m_jbtnRefreshActionPerformed(null);
 			} catch (BasicException e) {
-				// new MessageInf(e).show(m_App, this); // maybe other guy
-				// deleted
-
 				throw e;
 			}
-
-			// m_PlaceCurrent = null;
 		}
 
 		printState();
@@ -764,7 +816,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 					script.put("printer", "" + key);
 					script.put("printername", "Drucker " + key);
-					m_TTP.printTicket(script.eval(sresource).toString());
+					m_TTP.printTicket(script.eval(sresource).toString(), inf.getId());
 				} catch (ScriptException e) {
 					MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
 							AppLocal.getIntString("message.cannotprintticket"), e);
@@ -800,7 +852,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		TicketInfo info = new TicketInfo();
 		try {
 			if (printdelete) {
-				generateOrder(info, m_panelticket.getActiveTicketClone().copyTicket());
+				generateOrder(info, m_panelticket.getActiveTicketClone().copyTicket(false));
 				newTicket();
 			}
 			if (m_PlaceCurrent != null) {

@@ -293,13 +293,17 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 			this.count = "";
 	}
 
-	public TicketLineInfo copyTicketLine() {
+	public TicketLineInfo copyTicketLine(Boolean useMultipyClone) {
 		TicketLineInfo l = new TicketLineInfo();
 		// l.m_sTicket = null;
 		// l.m_iLine = -1;
 		l.productid = productid;
 		l.attsetinstid = attsetinstid;
-		l.multiply = multiply;
+		if(useMultipyClone && multiplyCloneValid) {
+			l.multiply = multiplyClone;
+		} else {
+			l.multiply = multiply;
+		}
 		l.price = price;
 		l.tax = tax;
 		l.attributes = (Properties) attributes.clone();

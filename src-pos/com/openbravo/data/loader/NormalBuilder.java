@@ -79,6 +79,9 @@ public class NormalBuilder implements ISQLBuilderStatic {
         public void setBytes(int paramIndex, byte[] value) throws BasicException {
             throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
         }
+        public void setCharacterStream(int paramIndex, java.io.Reader reader) throws BasicException {
+            throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
+        }
         public void setObject(int paramIndex, Object value) throws BasicException {
             ensurePlace(paramIndex - 1);
             m_aParams.set(paramIndex - 1, DataWriteUtils.getSQLValue(value));

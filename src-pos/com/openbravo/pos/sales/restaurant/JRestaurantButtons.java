@@ -193,7 +193,7 @@ public class JRestaurantButtons extends javax.swing.JPanel {
 				ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
 				script.put("host", m_App.getHost());
 				
-				m_TTP.printTicket(script.eval(sresource).toString());
+				m_TTP.printTicket(script.eval(sresource).toString(), null);
 			} catch (ScriptException e) {
 				logger.log(Level.WARNING, "Script error", e);
 			} catch (TicketPrinterException e) {

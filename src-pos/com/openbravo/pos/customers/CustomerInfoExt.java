@@ -21,6 +21,8 @@ package com.openbravo.pos.customers;
 
 import com.openbravo.format.Formats;
 import com.openbravo.pos.util.RoundUtils;
+import com.openbravo.pos.util.StringUtils;
+
 import java.util.Date;
 
 /**
@@ -56,7 +58,10 @@ public class CustomerInfoExt extends CustomerInfo {
     /** Creates a new instance of UserInfoBasic */
     public CustomerInfoExt(String id) {
         super(id);
-    } 
+    }
+    
+    public CustomerInfoExt() {
+    }
   
     public String getTaxCustCategoryID() {
         return taxcustomerid;
@@ -140,7 +145,7 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public String getFirstname() {
-        return firstname;
+        return StringUtils.encodeXML(firstname);
     }
 
     public void setFirstname(String firstname) {
@@ -148,7 +153,7 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public String getLastname() {
-        return lastname;
+        return StringUtils.encodeXML(lastname);
     }
 
     public void setLastname(String lastname) {
@@ -188,7 +193,7 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public String getAddress() {
-        return address;
+        return StringUtils.encodeXML(address);
     }
 
     public void setAddress(String address) {
@@ -196,7 +201,7 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public String getAddress2() {
-        return address2;
+        return StringUtils.encodeXML(address2);
     }
 
     public void setAddress2(String address2) {
@@ -204,7 +209,7 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public String getPostal() {
-        return postal;
+        return StringUtils.encodeXML(postal);
     }
 
     public void setPostal(String postal) {
@@ -212,7 +217,7 @@ public class CustomerInfoExt extends CustomerInfo {
     }
 
     public String getCity() {
-        return city;
+        return StringUtils.encodeXML(city);
     }
 
     public void setCity(String city) {

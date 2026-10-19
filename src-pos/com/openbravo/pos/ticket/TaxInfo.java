@@ -55,6 +55,8 @@ public class TaxInfo implements Serializable, IKeyed {
         this.order = order;
     }
     
+    public TaxInfo() {}
+    
     public Object getKey() {
         return id;
     }

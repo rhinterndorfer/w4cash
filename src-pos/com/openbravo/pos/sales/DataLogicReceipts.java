@@ -68,11 +68,14 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
         	String windowsHostName = m_app.getWindowsHost();
         	String hostname = String.format("%s (%s)", host, windowsHostName);
         	
+        	if(m_app.getAppUserView().getUser().isServer()) {
+        		hostname = "server";
+        	}
         	
             Object[] values = new Object[] {Id, hostname};
             Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING};
             int affected = new PreparedSentence(s
-                    , "UPDATE SHAREDTICKETS SET LOCKBY = null WHERE ID = ? AND LOCKBY = ?"
+                    , "UPDATE SHAREDTICKETS SET LOCKBY = null, STATE = null WHERE ID = ? AND LOCKBY = ?"
                     , new SerializerWriteBasicExt(datas, new int[] {0, 1})).exec(values);
         }
     }
@@ -137,7 +140,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
             Object[]record = (Object[]) new StaticSentence(s
                     , "SELECT CONTENT FROM SHAREDTICKETS WHERE ID = ?"
                     , SerializerWriteString.INSTANCE
-                    , new SerializerReadBasic(new Datas[] {Datas.SERIALIZABLE})).find(Id);
+                    , new SerializerReadBasic(new Datas[] {	Datas.SERIALIZABLETicketInfo })).find(Id);
             return record == null ? null : (TicketInfo) record[0];
         }
     } 
@@ -146,7 +149,16 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
 	public final List<SharedTicketInfo> getSharedTicketList() throws BasicException {
         
         return (List<SharedTicketInfo>) new StaticSentence(s
-                , "SELECT ID, NAME FROM SHAREDTICKETS ORDER BY ID"
+                , "SELECT ID, NAME, LOCKBY, STATE FROM SHAREDTICKETS ORDER BY ID"
+                , null
+                , new SerializerReadClass(SharedTicketInfo.class)).list();
+    }
+    
+    @SuppressWarnings("unchecked")
+	public final List<SharedTicketInfo> getServerSharedTicketList() throws BasicException {
+        
+        return (List<SharedTicketInfo>) new StaticSentence(s
+                , "SELECT ID, NAME, LOCKBY, STATE FROM SHAREDTICKETS WHERE LOCKBY = 'server' ORDER BY ID"
                 , null
                 , new SerializerReadClass(SharedTicketInfo.class)).list();
     }
@@ -155,7 +167,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
 	public final List<SharedTicketInfo> getSharedTicketListNoPlace() throws BasicException {
         
         return (List<SharedTicketInfo>) new StaticSentence(s
-                , "SELECT SHAREDTICKETS.ID, SHAREDTICKETS.NAME FROM SHAREDTICKETS LEFT JOIN PLACES ON SHAREDTICKETS.ID = PLACES.ID WHERE PLACES.ID IS NULL ORDER BY SHAREDTICKETS.ID"
+                , "SELECT SHAREDTICKETS.ID, SHAREDTICKETS.NAME, SHAREDTICKETS.LOCKBY, SHAREDTICKETS.STATE FROM SHAREDTICKETS LEFT JOIN PLACES ON SHAREDTICKETS.ID = PLACES.ID WHERE PLACES.ID IS NULL ORDER BY SHAREDTICKETS.ID"
                 , null
                 , new SerializerReadClass(SharedTicketInfo.class)).list();
     }
@@ -164,7 +176,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
     public final void updateSharedTicket(final String id, final TicketInfo ticket) throws BasicException {
          
         Object[] values = new Object[] {id, ticket.getNameWithExt(), ticket};
-        Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING, Datas.SERIALIZABLE};
+        Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING, Datas.SERIALIZABLETicketInfo};
         new PreparedSentence(s
                 , "UPDATE SHAREDTICKETS SET NAME = ?, CONTENT = ? WHERE ID = ?"
                 , new SerializerWriteBasicExt(datas, new int[] {1, 2, 0})).exec(values);
@@ -173,7 +185,7 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
     public final void insertSharedTicket(final String id, final TicketInfo ticket) throws BasicException {
         
         Object[] values = new Object[] {id, ticket.getNameWithExt(), ticket};
-        Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING, Datas.SERIALIZABLE};
+        Datas[] datas = new Datas[] {Datas.STRING, Datas.STRING, Datas.SERIALIZABLETicketInfo};
         
         new PreparedSentence(s
             , "INSERT INTO SHAREDTICKETS (ID, NAME,CONTENT) VALUES (?, ?, ?)"

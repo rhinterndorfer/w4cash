@@ -55,6 +55,10 @@ public abstract class DataParams implements DataWrite {
     public void setBytes(int paramIndex, byte[] value) throws BasicException {
         dw.setBytes(paramIndex, value);
     }
+    
+    public void setCharacterStream(int paramIndex, java.io.Reader reader) throws BasicException {
+        dw.setCharacterStream(paramIndex, reader);
+    }
 
     public void setObject(int paramIndex, Object value) throws BasicException {
         dw.setObject(paramIndex, value);

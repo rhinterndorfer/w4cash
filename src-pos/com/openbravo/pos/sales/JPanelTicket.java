@@ -33,6 +33,7 @@ import com.openbravo.data.gui.ComboBoxValModel;
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.MessageInf;
 import com.openbravo.pos.printer.*;
+import com.openbravo.pos.printer.screen.DevicePrinterDialog;
 import com.openbravo.pos.sales.restaurant.JTicketsBagRestaurantMap;
 import com.openbravo.pos.forms.JPanelView;
 import com.openbravo.pos.forms.AppView;
@@ -60,6 +61,8 @@ import com.openbravo.pos.forms.BeanFactoryException;
 import com.openbravo.pos.inventory.TaxCategoryInfo;
 import com.openbravo.pos.payment.JPaymentSelectReceipt;
 import com.openbravo.pos.payment.JPaymentSelectRefund;
+import com.openbravo.pos.payment.PaymentInfo;
+import com.openbravo.pos.payment.PaymentInfoCash;
 import com.openbravo.pos.ticket.PriceZoneProductInfo;
 import com.openbravo.pos.ticket.ProductInfoExt;
 import com.openbravo.pos.ticket.TaxInfo;
@@ -77,6 +80,7 @@ import at.w4cash.signature.SignatureModul;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -152,6 +156,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 	private TicketInfo m_oTicketClone;
 
 	protected JTicketsBagRestaurantMap m_restaurant;
+	
+	private DevicePrinterDialog devicePrinterDialog; 
 
 	public JTicketsBagRestaurantMap getRestaurant() {
 		return m_restaurant;
@@ -306,6 +312,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		paymentdialogreceipt.init(m_App);
 		paymentdialogrefund = JPaymentSelectRefund.getDialog(this);
 		paymentdialogrefund.init(m_App);
+		devicePrinterDialog = DevicePrinterDialog.getDialog(this);
+		devicePrinterDialog.init(m_App);
 
 		// impuestos incluidos seleccionado ?
 		m_jaddtax.setSelected("true".equals(m_jbtnconfig.getProperty("taxesincluded")));
@@ -422,13 +430,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		}
 	}
 
-	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt) {
+	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt, Boolean useMultiplyClone, Boolean useTicketUser) {
 		m_oTicket = oTicket;
 		m_oTicketExt = oTicketExt;
 
 		if (m_oTicket != null) {
 			// Asign preeliminary properties to the receipt
-			m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+			if(!useTicketUser || m_oTicket.getUser() == null) {
+				m_oTicket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+			}
 
 			/*
 			 * set at ticket close try {
@@ -441,7 +451,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 		executeEvent(m_oTicket, m_oTicketExt, "ticket.show");
 
 		if (m_oTicket != null)
-			m_oTicketClone = m_oTicket.copyTicket();
+			m_oTicketClone = m_oTicket.copyTicket(useMultiplyClone);
 		else
 			m_oTicketClone = null;
 
@@ -452,9 +462,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 		ticketListChanged();
 	}
+	
+	public void setActiveTicket(TicketInfo oTicket, Object oTicketExt) {
+		setActiveTicket(oTicket, oTicketExt, false, false);
+	}
 
 	public void SyncTicketClone() {
-		m_oTicketClone = m_oTicket.copyTicket();
+		m_oTicketClone = m_oTicket.copyTicket(false);
 	}
 
 	public void DoSaveTicketEvent() {
@@ -1249,13 +1263,13 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				try {
 					if (this.m_restaurant != null)
 						this.m_restaurant.generateOrder();
-				} catch (BasicException e) {
+				} catch (Exception e) {
 					JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 							AppLocal.getIntString("message.cannotprintticket"), e);
 				}
 
 				// TicketInfo tt = m_oTicket.copyTicket();
-				if (closeTicket(m_oTicket, m_oTicketExt)) {
+				if (closeTicket(m_oTicket, m_oTicketExt, null)) {
 					// Ends edition of current receipt
 					// verify booked products
 					// this.m_App.getAppUserView().
@@ -1280,12 +1294,33 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 			}
 		}
 	}
+	
+	public void DoCloseTicket() {
+		try {
+			if (this.m_restaurant != null)
+				this.m_restaurant.generateOrder();
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
 
-	private boolean closeTicket(TicketInfo ticket, Object ticketext) {
+		closeTicket(m_oTicket, m_oTicketExt, new PaymentInfoCash(m_oTicket.getTotal(), m_oTicket.getTotal()));
+		
+		try {
+			if (this.m_restaurant != null)
+				this.m_restaurant.newTicket();
+		} catch (BasicException e) {
+			Log.Exception(e);
+		}
+
+		m_ticketsbag.deleteTicket(false);
+	}
+
+	private boolean closeTicket(TicketInfo ticket, Object ticketext, PaymentInfo paymentInfo) {
 
 		boolean resultok = false;
 
-		if (m_App.getAppUserView().getUser().hasPermission("sales.Total")) {
+		if (m_App.getAppUserView().getUser().hasPermission("sales.Total")
+				|| m_App.getAppUserView().getUser().isServer()) {
 
 			try {
 				// check signature device state
@@ -1312,16 +1347,26 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					paymentdialog.setPrintSelected("true".equals(m_jbtnconfig.getProperty("printselected", "true")));
 					paymentdialog.setTransactionID(ticket.getTransactionID());
 
-					if (paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
+					if (paymentInfo != null 
+							|| paymentdialog.showDialog(ticket.getTotal(), ticket.getCustomer())) {
 
+						Boolean isPrintSelected = paymentdialog.isPrintSelected();
+						
+						
 						// reset MultiplyClone
 						ticket.SetTicketLinesMultiplyCloneInvalid();
 
 						// assign the payments selected and calculate taxes.
-						ticket.setPayments(paymentdialog.getSelectedPayments());
+						if(paymentInfo != null) {
+							List<PaymentInfo> payments = new LinkedList<PaymentInfo>();
+							payments.add(paymentInfo);
+							ticket.setPayments(payments);
+						} else {
+							ticket.setPayments(paymentdialog.getSelectedPayments());
+						}
 
-						// Asigno los valores definitivos del ticket...
-						ticket.setUser(m_App.getAppUserView().getUser().getUserInfo());
+						if(!m_App.getAppUserView().getUser().isServer())
+							ticket.setUser(m_App.getAppUserView().getUser().getUserInfo());
 
 						if (executeEvent(ticket, ticketext, "ticket.save") == null) {
 							// Save the receipt and assign a receipt number
@@ -1340,30 +1385,46 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 								Object existingTicket = dlSales.saveTicket(ticket, m_App.getInventoryLocation(),
 										taxeslogic);
+								
 								resultok = true;
 								if (existingTicket != null) {
-									int res = JConfirmDialog.showConfirm(m_App, this, null,
-											AppLocal.getIntString("message.ticketalreadyindb"));
-									if (res == JOptionPane.YES_OPTION) {
+									Boolean isServer = m_App.getAppUserView().getUser().isServer();
+									
+									if(isServer) {
 										ticket = (TicketInfo) existingTicket;
 									} else {
-										resultok = false;
-										throw new BasicException("Ticket already in DB");
+										int res = JConfirmDialog.showConfirm(m_App, this, null,
+												AppLocal.getIntString("message.ticketalreadyindb"));
+										if (res == JOptionPane.YES_OPTION) {
+											ticket = (TicketInfo) existingTicket;
+										} else {
+											resultok = false;
+											throw new BasicException("Ticket already in DB");
+										}
 									}
 								}
 
 								try {
 									executeEvent(ticket, ticketext, "ticket.close",
-											new ScriptArg("print", paymentdialog.isPrintSelected()));
-
+											new ScriptArg("print", isPrintSelected));
+									
+									if(!isPrintSelected) {
+										devicePrinterDialog.showDialog(ticket);
+										isPrintSelected = devicePrinterDialog.IsPrint();
+									}
+									
+									// set selected output type
+									ticket.setProperty("ReceiptOutput", isPrintSelected ? "Printer" : "Display" );
+									dlSales.updateTicketProperties(ticket);
+									
+									
 									int printMultiplier = 1;
 									if (paymentdialog.isPrintSecond()) {
 										printMultiplier = 2;
 									}
 
 									for (int i = 1; i <= printMultiplier; i++) {
-										printTicket(paymentdialog.isPrintSelected() ? "Printer.Ticket.{size}"
-												: "Printer.Ticket2", ticket, ticketext);
+										printTicket(isPrintSelected ? "Printer.Ticket.{size}" : "Printer.Ticket2", ticket, ticketext);
 									}
 								} catch (Exception eData) {
 									JConfirmDialog.showError(m_App, this,
@@ -1464,18 +1525,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				script.put("SystemDataAccountBIC", SystemDataAccountBIC);
 				script.put("SystemDataAccountIBAN", SystemDataAccountIBAN);
 
-				m_TTP.printTicket(script.eval(sresource).toString());
+				Boolean print2db = m_App.getAppUserView().getUser().isServer();
+				m_TTP.printTicket(script.eval(sresource).toString(), ticket.getId(), print2db);
 			} catch (ScriptException e) {
-				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-				// AppLocal.getIntString("message.cannotprintticket"), e);
-				// msg.show(m_App, JPanelTicket.this);
-
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 						AppLocal.getIntString("message.cannotprintticket"), e);
 			} catch (TicketPrinterException e) {
-				// MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
-				// AppLocal.getIntString("message.cannotprintticket"), e);
-				// msg.show(m_App, JPanelTicket.this);
 				JConfirmDialog.showError(m_App, this, AppLocal.getIntString("error.network"),
 						AppLocal.getIntString("message.cannotprintticket"), e);
 			}
@@ -1540,7 +1595,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 				String resource = dlSystem.getResourceAsXML("Printer.TicketEmpty");
 				if (resource != null && resource != "") {
-					m_TTP.printTicket(script.eval(resource).toString());
+					m_TTP.printTicket(script.eval(resource).toString(), ticket.getId());
 				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -1559,7 +1614,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
 				String resource = dlSystem.getResourceAsXML("Printer.TicketChange");
 				if (resource != null && resource != "") {
-					m_TTP.printTicket(script.eval(resource).toString());
+					m_TTP.printTicket(script.eval(resource).toString(), ticket.getId());
 				}
 			} catch (ScriptException e) {
 				MessageInf msg = new MessageInf(MessageInf.SGN_WARNING,
@@ -2320,7 +2375,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 				ReceiptSplit splitdialog = ReceiptSplit.getDialog(m_App, this, dlSystem.getResourceAsXML("Ticket.Line"),
 						dlSales, dlCustomers, taxeslogic);
 
-				TicketInfo ticket1 = m_oTicket.copyTicket();
+				TicketInfo ticket1 = m_oTicket.copyTicket(false);
 				TicketInfo ticket2 = new TicketInfo();
 				ticket2.setCustomer(m_oTicket.getCustomer());
 
@@ -2329,7 +2384,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 					Object currentTicket = splitdialog.getTicketText();
 					String currentTicketId = splitdialog.getTicketId();
 					if (splitdialog.isReceipt()) {
-						if (closeTicket(ticket2, currentTicket)) {
+						if (closeTicket(ticket2, currentTicket, null)) {
 							// Ends edition of current receipt
 							if (ticket1.getLinesCount() > 0) {
 								if (this.m_restaurant != null)
@@ -2445,7 +2500,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 						line.setMultiply(line.getMultiply() - 1);
 						paintTicketLine(i, line);
 
-						TicketLineInfo newLine = line.copyTicketLine();
+						TicketLineInfo newLine = line.copyTicketLine(false);
 						newLine.setMultiply(1);
 						newLine.setProductAttSetInstId(attedit.getAttributeSetInst());
 						newLine.setProductAttSetInstDesc(attedit.getAttributeSetInstDescription());

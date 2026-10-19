@@ -240,19 +240,20 @@ public class Place implements SerializableRead, java.io.Serializable {
 	
 	private void SetIcon()
 	{
-		if(m_bPeople)
-		{
-			m_btn.setIcon(ICO_OCU);
+		if(m_btn != null) {
+			if(m_bPeople)
+			{
+				m_btn.setIcon(ICO_OCU);
+			}
+			else if(m_bReserved)
+			{
+				m_btn.setIcon(ICO_Reserved);
+			}
+			else
+			{
+				m_btn.setIcon(ICO_FRE);
+			}
 		}
-		else if(m_bReserved)
-		{
-			m_btn.setIcon(ICO_Reserved);
-		}
-		else
-		{
-			m_btn.setIcon(ICO_FRE);
-		}
-		
 	}
 	
 	public void setReserved(boolean bValue)
@@ -262,7 +263,12 @@ public class Place implements SerializableRead, java.io.Serializable {
 	}
 
 	public void setPeople(boolean bValue) {
+		if(m_btn == null) {
+			return;
+		}
+		
 		m_bPeople = bValue;
+		
 		SetIcon();
 		
 		Font font = m_btn.getFont();

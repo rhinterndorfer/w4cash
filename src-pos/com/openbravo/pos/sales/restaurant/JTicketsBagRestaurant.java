@@ -165,7 +165,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 			m_restaurant.generateOrder();
 			m_restaurant.newTicket();
 			m_restaurant.setPlaceCurrent(null);
-		} catch (BasicException e1) {
+		} catch (Exception e1) {
 			// network error message
 			JConfirmDialog.showError(m_App, JTicketsBagRestaurant.this, AppLocal.getIntString("error.network"), 
 					AppLocal.getIntString("message.databaseconnectionerror"),
