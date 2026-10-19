@@ -19,16 +19,11 @@
 
 package com.openbravo.pos.forms;
 
-import java.awt.Component;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.jvnet.substance.SubstanceLookAndFeel;
 import org.jvnet.substance.api.SubstanceSkin;
 
@@ -38,10 +33,8 @@ import com.openbravo.pos.util.Log;
 
 import at.w4cash.signature.SignatureModul;
 
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Window;
+import java.util.Locale;
+
 import javax.swing.*;
 
 /**
@@ -77,18 +70,34 @@ public class StartPOS {
 					System.exit(1);
 				}
 
-				AppConfig config = new AppConfig(args);
+				Options options = new Options();
+				options.addOption("l", "login", true, "Auto login user");
+				options.addOption("s", "server", false, "Server mode");
+				options.addOption("d", "dep", true, "Dep export path");
+				
+				CommandLineParser parser = new DefaultParser();
+				CommandLine cmd = null;
+				try {
+					cmd = parser.parse(options, args);
+				} catch (ParseException e) {
+					Log.Exception(e);
+				}
+				
+				String[] positionalArgs = cmd == null ? new String[0] : cmd.getArgs();
+				
+				AppConfig config = new AppConfig(positionalArgs);
 				config.load();
 
-				if(args != null && args.length >= 2)
+				Boolean isServer = cmd == null ? false : cmd.hasOption('s');
+				String DEPExportPath = cmd == null ? null : cmd.getOptionValue('d');
+				if(DEPExportPath != null)
 				{
 					// DEP export path
 					try {
 						
-						String DEPExportPath = args[1];
 						JRootApp rootapp = new JRootApp();
 					
-						if(rootapp.initApp(config, true))
+						if(rootapp.initApp(config, cmd, true))
 						{
 							if(SignatureModul.getInstance() != null && SignatureModul.getInstance().GetIsActive())
 							{
@@ -125,7 +134,7 @@ public class StartPOS {
 
 				JRootGUI r = null;
 
-				if ("fullscreen".equals(screenmode)) {
+				if (!isServer && "fullscreen".equals(screenmode)) {
 					r = new JRootKiosk();
 				} else {
 					r = new JRootFrame();
@@ -151,9 +160,9 @@ public class StartPOS {
 
 				Boolean result;
 				if ("fullscreen".equals(screenmode)) {
-					result=((JRootKiosk) root).initFrame(config);
+					result=((JRootKiosk) root).initFrame(config, cmd);
 				} else {
-					result=((JRootFrame) root).initFrame(config);
+					result=((JRootFrame) root).initFrame(config, cmd);
 				}
 				
 				if(!result)

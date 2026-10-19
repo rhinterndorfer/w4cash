@@ -28,6 +28,9 @@ import java.rmi.RemoteException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+
 import com.openbravo.pos.instance.AppMessage;
 import com.openbravo.pos.instance.InstanceManager;
 import java.io.IOException;
@@ -53,12 +56,12 @@ public class JRootFrame extends JRootGUI implements AppMessage {
     }
     
     @Override
-    public Boolean initFrame(AppProperties props) {        
+    public Boolean initFrame(AppProperties props, CommandLine cmd) {        
         m_props = props;
              
         m_rootapp = new JRootApp();       
         
-        if (m_rootapp.initApp(m_props, false)) {
+        if (m_rootapp.initApp(m_props, cmd, false)) {
         	if (!"true".equals(props.getProperty("machine.nouniqueinstance"))) {
                 // Register the running application
                 try {
@@ -86,7 +89,7 @@ public class JRootFrame extends JRootGUI implements AppMessage {
             this.setSize(800, 600); // set size for normal window state
             this.setExtendedState(MAXIMIZED_BOTH);
             setLocationRelativeTo(null);        
-            super.initFrame(props);
+            super.initFrame(props, cmd);
             setVisible(true);
             return true;
         }

@@ -242,7 +242,7 @@ public abstract class Datas {
     			                (JsonDeserializer<PaymentInfo>) (jsonElement, type, context) -> {
     			                	return null;
     			                })
-
+    					.setDateFormat("dd.MM.yyyy HH:mm:ss")
     					.create();
     			
     			
@@ -259,7 +259,9 @@ public abstract class Datas {
         	
         }
         public void setValue(DataWrite dw, int i, Object value) throws BasicException {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+					.setDateFormat("dd.MM.yyyy HH:mm:ss")
+					.create();
         	String json = gson.toJson(value);
         	dw.setBytes(i, json.getBytes(StandardCharsets.UTF_8));
         }

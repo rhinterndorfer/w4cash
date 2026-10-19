@@ -31,6 +31,8 @@ import java.util.UUID;
 
 import javax.swing.*;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.openbravo.pos.printer.*;
@@ -101,7 +103,7 @@ public class JRootApp extends JPanel implements AppView {
 		jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
 	}
 
-	public boolean initApp(AppProperties props, Boolean noGUI) {
+	public boolean initApp(AppProperties props, CommandLine cmd, Boolean noGUI) {
 
 		m_props = props;
 		// setPreferredSize(new java.awt.Dimension(800, 600));
@@ -249,7 +251,18 @@ public class JRootApp extends JPanel implements AppView {
 				String signatureUnitInformation = SignatureModul.getInstance().GetSignatureUnitInformation(false);
 				jTextSignatureInfo.setText(signatureUnitInformation);
 
-				showLogin();
+				String autoLogin = cmd == null ? null : cmd.getOptionValue('l');
+				Boolean isServer = cmd == null ? false : cmd.hasOption('s');
+				if(isServer) {
+					autoLogin = "server$";
+				}
+				
+				if(autoLogin != null) {
+					AppUser user = m_dlSystem.findPeopleByName(autoLogin);
+					openAppView(user);
+				} else {
+					showLogin();	
+				}
 			}
 		} catch (Exception e) {
 			Log.Exception(e);

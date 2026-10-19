@@ -26,6 +26,9 @@ import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Options;
+
 import com.openbravo.data.gui.JConfirmDialog;
 import com.openbravo.data.gui.JMessageDialog;
 import com.openbravo.data.gui.MessageInf;
@@ -60,12 +63,12 @@ public class JRootKiosk extends JRootGUI implements AppMessage {
 	}
 
 	@Override
-	public Boolean initFrame(AppProperties props) {
+	public Boolean initFrame(AppProperties props, CommandLine cmd) {
 		m_props = props;
 
 		m_rootapp = new JRootApp();
 
-		if (m_rootapp.initApp(m_props, false)) {
+		if (m_rootapp.initApp(m_props, cmd, false)) {
 			if (!"true".equals(props.getProperty("machine.nouniqueinstance"))) {
 				// Register the running application
 				try {
@@ -86,7 +89,7 @@ public class JRootKiosk extends JRootGUI implements AppMessage {
 
 			Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 			setBounds(0, 0, d.width, d.height);
-			super.initFrame(props);
+			super.initFrame(props, cmd);
 			setVisible(true);
 			return true;
 		} else {

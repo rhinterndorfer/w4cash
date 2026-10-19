@@ -47,6 +47,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
 	protected SentenceList m_peoplevisible;
 	protected SentenceFind m_peoplebycard;
+	protected SentenceFind m_peoplebyname;
 	protected SerializerRead peopleread;
 
 	private SentenceFind m_rolepermissions;
@@ -95,6 +96,10 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 		m_peoplebycard = new PreparedSentence(s,
 				"SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE FROM PEOPLE WHERE CARD = ? AND VISIBLE = "
 						+ s.DB.TRUE(),
+				SerializerWriteString.INSTANCE, peopleread);
+		
+		m_peoplebyname = new PreparedSentence(s,
+				"SELECT ID, NAME, APPPASSWORD, CARD, ROLE, IMAGE FROM PEOPLE WHERE NAME = ?",
 				SerializerWriteString.INSTANCE, peopleread);
 
 		m_resourcebytes = new PreparedSentence(s, "SELECT CONTENT FROM RESOURCES WHERE NAME = ?",
@@ -172,6 +177,10 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
 
 	public final AppUser findPeopleByCard(String card) throws BasicException {
 		return (AppUser) m_peoplebycard.find(card);
+	}
+	
+	public final AppUser findPeopleByName(String name) throws BasicException {
+		return (AppUser) m_peoplebyname.find(name);
 	}
 
 	public final String findRolePermissions(String sRole) {

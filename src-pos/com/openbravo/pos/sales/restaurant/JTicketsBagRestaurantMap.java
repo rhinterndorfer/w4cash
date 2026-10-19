@@ -325,36 +325,29 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 						String sharedTicketId = info.getId();
 						TicketInfo ticketinfo = dlReceipts.getSharedTicket(sharedTicketId);
 						
+						m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
+						
+						Place pl = new Place();
+						pl.setSId(sharedTicketId);
+						pl.setTempName(info.getName());
+						pl.setSName(info.getName());
+						
+						setPlaceCurrent(pl);
+						
+						if(info.getState() == null) {
+							newTicket();
+						}
+						
 						if("print".equals(info.getState())) {
-							
-							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
-							
-							Place pl = new Place();
-							pl.setSId(sharedTicketId);
-							pl.setTempName(info.getName());
-							pl.setSName(info.getName());
-							
-							setPlaceCurrent(pl);
 							generateOrder();
 							newTicket();
-							setPlaceCurrent(null);
 						}
-						
 						
 						if("close".equals(info.getState())) {
-							
-							m_panelticket.setActiveTicket(ticketinfo, info.getName(), true, true);
-							
-							Place pl = new Place();
-							pl.setSId(sharedTicketId);
-							pl.setTempName(info.getName());
-							pl.setSName(info.getName());
-							
-							setPlaceCurrent(pl);
-							
 							m_panelticket.DoCloseTicket();
-							setPlaceCurrent(null);
 						}
+						
+						setPlaceCurrent(null);
 					}
 					m_timer.setInitialDelay(1000);
 					m_timer.setDelay(1000);
