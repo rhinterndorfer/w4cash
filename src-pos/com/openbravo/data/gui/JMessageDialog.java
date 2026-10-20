@@ -20,6 +20,7 @@
 package com.openbravo.data.gui;
 
 import java.awt.*;
+import java.awt.Dialog.ModalityType;
 import java.util.logging.Logger;
 
 import javax.swing.*;
@@ -124,6 +125,8 @@ public class JMessageDialog extends javax.swing.JDialog {
           jtxtException.setCaretPosition(0);            
           
           //show();
+          setModalityType(ModalityType.APPLICATION_MODAL);
+          setAlwaysOnTop(true);
           setVisible(true);
 		
 	}

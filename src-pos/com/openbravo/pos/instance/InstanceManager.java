@@ -23,7 +23,8 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.rmi.registry.Registry;
+
+import org.apache.commons.cli.CommandLine;
 
 import com.openbravo.basic.BasicException;
 import com.openbravo.pos.forms.AppLocal;
@@ -35,15 +36,27 @@ import com.openbravo.pos.forms.AppLocal;
 public class InstanceManager {
     
     /** Creates a new instance of InstanceManager */
-    public InstanceManager() throws Exception {
-    	File lockFile = new File(new File(System.getProperty("user.home")), AppLocal.APP_ID + ".lock");
+    public InstanceManager(CommandLine cmd) throws Exception {
+    	Boolean isServer = cmd == null ? false : cmd.hasOption('s');
+    	String lockFileName = AppLocal.APP_ID + ".lock";
+    	if(isServer) {
+    		lockFileName = AppLocal.APP_ID + ".server.lock";
+    	}
+    	File lockFile = new File(new File(System.getProperty("user.home")), lockFileName);
     	if(!lockFile.exists())
     	{
 			lockFile.createNewFile();
     	}	
-        
-    	FileChannel channel = new RandomAccessFile(lockFile, "rw").getChannel();
-    	FileLock lock = channel.tryLock();
+    	
+    	RandomAccessFile raf = new RandomAccessFile(lockFile, "rw");
+    	FileChannel channel = raf.getChannel();
+    	
+    	// Ensure file has at least 1 byte
+    	if (channel.size() == 0) {
+    		raf.write(0);;
+    	}
+    	
+    	FileLock lock = channel.tryLock(0, 1, false);
     	if(lock == null || !lock.isValid())
     		throw new BasicException("No exclusive lock");
     }    

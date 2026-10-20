@@ -123,7 +123,7 @@ public class JConfirmDialog extends JDialog {
 		
 		setMaximumSize(screenSize);
 		
-		setModal(true);
+		setModalityType(ModalityType.APPLICATION_MODAL);
 		setAlwaysOnTop(true);
 		setVisible(true);
 	}

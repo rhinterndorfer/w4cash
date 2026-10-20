@@ -72,7 +72,7 @@ public class JRootKiosk extends JRootGUI implements AppMessage {
 			if (!"true".equals(props.getProperty("machine.nouniqueinstance"))) {
 				// Register the running application
 				try {
-					m_instmanager = new InstanceManager();
+					m_instmanager = new InstanceManager(cmd);
 				} catch (Exception e) {
 					JConfirmDialog.showError(m_rootapp, 
 							this, 
