@@ -377,6 +377,10 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		public void actionPerformed(ActionEvent evt) {
 			try {
 				StopTimer();
+				
+				// start fresh session / connection
+				m_App.getSession().close();
+				
 				new LoadTicketsThread().start();
 			} catch (Exception ex) {
 				// do nothing
@@ -1178,6 +1182,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 			// try for database connection
 			try {
+				// start fresh session / connection
+				m_App.getSession().close();
+				
 				if (m_PlaceClipboard == null) {
 
 					if (customer == null) {
