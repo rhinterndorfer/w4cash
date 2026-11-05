@@ -378,9 +378,6 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 			try {
 				StopTimer();
 				
-				// start fresh session / connection
-				m_App.getSession().close();
-				
 				new LoadTicketsThread().start();
 			} catch (Exception ex) {
 				// do nothing
@@ -428,10 +425,8 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 		m_panelticket.setActiveTicket(null, null);
 		m_restaurant.activate();
 
-		showView("map"); // arrancamos en la vista de las mesas.
+		showView("map");
 
-		// postcondicion es que tenemos ticket activado aqui y ticket en el
-		// panel
 	}
 
 	public boolean deactivate() {
