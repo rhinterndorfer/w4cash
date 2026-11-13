@@ -57,12 +57,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.swing.text.html.parser.*;
-import javax.swing.text.html.*;
 import com.openbravo.pos.scripting.ScriptEngine;
 import com.openbravo.pos.scripting.ScriptException;
 import com.openbravo.pos.scripting.ScriptFactory;
@@ -71,14 +68,10 @@ import com.openbravo.pos.forms.AppView;
 import com.openbravo.pos.ticket.TicketLineInfo;
 import com.openbravo.pos.util.PropertyUtil;
 
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStrokeStyle;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

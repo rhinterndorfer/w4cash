@@ -19,22 +19,8 @@
 
 package com.openbravo.pos.sales.restaurant;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import com.openbravo.data.gui.NullIcon;
 import com.openbravo.data.loader.DataRead;
 import com.openbravo.data.loader.SerializableRead;
-import com.openbravo.pos.forms.AppView;
-import com.openbravo.pos.mant.JPlaceButton;
-import com.openbravo.pos.mant.PlacesEditor;
-import com.openbravo.pos.util.PropertyUtil;
-import com.sun.media.jfxmedia.effects.EqualizerBand;
 import com.openbravo.basic.BasicException;
 
 public class PlaceSplit implements SerializableRead, java.io.Serializable, Comparable<PlaceSplit> {
