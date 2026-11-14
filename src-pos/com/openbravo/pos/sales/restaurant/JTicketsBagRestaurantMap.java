@@ -689,7 +689,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 
 		}
 
-		printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent.getSName());
+		printOrder("Printer.AdditionalPrinter", printabletickets, m_PlaceCurrent == null ? null : m_PlaceCurrent.getSName());
 	}
 
 	public void newTicket() throws BasicException {
@@ -1064,8 +1064,11 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				m_jbtnReservationsActionPerformed(evt);
 			}
 		});
-
-		jPanel2.add(m_jbtnReservations);
+		
+		if(!this.m_App.getAppUserView().getUser().isServer()) {
+			jPanel2.add(m_jbtnReservations);
+		}
+		
 
 		
 
@@ -1097,7 +1100,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				}
 			}
 		});
-		jPanel2.add(m_jbtnOccupied);
+		if(!this.m_App.getAppUserView().getUser().isServer()) {
+			jPanel2.add(m_jbtnOccupied);
+		}
 
 		// add direct sale button
 		btn_promptTicket
@@ -1113,7 +1118,9 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
 				btn_promptTicketActionPerformed(evt);
 			}
 		});
-		jPanel2.add(btn_promptTicket);
+		if(!this.m_App.getAppUserView().getUser().isServer()) {
+			jPanel2.add(btn_promptTicket);
+		}
 
 		jPanel2.add(m_jText);
 

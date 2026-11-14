@@ -33,8 +33,6 @@ public class PaymentGatewayFac {
 
         if ("external".equals(sReader)) {
             return new PaymentGatewayExt();
-        } else if ("PayPoint / SecPay".equals(sReader)) {
-            return new PaymentGatewayPayPoint(props);
         } else if ("AuthorizeNet".equals(sReader)) {
             return new PaymentGatewayAuthorizeNet(props);
         } else if ("La Caixa (Spain)".equals(sReader)) {

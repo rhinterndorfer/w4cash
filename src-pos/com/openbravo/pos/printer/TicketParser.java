@@ -254,8 +254,8 @@ public class TicketParser extends DefaultHandler {
 		case OUTPUT_NONE:
 			if ("play".equals(qName)) {
 				try {
-					AudioClip oAudio = Applet.newAudioClip(getClass().getClassLoader().getResource(text.toString()));
-					oAudio.play();
+					//AudioClip oAudio = Applet.newAudioClip(getClass().getClassLoader().getResource(text.toString()));
+					//oAudio.play();
 				} catch (Exception fnfe) {
 					// throw new ResourceNotFoundException( fnfe.getMessage() );
 				}

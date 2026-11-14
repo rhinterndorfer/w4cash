@@ -55,7 +55,6 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
         // Payment Provider                
         initPayments("Not defined", new ConfigPaymentPanelEmpty());
         initPayments("external", new ConfigPaymentPanelEmpty());
-        initPayments("PayPoint / SecPay", new ConfigPaymentPanelGeneric());
         initPayments("AuthorizeNet", new ConfigPaymentPanelGeneric());
         initPayments("Planetauthorize", new ConfigPaymentPanelGeneric());
         initPayments("Firs Data / LinkPoint / YourPay", new ConfigPaymentPanelLinkPoint());

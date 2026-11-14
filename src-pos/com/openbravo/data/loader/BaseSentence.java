@@ -22,7 +22,7 @@ package com.openbravo.data.loader;
 import java.util.*;
 import com.openbravo.basic.BasicException;
 
-public abstract class BaseSentence implements SentenceList, SentenceFind, SentenceExec {
+public abstract class BaseSentence implements SentenceList, SentenceFind, SentenceExec  {
 
     // Funciones de bajo nivel    
     public abstract DataResultSet openExec(Object params) throws BasicException;

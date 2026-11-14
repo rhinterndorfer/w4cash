@@ -32,7 +32,7 @@
 	<property name="javac.deprecation" value="off" />
 	<property name="javac.optimize" value="on" />
 	<property name="javac.debug" value="off" />
-	<property name="javac.exec" value="C:\Program Files\Java\jdk1.8.0_202\bin\javac.exe" />
+	<property name="javac.exec" value="javac.exe" />
 	<!-- read in property files -->
 	<property file="build.properties" />
 	<property name="src.pos" value="${basedir}/src-pos" />
